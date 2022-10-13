@@ -153,7 +153,7 @@ class _BottomNavBarState extends State<BottomNavBar> with WidgetsBindingObserver
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    context.read<PremiumBloc>().add(PremiumEventRestorePurchase());
+    context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
   }
 
   @override

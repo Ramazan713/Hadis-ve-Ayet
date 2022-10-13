@@ -131,7 +131,7 @@ class MyApp extends StatelessWidget {
         ],
         child: BlocBuilder<ThemeBloc,ThemeState>(
           builder: (context,state){
-            context.read<PremiumBloc>().add(PremiumEventRestorePurchase());
+            context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
 
             return Phoenix(
               child: MaterialApp(

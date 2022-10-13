@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_status_extended_enum.dart';
 import 'package:hadith/features/premium/bloc/premium_event.dart';
 import 'package:hadith/features/premium/bloc/premium_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 class PremiumBloc extends Bloc<IPremiumEvent, PremiumState> {
   PremiumBloc() :
@@ -14,7 +16,7 @@ class PremiumBloc extends Bloc<IPremiumEvent, PremiumState> {
     on<PremiumEventInit>(_onInit, transformer: restartable());
     on<PremiumEventLoadProducts>(_onLoadProducts, transformer: restartable());
     on<PremiumEventMakePurchase>(_onMakePurchase, transformer: restartable());
-    on<PremiumEventRestorePurchase>(_onRestorePurchase,transformer: restartable());
+    on<PremiumEventCheckPurchase>(_onCheckPurchases,transformer: restartable());
 
     add(PremiumEventInit());
   }
@@ -35,6 +37,7 @@ class PremiumBloc extends Bloc<IPremiumEvent, PremiumState> {
       PremiumState resultState;
       await emit.forEach<List<PurchaseDetails>>(purchaseUpdated,
           onData: (purchaseDetails) {
+
         for (var purchaseDetail in purchaseDetails) {
           switch (purchaseDetail.status) {
             case PurchaseStatus.error:
@@ -98,16 +101,33 @@ class PremiumBloc extends Bloc<IPremiumEvent, PremiumState> {
     await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
   }
 
-  void _onRestorePurchase(
-      PremiumEventRestorePurchase event, Emitter<PremiumState> emit) async {
-    try{
-      if(await _inAppPurchase.isAvailable()){
-        await _inAppPurchase.restorePurchases();
+  void _onCheckPurchases(
+      PremiumEventCheckPurchase event, Emitter<PremiumState> emit) async {
+
+    if(Platform.isAndroid){
+      final InAppPurchaseAndroidPlatformAddition androidAddition = _inAppPurchase.getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
+      final purchases=await androidAddition.queryPastPurchases();
+      if(purchases.pastPurchases.isNotEmpty){
+          final purchase = purchases.pastPurchases.first;
+
+          switch(purchase.status){
+            case PurchaseStatus.purchased:
+            case PurchaseStatus.restored:
+              if(!state.isPremium){
+                emit(state.copyWith(
+                    status: DataStatusExtended.success, isPremium: true));
+              }
+              break;
+            default:
+              break;
+          }
+      }else{
+        if(state.isPremium){
+          emit(state.copyWith(status: DataStatusExtended.success, isPremium: false));
+        }
       }
-    }catch(e){
+
     }
   }
-
-
 
 }

@@ -11,7 +11,7 @@ class PremiumEventInit extends IPremiumEvent{}
 
 class PremiumEventLoadProducts extends IPremiumEvent{}
 
-class PremiumEventRestorePurchase extends IPremiumEvent{}
+class PremiumEventCheckPurchase extends IPremiumEvent{}
 
 class PremiumEventMakePurchase extends IPremiumEvent{
   final ProductDetails productDetails;
