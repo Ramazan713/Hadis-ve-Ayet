@@ -5,7 +5,7 @@ import 'package:hadith/features/bottom_nav/bloc/bottom_nav_state.dart';
 
 
 class BottomNavBloc extends Bloc<IBottomNavEvent,BottomNavState>{
-  BottomNavBloc() : super(const BottomNavState(isCollapsed: true,withAnimation: true)){
+  BottomNavBloc() : super(const BottomNavState(isCollapsed: false,withAnimation: false)){
     on<BottomNavChangeVisibility>(_onSetVisibility);
   }
 

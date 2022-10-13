@@ -127,6 +127,7 @@ class _BottomNavBarState extends State<BottomNavBar> with WidgetsBindingObserver
             _selectTab("Page2", 1);
             return false;
           }
+          return true;
         }
         return false;
       },
