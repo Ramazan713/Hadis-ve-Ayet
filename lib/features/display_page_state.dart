@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/constants/app_constants.dart';
+import 'package:hadith/constants/enums/data_paging_status_enum.dart';
 import 'package:hadith/constants/enums/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/constants/menu_resources.dart';
 import 'package:hadith/constants/save_point_constant.dart';
 import 'package:hadith/db/entities/list_entity.dart';
+import 'package:hadith/features/paging/bloc/paging_state.dart';
 import 'package:hadith/models/save_point_argument.dart';
 import 'package:hadith/utils/ad_util.dart';
 import 'package:hadith/db/entities/savepoint.dart';
@@ -46,6 +48,9 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
   SearchCriteriaEnum searchCriteriaEnum=SearchCriteriaEnum.inOneExpression;
 
   InterstitialAd? _interstitialAd;
+  final ScrollController nestedViewScrollController = ScrollController();
+  bool lastIsScrollUp=true;
+  bool lastIsPrevSuccessScroll=false;
 
   late Timer _adTimer;
 
@@ -94,6 +99,48 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
       }
       return Future.value(true);
     },child: buildPage(context));
+  }
+
+
+  void checkAppBarVisibilityForTop(int minPos){
+    if(minPos==0&&!lastIsScrollUp){
+      lastIsScrollUp=true;
+      nestedViewScrollController.animateTo(
+        nestedViewScrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  void appBarVisibility(bool isScrollUp,CustomPagingState? state){
+
+    //this if else-if block provides to prohibit appbar which scrolling up to collapse
+    // because of state.pagingSuccess
+    //if state.pagingSuccess occurred first time,it will prohibit to collapse bar else do whatever
+    if(!isScrollUp&&!lastIsPrevSuccessScroll&&state?.status==DataPagingStatus.pagingSuccess){
+      lastIsPrevSuccessScroll=true;
+    }else if(lastIsPrevSuccessScroll){
+      lastIsPrevSuccessScroll=false;
+    }
+
+    if(!lastIsPrevSuccessScroll&&lastIsScrollUp!=isScrollUp){
+      lastIsScrollUp=isScrollUp;
+
+      if (isScrollUp) {//expend
+        nestedViewScrollController.animateTo(
+          nestedViewScrollController.position.minScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      } else {//collapse
+        nestedViewScrollController.animateTo(
+            nestedViewScrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn);
+      }
+    }
+
   }
 
   void _loadAd(){

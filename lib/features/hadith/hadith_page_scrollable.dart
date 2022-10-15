@@ -47,7 +47,6 @@ class HadithPageScrollable extends StatefulWidget {
 
 class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> {
   final ValueNotifier<bool> visibilityAppBarNotifier = ValueNotifier(true);
-  final ScrollController nestedViewScrollController = ScrollController();
 
   Timer? _timer;
 
@@ -105,145 +104,130 @@ class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> 
     ];
   }
 
+
+
   @override
   Widget buildPage(BuildContext context) {
+
     return BlocProvider(
       create: (context)=>CustomPagingBloc(),
-      child: BlocListener<CustomPagingBloc,CustomPagingState>(
-        listener: (context,state){
-
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
-          body: SafeArea(
-            child: CustomSliverNestedView(
-              context,
-              isBottomNavAffected: false,
-              scrollController: nestedViewScrollController,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  CustomSliverAppBar(
-                    title: ValueListenableBuilder(
-                      valueListenable: changeBarTitleNotifier,
-                      builder: (context, value, child) {
-                        return Text(
-                            "${pagingArgument.title} - ${SourceTypeHelper.getNameWithBookBinaryId(pagingArgument.bookIdBinary)}");
-                      },
-                    ),
-                    pinned: true,
-                    actions: [
-                      IconButton(
-                          onPressed: () {
-                            showGetNumberBottomDia(context, (selected) {
-                              customPagingController.setPageEventWhenReady(
-                                  limitNumber: limitCount, itemIndex: selected);
-                            }, currentIndex: lastIndex, limitIndex: itemCount - 1);
-                          },
-                          icon: const Icon(Icons.map)),
-                      ValueListenableBuilder(
-                        builder: (BuildContext context, value, Widget? child) {
-                          return MenuButton<int>(
-                              items: getPopUpMenus(),
-                              selectedFunc: (selected) {
-                                _execAppBarMenus(selected);
-                              });
-                        },
-                        valueListenable: rebuildItemNotifier,
-                      ),
-                    ],
-                  )
-                ];
-              },
-              child:BlocListener<VisibilityBloc, VisibilityState>(
-                listener: (context, state) {
-                  if (state.isVisible) {
-                    nestedViewScrollController.animateTo(
-                      nestedViewScrollController.position.minScrollExtent,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut,
-                    );
-                  } else {
-                    nestedViewScrollController.animateTo(
-                        nestedViewScrollController.position.maxScrollExtent,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeIn);
-                  }
-                },
-                child: BlocListener<SavePointBloc, SavePointState>(
-                  listener: (context, state) {
-                    if (state.status == DataStatus.success) {
-                      final itemIndex = (state.savePoint?.itemIndexPos) ?? 0;
-                      customPagingController.setPageEventWhenReady(
-                          limitNumber: limitCount, itemIndex: itemIndex);
-                    }
-                  },
-                  child: CustomScrollingPaging(
-                    buildWhen: (prevState, nextState) {
-                      if (nextState.status == DataPagingStatus.setPagingSuccess) {
-                        itemCount = nextState.itemCount;
-                      }
-                      return true;
+      child: Scaffold(
+        resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
+        body: SafeArea(
+          child: CustomSliverNestedView(
+            context,
+            isBottomNavAffected: false,
+            scrollController: nestedViewScrollController,
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                CustomSliverAppBar(
+                  title: ValueListenableBuilder(
+                    valueListenable: changeBarTitleNotifier,
+                    builder: (context, value, child) {
+                      return Text(
+                          "${pagingArgument.title} - ${SourceTypeHelper.getNameWithBookBinaryId(pagingArgument.bookIdBinary)}");
                     },
-                    customPagingController: customPagingController,
-                    loader: getLoader(),
-                    itemBuilder: (context, index, item, state) {
-                      if (item is HadithTopicsModel) {
-                        return ValueListenableBuilder(
-                          builder: (context, value, child) {
-                            return HadithScrollableItem(
-                              key: ObjectKey(value),
-                              rowNumber: item.rowNumber,
-                              searchCriteriaEnum: searchCriteriaEnum,
-                              searchKey: cleanableSearchText,
-                              hadithTopic: item,
-                              fontSize: state.fontSize,
-                              listIconClick: (hadithSetState) {
-                                final listParam = EditSelectListModel(
-                                    context: context,
-                                    listCommon: item,
-                                    favoriteListId: FavoriteListIds.hadith,
-                                    loader: getLoader(),
-                                    updateArea: () {
-                                      hadithSetState(() {});
-                                    });
-                                editSelectedLists(listParam,
-                                    SelectHadithListLoader(context: context,
-                                        hadithId: item.item.id ?? 0), true);
-                              },
-                              favoriteIconClick: (isFavorite, hadithSetState) {
-                                final listParam = EditSelectListModel(context: context,
-                                    listCommon: item, favoriteListId: FavoriteListIds.hadith,
-                                    loader: getLoader(),
-                                    updateArea: () {
-                                      hadithSetState(() {});
-                                    });
-                                listBloc.setLoader(SelectHadithListLoader(context: context,
-                                  hadithId: item.item.id ?? 0,
-                                ));
-                                addOrRemoveFavoriteList(listParam, listBloc, isFavorite);
-                              },
-                              shareIconClick: () {
-                                showShareAlertDialog(context, listItems: getShareListItems(item));
-                              },
-                            );
-                          },
-                          valueListenable: rebuildItemNotifier,
-                        );
-                      }
-                      return const Text("");
-                    },
-                    minMaxListener: (minPos, maxPos, state) {
-                      lastIndex = state?.items[(minPos + maxPos) ~/ 2].rowNumber;
-                    },
-                    page: 1,
-                    forwardValue: 2,
-                    limitNumber: limitCount,
-                    isPlaceHolderActive: true,
-                    prevLoadingPlaceHolderCount: 1,
-                    isItemLoadingWidgetPlaceHolder: false,
-                    placeHolderWidget: getHadithShimmer(context),
                   ),
-                ),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          showGetNumberBottomDia(context, (selected) {
+                            customPagingController.setPageEventWhenReady(
+                                limitNumber: limitCount, itemIndex: selected);
+                          }, currentIndex: lastIndex, limitIndex: itemCount - 1);
+                        },
+                        icon: const Icon(Icons.map)),
+                    ValueListenableBuilder(
+                      builder: (BuildContext context, value, Widget? child) {
+                        return MenuButton<int>(
+                            items: getPopUpMenus(),
+                            selectedFunc: (selected) {
+                              _execAppBarMenus(selected);
+                            });
+                      },
+                      valueListenable: rebuildItemNotifier,
+                    ),
+                  ],
+                )
+              ];
+            },
+            child:BlocListener<SavePointBloc, SavePointState>(
+              listener: (context, state) {
+                if (state.status == DataStatus.success) {
+                  final itemIndex = (state.savePoint?.itemIndexPos) ?? 0;
+                  customPagingController.setPageEventWhenReady(
+                      limitNumber: limitCount, itemIndex: itemIndex);
+                }
+              },
+              child: CustomScrollingPaging(
+                buildWhen: (prevState, nextState) {
+                  if (nextState.status == DataPagingStatus.setPagingSuccess) {
+                    itemCount = nextState.itemCount;
+                  }
+                  return true;
+                },
+                customPagingController: customPagingController,
+                loader: getLoader(),
+                itemBuilder: (context, index, item, state) {
+                  if (item is HadithTopicsModel) {
+                    return ValueListenableBuilder(
+                      builder: (context, value, child) {
+                        return HadithScrollableItem(
+                          key: ObjectKey(value),
+                          rowNumber: item.rowNumber,
+                          searchCriteriaEnum: searchCriteriaEnum,
+                          searchKey: cleanableSearchText,
+                          hadithTopic: item,
+                          fontSize: state.fontSize,
+                          listIconClick: (hadithSetState) {
+                            final listParam = EditSelectListModel(
+                                context: context,
+                                listCommon: item,
+                                favoriteListId: FavoriteListIds.hadith,
+                                loader: getLoader(),
+                                updateArea: () {
+                                  hadithSetState(() {});
+                                });
+                            editSelectedLists(listParam,
+                                SelectHadithListLoader(context: context,
+                                    hadithId: item.item.id ?? 0), true);
+                          },
+                          favoriteIconClick: (isFavorite, hadithSetState) {
+                            final listParam = EditSelectListModel(context: context,
+                                listCommon: item, favoriteListId: FavoriteListIds.hadith,
+                                loader: getLoader(),
+                                updateArea: () {
+                                  hadithSetState(() {});
+                                });
+                            listBloc.setLoader(SelectHadithListLoader(context: context,
+                              hadithId: item.item.id ?? 0,
+                            ));
+                            addOrRemoveFavoriteList(listParam, listBloc, isFavorite);
+                          },
+                          shareIconClick: () {
+                            showShareAlertDialog(context, listItems: getShareListItems(item));
+                          },
+                        );
+                      },
+                      valueListenable: rebuildItemNotifier,
+                    );
+                  }
+                  return const Text("");
+                },
+                minMaxListener: (minPos, maxPos, state) {
+                  lastIndex = state?.items[(minPos + maxPos) ~/ 2].rowNumber;
+                  checkAppBarVisibilityForTop(minPos);
+                },
+                scrollListener: (isScrollUp,state){
+                  appBarVisibility(isScrollUp,state);
+                  },
+                page: 1,
+                forwardValue: 2,
+                limitNumber: limitCount,
+                isPlaceHolderActive: true,
+                prevLoadingPlaceHolderCount: 1,
+                isItemLoadingWidgetPlaceHolder: false,
+                placeHolderWidget: getHadithShimmer(context),
               ),
             ),
           ),

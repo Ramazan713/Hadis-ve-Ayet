@@ -205,12 +205,10 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> {
           body: SafeArea(
             child: CustomSliverNestedView(
               context,
+              scrollController: nestedViewScrollController,
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return [
                   CustomSliverAppBar(
-                    pinned: true,
-                    floating: true,
-                    snap: true,
                     title: ValueListenableBuilder(
                       valueListenable: changeBarTitleNotifier,
                       builder: (context, value, child) {
@@ -293,6 +291,10 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> {
                     minMaxListener: (minPos, maxPos, state) {
                       lastIndex =
                           state?.items[(minPos + maxPos) ~/ 2]?.rowNumber;
+                      checkAppBarVisibilityForTop(minPos);
+                    },
+                    scrollListener: (isScrollUp,state){
+                      appBarVisibility(isScrollUp,state);
                     },
                     isItemLoadingWidgetPlaceHolder: true,
                     placeHolderWidget: getVerseShimmer(context)

@@ -17,7 +17,7 @@ class CustomScrollingPaging extends StatelessWidget {
       itemBuilder;
   final void Function(int minPos, int maxPos, CustomPagingState? state)?
       minMaxListener;
-  final void Function(bool isScrollUp)? scrollListener;
+  final void Function(bool isScrollUp,CustomPagingState? lastState)? scrollListener;
   late final Widget placeHolderWidget;
   late final Widget itemPlaceHolderWidget;
 
@@ -63,7 +63,6 @@ class CustomScrollingPaging extends StatelessWidget {
   var max = 0;
   var prevMin = 0;
   var prevMax = 0;
-  var isScrollUp = true;
   CustomPagingState? lastState;
 
   Widget getEmptyWidget(BuildContext context) {
@@ -133,15 +132,13 @@ class CustomScrollingPaging extends StatelessWidget {
                   if (min < forwardValue) {
                     pagingBloc.add(PagingEventAddPrev());
                   } else {
-                    if (prevMin > min && !isScrollUp) {
+                    if (prevMin > min ) {
                       //scroll up
-                      isScrollUp = true;
-                      scrollListener?.call(isScrollUp);
+                      scrollListener?.call(true,lastState);
                     }
-                    if (prevMin < min && isScrollUp) {
+                    if (prevMin < min ) {
                       // scroll down
-                      isScrollUp = false;
-                      scrollListener?.call(isScrollUp);
+                      scrollListener?.call(false,lastState);
                     }
                   }
                 }
