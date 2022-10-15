@@ -19,3 +19,8 @@ Widget getSavePointIcon({required void Function() onPress}){
   return IconButton(onPressed: onPress, icon: const Icon(Icons.save),
     tooltip: "Kayıt Noktası",);
 }
+
+Widget getManageSearchIcon({required void Function() onPress}){
+  return IconButton(onPressed: onPress, icon: const Icon(Icons.manage_search),
+    tooltip: "Arama Kriteri",);
+}

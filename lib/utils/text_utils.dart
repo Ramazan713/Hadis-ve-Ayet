@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:hadith/utils/search_helper.dart';
 import 'package:hadith/utils/theme_util.dart';
 
 
@@ -19,15 +20,7 @@ class TextUtils{
       if(inheritTextStyle&&textStyle!=null){
         searchStyle=searchStyle.merge(textStyle);
       }
-      final RegExp reg;
-      switch(searchCriteriaEnum){
-        case SearchCriteriaEnum.oneExpression:
-          reg=RegExp(searchKey,caseSensitive: caseSensitive);
-          break;
-        case SearchCriteriaEnum.multipleKeys:
-          reg=RegExp(searchKey.split(' ').map((e) => "$e|").join(''),caseSensitive: caseSensitive);
-          break;
-      }
+      final RegExp reg = SearchHelper.findWordsPattern(searchKey, caseSensitive);
 
       var firstIndex=0;
       for(var matcher in reg.allMatches(fullText)){

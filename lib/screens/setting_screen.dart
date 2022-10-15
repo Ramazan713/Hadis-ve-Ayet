@@ -11,7 +11,10 @@ import 'package:hadith/features/backup/show_backup_dia.dart';
 import 'package:hadith/features/backup/user_info/bloc/user_info_bloc.dart';
 import 'package:hadith/features/backup/user_info/bloc/user_info_event.dart';
 import 'package:hadith/features/backup/user_info/bloc/user_info_state.dart';
+import 'package:hadith/features/search/show_select_search_criteria.dart';
+import 'package:hadith/features/verse/show_select_verse_ui.dart';
 import 'package:hadith/services/auth_service.dart';
+import 'package:hadith/utils/search_helper.dart';
 import 'package:hadith/utils/share_utils.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/custom_button_negative.dart';
@@ -23,7 +26,6 @@ import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/themes/custom/get_setting_theme.dart';
 import 'package:hadith/utils/theme_util.dart';
 import 'package:hadith/utils/localstorage.dart';
-import 'package:hadith/utils/search_criteria_helper.dart';
 import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/models/item_label_model.dart';
 import 'package:hadith/themes/bloc/theme_bloc.dart';
@@ -83,7 +85,7 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void initNotifiers(){
-    notifierSearchCriteria=ValueNotifier(SearchCriteriaHelper.getCriteria());
+    notifierSearchCriteria=ValueNotifier(SearchHelper.getCriteria());
     notifierArabicUI=ValueNotifier(ArabicVerseUIEnum.values[sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key) ??
         PrefConstants.arabicVerseAppearanceEnum.defaultValue]);
 
@@ -268,15 +270,9 @@ class _SettingScreenState extends State<SettingScreen> {
                                 valueListenable: notifierSearchCriteria,
                                 builder: (context,selectedCriteria,child){
                                   return  SettingsTile(title: const Text("Arama Kriteri"),onPressed: (context)async{
-                                    final currentValue=ItemLabelModel(item: selectedCriteria,label: selectedCriteria.getDescription());
-                                    final List<ItemLabelModel<SearchCriteriaEnum>> radioItems=
-                                    SearchCriteriaEnum.values.map((e) => ItemLabelModel(item: e,label:e.getDescription())).toList();
-                                    showSelectRadioEnums<SearchCriteriaEnum>(context,
-                                        currentValue: currentValue,
-                                        radioItems: radioItems, closeListener: (lastSelected)async{
-                                          await sharedPreferences.setInt(PrefConstants.searchCriteriaEnum.key, lastSelected.item.index);
-                                          notifierSearchCriteria.value=lastSelected.item;
-                                        });
+                                    showSelectSearchCriteria(context,currentValue: selectedCriteria,callback: (lastSelected){
+                                      notifierSearchCriteria.value=lastSelected;
+                                    });
                                   },
                                     value: Text(selectedCriteria.getDescription()),
                                     leading: const Icon(Icons.search),
@@ -307,15 +303,9 @@ class _SettingScreenState extends State<SettingScreen> {
                               valueListenable: notifierArabicUI,
                               builder: (context,selectedArabicUI,child){
                                 return SettingsTile(title: const Text("Ayetler Görünüm"),onPressed: (context){
-                                  showSelectRadioEnums<ArabicVerseUIEnum>(context,
-                                      currentValue:  ItemLabelModel(item: selectedArabicUI, label: selectedArabicUI.description),
-                                      radioItems: ArabicVerseUIEnum.values.map((e) => ItemLabelModel(item: e, label: e.description)).toList(),
-                                      closeListener: (selected)async{
-                                        if(selected.item!=selectedArabicUI){
-                                          await sharedPreferences.setInt(PrefConstants.arabicVerseAppearanceEnum.key, selected.item.index);
-                                          notifierArabicUI.value=selected.item;
-                                        }
-                                      });
+                                  showSelectVerseUi(context,currentValue: selectedArabicUI,callback: (selected){
+                                    notifierArabicUI.value=selected;
+                                  });
                                 },leading: const Icon(FontAwesomeIcons.bookQuran),
                                   value: Text(selectedArabicUI.description),);
                               }

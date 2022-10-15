@@ -52,7 +52,6 @@ dependencies:
   firebase_performance: ^0.8.0+14
   in_app_purchase_android: ^0.2.3+5
 
-
 #flutter packages pub run build_runner build
 
 dev_dependencies:

@@ -14,7 +14,6 @@ class VerseRepo{
 
   Future<List<Verse>> getVersesWithCuzNo(int cuzNo)=>verseDao.getVersesWithCuzNo(cuzNo);
 
-
   Future<List<Verse>>getPagingVerses(int limit,int page)=>verseDao.getPagingVerses(limit, page);
 
   Future<IntData?>getPagingCount()=>verseDao.getPagingCount();
@@ -51,22 +50,19 @@ class VerseRepo{
 
 
   Future<IntData?> getSearchWithVerseCountWithRegEx(String query){
-    final regExp="${query.split(' ').map((e) => "(?=.*$e)").join('')}.*";
-    return verseDao.getSearchWithVerseCountWithRegEx(regExp);
+    return verseDao.getSearchWithVerseCountWithRegEx(query);
   }
 
 
   Future<List<Verse>>getPagingSearchVersesWithRegEx(int limit,int page,String query){
-    final regExp="${query.split(' ').map((e) => "(?=.*$e)").join('')}.*";
-    return verseDao.getPagingSearchVersesWithRegEx(limit, page,regExp);
+    return verseDao.getPagingSearchVersesWithRegEx(limit, page,query);
   }
 
-
   Future<IntData?> getSearchWithVerseCount(String query)=>
-      verseDao.getSearchWithVerseCount("%$query%");
+      verseDao.getSearchWithVerseCount(query);
 
   Future<List<Verse>>getPagingSearchVerses(int limit,int page,String query)=>
-      verseDao.getPagingSearchVerses(limit, page, "%$query%");
+      verseDao.getPagingSearchVerses(limit, page, query);
 
   Future<List<VerseArabic>>getArabicVersesWithId(int mealId)=>
       verseDao.getArabicVersesWithId(mealId);

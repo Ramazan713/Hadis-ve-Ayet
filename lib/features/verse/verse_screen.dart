@@ -14,6 +14,7 @@ import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/dialogs/show_select_font_size_bottom_dia.dart';
 import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/features/paging/bloc/paging_bloc.dart';
+import 'package:hadith/features/verse/show_select_verse_ui.dart';
 import 'package:hadith/features/verse/verse_bottom_menu.dart';
 import 'package:hadith/features/add_to_list/model/edit_select_list_model.dart';
 import 'package:hadith/features/add_to_list/bloc/list_bloc.dart';
@@ -218,17 +219,10 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> {
                     ),
                     actions: [
                       IconButton(onPressed: (){
-
-                        showSelectRadioEnums<ArabicVerseUIEnum>(context, currentValue:  ItemLabelModel(item: lastSelectedArabicUI, label: lastSelectedArabicUI.description),
-                            radioItems: ArabicVerseUIEnum.values.map((e) => ItemLabelModel(item: e, label: e.description)).toList(),
-                            closeListener: (selected)async{
-                              if(selected.item!=lastSelectedArabicUI){
-                                lastSelectedArabicUI=selected.item;
-                                await sharedPreferences.setInt(PrefConstants.arabicVerseAppearanceEnum.key, selected.item.index);
-                                rebuildItems();
-                              }
-
-                            });
+                        showSelectVerseUi(context,callback: (selected){
+                          lastSelectedArabicUI=selected;
+                          rebuildItems();
+                        });
                       }, icon: const Icon(Icons.view_agenda),tooltip: "Görünümü Değiştir",),
                       IconButton(
                           onPressed: () {

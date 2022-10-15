@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/constants/enums/search_criteria_enum.dart';
+import 'package:hadith/constants/preference_constants.dart';
+import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/features/bottom_nav/widget/bottom_nav_widget_state.dart';
 import 'package:hadith/features/search/search_funcs.dart';
+import 'package:hadith/features/search/show_select_search_criteria.dart';
+import 'package:hadith/utils/localstorage.dart';
 import 'package:hadith/widgets/custom_button_positive.dart';
 import 'package:hadith/constants/common_menu_items.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
@@ -19,6 +24,9 @@ import 'package:hadith/features/search/widget/search_item.dart';
 import 'package:hadith/widgets/custom_sliver_appbar.dart';
 import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
 
+import '../../models/item_label_model.dart';
+import '../../utils/search_helper.dart';
+
 class SearchPage extends StatefulWidget {
   static const id = "SearchPage";
   const SearchPage({Key? key}) : super(key: key);
@@ -29,16 +37,16 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends BottomNavWidgetState<SearchPage> {
   final TextEditingController textEditingController = TextEditingController();
+  final sharedPreferences=LocalStorage.sharedPreferences;
 
   final ValueNotifier<String>_resultTextNotifier=ValueNotifier("");
-  var isSearching=false;
+  var isSearchingNotifier=ValueNotifier(false);
+
 
   void requestData(SearchBloc bloc,String searchKey,BuildContext context){
     if(searchKey!=""){
       bloc.add(SearchEventRequestResult(searchKey: searchKey));
-      setState(() {
-        isSearching=true;
-      });
+      isSearchingNotifier.value=true;
       FocusScope.of(context).unfocus();
     }else{
       resetSearchState(bloc);
@@ -47,9 +55,7 @@ class _SearchPageState extends BottomNavWidgetState<SearchPage> {
 
   void resetSearchState(SearchBloc bloc){
     bloc.add(SearchEventResetState());
-    setState(() {
-      isSearching=false;
-    });
+    isSearchingNotifier.value=false;
   }
 
   @override
@@ -72,6 +78,9 @@ class _SearchPageState extends BottomNavWidgetState<SearchPage> {
                 CustomSliverAppBar(
                   title: const Text("Arama"),
                   actions: [
+                    getManageSearchIcon(onPress: (){
+                      showSelectSearchCriteria(context);
+                    }),
                     getSavePointIcon(onPress: (){
                       showSelectSavePointWithBookDia(context,
                           bookEnum: BookEnum.none, bookBinaryIds:[
@@ -116,106 +125,117 @@ class _SearchPageState extends BottomNavWidgetState<SearchPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
 
-                Visibility(
-                  visible: isSearching,
-                  child: ValueListenableBuilder<String>(valueListenable: _resultTextNotifier,
-                      builder: (context,value,child){
-                        return value!=""?Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 19),
-                            child: RichText(text: TextSpan(
-                                children: [
-                                  TextSpan(text: "$value ",style:textBodyStyle2?.copyWith(fontWeight: FontWeight.w700)),
-                                  const TextSpan(text: "kelimesinin sonuçları")
-                                ],
-                                style: textBodyStyle2
-                            ),
-                            )):const SizedBox();
-                      }),
-                ),
-                Visibility(
-                  visible: isSearching,
-                  child: Expanded(
-                      child: BlocConsumer<SearchBloc,SearchState>(
-                        listener: (context,state){
-                          if(state.status==DataStatus.success){
-                            _resultTextNotifier.value=state.searchKey;
-                            historyBloc.add(HistoryEventInsert(searchText: state.searchKey,
-                                originTag: OriginTag.search));
-                          }
-                        },
-                        builder: (context,state){
-                          if(state.status==DataStatus.loading){
-                            return const Center(child: CircularProgressIndicator(),);
-                          }
-                          final items=getResultModels(context, state);
+                ValueListenableBuilder<bool>(valueListenable: isSearchingNotifier,
+                  builder: (context,isSearching,child){
+                    return  Visibility(
+                      visible: isSearching,
+                      child: ValueListenableBuilder<String>(valueListenable: _resultTextNotifier,
+                          builder: (context,value,child){
+                            return value!=""?Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 19),
+                                child: RichText(text: TextSpan(
+                                    children: [
+                                      TextSpan(text: "$value ",style:textBodyStyle2?.copyWith(fontWeight: FontWeight.w700)),
+                                      const TextSpan(text: "kelimesinin sonuçları")
+                                    ],
+                                    style: textBodyStyle2
+                                ),
+                                )):const SizedBox();
+                          }),
+                    );
+                },),
+                ValueListenableBuilder<bool>(valueListenable: isSearchingNotifier,
+                  builder: (context,isSearching,child){
+                    return Visibility(
+                      visible: isSearching,
+                      child: Expanded(
+                          child: BlocConsumer<SearchBloc,SearchState>(
+                            listener: (context,state){
+                              if(state.status==DataStatus.success){
+                                _resultTextNotifier.value=state.searchKey;
+                                historyBloc.add(HistoryEventInsert(searchText: state.searchKey,
+                                    originTag: OriginTag.search));
+                              }
+                            },
+                            builder: (context,state){
+                              if(state.status==DataStatus.loading){
+                                return const Center(child: CircularProgressIndicator(),);
+                              }
+                              final items=getResultModels(context, state);
 
-                          if(items.isEmpty){
-                            return Center(
-                              child: Text("Herhangi bir sonuç bulunamadı",style: textBodyStyle2,),
-                            );
-                          }
+                              if(items.isEmpty){
+                                return Center(
+                                  child: Text("Herhangi bir sonuç bulunamadı",style: textBodyStyle2,),
+                                );
+                              }
 
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final item=items[index];
-                              return SearchItem(
-                                title: item.title,
-                                onForwardClick: () {
-                                  item.navigate(context);
+                              return ListView.builder(
+                                itemBuilder: (context, index) {
+                                  final item=items[index];
+                                  return SearchItem(
+                                    title: item.title,
+                                    onForwardClick: () {
+                                      item.navigate(context);
+                                    },
+                                    position: index+1,
+                                    resultCount: item.resultCount,
+                                  );
                                 },
-                                position: index+1,
-                                resultCount: item.resultCount,
+                                itemCount: items.length,
                               );
                             },
-                            itemCount: items.length,
-                          );
-                        },
-                      )),
-                ),
-                Visibility(
-                  visible: !isSearching,
-                  child: BlocBuilder<HistoryBloc,HistoryState>(
-                    builder: (context,state){
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 19),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("geçmiş ",style: textBodyStyle2,),
-                            TextButton(onPressed: (){
-                              historyBloc.add(HistoryEventRemoveItems(historyEntities: state.historyEntities));
-                            }, child: Text("temizle",style: textBodyStyle2?.copyWith(fontWeight: FontWeight.w600),))
-                          ],
+                          )),
+                    );
+                  }),
+                ValueListenableBuilder<bool>(valueListenable: isSearchingNotifier,
+                    builder: (context,isSearching,child){
+                      return  Visibility(
+                        visible: !isSearching,
+                        child: BlocBuilder<HistoryBloc,HistoryState>(
+                          builder: (context,state){
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 19),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("geçmiş ",style: textBodyStyle2,),
+                                  TextButton(onPressed: (){
+                                    historyBloc.add(HistoryEventRemoveItems(historyEntities: state.historyEntities));
+                                  }, child: Text("temizle",style: textBodyStyle2?.copyWith(fontWeight: FontWeight.w600),))
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       );
-                    },
-                  ),
-                ),
-                Visibility(
-                  visible: !isSearching,
-                  child: Expanded(child: BlocBuilder<HistoryBloc,HistoryState>(
-                    builder: (context,state){
-                      if(state.status==DataStatus.loading){
-                        return const Center(child: CircularProgressIndicator(),);
-                      }
-                      final items=state.historyEntities;
+                    }),
+                ValueListenableBuilder<bool>(valueListenable: isSearchingNotifier,
+                    builder: (context,isSearching,child){
+                      return    Visibility(
+                        visible: !isSearching,
+                        child: Expanded(child: BlocBuilder<HistoryBloc,HistoryState>(
+                          builder: (context,state){
+                            if(state.status==DataStatus.loading){
+                              return const Center(child: CircularProgressIndicator(),);
+                            }
+                            final items=state.historyEntities;
+                            if(items.isEmpty){
+                              return Center(child: Text("geçmiş bulunmamaktadır",style: textBodyStyle2,),);
+                            }
+                            return ListView.builder(itemBuilder: (context,index){
+                              final item=items[index];
+                              return HistoryItem(historyEntity: item,onClick: (){
+                                requestData(searchBloc, item.name,context);
+                                textEditingController.text=item.name;
+                              },onRemoveClick: (){
+                                historyBloc.add(HistoryEventRemoveItem(historyEntity: item));
+                              },);
+                            },itemCount: items.length,);
+                          },
+                        )),
+                      );
+                    }),
 
-                      if(items.isEmpty){
-                        return Center(child: Text("geçmiş bulunmamaktadır",style: textBodyStyle2,),);
-                      }
-
-                      return ListView.builder(itemBuilder: (context,index){
-                        final item=items[index];
-                        return HistoryItem(historyEntity: item,onClick: (){
-                          requestData(searchBloc, item.name,context);
-                          textEditingController.text=item.name;
-                        },onRemoveClick: (){
-                          historyBloc.add(HistoryEventRemoveItem(historyEntity: item));
-                        },);
-                      },itemCount: items.length,);
-                    },
-                  )),
-                ),
                 CustomButtonPositive(
                   onTap: () {
                     final String text = textEditingController.text.trim();

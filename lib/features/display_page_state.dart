@@ -11,7 +11,6 @@ import 'package:hadith/constants/save_point_constant.dart';
 import 'package:hadith/db/entities/list_entity.dart';
 import 'package:hadith/models/save_point_argument.dart';
 import 'package:hadith/utils/ad_util.dart';
-import 'package:hadith/utils/search_criteria_helper.dart';
 import 'package:hadith/db/entities/savepoint.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/add_to_list/model/edit_select_list_model.dart';
@@ -28,6 +27,7 @@ import 'package:hadith/models/i_add_list_common.dart';
 import 'package:hadith/models/menu_model.dart';
 import 'package:hadith/features/paging/controller/custom_scrolling_controller.dart';
 import 'package:hadith/features/paging/default_paging_argument.dart';
+import '../utils/search_helper.dart';
 import 'add_to_list/bloc/list_bloc.dart';
 import 'add_to_list/bloc/list_event.dart';
 
@@ -43,7 +43,7 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
   String? cleanableSearchText;
   final rebuildItemNotifier=ValueNotifier(false);
   PagingArgument pagingArgument=DefaultPagingArgument();
-  SearchCriteriaEnum searchCriteriaEnum=SearchCriteriaEnum.oneExpression;
+  SearchCriteriaEnum searchCriteriaEnum=SearchCriteriaEnum.inOneExpression;
 
   InterstitialAd? _interstitialAd;
 
@@ -126,7 +126,7 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
 
   void loadSearchCriteria(String? searchKey)async{
     if(searchKey!=null){
-      searchCriteriaEnum = SearchCriteriaHelper.getCriteria();
+      searchCriteriaEnum = SearchHelper.getCriteria();
       rebuildItemNotifier.value=!rebuildItemNotifier.value;
     }
   }

@@ -16,6 +16,7 @@ class HadithRepo {
       hadithDao.getStreamHadithsWithTopicId(topicId);
 
   Future<IntData?> getAllHadithCount() => hadithDao.getAllHadithCount();
+
   Future<List<Hadith>> getPagingAllHadiths(int limit, int page) =>
       hadithDao.getPagingAllHadiths(limit, page);
 
@@ -38,40 +39,35 @@ class HadithRepo {
       hadithDao.getPagingBookHadiths(limit, page, bookId);
 
   Future<IntData?> getSearchWithHadithCountWithRegEx(String query) {
-    final regExp = "${query.split(' ').map((e) => "(?=.*$e)").join('')}.*";
-    return hadithDao.getSearchWithHadithCountWithRegEx(regExp);
+    return hadithDao.getSearchWithHadithCountWithRegEx(query);
   }
 
   Future<List<Hadith>> getPagingSearchHadithsWithRegEx(
       int limit, int page, String query) {
-    final regExp = "${query.split(' ').map((e) => "(?=.*$e)").join('')}.*";
-    return hadithDao.getPagingSearchHadithsWithRegEx(limit, page, regExp);
+    return hadithDao.getPagingSearchHadithsWithRegEx(limit, page, query);
   }
 
   Future<IntData?> getSearchHadithCountWithBookAndRegEx(String query, int bookId) {
-    final regExp = "${query.split(' ').map((e) => "(?=.*$e)").join('')}.*";
-    return hadithDao.getSearchHadithCountWithBookAndRegEx(regExp, bookId);
+    return hadithDao.getSearchHadithCountWithBookAndRegEx(query, bookId);
   }
 
   Future<List<Hadith>> getPagingSearchHadithsWithBookAndRegEx(
       int limit, int page, int bookId, String query) {
-    final regExp = "${query.split(' ').map((e) => "(?=.*$e)").join('')}.*";
     return hadithDao.getPagingSearchHadithsWithBookAndRegEx(
-        limit, page, bookId, regExp);
+        limit, page, bookId, query);
   }
 
-
   Future<IntData?> getSearchWithHadithCount(String query)=>
-      hadithDao.getSearchWithHadithCount("%$query%");
+      hadithDao.getSearchWithHadithCount(query);
 
   Future<List<Hadith>>getPagingSearchHadiths(int limit,int page,String query)=>
-      hadithDao.getPagingSearchHadiths(limit, page, "%$query%");
+      hadithDao.getPagingSearchHadiths(limit, page, query);
 
   Future<IntData?> getSearchHadithCountWithBook(String query,int bookId)=>
-      hadithDao.getSearchHadithCountWithBook("%$query%", bookId);
+      hadithDao.getSearchHadithCountWithBook(query, bookId);
 
   Future<List<Hadith>>getPagingSearchHadithsWithBook(int limit,int page,int bookId,String query)=>
-      hadithDao.getPagingSearchHadithsWithBook(limit, page, bookId, "%$query%");
+      hadithDao.getPagingSearchHadithsWithBook(limit, page, bookId, query);
 
 
 }
