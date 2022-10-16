@@ -11,6 +11,8 @@ import 'package:hadith/constants/menu_resources.dart';
 import 'package:hadith/constants/save_point_constant.dart';
 import 'package:hadith/db/entities/list_entity.dart';
 import 'package:hadith/features/paging/bloc/paging_state.dart';
+import 'package:hadith/features/premium/bloc/premium_bloc.dart';
+import 'package:hadith/features/premium/bloc/premium_state.dart';
 import 'package:hadith/models/save_point_argument.dart';
 import 'package:hadith/utils/ad_util.dart';
 import 'package:hadith/db/entities/savepoint.dart';
@@ -52,7 +54,7 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
   bool lastIsScrollUp=true;
   bool lastIsPrevSuccessScroll=false;
 
-  late Timer _adTimer;
+  Timer? _adTimer;
 
   void _checkAdStatus(){
     _adTimer=Timer.periodic(const Duration(seconds: AdUtil.tickIntervalSeconds), (timer) {
@@ -64,16 +66,19 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
     });
   }
 
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
+  void _checkAdOpeningCounter(){
     if(_interstitialAd==null){
       if(AdUtil.increaseOpeningCounter()){
         _loadAd();
       }
     }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
   }
 
@@ -91,14 +96,22 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
     loadSavePoint(context);
     loadSearchCriteria(pagingArgument.searchKey);
 
-    _checkAdStatus();
 
-    return WillPopScope(onWillPop: (){
-      if(_interstitialAd!=null){
-        _interstitialAd?.show();
-      }
-      return Future.value(true);
-    },child: buildPage(context));
+
+    return BlocBuilder<PremiumBloc,PremiumState>(
+      builder: (context,state){
+        if(!state.isPremium){
+          _checkAdOpeningCounter();
+          _checkAdStatus();
+        }
+        return WillPopScope(onWillPop: (){
+          if(!state.isPremium&&_interstitialAd!=null){
+            _interstitialAd?.show();
+          }
+          return Future.value(true);
+        },child: buildPage(context));
+      },
+    );
   }
 
 
@@ -328,8 +341,8 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
 
   @override
   void dispose() {
+    _adTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
-    _adTimer.cancel();
     super.dispose();
   }
 

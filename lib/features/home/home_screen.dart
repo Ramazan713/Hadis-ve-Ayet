@@ -6,11 +6,14 @@ import 'package:hadith/features/bottom_nav/bloc/bottom_nav_bloc.dart';
 import 'package:hadith/features/bottom_nav/bloc/bottom_nav_event.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_title_item.dart';
+import 'package:hadith/features/premium/bloc/premium_state.dart';
 import 'package:hadith/widgets/custom_sliver_appbar.dart';
 import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:hadith/features/bottom_nav/widget/bottom_nav_widget_state.dart';
+import '../premium/bloc/premium_bloc.dart';
+import '../premium/show_premium_active.dart';
 import 'get_home_items.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,6 +68,14 @@ class _HomePageState extends BottomNavWidgetState<HomePage>
           CustomSliverAppBar(
             title: const Text("Hadis ve Ayet"),
             actions: [
+              BlocBuilder<PremiumBloc,PremiumState>(builder: (context,state){
+                if(state.isPremium){
+                  return getPremiumActiveIcon(onPress: (){
+                    showPremiumActive(context);
+                  });
+                }
+                return const SizedBox();
+              }),
               getSettingIcon(context),
             ],
           ),

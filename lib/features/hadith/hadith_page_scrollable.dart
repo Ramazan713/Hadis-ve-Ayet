@@ -48,8 +48,6 @@ class HadithPageScrollable extends StatefulWidget {
 class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> {
   final ValueNotifier<bool> visibilityAppBarNotifier = ValueNotifier(true);
 
-  Timer? _timer;
-
   void _execAppBarMenus(int selected) {
     switch (selected) {
       case MenuResources.fontSize:
@@ -248,7 +246,6 @@ class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> 
   }
   @override
   void dispose() {
-    _timer?.cancel();
     nestedViewScrollController.dispose();
     super.dispose();
   }

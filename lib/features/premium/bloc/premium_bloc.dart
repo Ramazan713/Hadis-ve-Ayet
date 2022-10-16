@@ -32,7 +32,7 @@ class PremiumBloc extends Bloc<IPremiumEvent, PremiumState> {
   Future<void> _onInit(PremiumEventInit event, Emitter<PremiumState> emit) async {
     await _inAppPurchase.isAvailable();
     final Stream<List<PurchaseDetails>> purchaseUpdated = _inAppPurchase.purchaseStream;
-
+    add(PremiumEventCheckPurchase());
     try {
       PremiumState resultState;
       await emit.forEach<List<PurchaseDetails>>(purchaseUpdated,

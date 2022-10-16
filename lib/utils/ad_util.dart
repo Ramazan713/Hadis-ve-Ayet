@@ -7,8 +7,8 @@ class AdUtil{
   static const bannerAdId="ca-app-pub-3940256099942544/6300978111";
 
   static const tickIntervalSeconds=10;
-  static const _thresholdConsumeSeconds=60*5;
-  static const _thresholdOpeningCounter=13;
+  static const int _thresholdConsumeSeconds=150;//2m 30s
+  static const _thresholdOpeningCounter=7;
   static int _counterOpening=0;
   static int _totalConsumeSeconds=0;
 

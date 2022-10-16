@@ -24,3 +24,9 @@ Widget getManageSearchIcon({required void Function() onPress}){
   return IconButton(onPressed: onPress, icon: const Icon(Icons.manage_search),
     tooltip: "Arama Kriteri",);
 }
+
+Widget getPremiumActiveIcon({required void Function() onPress}){
+  return IconButton(onPressed: onPress, icon: const Icon(Icons.workspace_premium,
+    color: Color(0x86EF062E),),
+  tooltip: "Premium Active",);
+}

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_status_extended_enum.dart';
 import 'package:hadith/features/premium/bloc/premium_event.dart';
 import 'package:hadith/features/premium/bloc/premium_state.dart';
+import 'package:hadith/features/premium/premium_features.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:flutter/material.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
@@ -13,9 +14,7 @@ void showPremiumDia(BuildContext context){
 
   final ScrollController scrollController=ScrollController();
 
-  final featureItems=[
-    const PremiumFeatureItem(featureName: "Reklamsız")
-  ];
+
 
   final premiumBloc=context.read<PremiumBloc>();
   premiumBloc.add(PremiumEventLoadProducts());
@@ -57,8 +56,8 @@ void showPremiumDia(BuildContext context){
                           ListView.builder(
                             controller: scrollController,
                             itemBuilder: (context, index) {
-                            return featureItems[index];
-                          },itemCount: featureItems.length,shrinkWrap: true,),
+                            return kPremiumFeatureItems[index];
+                          },itemCount: kPremiumFeatureItems.length,shrinkWrap: true,),
                           const SizedBox(height: 29,),
 
                           BlocBuilder<PremiumBloc,PremiumState>(
