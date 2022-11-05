@@ -8,7 +8,7 @@ class AdUtil{
 
   static const tickIntervalSeconds=10;
   static const int _thresholdConsumeSeconds=150;//2m 30s
-  static const _thresholdOpeningCounter=7;
+  static const _thresholdOpeningCounter=13;
   static int _counterOpening=0;
   static int _totalConsumeSeconds=0;
 
