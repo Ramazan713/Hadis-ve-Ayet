@@ -1,6 +1,7 @@
 
 
 import 'package:floor/floor.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 
 final migration1To2=Migration(1, 2, (database)async{
   await database.execute("""CREATE TABLE if not exists "VerseArabic" (

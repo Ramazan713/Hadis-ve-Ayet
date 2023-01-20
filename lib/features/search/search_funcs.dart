@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import '../../constants/enums/book_enum.dart';
-import '../../constants/enums/origin_tag_enum.dart';
+import '../save_point/constants/origin_tag_enum.dart';
 import '../../models/save_point_argument.dart';
 import '../hadith/hadith_page_scrollable.dart';
 import '../paging/hadith_loader/hadith_search_paging_loader.dart';
@@ -13,10 +14,10 @@ import 'bloc/search_state.dart';
 import 'model/search_result_model.dart';
 
 PagingArgument _getPagingArgument(
-    String searchKey, int bookIdBinary, IPagingLoader loader) {
+    String searchKey, BookScopeEnum bookScope, IPagingLoader loader) {
   return PagingArgument(
-      bookIdBinary: bookIdBinary,
-      savePointArg: SavePointArg(parentKey: searchKey),
+      bookScope: bookScope,
+      savePointArg: SavePointLoadArg(parentKey: searchKey),
       title: searchKey,
       searchKey: searchKey,
       originTag: OriginTag.search,
@@ -30,21 +31,21 @@ List<SearchResultModel> getResultModels(
 
   final verseArgument = _getPagingArgument(
       searchKey,
-      BookEnum.dinayetMeal.bookIdBinary,
+      BookScopeEnum.diyanetMeal,
       VerseSearchPagingLoader(context, searchKey: searchKey));
   final sitteArgument = _getPagingArgument(
       searchKey,
-      BookEnum.sitte.bookIdBinary,
+      BookScopeEnum.sitte,
       HadithSearchBookIdLoader(context,
           searchKey: searchKey, bookId: BookEnum.sitte.bookId));
   final serlevhaArgument = _getPagingArgument(
       searchKey,
-      BookEnum.serlevha.bookIdBinary,
+      BookScopeEnum.serlevha,
       HadithSearchBookIdLoader(context,
           searchKey: searchKey, bookId: BookEnum.serlevha.bookId));
   final allHadithArgument = _getPagingArgument(
       searchKey,
-      BookEnum.sitte.bookIdBinary|BookEnum.serlevha.bookIdBinary,
+      BookScopeEnum.serlevhaSitte,
       HadithSearchPagingLoader(context, searchKey: searchKey));
   if(state.verseCount!=0){
     results.add(SearchResultModel(

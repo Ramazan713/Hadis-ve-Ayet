@@ -9,6 +9,6 @@ class LocalStorage{
     _sharedPreferences=await SharedPreferences.getInstance();
   }
 
-  static get sharedPreferences => _sharedPreferences;
+  static SharedPreferences get  sharedPreferences => _sharedPreferences;
 
 }

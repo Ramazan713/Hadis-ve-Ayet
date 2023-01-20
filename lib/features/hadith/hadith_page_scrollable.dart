@@ -12,8 +12,9 @@ import 'package:hadith/constants/favori_list.dart';
 import 'package:hadith/constants/menu_resources.dart';
 import 'package:hadith/features/paging/bloc/paging_bloc.dart';
 import 'package:hadith/features/paging/bloc/paging_state.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
-import 'package:hadith/utils/sourcetype_helper.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/dialogs/show_select_font_size_bottom_dia.dart';
 import 'package:hadith/features/add_to_list/model/edit_select_list_model.dart';
@@ -22,8 +23,8 @@ import 'package:hadith/features/hadith/model/hadith_topics_model.dart';
 import 'package:hadith/features/hadith/widget/hadith_scrollable_item.dart';
 import 'package:hadith/features/paging/i_paging_loader.dart';
 import 'package:hadith/features/paging/paging_argument.dart';
-import 'package:hadith/features/save_point/bloc/save_point_bloc.dart';
-import 'package:hadith/features/save_point/bloc/save_point_state.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_bloc.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_state.dart';
 import 'package:hadith/features/save_point/show_select_savepoint_bottom_dia.dart';
 import 'package:hadith/utils/share_utils.dart';
 import 'package:hadith/features/share/show_preview_share_image_dia.dart';
@@ -57,14 +58,9 @@ class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> 
         break;
       case MenuResources.savePoint:
         showSelectSavePointBottomDia(context,
-            parentName: pagingArgument.title,
-            bookIdBinary: pagingArgument.bookIdBinary,
-            itemIndexPos: lastIndex,
-            originTag: pagingArgument.originTag,
-            parentKey: pagingArgument.savePointArg.parentKey,
             changeLoaderListener: (savePoint) {
           setArgumentWithSavePoint(savePoint);
-        });
+        }, savePointParam: SavePointParam.fromPagingArgument(pagingArgument, lastIndex));
         break;
       case MenuResources.cleanSearchText:
         cleanableSearchText = null;
@@ -123,7 +119,7 @@ class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> 
                     valueListenable: changeBarTitleNotifier,
                     builder: (context, value, child) {
                       return Text(
-                          "${pagingArgument.title} - ${SourceTypeHelper.getNameWithBookBinaryId(pagingArgument.bookIdBinary)}");
+                          "${pagingArgument.title} - ${pagingArgument.bookScope.description}");
                     },
                   ),
                   actions: [

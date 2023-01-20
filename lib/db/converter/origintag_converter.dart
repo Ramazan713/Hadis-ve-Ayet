@@ -1,6 +1,6 @@
 
 import 'package:floor/floor.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 
 class OriginTagConverter extends TypeConverter<OriginTag,int>{
   @override

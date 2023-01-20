@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/common_menu_items.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
 import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
 import 'package:hadith/features/topic_savepoint/topic_savepoint_page_state.dart';
@@ -64,7 +65,7 @@ class _TopicScreenState extends TopicSavePointPageState<TopicScreen> {
             TopicArgument();
 
     final title =
-        "${argument.title} - ${SourceTypeHelper.getNameWithBookBinaryId(argument.bookEnum.bookIdBinary)}";
+        "${argument.title} - ${argument.bookEnum.bookScope?.description??""}";
 
     return CustomSliverAppBar(
       pinned: true,
@@ -101,8 +102,8 @@ class _TopicScreenState extends TopicSavePointPageState<TopicScreen> {
     switch (sourceTypeEnum) {
       case SourceTypeEnum.hadith:
         final arg = PagingArgument(
-            bookIdBinary: argument.bookEnum.bookIdBinary,
-            savePointArg: SavePointArg(parentKey: item.id.toString(),loadNearPoint: loadNearPoint),
+            bookScope: argument.bookEnum.bookScope??BookScopeEnum.serlevha,
+            savePointArg: SavePointLoadArg(parentKey: item.id.toString(),loadNearPoint: loadNearPoint),
             title: item.name,
             originTag: originTag,
             loader:
@@ -111,8 +112,8 @@ class _TopicScreenState extends TopicSavePointPageState<TopicScreen> {
         break;
       case SourceTypeEnum.verse:
         final arg = PagingArgument(
-            bookIdBinary: argument.bookEnum.bookIdBinary,
-            savePointArg: SavePointArg(parentKey: item.id.toString(),loadNearPoint:loadNearPoint),
+            bookScope: argument.bookEnum.bookScope??BookScopeEnum.serlevha,
+            savePointArg: SavePointLoadArg(parentKey: item.id.toString(),loadNearPoint:loadNearPoint),
             originTag: originTag,
             title: item.name,
             loader: VerseTopicPagingLoader(context: context, topicId: item.id));
@@ -141,9 +142,8 @@ class _TopicScreenState extends TopicSavePointPageState<TopicScreen> {
         (ModalRoute.of(context)?.settings.arguments as TopicArgument?) ??
             TopicArgument();
 
-    final SourceTypeEnum sourceTypeEnum =
-        SourceTypeHelper.getSourceTypeWithBookBinaryId(
-            argument.bookEnum.bookIdBinary);
+    final SourceTypeEnum sourceTypeEnum = argument.bookEnum.bookScope?.sourceType??SourceTypeEnum.hadith;
+
 
     bloc.add(TopicEventRequest(
         bookId: argument.bookEnum.bookId,

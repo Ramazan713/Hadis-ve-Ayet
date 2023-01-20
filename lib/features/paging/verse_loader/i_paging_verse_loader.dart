@@ -5,7 +5,7 @@ import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/db/repos/list_repo.dart';
 import 'package:hadith/db/repos/verse_repo.dart';
-import 'package:hadith/features/verse/model/verse_model.dart';
+import 'package:hadith/features/verse/common_models/verse_model.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,7 +74,7 @@ abstract class IPagingVerseLoader extends IPagingLoader<VerseModel>{
       final isArchiveAddListNotEmpty = await _isVerseArchiveAddListNotEmpty(verse);
       final arabicVerses = await _getArabicVerses(verse);
       verseModels.add(VerseModel(item: verse,arabicVerses: arabicVerses,
-          rowNumber: baseRowNumber+i,isArchiveAddListNotEmpty:isArchiveAddListNotEmpty,
+          rowNumber: baseRowNumber+i,isArchiveAddedToList:isArchiveAddListNotEmpty,
           isFavorite: isFavorite, isAddListNotEmpty: isAddListNotEmpty));
     }
     return Future.value(verseModels);

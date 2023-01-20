@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/features/share/model/share_image/i_share_image.dart';
-import 'package:hadith/features/verse/model/verse_model.dart';
+import 'package:hadith/features/verse/common_models/verse_model.dart';
 import 'package:hadith/features/verse/verse_helper_funcs.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';

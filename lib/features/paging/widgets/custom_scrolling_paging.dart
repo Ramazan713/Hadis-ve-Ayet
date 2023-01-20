@@ -10,8 +10,9 @@ import 'package:hadith/features/paging/my_extractor_glow_behavior.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CustomScrollingPaging extends StatelessWidget {
-  final bool Function(CustomPagingState, CustomPagingState)?
-      buildWhen;
+  final bool Function(CustomPagingState, CustomPagingState)?buildWhen;
+  final void Function(BuildContext, CustomPagingState)?listenerBloc;
+  final bool Function(CustomPagingState, CustomPagingState)?listenerWhenBloc;
   final Widget Function(
           BuildContext, int index, dynamic item, CustomPagingState state)
       itemBuilder;
@@ -31,6 +32,8 @@ class CustomScrollingPaging extends StatelessWidget {
   final IPagingLoader loader;
   final CustomScrollingController customPagingController;
 
+  late final ItemScrollController itemScrollController;
+
   CustomScrollingPaging(
       {Key? key,
       this.scrollListener,
@@ -44,7 +47,10 @@ class CustomScrollingPaging extends StatelessWidget {
       this.isPlaceHolderActive = true,
       required this.loader,
       this.minMaxListener,
+        this.listenerBloc,
+        this.listenerWhenBloc,
       required this.customPagingController,
+        ItemScrollController? itemScrollController,
       this.isItemLoadingWidgetPlaceHolder = false})
       : super(key: key) {
     this.placeHolderWidget = placeHolderWidget ??
@@ -53,9 +59,10 @@ class CustomScrollingPaging extends StatelessWidget {
         ? this.placeHolderWidget : const Center(child: CircularProgressIndicator());
 
     placeHolderCount = isPlaceHolderActive?limitNumber:1;
+    this.itemScrollController = itemScrollController??ItemScrollController();
   }
 
-  final ItemScrollController itemScrollController = ItemScrollController();
+
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
 
@@ -150,10 +157,14 @@ class CustomScrollingPaging extends StatelessWidget {
                 height: 0,
               );
             }),
-        BlocBuilder<CustomPagingBloc,CustomPagingState>(
+        BlocConsumer<CustomPagingBloc,CustomPagingState>(
+          listenWhen: listenerWhenBloc,
+          listener: (context,state){
+            listenerBloc?.call(context,state);
+          },
             buildWhen: (prevState, nextState) {
           lastState = nextState;
-          if (nextState.status == DataPagingStatus.pagingSuccess) {
+          if (nextState.status == DataPagingStatus.prevPagingSuccess) {
             if (itemScrollController.isAttached) {
               itemScrollController.jumpTo(index: limitNumber+min);
             }

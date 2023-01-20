@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
 import 'package:hadith/utils/sourcetype_helper.dart';
 import 'package:hadith/features/paging/hadith_loader/hadith_list_paging_loader.dart';
@@ -82,10 +83,10 @@ class PagingLoaderFactory{
   }
 
 
-  static IPagingLoader getLoader(BookEnum bookEnum,int itemBookBinaryId
+  static IPagingLoader getLoader(BookEnum bookEnum,BookScopeEnum bookScope
       ,OriginTag originTag,String parentKey,BuildContext context){
 
-    switch(SourceTypeHelper.getSourceTypeWithBookBinaryId(itemBookBinaryId)){
+    switch(bookScope.sourceType){
       case SourceTypeEnum.hadith:
         return _getHadithLoader(originTag, bookEnum,parentKey, context);
       case SourceTypeEnum.verse:
@@ -93,12 +94,12 @@ class PagingLoaderFactory{
     }
   }
 
-  static IPagingLoader getLoaderWithBookBinaryId(int itemBookBinaryId
+  static IPagingLoader getLoaderWithBookBinaryId(BookScopeEnum bookScope
       ,OriginTag originTag,String parentKey,BuildContext context){
-    final BookEnum bookEnum=itemBookBinaryId==BookEnum.sitte.bookIdBinary?
-        BookEnum.sitte:BookEnum.serlevha;
 
-    return getLoader(bookEnum, itemBookBinaryId, originTag, parentKey, context);
+    final BookEnum bookEnum = bookScope.book ?? BookEnum.serlevha;
+
+    return getLoader(bookEnum, bookScope, originTag, parentKey, context);
   }
 
 

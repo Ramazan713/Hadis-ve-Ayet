@@ -229,7 +229,6 @@ class _ListScreenState extends BottomNavWidgetState<ListScreen> {
                     )
                   ],
                 ),
-
                 headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                   fabVisibilityNotifier.value = !innerBoxIsScrolled;
                   return [

@@ -1,7 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/db/entities/history_entity.dart';
 import 'package:hadith/db/repos/history_repo.dart';
 import 'package:hadith/features/history/bloc/history_event.dart';

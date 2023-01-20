@@ -1,242 +1,270 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/constants/enums/data_status_enum.dart';
+import 'package:hadith/features/save_point/bloc/save_point_edit_state.dart';
+import 'package:hadith/features/save_point/save_point_param.dart';
+import 'package:hadith/features/save_point/widget/save_point_show_list_item.dart';
+import 'package:hadith/utils/save_point_helper.dart';
 import 'package:hadith/widgets/custom_button_positive.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
-import 'package:hadith/constants/enums/scope_filter_enum.dart';
-import 'package:hadith/constants/preference_constants.dart';
-import 'package:hadith/constants/save_point_constant.dart';
-import 'package:hadith/utils/localstorage.dart';
-import 'package:hadith/utils/sourcetype_helper.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/scope_filter_enum.dart';
 import 'package:hadith/db/entities/savepoint.dart';
 import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/save_point/bloc/save_point_edit_bloc.dart';
 import 'package:hadith/features/save_point/bloc/save_point_edit_event.dart';
-import 'package:hadith/features/save_point/widget/save_point_bloc_runner.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'bloc/save_point_bloc.dart';
-import 'bloc/save_point_event.dart';
+import 'constants/save_auto_type.dart';
+import 'save_point_bloc/save_point_bloc.dart';
+import 'save_point_bloc/save_point_event.dart';
 
 void showSelectSavePointBottomDia(BuildContext context,
-    {required OriginTag originTag,
-    required String parentKey,
-    required int itemIndexPos,
-    required String parentName,
-    required int bookIdBinary,
+    {required SavePointParam savePointParam,
     required void Function(SavePoint savePoint) changeLoaderListener}) async {
-
-  final ValueNotifier<SavePoint?> selectedNotifier = ValueNotifier(null);
-
-  final ValueNotifier<ScopeFilterEnum> selectedFilterNotifier =
-      ValueNotifier(ScopeFilterEnum.scope);
-
-  final SharedPreferences sharedPreferences = LocalStorage.sharedPreferences;
-
-  final isScopeOrigin = kSavePointScopeOrigins.contains(originTag);
-  final ScrollController scrollController=ScrollController();
-
+  final isScopeOrigin = SavePointHelper.isScopeOrigin(savePointParam.originTag);
+  final ScrollController scrollController = ScrollController();
 
   final editPointBloc = context.read<SavePointEditBloc>();
 
-  ScopeFilterEnum getSharedScopeFilter() {
-    return ScopeFilterEnum.values[
-        sharedPreferences.getInt(PrefConstants.scopeFilterEnum.key) ?? 0];
-  }
-
-  bool isScopeSavePoint(SavePoint savepoint) {
-    return isScopeOrigin && savepoint.parentKey != parentKey;
-  }
+  editPointBloc
+      .add(SavePointEditEventInitialRequest(savePointParam: savePointParam));
 
   List<DropdownMenuItem<ScopeFilterEnum>> getDropDownItems() {
     List<DropdownMenuItem<ScopeFilterEnum>> menuItems = [];
-
     for (var item in ScopeFilterEnum.values) {
       menuItems.add(DropdownMenuItem(
-        child: Text(item.getDescription()),
         value: item,
+        child: Text(item.getDescription()),
       ));
     }
-
     return menuItems;
   }
 
-  void requestLoadData() {
-    editPointBloc.add(SavePointEditEventRequest(
-        scopeFilter: isScopeOrigin ? selectedFilterNotifier.value : null,
-        parentKey: parentKey,
-        originTag: originTag,
-        bookIdBinary: bookIdBinary));
-  }
-
-  void overrideSavePoint(SavePoint selectedSavePoint) {
-    editPointBloc.add(SavePointEditEventOverride(
-        newSavePoint: selectedSavePoint.copyWith(
-            itemIndexPos: itemIndexPos,
-            parentName: parentName,
-            parentKey: parentKey)));
-    ToastUtils.showLongToast("Üzerine Yazıldı");
+  Widget getDropdownButton() {
+    return isScopeOrigin
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13),
+            child: BlocSelector<SavePointEditBloc, SavePointEditState,
+                ScopeFilterEnum?>(
+              selector: (state) => state.scopeFilter,
+              builder: (context, selectedFilter) {
+                return DropdownButton<ScopeFilterEnum>(
+                    items: getDropDownItems(),
+                    value: selectedFilter,
+                    onChanged: (selectedValue) {
+                      if (selectedValue != null) {
+                        editPointBloc.add(
+                            SavePointEditEventChangeScopeFilter(selectedValue));
+                      }
+                    });
+              },
+            ),
+          )
+        : const SizedBox();
   }
 
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        selectedFilterNotifier.value = getSharedScopeFilter();
+        return BlocListener<SavePointEditBloc, SavePointEditState>(
+          listener: (context, state) {
+            if (state.message != null) {
+              ToastUtils.showLongToast(state.message ?? "");
+            }
+          },
+          child: DraggableScrollableSheet(
+            minChildSize: 0.2,
+            initialChildSize: 0.5,
+            maxChildSize: 1.0,
+            expand: false,
+            builder: (context, scrollControllerDraggable) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: CustomScrollView(
+                      controller: scrollControllerDraggable,
+                      shrinkWrap: true,
+                      slivers: [
+                        SliverList(
+                            delegate: SliverChildListDelegate([
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              getDropdownButton(),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    size: 27,
+                                  ))
+                            ],
+                          ),
+                          Text("Kayıt Noktaları",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline6),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          CustomButtonPositive(
+                            onTap: () {
+                              final date = DateTime.now();
+                              final title = SavePointHelper.getAutoSavePointTitle(savePointParam, date.toString(),
+                                  SaveAutoType.none);
 
-        requestLoadData();
+                              showEditTextBottomDia(context, (newTitle) {
+                                editPointBloc.add(SavePointEditEventInsert(
+                                  title: newTitle,
+                                  savePointParam: savePointParam,
+                                  dateTime: date,
+                                ));
+                                ToastUtils.showLongToast(
+                                    "Yeni Kayıt Oluşturuldu");
+                              }, title: "Başlık Girin", content: title);
+                            },
+                            label: "Yeni kayıt oluştur",
+                          ),
+                          BlocBuilder<SavePointEditBloc, SavePointEditState>(
+                            builder: (context, state) {
+                              if (state.status == DataStatus.loading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              final items = state.savePoints;
 
-        return DraggableScrollableSheet(
-          minChildSize: 0.2,
-          initialChildSize: 0.5,
-          maxChildSize: 1.0,
-          expand: false,
-          builder: (context, scrollControllerDraggable) {
-            return  Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: CustomScrollView(
-                    controller: scrollControllerDraggable,
-                    shrinkWrap: true,
-                    slivers: [
-                      SliverList(
-                          delegate: SliverChildListDelegate([
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                isScopeOrigin ? Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 13),
-                                  child: ValueListenableBuilder<
-                                      ScopeFilterEnum>(
-                                      valueListenable: selectedFilterNotifier,
-                                      builder: (context, value, child) {
-                                        return DropdownButton<
-                                            ScopeFilterEnum>(
-                                            items: getDropDownItems(),
-                                            value: value,
-                                            onChanged: (selectedValue) {
-                                              if (selectedValue != null) {
-                                                sharedPreferences.setInt(
-                                                    PrefConstants.scopeFilterEnum.key,
-                                                    selectedValue.index);
-                                                selectedFilterNotifier.value = selectedValue;
-                                                requestLoadData();
-                                              }
-                                            });
-                                      }),
-                                )
-                                    : const SizedBox(),
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const Icon(
-                                      Icons.close,
-                                      size: 27,
-                                    ))
-                              ],
-                            ),
-                            Text("Kayıt Noktaları",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline6),
-                            const SizedBox(
-                              height: 13,
-                            ),
-                            CustomButtonPositive(
-                              onTap: () {
-                                final date = DateTime.now();
-                                final typeDescription =
-                                SourceTypeHelper.getNameWithBookBinaryId(
-                                    bookIdBinary);
-                                final wideSavePointScope =
-                                kSavePointScopeOrigins.contains(originTag);
-                                final title = SavePoint.getAutoTitle(parentName, typeDescription,
-                                    date.toString(), false, wideSavePointScope, originTag.shortName);
-
-                                showEditTextBottomDia(context, (newTitle) {
-                                  editPointBloc.add(SavePointEditEventInsert(
-                                      itemIndexPos: itemIndexPos,
-                                      originTag: originTag,
-                                      parentName: parentName,
-                                      title: newTitle,
-                                      dateTime: date,
-                                      bookIdBinary: bookIdBinary,
-                                      parentKey: parentKey));
-                                  ToastUtils.showLongToast(
-                                      "Yeni Kayıt Oluşturuldu");
-                                }, title: "Başlık Girin", content: title);
-                              },
-                              label: "Yeni kayıt oluştur",
-                            ),
-                            SavePointBlocRunner(
+                              if (items.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    "Herhangi bir kayıt bulunamadı",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
+                                  ),
+                                );
+                              }
+                              return SavePointShowListItem(
+                                items: state.savePoints,
                                 scrollController: scrollController,
                                 showOriginText: false,
-                                selectedNotifier: selectedNotifier),
-                          ])),
-                    ],
-                  ),
-                ),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomButtonPositive(
-                        onTap: () {
-                          final savePoint = selectedNotifier.value;
-                          if (savePoint != null) {
-                            final selectedId =
-                                selectedNotifier.value?.id;
-
-                            if (isScopeSavePoint(savePoint)) {
-                              showCustomAlertBottomDia(context,
-                                  content:
-                                  "Yeni bir cüz'e geçmek istediğinize emin misiniz",
-                                  btnApproved: () {
-                                    changeLoaderListener.call(savePoint);
-                                    Navigator.pop(context);
-                                  });
-                            } else {
-                              final savePointBloc =
-                              context.read<SavePointBloc>();
-                              savePointBloc.add(
-                                  SavePointEventRequestWithId(
-                                      savePointId: selectedId));
-                              Navigator.pop(context);
-                            }
-                          }
-                        },
-                        label: "Yükle",
-                      ),
+                                selectedSavePoint: state.selectedSavePoint,
+                                onSelectSavePoint: (newSavePoint) {
+                                  if (newSavePoint != null) {
+                                    editPointBloc.add(
+                                        SavePointEditEventChangeSavePoint(
+                                            newSavePoint));
+                                  }
+                                },
+                              );
+                            },
+                          )
+                        ])),
+                      ],
                     ),
-                    Expanded(
-                      child: CustomButtonPositive(
-                        onTap: () {
-                          final selectedSavePoint =
-                              selectedNotifier.value;
-                          if (selectedSavePoint != null) {
-                            if (isScopeSavePoint(selectedSavePoint)) {
-                              showCustomAlertBottomDia(context,
-                                  content:
-                                  "Farklı bir cüz'ün üzerine yazmak istediğinize emin misiniz",
-                                  btnApproved: () {
-                                    overrideSavePoint(selectedSavePoint);
-                                  });
-                            } else {
-                              overrideSavePoint(selectedSavePoint);
-                            }
-                          }
-                        },
-                        label: "Üzerine Yaz",
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _LoadButton(savePointParam: savePointParam,changeLoaderListener: changeLoaderListener),
                       ),
-                    )
-                  ],
-                )
-              ],
-            );
-          },
+                      Expanded(
+                        child: _OverrideSavePointButton(savePointParam: savePointParam,),
+                      )
+                    ],
+                  )
+                ],
+              );
+            },
+          ),
         );
       });
+}
+
+
+class _OverrideSavePointButton extends StatelessWidget{
+  final SavePointParam savePointParam;
+  const _OverrideSavePointButton({Key? key,required this.savePointParam}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final editPointBloc = context.read<SavePointEditBloc>();
+
+    return BlocSelector<SavePointEditBloc,
+        SavePointEditState, SavePoint?>(
+      selector: (state) => state.selectedSavePoint,
+      builder: (context, savePoint) {
+        return CustomButtonPositive(
+          onTap: () {
+            if (savePoint != null) {
+              if (SavePointHelper.isScopeSavePoint2(
+                  savePoint, savePointParam)) {
+
+                showCustomAlertBottomDia(context,
+                    content:
+                    "Farklı bir ${savePointParam.originTag.shortName.toLowerCase()} kayıt noktasının üzerine yazmak istediğinize emin misiniz",
+                    btnApproved: () {
+                      editPointBloc.add(
+                          SavePointEditEventOverride(
+                              selectedSavePoint: savePoint,
+                              savePointParam: savePointParam));
+                    });
+              } else {
+                editPointBloc.add(
+                    SavePointEditEventOverride(
+                        selectedSavePoint: savePoint,
+                        savePointParam: savePointParam));
+              }
+            }
+          },
+          label: "Üzerine Yaz",
+        );
+      },
+    );
+  }
+
+}
+
+class _LoadButton extends StatelessWidget {
+  final SavePointParam savePointParam;
+  final Function(SavePoint savePoint) changeLoaderListener;
+  const _LoadButton({Key? key,required this.savePointParam,required this.changeLoaderListener}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    return BlocSelector<SavePointEditBloc,
+        SavePointEditState, SavePoint?>(
+      selector: (state) => state.selectedSavePoint,
+      builder: (context, savePoint) {
+        return CustomButtonPositive(
+          onTap: () {
+            if (savePoint != null) {
+              final selectedId = savePoint.id;
+
+              if (SavePointHelper.isScopeSavePoint2(
+                  savePoint, savePointParam)) {
+                showCustomAlertBottomDia(context,
+                    content:
+                    "Yeni bir cüz'e geçmek istediğinize emin misiniz",
+                    btnApproved: () {
+                      changeLoaderListener.call(savePoint);
+                      Navigator.pop(context);
+                    });
+              } else {
+                final savePointBloc = context.read<SavePointBloc>();
+                savePointBloc.add(
+                    SavePointEventRequestWithId(savePointId: savePoint.id??0));
+                Navigator.pop(context);
+              }
+            }
+          },
+          label: "Yükle",
+        );
+      },
+    );
+  }
 }

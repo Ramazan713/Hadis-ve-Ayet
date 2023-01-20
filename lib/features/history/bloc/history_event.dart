@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/db/entities/history_entity.dart';
 
 abstract class IHistoryEvent extends Equatable{

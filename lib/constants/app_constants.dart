@@ -13,5 +13,6 @@ const kResizeToAvoidBottomInset=false;
 const kPagingPreviewSetIndexNumber=3;
 const kPagingLimitCount=19;
 
+const kDelayForStartingServiceInSeconds = 2;
 
 const kIsTextBlackWithLightPrimary=true;

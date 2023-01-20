@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
+import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/list/bloc/blocs/list_archive_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_hadith_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_verse_bloc.dart';
@@ -22,25 +26,44 @@ import 'package:hadith/db/repos/surah_repo.dart';
 import 'package:hadith/db/repos/topic_repo.dart';
 import 'package:hadith/db/repos/verse_repo.dart';
 import 'package:hadith/features/backup/backup_meta/bloc/backup_meta_bloc.dart';
-import 'package:hadith/features/backup/user_info/bloc/user_info_bloc.dart';
 import 'package:hadith/features/history/bloc/history_bloc.dart';
-import 'package:hadith/features/save_point/bloc/save_point_bloc.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_bloc.dart';
+import 'package:hadith/features/save_point/save_point_edit_book_bloc/save_point_edit_book_bloc.dart';
 import 'package:hadith/features/search/bloc/search_bloc.dart';
+import 'package:hadith/features/settings/auth_bloc/auth_bloc.dart';
+import 'package:hadith/features/backup/backup_manager.dart';
+import 'package:hadith/features/settings/bloc/setting_bloc.dart';
 import 'package:hadith/features/topic/bloc/section_bloc.dart';
 import 'package:hadith/features/topic/bloc/topic_bloc.dart';
 import 'package:hadith/features/topic_savepoint/bloc/topic_savepoint_bloc.dart';
+import 'package:hadith/features/verse/edition_bloc/edition_bloc.dart';
+import 'package:hadith/features/verse/manage_audios/bloc/manage_audio_bloc.dart';
+import 'package:hadith/features/verse/manage_audios/manage_audio_repo.dart';
+import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_bloc.dart';
+import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_audio_bloc.dart';
+import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_bloc.dart';
+import 'package:hadith/services/auth_service.dart';
+import 'package:hadith/services/storage_service.dart';
 import 'package:hadith/themes/bloc/theme_bloc.dart';
 import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:hadith/themes/dark_theme.dart';
 import 'package:hadith/themes/light_theme.dart';
+import 'package:hadith/utils/localstorage.dart';
+import 'db/repos/audio_edition_repo.dart';
+import 'db/repos/verse_arabic_repo.dart';
+import 'db/repos/verse_audio_state_repo.dart';
 import 'features/bottom_nav/bloc/bottom_nav_bloc.dart';
 import 'features/bottom_nav/bottom_navbar.dart';
-import 'features/paging/bloc/paging_bloc.dart';
 import 'features/premium/bloc/premium_event.dart';
+import 'features/settings/audio_setting/bloc/audio_setting_bloc.dart';
+import 'features/verse/common_services/file_audio_editor.dart';
+import 'features/verse/common_services/file_service.dart';
 import 'features/verse/cuz/bloc/cuz_bloc.dart';
 import 'features/verse/surah/bloc/surah_bloc.dart';
 import 'features/save_point/bloc/save_point_edit_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'features/verse/verse_download_audio/services/quran_download_service.dart';
+import 'features/verse/verse_listen_audio/services/i_verse_audio_service.dart';
 
 class MyApp extends StatelessWidget {
 
@@ -77,16 +100,36 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 UserInfoRepo(userInfoDao: appDatabase.userInfoDao)),
         RepositoryProvider(
-            create: (context) => BackupRepo(backupDao: appDatabase.backupDao)),
+            create: (context) =>
+                VerseAudioStateRepo(audioStateDao: appDatabase.verseAudioStateDao)),
+        RepositoryProvider(
+            create: (context) => LocalBackupRepo(backupDao: appDatabase.backupDao)),
         RepositoryProvider(
             create: (context) =>
                 BackupMetaRepo(backupMetaDao: appDatabase.backupMetaDao)),
+        RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
         RepositoryProvider(
             create: (context) =>
                 TopicSavePointRepo(savePointDao: appDatabase.topicSavePointDao)),
+        RepositoryProvider(create: (context)=>VerseAudioEditorRepo(audioDao: appDatabase.verseAudioDao,fileAudioEditor: FileAudioEditor())),
+        RepositoryProvider(create: (context) => VerseAudioRepo(verseAudioDao: appDatabase.verseAudioDao)),
+        RepositoryProvider(
+            create: (context) =>
+                QuranDownloadService(audioRepo: context.read<VerseAudioRepo>())),
+        RepositoryProvider(create: (context) => AudioEditionRepo(editionDao: appDatabase.editionDao,downloadService: context.read<QuranDownloadService>())),
+        RepositoryProvider(create: (context)=>StorageService()),
+        RepositoryProvider(create: (context)=>AuthService()),
+        RepositoryProvider(create: (context)=>BackupManager(authService: context.read<AuthService>(),
+          storageService: context.read<StorageService>(),backupMetaRepo: context.read<BackupMetaRepo>(),
+          localBackupRepo: context.read<LocalBackupRepo>(),userInfoRepo: context.read<UserInfoRepo>())),
+        RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDao,cuzDao: appDatabase.cuzDao,
+          surahDao: appDatabase.surahDao,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
+        RepositoryProvider<IVerseAudioService>(create: (context) => VerseAudioJustService(
+            verseAudioRepo: context.read<VerseAudioRepo>(),verseAudioStateRepo: context.read<VerseAudioStateRepo>(),sharedPreferences: LocalStorage.sharedPreferences)),
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context)=>AudioSettingBloc(editionRepo: context.read<AudioEditionRepo>())),
           BlocProvider(
               create: (context) =>
                   TopicBloc(topicRepo: context.read<TopicRepo>())),
@@ -124,14 +167,25 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context)=>ListArchiveBloc(listRepo: context.read<ListRepo>(),savePointRepo: context.read<SavePointRepo>())),
           BlocProvider(create: (context)=>ThemeBloc()),
           BlocProvider(create: (context)=>PremiumBloc(), lazy: false,),
-          BlocProvider(create: (context)=>UserInfoBloc(userInfoRepo: context.read<UserInfoRepo>())),
           BlocProvider(create: (context)=>VisibilityBloc()),
-          BlocProvider(create: (context)=>BackupMetaBloc(backupMetaRepo: context.read<BackupMetaRepo>())),
-          BlocProvider(create: (context)=>TopicSavePointBloc(savePointRepo: context.read<TopicSavePointRepo>()))
+          BlocProvider(create: (context)=>SavePointEditBookBloc(savePointRepo: context.read<SavePointRepo>())),
+          BlocProvider(create: (context)=>BasicAudioBloc(audioService: context.read<IVerseAudioService>(),
+              downloadService: context.read<QuranDownloadService>(), audioRepo: context.read<VerseAudioRepo>())),
+          BlocProvider(create: (context)=>DownloadAudioBloc()),
+          BlocProvider(create: (context)=>AuthBloc(authService: context.read<AuthService>(),backupManager: context.read<BackupManager>())),
+          BlocProvider(create: (context)=>SettingBloc(userInfoRepo: context.read<UserInfoRepo>())),
+          BlocProvider(create: (context)=>EditionBloc(editionRepo: context.read<AudioEditionRepo>())),
+          BlocProvider(create: (context)=>BackupMetaBloc(backupMetaRepo: context.read<BackupMetaRepo>(),authService: context.read<AuthService>(),
+            backupManager: context.read<BackupManager>())),
+          BlocProvider(create: (context)=>TopicSavePointBloc(savePointRepo: context.read<TopicSavePointRepo>())),
+          BlocProvider(create: (context)=>ManageAudioBloc(manageAudioRepo: context.read<ManageAudioRepo>())),
+          BlocProvider(create: (context)=>VerseAudioBloc(audioRepo: context.read<VerseAudioRepo>(),
+              editionRepo: context.read<AudioEditionRepo>(), audioEditorRepo: context.read<VerseAudioEditorRepo>()))
         ],
         child: BlocBuilder<ThemeBloc,ThemeState>(
           builder: (context,state){
             context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
+
 
             return Phoenix(
               child: MaterialApp(

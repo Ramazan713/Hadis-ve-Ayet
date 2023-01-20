@@ -52,4 +52,5 @@ app.*.map.json
 /assets/images/
 /assets/hadithDb.db
 /assets/fonts
+/assets/
 

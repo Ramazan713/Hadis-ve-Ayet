@@ -6,12 +6,8 @@ import 'package:hadith/db/entities/savepoint.dart';
 abstract class SavePointDao{
 
   @Query("""select * from `savepoint` where savePointType=:savePointType
-   and parentKey=:parentKey and isAuto=1 order by modifiedDate desc limit 1""")
-  Future<SavePoint?> getAutoSavePoint(int savePointType,String parentKey);
-
-  @Query("""select * from `savepoint` where savePointType=:savePointType
-   and parentKey=:parentKey and isAuto=0 order by modifiedDate desc limit 1""")
-  Future<SavePoint?> getSavePoint(int savePointType,String parentKey);
+   and parentKey=:parentKey and autoType=:autoType order by modifiedDate desc limit 1""")
+  Future<SavePoint?> getSavePoint(int savePointType,String parentKey,int autoType);
 
 
   @Query("""select * from `savepoint` where id=:id""")
@@ -24,21 +20,21 @@ abstract class SavePointDao{
 
 
   @Query("""select * from `savepoint` where
-   savePointType=:savePointType and bookIdBinary=:bookIdBinary
+   savePointType=:savePointType and bookScope=:bookScope
    order by modifiedDate desc""")
-  Stream<List<SavePoint>>getStreamSavePointsWithBookIdBinary(int savePointType,int bookIdBinary);
+  Stream<List<SavePoint>>getStreamSavePointsWithBookIdBinary(int savePointType,int bookScope);
 
   @Query("""select * from `savepoint` where savePointType=:savePointType
-   and bookIdBinary=:bookIdBinary and isAuto=1 order by modifiedDate desc limit 1""")
-  Future<SavePoint?> getAutoSavePointWithBookIdBinary(int savePointType,int bookIdBinary);
+   and bookScope=:bookScope and autoType=:autoType order by modifiedDate desc limit 1""")
+  Future<SavePoint?> getAutoSavePointWithBookIdBinary(int savePointType,int bookScope,int autoType);
 
-  @Query("""select * from `savepoint` where bookIdBinary in(:bookBinaryIds)
+  @Query("""select * from `savepoint` where bookScope in(:bookScopes)
    order by modifiedDate desc""")
-  Stream<List<SavePoint>>getStreamSavePointsWithBook(List<int> bookBinaryIds);
+  Stream<List<SavePoint>>getStreamSavePointsWithBook(List<int> bookScopes);
 
-  @Query("""select * from `savepoint` where bookIdBinary in(:bookBinaryIds) 
+  @Query("""select * from `savepoint` where bookScope in(:bookScopes) 
     and savePointType=:savePointType order by modifiedDate desc""")
-  Stream<List<SavePoint>>getStreamSavePointsWithBookFilter(List<int> bookBinaryIds,
+  Stream<List<SavePoint>>getStreamSavePointsWithBookFilter(List<int> bookScopes,
       int savePointType);
 
   @Insert(onConflict: OnConflictStrategy.replace)

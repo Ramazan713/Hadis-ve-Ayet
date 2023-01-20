@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hadith/screens/setting_screen.dart';
+import 'package:hadith/features/settings/setting_screen.dart';
 
 Widget getSettingIcon(BuildContext context){
   return  IconButton(onPressed: (){

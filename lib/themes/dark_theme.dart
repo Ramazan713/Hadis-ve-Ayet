@@ -25,7 +25,9 @@ ThemeData getDarkThemeData() {
     cardColor: Colors.grey.shade800,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green).copyWith(
         secondary: Colors.teal.shade900,
-        primary: Colors.green.shade700),
+        onSecondary: Colors.teal.shade600,
+        primary: Colors.green.shade700
+    ),
     textButtonTheme: kTextButtonTheme,
     floatingActionButtonTheme: kFloatingThemeData.copyWith(
         backgroundColor: Colors.indigoAccent.shade700),

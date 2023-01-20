@@ -14,4 +14,8 @@ abstract class SurahDao{
       then 3 else 4 end)""")
   Future<List<Surah>>getSearchedSurahs(String query,String or1,String or2,String or3);
 
+
+  @Query("""select * from Surah where id=:surahId""")
+  Future<Surah?>getSurah(int surahId);
+
 }

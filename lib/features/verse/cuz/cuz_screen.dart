@@ -4,13 +4,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/constants/common_menu_items.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
 import 'package:hadith/db/entities/cuz.dart';
 import 'package:hadith/features/paging/paging_argument.dart';
 import 'package:hadith/features/paging/verse_loader/verse_cuz_paging_loader.dart';
 import 'package:hadith/features/save_point/show_select_savepoint_with_book_dia.dart';
+import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
 import 'package:hadith/features/verse/verse_screen.dart';
+import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_bloc.dart';
+import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_state.dart';
 import 'package:hadith/models/save_point_argument.dart';
 import 'package:hadith/widgets/custom_sliver_appbar.dart';
 import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
@@ -41,8 +45,8 @@ class _CuzScreenState extends TopicSavePointPageState<CuzScreen> {
         context: context, cuzNo: item.cuzNo);
     final argument = PagingArgument(
         loader: loader,
-        bookIdBinary: BookEnum.dinayetMeal.bookIdBinary,
-        savePointArg: SavePointArg(parentKey: item.cuzNo.toString(),loadNearPoint:loadNearPoint),
+        bookScope: BookScopeEnum.diyanetMeal,
+        savePointArg: SavePointLoadArg(parentKey: item.cuzNo.toString(),loadNearPoint:loadNearPoint),
         originTag: originTag,
         title: item.name);
     Navigator.pushNamed(context, VerseScreen.id,
@@ -67,8 +71,8 @@ class _CuzScreenState extends TopicSavePointPageState<CuzScreen> {
                 actions: [
                   getSavePointIcon(onPress: (){
                     showSelectSavePointWithBookDia(context,
-                        bookEnum: BookEnum.dinayetMeal,
-                        bookBinaryIds: [BookEnum.dinayetMeal.bookIdBinary],
+                        bookEnum: BookEnum.diyanetMeal,
+                        bookScopes: [BookScopeEnum.diyanetMeal],
                         filter: OriginTag.cuz);
                   }),
                 ],
@@ -93,30 +97,46 @@ class _CuzScreenState extends TopicSavePointPageState<CuzScreen> {
                         parentKey:_topicSavePointEnum.defaultParentKey));
                     
                     final items = state.items;
-                    return ScrollablePositionedList.builder(
-                      itemScrollController: itemScrollController,
-                      itemPositionsListener: itemPositionsListener,
-                      itemBuilder: (context, index) {
-                        final item = items[index];
-                        return ValueListenableBuilder(
-                            valueListenable: rebuildItems,
-                            builder: (context,value,child){
-                             return TopicIconItem(
-                               trailing: (lastSavePoint?.pos ==item.cuzNo)?getPointWidget(context):null,
-                                 label: item.name,
-                                 iconData: FontAwesomeIcons.bookQuran,
-                                 onLongPress: (){
-                                   showBottomMenuFunc(pos: item.cuzNo, navigate: (){
-                                     _navigateTo(item,true);
-                                   }, topicSavePointEnum: _topicSavePointEnum,
-                                       parentKey: _topicSavePointEnum.defaultParentKey);
-                                 },
-                                 onTap: () {
-                                   _navigateTo(item,false);
-                                 }); 
-                            });
+                    return BlocBuilder<DownloadAudioBloc,DownloadAudioState>(
+                      buildWhen: (previousState,currentState){
+                        return previousState.getVoiceModel()?.cuzNo!=currentState.getVoiceModel()?.cuzNo;
                       },
-                      itemCount: items.length,
+                      builder: (context,downloadState){
+                        return ScrollablePositionedList.builder(
+                          itemScrollController: itemScrollController,
+                          itemPositionsListener: itemPositionsListener,
+                          itemBuilder: (context, index) {
+                            final item = items[index];
+                            return AudioStateIconItem(
+                              value: item.cuzNo,
+                              keyFuncDownload: (state)=>state.getVoiceModel()?.cuzNo,
+                              keyFuncAudio: (state)=>state.getAudio()?.cuzNo,
+                              builder: (bool isDownloadingActive,bool isAudioRunning){
+                                return ValueListenableBuilder(
+                                    valueListenable: rebuildItems,
+                                    builder: (context,value,child){
+                                      return TopicIconItem(
+                                          isDownloadingActive: isDownloadingActive,
+                                          isAudioRunning: isAudioRunning,
+                                          trailing: (lastSavePoint?.pos ==item.cuzNo)?getPointWidget(context):null,
+                                          label: item.name,
+                                          iconData: FontAwesomeIcons.bookQuran,
+                                          onLongPress: (){
+                                            showBottomMenuFunc(pos: item.cuzNo, navigate: (){
+                                              _navigateTo(item,true);
+                                            }, topicSavePointEnum: _topicSavePointEnum,
+                                                parentKey: _topicSavePointEnum.defaultParentKey);
+                                          },
+                                          onTap: () {
+                                            _navigateTo(item,false);
+                                          });
+                                    });
+                              },
+                            );
+                          },
+                          itemCount: items.length,
+                        );
+                      },
                     );
                   }),
                 ),

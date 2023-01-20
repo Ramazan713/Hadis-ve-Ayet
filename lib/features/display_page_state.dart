@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/constants/app_constants.dart';
 import 'package:hadith/constants/enums/data_paging_status_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/constants/menu_resources.dart';
-import 'package:hadith/constants/save_point_constant.dart';
+import 'package:hadith/features/save_point/constants/save_point_constant.dart';
 import 'package:hadith/db/entities/list_entity.dart';
 import 'package:hadith/features/paging/bloc/paging_state.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_state.dart';
+import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/models/save_point_argument.dart';
 import 'package:hadith/utils/ad_util.dart';
 import 'package:hadith/db/entities/savepoint.dart';
@@ -24,8 +24,8 @@ import 'package:hadith/features/paging/i_paging_loader.dart';
 import 'package:hadith/features/paging/mixin/list_mixin.dart';
 import 'package:hadith/features/paging/paging_argument.dart';
 import 'package:hadith/features/paging/paging_loader_factory.dart';
-import 'package:hadith/features/save_point/bloc/save_point_bloc.dart';
-import 'package:hadith/features/save_point/bloc/save_point_event.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_bloc.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_event.dart';
 import 'package:hadith/menus/menu_display_item.dart';
 import 'package:hadith/models/i_add_list_common.dart';
 import 'package:hadith/models/menu_model.dart';
@@ -109,7 +109,8 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
             _interstitialAd?.show();
           }
           return Future.value(true);
-        },child: buildPage(context));
+        },child: buildPage(context)
+        );
       },
     );
   }
@@ -131,7 +132,7 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
     //this if else-if block provides to prohibit appbar which scrolling up to collapse
     // because of state.pagingSuccess
     //if state.pagingSuccess occurred first time,it will prohibit to collapse bar else do whatever
-    if(!isScrollUp&&!lastIsPrevSuccessScroll&&state?.status==DataPagingStatus.pagingSuccess){
+    if(!isScrollUp&&!lastIsPrevSuccessScroll&&state?.status==DataPagingStatus.prevPagingSuccess){
       lastIsPrevSuccessScroll=true;
     }else if(lastIsPrevSuccessScroll){
       lastIsPrevSuccessScroll=false;
@@ -201,11 +202,11 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
   void setArgumentWithSavePoint(SavePoint savePoint){
     final label=savePoint.parentName;
     var loader=PagingLoaderFactory.getLoaderWithBookBinaryId(
-        savePoint.bookIdBinary, savePoint.savePointType, savePoint.parentKey, context);
+        savePoint.bookScope, savePoint.savePointType, savePoint.parentKey, context);
 
     setArgument(PagingArgument(originTag:savePoint.savePointType,
-        savePointArg: SavePointArg(id: savePoint.id,parentKey: savePoint.parentKey),
-        bookIdBinary: savePoint.bookIdBinary,
+        savePointArg: SavePointLoadArg(id: savePoint.id,parentKey: savePoint.parentKey),
+        bookScope: savePoint.bookScope,
         searchKey: getArgument().searchKey,
         loader: loader,title:label));
 
@@ -218,27 +219,14 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
     final argument=getArgument();
     final savePointArg=argument.savePointArg;
     final savePointBloc=context.read<SavePointBloc>();
-    if(savePointArg.loadNearPoint){
-      savePointBloc.add(SavePointEventRequestNearPoint(
-          savePointType: argument.originTag.savePointId,
-          parentKey: savePointArg.parentKey));
-    } else if(savePointArg.id!=null){
-      savePointBloc.add(SavePointEventRequestWithId(savePointId: savePointArg.id));
-    }else{
-      savePointBloc.add(SavePointEventAutoRequest(originTag: argument.originTag,
-          bookIdBinary: argument.bookIdBinary, parentKey: savePointArg.parentKey));
-    }
+    savePointBloc.add(SavePointEventRequest(savePointArg: savePointArg, originTag: argument.originTag));
   }
 
   void _saveAuto(){
     final argument=getArgument();
     if(kAutoSavePointOrigins.contains(argument.originTag)){
       context.read<SavePointBloc>().add(SavePointEventAutoInsert(
-          parentName: argument.title,
-          itemIndexPos: lastIndex,
-          originTag: argument.originTag,
-          bookIdBinary: argument.bookIdBinary,
-          parentKey: argument.savePointArg.parentKey));
+          savePointParam: SavePointParam.fromPagingArgument(argument, lastIndex),));
     }
   }
 

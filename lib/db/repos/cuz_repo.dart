@@ -9,4 +9,6 @@ class CuzRepo{
   CuzRepo({required this.cuzDao});
 
   Future<List<Cuz>>getAllCuz()=>cuzDao.getAllCuz();
+
+  Future<Cuz?>getCuz(int cuzNo) => cuzDao.getCuz(cuzNo);
 }

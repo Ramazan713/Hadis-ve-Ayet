@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_paging_status_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
 import 'package:hadith/constants/enums/verse_edit_enum.dart';
@@ -12,37 +12,43 @@ import 'package:hadith/constants/menu_resources.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/dialogs/show_select_font_size_bottom_dia.dart';
-import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/features/paging/bloc/paging_bloc.dart';
-import 'package:hadith/features/verse/show_select_verse_ui.dart';
-import 'package:hadith/features/verse/verse_bottom_menu.dart';
+import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/features/add_to_list/model/edit_select_list_model.dart';
 import 'package:hadith/features/add_to_list/bloc/list_bloc.dart';
 import 'package:hadith/features/add_to_list/model/select_verse_list_loader.dart';
 import 'package:hadith/features/display_page_state.dart';
 import 'package:hadith/features/paging/i_paging_loader.dart';
 import 'package:hadith/features/paging/paging_argument.dart';
-import 'package:hadith/features/save_point/bloc/save_point_bloc.dart';
-import 'package:hadith/features/save_point/bloc/save_point_state.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_bloc.dart';
+import 'package:hadith/features/save_point/save_point_bloc/save_point_state.dart';
 import 'package:hadith/features/save_point/show_select_savepoint_bottom_dia.dart';
-import 'package:hadith/models/item_label_model.dart';
+import 'package:hadith/features/verse/common_components/audio_player_widget.dart';
+import 'package:hadith/features/verse/common_components/download_audio_info_item.dart';
+import 'package:hadith/features/verse/common_components/verse_audios_connect.dart';
+import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_bloc.dart';
+import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_event.dart';
+import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_state.dart';
+import 'package:hadith/models/menu_model.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:hadith/utils/share_utils.dart';
 import 'package:hadith/features/share/show_preview_share_image_dia.dart';
 import 'package:hadith/features/share/show_share_alert_dialog.dart';
 import 'package:hadith/features/share/widget/list_tile_share_item.dart';
-import 'package:hadith/features/verse/widget/verse_item.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/widgets/custom_sliver_appbar.dart';
 import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
 import 'package:hadith/widgets/menu_button.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/app_constants.dart';
 import '../paging/widgets/custom_scrolling_paging.dart';
-import 'model/verse_model.dart';
-
-
-
+import 'common_components/audio_info_item.dart';
+import 'common_components/verse_item.dart';
+import 'common_dialogs/show_select_edition.dart';
+import 'common_dialogs/show_select_verse_ui.dart';
+import 'common_dialogs/show_verse_bottom_menu.dart';
+import 'common_models/verse_model.dart';
 
 class VerseScreen extends StatefulWidget {
   static const id = "VerseScreen";
@@ -52,38 +58,36 @@ class VerseScreen extends StatefulWidget {
   State<VerseScreen> createState() => _VerseScreenState();
 }
 
-class _VerseScreenState extends DisplayPageState<VerseScreen> {
-
-  final SharedPreferences sharedPreferences=LocalStorage.sharedPreferences;
+class _VerseScreenState extends DisplayPageState<VerseScreen> with TickerProviderStateMixin {
+  final SharedPreferences sharedPreferences = LocalStorage.sharedPreferences;
   late final bool useArchiveListFeatures;
   late final bool showListVerseIcons;
 
-  ArabicVerseUIEnum lastSelectedArabicUI=ArabicVerseUIEnum.both;
+  ArabicVerseUIEnum lastSelectedArabicUI = ArabicVerseUIEnum.both;
 
   @override
   void initState() {
     super.initState();
-    lastSelectedArabicUI=ArabicVerseUIEnum.values[sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key)
-        ??PrefConstants.arabicVerseAppearanceEnum.defaultValue];
 
-    useArchiveListFeatures = sharedPreferences
-        .getBool(PrefConstants.useArchiveListFeatures.key)??PrefConstants.useArchiveListFeatures.defaultValue;
+    lastSelectedArabicUI = ArabicVerseUIEnum.values[
+        sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key) ??
+            PrefConstants.arabicVerseAppearanceEnum.defaultValue];
 
-    showListVerseIcons = sharedPreferences.getBool(PrefConstants.showVerseListIcons.key)??
-        PrefConstants.showVerseListIcons.defaultValue;
+    useArchiveListFeatures =
+        sharedPreferences.getBool(PrefConstants.useArchiveListFeatures.key) ??
+            PrefConstants.useArchiveListFeatures.defaultValue;
 
+    showListVerseIcons =
+        sharedPreferences.getBool(PrefConstants.showVerseListIcons.key) ??
+            PrefConstants.showVerseListIcons.defaultValue;
   }
 
-  void _showSavePointBottomDia(int itemIndex){
+  void _showSavePointBottomDia(int itemIndex) {
     showSelectSavePointBottomDia(context,
-        parentName: pagingArgument.title,
-        bookIdBinary: pagingArgument.bookIdBinary,
-        itemIndexPos: itemIndex,
-        originTag: pagingArgument.originTag,
-        parentKey: pagingArgument.savePointArg.parentKey,
+        savePointParam: SavePointParam.fromPagingArgument(pagingArgument, itemIndex),
         changeLoaderListener: (savePoint) {
-          setArgumentWithSavePoint(savePoint);
-        });
+      setArgumentWithSavePoint(savePoint);
+    });
   }
 
   void _execAppBarMenus(int selected) {
@@ -99,6 +103,9 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> {
       case MenuResources.cleanSearchText:
         cleanableSearchText = null;
         rebuildItemNotifier.value = !rebuildItemNotifier.value;
+        break;
+      case MenuResources.showSelectEdition:
+        showSelectEdition(context);
         break;
     }
   }
@@ -126,53 +133,70 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> {
     ];
   }
 
-  void _execShowBottomMenu(VerseModel item, ListBloc listBloc) {
+  void _execShowBottomMenu(VerseModel item, ListBloc listBloc,
+      List<VerseModel> items, VerseAudioBloc audioBloc) async {
     showVerseBottomMenu(context,
         isFavorite: item.isFavorite,
         verse: item.item,
-        isAddListNotEmpty: item.isAddListNotEmpty, listener: (verseEditEnum) {
+        isAddListNotEmpty: item.isAddListNotEmpty,
+        listener: (verseEditEnum) async {
       switch (verseEditEnum) {
+        case VerseEditEnum.play:
+          audioBloc.add(AudioEventRequestOption(verseModel: item,originTag: getArgument().originTag));
+          Navigator.pop(context);
+          break;
         case VerseEditEnum.share:
           showShareAlertDialog(context, listItems: getShareListItems(item));
           break;
         case VerseEditEnum.addList:
           Navigator.pop(context);
-          final listParam = EditSelectListModel(context: context, listCommon: item,
-              favoriteListId: FavoriteListIds.verse, loader: getLoader(),
+          final listParam = EditSelectListModel(
+              context: context,
+              listCommon: item,
+              favoriteListId: FavoriteListIds.verse,
+              loader: getLoader(),
               updateArea: () {
                 rebuildItems();
               });
           editSelectedLists(
               listParam,
               SelectVerseListLoader(
-                  context: context, verseId: item.item.id ?? 0), false,
-               changeListener: showListVerseIcons==false?null:(selectedLists){
-                final anyArchive=selectedLists.any((e) => e.isArchive);
-                final isNotEmptyList=selectedLists.isNotEmpty;
-                var isRebuild=false;
-                if(useArchiveListFeatures&&anyArchive!=item.isArchiveAddedToList){
-                  item.isArchiveAddedToList=anyArchive;
-                  isRebuild=true;
-                }
-                if(isNotEmptyList!=item.isAddListNotEmpty){
-                  item.isAddListNotEmpty=isNotEmptyList;
-                  isRebuild=true;
-                }
-                if(isRebuild){
-                  rebuildItems();
-                }
-          });
+                  context: context, verseId: item.item.id ?? 0),
+              false,
+              changeListener: showListVerseIcons == false
+                  ? null
+                  : (selectedLists) {
+                      final anyArchive = selectedLists.any((e) => e.isArchive);
+                      final isNotEmptyList = selectedLists.isNotEmpty;
+                      var isRebuild = false;
+                      if (useArchiveListFeatures &&
+                          anyArchive != item.isArchiveAddedToList) {
+                        item.isArchiveAddedToList = anyArchive;
+                        isRebuild = true;
+                      }
+                      if (isNotEmptyList != item.isAddListNotEmpty) {
+                        item.isAddListNotEmpty = isNotEmptyList;
+                        isRebuild = true;
+                      }
+                      if (isRebuild) {
+                        rebuildItems();
+                      }
+                    });
           break;
         case VerseEditEnum.copy:
           ShareUtils.copyVerseText(item.item);
           break;
         case VerseEditEnum.addFavorite:
-          final listParam = EditSelectListModel(context: context, listCommon: item,
-              favoriteListId: FavoriteListIds.verse, loader: getLoader(),
+          final listParam = EditSelectListModel(
+              context: context,
+              listCommon: item,
+              favoriteListId: FavoriteListIds.verse,
+              loader: getLoader(),
               updateArea: () {
                 rebuildItems();
               });
-          listBloc.setLoader(SelectVerseListLoader(context: context,
+          listBloc.setLoader(SelectVerseListLoader(
+            context: context,
             verseId: item.item.id ?? 0,
           ));
           addOrRemoveFavoriteList(listParam, listBloc, !item.isFavorite,
@@ -188,123 +212,185 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> {
     });
   }
 
-  @override
-  Widget buildPage(BuildContext context) {
-
-
-    if(pagingArgument.originTag==OriginTag.search&&
-        lastSelectedArabicUI==ArabicVerseUIEnum.onlyArabic){
-      lastSelectedArabicUI=ArabicVerseUIEnum.onlyMeal;
-    }
-
-    return BlocProvider(
-      create: (context)=>CustomPagingBloc(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
-          backgroundColor: Theme.of(context).primaryColor,
-          body: SafeArea(
-            child: CustomSliverNestedView(
-              context,
-              scrollController: nestedViewScrollController,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  CustomSliverAppBar(
-                    title: ValueListenableBuilder(
-                      valueListenable: changeBarTitleNotifier,
-                      builder: (context, value, child) {
-                        return Text(pagingArgument.title);
-                      },
-                    ),
-                    actions: [
-                      IconButton(onPressed: (){
-                        showSelectVerseUi(context,callback: (selected){
-                          lastSelectedArabicUI=selected;
-                          rebuildItems();
-                        });
-                      }, icon: const Icon(Icons.view_agenda),tooltip: "Görünümü Değiştir",),
-                      IconButton(
-                          onPressed: () {
-                            showGetNumberBottomDia(context, (selected) {
-                              customPagingController.setPageEvent(
-                                  limitNumber: limitCount, itemIndex: selected);
-                            }, currentIndex: lastIndex, limitIndex: itemCount - 1);
-                          },
-                          icon: const Icon(Icons.map)),
-                      ValueListenableBuilder(
-                          valueListenable: rebuildItemNotifier,
-                          builder: (context, value, child) {
-                            return MenuButton<int>(
-                                items: getPopUpMenus(),
-                                selectedFunc: (selected) {
-                                  _execAppBarMenus(selected);
-                                });
-                          }),
-                    ],
-                  )
-                ];
-              },
-              child: BlocListener<SavePointBloc, SavePointState>(
-                listener: (context, state) {
-                  if (state.status == DataStatus.success) {
-                    final itemIndex = (state.savePoint?.itemIndexPos) ?? 0;
-                    customPagingController.setPageEventWhenReady(
-                        limitNumber: limitCount, itemIndex: itemIndex);
-                  }
-                },
-                child: CustomScrollingPaging(
-                    customPagingController: customPagingController,
-                    loader: getLoader(),
-                    buildWhen: (prevState, nextState) {
-                      if (nextState.status == DataPagingStatus.setPagingSuccess) {
-                        itemCount = nextState.itemCount;
-                      }
-                      return true;
-                    },
-                    itemBuilder: (context, index, item, state) {
-
-                      if (item is VerseModel) {
-                        return ValueListenableBuilder(
-                            valueListenable: rebuildItemNotifier,
-                            builder: (context, value, child) {
-                              return VerseItem(
-                                key: ObjectKey(value),
-                                rowNumber: item.rowNumber,
-                                arabicVerseUIEnum: lastSelectedArabicUI,
-                                verseModel: item,
-                                searchKey: cleanableSearchText,
-                                fontSize: state.fontSize,
-                                showListVerseIcons: showListVerseIcons,
-                                searchCriteriaEnum: searchCriteriaEnum,
-                                onLongPress: () {
-                                  _execShowBottomMenu(item, listBloc);
-                                },
-                              );
-                            });
-                      }
-                      return const Text("");
-                    },
-                    page: 1,
-                    isPlaceHolderActive: true,
-                    limitNumber: limitCount,
-                    prevLoadingPlaceHolderCount: 1,
-                    forwardValue: 3,
-                    minMaxListener: (minPos, maxPos, state) {
-                      lastIndex =
-                          state?.items[(minPos + maxPos) ~/ 2]?.rowNumber;
-                      checkAppBarVisibilityForTop(minPos);
-                    },
-                    scrollListener: (isScrollUp,state){
-                      appBarVisibility(isScrollUp,state);
-                    },
-                    isItemLoadingWidgetPlaceHolder: true,
-                    placeHolderWidget: getVerseShimmer(context)
-                ),
-              ),
-            ),
-          )),
-    );
+  void onContentTap(VerseAudioBloc audioBloc) {
+    audioBloc.add(AudioEventChangeVisibilityAudioWidget());
   }
 
+  final ItemScrollController itemScrollController = ItemScrollController();
+
+  @override
+  Widget buildPage(BuildContext context) {
+    final audioBloc = context.read<VerseAudioBloc>();
+
+    if (pagingArgument.originTag == OriginTag.search &&
+        lastSelectedArabicUI == ArabicVerseUIEnum.onlyArabic) {
+      lastSelectedArabicUI = ArabicVerseUIEnum.onlyMeal;
+    }
+
+    return VerseAudiosConnect(
+      child: MultiBlocProvider(
+        providers: [BlocProvider(create: (context) => CustomPagingBloc())],
+        child: Scaffold(
+            bottomSheet: const AudioPlayerWidget(),
+            resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
+            backgroundColor: Theme.of(context).primaryColor,
+            body: SafeArea(
+              child: CustomSliverNestedView(
+                context,
+                scrollController: nestedViewScrollController,
+                isBottomNavAffected: false,
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    CustomSliverAppBar(
+                      title: ValueListenableBuilder(
+                        valueListenable: changeBarTitleNotifier,
+                        builder: (context, value, child) {
+                          return Text(pagingArgument.title);
+                        },
+                      ),
+                      actions: [
+                        IconButton(
+                          onPressed: () async{
+                            showSelectVerseUi(context, callback: (selected) {
+                              lastSelectedArabicUI = selected;
+                              rebuildItems();
+                            });
+                          },
+                          icon: const Icon(Icons.view_agenda),
+                          tooltip: "Görünümü Değiştir",
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              showGetNumberBottomDia(context, (selected) {
+                                customPagingController.setPageEvent(
+                                    limitNumber: limitCount,
+                                    itemIndex: selected);
+                              },
+                                  currentIndex: lastIndex,
+                                  limitIndex: itemCount - 1);
+                            },
+                            icon: const Icon(Icons.map)),
+                        ValueListenableBuilder(
+                            valueListenable: rebuildItemNotifier,
+                            builder: (context, value, child) {
+                              return MenuButton<int>(
+                                  items: getPopUpMenus()
+                                    ..add(MenuModel(label: "Kıraat Seç", value: MenuResources.showSelectEdition,
+                                        iconData: Icons.record_voice_over)),
+                                  selectedFunc: (selected) {
+                                    _execAppBarMenus(selected);
+                                  });
+                            }),
+                      ],
+                    )
+                  ];
+                },
+                child: BlocListener<SavePointBloc, SavePointState>(
+                  listener: (context, state) {
+                    if (state.status == DataStatus.success) {
+                      final itemIndex = (state.savePoint?.itemIndexPos) ?? 0;
+                      customPagingController.setPageEventWhenReady(
+                          limitNumber: limitCount, itemIndex: itemIndex);
+                    }
+                  },
+                  child: GestureDetector(
+                    onTap: (){onContentTap(audioBloc);},
+                    child:  Column(
+                      children: [
+                        const DownloadAudioInfoItem(),
+                        const AudioInfoItem(),
+                        Expanded(
+                          child: CustomScrollingPaging(
+                              itemScrollController: itemScrollController,
+                              customPagingController: customPagingController,
+                              loader: getLoader(),
+                              buildWhen: (prevState, nextState) {
+                                if (nextState.status ==
+                                    DataPagingStatus.setPagingSuccess) {
+                                  itemCount = nextState.itemCount;
+                                }
+                                return true;
+                              },
+                              itemBuilder: (context, index, item, state) {
+                                if (item is VerseModel) {
+                                  return BlocConsumer<VerseAudioBloc, VerseAudioState>(
+                                    listenWhen:(prevState, nextState) {
+                                      return prevState.currentAudio?.audio?.mealId !=
+                                          nextState.currentAudio?.audio?.mealId && nextState.isActive();
+                                    },
+                                    listener: (context,audioState){
+                                      if(audioState.followAudioText){
+                                        final index = state.items.indexWhere((element) => element.item.id == audioState.getAudio()?.mealId);
+                                        if(index!=-1){
+                                          itemScrollController.scrollTo(
+                                              index: index,
+                                              alignment: 0.2,
+                                              duration: const Duration(milliseconds: 300));
+                                        }
+                                      }
+                                    },
+                                    buildWhen: (prevState, nextState) {
+                                      return prevState.currentAudio?.audio?.mealId !=
+                                          nextState.currentAudio?.audio?.mealId || prevState.isActive()!=nextState.isActive();
+                                    },
+                                    builder: (context, audioState) {
+                                      return ValueListenableBuilder(
+                                          valueListenable: rebuildItemNotifier,
+                                          builder: (context, value, child) {
+                                            return VerseItem(
+                                              key: ObjectKey(value),
+                                              isSelected: audioState.isActive() &&
+                                                  item.item.id == audioState.currentAudio?.audio?.mealId,
+                                              rowNumber: item.rowNumber,
+                                              arabicVerseUIEnum:
+                                              lastSelectedArabicUI,
+                                              verseModel: item,
+                                              searchKey: cleanableSearchText,
+                                              fontSize: state.fontSize,
+                                              showListVerseIcons:
+                                              showListVerseIcons,
+                                              searchCriteriaEnum:
+                                              searchCriteriaEnum,
+                                              onLongPress: () {
+                                                _execShowBottomMenu(item, listBloc,
+                                                    state.items.map((e) => e as VerseModel).toList(), audioBloc);
+                                              },
+                                              onPress: () {
+                                                onContentTap(audioBloc);
+                                              },
+                                            );
+                                          });
+                                    },
+                                  );
+                                }
+                                return const Text("");
+                              },
+                              page: 1,
+                              isPlaceHolderActive: true,
+                              limitNumber: limitCount,
+                              prevLoadingPlaceHolderCount: 1,
+                              forwardValue: 3,
+                              minMaxListener: (minPos, maxPos, state) {
+                                lastIndex =
+                                    state?.items[(minPos + maxPos) ~/ 2]?.rowNumber;
+                                checkAppBarVisibilityForTop(minPos);
+                              },
+                              scrollListener: (isScrollUp, state) {
+                                appBarVisibility(isScrollUp, state);
+                              },
+                              isItemLoadingWidgetPlaceHolder: true,
+                              placeHolderWidget: getVerseShimmer(context)),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )),
+      ),
+    );
+  }
 
   @override
   PagingArgument getArgument() => pagingArgument;

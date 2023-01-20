@@ -4,7 +4,8 @@ import 'package:hadith/constants/verse_constant.dart';
 import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/dialogs/show_info_bottom_dia.dart';
-import 'package:hadith/features/verse/model/verse_model.dart';
+
+import 'common_models/verse_model.dart';
 
 
 List<Widget> getVerseItemContent(List<TextSpan> content,VerseModel verseModel,double fontSize
@@ -77,7 +78,7 @@ Widget getArabicVerseWidget(VerseModel verseModel,double fontSize,TextStyle? con
       children: [
         TextSpan(text: arabicVerse.verse,style: contentTextStyle?.copyWith(
             fontFamily: "ScheherazadeNew",
-            fontSize: fontSize+11,
+            fontSize: fontSize+13,
             height: 2.0
         )),
         WidgetSpan(child: Stack(

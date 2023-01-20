@@ -4,6 +4,7 @@ import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/features/bottom_nav/widget/bottom_nav_widget_state.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/search/search_funcs.dart';
 import 'package:hadith/features/search/show_select_search_criteria.dart';
 import 'package:hadith/utils/localstorage.dart';
@@ -11,7 +12,7 @@ import 'package:hadith/widgets/custom_button_positive.dart';
 import 'package:hadith/constants/common_menu_items.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/history/bloc/history_bloc.dart';
 import 'package:hadith/features/history/bloc/history_event.dart';
 import 'package:hadith/features/history/bloc/history_state.dart';
@@ -83,11 +84,9 @@ class _SearchPageState extends BottomNavWidgetState<SearchPage> {
                     }),
                     getSavePointIcon(onPress: (){
                       showSelectSavePointWithBookDia(context,
-                          bookEnum: BookEnum.none, bookBinaryIds:[
-                            BookEnum.sitte.bookIdBinary,BookEnum.serlevha.bookIdBinary,
-                            BookEnum.sitte.bookIdBinary|BookEnum.serlevha.bookIdBinary,
-                            BookEnum.dinayetMeal.bookIdBinary
-                          ],filter: OriginTag.search);
+                          bookEnum: BookEnum.none,
+                          bookScopes: BookScopeEnum.values,
+                          filter: OriginTag.search);
                     }),
                     getSettingIcon(context),
                   ],

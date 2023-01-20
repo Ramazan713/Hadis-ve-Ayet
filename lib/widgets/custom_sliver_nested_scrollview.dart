@@ -16,6 +16,8 @@ class CustomSliverNestedView extends NestedScrollView {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             if(isBottomNavAffected){
               context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: innerBoxIsScrolled));
+            }else{
+              context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: true));
             }
             return headerSliverBuilder(context, innerBoxIsScrolled);
           },controller: scrollController

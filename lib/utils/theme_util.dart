@@ -16,6 +16,10 @@ class ThemeUtil{
     return ThemeTypesEnum.values[(sharedPreferences.getInt(PrefConstants.themeTypeEnum.key)??0)];
   }
 
+  static ThemeTypesEnum getDefaultTheme(){
+    return ThemeTypesEnum.values[PrefConstants.themeTypeEnum.defaultValue];
+  }
+
   static ThemeMode getThemeMode(){
     ThemeTypesEnum themeTypesEnum=getThemeEnum();
 

@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/features/backup/components/icon_text_item.dart';
+import 'package:hadith/features/settings/auth_bloc/auth_bloc.dart';
+import 'package:hadith/features/settings/auth_bloc/auth_event.dart';
 import 'package:hadith/widgets/custom_button1.dart';
 import 'package:hadith/widgets/custom_button_positive.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
-import 'package:hadith/features/backup/cloud_backup_manager.dart';
 import 'package:hadith/features/backup/show_cloud_download_backup_dia.dart';
 
-void showBackup(BuildContext context,{required CloudBackupManager backupManager,
-  required User user}){
+void showBackup(BuildContext context){
+
+  final authBloc = context.read<AuthBloc>();
 
   showDialog(context: context, builder: (context){
     return Dialog(
@@ -28,24 +32,20 @@ void showBackup(BuildContext context,{required CloudBackupManager backupManager,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.cloud),
-                            const SizedBox(width: 7,),
-                            Text("Bulut yedekleme",style: Theme.of(context).textTheme.headline6,)
-                          ],
+                        const IconTextItem(
+                          iconData: Icons.cloud,
+                          title: "Bulut yedekleme",
                         ),
                         const SizedBox(height: 29,),
                         CustomButtonPositive(onTap: (){
                           showCustomAlertBottomDia(context,title: "Devam etmek istiyor musunuz?",
                           content: "Bazı yedek dosyalarınızın değişmesine neden olabilir",btnApproved: (){
-                                backupManager.uploadBackup(user);
+                                authBloc.add(AuthEventUploadBackup());
                               });
                         },label:"Yedek Oluştur" ,),
                         const SizedBox(height: 13,),
                         CustomButtonPositive(onTap: (){
-                          showDownloadBackupDia(context,cloudBackupManager: backupManager,user: user);
+                          showDownloadBackupDia(context);
                         },label:"Buluttan İndir" ,),
                       ],
                     ),

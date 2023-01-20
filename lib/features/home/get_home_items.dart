@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_item.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 import '../../constants/enums/book_enum.dart';
-import '../../constants/enums/origin_tag_enum.dart';
+import '../save_point/constants/origin_tag_enum.dart';
 import '../../models/save_point_argument.dart';
 import '../hadith/hadith_router.dart';
 import '../paging/hadith_loader/hadith_serlevha_paging_loader.dart';
@@ -36,8 +37,8 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
             routeHadithPage(
                 context,
                 PagingArgument(
-                    savePointArg: SavePointArg(parentKey: BookEnum.serlevha.bookId.toString()),
-                    bookIdBinary: BookEnum.serlevha.bookIdBinary,
+                    savePointArg: SavePointLoadArg(parentKey: BookEnum.serlevha.bookId.toString()),
+                    bookScope: BookScopeEnum.serlevha,
                     title: "Tümü",
                     loader: loader,
                     originTag: originTag));
@@ -59,9 +60,9 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           onTap: () {
             showSelectSavePointWithBookDia(context,
                 bookEnum: BookEnum.serlevha,
-                bookBinaryIds: [
-                  BookEnum.serlevha.bookIdBinary,
-                  BookEnum.sitte.bookIdBinary | BookEnum.serlevha.bookIdBinary
+                bookScopes: [
+                  BookScopeEnum.serlevha,
+                  BookScopeEnum.serlevhaSitte
                 ],
                 exclusiveTags: [
                   OriginTag.surah,
@@ -80,8 +81,8 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
             routeHadithPage(
                 context,
                 PagingArgument(
-                    savePointArg: SavePointArg(parentKey:BookEnum.sitte.bookId.toString() ),
-                    bookIdBinary: BookEnum.sitte.bookIdBinary,
+                    savePointArg: SavePointLoadArg(parentKey:BookEnum.sitte.bookId.toString() ),
+                    bookScope: BookScopeEnum.sitte,
                     title: "Tümü",
                     loader: loader,
                     originTag: originTag));
@@ -102,9 +103,9 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           onTap: () {
             showSelectSavePointWithBookDia(context,
                 bookEnum: BookEnum.sitte,
-                bookBinaryIds: [
-                  BookEnum.sitte.bookIdBinary,
-                  BookEnum.sitte.bookIdBinary | BookEnum.serlevha.bookIdBinary
+                bookScopes: [
+                  BookScopeEnum.sitte,
+                  BookScopeEnum.serlevhaSitte
                 ],
                 exclusiveTags: [
                   OriginTag.surah,
@@ -120,7 +121,7 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           iconData: FontAwesomeIcons.bookOpenReader,
           onTap: () {
             final sectionArgument =
-            SectionArgument(bookEnum: BookEnum.dinayetMeal);
+            SectionArgument(bookEnum: BookEnum.diyanetMeal);
             Navigator.pushNamed(context, SectionScreen.id,
                 arguments: sectionArgument);
           },
@@ -144,8 +145,8 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           iconData: Icons.save,
           onTap: () {
             showSelectSavePointWithBookDia(context,
-                bookEnum: BookEnum.dinayetMeal,
-                bookBinaryIds: [BookEnum.dinayetMeal.bookIdBinary],
+                bookEnum: BookEnum.diyanetMeal,
+                bookScopes: [BookScopeEnum.diyanetMeal],
                 exclusiveTags: [OriginTag.all]);
           },
         ),

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/features/premium/widgets/premium_feature_item.dart';
 import 'package:hadith/features/premium/widgets/premium_subscription_item.dart';
-import '../../screens/setting_screen.dart';
+import '../settings/setting_screen.dart';
 
 void showPremiumDia(BuildContext context){
 

@@ -13,9 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../entities/savepoint.dart';
 
-class BackupRepo{
+class LocalBackupRepo{
   final BackupDao backupDao;
-  BackupRepo({required this.backupDao});
+  LocalBackupRepo({required this.backupDao});
 
   Future<void>deleteAllData()async{
     await backupDao.deleteHadithLists();

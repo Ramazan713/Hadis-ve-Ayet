@@ -1,9 +1,10 @@
+
 import 'package:floor/floor.dart';
 import 'package:hadith/db/entities/book.dart';
 import 'package:hadith/db/entities/cuz.dart';
 import 'package:hadith/db/entities/i_hadith_verse.dart';
 import 'package:hadith/db/entities/surah.dart';
-
+import 'package:json_annotation/json_annotation.dart';
 
 @Entity(tableName: "verse",foreignKeys: [
   ForeignKey(
@@ -39,8 +40,8 @@ class Verse extends IHadithVerse{
     required this.surahName,required this.isProstrationVerse,int? id,
     required int bookId}):super(id: id,bookId: bookId);
 
-  @override
 
+  @override
   List<Object?> get props => [surahId,cuzNo,pageNo,verseNumber,content
     ,surahName,isProstrationVerse,id,bookId];
 }

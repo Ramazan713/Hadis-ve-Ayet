@@ -1,3 +1,5 @@
+import 'package:hadith/features/settings/audio_setting/audio_settings.dart';
+
 import '../../features/hadith/hadith_page_scrollable.dart';
 import '../../features/list/list_archive_screen.dart';
 import '../../features/search/search_page.dart';
@@ -6,7 +8,7 @@ import '../../features/topic/topic_screen.dart';
 import '../../features/verse/cuz/cuz_screen.dart';
 import '../../features/verse/surah/surah_screen.dart';
 import '../../features/verse/verse_screen.dart';
-import '../../screens/setting_screen.dart';
+import '../settings/setting_screen.dart';
 import 'bottom_navbar.dart';
 
 final kRouters={
@@ -18,6 +20,7 @@ final kRouters={
   CuzScreen.id: (context) => const CuzScreen(),
   SearchPage.id: (context) => const SearchPage(),
   SurahScreen.id: (context) => const SurahScreen(),
-  SettingScreen.id:(context)=>const SettingScreen(),
+  SettingScreen.id:(context)=> SettingScreen(),
   ListArchiveScreen.id:(context)=>const ListArchiveScreen(),
+  AudioSettings.id: (context)=> AudioSettings()
 };

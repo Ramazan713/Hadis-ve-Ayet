@@ -37,7 +37,7 @@ class CustomPagingBloc extends Bloc<IPagingEvent,CustomPagingState>{
 
     emit(state.copyWith(status: DataPagingStatus.nextLoading));
     var items=await _loader.getPagingItems(state.limit,state.nextPage);
-    emit(state.copyWith(status: DataPagingStatus.success,
+    emit(state.copyWith(status: DataPagingStatus.nextPagingSuccess,
         nextPage: state.nextPage+1,
         isNext: items.isNotEmpty,
         items: [...state.items,...items]));
@@ -48,7 +48,7 @@ class CustomPagingBloc extends Bloc<IPagingEvent,CustomPagingState>{
       emit(state.copyWith(status: DataPagingStatus.prevLoading));
       var items = await _loader.getPagingItems(state.limit, state.prevPage);
 
-      emit(state.copyWith(status: DataPagingStatus.pagingSuccess,
+      emit(state.copyWith(status: DataPagingStatus.prevPagingSuccess,
           prevPage: state.prevPage - 1,
           items: [...items, ...state.items]));
     }}

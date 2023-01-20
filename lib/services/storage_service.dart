@@ -7,12 +7,10 @@ import 'package:hadith/db/entities/backup_meta.dart';
 import 'package:hadith/models/resource.dart';
 
 class StorageService{
-  late final Reference rootRef;
-  final storage=FirebaseStorage.instance;
-  final User user;
+  final _storage=FirebaseStorage.instance;
 
-  StorageService({required this.user}){
-    rootRef=storage.ref("Backups/${user.uid}/");
+  Reference _getReference(User user){
+    return _storage.ref("Backups/${user.uid}/");;
   }
 
   BackupMeta _getBackupMeta(FullMetadata fullMetadata){
@@ -23,8 +21,9 @@ class StorageService{
     );
   }
 
-  Future<Resource<List<BackupMeta>>>getFiles()async{
+  Future<Resource<List<BackupMeta>>>getFiles(User user)async{
     return await _errorHandling<List<BackupMeta>>(()async{
+      final rootRef = _getReference(user);
       final backupMetas = <BackupMeta>[];
 
       final listResult=await rootRef.listAll().timeout(const Duration(seconds: kTimeOutSeconds));
@@ -44,16 +43,18 @@ class StorageService{
     }
   }
 
-  Future<Resource<Uint8List?>>getFileData(String name){
+  Future<Resource<Uint8List?>>getFileData(User user,String name){
     return _errorHandling<Uint8List?>(()async{
+      final rootRef = _getReference(user);
       final rawData=await rootRef.child(name).getData().timeout(const Duration(seconds: kTimeOutSeconds));
       return rawData;
     });
 
   }
 
-  Future<Resource<BackupMeta>>uploadData(String name,Uint8List rawData,{bool isAuto=false})async{
+  Future<Resource<BackupMeta>>uploadData(User user,String name,Uint8List rawData,{bool isAuto=false})async{
     return await _errorHandling<BackupMeta>(()async{
+      final rootRef = _getReference(user);
       final result=await rootRef.child(name).putData(rawData,SettableMetadata(
           customMetadata: {
             "isAuto":isAuto.toString()
@@ -66,8 +67,9 @@ class StorageService{
     });
   }
 
-  Future<void>deleteFile(String name)async{
+  Future<void>deleteFile(User user,String name)async{
     await _errorHandling(() async{
+      final rootRef = _getReference(user);
       await rootRef.child(name).delete().timeout(const Duration(seconds: kTimeOutSeconds));
     });
   }

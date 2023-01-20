@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/extensions.dart';
-import 'package:hadith/constants/save_point_constant.dart';
+import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/features/save_point/constants/save_point_constant.dart';
 import 'package:hadith/db/entities/savepoint.dart';
 
 class SavePointItem extends StatelessWidget {
@@ -46,18 +47,23 @@ class SavePointItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Padding(
-                padding: const EdgeInsets.all(7),
-                child: Column(
-                  children: [
-                    const Icon(
-                      Icons.save,
-                      size: 30,
-                    ),
-                    item.isAuto?Text("auto",style: bodyStyle,):const SizedBox()
-                  ],
-                )),
             Expanded(
+              flex: 3,
+              child: Padding(
+                  padding: const EdgeInsets.all(7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.save,
+                        size: 30,
+                      ),
+                      Text( item.autoType.label,style: bodyStyle,textAlign: TextAlign.center,)
+                    ],
+                  )),
+            ),
+            Expanded(
+              flex: 15,
               child: Column(
                 crossAxisAlignment:
                 CrossAxisAlignment.stretch,
@@ -80,12 +86,15 @@ class SavePointItem extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-                onPressed: removeItemListener,
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red.shade300,
-                )),
+            Expanded(
+              flex: 2,
+              child: IconButton(
+                  onPressed: removeItemListener,
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red.shade300,
+                  )),
+            ),
           ],
         ),
       ),

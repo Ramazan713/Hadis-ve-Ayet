@@ -6,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/constants/common_menu_items.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/constants/enums/origin_tag_enum.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
 import 'package:hadith/db/entities/surah.dart';
 import 'package:hadith/features/paging/paging_argument.dart';
@@ -14,6 +15,7 @@ import 'package:hadith/features/paging/verse_loader/verse_surah_paging_loader.da
 import 'package:hadith/features/save_point/show_select_savepoint_with_book_dia.dart';
 import 'package:hadith/features/topic_savepoint/bloc/topic_savepoint_event.dart';
 import 'package:hadith/features/topic_savepoint/topic_savepoint_page_state.dart';
+import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
 import 'package:hadith/features/verse/verse_screen.dart';
 import 'package:hadith/widgets/custom_search_sliver_appbar.dart';
 import 'package:hadith/widgets/custom_sliver_appbar.dart';
@@ -55,8 +57,8 @@ class _SurahScreenState extends TopicSavePointPageState<SurahScreen> {
       actions: [
         getSavePointIcon(onPress: (){
           showSelectSavePointWithBookDia(context,
-              bookEnum: BookEnum.dinayetMeal,
-              bookBinaryIds: [BookEnum.dinayetMeal.bookIdBinary],
+              bookEnum: BookEnum.diyanetMeal,
+              bookScopes: [BookScopeEnum.diyanetMeal],
               filter: OriginTag.surah);
         }),
         searchSliverBar.getIconButton()
@@ -76,8 +78,8 @@ class _SurahScreenState extends TopicSavePointPageState<SurahScreen> {
 
   void _navigateTo(Surah item,bool loadClosedPoint){
     final arg = PagingArgument(
-        bookIdBinary: BookEnum.dinayetMeal.bookIdBinary,
-        savePointArg: SavePointArg(parentKey: item.id.toString(),loadNearPoint: loadClosedPoint),
+        bookScope: BookScopeEnum.diyanetMeal,
+        savePointArg: SavePointLoadArg(parentKey: item.id.toString(),loadNearPoint: loadClosedPoint),
         title: item.name,
         originTag: originTag,
         loader: VerseSurahPagingLoader(
@@ -135,24 +137,34 @@ class _SurahScreenState extends TopicSavePointPageState<SurahScreen> {
                       itemPositionsListener: itemPositionsListener,
                       itemScrollController: itemScrollController,
                       itemBuilder: (context,index){
-                      final item=items[index];
-                      return ValueListenableBuilder(
-                          valueListenable: rebuildItems,
-                          builder: (context,value,child){
-                            return TopicIconItem(label: "${item.id}. ${item.name} ",
-                                iconData: FontAwesomeIcons.bookQuran,
-                                trailing: (lastSavePoint?.pos ==item.id)?getPointWidget(context):null,
-                                onLongPress: isSearching?null:(){
-                                  showBottomMenuFunc(pos: item.id, navigate: (){
-                                    _navigateTo(item,true);
-                                  }, topicSavePointEnum: _topicSavePointEnum,
-                                      parentKey: _topicSavePointEnum.defaultParentKey);
-                                },
-                                onTap: (){
-                                  _navigateTo(item,false);
+                        final item=items[index];
+                        return AudioStateIconItem<int?>(
+                          keyFuncAudio: (state)=>state.getAudio()?.surahId,
+                          keyFuncDownload: (state)=>state.getVoiceModel()?.surahId,
+                          value: item.id,
+                          builder: (bool isDownloadingActive,bool isAudioRunning){
+                            return  ValueListenableBuilder(
+                                valueListenable: rebuildItems,
+                                builder: (context,value,child){
+                                  return TopicIconItem(
+                                      isAudioRunning: isAudioRunning,
+                                      isDownloadingActive: isDownloadingActive,
+                                      label: "${item.id}. ${item.name} ",
+                                      iconData: FontAwesomeIcons.bookQuran,
+                                      trailing: (lastSavePoint?.pos == item.id)?getPointWidget(context):null,
+                                      onLongPress: isSearching?null:(){
+                                        showBottomMenuFunc(pos: item.id, navigate: (){
+                                          _navigateTo(item,true);
+                                        }, topicSavePointEnum: _topicSavePointEnum,
+                                            parentKey: _topicSavePointEnum.defaultParentKey);
+                                      },
+                                      onTap: (){
+                                        _navigateTo(item,false);
+                                      });
                                 });
-                          });
-                    },itemCount: items.length,);
+                          },
+                        );
+                      },itemCount: items.length,);
                   },
                 ),
               ),

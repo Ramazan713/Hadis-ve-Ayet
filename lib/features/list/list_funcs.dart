@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
 import 'package:hadith/db/entities/views/i_list_view.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/utils/sourcetype_helper.dart';
 
 import '../../constants/enums/book_enum.dart';
 import '../../constants/enums/list_edit_enum.dart';
-import '../../constants/enums/origin_tag_enum.dart';
+import '../save_point/constants/origin_tag_enum.dart';
 import '../../dialogs/show_custom_alert_bottom_dia.dart';
 import '../../models/save_point_argument.dart';
-import '../../utils/sourcetype_helper.dart';
 import '../../widgets/menu_item_tile.dart';
 import '../hadith/hadith_router.dart';
 import '../paging/hadith_loader/hadith_list_paging_loader.dart';
@@ -45,15 +46,14 @@ void navigateToFromList(SourceTypeEnum sourceTypeEnum,IListView item, BuildConte
           PagingArgument(
               title: item.name,
               loader: loader,
-              savePointArg: SavePointArg(parentKey: item.id.toString()),
-              bookIdBinary:
-              BookEnum.serlevha.bookIdBinary | BookEnum.sitte.bookIdBinary,
+              savePointArg: SavePointLoadArg(parentKey: item.id.toString()),
+              bookScope: BookScopeEnum.serlevhaSitte,
               originTag: OriginTag.list));
      break;
     case SourceTypeEnum.verse:
       final arg = PagingArgument(
-          savePointArg: SavePointArg(parentKey: item.id.toString()),
-          bookIdBinary: BookEnum.dinayetMeal.bookIdBinary,
+          savePointArg: SavePointLoadArg(parentKey: item.id.toString()),
+          bookScope: BookScopeEnum.diyanetMeal,
           title: item.name,
           originTag: OriginTag.list,
           loader: VerseListPagingLoader(context: context, listId: item.id));

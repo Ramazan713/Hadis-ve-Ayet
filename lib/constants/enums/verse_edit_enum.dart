@@ -1,5 +1,6 @@
 
 enum VerseEditEnum{
+  play,
   share,
   copy,
   addFavorite,

@@ -4,11 +4,12 @@ import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/key_type_model.dart';
-import 'enums/scope_filter_enum.dart';
+import '../features/save_point/constants/scope_filter_enum.dart';
 
 class PrefConstants{
 
@@ -19,6 +20,12 @@ class PrefConstants{
   static KeyTypeModel counterBackupDate=const KeyTypeModel<String>( key: "counterBackupDate",defaultValue: "");
   static KeyTypeModel useArchiveListFeatures=const KeyTypeModel<bool>(key: "useArchiveListFeatures",defaultValue: false);
   static KeyTypeModel showVerseListIcons=const KeyTypeModel<bool>(key: "showVerseListIcons",defaultValue: false);
+  static KeyTypeModel askNotificationPermission=const KeyTypeModel<bool>(key: "askNotificationPermission",defaultValue: true);
+  static KeyTypeModel audioPlayerSpeed=const KeyTypeModel<double>(key: "audioPlayerSpeed",defaultValue: 1.0);
+  static KeyTypeModel audioQuality = KeyTypeModel<int>(key: "audioQuality",defaultValue: AudioQualityEnum.q64.index);
+  static KeyTypeModel audioFollowWithText = const KeyTypeModel<bool>(key: "audioFollowWithText",defaultValue: true);
+
+
 
   static KeyTypeModel showDownloadDiaInLogin=const KeyTypeModel<bool>(key: "showDownloadDiaInLogin", defaultValue: true);
   static KeyTypeModel arabicVerseAppearanceEnum=KeyTypeModel<int>(key: "arabicVerseAppearanceEnum", defaultValue: ArabicVerseUIEnum.both.index);
@@ -26,7 +33,9 @@ class PrefConstants{
 
 
   static List<KeyTypeModel>values()=>[fontSize,searchCriteriaEnum,useArchiveListFeatures,showVerseListIcons,
-    scopeFilterEnum,themeTypeEnum,counterBackupDate,showDownloadDiaInLogin,arabicVerseAppearanceEnum];
+    scopeFilterEnum,themeTypeEnum,counterBackupDate,showDownloadDiaInLogin,arabicVerseAppearanceEnum,
+    audioPlayerSpeed,audioQuality,audioFollowWithText,askNotificationPermission
+  ];
 
 
   static Future<void>setDefaultValues()async{
