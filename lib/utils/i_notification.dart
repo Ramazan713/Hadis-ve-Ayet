@@ -54,12 +54,15 @@ abstract class INotification<T>{
     ]);
   }
 
+  static const List<NotificationPermission> permissions =
+  [NotificationPermission.Badge, NotificationPermission.Light];
+
   static Future<bool> checkPermission()async{
-    return (await AwesomeNotifications().checkPermissionList(channelKey: INotification.notificationChannelKey)).isNotEmpty;
+    return (await AwesomeNotifications().checkPermissionList(channelKey: INotification.notificationChannelKey,permissions: permissions)).isNotEmpty;
   }
 
   static Future<void> requestPermission()async{
-    await AwesomeNotifications().requestPermissionToSendNotifications(channelKey: INotification.notificationChannelKey);
+    await AwesomeNotifications().requestPermissionToSendNotifications(channelKey: INotification.notificationChannelKey,permissions: permissions);
   }
 
 }
