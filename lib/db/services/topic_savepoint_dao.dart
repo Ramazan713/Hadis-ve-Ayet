@@ -2,6 +2,7 @@
 
 import 'package:floor/floor.dart';
 import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 
 @dao
 abstract class TopicSavePointDao{

@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 
 class SavePointEditBookState extends Equatable{

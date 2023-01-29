@@ -2,17 +2,13 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:floor/floor.dart';
-import 'package:hadith/db/converter/book_scope_converter.dart';
-import 'package:hadith/db/converter/origintag_converter.dart';
-import 'package:hadith/db/converter/saveauto_converter.dart';
-import 'package:hadith/db/converter/topic_savepoint_converter.dart';
 import 'package:hadith/db/entities/audio_edition.dart';
 import 'package:hadith/db/entities/backup_meta.dart';
 import 'package:hadith/db/entities/helper/int_data.dart';
 import 'package:hadith/db/entities/history_entity.dart';
-import 'package:hadith/db/entities/savepoint.dart';
-import 'package:hadith/db/entities/savepoint_type_entity.dart';
+import 'package:hadith/db/entities/save_point_entity.dart';
 import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/db/entities/savepoint_type_entity.dart';
 import 'package:hadith/db/entities/user_info_entity.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/db/entities/verse_audio.dart';
@@ -33,7 +29,6 @@ import 'package:hadith/db/services/user_info_dao.dart';
 import 'package:hadith/db/services/verse_arabic_dao.dart';
 import 'package:hadith/db/services/verse_audio_dao.dart';
 import 'package:hadith/db/services/verse_audio_state_dao.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/db/entities/helper/download_voice_entity.dart';
 import 'package:hadith/db/entities/helper/verse_audio_entity.dart';
 import 'entities/hadith_topic.dart';
@@ -61,9 +56,8 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'database.g.dart';
 
-@TypeConverters([OriginTagConverter,TopicSavePointConverter,SaveAutoTypeConverter,BookScopeConverter])
 @Database(version: 3,
-    entities: [Hadith,Cuz,Surah,Topic,Verse,Section,IntData,SavePoint,SavePointTypeEntity,
+    entities: [Hadith,Cuz,Surah,Topic,Verse,Section,IntData,SavePointEntity,SavePointTypeEntity,
       BackupMeta,TopicSavePointEntity,HistoryEntity,UserInfoEntity,IListView,VerseArabic,
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntity],

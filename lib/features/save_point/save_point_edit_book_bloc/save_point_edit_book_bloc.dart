@@ -3,7 +3,7 @@
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/db/repos/save_point_repo.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/save_point_edit_book_bloc/save_point_edit_book_event.dart';

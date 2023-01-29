@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/save_point/save_point_bloc/save_point_bloc.dart';

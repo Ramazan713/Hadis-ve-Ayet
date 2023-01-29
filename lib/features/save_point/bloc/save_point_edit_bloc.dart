@@ -6,7 +6,7 @@ import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/save_point/constants/scope_filter_enum.dart';
 import 'package:hadith/features/save_point/constants/save_point_constant.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/db/repos/save_point_repo.dart';
 import 'package:hadith/features/save_point/bloc/save_point_edit_event.dart';
 import 'package:hadith/features/save_point/bloc/save_point_edit_state.dart';

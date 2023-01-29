@@ -5,7 +5,7 @@ enum OriginTag{
   all,list,topic,surah,cuz,search
 }
 
-extension OriginTagExtension on OriginTag{
+extension OriginTagExt on OriginTag{
   int get savePointId{
     switch(this){
       case OriginTag.list:
@@ -37,6 +37,25 @@ extension OriginTagExtension on OriginTag{
         return "Cüz";
       case OriginTag.search:
         return "Arama";
+    }
+  }
+
+  static OriginTag fromSavePointId(int savePointId){
+    switch(savePointId){
+      case 1:
+        return OriginTag.list;
+      case 2:
+        return OriginTag.topic;
+      case 3:
+        return OriginTag.all;
+      case 4:
+        return OriginTag.surah;
+      case 5:
+        return OriginTag.cuz;
+      case 6:
+        return OriginTag.search;
+      default:
+        return OriginTag.all;
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 
 class SavePointState extends Equatable{
   final DataStatus status;

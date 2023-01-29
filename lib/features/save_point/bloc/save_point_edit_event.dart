@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/constants/scope_filter_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/features/save_point/save_point_bloc/save_point_event.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
 

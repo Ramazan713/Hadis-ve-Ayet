@@ -1,7 +1,7 @@
 
 
 import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
-import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/db/services/topic_savepoint_dao.dart';
 
 class TopicSavePointRepo{
@@ -9,19 +9,21 @@ class TopicSavePointRepo{
 
   TopicSavePointRepo({required this.savePointDao});
 
-  Future<int>insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity)=>
-      savePointDao.insertTopicSavePoint(topicSavePointEntity);
+  Future<int>insertTopicSavePoint(TopicSavePoint topicSavePoint)=>
+      savePointDao.insertTopicSavePoint(topicSavePoint.toTopicSavePointEntity());
 
-  Future<int>updateTopicSavePoint(TopicSavePointEntity topicSavePointEntity)=>
-      savePointDao.updateTopicSavePoint(topicSavePointEntity);
+  Future<int>updateTopicSavePoint(TopicSavePoint topicSavePoint)=>
+      savePointDao.updateTopicSavePoint(topicSavePoint.toTopicSavePointEntity());
 
-  Future<int>deleteTopicSavePoint(TopicSavePointEntity topicSavePointEntity)=>
-      savePointDao.deleteTopicSavePoint(topicSavePointEntity);
+  Future<int>deleteTopicSavePoint(TopicSavePoint topicSavePoint)=>
+      savePointDao.deleteTopicSavePoint(topicSavePoint.toTopicSavePointEntity());
 
-  Stream<TopicSavePointEntity?>getStreamTopicSavePointEntity(TopicSavePointEnum topicSavePointEnum,
-      String parentKey)=>savePointDao.getStreamTopicSavePointEntity(topicSavePointEnum.type, parentKey);
+  Stream<TopicSavePoint?>getStreamTopicSavePointEntity(TopicSavePointEnum topicSavePointEnum,
+      String parentKey)=>savePointDao.getStreamTopicSavePointEntity(topicSavePointEnum.type, parentKey).map((event) => event?.toTopicSavePoint());
 
-  Future<TopicSavePointEntity?>getTopicSavePointEntity(TopicSavePointEnum topicSavePointEnum,
-      String parentKey)=>savePointDao.getTopicSavePointEntity(topicSavePointEnum.type, parentKey);
+  Future<TopicSavePoint?>getTopicSavePointEntity(TopicSavePointEnum topicSavePointEnum,
+      String parentKey)async{
+    return (await savePointDao.getTopicSavePointEntity(topicSavePointEnum.type, parentKey))?.toTopicSavePoint();
+  }
 
 }

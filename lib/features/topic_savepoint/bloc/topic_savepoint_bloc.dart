@@ -1,7 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/db/repos/topic_savepoint_repo.dart';
 import 'package:hadith/features/topic_savepoint/bloc/topic_savepoint_event.dart';
 import 'package:hadith/features/topic_savepoint/bloc/topic_savepoint_state.dart';
@@ -20,7 +20,7 @@ class TopicSavePointBloc extends Bloc<ITopicSavePointEvent,TopicSavePointState>{
 
   void _onRequestSavePoint(TopicSavePointEventRequest event,Emitter<TopicSavePointState>emit)async{
     emit(state.copyWith(keepOldSavePoint: true,status: DataStatus.loading));
-    await emit.forEach<TopicSavePointEntity?>(savePointRepo.
+    await emit.forEach<TopicSavePoint?>(savePointRepo.
       getStreamTopicSavePointEntity(event.topicSavePointEnum, event.parentKey)
         , onData: (data)=>state.copyWith(keepOldSavePoint: false,status: DataStatus.success,topicSavePointEntity: data));
   }

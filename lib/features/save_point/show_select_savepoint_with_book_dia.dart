@@ -10,7 +10,7 @@ import 'package:hadith/widgets/custom_button_positive.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/features/hadith/hadith_router.dart';
 import 'package:hadith/features/paging/paging_argument.dart';
 import 'package:hadith/features/paging/paging_loader_factory.dart';

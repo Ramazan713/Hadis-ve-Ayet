@@ -5,13 +5,15 @@ import 'package:hadith/db/entities/history_entity.dart';
 import 'package:hadith/db/entities/list_entity.dart';
 import 'package:hadith/db/entities/list_hadith_entity.dart';
 import 'package:hadith/db/entities/list_verse_entity.dart';
+import 'package:hadith/db/entities/save_point_entity.dart';
 import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/db/services/backup_dao.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../entities/savepoint.dart';
+import '../../features/save_point/model/savepoint.dart';
 
 class LocalBackupRepo{
   final BackupDao backupDao;
@@ -75,7 +77,7 @@ class LocalBackupRepo{
 
       final hadithLists=hadithListJsonArr.map((e) => ListHadithEntity.fromJson(e)).toList();
       final lists=listsJsonArr.map((e) => ListEntity.fromJson(e)).toList();
-      final savePoints=savePointsJsonArr.map((e) => SavePoint.fromJson(e)).toList();
+      final savePoints=savePointsJsonArr.map((e) => SavePointEntity.fromJson(e)).toList();
       final topicSavePoints=topicSavePointsJsonArr.map((e) => TopicSavePointEntity.fromJson(e)).toList();
       final verseLists=verseListJsonArr.map((e) => ListVerseEntity.fromJson(e)).toList();
       final histories=historiesJsonArr.map((e) => HistoryEntity.fromJson(e)).toList();
@@ -85,7 +87,7 @@ class LocalBackupRepo{
       await listenerBeforeInsertion.call();
 
       await backupDao.insertHistories(histories);
-      await backupDao.insertSavePoints(savePoints);
+      await backupDao.insertSavePoints(savePoints.toList());
       await backupDao.insertTopicSavePoints(topicSavePoints);
 
       await backupDao.insertLists(lists);

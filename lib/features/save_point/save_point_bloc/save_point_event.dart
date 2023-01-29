@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/models/save_point_argument.dart';

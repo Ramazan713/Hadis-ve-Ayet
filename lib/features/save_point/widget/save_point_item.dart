@@ -3,7 +3,7 @@ import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/extensions.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/save_point/constants/save_point_constant.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 
 class SavePointItem extends StatelessWidget {
   final SavePoint item;

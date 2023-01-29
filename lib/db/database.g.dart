@@ -317,7 +317,7 @@ class _$HadithDao extends HadithDao {
             id: row['id'] as int?,
             bookId: row['bookId'] as int),
         arguments: [listId],
-        queryableName: 'hadith',
+        queryableName: 'Hadith',
         isView: false);
   }
 
@@ -332,7 +332,7 @@ class _$HadithDao extends HadithDao {
             id: row['id'] as int?,
             bookId: row['bookId'] as int),
         arguments: [topicId],
-        queryableName: 'hadith',
+        queryableName: 'Hadith',
         isView: false);
   }
 
@@ -927,7 +927,7 @@ class _$ListDao extends ListDao {
             isRemovable: (row['isRemovable'] as int) != 0,
             listPos: row['listPos'] as int),
         arguments: [isArchive ? 1 : 0],
-        queryableName: 'ListHadithView',
+        queryableName: 'listHadithView',
         isView: true);
   }
 
@@ -951,7 +951,7 @@ class _$ListDao extends ListDao {
             isRemovable: (row['isRemovable'] as int) != 0,
             listPos: row['listPos'] as int),
         arguments: [name, or1, or2, or3, isArchive ? 1 : 0],
-        queryableName: 'ListHadithView',
+        queryableName: 'listHadithView',
         isView: true);
   }
 
@@ -968,7 +968,7 @@ class _$ListDao extends ListDao {
             itemCounts: row['itemCounts'] as int,
             isRemovable: (row['isRemovable'] as int) != 0,
             listPos: row['listPos'] as int),
-        queryableName: 'ListHadithView',
+        queryableName: 'listHadithView',
         isView: true);
   }
 
@@ -986,7 +986,7 @@ class _$ListDao extends ListDao {
             isRemovable: (row['isRemovable'] as int) != 0,
             listPos: row['listPos'] as int),
         arguments: [isArchive ? 1 : 0],
-        queryableName: 'ListVerseView',
+        queryableName: 'listVerseView',
         isView: true);
   }
 
@@ -1010,7 +1010,7 @@ class _$ListDao extends ListDao {
             isRemovable: (row['isRemovable'] as int) != 0,
             listPos: row['listPos'] as int),
         arguments: [name, or1, or2, or3, isArchive ? 1 : 0],
-        queryableName: 'ListVerseView',
+        queryableName: 'listVerseView',
         isView: true);
   }
 
@@ -1535,52 +1535,49 @@ class _$SavePointDao extends SavePointDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _savePointInsertionAdapter = InsertionAdapter(
+        _savePointEntityInsertionAdapter = InsertionAdapter(
             database,
             'savePoint',
-            (SavePoint item) => <String, Object?>{
+            (SavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'itemIndexPos': item.itemIndexPos,
                   'title': item.title,
-                  'autoType': _saveAutoTypeConverter.encode(item.autoType),
+                  'autoType': item.autoType,
                   'modifiedDate': item.modifiedDate,
-                  'savePointType':
-                      _originTagConverter.encode(item.savePointType),
-                  'bookScope': _bookScopeConverter.encode(item.bookScope),
+                  'savePointType': item.savePointType,
+                  'bookScope': item.bookScope,
                   'parentName': item.parentName,
                   'parentKey': item.parentKey
                 },
             changeListener),
-        _savePointUpdateAdapter = UpdateAdapter(
+        _savePointEntityUpdateAdapter = UpdateAdapter(
             database,
             'savePoint',
             ['id'],
-            (SavePoint item) => <String, Object?>{
+            (SavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'itemIndexPos': item.itemIndexPos,
                   'title': item.title,
-                  'autoType': _saveAutoTypeConverter.encode(item.autoType),
+                  'autoType': item.autoType,
                   'modifiedDate': item.modifiedDate,
-                  'savePointType':
-                      _originTagConverter.encode(item.savePointType),
-                  'bookScope': _bookScopeConverter.encode(item.bookScope),
+                  'savePointType': item.savePointType,
+                  'bookScope': item.bookScope,
                   'parentName': item.parentName,
                   'parentKey': item.parentKey
                 },
             changeListener),
-        _savePointDeletionAdapter = DeletionAdapter(
+        _savePointEntityDeletionAdapter = DeletionAdapter(
             database,
             'savePoint',
             ['id'],
-            (SavePoint item) => <String, Object?>{
+            (SavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'itemIndexPos': item.itemIndexPos,
                   'title': item.title,
-                  'autoType': _saveAutoTypeConverter.encode(item.autoType),
+                  'autoType': item.autoType,
                   'modifiedDate': item.modifiedDate,
-                  'savePointType':
-                      _originTagConverter.encode(item.savePointType),
-                  'bookScope': _bookScopeConverter.encode(item.bookScope),
+                  'savePointType': item.savePointType,
+                  'bookScope': item.bookScope,
                   'parentName': item.parentName,
                   'parentKey': item.parentKey
                 },
@@ -1592,101 +1589,99 @@ class _$SavePointDao extends SavePointDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<SavePoint> _savePointInsertionAdapter;
+  final InsertionAdapter<SavePointEntity> _savePointEntityInsertionAdapter;
 
-  final UpdateAdapter<SavePoint> _savePointUpdateAdapter;
+  final UpdateAdapter<SavePointEntity> _savePointEntityUpdateAdapter;
 
-  final DeletionAdapter<SavePoint> _savePointDeletionAdapter;
+  final DeletionAdapter<SavePointEntity> _savePointEntityDeletionAdapter;
 
   @override
-  Future<SavePoint?> getSavePoint(
+  Future<SavePointEntity?> getSavePoint(
     int savePointType,
     String parentKey,
     int autoType,
   ) async {
     return _queryAdapter.query(
         'select * from `savepoint` where savePointType=?1    and parentKey=?2 and autoType=?3 order by modifiedDate desc limit 1',
-        mapper: (Map<String, Object?> row) => SavePoint(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: _saveAutoTypeConverter.decode(row['autoType'] as int), modifiedDate: row['modifiedDate'] as String?, savePointType: _originTagConverter.decode(row['savePointType'] as int), bookScope: _bookScopeConverter.decode(row['bookScope'] as int), parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
+        mapper: (Map<String, Object?> row) => SavePointEntity(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: row['autoType'] as int, modifiedDate: row['modifiedDate'] as String?, savePointType: row['savePointType'] as int, bookScope: row['bookScope'] as int, parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
         arguments: [savePointType, parentKey, autoType]);
   }
 
   @override
-  Future<SavePoint?> getSavePointWithId(int id) async {
+  Future<SavePointEntity?> getSavePointWithId(int id) async {
     return _queryAdapter.query('select * from `savepoint` where id=?1',
-        mapper: (Map<String, Object?> row) => SavePoint(
+        mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
             title: row['title'] as String,
-            autoType: _saveAutoTypeConverter.decode(row['autoType'] as int),
+            autoType: row['autoType'] as int,
             modifiedDate: row['modifiedDate'] as String?,
-            savePointType:
-                _originTagConverter.decode(row['savePointType'] as int),
-            bookScope: _bookScopeConverter.decode(row['bookScope'] as int),
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [id]);
   }
 
   @override
-  Stream<List<SavePoint>> getStreamSavePoints(
+  Stream<List<SavePointEntity>> getStreamSavePoints(
     int savePointType,
     String parentKey,
   ) {
     return _queryAdapter.queryListStream(
         'select * from `savepoint` where    savePointType=?1 and parentKey=?2    order by modifiedDate desc',
-        mapper: (Map<String, Object?> row) => SavePoint(
+        mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
             title: row['title'] as String,
-            autoType: _saveAutoTypeConverter.decode(row['autoType'] as int),
+            autoType: row['autoType'] as int,
             modifiedDate: row['modifiedDate'] as String?,
-            savePointType:
-                _originTagConverter.decode(row['savePointType'] as int),
-            bookScope: _bookScopeConverter.decode(row['bookScope'] as int),
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [savePointType, parentKey],
-        queryableName: 'savePoint',
+        queryableName: 'no_table_name',
         isView: false);
   }
 
   @override
-  Stream<List<SavePoint>> getStreamSavePointsWithBookIdBinary(
+  Stream<List<SavePointEntity>> getStreamSavePointsWithBookIdBinary(
     int savePointType,
     int bookScope,
   ) {
     return _queryAdapter.queryListStream(
         'select * from `savepoint` where    savePointType=?1 and bookScope=?2    order by modifiedDate desc',
-        mapper: (Map<String, Object?> row) => SavePoint(
+        mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
             title: row['title'] as String,
-            autoType: _saveAutoTypeConverter.decode(row['autoType'] as int),
+            autoType: row['autoType'] as int,
             modifiedDate: row['modifiedDate'] as String?,
-            savePointType:
-                _originTagConverter.decode(row['savePointType'] as int),
-            bookScope: _bookScopeConverter.decode(row['bookScope'] as int),
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [savePointType, bookScope],
-        queryableName: 'savePoint',
+        queryableName: 'no_table_name',
         isView: false);
   }
 
   @override
-  Future<SavePoint?> getAutoSavePointWithBookIdBinary(
+  Future<SavePointEntity?> getAutoSavePointWithBookIdBinary(
     int savePointType,
     int bookScope,
     int autoType,
   ) async {
     return _queryAdapter.query(
         'select * from `savepoint` where savePointType=?1    and bookScope=?2 and autoType=?3 order by modifiedDate desc limit 1',
-        mapper: (Map<String, Object?> row) => SavePoint(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: _saveAutoTypeConverter.decode(row['autoType'] as int), modifiedDate: row['modifiedDate'] as String?, savePointType: _originTagConverter.decode(row['savePointType'] as int), bookScope: _bookScopeConverter.decode(row['bookScope'] as int), parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
+        mapper: (Map<String, Object?> row) => SavePointEntity(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: row['autoType'] as int, modifiedDate: row['modifiedDate'] as String?, savePointType: row['savePointType'] as int, bookScope: row['bookScope'] as int, parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
         arguments: [savePointType, bookScope, autoType]);
   }
 
   @override
-  Stream<List<SavePoint>> getStreamSavePointsWithBook(List<int> bookScopes) {
+  Stream<List<SavePointEntity>> getStreamSavePointsWithBook(
+      List<int> bookScopes) {
     const offset = 1;
     final _sqliteVariablesForBookScopes =
         Iterable<String>.generate(bookScopes.length, (i) => '?${i + offset}')
@@ -1695,24 +1690,23 @@ class _$SavePointDao extends SavePointDao {
         'select * from `savepoint` where bookScope in(' +
             _sqliteVariablesForBookScopes +
             ')    order by modifiedDate desc',
-        mapper: (Map<String, Object?> row) => SavePoint(
+        mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
             title: row['title'] as String,
-            autoType: _saveAutoTypeConverter.decode(row['autoType'] as int),
+            autoType: row['autoType'] as int,
             modifiedDate: row['modifiedDate'] as String?,
-            savePointType:
-                _originTagConverter.decode(row['savePointType'] as int),
-            bookScope: _bookScopeConverter.decode(row['bookScope'] as int),
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [...bookScopes],
-        queryableName: 'savePoint',
+        queryableName: 'no_table_name',
         isView: false);
   }
 
   @override
-  Stream<List<SavePoint>> getStreamSavePointsWithBookFilter(
+  Stream<List<SavePointEntity>> getStreamSavePointsWithBookFilter(
     List<int> bookScopes,
     int savePointType,
   ) {
@@ -1724,19 +1718,18 @@ class _$SavePointDao extends SavePointDao {
         'select * from `savepoint` where bookScope in(' +
             _sqliteVariablesForBookScopes +
             ')      and savePointType=?1 order by modifiedDate desc',
-        mapper: (Map<String, Object?> row) => SavePoint(
+        mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
             title: row['title'] as String,
-            autoType: _saveAutoTypeConverter.decode(row['autoType'] as int),
+            autoType: row['autoType'] as int,
             modifiedDate: row['modifiedDate'] as String?,
-            savePointType:
-                _originTagConverter.decode(row['savePointType'] as int),
-            bookScope: _bookScopeConverter.decode(row['bookScope'] as int),
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [savePointType, ...bookScopes],
-        queryableName: 'savePoint',
+        queryableName: 'no_table_name',
         isView: false);
   }
 
@@ -1751,20 +1744,21 @@ class _$SavePointDao extends SavePointDao {
   }
 
   @override
-  Future<int> insertSavePoint(SavePoint savePoint) {
-    return _savePointInsertionAdapter.insertAndReturnId(
+  Future<int> insertSavePoint(SavePointEntity savePoint) {
+    return _savePointEntityInsertionAdapter.insertAndReturnId(
         savePoint, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> updateSavePoint(SavePoint savePoint) {
-    return _savePointUpdateAdapter.updateAndReturnChangedRows(
+  Future<int> updateSavePoint(SavePointEntity savePoint) {
+    return _savePointEntityUpdateAdapter.updateAndReturnChangedRows(
         savePoint, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> deleteSavePoint(SavePoint savePoint) {
-    return _savePointDeletionAdapter.deleteAndReturnChangedRows(savePoint);
+  Future<int> deleteSavePoint(SavePointEntity savePoint) {
+    return _savePointEntityDeletionAdapter
+        .deleteAndReturnChangedRows(savePoint);
   }
 }
 
@@ -1779,7 +1773,7 @@ class _$TopicSavePointDao extends TopicSavePointDao {
             (TopicSavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
-                  'type': _topicSavePointConverter.encode(item.type),
+                  'type': item.type,
                   'parentKey': item.parentKey
                 },
             changeListener),
@@ -1790,7 +1784,7 @@ class _$TopicSavePointDao extends TopicSavePointDao {
             (TopicSavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
-                  'type': _topicSavePointConverter.encode(item.type),
+                  'type': item.type,
                   'parentKey': item.parentKey
                 },
             changeListener),
@@ -1801,7 +1795,7 @@ class _$TopicSavePointDao extends TopicSavePointDao {
             (TopicSavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
-                  'type': _topicSavePointConverter.encode(item.type),
+                  'type': item.type,
                   'parentKey': item.parentKey
                 },
             changeListener);
@@ -1830,7 +1824,7 @@ class _$TopicSavePointDao extends TopicSavePointDao {
         mapper: (Map<String, Object?> row) => TopicSavePointEntity(
             id: row['id'] as int?,
             pos: row['pos'] as int,
-            type: _topicSavePointConverter.decode(row['type'] as int),
+            type: row['type'] as int,
             parentKey: row['parentKey'] as String),
         arguments: [type, parentKey],
         queryableName: 'topicSavePoint',
@@ -1844,7 +1838,7 @@ class _$TopicSavePointDao extends TopicSavePointDao {
   ) async {
     return _queryAdapter.query(
         'select * from topicSavePoint where type=?1 and parentKey=?2      order by id desc limit 1',
-        mapper: (Map<String, Object?> row) => TopicSavePointEntity(id: row['id'] as int?, pos: row['pos'] as int, type: _topicSavePointConverter.decode(row['type'] as int), parentKey: row['parentKey'] as String),
+        mapper: (Map<String, Object?> row) => TopicSavePointEntity(id: row['id'] as int?, pos: row['pos'] as int, type: row['type'] as int, parentKey: row['parentKey'] as String),
         arguments: [type, parentKey]);
   }
 
@@ -1927,7 +1921,7 @@ class _$HistoryDao extends HistoryDao {
             originType: row['originType'] as int,
             modifiedDate: row['modifiedDate'] as String),
         arguments: [originId],
-        queryableName: 'History',
+        queryableName: 'history',
         isView: false);
   }
 
@@ -2090,7 +2084,7 @@ class _$BackupMetaDao extends BackupMetaDao {
             id: row['id'] as int?,
             updatedDate: row['updatedDate'] as String,
             isAuto: (row['isAuto'] as int) != 0),
-        queryableName: 'BackupMeta',
+        queryableName: 'backupMeta',
         isView: false);
   }
 
@@ -2191,18 +2185,17 @@ class _$BackupDao extends BackupDao {
                   'pos': item.pos
                 },
             changeListener),
-        _savePointInsertionAdapter = InsertionAdapter(
+        _savePointEntityInsertionAdapter = InsertionAdapter(
             database,
             'savePoint',
-            (SavePoint item) => <String, Object?>{
+            (SavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'itemIndexPos': item.itemIndexPos,
                   'title': item.title,
-                  'autoType': _saveAutoTypeConverter.encode(item.autoType),
+                  'autoType': item.autoType,
                   'modifiedDate': item.modifiedDate,
-                  'savePointType':
-                      _originTagConverter.encode(item.savePointType),
-                  'bookScope': _bookScopeConverter.encode(item.bookScope),
+                  'savePointType': item.savePointType,
+                  'bookScope': item.bookScope,
                   'parentName': item.parentName,
                   'parentKey': item.parentKey
                 },
@@ -2213,7 +2206,7 @@ class _$BackupDao extends BackupDao {
             (TopicSavePointEntity item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
-                  'type': _topicSavePointConverter.encode(item.type),
+                  'type': item.type,
                   'parentKey': item.parentKey
                 },
             changeListener);
@@ -2232,7 +2225,7 @@ class _$BackupDao extends BackupDao {
 
   final InsertionAdapter<ListVerseEntity> _listVerseEntityInsertionAdapter;
 
-  final InsertionAdapter<SavePoint> _savePointInsertionAdapter;
+  final InsertionAdapter<SavePointEntity> _savePointEntityInsertionAdapter;
 
   final InsertionAdapter<TopicSavePointEntity>
       _topicSavePointEntityInsertionAdapter;
@@ -2278,17 +2271,16 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<List<SavePoint>> getSavePoints() async {
+  Future<List<SavePointEntity>> getSavePoints() async {
     return _queryAdapter.queryList('select * from savepoint',
-        mapper: (Map<String, Object?> row) => SavePoint(
+        mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
             title: row['title'] as String,
-            autoType: _saveAutoTypeConverter.decode(row['autoType'] as int),
+            autoType: row['autoType'] as int,
             modifiedDate: row['modifiedDate'] as String?,
-            savePointType:
-                _originTagConverter.decode(row['savePointType'] as int),
-            bookScope: _bookScopeConverter.decode(row['bookScope'] as int),
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String));
   }
@@ -2299,7 +2291,7 @@ class _$BackupDao extends BackupDao {
         mapper: (Map<String, Object?> row) => TopicSavePointEntity(
             id: row['id'] as int?,
             pos: row['pos'] as int,
-            type: _topicSavePointConverter.decode(row['type'] as int),
+            type: row['type'] as int,
             parentKey: row['parentKey'] as String));
   }
 
@@ -2358,9 +2350,9 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<List<int>> insertSavePoints(List<SavePoint> savePoints) {
-    return _savePointInsertionAdapter.insertListAndReturnIds(
-        savePoints, OnConflictStrategy.replace);
+  Future<List<int>> insertSavePoints(List<SavePointEntity> savePointEntities) {
+    return _savePointEntityInsertionAdapter.insertListAndReturnIds(
+        savePointEntities, OnConflictStrategy.replace);
   }
 
   @override
@@ -2395,15 +2387,15 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<int> insertSavePoint(SavePoint savePoint) {
-    return _savePointInsertionAdapter.insertAndReturnId(
+  Future<int> insertSavePoint(SavePointEntity savePoint) {
+    return _savePointEntityInsertionAdapter.insertAndReturnId(
         savePoint, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertTopicSavePoint(TopicSavePointEntity topicSavePoint) {
+  Future<int> insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity) {
     return _topicSavePointEntityInsertionAdapter.insertAndReturnId(
-        topicSavePoint, OnConflictStrategy.replace);
+        topicSavePointEntity, OnConflictStrategy.replace);
   }
 }
 
@@ -2545,7 +2537,7 @@ class _$AudioEditionDao extends AudioEditionDao {
             name: row['name'] as String,
             isSelected: (row['isSelected'] as int) != 0,
             fileName: row['fileName'] as String?),
-        queryableName: 'AudioEdition',
+        queryableName: 'audioEdition',
         isView: false);
   }
 
@@ -2558,7 +2550,7 @@ class _$AudioEditionDao extends AudioEditionDao {
             name: row['name'] as String,
             isSelected: (row['isSelected'] as int) != 0,
             fileName: row['fileName'] as String?),
-        queryableName: 'AudioEdition',
+        queryableName: 'audioEdition',
         isView: false);
   }
 
@@ -3002,9 +2994,3 @@ class _$ManageAudioDao extends ManageAudioDao {
         isView: true);
   }
 }
-
-// ignore_for_file: unused_element
-final _originTagConverter = OriginTagConverter();
-final _topicSavePointConverter = TopicSavePointConverter();
-final _saveAutoTypeConverter = SaveAutoTypeConverter();
-final _bookScopeConverter = BookScopeConverter();

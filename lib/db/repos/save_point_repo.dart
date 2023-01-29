@@ -1,7 +1,7 @@
 
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/db/services/save_point_dao.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/save_point/constants/save_point_constant.dart';
@@ -13,31 +13,39 @@ class SavePointRepo{
   final SavePointDao savePointDao;
   SavePointRepo({required this.savePointDao});
 
-  Future<int>insertSavePoint(SavePoint savePoint)=>savePointDao.insertSavePoint(savePoint);
-  Future<int>deleteSavePoint(SavePoint savePoint)=>savePointDao.deleteSavePoint(savePoint);
-  Future<int>updateSavePoint(SavePoint savePoint)=>savePointDao.updateSavePoint(savePoint);
+  Future<int>insertSavePoint(SavePoint savePoint)=>savePointDao.insertSavePoint(savePoint.toSavePointEntity());
+  Future<int>deleteSavePoint(SavePoint savePoint)=>savePointDao.deleteSavePoint(savePoint.toSavePointEntity());
+  Future<int>updateSavePoint(SavePoint savePoint)=>savePointDao.updateSavePoint(savePoint.toSavePointEntity());
 
-  Future<SavePoint?> getAutoSavePoint(OriginTag originTag,String parentKey,{SaveAutoType autoType = SaveAutoType.general})=>
-      savePointDao.getSavePoint(originTag.savePointId, parentKey,autoType.index);
+  Future<SavePoint?> getAutoSavePoint(OriginTag originTag,String parentKey,{SaveAutoType autoType = SaveAutoType.general})async{
+    return (await savePointDao.getSavePoint(originTag.savePointId, parentKey,autoType.index))?.toSavePoint();
+  }
 
-  Future<SavePoint?> getSavePoint(int savePointType,String parentKey)=>
-      savePointDao.getSavePoint(savePointType, parentKey,SaveAutoType.none.index);
+  Future<SavePoint?> getSavePoint(int savePointType,String parentKey) async{
+    return (await savePointDao.getSavePoint(savePointType, parentKey,SaveAutoType.none.index))?.toSavePoint();
+  }
 
   Stream<List<SavePoint>>getStreamSavePoints(OriginTag originTag,String parentKey)=>
-      savePointDao.getStreamSavePoints(originTag.savePointId, parentKey);
+      savePointDao.getStreamSavePoints(originTag.savePointId, parentKey)
+          .map((event) => event.map((e) => e.toSavePoint()).toList());
 
-  Future<SavePoint?> getAutoSavePointWithBookIdBinary(int savePointType,BookScopeEnum bookScope,{SaveAutoType autoType = SaveAutoType.general})=>
-      savePointDao.getAutoSavePointWithBookIdBinary(savePointType, bookScope.binaryId,autoType.index);
+  Future<SavePoint?> getAutoSavePointWithBookIdBinary(int savePointType,BookScopeEnum bookScope,
+      {SaveAutoType autoType = SaveAutoType.general})async{
+    return (await savePointDao.getAutoSavePointWithBookIdBinary(savePointType, bookScope.binaryId,autoType.index))?.toSavePoint();
+  }
 
   Stream<List<SavePoint>>getStreamSavePointsWithBookIdBinary(int savePointType,BookScopeEnum bookScope)=>
-      savePointDao.getStreamSavePointsWithBookIdBinary(savePointType, bookScope.binaryId);
+      savePointDao.getStreamSavePointsWithBookIdBinary(savePointType, bookScope.binaryId)
+          .map((event) => event.map((e) => e.toSavePoint()).toList());
 
 
   Stream<List<SavePoint>>getStreamSavePointsWithBook(List<BookScopeEnum> bookScopes)=>
-      savePointDao.getStreamSavePointsWithBook(bookScopes.map((e) => e.binaryId).toList());
+      savePointDao.getStreamSavePointsWithBook(bookScopes.map((e) => e.binaryId).toList())
+          .map((event) => event.map((e) => e.toSavePoint()).toList());
 
   Stream<List<SavePoint>>getStreamSavePointsWithBookFilter(List<BookScopeEnum> bookScopes, int savePointType)=>
-      savePointDao.getStreamSavePointsWithBookFilter(bookScopes.map((e) => e.binaryId).toList(), savePointType);
+      savePointDao.getStreamSavePointsWithBookFilter(bookScopes.map((e) => e.binaryId).toList(), savePointType)
+          .map((event) => event.map((e) => e.toSavePoint()).toList());
 
 
 
@@ -63,7 +71,7 @@ class SavePointRepo{
     final prevSavePoint=await prevSavePointLoader;
 
     if(prevSavePoint!=null){
-      savePoint=prevSavePoint.copyWith(itemIndexPos: savePointParam.itemIndexPos,
+      savePoint=prevSavePoint.toSavePoint().copyWith(itemIndexPos: savePointParam.itemIndexPos,
           parentKey: savePointParam.parentKey,
           parentName: savePointParam.parentName,
           modifiedDate: date.toIso8601String());
@@ -72,7 +80,7 @@ class SavePointRepo{
       savePoint = savePointParam.toSavePoint(title, autoType, date.toIso8601String());
     }
 
-    await savePointDao.insertSavePoint(savePoint);
+    await savePointDao.insertSavePoint(savePoint.toSavePointEntity());
   }
 
 
@@ -81,14 +89,14 @@ class SavePointRepo{
     if(savePointArg.loadNearPoint){
       return getSavePoint(originTag.savePointId, savePointArg.parentKey);
     } else if(savePointArg.id!=null){
-      return savePointDao.getSavePointWithId(savePointArg.id??0);
+      return (await savePointDao.getSavePointWithId(savePointArg.id??0))?.toSavePoint();
     }else{
       return getAutoSavePoint(originTag,savePointArg.parentKey);
     }
   }
 
   Future<SavePoint?> loadSavePointWithId(int savePointId)async{
-    return savePointDao.getSavePointWithId(savePointId);
+    return (await savePointDao.getSavePointWithId(savePointId))?.toSavePoint();
   }
 
 }

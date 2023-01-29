@@ -10,7 +10,7 @@ enum BookScopeEnum{
   serlevhaSitte
 }
 
-extension ScopeExtension on BookScopeEnum{
+extension BookScopeExt on BookScopeEnum{
   int get binaryId{
     switch(this){
       case BookScopeEnum.serlevha:
@@ -21,6 +21,22 @@ extension ScopeExtension on BookScopeEnum{
         return 3;
       case BookScopeEnum.diyanetMeal:
         return 4;
+    }
+  }
+
+  static BookScopeEnum fromBinaryId(int binaryId){
+    switch(binaryId){
+      case 1:
+        return BookScopeEnum.serlevha;
+      case 2:
+        return BookScopeEnum.sitte;
+      case 3:
+        return BookScopeEnum.serlevhaSitte;
+      case 4:
+        return BookScopeEnum.diyanetMeal;
+      default:
+        return BookScopeEnum.serlevha;
+
     }
   }
 

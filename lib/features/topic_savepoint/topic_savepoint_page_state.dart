@@ -5,8 +5,8 @@ import 'package:hadith/bloc/visibility_bloc/visibility_event.dart';
 import 'package:hadith/bloc/visibility_bloc/visibility_state.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
-import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
+import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/dialogs/show_bottom_menu.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/custom_animated_widget.dart';
@@ -25,7 +25,7 @@ abstract class TopicSavePointPageState <T extends StatefulWidget> extends State<
   late final CustomSearchSliverAppBar searchSliverBar;
 
 
-  TopicSavePointEntity? lastSavePoint;
+  TopicSavePoint? lastSavePoint;
   final ValueNotifier rebuildItems=ValueNotifier(false);
   late TopicSavePointBloc savePointBloc;
   late VisibilityBloc visibilityBloc;
@@ -129,7 +129,7 @@ abstract class TopicSavePointPageState <T extends StatefulWidget> extends State<
               savePointBloc.add(
                 TopicSavePointEventInsert(
                   topicSavePointEnum: topicSavePointEnum,
-                  topicSavePointEntity: TopicSavePointEntity(
+                  topicSavePointEntity: TopicSavePoint(
                       parentKey: parentKey,
                       pos: pos,
                       type: topicSavePointEnum),

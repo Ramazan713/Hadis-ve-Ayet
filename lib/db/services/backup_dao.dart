@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/db/entities/save_point_entity.dart';
 import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import '../entities/history_entity.dart';
 import '../entities/list_entity.dart';
 import '../entities/list_hadith_entity.dart';
@@ -22,7 +23,7 @@ abstract class BackupDao{
   Future<List<ListVerseEntity>>getVerseListEntities();
 
   @Query("""select * from savepoint""")
-  Future<List<SavePoint>>getSavePoints();
+  Future<List<SavePointEntity>>getSavePoints();
 
   @Query("""select * from topicSavePoint""")
   Future<List<TopicSavePointEntity>>getTopicSavePoints();
@@ -42,7 +43,7 @@ abstract class BackupDao{
   Future<List<int>>insertVerseLists(List<ListVerseEntity>verseLists);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<List<int>>insertSavePoints(List<SavePoint>savePoints);
+  Future<List<int>>insertSavePoints(List<SavePointEntity>savePointEntities);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>>insertTopicSavePoints(List<TopicSavePointEntity>topicSavePoints);
@@ -61,10 +62,10 @@ abstract class BackupDao{
   Future<int>insertVerseList(ListVerseEntity verseList);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int>insertSavePoint(SavePoint savePoint);
+  Future<int>insertSavePoint(SavePointEntity savePoint);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int>insertTopicSavePoint(TopicSavePointEntity topicSavePoint);
+  Future<int>insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity);
 
 
 

@@ -8,7 +8,7 @@ import 'package:hadith/utils/save_point_helper.dart';
 import 'package:hadith/widgets/custom_button_positive.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/constants/scope_filter_enum.dart';
-import 'package:hadith/db/entities/savepoint.dart';
+import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/save_point/bloc/save_point_edit_bloc.dart';
