@@ -6,10 +6,12 @@ import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
 import 'package:hadith/features/verse/common_models/verse_model.dart';
 import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
 import 'package:hadith/db/entities/helper/verse_audio_entity.dart';
+import 'package:hadith/features/verse/verse_listen_audio/models/audio_attribute_state.dart';
 import 'package:hadith/features/verse/verse_listen_audio/models/verse_audio_model.dart';
 
 class VerseAudioState extends Equatable{
   final VerseAudioModel? currentAudio;
+  final AudioAttributeState? audioAttributeState;
   final String?message;
   final bool showAudioOption;
   final bool askDownload;
@@ -25,13 +27,15 @@ class VerseAudioState extends Equatable{
     required this.askDownload,this.tempModel,this.tempOption,required this.originTag,
     required this.showAudioPlayerWidget,required this.askNotificationPermission,
     required this.askInterruptAndDownload,required this.followAudioText,
+    this.audioAttributeState
   });
 
   VerseAudioState copyWith({VerseAudioModel? currentAudio,bool setAudio=false,
     String?message,bool setMessage=false,bool? showAudioOption,bool?askDownload,
     VerseModel?tempModel,QuranAudioOption?tempOption,bool setTempData=false,
     OriginTag?originTag,bool?showAudioPlayerWidget,bool?askNotificationPermission,
-    bool?askInterruptAndDownload,bool?followAudioText
+    bool?askInterruptAndDownload,bool?followAudioText,
+    AudioAttributeState? audioAttributeState,bool setAudioAttributeState=false
   }){
     return VerseAudioState(
         currentAudio: setAudio?currentAudio:this.currentAudio,
@@ -44,7 +48,8 @@ class VerseAudioState extends Equatable{
         showAudioPlayerWidget: showAudioPlayerWidget??this.showAudioPlayerWidget,
         askNotificationPermission: askNotificationPermission??this.askNotificationPermission,
         askInterruptAndDownload: askInterruptAndDownload??this.askInterruptAndDownload,
-        followAudioText: followAudioText??this.followAudioText
+        followAudioText: followAudioText??this.followAudioText,
+        audioAttributeState: setAudioAttributeState?audioAttributeState:this.audioAttributeState
     );
   }
 
@@ -55,6 +60,9 @@ class VerseAudioState extends Equatable{
     return currentAudio?.audio;
   }
 
+  int? currentSavePointId(){
+    return audioAttributeState?.savepointId;
+  }
 
   bool isActive(){
     return [AudioEnum.pause,AudioEnum.running].contains(getAudioEnum());
@@ -69,6 +77,7 @@ class VerseAudioState extends Equatable{
 
   @override
   List<Object?> get props => [currentAudio,message,showAudioOption,askDownload,tempOption,tempModel,originTag,
-    showAudioPlayerWidget,askNotificationPermission,askInterruptAndDownload,followAudioText
+    showAudioPlayerWidget,askNotificationPermission,askInterruptAndDownload,followAudioText,
+    audioAttributeState
   ];
 }

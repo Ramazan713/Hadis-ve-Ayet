@@ -13,6 +13,8 @@ class AudioEventInit extends IVerseAudioEvent{}
 
 class AudioEventInit2 extends IVerseAudioEvent{}
 
+class AudioEventInitAudioAttribute extends IVerseAudioEvent{}
+
 
 class AudioEventRequestOption extends IVerseAudioEvent{
   final VerseModel verseModel;
@@ -33,6 +35,11 @@ class AudioEventRequestListening extends IVerseAudioEvent{
 }
 
 class AudioEventResume extends IVerseAudioEvent{}
+
+class AudioEventSetSavePointId extends IVerseAudioEvent{
+  final int? savepointId;
+  AudioEventSetSavePointId({required this.savepointId});
+}
 
 class AudioEventPause extends IVerseAudioEvent{}
 

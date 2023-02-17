@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_negative.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_negative.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showGetNumberBottomDia(BuildContext context,Function(int selectedIndex) listener,
     {required int currentIndex,required int limitIndex}){

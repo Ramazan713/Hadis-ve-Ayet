@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_paging_status_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/constants/enums/verse_edit_enum.dart';
 import 'package:hadith/constants/favori_list.dart';
 import 'package:hadith/constants/menu_resources.dart';
@@ -36,8 +38,9 @@ import 'package:hadith/features/share/show_preview_share_image_dia.dart';
 import 'package:hadith/features/share/show_share_alert_dialog.dart';
 import 'package:hadith/features/share/widget/list_tile_share_item.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'package:hadith/widgets/menu_button.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +49,7 @@ import '../paging/widgets/custom_scrolling_paging.dart';
 import 'common_components/audio_info_item.dart';
 import 'common_components/verse_item.dart';
 import 'common_dialogs/show_select_edition.dart';
-import 'common_dialogs/show_select_verse_ui.dart';
+import '../../dialogs/show_select_verse_ui_3x.dart';
 import 'common_dialogs/show_verse_bottom_menu.dart';
 import 'common_models/verse_model.dart';
 
@@ -63,13 +66,13 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> with TickerProvide
   late final bool useArchiveListFeatures;
   late final bool showListVerseIcons;
 
-  ArabicVerseUIEnum lastSelectedArabicUI = ArabicVerseUIEnum.both;
+  ArabicVerseUI2X lastSelectedArabicUI = ArabicVerseUI2X.both;
 
   @override
   void initState() {
     super.initState();
 
-    lastSelectedArabicUI = ArabicVerseUIEnum.values[
+    lastSelectedArabicUI = ArabicVerseUI2X.values[
         sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key) ??
             PrefConstants.arabicVerseAppearanceEnum.defaultValue];
 
@@ -223,15 +226,15 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> with TickerProvide
     final audioBloc = context.read<VerseAudioBloc>();
 
     if (pagingArgument.originTag == OriginTag.search &&
-        lastSelectedArabicUI == ArabicVerseUIEnum.onlyArabic) {
-      lastSelectedArabicUI = ArabicVerseUIEnum.onlyMeal;
+        lastSelectedArabicUI == ArabicVerseUI2X.onlyArabic) {
+      lastSelectedArabicUI = ArabicVerseUI2X.onlyMeal;
     }
 
     return VerseAudiosConnect(
       child: MultiBlocProvider(
         providers: [BlocProvider(create: (context) => CustomPagingBloc())],
         child: Scaffold(
-            bottomSheet: const AudioPlayerWidget(),
+            bottomSheet: getBottomSheet(context),
             resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
             backgroundColor: Theme.of(context).primaryColor,
             body: SafeArea(
@@ -252,7 +255,7 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> with TickerProvide
                       actions: [
                         IconButton(
                           onPressed: () async{
-                            showSelectVerseUi(context, callback: (selected) {
+                            showSelectVerseUi2X(context, callback: (selected) {
                               lastSelectedArabicUI = selected;
                               rebuildItems();
                             });
@@ -389,6 +392,30 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> with TickerProvide
               ),
             )),
       ),
+    );
+  }
+
+
+  Widget getBottomSheet(BuildContext context){
+    return BlocSelector<VerseAudioBloc,VerseAudioState,int?>(
+        selector: (state)=>state.currentSavePointId(),
+        builder: (context,currentSavepointId){
+          return AudioPlayerWidget(onBookmarkClick: (){
+            showSelectSavePointBottomDia(context,
+                title: "Kayıt Noktası Seç",
+                description: "Dinleme sonrasında otomatik olarak kaydedilmesi için bir kayıt noktası seçiniz",
+                defaultSelectedSavePointId: currentSavepointId,
+                savePointParam: SavePointParam.fromPagingArgument(pagingArgument, 0),
+                customBottomButtons: (savePoint){
+                  return CustomButtonPositive(onTap: () {
+                    context.read<VerseAudioBloc>()
+                        .add(AudioEventSetSavePointId(savepointId: savePoint?.id));
+                    Navigator.pop(context);
+                  },);
+                }
+            );
+          });
+        }
     );
   }
 

@@ -10,6 +10,6 @@ class SurahRepo{
 
   Future<List<Surah>> getAllSurah()=>surahDao.getAllSurah();
 
-  Future<List<Surah>>getSearchedSurahs(String query)=>
-      surahDao.getSearchedSurahs( "%$query%", query, "$query%", "%$query");
+  Future<List<Surah>>getSearchedSurahes(String query)=>
+      surahDao.getSearchedSurahes( "%$query%", query, "$query%", "%$query");
 }

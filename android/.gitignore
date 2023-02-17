@@ -14,3 +14,4 @@ key.properties
 /app/google-services.json
 /app/src/main/res/**/*.png
 /app/src/debug/google-services.json
+/app/src/profile/google-services.json

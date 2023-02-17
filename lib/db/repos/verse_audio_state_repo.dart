@@ -41,6 +41,7 @@ class VerseAudioStateRepo{
     }
   }
 
+  Future<int?> getSurahVersePosition(int surahId,int mealId)=>_audioStateDao.getSurahVersePosition(surahId, mealId);
 
 
 }

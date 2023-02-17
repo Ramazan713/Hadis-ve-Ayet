@@ -4,10 +4,7 @@ import 'package:floor/floor.dart';
 import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
 import 'package:hadith/db/entities/topic_savepoint_entity.dart';
 
-@Entity(tableName: "topicSavePoint")
 class TopicSavePoint extends Equatable{
-
-  @primaryKey
   final int? id;
   final int pos;
   final TopicSavePointEnum type;
@@ -21,7 +18,7 @@ class TopicSavePoint extends Equatable{
   }
 
   TopicSavePointEntity toTopicSavePointEntity(){
-    return TopicSavePointEntity(pos: pos, type: type.type, parentKey: parentKey);
+    return TopicSavePointEntity(id: id,pos: pos, type: type.type, parentKey: parentKey);
   }
 
   @override

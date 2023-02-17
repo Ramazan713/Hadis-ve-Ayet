@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_negative.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_negative.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showEditTextBottomDia(BuildContext context, Function(String) listener,
     {String title = "Başlık", String content = ""}) async{

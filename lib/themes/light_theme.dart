@@ -33,6 +33,8 @@ ThemeData getLightThemeData() {
             color: kDefaultLightTextColor, fontWeight: FontWeight.w700),
         headline6: TextStyle(color: kDefaultLightTextColor),
         headline4: TextStyle(color: kDefaultLightTextColor),
+        headline3: TextStyle(color: kDefaultLightTextColor),
+        headline2: TextStyle(color: kDefaultLightTextColor),
         bodyText1: TextStyle(
             color: kDefaultLightTextColor,
             fontSize: 17,

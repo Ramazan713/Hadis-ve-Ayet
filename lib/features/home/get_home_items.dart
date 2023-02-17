@@ -21,13 +21,49 @@ import '../verse/surah/surah_screen.dart';
 
 
 final List<String> homeTitles = [
+  "Kur'an-ı Kerim",
   "Serlevha",
   "Kütübi Sitte",
-  "Kur'an-ı Kerim"
 ];
 
 List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTag}){
   return [
+    HomeBookItem(
+        item1: HomeSubItem(
+          title: "Konular",
+          iconData: FontAwesomeIcons.bookOpenReader,
+          onTap: () {
+            final sectionArgument =
+            SectionArgument(bookEnum: BookEnum.diyanetMeal);
+            Navigator.pushNamed(context, SectionScreen.id,
+                arguments: sectionArgument);
+          },
+        ),
+        item2: HomeSubItem(
+          title: "Cüz",
+          iconData: FontAwesomeIcons.bookQuran,
+          onTap: () {
+            Navigator.pushNamed(context, CuzScreen.id);
+          },
+        ),
+        item3: HomeSubItem(
+          title: "Sure",
+          iconData: FontAwesomeIcons.bookQuran,
+          onTap: () {
+            Navigator.pushNamed(context, SurahScreen.id);
+          },
+        ),
+        item4: HomeSubItem(
+          title: "Kayıt Noktaları",
+          iconData: Icons.save,
+          onTap: () {
+            showSelectSavePointWithBookDia(context,
+                bookEnum: BookEnum.diyanetMeal,
+                bookScopes: [BookScopeEnum.diyanetMeal],
+                exclusiveTags: [OriginTag.all]);
+          },
+        ),
+        title: homeTitles[0]),
     HomeBookItem(
         item1: HomeSubItem(
           title: "Tümü",
@@ -70,7 +106,7 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
                 ]);
           },
         ),
-        title: homeTitles[0]), //Serlevha
+        title: homeTitles[1]), //Serlevha
 
     HomeBookItem(
         item1: HomeSubItem(
@@ -113,43 +149,8 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
                 ]);
           },
         ),
-        title: homeTitles[1]), //Kütübi Sitte
+        title: homeTitles[2]), //Kütübi Sitte
 
-    HomeBookItem(
-        item1: HomeSubItem(
-          title: "Konular",
-          iconData: FontAwesomeIcons.bookOpenReader,
-          onTap: () {
-            final sectionArgument =
-            SectionArgument(bookEnum: BookEnum.diyanetMeal);
-            Navigator.pushNamed(context, SectionScreen.id,
-                arguments: sectionArgument);
-          },
-        ),
-        item2: HomeSubItem(
-          title: "Cüz",
-          iconData: FontAwesomeIcons.bookQuran,
-          onTap: () {
-            Navigator.pushNamed(context, CuzScreen.id);
-          },
-        ),
-        item3: HomeSubItem(
-          title: "Sure",
-          iconData: FontAwesomeIcons.bookQuran,
-          onTap: () {
-            Navigator.pushNamed(context, SurahScreen.id);
-          },
-        ),
-        item4: HomeSubItem(
-          title: "Kayıt Noktaları",
-          iconData: Icons.save,
-          onTap: () {
-            showSelectSavePointWithBookDia(context,
-                bookEnum: BookEnum.diyanetMeal,
-                bookScopes: [BookScopeEnum.diyanetMeal],
-                exclusiveTags: [OriginTag.all]);
-          },
-        ),
-        title: homeTitles[2]), //Dinayet Meal
+
   ];
 }

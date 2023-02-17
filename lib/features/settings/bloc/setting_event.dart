@@ -1,7 +1,8 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/constants/enums/search_criteria_enum.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 
 abstract class ISettingEvent extends Equatable{
   @override
@@ -26,7 +27,7 @@ class SettingEventSetFontText extends ISettingEvent{
 }
 
 class SettingEventSetArabicUI extends ISettingEvent{
-  final ArabicVerseUIEnum arabicVerseUI;
+  final ArabicVerseUI2X arabicVerseUI;
   SettingEventSetArabicUI({required this.arabicVerseUI});
 }
 

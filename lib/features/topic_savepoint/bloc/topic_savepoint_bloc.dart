@@ -21,21 +21,21 @@ class TopicSavePointBloc extends Bloc<ITopicSavePointEvent,TopicSavePointState>{
   void _onRequestSavePoint(TopicSavePointEventRequest event,Emitter<TopicSavePointState>emit)async{
     emit(state.copyWith(keepOldSavePoint: true,status: DataStatus.loading));
     await emit.forEach<TopicSavePoint?>(savePointRepo.
-      getStreamTopicSavePointEntity(event.topicSavePointEnum, event.parentKey)
+      getStreamTopicSavePoint(event.topicSavePointEnum, event.parentKey)
         , onData: (data)=>state.copyWith(keepOldSavePoint: false,status: DataStatus.success,topicSavePointEntity: data));
   }
 
   void _onInsertSavePoint(TopicSavePointEventInsert event,Emitter<TopicSavePointState>emit)async{
-    final oldValue=await savePointRepo.getTopicSavePointEntity(event.topicSavePointEnum,event.topicSavePointEntity.parentKey);
+    final oldValue=await savePointRepo.getTopicSavePoint(event.topicSavePointEnum,event.topicSavePoint.parentKey);
     if(oldValue!=null){
-      await savePointRepo.updateTopicSavePoint(event.topicSavePointEntity.copyWith(keepOldId: false,id: oldValue.id));
+      await savePointRepo.updateTopicSavePoint(event.topicSavePoint.copyWith(keepOldId: false,id: oldValue.id));
     }else{
-      await savePointRepo.insertTopicSavePoint(event.topicSavePointEntity);
+      await savePointRepo.insertTopicSavePoint(event.topicSavePoint);
     }
   }
 
   void _onDeleteSavePoint(TopicSavePointEventDelete event,Emitter<TopicSavePointState>emit)async{
-    await savePointRepo.deleteTopicSavePoint(event.topicSavePointEntity);
+    await savePointRepo.deleteTopicSavePoint(event.topicSavePoint);
   }
 
 }

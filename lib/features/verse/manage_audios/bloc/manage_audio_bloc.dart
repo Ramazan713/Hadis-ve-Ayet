@@ -34,13 +34,18 @@ class ManageAudioBloc extends Bloc<IManageAudioEvent,ManageAudioState>{
   }
 
   void _onInit(ManageAudioEventInit event,Emitter<ManageAudioState>emit)async{
-    final manageModelsStream = _identifierController.switchMap((identifier) => _manageAudioRepo.getAudioManageModels(identifier));
+    final cuzModelsStream = _identifierController.switchMap((identifier) => _manageAudioRepo.getCuzAudioManageModels(identifier));
+    final surahModelsStream = _identifierController.switchMap((identifier) => _manageAudioRepo.getSurahAudioManageModels(identifier));
 
-    final streamData=Rx.combineLatest2(manageModelsStream, _manageEnumController.stream,
-            (List<ManageAudioModel> models, AudioManageEnum manageEnums) {
-      return models.where((element) => element.manageEnum == manageEnums).toList();
-    });
-
+    final streamData = Rx.combineLatest3<AudioManageEnum,List<ManageAudioModel>,List<ManageAudioModel>,List<ManageAudioModel>>(
+        _manageEnumController.stream,cuzModelsStream,surahModelsStream,
+            (manageEnum, cuzModels,surahModels){
+          if(manageEnum == AudioManageEnum.cuz){
+            return cuzModels;
+          }
+          return surahModels;
+        }
+    );
     await emit.forEach<List<ManageAudioModel>>(streamData, onData: (data){
       return state.copyWith(manageModels: data);
     });

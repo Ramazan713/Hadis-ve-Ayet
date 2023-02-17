@@ -14,6 +14,7 @@ class HadithScrollableItem extends StatefulWidget {
   final String? searchKey;
   final int rowNumber;
   final SearchCriteriaEnum searchCriteriaEnum;
+  final Function() onLongClick;
 
   HadithScrollableItem(
       {Key? key,
@@ -24,6 +25,7 @@ class HadithScrollableItem extends StatefulWidget {
       this.favoriteIconClick,
       this.searchKey,
       required this.searchCriteriaEnum,
+        required this.onLongClick,
       this.listIconClick})
       : super(key: key) {
     iconSize = fontSize + 7;
@@ -83,84 +85,89 @@ class _HadithScrollableItemState extends State<HadithScrollableItem> {
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: InkWell(
+        onLongPress: widget.onLongClick,
+        child: Ink(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  "${widget.rowNumber}",
-                  textAlign: TextAlign.start,
-                  style: textStyle?.copyWith(fontSize: widget.fontSize - 2),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${widget.rowNumber}",
+                      textAlign: TextAlign.start,
+                      style: textStyle?.copyWith(fontSize: widget.fontSize - 2),
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    Expanded(
+                      child: Text("- $topicText",
+                          textAlign: TextAlign.center,
+                          style:
+                              textStyle?.copyWith(fontSize: widget.fontSize - 4)),
+                    ),
+                    const SizedBox(
+                      width: 33,
+                    )
+                  ],
                 ),
                 const SizedBox(
-                  width: 7,
+                  height: 7,
                 ),
-                Expanded(
-                  child: Text("- $topicText",
-                      textAlign: TextAlign.center,
-                      style:
-                          textStyle?.copyWith(fontSize: widget.fontSize - 4)),
+                RichText(
+                  text: TextSpan(
+                    children: contentTextBody,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  width: 33,
+                  height: 13,
+                ),
+                Text("- ${hadith.source}",
+                    textAlign: TextAlign.center,
+                    style: textStyle?.copyWith(fontSize: widget.fontSize - 4)),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const SizedBox(),
+                    IconButton(
+                      onPressed: widget.shareIconClick ?? () {},
+                      icon: const Icon(Icons.share),
+                      iconSize: widget.iconSize,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        widget.favoriteIconClick
+                            ?.call(!widget.hadithTopic.isFavorite, setState);
+                      },
+                      icon: Icon(
+                        Icons.favorite,
+                        color: widget.hadithTopic.isFavorite ? Colors.red : null,
+                      ),
+                      iconSize: widget.iconSize,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        widget.listIconClick?.call(setState);
+                      },
+                      icon: widget.hadithTopic.isAddListNotEmpty
+                          ? const Icon(Icons.library_add_check)
+                          : const Icon(Icons.library_add),
+                      iconSize: widget.iconSize,
+                    ),
+                    const SizedBox(),
+                  ],
                 )
               ],
             ),
-            const SizedBox(
-              height: 7,
-            ),
-            RichText(
-              text: TextSpan(
-                children: contentTextBody,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 13,
-            ),
-            Text("- ${hadith.source}",
-                textAlign: TextAlign.center,
-                style: textStyle?.copyWith(fontSize: widget.fontSize - 4)),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SizedBox(),
-                IconButton(
-                  onPressed: widget.shareIconClick ?? () {},
-                  icon: const Icon(Icons.share),
-                  iconSize: widget.iconSize,
-                ),
-                IconButton(
-                  onPressed: () {
-                    widget.favoriteIconClick
-                        ?.call(!widget.hadithTopic.isFavorite, setState);
-                  },
-                  icon: Icon(
-                    Icons.favorite,
-                    color: widget.hadithTopic.isFavorite ? Colors.red : null,
-                  ),
-                  iconSize: widget.iconSize,
-                ),
-                IconButton(
-                  onPressed: () {
-                    widget.listIconClick?.call(setState);
-                  },
-                  icon: widget.hadithTopic.isAddListNotEmpty
-                      ? const Icon(Icons.library_add_check)
-                      : const Icon(Icons.library_add),
-                  iconSize: widget.iconSize,
-                ),
-                const SizedBox(),
-              ],
-            )
-          ],
+          ),
         ),
       ),
     );

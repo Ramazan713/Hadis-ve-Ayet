@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_negative.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_negative.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showCustomAlertBottomDia(BuildContext context,
     {String? title, String? content, void Function()? btnApproved,void Function()? btnCancelled,

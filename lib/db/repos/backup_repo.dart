@@ -7,6 +7,7 @@ import 'package:hadith/db/entities/list_hadith_entity.dart';
 import 'package:hadith/db/entities/list_verse_entity.dart';
 import 'package:hadith/db/entities/save_point_entity.dart';
 import 'package:hadith/db/entities/topic_savepoint_entity.dart';
+import 'package:hadith/features/extra_features/counter/data/entity/counter_entity.dart';
 import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/db/services/backup_dao.dart';
 import 'package:hadith/utils/localstorage.dart';
@@ -26,6 +27,7 @@ class LocalBackupRepo{
     await backupDao.deleteTopicSavePoints();
     await backupDao.deleteVerseLists();
     await backupDao.deleteHistories();
+    await backupDao.deleteCounterEntities(await backupDao.getCounterEntities());
   }
 
   Future<String>getJsonData()async{
@@ -35,6 +37,7 @@ class LocalBackupRepo{
     final topicSavePoints=await backupDao.getTopicSavePoints();
     final verseLists=await backupDao.getVerseListEntities();
     final histories=await backupDao.getHistories();
+    final counterEntities = await backupDao.getCounterEntities();
 
     final hadithListJsonArr=hadithLists.map((e) => e.toJson()).toList();
     final listsJsonArr=lists.map((e) => e.toJson()).toList();
@@ -42,6 +45,7 @@ class LocalBackupRepo{
     final topicSavePointsJsonArr=topicSavePoints.map((e) => e.toJson()).toList();
     final verseListJsonArr=verseLists.map((e) => e.toJson()).toList();
     final historiesJsonArr=histories.map((e) => e.toJson()).toList();
+    final countersJsonArr = counterEntities.map((e) => e.toJson()).toList();
 
     final SharedPreferences sharedPreferences=LocalStorage.sharedPreferences;
     final sharedJsonArr=PrefConstants.values().map((e) => {"key":e.key,"type":e.type.toString(),"value":sharedPreferences.get(e.key)})
@@ -57,7 +61,8 @@ class LocalBackupRepo{
       "listVerse":verseListJsonArr,
       "savePoint":savePointsJsonArr,
       "topicSavePoint":topicSavePointsJsonArr,
-      "sharedPreferences":sharedJsonArr
+      "sharedPreferences":sharedJsonArr,
+      "counters":countersJsonArr
     };
     return json.encode(resultMap);
   }
@@ -74,6 +79,7 @@ class LocalBackupRepo{
       final verseListJsonArr=data["listVerse"] as List;
       final historiesJsonArr=data["history"] as List;
       final sharedJsonArr=data["sharedPreferences"] as List;
+      final countersJsonArr = data["counters"] as List?;
 
       final hadithLists=hadithListJsonArr.map((e) => ListHadithEntity.fromJson(e)).toList();
       final lists=listsJsonArr.map((e) => ListEntity.fromJson(e)).toList();
@@ -81,6 +87,8 @@ class LocalBackupRepo{
       final topicSavePoints=topicSavePointsJsonArr.map((e) => TopicSavePointEntity.fromJson(e)).toList();
       final verseLists=verseListJsonArr.map((e) => ListVerseEntity.fromJson(e)).toList();
       final histories=historiesJsonArr.map((e) => HistoryEntity.fromJson(e)).toList();
+      final List<CounterEntity> counters = countersJsonArr!=null ?
+        countersJsonArr.map((e) => CounterEntity.fromJson(e)).toList():[];
 
       await _reloadSharedPreferences(sharedJsonArr);
 
@@ -93,6 +101,7 @@ class LocalBackupRepo{
       await backupDao.insertLists(lists);
       await backupDao.insertHadithLists(hadithLists);
       await backupDao.insertVerseLists(verseLists);
+      await backupDao.insertCounterEntities(counters);
 
       listenerComplete.call(true);
     }catch(e){

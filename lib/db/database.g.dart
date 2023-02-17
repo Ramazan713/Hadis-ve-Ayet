@@ -97,13 +97,23 @@ class _$AppDatabase extends AppDatabase {
 
   ManageAudioDao? _manageAudioDaoInstance;
 
+  CounterDao? _counterDaoInstance;
+
+  EsmaulHusnaDao? _esmaulHusnaDaoInstance;
+
+  PrayerDao? _prayerDaoInstance;
+
+  IslamicInfoDao? _islamicInfoDaoInstance;
+
+  QuranPrayerDao? _quranPrayerDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 3,
+      version: 4,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -123,7 +133,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Cuz` (`cuzNo` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY (`cuzNo`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Surah` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Surah` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `searchName` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `topic` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `sectionId` INTEGER NOT NULL, FOREIGN KEY (`sectionId`) REFERENCES `section` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -170,6 +180,18 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `AudioEdition` (`identifier` TEXT NOT NULL, `name` TEXT NOT NULL, `isSelected` INTEGER NOT NULL, `fileName` TEXT, PRIMARY KEY (`identifier`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verseAudioTemp` (`mealId` INTEGER NOT NULL, `surahName` TEXT NOT NULL, `surahId` INTEGER NOT NULL, `identifier` TEXT NOT NULL, `editionName` TEXT NOT NULL, `fileName` TEXT, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, PRIMARY KEY (`mealId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `type` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `EsmaulHusna` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Prayers` (`id` INTEGER, `name` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `arabicContent` TEXT NOT NULL, `pronunciationContent` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `IslamicInfoItem` (`id` INTEGER, `titleId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, FOREIGN KEY (`titleId`) REFERENCES `IslamicInfoTitle` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `IslamicInfoTitle` (`id` INTEGER, `title` TEXT NOT NULL, `description` TEXT, `type` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `PrayerQuran` (`id` INTEGER, `arabicContent` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `source` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `ListVerseView` AS select L.id,L.name,L.isRemovable,L.isArchive,L.sourceId,count(LV.verseId)itemCounts,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListVerse LV on L.id=LV.listId where L.sourceId=2  group by L.id');
@@ -278,6 +300,34 @@ class _$AppDatabase extends AppDatabase {
   ManageAudioDao get manageAudioDao {
     return _manageAudioDaoInstance ??=
         _$ManageAudioDao(database, changeListener);
+  }
+
+  @override
+  CounterDao get counterDao {
+    return _counterDaoInstance ??= _$CounterDao(database, changeListener);
+  }
+
+  @override
+  EsmaulHusnaDao get esmaulHusnaDao {
+    return _esmaulHusnaDaoInstance ??=
+        _$EsmaulHusnaDao(database, changeListener);
+  }
+
+  @override
+  PrayerDao get prayerDao {
+    return _prayerDaoInstance ??= _$PrayerDao(database, changeListener);
+  }
+
+  @override
+  IslamicInfoDao get islamicInfoDao {
+    return _islamicInfoDaoInstance ??=
+        _$IslamicInfoDao(database, changeListener);
+  }
+
+  @override
+  QuranPrayerDao get quranPrayerDao {
+    return _quranPrayerDaoInstance ??=
+        _$QuranPrayerDao(database, changeListener);
   }
 }
 
@@ -1120,28 +1170,32 @@ class _$SurahDao extends SurahDao {
   @override
   Future<List<Surah>> getAllSurah() async {
     return _queryAdapter.queryList('select * from surah',
-        mapper: (Map<String, Object?> row) =>
-            Surah(id: row['id'] as int, name: row['name'] as String));
+        mapper: (Map<String, Object?> row) => Surah(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String));
   }
 
   @override
-  Future<List<Surah>> getSearchedSurahs(
+  Future<List<Surah>> getSearchedSurahes(
     String query,
     String or1,
     String or2,
     String or3,
   ) async {
     return _queryAdapter.queryList(
-        'with SurahText as(select id || name as text,id from surah)     select S.* from surah S,SurahText ST where ST.id=S.id and ST.text like ?1      order by (case when ST.text=?2 then 1 when ST.text like ?3 then 2 when ST.text like ?4       then 3 else 4 end)',
-        mapper: (Map<String, Object?> row) => Surah(id: row['id'] as int, name: row['name'] as String),
+        'select * from surah where name like ?1 or searchName like ?1      order by (case when searchName=?2 then 1 when searchName like ?3 then 2      when searchName like ?4 then 3 else 4 end)',
+        mapper: (Map<String, Object?> row) => Surah(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String),
         arguments: [query, or1, or2, or3]);
   }
 
   @override
   Future<Surah?> getSurah(int surahId) async {
     return _queryAdapter.query('select * from Surah where id=?1',
-        mapper: (Map<String, Object?> row) =>
-            Surah(id: row['id'] as int, name: row['name'] as String),
+        mapper: (Map<String, Object?> row) => Surah(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String),
         arguments: [surahId]);
   }
 }
@@ -1602,14 +1656,14 @@ class _$SavePointDao extends SavePointDao {
     int autoType,
   ) async {
     return _queryAdapter.query(
-        'select * from `savepoint` where savePointType=?1    and parentKey=?2 and autoType=?3 order by modifiedDate desc limit 1',
+        'select * from savepoint where savePointType=?1    and parentKey=?2 and autoType=?3 order by modifiedDate desc limit 1',
         mapper: (Map<String, Object?> row) => SavePointEntity(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: row['autoType'] as int, modifiedDate: row['modifiedDate'] as String?, savePointType: row['savePointType'] as int, bookScope: row['bookScope'] as int, parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
         arguments: [savePointType, parentKey, autoType]);
   }
 
   @override
   Future<SavePointEntity?> getSavePointWithId(int id) async {
-    return _queryAdapter.query('select * from `savepoint` where id=?1',
+    return _queryAdapter.query('select * from savepoint where id=?1',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -1629,7 +1683,7 @@ class _$SavePointDao extends SavePointDao {
     String parentKey,
   ) {
     return _queryAdapter.queryListStream(
-        'select * from `savepoint` where    savePointType=?1 and parentKey=?2    order by modifiedDate desc',
+        'select * from savepoint where    savePointType=?1 and parentKey=?2    order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -1641,7 +1695,7 @@ class _$SavePointDao extends SavePointDao {
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [savePointType, parentKey],
-        queryableName: 'no_table_name',
+        queryableName: 'savepoint',
         isView: false);
   }
 
@@ -1651,7 +1705,7 @@ class _$SavePointDao extends SavePointDao {
     int bookScope,
   ) {
     return _queryAdapter.queryListStream(
-        'select * from `savepoint` where    savePointType=?1 and bookScope=?2    order by modifiedDate desc',
+        'select * from savepoint where    savePointType=?1 and bookScope=?2    order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -1663,7 +1717,7 @@ class _$SavePointDao extends SavePointDao {
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [savePointType, bookScope],
-        queryableName: 'no_table_name',
+        queryableName: 'savepoint',
         isView: false);
   }
 
@@ -1674,7 +1728,7 @@ class _$SavePointDao extends SavePointDao {
     int autoType,
   ) async {
     return _queryAdapter.query(
-        'select * from `savepoint` where savePointType=?1    and bookScope=?2 and autoType=?3 order by modifiedDate desc limit 1',
+        'select * from savepoint where savePointType=?1    and bookScope=?2 and autoType=?3 order by modifiedDate desc limit 1',
         mapper: (Map<String, Object?> row) => SavePointEntity(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: row['autoType'] as int, modifiedDate: row['modifiedDate'] as String?, savePointType: row['savePointType'] as int, bookScope: row['bookScope'] as int, parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
         arguments: [savePointType, bookScope, autoType]);
   }
@@ -1687,7 +1741,7 @@ class _$SavePointDao extends SavePointDao {
         Iterable<String>.generate(bookScopes.length, (i) => '?${i + offset}')
             .join(',');
     return _queryAdapter.queryListStream(
-        'select * from `savepoint` where bookScope in(' +
+        'select * from savepoint where bookScope in(' +
             _sqliteVariablesForBookScopes +
             ')    order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
@@ -1701,7 +1755,7 @@ class _$SavePointDao extends SavePointDao {
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [...bookScopes],
-        queryableName: 'no_table_name',
+        queryableName: 'savepoint',
         isView: false);
   }
 
@@ -1715,7 +1769,7 @@ class _$SavePointDao extends SavePointDao {
         Iterable<String>.generate(bookScopes.length, (i) => '?${i + offset}')
             .join(',');
     return _queryAdapter.queryListStream(
-        'select * from `savepoint` where bookScope in(' +
+        'select * from savepoint where bookScope in(' +
             _sqliteVariablesForBookScopes +
             ')      and savePointType=?1 order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
@@ -1729,7 +1783,7 @@ class _$SavePointDao extends SavePointDao {
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [savePointType, ...bookScopes],
-        queryableName: 'no_table_name',
+        queryableName: 'savepoint',
         isView: false);
   }
 
@@ -1739,7 +1793,7 @@ class _$SavePointDao extends SavePointDao {
     String parentKey,
   ) async {
     await _queryAdapter.queryNoReturn(
-        'delete from `savepoint` where savePointType=?1 and parentKey=?2',
+        'delete from savepoint where savePointType=?1 and parentKey=?2',
         arguments: [savePointType, parentKey]);
   }
 
@@ -2209,6 +2263,39 @@ class _$BackupDao extends BackupDao {
                   'type': item.type,
                   'parentKey': item.parentKey
                 },
+            changeListener),
+        _counterEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'counters',
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'type': item.type,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener),
+        _counterEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'counters',
+            ['id'],
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'type': item.type,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -2229,6 +2316,10 @@ class _$BackupDao extends BackupDao {
 
   final InsertionAdapter<TopicSavePointEntity>
       _topicSavePointEntityInsertionAdapter;
+
+  final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+
+  final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
 
   @override
   Future<List<HistoryEntity>> getHistories() async {
@@ -2296,6 +2387,22 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
+  Future<List<CounterEntity>> getCounterEntities() async {
+    return _queryAdapter.queryList('select * from counters where isRemovable=1',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            orderItem: row['orderItem'] as int,
+            goal: row['goal'] as int?,
+            type: row['type'] as int,
+            lastCounter: row['lastCounter'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            meaning: row['meaning'] as String?));
+  }
+
+  @override
   Future<void> deleteHistories() async {
     await _queryAdapter.queryNoReturn('delete from history');
   }
@@ -2326,76 +2433,100 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<List<int>> insertHistories(List<HistoryEntity> histories) {
-    return _historyEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> deleteCounterEntitiesWithQuery() async {
+    await _queryAdapter
+        .queryNoReturn('delete from counters where isRemovable = 1');
+  }
+
+  @override
+  Future<void> insertHistories(List<HistoryEntity> histories) async {
+    await _historyEntityInsertionAdapter.insertList(
         histories, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertLists(List<ListEntity> lists) {
-    return _listEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> insertLists(List<ListEntity> lists) async {
+    await _listEntityInsertionAdapter.insertList(
         lists, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertHadithLists(List<ListHadithEntity> hadithLists) {
-    return _listHadithEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> insertHadithLists(List<ListHadithEntity> hadithLists) async {
+    await _listHadithEntityInsertionAdapter.insertList(
         hadithLists, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertVerseLists(List<ListVerseEntity> verseLists) {
-    return _listVerseEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> insertVerseLists(List<ListVerseEntity> verseLists) async {
+    await _listVerseEntityInsertionAdapter.insertList(
         verseLists, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertSavePoints(List<SavePointEntity> savePointEntities) {
-    return _savePointEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> insertSavePoints(List<SavePointEntity> savePointEntities) async {
+    await _savePointEntityInsertionAdapter.insertList(
         savePointEntities, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertTopicSavePoints(
-      List<TopicSavePointEntity> topicSavePoints) {
-    return _topicSavePointEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> insertTopicSavePoints(
+      List<TopicSavePointEntity> topicSavePoints) async {
+    await _topicSavePointEntityInsertionAdapter.insertList(
         topicSavePoints, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertHistory(HistoryEntity history) {
-    return _historyEntityInsertionAdapter.insertAndReturnId(
+  Future<void> insertCounterEntities(
+      List<CounterEntity> counterEntities) async {
+    await _counterEntityInsertionAdapter.insertList(
+        counterEntities, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertHistory(HistoryEntity history) async {
+    await _historyEntityInsertionAdapter.insert(
         history, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertList(ListEntity list) {
-    return _listEntityInsertionAdapter.insertAndReturnId(
-        list, OnConflictStrategy.replace);
+  Future<void> insertList(ListEntity list) async {
+    await _listEntityInsertionAdapter.insert(list, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertHadithList(ListHadithEntity hadithList) {
-    return _listHadithEntityInsertionAdapter.insertAndReturnId(
+  Future<void> insertHadithList(ListHadithEntity hadithList) async {
+    await _listHadithEntityInsertionAdapter.insert(
         hadithList, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertVerseList(ListVerseEntity verseList) {
-    return _listVerseEntityInsertionAdapter.insertAndReturnId(
+  Future<void> insertVerseList(ListVerseEntity verseList) async {
+    await _listVerseEntityInsertionAdapter.insert(
         verseList, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertSavePoint(SavePointEntity savePoint) {
-    return _savePointEntityInsertionAdapter.insertAndReturnId(
+  Future<void> insertSavePoint(SavePointEntity savePoint) async {
+    await _savePointEntityInsertionAdapter.insert(
         savePoint, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity) {
-    return _topicSavePointEntityInsertionAdapter.insertAndReturnId(
+  Future<void> insertTopicSavePoint(
+      TopicSavePointEntity topicSavePointEntity) async {
+    await _topicSavePointEntityInsertionAdapter.insert(
         topicSavePointEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertCounterEntity(CounterEntity counterEntity) async {
+    await _counterEntityInsertionAdapter.insert(
+        counterEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteCounterEntities(List<CounterEntity> entities) async {
+    await _counterEntityDeletionAdapter.deleteList(entities);
   }
 }
 
@@ -2910,6 +3041,17 @@ class _$VerseAudioStateDao extends VerseAudioStateDao {
   }
 
   @override
+  Future<int?> getSurahVersePosition(
+    int surahId,
+    int mealId,
+  ) async {
+    return _queryAdapter.query(
+        'select count(*) from verse where surahId=?1 and id<=?2',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [surahId, mealId]);
+  }
+
+  @override
   Future<List<DownloadVoiceEntity>> getNotDownloadedMealIdVerses(
     int mealId,
     String identifier,
@@ -2992,5 +3134,307 @@ class _$ManageAudioDao extends ManageAudioDao {
         arguments: [identifier],
         queryableName: 'cuzAudioView',
         isView: true);
+  }
+}
+
+class _$CounterDao extends CounterDao {
+  _$CounterDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _counterEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'counters',
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'type': item.type,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener),
+        _counterEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'counters',
+            ['id'],
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'type': item.type,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener),
+        _counterEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'counters',
+            ['id'],
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'type': item.type,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+
+  final UpdateAdapter<CounterEntity> _counterEntityUpdateAdapter;
+
+  final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
+
+  @override
+  Stream<List<CounterEntity>> getStreamRemovableCounters() {
+    return _queryAdapter.queryListStream(
+        'select * from counters where isRemovable = 1 order by orderItem desc',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            orderItem: row['orderItem'] as int,
+            goal: row['goal'] as int?,
+            type: row['type'] as int,
+            lastCounter: row['lastCounter'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            meaning: row['meaning'] as String?),
+        queryableName: 'counters',
+        isView: false);
+  }
+
+  @override
+  Future<List<CounterEntity>> getNonRemovableCounters() async {
+    return _queryAdapter.queryList(
+        'select * from counters where isRemovable = 0 order by orderItem asc',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            orderItem: row['orderItem'] as int,
+            goal: row['goal'] as int?,
+            type: row['type'] as int,
+            lastCounter: row['lastCounter'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            meaning: row['meaning'] as String?));
+  }
+
+  @override
+  Future<CounterEntity?> getCounterById(int id) async {
+    return _queryAdapter.query('select * from counters where id=?1',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            orderItem: row['orderItem'] as int,
+            goal: row['goal'] as int?,
+            type: row['type'] as int,
+            lastCounter: row['lastCounter'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            meaning: row['meaning'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Stream<CounterEntity?> getStreamCounterById(int id) {
+    return _queryAdapter.queryStream('select * from counters where id=?1',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            orderItem: row['orderItem'] as int,
+            goal: row['goal'] as int?,
+            type: row['type'] as int,
+            lastCounter: row['lastCounter'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            meaning: row['meaning'] as String?),
+        arguments: [id],
+        queryableName: 'counters',
+        isView: false);
+  }
+
+  @override
+  Future<int?> getMaxOrder() async {
+    return _queryAdapter.query('select max(orderItem) from counters',
+        mapper: (Map<String, Object?> row) => row.values.first as int);
+  }
+
+  @override
+  Future<int> insertCounterEntity(CounterEntity counterEntity) {
+    return _counterEntityInsertionAdapter.insertAndReturnId(
+        counterEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateCounterEntity(CounterEntity counterEntity) async {
+    await _counterEntityUpdateAdapter.update(
+        counterEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteCounterEntity(CounterEntity counterEntity) async {
+    await _counterEntityDeletionAdapter.delete(counterEntity);
+  }
+}
+
+class _$EsmaulHusnaDao extends EsmaulHusnaDao {
+  _$EsmaulHusnaDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<EsmaulHusnaEntity>> getAllEsmaulHusna() async {
+    return _queryAdapter.queryList('select * from esmaulHusna',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String));
+  }
+
+  @override
+  Future<EsmaulHusnaEntity?> getEsmaulHusnaWithId(int id) async {
+    return _queryAdapter.query('select * from esmaulHusna where id=?1',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String),
+        arguments: [id]);
+  }
+}
+
+class _$PrayerDao extends PrayerDao {
+  _$PrayerDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<PrayerEntity>> getPrayers() async {
+    return _queryAdapter.queryList('select * from prayers',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            meaningContent: row['meaningContent'] as String,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            arabicContent: row['arabicContent'] as String));
+  }
+
+  @override
+  Future<PrayerEntity?> getPrayerWithId(int id) async {
+    return _queryAdapter.query('select * from prayers where id=?1',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            meaningContent: row['meaningContent'] as String,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            arabicContent: row['arabicContent'] as String),
+        arguments: [id]);
+  }
+}
+
+class _$IslamicInfoDao extends IslamicInfoDao {
+  _$IslamicInfoDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<IslamicInfoTitleEntity>> getIslamicInfoTitlesByTypeId(
+      int type) async {
+    return _queryAdapter.queryList(
+        'select * from islamicInfoTitle where type=?1',
+        mapper: (Map<String, Object?> row) => IslamicInfoTitleEntity(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            type: row['type'] as int,
+            description: row['description'] as String?),
+        arguments: [type]);
+  }
+
+  @override
+  Future<List<IslamicInfoItemEntity>> getIslamicInfoItemsByTitleId(
+      int titleId) async {
+    return _queryAdapter.queryList(
+        'select * from islamicInfoItem where titleId=?1',
+        mapper: (Map<String, Object?> row) => IslamicInfoItemEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            titleId: row['titleId'] as int,
+            description: row['description'] as String?),
+        arguments: [titleId]);
+  }
+}
+
+class _$QuranPrayerDao extends QuranPrayerDao {
+  _$QuranPrayerDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<QuranPrayerEntity>> getQuranPrayers() async {
+    return _queryAdapter.queryList('select * from prayerQuran',
+        mapper: (Map<String, Object?> row) => QuranPrayerEntity(
+            id: row['id'] as int?,
+            arabicContent: row['arabicContent'] as String,
+            source: row['source'] as String,
+            meaningContent: row['meaningContent'] as String));
   }
 }

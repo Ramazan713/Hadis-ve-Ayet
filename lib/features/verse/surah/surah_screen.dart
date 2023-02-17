@@ -17,9 +17,9 @@ import 'package:hadith/features/topic_savepoint/bloc/topic_savepoint_event.dart'
 import 'package:hadith/features/topic_savepoint/topic_savepoint_page_state.dart';
 import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
 import 'package:hadith/features/verse/verse_screen.dart';
-import 'package:hadith/widgets/custom_search_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_search_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 import 'package:hadith/widgets/topic_icon_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 

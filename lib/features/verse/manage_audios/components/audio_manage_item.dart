@@ -12,7 +12,7 @@ class AudioManageItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: ListTile(
-        title: Text("${item.key} ${item.keyName}",style: Theme.of(context).textTheme.bodyLarge,),
+        title: Text(item.title,style: Theme.of(context).textTheme.bodyLarge,),
         tileColor: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
         trailing: IconButton(

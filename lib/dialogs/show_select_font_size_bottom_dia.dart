@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/utils/font_size_helper.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'package:hadith/widgets/custom_radio.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/utils/localstorage.dart';
 
 Future<void> showSelectFontSizeBottomDia(BuildContext context,
-    {required void Function(FontSize selectedFontSize) listener}) async {
-  final sharedPreferences = LocalStorage.sharedPreferences;
+    {void Function(FontSize selectedFontSize)? listener}) async {
 
   showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        ValueNotifier<FontSize> radioNotifier = ValueNotifier(FontSize
-            .values[sharedPreferences.getInt(PrefConstants.fontSize.key) ?? 2]);
+        ValueNotifier<FontSize> radioNotifier = ValueNotifier(FontSizeHelper.getFontSize());
 
         void getSelectedRadio(FontSize fontSize) {
           radioNotifier.value = fontSize;
-
-          sharedPreferences.setInt(PrefConstants.fontSize.key, fontSize.index);
-          listener.call(fontSize);
+          FontSizeHelper.setFontSize(fontSize);
+          listener?.call(fontSize);
         }
 
         return SingleChildScrollView(

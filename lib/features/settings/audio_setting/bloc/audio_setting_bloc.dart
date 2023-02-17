@@ -20,25 +20,21 @@ class AudioSettingBloc extends Bloc<IAudioSettingEvent,AudioSettingState>{
     _editionRepo = editionRepo;
 
     on<AudioSettingEventInit>(_onInit);
-    on<AudioSettingEventSetQuality>(_onSetQuality);
     on<AudioSettingEventSetSpeed>(_onSetSpeed);
     on<AudioSettingEventSetFollowAudio>(_onSetFollowAudio);
     on<AudioSettingEventGetShared>(_onGetShared);
-
 
     add(AudioSettingEventInit());
   }
 
 
   void _emitSharedValues(Emitter<AudioSettingState>emit){
-    final audioQualityIndex = _sharedPreferences.getInt(PrefConstants.audioQuality.key) ?? PrefConstants.audioQuality.defaultValue;
-    final audioQualityEnum = AudioQualityEnum.values[audioQualityIndex];
 
     final audioFollowText = _sharedPreferences.getBool(PrefConstants.audioFollowWithText.key) ??
         PrefConstants.audioFollowWithText.defaultValue;
 
     final audioSpeed = _sharedPreferences.getDouble(PrefConstants.audioPlayerSpeed.key) ?? PrefConstants.audioPlayerSpeed.defaultValue;
-    emit(state.copyWith(audioQuality: audioQualityEnum,audioSpeed: audioSpeed,followAudioText: audioFollowText));
+    emit(state.copyWith(audioSpeed: audioSpeed,followAudioText: audioFollowText));
   }
 
   void _onInit(AudioSettingEventInit event,Emitter<AudioSettingState>emit)async{
@@ -46,11 +42,6 @@ class AudioSettingBloc extends Bloc<IAudioSettingEvent,AudioSettingState>{
 
     await emit.forEach<AudioEdition?>(_editionRepo.getSelectedStreamEdition(), onData: (edition)=>
         state.copyWith(audioEdition: edition,setEdition: true));
-  }
-
-  void _onSetQuality(AudioSettingEventSetQuality event,Emitter<AudioSettingState>emit)async{
-    await _sharedPreferences.setInt(PrefConstants.audioQuality.key, event.audioQuality.index);
-    emit(state.copyWith(audioQuality: event.audioQuality));
   }
 
   void _onGetShared(AudioSettingEventGetShared event,Emitter<AudioSettingState>emit)async{

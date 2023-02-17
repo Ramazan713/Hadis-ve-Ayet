@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/db/entities/user_info_entity.dart';
 
@@ -13,7 +14,7 @@ class SettingState extends Equatable{
 
   final String?message;
   final SearchCriteriaEnum searchCriteria;
-  final ArabicVerseUIEnum arabicVerseUI;
+  final ArabicVerseUI2X arabicVerseUI;
   final String fontText;
   final bool showSelectedListVerseIcons;
   final bool useArchiveAsSelectList;
@@ -31,7 +32,7 @@ class SettingState extends Equatable{
     required this.packageInfo
   });
 
-  SettingState copyWith({SearchCriteriaEnum? searchCriteria,ArabicVerseUIEnum? arabicVerseUI,
+  SettingState copyWith({SearchCriteriaEnum? searchCriteria,ArabicVerseUI2X? arabicVerseUI,
     String? fontText,bool? showSelectedListVerseIcons,bool? useArchiveAsSelectList,String?message,bool setMessage=false,
     UserInfoEntity? userInfoEntity,bool setUserInfo=false,String?packageInfo
   }){
@@ -49,7 +50,7 @@ class SettingState extends Equatable{
 
   static SettingState init(){
     return SettingState(
-      arabicVerseUI: ArabicVerseUIEnum.both,
+      arabicVerseUI: ArabicVerseUI2X.both,
       searchCriteria: SearchCriteriaEnum.multipleKeys,
       showSelectedListVerseIcons: false,
       useArchiveAsSelectList: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
 import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
 import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_audio_bloc.dart';
 import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_audio_event.dart';
@@ -8,7 +9,8 @@ import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_
 
 class IconPlayAudio extends StatelessWidget {
   final String identifier;
-  const IconPlayAudio({Key? key, required this.identifier}) : super(key: key);
+  final AudioQualityEnum audioQuality;
+  const IconPlayAudio({Key? key, required this.identifier,required this.audioQuality}) : super(key: key);
 
 
   Widget getPlayIcon({required Function() onPressed}){
@@ -28,7 +30,7 @@ class IconPlayAudio extends StatelessWidget {
 
           if(identifier != audioIdentifier){
             return getPlayIcon(onPressed: (){
-              audioBloc.add(BasicAudioEventStartWithIdentifier(identifier: identifier));
+              audioBloc.add(BasicAudioEventStartWithIdentifier(identifier: identifier,audioQuality: audioQuality));
             });
           }
 

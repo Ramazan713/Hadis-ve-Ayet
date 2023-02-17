@@ -7,6 +7,8 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 
+import 'migrations/migration_3_to_4.dart';
+
 
 Future<AppDatabase> getDatabase() async {
 
@@ -21,6 +23,6 @@ Future<AppDatabase> getDatabase() async {
   }
 
   return await $FloorAppDatabase.databaseBuilder(dbName)
-      .addMigrations([migration1To2,migration2To3])
+      .addMigrations([migration1To2,migration2To3,migration3To4])
       .build();
 }

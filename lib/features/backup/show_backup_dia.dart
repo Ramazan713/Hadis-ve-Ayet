@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/features/backup/components/icon_text_item.dart';
 import 'package:hadith/features/settings/auth_bloc/auth_bloc.dart';
 import 'package:hadith/features/settings/auth_bloc/auth_event.dart';
-import 'package:hadith/widgets/custom_button1.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button1.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/backup/show_cloud_download_backup_dia.dart';
 

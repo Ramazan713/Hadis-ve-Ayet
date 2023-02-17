@@ -50,6 +50,9 @@ abstract class INotification<T>{
     await AwesomeNotifications().initialize(null, [
       NotificationChannel(channelKey: notificationChannelKey,
           channelName: notificationChannelKey,
+          enableVibration: false,
+          playSound: false,
+          importance: NotificationImportance.Default,
           channelDescription: "ayetlerin indirilmesinde ve dinlenmesinde kullanılır")
     ]);
   }

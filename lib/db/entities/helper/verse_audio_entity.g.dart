@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of './verse_audio_entity.dart';
+part of 'verse_audio_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

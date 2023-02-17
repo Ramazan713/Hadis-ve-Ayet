@@ -28,4 +28,12 @@ class SavePointParam{
         autoType: autoType, savePointType: originTag, bookScope: bookScope, parentKey: parentKey, parentName: parentName);
   }
 
+  SavePoint toSavePointFromSavePoint(SavePoint savePoint){
+    final date=DateTime.now().toIso8601String();
+    return SavePoint(itemIndexPos: itemIndexPos, title: savePoint.title,modifiedDate: date,
+        autoType: savePoint.autoType, savePointType: originTag, bookScope: bookScope, parentKey: parentKey,
+        parentName: parentName, id: savePoint.id
+    );
+  }
+
 }

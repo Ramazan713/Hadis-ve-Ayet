@@ -28,7 +28,8 @@ abstract class VerseAudioStateDao{
   Future<List<VerseAudioEntity>>getAudioStateWithMealId(int mealId,String identifier);
 
 
-
+  @Query("""select count(*) from verse where surahId=:surahId and id<=:mealId""")
+  Future<int?> getSurahVersePosition(int surahId,int mealId);
 
 
   @Query("""select VA.mealId,V.surahId,V.cuzNo,VA.verseNumberTr verseNumber,S.name surahName,VA.id verseId from 

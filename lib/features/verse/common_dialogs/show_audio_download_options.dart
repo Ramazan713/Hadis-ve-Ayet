@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hadith/features/verse/verse_download_audio/constants/download_audio_enum.dart';
 
-import '../../../widgets/custom_button_negative.dart';
-import '../../../widgets/custom_button_positive.dart';
+import '../../../widgets/buttons/custom_button_negative.dart';
+import '../../../widgets/buttons/custom_button_positive.dart';
 
 void showAudioDownloadOptions(BuildContext context,{
   required Function(DownloadAudioEnum) onSelected,List<DownloadAudioEnum>?audioEnums}){

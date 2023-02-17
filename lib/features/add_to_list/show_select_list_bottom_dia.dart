@@ -7,7 +7,7 @@ import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/add_to_list/bloc/list_bloc.dart';
 import 'package:hadith/features/add_to_list/bloc/list_event.dart';
 import 'package:hadith/features/add_to_list/bloc/list_state.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'package:hadith/features/add_to_list/model/i_select_list_loader.dart';
 import 'package:hadith/features/add_to_list/widget/select_list_item.dart';
 import 'package:hadith/utils/toast_utils.dart';

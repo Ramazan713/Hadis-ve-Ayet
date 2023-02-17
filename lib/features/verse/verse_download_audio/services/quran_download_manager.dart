@@ -121,10 +121,10 @@ class QuranDownloadManager{
     if(!await _setIdentifier()){
       return;
     }
-    final audioQualityIndex = _sharedPreferences.getInt(PrefConstants.audioQuality.key)??
+    final audioQuality = _sharedPreferences.getInt(PrefConstants.audioQuality.key)??
       PrefConstants.audioQuality.defaultValue;
 
-    final audioQuality = AudioQualityEnum.values[audioQualityIndex];
+    final audioQualityEnum = AudioQualityExt.fromQuality(audioQuality);
 
     final voiceModels = await _getUnDownloadedItems(audioParam);
 
@@ -136,7 +136,7 @@ class QuranDownloadManager{
     await _quranServiceListener?.cancel();
     _quranService.initForStreamDownloading(voiceModels.length);
     _addState(_state.copyWith(downloadEnum: DownloadEnum.downloading));
-    await _quranService.startStreamDownloading(_identifier, voiceGroup,audioQuality: audioQuality);
+    await _quranService.startStreamDownloading(_identifier, voiceGroup,audioQuality: audioQualityEnum);
 
     prevAudioParam = audioParam;
 
@@ -145,7 +145,7 @@ class QuranDownloadManager{
           index++;
           if(index < voiceModelsWithGroup.length){
             voiceGroup = voiceModelsWithGroup[index];
-            await _quranService.startStreamDownloading(_identifier, voiceGroup,audioQuality: audioQuality);
+            await _quranService.startStreamDownloading(_identifier, voiceGroup,audioQuality: audioQualityEnum);
           }else{
             _addState(_state.copyWith(downloadEnum: DownloadEnum.success));
           }

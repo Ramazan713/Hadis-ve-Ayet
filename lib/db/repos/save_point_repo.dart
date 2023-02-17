@@ -48,13 +48,12 @@ class SavePointRepo{
           .map((event) => event.map((e) => e.toSavePoint()).toList());
 
 
+  Future<SavePoint?> getSavePointWithId(int id)async{
+    return (await savePointDao.getSavePointWithId(id))?.toSavePoint();
+  }
 
   Future<void>deleteSavePointWithQuery(int savePointType,String parentKey)=>
       savePointDao.deleteSavePointWithQuery(savePointType, parentKey);
-
-
-
-
 
   Future<void>saveOrReplaceAutoSavePoint(SavePointParam savePointParam,SaveAutoType autoType)async{
 
@@ -97,6 +96,12 @@ class SavePointRepo{
 
   Future<SavePoint?> loadSavePointWithId(int savePointId)async{
     return (await savePointDao.getSavePointWithId(savePointId))?.toSavePoint();
+  }
+
+  Future<void> updateSavePointWithAutoDate(SavePoint savePoint)async{
+    final date=DateTime.now();
+    final newSavepoint = savePoint.copyWith(modifiedDate: date.toIso8601String());
+    await savePointDao.updateSavePoint(newSavepoint.toSavePointEntity());
   }
 
 }

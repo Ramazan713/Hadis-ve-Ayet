@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_negative.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_negative.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showPreviewSharedImageDia(BuildContext context,{required Widget previewWidget,required Function()onTap}){
   showDialog(context: context, builder: (context){

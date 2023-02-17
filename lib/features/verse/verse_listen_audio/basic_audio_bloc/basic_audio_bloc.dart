@@ -61,12 +61,6 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     emit(state.copyWith(setMessage: true,audioModel: state.audioModel?.copyWith(setError: true)));
   }
 
-
-  AudioQualityEnum _getQuality(){
-    return AudioQualityEnum.values[_sharedPreferences.getInt(PrefConstants.audioQuality.key)??
-      PrefConstants.audioQuality.defaultValue];
-  }
-
   void _onStartWithIdentifier(BasicAudioEventStartWithIdentifier event,Emitter<BasicAudioState>emit)async{
 
     if(state.isDownloading){
@@ -89,7 +83,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
           isDisabled: false));
 
       final response = await _downloadService.downloadSingleVoice(identifier, 1, 1
-          ,audioQuality: _getQuality());
+          ,audioQuality: event.audioQuality);
       emit(state.copyWith(isDownloading: false));
       if(response is ResourceSuccess<bool> && !state.isDisabled){
         _audioService.playAudios(audioParam, identifier);

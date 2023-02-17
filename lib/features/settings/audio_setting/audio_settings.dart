@@ -10,8 +10,8 @@ import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
 import 'package:hadith/features/verse/common_dialogs/show_select_edition.dart';
 import 'package:hadith/models/item_label_model.dart';
 import 'package:hadith/themes/custom/get_setting_theme.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class AudioSettings extends StatelessWidget {
@@ -103,38 +103,5 @@ class AudioSettings extends StatelessWidget {
             ),
           ),
       ));
-  }
-}
-
-
-class _SelectAudioQuality extends StatelessWidget {
-  const _SelectAudioQuality({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final audioSettingBloc = context.read<AudioSettingBloc>();
-    return  CustomSettingsTile(
-      child: BlocSelector<AudioSettingBloc,AudioSettingState,AudioQualityEnum>(
-        selector: (state)=>state.audioQuality,
-        builder: (context,audioQuality){
-          return SettingsTile(
-            title: const Text("Ses kalitesi"),
-            description: Text(audioQuality.quality.toString()),
-            onPressed: (context){
-              final items = AudioQualityEnum.values.map((e) =>
-                  ItemLabelModel(item: e,label: e.quality.toString())).toList();
-              showSelectRadioEnums<AudioQualityEnum>(
-                  context,
-                  currentValue: ItemLabelModel(item: audioQuality,label: audioQuality.quality.toString()),
-                  radioItems: items,
-                  closeListener: (newValue){
-                    audioSettingBloc.add(AudioSettingEventSetQuality(audioQuality: newValue.item));
-                  }
-              );
-            },
-          );
-        },
-      ),
-    );
   }
 }

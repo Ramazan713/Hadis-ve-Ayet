@@ -151,7 +151,7 @@ abstract class IVerseAudioService<T extends IVerseAudioPlay>{
 class VerseAudioJustService extends IVerseAudioService<VerseJustAudioPlayer>{
 
   StreamSubscription<int?>?_subsCurrentIndex;
-  StreamSubscription<ProcessingState>?_subsPlayerState;
+  StreamSubscription<PlayerState>?_subsPlayerState;
 
 
   VerseAudioJustService({required VerseAudioRepo verseAudioRepo,
@@ -172,9 +172,12 @@ class VerseAudioJustService extends IVerseAudioService<VerseJustAudioPlayer>{
           _addState(_state.copyWith(setModel: true,audio: items[event],audioEnum: AudioEnum.running,currentIndex: event));
         }
       });
-
-      _subsPlayerState = _audioPlay.playerState.where((event) => event == ProcessingState.completed).listen((event) {
-        _addState(_state.copyWith(audioEnum: AudioEnum.finish));
+      _subsPlayerState = _audioPlay.playerState.listen((event) {
+        if(event.processingState == ProcessingState.completed){
+          _addState(_state.copyWith(audioEnum: AudioEnum.finish));
+        }else if(event.processingState == ProcessingState.ready){
+          _addState(_state.copyWith(audioEnum: event.playing?AudioEnum.running:AudioEnum.pause));
+        }
       });
 
       await _audioPlay.setPlayList(files);

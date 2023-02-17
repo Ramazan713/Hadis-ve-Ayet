@@ -10,6 +10,8 @@ import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';
 import 'package:hadith/constants/favori_list.dart';
 import 'package:hadith/constants/menu_resources.dart';
+import 'package:hadith/dialogs/show_bottom_select_menu_items_enum.dart';
+import 'package:hadith/features/hadith/hadith_menu_item.dart';
 import 'package:hadith/features/paging/bloc/paging_bloc.dart';
 import 'package:hadith/features/paging/bloc/paging_state.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
@@ -31,9 +33,10 @@ import 'package:hadith/features/share/show_preview_share_image_dia.dart';
 import 'package:hadith/features/share/show_share_alert_dialog.dart';
 import 'package:hadith/features/share/widget/list_tile_share_item.dart';
 import 'package:hadith/features/paging/widgets/custom_scrolling_paging.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 import 'package:hadith/widgets/menu_button.dart';
+import 'package:hadith/widgets/menu_item_tile.dart';
 
 import '../../constants/app_constants.dart';
 import '../display_page_state.dart';
@@ -197,6 +200,26 @@ class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> 
                               hadithId: item.item.id ?? 0,
                             ));
                             addOrRemoveFavoriteList(listParam, listBloc, isFavorite);
+                          },
+                          onLongClick: (){
+                            showSelectMenuItemDia(context,
+                                items: HadithMenuItem.values.map((e){
+                                  return IconTextItem(iconData: e.iconData, title: e.title,
+                                    onTap: () {
+                                        switch(e){
+                                          case HadithMenuItem.savePoint:
+                                            Navigator.pop(context);
+                                            showSelectSavePointBottomDia(context,
+                                                changeLoaderListener: (savePoint) {
+                                                  setArgumentWithSavePoint(savePoint);
+                                                }, savePointParam: SavePointParam.fromPagingArgument(pagingArgument, item.rowNumber));
+                                            break;
+                                        }
+                                    },);
+                                }).toList(),
+                              title: "${item.rowNumber} numaralı hadis için",
+                              titleStyle: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500)
+                            );
                           },
                           shareIconClick: () {
                             showShareAlertDialog(context, listItems: getShareListItems(item));

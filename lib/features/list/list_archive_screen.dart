@@ -11,8 +11,8 @@ import 'package:hadith/features/list/widget/list_tile_item.dart';
 import 'package:hadith/features/paging/my_extractor_glow_behavior.dart';
 import 'package:hadith/utils/sourcetype_helper.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 
 import '../../constants/enums/data_status_enum.dart';
 import '../../db/entities/views/i_list_view.dart';

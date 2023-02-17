@@ -11,18 +11,8 @@ import 'package:hadith/db/entities/book.dart';
 import 'package:hadith/db/entities/savepoint_type_entity.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 
-@Entity(tableName: "savePoint",foreignKeys: [
-  ForeignKey(
-      childColumns: ["savePointType"],
-      parentColumns: ["id"],
-      entity: SavePointTypeEntity),
-  ForeignKey(
-      childColumns: ["bookId"],
-      parentColumns: ["id"],
-      entity: Book)
-])
+
 class SavePoint extends Equatable{
-  @PrimaryKey(autoGenerate: true)
   final int? id;
   final int itemIndexPos;
   final String title;

@@ -16,8 +16,8 @@ import 'package:hadith/features/settings/bloc/setting_state.dart';
 import 'package:hadith/features/settings/loading_enum.dart';
 import 'package:hadith/utils/loading_util.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/custom_button_negative.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_negative.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 class AuthSettingBlocsConnect extends StatelessWidget {
   final Widget child;

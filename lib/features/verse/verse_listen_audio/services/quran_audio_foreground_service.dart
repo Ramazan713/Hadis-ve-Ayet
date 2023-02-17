@@ -7,6 +7,7 @@ import 'dart:ui';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hadith/db/database.dart';
+import 'package:hadith/db/entities/helper/verse_audio_entity.dart';
 import 'package:hadith/db/instance.dart';
 import 'package:hadith/db/repos/cuz_repo.dart';
 import 'package:hadith/db/repos/save_point_repo.dart';
@@ -19,6 +20,7 @@ import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
 import 'package:hadith/features/verse/verse_download_audio/models/audio_param.dart';
 import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
+import 'package:hadith/features/verse/verse_listen_audio/models/audio_attribute_state.dart';
 import 'package:hadith/features/verse/verse_listen_audio/services/i_verse_audio_service.dart';
 import 'package:hadith/features/verse/verse_listen_audio/notification_audio_verse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +30,7 @@ import 'package:mutex/mutex.dart';
 
 const String _listenState = "_listenState";
 const String _startListening = "_startListening";
+const String _sendAttributeState = "_listenSendAttributeState";
 
 const String _onListeningPause = "_onListeningPause";
 const String _onListeningStop = "_onListeningStop";
@@ -35,6 +38,8 @@ const String _onListeningResume = "_onListeningResume";
 const String _onListeningSetSpeed = "_onListeningSetSpeed";
 const String _onListeningSetPosition = "_onListeningSetDuration";
 const String _onListeningSetLoop = "_onListeningSetLoop";
+const String _onListeningSetSavePointId = "_onListeningSetSavePointId";
+
 
 class QuranAudioForegroundService{
   final NotificationAudioVerse _notification = NotificationAudioVerse();
@@ -51,6 +56,7 @@ class QuranAudioForegroundService{
   StreamSubscription<dynamic>? _subsListeningSetLoopEvents;
   StreamSubscription<dynamic>? _subsListeningSetDurationEvents;
   StreamSubscription<dynamic>? _subsListeningSetSpeedEvents;
+  StreamSubscription<dynamic>? _subsListeningSetSavePointIdEvents;
   StreamSubscription<dynamic>? _subsListeningStop;
 
 
@@ -59,8 +65,11 @@ class QuranAudioForegroundService{
   final _m = Mutex();
 
   SavePointRepo? _savePointRepo;
+  VerseAudioStateRepo? _verseAudioStateRepo;
   CuzRepo? _cuzRepo;
   AudioParam? _audioParam;
+
+  AudioAttributeState _attributeState = AudioAttributeState.init();
 
   QuranAudioForegroundService({required ServiceInstance service,required Future Function()onCancel}){
     _onCancel = onCancel;
@@ -71,6 +80,7 @@ class QuranAudioForegroundService{
       final String? identifier = event?["identifier"];
 
       if(identifier!=null){
+        _addState(AudioAttributeState.init());
         runService(audioParam,identifier);
       }
     });
@@ -84,7 +94,7 @@ class QuranAudioForegroundService{
 
     final database = await _getDatabase();
     final verseAudioRepo = VerseAudioRepo(verseAudioDao: database.verseAudioDao);
-    final verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
+    _verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
     _savePointRepo = SavePointRepo(savePointDao: database.savePointDao);
     _cuzRepo = CuzRepo(cuzDao: database.cuzDao);
 
@@ -92,7 +102,7 @@ class QuranAudioForegroundService{
 
     _audioService = VerseAudioJustService(
         sharedPreferences: sharedPreferences,
-        verseAudioRepo: verseAudioRepo,verseAudioStateRepo: verseAudioStateRepo);
+        verseAudioRepo: verseAudioRepo,verseAudioStateRepo: _verseAudioStateRepo!);
 
     _listenServiceEvents();
     _audioService?.playAudios(audioParam,identifier);
@@ -102,43 +112,62 @@ class QuranAudioForegroundService{
   }
 
 
-
+  Future<SavePointParam?> _getSavePointParam(VerseAudioModel verseAudioModel,{bool getResultForAllOption=false})async{
+    final audioEntity=verseAudioModel.audio;
+    final option = _audioParam?.option;
+    if(audioEntity == null || option == null) return null;
+    final index = verseAudioModel.currentIndex + verseAudioModel.initIndex + 1;
+    switch(option){
+      case QuranAudioOption.surah:
+        return SavePointParam(parentName: audioEntity.surahName,parentKey: audioEntity.surahId.toString(),
+            itemIndexPos: index,bookScope: BookScopeEnum.diyanetMeal,originTag: OriginTag.surah);
+      case QuranAudioOption.cuz:
+        final cuz = await _cuzRepo?.getCuz(audioEntity.cuzNo);
+        if(cuz!=null){
+          return SavePointParam(parentName: cuz.name,parentKey: cuz.cuzNo.toString(),
+              itemIndexPos: index,bookScope: BookScopeEnum.diyanetMeal,originTag: OriginTag.cuz);
+        }
+        break;
+      default:
+        if(getResultForAllOption){
+          final pos = await _verseAudioStateRepo?.getSurahVersePosition(audioEntity.surahId, audioEntity.mealId);
+          return SavePointParam(parentName: audioEntity.surahName,parentKey: audioEntity.surahId.toString(),
+              itemIndexPos: pos??0,bookScope: BookScopeEnum.diyanetMeal,originTag: OriginTag.surah);
+        }
+        return null;
+    }
+    return null;
+  }
 
   Future<void>_makeAutoSavePoint(VerseAudioModel verseAudioModel)async{
     await _m.acquire();
     try{
-      final audioEntity=verseAudioModel.audio;
-      if(_audioParam!=null&&_savePointRepo!=null&&audioEntity!=null){
-        final index = verseAudioModel.currentIndex + verseAudioModel.initIndex + 1;
-        final option = _audioParam?.option;
-        switch(option){
-          case QuranAudioOption.surah:
-            final savePointParam = SavePointParam(parentName: audioEntity.surahName,parentKey: audioEntity.surahId.toString(),
-                itemIndexPos: index,bookScope: BookScopeEnum.diyanetMeal,originTag: OriginTag.surah);
-            await _savePointRepo?.saveOrReplaceAutoSavePoint(savePointParam, SaveAutoType.audio);
-            break;
-          case QuranAudioOption.cuz:
-            final cuz = await _cuzRepo?.getCuz(audioEntity.cuzNo);
-            if(cuz!=null){
-              final savePointParam = SavePointParam(parentName: cuz.name,parentKey: cuz.cuzNo.toString(),
-                  itemIndexPos: index,bookScope: BookScopeEnum.diyanetMeal,originTag: OriginTag.cuz);
-              await _savePointRepo?.saveOrReplaceAutoSavePoint(savePointParam, SaveAutoType.audio);
-            }
-            break;
-          default:
-            break;
+      if(_audioParam!=null&&_savePointRepo!=null){
+        final savePointParam = await _getSavePointParam(verseAudioModel);
+        if(savePointParam!=null){
+          await _savePointRepo?.saveOrReplaceAutoSavePoint(savePointParam, SaveAutoType.audio);
         }
       }
     }finally{
       _m.release();
     }
+  }
 
-
+  Future<void> _updateSavepoint(VerseAudioModel verseAudioModel)async{
+    final savepointId = _attributeState.savepointId;
+    if(savepointId==null)return;
+    final savepointParam = await _getSavePointParam(verseAudioModel,getResultForAllOption: true);
+    if(savepointParam==null)return;
+    final savePoint = await _savePointRepo?.getSavePointWithId(savepointId);
+    if(savePoint==null)return;
+    final updatedSavepoint = savepointParam.toSavePointFromSavePoint(savePoint);
+    await _savePointRepo?.updateSavePoint(updatedSavepoint);
   }
 
 
   void _endService(VerseAudioModel event)async{
     await _makeAutoSavePoint(event);
+    await _updateSavepoint(event);
     await _callOnCancel();
   }
 
@@ -186,6 +215,16 @@ class QuranAudioForegroundService{
       _audioService?.setFinish();
     });
 
+    _subsListeningSetSavePointIdEvents = _service.on(_onListeningSetSavePointId).listen((event) {
+      final int? savepointId = event?["data"];
+      _addState(_attributeState.copyWith(savepointId: savepointId,setSavepointId: true));
+    });
+
+  }
+
+  void _addState(AudioAttributeState newState){
+    _attributeState = newState;
+    _service.invoke(_sendAttributeState,{"state": newState.toJson()});
   }
 
   void _listenNotificationButtons(){
@@ -225,6 +264,7 @@ class QuranAudioForegroundService{
     await _subsState?.cancel();
     await _subsStateNotification?.cancel();
     await _subsListeningStop?.cancel();
+    await _subsListeningSetSavePointIdEvents?.cancel();
   }
 
   Future<void> dispose()async{
@@ -260,6 +300,10 @@ class QuranAudioForegroundService{
     FlutterBackgroundService().invoke(_onListeningSetLoop,{"data":isLoop});
   }
 
+  static void setSavePointId(int? savepointId){
+    FlutterBackgroundService().invoke(_onListeningSetSavePointId,{"data": savepointId});
+  }
+
   static void stopService()async{
     final service = FlutterBackgroundService();
     if(await service.isRunning()){
@@ -278,6 +322,17 @@ class QuranAudioForegroundService{
     return service.on(_listenState).asBroadcastStream().map((event){
       final value = VerseAudioModel.fromJson(event?["state"]);
       if(value.runtimeType == VerseAudioModel) {
+        return value;
+      }
+      return null;
+    });
+  }
+
+  static Stream<AudioAttributeState?> getAudioAttributeStateStream(){
+    final service = FlutterBackgroundService();
+    return service.on(_sendAttributeState).asBroadcastStream().map((event){
+      final value = AudioAttributeState.fromJson(event?["state"]);
+      if(value.runtimeType == AudioAttributeState) {
         return value;
       }
       return null;

@@ -6,18 +6,13 @@ import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/features/save_point/save_point_bloc/save_point_event.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
 
-abstract class ISavePointEditEvent extends Equatable{
-  @override
-  List<Object?> get props => [];
-}
+abstract class ISavePointEditEvent{}
 
 class SavePointEditEventInitialRequest extends ISavePointEditEvent{
   final SavePointParam savePointParam;
+  final int? savePointId;
 
-  SavePointEditEventInitialRequest({required this.savePointParam});
-
-  @override
-  List<Object?> get props => [savePointParam];
+  SavePointEditEventInitialRequest({required this.savePointParam,this.savePointId});
 }
 
 class SavePointEditEventChangeSavePoint extends ISavePointEditEvent{
@@ -36,9 +31,6 @@ class SavePointEditEventInsert extends ISavePointEditEvent{
   final String title;
 
   SavePointEditEventInsert({required this.savePointParam,required this.dateTime,required this.title});
-
-  @override
-  List<Object?> get props => [savePointParam,dateTime,title];
 }
 
 class SavePointEditEventOverride extends ISavePointEditEvent{
@@ -46,8 +38,6 @@ class SavePointEditEventOverride extends ISavePointEditEvent{
   final SavePointParam savePointParam;
 
   SavePointEditEventOverride({required this.selectedSavePoint,required this.savePointParam});
-  @override
-  List<Object?> get props => [selectedSavePoint,savePointParam];
 }
 
 

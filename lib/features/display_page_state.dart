@@ -34,6 +34,7 @@ import 'package:hadith/features/paging/default_paging_argument.dart';
 import '../utils/search_helper.dart';
 import 'add_to_list/bloc/list_bloc.dart';
 import 'add_to_list/bloc/list_event.dart';
+import 'app/ads/ad_check_widget.dart';
 
 abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
     with WidgetsBindingObserver{
@@ -49,31 +50,10 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
   PagingArgument pagingArgument=DefaultPagingArgument();
   SearchCriteriaEnum searchCriteriaEnum=SearchCriteriaEnum.inOneExpression;
 
-  InterstitialAd? _interstitialAd;
   final ScrollController nestedViewScrollController = ScrollController();
   bool lastIsScrollUp=true;
   bool lastIsPrevSuccessScroll=false;
-
-  Timer? _adTimer;
-
-  void _checkAdStatus(){
-    _adTimer=Timer.periodic(const Duration(seconds: AdUtil.tickIntervalSeconds), (timer) {
-      if(_interstitialAd==null){
-        if(AdUtil.increaseConsumeSeconds()){
-          _loadAd();
-        }
-      }
-    });
-  }
-
-  void _checkAdOpeningCounter(){
-    if(_interstitialAd==null){
-      if(AdUtil.increaseOpeningCounter()){
-        _loadAd();
-      }
-    }
-  }
-
+  
 
   @override
   void initState() {
@@ -95,24 +75,8 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
 
     loadSavePoint(context);
     loadSearchCriteria(pagingArgument.searchKey);
-
-
-
-    return BlocBuilder<PremiumBloc,PremiumState>(
-      builder: (context,state){
-        if(!state.isPremium){
-          _checkAdOpeningCounter();
-          _checkAdStatus();
-        }
-        return WillPopScope(onWillPop: (){
-          if(!state.isPremium&&_interstitialAd!=null){
-            _interstitialAd?.show();
-          }
-          return Future.value(true);
-        },child: buildPage(context)
-        );
-      },
-    );
+    
+    return AdCheckWidget(child: buildPage(context));
   }
 
 
@@ -156,34 +120,6 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
     }
 
   }
-
-  void _loadAd(){
-    InterstitialAd.load(
-        adUnitId: AdUtil.interstitialAdId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (InterstitialAd ad) {
-            // Keep a reference to the ad so you can show it later.
-            _interstitialAd = ad;
-
-            _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
-              onAdDismissedFullScreenContent: (InterstitialAd ad) {
-                ad.dispose();
-              },
-              onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-                ad.dispose();
-              },
-              onAdShowedFullScreenContent: (ad){
-                AdUtil.resetValues();
-              }
-            );
-
-
-          }, onAdFailedToLoad: (LoadAdError error) {  },
-        ));
-  }
-
-
 
   void loadSearchCriteria(String? searchKey)async{
     if(searchKey!=null){
@@ -329,7 +265,6 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
 
   @override
   void dispose() {
-    _adTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

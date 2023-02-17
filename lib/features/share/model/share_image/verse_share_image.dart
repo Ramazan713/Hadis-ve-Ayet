@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/features/share/model/share_image/i_share_image.dart';
 import 'package:hadith/features/verse/common_models/verse_model.dart';
@@ -19,7 +20,7 @@ class ShareVerseImage extends IShareImage<VerseModel>{
     final  textStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
         fontSize: fontSize,fontWeight: verse.isProstrationVerse ? FontWeight.w700 : FontWeight.normal, inherit: true
     );
-    ArabicVerseUIEnum arabicVerseUIEnum=ArabicVerseUIEnum.values[sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key)
+    ArabicVerseUI2X arabicVerseUIEnum=ArabicVerseUI2X.values[sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key)
         ??PrefConstants.arabicVerseAppearanceEnum.defaultValue];
 
     return RepaintBoundary(

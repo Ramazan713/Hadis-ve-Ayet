@@ -15,7 +15,9 @@ class VerseArabic extends Equatable{
   final String verse;
   final String verseNumber;
   final int verseNumberTr;
-  const VerseArabic({required this.id,required this.mealId,required this.verse,required this.verseNumber,required this.verseNumberTr});
+  const VerseArabic({required this.id,required this.mealId,required this.verse,
+    required this.verseNumber,required this.verseNumberTr,
+  });
 
   @override
   List<Object?> get props => [id,mealId,verse,verseNumber,verseNumberTr];

@@ -13,7 +13,7 @@ class SurahBloc extends Bloc<ISurahEvent,SurahState>{
   }
   void _onDataRequested(SurahEventRequested event,Emitter<SurahState>emit)async{
     emit(state.copyWith(status: DataStatus.loading));
-    final dataSource=event.searchCriteria!=null?surahRepo.getSearchedSurahs(event.searchCriteria??""):
+    final dataSource=event.searchCriteria!=null?surahRepo.getSearchedSurahes(event.searchCriteria??""):
         surahRepo.getAllSurah();
     final data=await dataSource;
     emit(state.copyWith(status: DataStatus.success,items: data));

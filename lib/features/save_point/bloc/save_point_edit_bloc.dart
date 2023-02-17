@@ -2,6 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
+import 'package:hadith/db/entities/save_point_entity.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/save_point/constants/scope_filter_enum.dart';
@@ -14,6 +15,7 @@ import 'package:hadith/utils/localstorage.dart';
 import 'package:hadith/utils/save_point_helper.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:collection/collection.dart';
 
 class SavePointEditBloc extends Bloc<ISavePointEditEvent,SavePointEditState>{
   final SavePointRepo savePointRepo;
@@ -29,7 +31,6 @@ class SavePointEditBloc extends Bloc<ISavePointEditEvent,SavePointEditState>{
     on<SavePointEditEventOverride>(_onSavePointOverride,transformer: restartable());
     on<SavePointEditEventChangeSavePoint>(_onChangeSavePoint,transformer: restartable());
     on<SavePointEditEventChangeScopeFilter>(_onChangeScopeFilter,transformer: restartable());
-
   }
 
   void _addMessage(String message,Emitter<SavePointEditState>emit){
@@ -37,9 +38,14 @@ class SavePointEditBloc extends Bloc<ISavePointEditEvent,SavePointEditState>{
     emit(state.copyWith(setMessage: true));
   }
 
-
   void _onSavePointRequest(SavePointEditEventInitialRequest event,Emitter<SavePointEditState>emit)async{
-    emit(state.copyWith(status: DataStatus.loading));
+    if(state.savePoints.isNotEmpty){
+      emit(state.copyWith(
+          selectedSavePoint: state.savePoints.firstWhereOrNull((element) => element.id == event.savePointId),
+          setSelectedSavePoint: true
+      ));
+    }
+
     final scopeFilter = ScopeFilterEnum.values[_sharedPreferences.getInt(PrefConstants.scopeFilterEnum.key) ?? 0];
     _filterController.add(scopeFilter);
     emit(state.copyWith(scopeFilter: scopeFilter,setScopeFilter: true));
@@ -57,8 +63,9 @@ class SavePointEditBloc extends Bloc<ISavePointEditEvent,SavePointEditState>{
       if(!isScopeOrigin || filter == ScopeFilterEnum.scope)return items;
       return items.where((element) => element.parentKey == event.savePointParam.parentKey).toList();
     });
-    await emit.forEach<List<SavePoint>>(filteredStreamData, onData: (data)=>state.copyWith(status: DataStatus.success,
-        savePoints: data));
+    await emit.forEach<List<SavePoint>>(filteredStreamData, onData: (data)=>
+        state.copyWith(status: DataStatus.success, savePoints: data)
+    );
   }
 
   void _onSavePointInsert(SavePointEditEventInsert event,Emitter<SavePointEditState>emit)async{

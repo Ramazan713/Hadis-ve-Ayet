@@ -30,26 +30,25 @@ class ManageAudioRepo{
     _verseAudioDao = verseAudioDao;
   }
 
-  Stream<List<ManageAudioModel>> getAudioManageModels(String identifier)async*{
+  Stream<List<ManageAudioModel>> getCuzAudioManageModels(String identifier)async*{
     final cuzs = await _cuzDao.getAllCuz();
+    final cuzManageStream = _manageAudioDao.getStreamCuzAudioViews(identifier)
+        .map((cuzViewList) => cuzViewList.map((cuzView){
+      final cuz = cuzs.firstWhere((element) => element.cuzNo == cuzView.cuzNo);
+      return ManageAudioModel.fromCuzAudioView(cuzView, cuz.name);
+    }).toList());
+    yield* cuzManageStream;
+  }
+
+  Stream<List<ManageAudioModel>> getSurahAudioManageModels(String identifier)async*{
     final surahs = await _surahDao.getAllSurah();
     final surahManageStream = _manageAudioDao.getStreamSurahAudioViews(identifier)
         .map((surahViewList) => surahViewList.map((surahView){
-          final surah = surahs.firstWhere((element) => element.id == surahView.surahId);
-          return ManageAudioModel.fromSurahAudioView(surahView, surah.name);
+      final surah = surahs.firstWhere((element) => element.id == surahView.surahId);
+      return ManageAudioModel.fromSurahAudioView(surahView, surah.name);
     }).toList());
-    final cuzManageStream = _manageAudioDao.getStreamCuzAudioViews(identifier)
-        .map((cuzViewList) => cuzViewList.map((cuzView){
-        final cuz = cuzs.firstWhere((element) => element.cuzNo == cuzView.cuzNo);
-        return ManageAudioModel.fromCuzAudioView(cuzView, cuz.name);
-    }).toList());
-
-    yield* Rx.combineLatest<List<ManageAudioModel>,List<ManageAudioModel>>([surahManageStream,cuzManageStream],(list)=>list.reduce((value, element){
-      value.addAll(element);
-      return value;
-    }));
+    yield* surahManageStream;
   }
-
 
   Future<void>deleteAudios(ManageAudioModel audioModel)async{
     final List<VerseAudio> verseAudios;

@@ -6,18 +6,16 @@ import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
 
 class AudioSettingState extends Equatable{
 
-  final AudioQualityEnum audioQuality;
   final double audioSpeed;
   final bool followAudioText;
   final AudioEdition? audioEdition;
 
-  const AudioSettingState({required this.audioQuality,required this.audioSpeed,
+  const AudioSettingState({required this.audioSpeed,
     required this.followAudioText,this.audioEdition});
 
-  AudioSettingState copyWith({AudioQualityEnum? audioQuality,double? audioSpeed,
+  AudioSettingState copyWith({double? audioSpeed,
     bool? followAudioText,AudioEdition? audioEdition,bool setEdition=false}){
     return AudioSettingState(
-        audioQuality: audioQuality??this.audioQuality,
         audioSpeed: audioSpeed??this.audioSpeed,
         followAudioText: followAudioText??this.followAudioText,
         audioEdition: setEdition?audioEdition:this.audioEdition
@@ -25,11 +23,10 @@ class AudioSettingState extends Equatable{
   }
 
   static AudioSettingState init(){
-    return const AudioSettingState(audioQuality: AudioQualityEnum.q64,
-      audioSpeed: 1.0, followAudioText: true);
+    return const AudioSettingState(audioSpeed: 1.0, followAudioText: true);
   }
 
   @override
-  List<Object?> get props => [audioQuality,audioSpeed,followAudioText,audioEdition];
+  List<Object?> get props => [audioSpeed,followAudioText,audioEdition];
 
 }

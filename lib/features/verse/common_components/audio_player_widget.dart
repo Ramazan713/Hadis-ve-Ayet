@@ -7,7 +7,8 @@ import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_state.
 
 
 class AudioPlayerWidget extends StatelessWidget {
-  const AudioPlayerWidget({Key? key}) : super(key: key);
+  final Function()?onBookmarkClick;
+  const AudioPlayerWidget({Key? key,this.onBookmarkClick}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class AudioPlayerWidget extends StatelessWidget {
               switchInCurve: Curves.easeIn,
               duration: const Duration(milliseconds: 300),
               child:
-              !isActive ? const SizedBox() : VerseAudioItem());
+              !isActive ? const SizedBox() : VerseAudioItem(onBookmarkClick: onBookmarkClick,));
         }
     );
   }

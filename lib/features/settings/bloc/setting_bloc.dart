@@ -4,7 +4,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/db/entities/user_info_entity.dart';
 import 'package:hadith/db/repos/user_info_repo.dart';
@@ -41,7 +42,7 @@ class SettingBloc extends Bloc<ISettingEvent,SettingState>{
 
   void _onInit(SettingEventInit event,Emitter<SettingState>emit)async{
     final searchCriteria = SearchHelper.getCriteria();
-    final arabicUI = ArabicVerseUIEnum.values[_sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key) ??
+    final arabicUI = ArabicVerseUI2X.values[_sharedPreferences.getInt(PrefConstants.arabicVerseAppearanceEnum.key) ??
         PrefConstants.arabicVerseAppearanceEnum.defaultValue];
     final fontText = FontSize.values[_sharedPreferences.getInt(PrefConstants.fontSize.key) ??
         PrefConstants.fontSize.defaultValue].shortName;

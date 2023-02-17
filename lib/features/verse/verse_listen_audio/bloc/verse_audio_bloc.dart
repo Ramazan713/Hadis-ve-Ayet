@@ -10,6 +10,7 @@ import 'package:hadith/features/verse/verse_download_audio/models/audio_param.da
 import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
 import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_event.dart';
 import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_state.dart';
+import 'package:hadith/features/verse/verse_listen_audio/models/audio_attribute_state.dart';
 import 'package:hadith/features/verse/verse_listen_audio/services/quran_audio_foreground_service.dart';
 import 'package:hadith/features/verse/verse_listen_audio/models/verse_audio_model.dart';
 import 'package:hadith/models/resource.dart';
@@ -37,15 +38,18 @@ class VerseAudioBloc extends Bloc<IVerseAudioEvent,VerseAudioState>{
     on<AudioEventPause>(_onPause,transformer: restartable());
     on<AudioEventInit>(_onInit);
     on<AudioEventInit2>(_onInit2);
+    on<AudioEventInitAudioAttribute>(_onInitAudioAttribute);
     on<AudioEventRequestOption>(_onRequestOption,transformer: restartable());
     on<AudioEventChangeSpeed>(_onSetSpeed,transformer: restartable());
     on<AudioEventChangePosition>(_onSetPosition,transformer: restartable());
     on<AudioEventSetLoop>(_onSetLoop,transformer: restartable());
     on<AudioEventChangeVisibilityAudioWidget>(_onVisibilityAudioPlayerWidget,transformer: restartable());
     on<AudioEventStop>(_onStop,transformer: restartable());
+    on<AudioEventSetSavePointId>(_onSetSavepointId,transformer: restartable());
 
     add(AudioEventInit());
     add(AudioEventInit2());
+    add(AudioEventInitAudioAttribute());
   }
 
   void _onInit(AudioEventInit event,Emitter<VerseAudioState> emit)async{
@@ -64,6 +68,13 @@ class VerseAudioBloc extends Bloc<IVerseAudioEvent,VerseAudioState>{
           ,showAudioPlayerWidget: false);
     });
   }
+
+  void _onInitAudioAttribute(AudioEventInitAudioAttribute event,Emitter<VerseAudioState> emit)async{
+    await emit.forEach<AudioAttributeState?>(QuranAudioForegroundService.getAudioAttributeStateStream(), onData: (data){
+      return state.copyWith(audioAttributeState: data,setAudioAttributeState: true);
+    });
+  }
+
 
 
   void _sendStateMessage(String message,Emitter<VerseAudioState> emit){
@@ -176,6 +187,10 @@ class VerseAudioBloc extends Bloc<IVerseAudioEvent,VerseAudioState>{
 
   void _onSetPosition(AudioEventChangePosition event,Emitter<VerseAudioState> emit){
     QuranAudioForegroundService.setPosition(event.duration);
+  }
+
+  void _onSetSavepointId(AudioEventSetSavePointId event,Emitter<VerseAudioState> emit)async{
+    QuranAudioForegroundService.setSavePointId(event.savepointId);
   }
 
   void _onSetLoop(AudioEventSetLoop event,Emitter<VerseAudioState> emit){

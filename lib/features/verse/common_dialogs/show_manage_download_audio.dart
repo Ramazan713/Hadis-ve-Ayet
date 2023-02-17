@@ -5,8 +5,8 @@ import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_b
 import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_event.dart';
 import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_state.dart';
 import 'package:hadith/features/verse/verse_download_audio/constants/download_enum.dart';
-import 'package:hadith/widgets/custom_button_negative.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_negative.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 
 

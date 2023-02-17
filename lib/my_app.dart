@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
+import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
+import 'package:hadith/features/extra_features/counter/data/repo/counter_repo_impl.dart';
+import 'package:hadith/features/extra_features/counter/domain/repo/counter_repo.dart';
+import 'package:hadith/features/extra_features/counter/domain/use_case/insert_counter_use_case.dart';
+import 'package:hadith/features/extra_features/counter/presentation/counter_detail/bloc/counter_detail_bloc.dart';
+import 'package:hadith/features/extra_features/counter/presentation/counter_detail_setting/bloc/counter_setting_bloc.dart';
+import 'package:hadith/features/extra_features/esmaul_husna/presentation/show_list_esmaul_husna/bloc/show_esmaul_husna_bloc.dart';
+import 'package:hadith/features/extra_features/islamic_info/presentation/detail_islamic_info/bloc/detail_islamic_info_bloc.dart';
+import 'package:hadith/features/extra_features/prayer_surah/data/repo/prayer_repo_impl.dart';
+import 'package:hadith/features/extra_features/prayer_surah/domain/repo/prayer_repo.dart';
+import 'package:hadith/features/extra_features/prayer_surah/presentation/detail_prayer/bloc/detail_prayer_bloc.dart';
+import 'package:hadith/features/extra_features/prayer_surah/presentation/show_prayer_surah/bloc/show_prayer_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_archive_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_hadith_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_verse_bloc.dart';
@@ -52,8 +64,18 @@ import 'package:hadith/utils/localstorage.dart';
 import 'db/repos/audio_edition_repo.dart';
 import 'db/repos/verse_arabic_repo.dart';
 import 'db/repos/verse_audio_state_repo.dart';
-import 'features/bottom_nav/bloc/bottom_nav_bloc.dart';
-import 'features/bottom_nav/bottom_navbar.dart';
+import 'features/app/bottom_navbar.dart';
+import 'features/extra_features/counter/presentation/add_counter/bloc/add_counter_bloc.dart';
+import 'features/extra_features/counter/presentation/manage_counter/bloc/manage_counter_bloc.dart';
+import 'features/extra_features/counter/presentation/show_counters/bloc/counter_show_bloc.dart';
+import 'features/extra_features/esmaul_husna/data/repo/esmaul_husna_repo_impl.dart';
+import 'features/extra_features/esmaul_husna/domain/repo/esmaul_husna_repo.dart';
+import 'features/extra_features/esmaul_husna/presentation/detail_esmaul_husna/bloc/detail_esmaul_husna_bloc.dart';
+import 'features/extra_features/islamic_info/data/repo/islamic_info_repo_impl.dart';
+import 'features/extra_features/islamic_info/domain/repo/islamic_info_repo.dart';
+import 'features/extra_features/quran_prayer/data/repo/quran_prayer_repo_impl.dart';
+import 'features/extra_features/quran_prayer/domain/repo/quran_prayer_repo.dart';
+import 'features/extra_features/quran_prayer/presentation/show_quran_prayer_page/bloc/show_quran_prayer_bloc.dart';
 import 'features/premium/bloc/premium_event.dart';
 import 'features/settings/audio_setting/bloc/audio_setting_bloc.dart';
 import 'features/verse/common_services/file_audio_editor.dart';
@@ -77,6 +99,12 @@ class MyApp extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
+        RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
+        RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
+        RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDao)),
+        RepositoryProvider<CounterRepo>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDao)),
+        RepositoryProvider(create: (context)=>InsertCounterUseCase(counterRepo: context.read<CounterRepo>())),
         RepositoryProvider<ListRepo>(
             create: (context) => ListRepo(listDao: appDatabase.listDao)),
         RepositoryProvider<HadithRepo>(
@@ -129,6 +157,17 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
+          BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
+          BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>AddCounterBloc(counterRepo: context.read(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>DetailIslamicInfoBloc(infoRepo: context.read())),
+          BlocProvider(create: (context)=>CounterDetailBloc(counterRepo: context.read(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>DetailEsmaulHusnaBloc(esmaulHusnaRepo: context.read(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>ShowEsmaulHusnaBloc(esmaulHusnaRepo: context.read<EsmaulHusnaRepo>())),
+          BlocProvider(create: (context)=>CounterSettingBloc()),
+          BlocProvider(create: (context)=>ManageCounterBloc(counterRepo: context.read<CounterRepo>(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>CounterShowBloc(counterRepo: context.read<CounterRepo>())),
           BlocProvider(create: (context)=>AudioSettingBloc(editionRepo: context.read<AudioEditionRepo>())),
           BlocProvider(
               create: (context) =>
@@ -185,7 +224,6 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<ThemeBloc,ThemeState>(
           builder: (context,state){
             context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
-
 
             return Phoenix(
               child: MaterialApp(

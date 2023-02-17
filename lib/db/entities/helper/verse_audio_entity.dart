@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part './verse_audio_entity.g.dart';
+part 'verse_audio_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 @Entity(tableName: "verseAudioTemp")

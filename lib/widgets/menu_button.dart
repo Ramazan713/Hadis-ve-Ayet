@@ -15,10 +15,11 @@ class MenuButton<E> extends StatelessWidget {
         value: menuItem.value,
         child: Row(
           children: [
+            menuItem.iconData!= null ?
             Icon(
               menuItem.iconData,
               color: textStyle?.color,
-            ),
+            ): const SizedBox(),
             const SizedBox(
               width: 7,
             ),
@@ -43,6 +44,7 @@ class MenuButton<E> extends StatelessWidget {
     );
 
     return PopupMenuButton<E>(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
       itemBuilder: (context) => getPopupMenuItemsList(textStyle),
       onSelected:selectedFunc,
     );

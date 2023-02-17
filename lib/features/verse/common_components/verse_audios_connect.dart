@@ -30,8 +30,8 @@ class VerseAudiosConnect extends StatelessWidget {
               }else if(state.askInterruptAndDownload){
                 showCustomAlertBottomDia(
                     context,
-                    title: "Şuanda audio zaten çalıyor",
-                    content: "şuan audio yarıda kesip, indirme yapmak istiyor musunuz?",
+                    title: "Şuanda ses oynatıcısı zaten çalıyor",
+                    content: "ses oynatıcısını yarıda kesip, indirme yapmak istiyor musunuz?",
                     btnApproved: ()async{
                       final verseModel = state.tempModel;
                       final option = state.tempOption;

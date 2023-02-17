@@ -74,6 +74,13 @@ android {
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
         }
+
+        profile {
+            keyAlias keystoreProperties['profileKeyAlias']
+            keyPassword keystoreProperties['profileKeyPassword']
+            storeFile keystoreProperties['profileStoreFile'] ? file(keystoreProperties['profileStoreFile']) : null
+            storePassword keystoreProperties['profileStorePassword']
+        }
     }
     buildTypes {
         release {
@@ -81,6 +88,10 @@ android {
         }
         debug{
             applicationIdSuffix ".debug"
+        }
+        profile{
+            signingConfig signingConfigs.profile
+            applicationIdSuffix ".staging"
         }
     }
 

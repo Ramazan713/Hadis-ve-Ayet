@@ -21,9 +21,7 @@ class VerseJustAudioPlayer extends IVerseAudioPlay{
 
   Stream<int?> get currentIndexStream => _player.currentIndexStream;
 
-  ValueStream<PlaybackEvent> get test => _player.playbackEventStream.shareValue();
-
-  ValueStream<ProcessingState> get playerState => _player.playerStateStream.map((event) => event.processingState).shareValue();
+  ValueStream<PlayerState> get playerState => _player.playerStateStream.shareValue();
 
   Future<void> setPlayList(List<File>files)async{
     final audioSources = files.map((e) => AudioSource.file(e.path)).toList();
@@ -32,11 +30,11 @@ class VerseJustAudioPlayer extends IVerseAudioPlay{
       children: audioSources
     );
 
+
     await _player.setAudioSource(playList);
     await _player.setShuffleModeEnabled(false);
     await _player.load();
     await _checkAndSetSpeed();
-
   }
 
   @override

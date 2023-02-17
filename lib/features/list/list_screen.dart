@@ -6,7 +6,7 @@ import 'package:hadith/constants/common_menu_items.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/constants/enums/list_edit_enum.dart';
 import 'package:hadith/dialogs/show_bottom_select_menu_items_enum.dart';
-import 'package:hadith/features/bottom_nav/widget/bottom_nav_widget_state.dart';
+import 'package:hadith/features/app/widget/bottom_nav_focus_widget.dart';
 import 'package:hadith/features/list/bloc/blocs/list_hadith_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_verse_bloc.dart';
 import 'package:hadith/features/list/bloc/state/list_hadith_state.dart';
@@ -15,10 +15,10 @@ import 'package:hadith/features/list/list_archive_screen.dart';
 import 'package:hadith/features/list/list_funcs.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/custom_search_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_search_sliver_appbar.dart';
 import 'package:hadith/widgets/custom_animated_widget.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 import 'package:hadith/db/entities/views/i_list_view.dart';
 import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
 import 'package:hadith/features/list/model/list_bloc_context.dart';
@@ -34,7 +34,7 @@ class ListScreen extends StatefulWidget{
   State<ListScreen> createState() => _ListScreenState();
 }
 
-class _ListScreenState extends BottomNavWidgetState<ListScreen> {
+class _ListScreenState extends State<ListScreen> {
   var _currentTabIndex = 0;
 
   TextEditingController searchEditController = TextEditingController();
@@ -170,76 +170,77 @@ class _ListScreenState extends BottomNavWidgetState<ListScreen> {
   }
 
   @override
-  Widget buildPage(BuildContext context) {
-
+  Widget build(BuildContext context) {
     blocContext.setBlockState(_currentTabIndex, context);
     blocContext.requestLoadItems();
-    return WillPopScope(
-      onWillPop: (){
-        bool resultVal;
-        if(customSearchSliverBar.isSearchBar){
-          resultVal=false;
-          customSearchSliverBar.isSearchBar=false;
-          blocContext.requestLoadItems(searchCriteria: null);
-        }else{
-          resultVal=true;
-        }
-        return Future.value(resultVal);
-      },
-      child: DefaultTabController(
-        initialIndex: _currentTabIndex,
-        length: 2,
-        child:Scaffold(
-          resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
-            body: SafeArea(
-              child: CustomSliverNestedView(context,
-                child: Stack(
-                  children: [
-                    TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          BlocBuilder<ListHadithBloc, ListHadithState>(
-                              builder: (context, state) {
-                                return getBlocView(state, context);
-                              }),
-                          BlocBuilder<ListVerseBloc, ListVerseState>(
-                              builder: (context, state) {
-                                return getBlocView(state, context);
-                              }),
-                        ]),
-                    Positioned(
-                      bottom: 16,
-                      right: 16,
-                      child: ValueListenableBuilder<bool>(
-                        valueListenable: fabVisibilityNotifier,
-                        builder: (context, val, child) {
-                          return CustomAnimatedWidget(
-                            value: val,
-                            child: FloatingActionButton(
-                              onPressed: (){
-                                showEditTextBottomDia(context, (text) {
-                                  blocContext.insertListItem(text);
-                                },title: "Başlık Girin");
-                              },
-                              child: const Icon(Icons.add),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
+    return BottomBarFocusWidget(
+      child: WillPopScope(
+        onWillPop: (){
+          bool resultVal;
+          if(customSearchSliverBar.isSearchBar){
+            resultVal=false;
+            customSearchSliverBar.isSearchBar=false;
+            blocContext.requestLoadItems(searchCriteria: null);
+          }else{
+            resultVal=true;
+          }
+          return Future.value(resultVal);
+        },
+        child: DefaultTabController(
+          initialIndex: _currentTabIndex,
+          length: 2,
+          child:Scaffold(
+              resizeToAvoidBottomInset: kResizeToAvoidBottomInset,
+              body: SafeArea(
+                child: CustomSliverNestedView(context,
+                  child: Stack(
+                    children: [
+                      TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            BlocBuilder<ListHadithBloc, ListHadithState>(
+                                builder: (context, state) {
+                                  return getBlocView(state, context);
+                                }),
+                            BlocBuilder<ListVerseBloc, ListVerseState>(
+                                builder: (context, state) {
+                                  return getBlocView(state, context);
+                                }),
+                          ]),
+                      Positioned(
+                        bottom: 16,
+                        right: 16,
+                        child: ValueListenableBuilder<bool>(
+                          valueListenable: fabVisibilityNotifier,
+                          builder: (context, val, child) {
+                            return CustomAnimatedWidget(
+                              value: val,
+                              child: FloatingActionButton(
+                                onPressed: (){
+                                  showEditTextBottomDia(context, (text) {
+                                    blocContext.insertListItem(text);
+                                  },title: "Başlık Girin");
+                                },
+                                child: const Icon(Icons.add),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                    fabVisibilityNotifier.value = !innerBoxIsScrolled;
+                    return [
+                      ValueListenableBuilder(valueListenable: rebuildAppbarNotifier,
+                          builder: (context,value,child){
+                            return customSearchSliverBar.build(context);
+                          })
+                    ];
+                  }, isBottomNavAffected: true,
                 ),
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                  fabVisibilityNotifier.value = !innerBoxIsScrolled;
-                  return [
-                    ValueListenableBuilder(valueListenable: rebuildAppbarNotifier,
-                        builder: (context,value,child){
-                          return customSearchSliverBar.build(context);
-                        })
-                  ];
-                }, isBottomNavAffected: true,
-              ),
-            )),
+              )),
+        ),
       ),
     );
   }

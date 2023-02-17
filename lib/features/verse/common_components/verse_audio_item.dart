@@ -7,27 +7,12 @@ import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_event.
 import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_state.dart';
 
 class VerseAudioItem extends StatelessWidget {
-  VerseAudioItem({Key? key}) : super(key: key);
+
+  final Function()?onBookmarkClick;
+
+  VerseAudioItem({Key? key,this.onBookmarkClick}) : super(key: key);
 
   final ValueNotifier<bool>_showSpeedNotifier=ValueNotifier(false);
-
-  Widget getStartPauseIcon(VerseAudioBloc audioBloc, AudioEnum audioEnum) {
-
-    if(audioEnum == AudioEnum.pause){
-      return  IconButton(
-          onPressed: () {
-            audioBloc.add(AudioEventResume());
-          },
-          icon: const Icon(Icons.play_arrow));
-    }else if(audioEnum == AudioEnum.running){
-      return IconButton(
-          onPressed: () {
-            audioBloc.add(AudioEventPause());
-          },
-          icon: const Icon(Icons.pause));
-    }
-    return const Icon(Icons.hourglass_empty);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +53,8 @@ class VerseAudioItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Spacer(flex: 3),
+                        getBookmarkWidget(),
+                        const Spacer(flex: 2),
                         BlocSelector<VerseAudioBloc,VerseAudioState,double>(
                             selector: (state)=>state.currentAudio?.speed??1,
                             builder: (context,speed){
@@ -128,4 +114,42 @@ class VerseAudioItem extends StatelessWidget {
       ),
     );
   }
+
+  Widget getStartPauseIcon(VerseAudioBloc audioBloc, AudioEnum audioEnum) {
+
+    if(audioEnum == AudioEnum.pause){
+      return  IconButton(
+          onPressed: () {
+            audioBloc.add(AudioEventResume());
+          },
+          icon: const Icon(Icons.play_arrow));
+    }else if(audioEnum == AudioEnum.running){
+      return IconButton(
+          onPressed: () {
+            audioBloc.add(AudioEventPause());
+          },
+          icon: const Icon(Icons.pause));
+    }
+    return const Icon(Icons.hourglass_empty);
+  }
+
+  Widget getBookmarkWidget(){
+    if(onBookmarkClick == null){
+      return const SizedBox();
+    }
+    return BlocSelector<VerseAudioBloc,VerseAudioState,int?>(
+        selector: (state)=>state.currentSavePointId(),
+        builder: (context,savepointId){
+          final iconData = savepointId!=null?Icons.bookmark_added:Icons.bookmark_add;
+          return Padding(
+            padding: const EdgeInsets.only(left: 7),
+            child: IconButton(
+              onPressed: onBookmarkClick,
+              icon: Icon(iconData),
+            ),
+          );
+        });
+  }
+
+
 }

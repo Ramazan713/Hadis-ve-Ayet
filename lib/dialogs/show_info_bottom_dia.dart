@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showInfoBottomDia(BuildContext context,{required String title,required String content}){
   showModalBottomSheet(context: context,isScrollControlled: true, builder: (BuildContext context){

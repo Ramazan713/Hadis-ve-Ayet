@@ -5,6 +5,7 @@ class Surah{
   @PrimaryKey(autoGenerate: false)
   final int id;
   final String name;
+  final String searchName;
 
-  Surah({required this.id,required this.name});
+  Surah({required this.id,required this.name,required this.searchName});
 }

@@ -31,6 +31,17 @@ import 'package:hadith/db/services/verse_audio_dao.dart';
 import 'package:hadith/db/services/verse_audio_state_dao.dart';
 import 'package:hadith/db/entities/helper/download_voice_entity.dart';
 import 'package:hadith/db/entities/helper/verse_audio_entity.dart';
+import 'package:hadith/features/extra_features/esmaul_husna/data/esmaul_husna_dao.dart';
+import 'package:hadith/features/extra_features/islamic_info/data/islamic_info_dao.dart';
+import 'package:hadith/features/extra_features/prayer_surah/data/entity/prayer_entity.dart';
+import 'package:hadith/features/extra_features/prayer_surah/data/prayer_dao.dart';
+import 'package:hadith/features/extra_features/quran_prayer/data/entity/quran_prayer_entity.dart';
+import '../features/extra_features/counter/data/counter_dao.dart';
+import '../features/extra_features/counter/data/entity/counter_entity.dart';
+import '../features/extra_features/esmaul_husna/data/entity/esmaul_husna_entity.dart';
+import '../features/extra_features/islamic_info/data/entity/islamic_info_item_entity.dart';
+import '../features/extra_features/islamic_info/data/entity/islamic_info_title_entity.dart';
+import '../features/extra_features/quran_prayer/data/quran_prayer_dao.dart';
 import 'entities/hadith_topic.dart';
 import 'entities/list_hadith_entity.dart';
 import 'entities/list_verse_entity.dart';
@@ -56,11 +67,14 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'database.g.dart';
 
-@Database(version: 3,
+@Database(version: 4,
     entities: [Hadith,Cuz,Surah,Topic,Verse,Section,IntData,SavePointEntity,SavePointTypeEntity,
       BackupMeta,TopicSavePointEntity,HistoryEntity,UserInfoEntity,IListView,VerseArabic,
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
-      ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntity],
+      ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntity,CounterEntity,
+      EsmaulHusnaEntity, PrayerEntity, IslamicInfoItemEntity,IslamicInfoTitleEntity,
+      QuranPrayerEntity
+    ],
     views: [ListVerseView,ListHadithView,CuzAudioView,SurahAudioView])
 abstract class AppDatabase extends FloorDatabase{
   HadithDao get hadithDao;
@@ -81,4 +95,9 @@ abstract class AppDatabase extends FloorDatabase{
   VerseArabicDao get verseArabicDao;
   VerseAudioStateDao get verseAudioStateDao;
   ManageAudioDao get manageAudioDao;
+  CounterDao get counterDao;
+  EsmaulHusnaDao get esmaulHusnaDao;
+  PrayerDao get prayerDao;
+  IslamicInfoDao get islamicInfoDao;
+  QuranPrayerDao get quranPrayerDao;
 }

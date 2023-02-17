@@ -34,5 +34,4 @@ extension FontSizeExtension on FontSize{
         return "Çok Büyük";
     }
   }
-
 }

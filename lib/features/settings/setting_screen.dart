@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/dialogs/show_select_font_size_bottom_dia.dart';
+import 'package:hadith/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/features/backup/show_backup_dia.dart';
 import 'package:hadith/features/search/show_select_search_criteria.dart';
 import 'package:hadith/features/settings/audio_setting/audio_settings.dart';
@@ -13,11 +15,11 @@ import 'package:hadith/features/settings/bloc/setting_bloc.dart';
 import 'package:hadith/features/settings/bloc/setting_event.dart';
 import 'package:hadith/features/settings/bloc/setting_state.dart';
 import 'package:hadith/features/settings/components/user_icon.dart';
-import 'package:hadith/features/verse/common_dialogs/show_select_verse_ui.dart';
+import 'package:hadith/dialogs/show_select_verse_ui_3x.dart';
 import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:hadith/utils/share_utils.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
@@ -27,8 +29,8 @@ import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/models/item_label_model.dart';
 import 'package:hadith/themes/bloc/theme_bloc.dart';
 import 'package:hadith/themes/bloc/theme_event.dart';
-import 'package:hadith/widgets/custom_sliver_appbar.dart';
-import 'package:hadith/widgets/custom_sliver_nested_scrollview.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -443,13 +445,13 @@ class _SelectVerseUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingBloc = context.read<SettingBloc>();
-    return BlocSelector<SettingBloc, SettingState, ArabicVerseUIEnum>(
+    return BlocSelector<SettingBloc, SettingState, ArabicVerseUI2X>(
         selector: (state) => state.arabicVerseUI,
         builder: (context, verseArabicUI) {
           return SettingsTile(
             title: const Text("Ayetler Görünüm"),
             onPressed: (context) {
-              showSelectVerseUi(context, currentValue: verseArabicUI,
+              showSelectVerseUi2X(context, currentValue: verseArabicUI,
                   callback: (selected) {
                 settingBloc
                     .add(SettingEventSetArabicUI(arabicVerseUI: selected));

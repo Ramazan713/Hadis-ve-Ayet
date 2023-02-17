@@ -46,6 +46,9 @@ ThemeData getDarkThemeData() {
       headline5:
           TextStyle(color: kDefaultDarkTextColor, fontWeight: FontWeight.w700),
       headline6: TextStyle(color: kDefaultDarkTextColor),
+      headline2: TextStyle(color: kDefaultDarkTextColor),
+      headline3: TextStyle(color: kDefaultDarkTextColor),
+      headline4: TextStyle(color: kDefaultDarkTextColor),
       bodyText1: TextStyle(
           color: kDefaultDarkTextColor,
           fontSize: 17,

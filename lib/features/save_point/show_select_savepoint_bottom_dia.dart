@@ -5,7 +5,7 @@ import 'package:hadith/features/save_point/bloc/save_point_edit_state.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/features/save_point/widget/save_point_show_list_item.dart';
 import 'package:hadith/utils/save_point_helper.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/constants/scope_filter_enum.dart';
 import 'package:hadith/features/save_point/model/savepoint.dart';
@@ -18,16 +18,21 @@ import 'constants/save_auto_type.dart';
 import 'save_point_bloc/save_point_bloc.dart';
 import 'save_point_bloc/save_point_event.dart';
 
-void showSelectSavePointBottomDia(BuildContext context,
-    {required SavePointParam savePointParam,
-    required void Function(SavePoint savePoint) changeLoaderListener}) async {
+void showSelectSavePointBottomDia(BuildContext context, {
+  required SavePointParam savePointParam,
+  void Function(SavePoint savePoint)? changeLoaderListener,
+  Widget Function(SavePoint?)? customBottomButtons,
+  int? defaultSelectedSavePointId,
+  String title = "Kayıt Noktaları",
+  String?description
+}) async {
   final isScopeOrigin = SavePointHelper.isScopeOrigin(savePointParam.originTag);
   final ScrollController scrollController = ScrollController();
 
   final editPointBloc = context.read<SavePointEditBloc>();
 
   editPointBloc
-      .add(SavePointEditEventInitialRequest(savePointParam: savePointParam));
+      .add(SavePointEditEventInitialRequest(savePointParam: savePointParam,savePointId: defaultSelectedSavePointId));
 
   List<DropdownMenuItem<ScopeFilterEnum>> getDropDownItems() {
     List<DropdownMenuItem<ScopeFilterEnum>> menuItems = [];
@@ -61,6 +66,40 @@ void showSelectSavePointBottomDia(BuildContext context,
             ),
           )
         : const SizedBox();
+  }
+
+  Widget getBottomButtons(){
+    if(customBottomButtons!=null){
+      return BlocSelector<SavePointEditBloc, SavePointEditState,SavePoint?>(
+          selector: (state)=>state.selectedSavePoint,
+          builder: (context,selectedSavePoint){
+            return customBottomButtons(selectedSavePoint);
+          }
+      );
+    }
+    return Row(
+      children: [
+        Expanded(
+          child: _LoadButton(savePointParam: savePointParam,changeLoaderListener: changeLoaderListener),
+        ),
+        Expanded(
+          child: _OverrideSavePointButton(savePointParam: savePointParam,),
+        )
+      ],
+    );
+  }
+
+  Widget getDescriptionWidget(){
+    if(description == null){
+      return const SizedBox();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 7),
+      child: Text(description,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+    );
   }
 
   showModalBottomSheet(
@@ -104,12 +143,13 @@ void showSelectSavePointBottomDia(BuildContext context,
                                   ))
                             ],
                           ),
-                          Text("Kayıt Noktaları",
+                          Text(title,
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.headline6),
                           const SizedBox(
                             height: 13,
                           ),
+                              getDescriptionWidget(),
                           CustomButtonPositive(
                             onTap: () {
                               final date = DateTime.now();
@@ -165,16 +205,7 @@ void showSelectSavePointBottomDia(BuildContext context,
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _LoadButton(savePointParam: savePointParam,changeLoaderListener: changeLoaderListener),
-                      ),
-                      Expanded(
-                        child: _OverrideSavePointButton(savePointParam: savePointParam,),
-                      )
-                    ],
-                  )
+                  getBottomButtons()
                 ],
               );
             },
@@ -229,7 +260,7 @@ class _OverrideSavePointButton extends StatelessWidget{
 
 class _LoadButton extends StatelessWidget {
   final SavePointParam savePointParam;
-  final Function(SavePoint savePoint) changeLoaderListener;
+  final Function(SavePoint savePoint)? changeLoaderListener;
   const _LoadButton({Key? key,required this.savePointParam,required this.changeLoaderListener}) : super(key: key);
 
   @override
@@ -251,7 +282,7 @@ class _LoadButton extends StatelessWidget {
                     content:
                     "Yeni bir cüz'e geçmek istediğinize emin misiniz",
                     btnApproved: () {
-                      changeLoaderListener.call(savePoint);
+                      changeLoaderListener?.call(savePoint);
                       Navigator.pop(context);
                     });
               } else {

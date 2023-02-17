@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/custom_button_positive.dart';
+import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showSelectSlider(BuildContext context,{required double value,required double min,
   required double max,Function(double)? onChange,Function(double)?onClose,required String title}){

@@ -10,7 +10,7 @@ import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/dialogs/show_bottom_menu.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/custom_animated_widget.dart';
-import 'package:hadith/widgets/custom_search_sliver_appbar.dart';
+import 'package:hadith/widgets/app_bar/custom_search_sliver_appbar.dart';
 import 'package:hadith/widgets/menu_item_tile.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -120,7 +120,7 @@ abstract class TopicSavePointPageState <T extends StatefulWidget> extends State<
             if(isSavePoint){
               final savePoint=lastSavePoint?.copyWith(keepOldId: true);
               if(savePoint!=null) {
-                savePointBloc.add(TopicSavePointEventDelete(topicSavePointEntity: savePoint));
+                savePointBloc.add(TopicSavePointEventDelete(topicSavePoint: savePoint));
                 lastSavePoint=null;
                 visibilityBloc.add(VisibilityEventSet(isVisible: false,option: 2));
                 rebuildItemFunc();
@@ -129,7 +129,7 @@ abstract class TopicSavePointPageState <T extends StatefulWidget> extends State<
               savePointBloc.add(
                 TopicSavePointEventInsert(
                   topicSavePointEnum: topicSavePointEnum,
-                  topicSavePointEntity: TopicSavePoint(
+                  topicSavePoint: TopicSavePoint(
                       parentKey: parentKey,
                       pos: pos,
                       type: topicSavePointEnum),

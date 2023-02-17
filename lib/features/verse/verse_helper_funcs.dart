@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/constants/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/constants/verse_constant.dart';
 import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
@@ -9,19 +10,20 @@ import 'common_models/verse_model.dart';
 
 
 List<Widget> getVerseItemContent(List<TextSpan> content,VerseModel verseModel,double fontSize
-    ,TextStyle? contentTextStyle,ArabicVerseUIEnum arabicVerseUIEnum){
+    ,TextStyle? contentTextStyle,ArabicVerseUI2X arabicVerseUIEnum){
   final contents=<Widget>[
     getVerseItemMentionWidget(verseModel.item,fontSize,contentTextStyle),
     const SizedBox(height: 7,),
   ];
-  final showTurkishVerseNum = arabicVerseUIEnum == ArabicVerseUIEnum.onlyArabic;
+  final showTurkishVerseNum = arabicVerseUIEnum == ArabicVerseUI3X.arabic;
 
-  if([ArabicVerseUIEnum.onlyArabic,ArabicVerseUIEnum.both].contains(arabicVerseUIEnum)){
-    contents.add(getArabicVerseWidget(verseModel,fontSize,contentTextStyle
+  if(arabicVerseUIEnum.arabicVisible){
+    contents.add(getArabicVerseWidgetWithVerseModel(verseModel,fontSize,contentTextStyle
         ,showTurkishVerseNum));
-    contents.add(const SizedBox(height: 13,));
+    contents.add(const SizedBox(height: 17,));
   }
-  if([ArabicVerseUIEnum.onlyMeal,ArabicVerseUIEnum.both].contains(arabicVerseUIEnum)){
+
+  if(arabicVerseUIEnum.mealVisible){
     contents.add( RichText(
         text: TextSpan(
             text: "${verseModel.item.verseNumber} - ",
@@ -62,7 +64,46 @@ Widget getVerseItemMentionWidget(Verse verse,double fontSize,TextStyle? contentT
   );
 }
 
-Widget getArabicVerseWidget(VerseModel verseModel,double fontSize,TextStyle? contentTextStyle,
+
+TextSpan getArabicTextSpan(String content,double fontSize,
+    {String fontFamily = "ScheherazadeNew",int height = 2,TextStyle? style}){
+
+  final textStyle = style ?? const TextStyle();
+
+  return TextSpan(
+    text: content,
+    style: textStyle.copyWith(
+        fontFamily: "ScheherazadeNew",
+        fontSize: fontSize+13,
+        height: 2.0
+    )
+  );
+}
+
+
+Widget getArabicContentWidget(String content,double fontSize,
+    {String fontFamily = "ScheherazadeNew",double height = 2,TextStyle? style,TextAlign?textAlign}){
+  final textStyle = style ?? const TextStyle();
+  return Text(content,
+      textAlign: textAlign,
+      style: textStyle.copyWith(
+          fontFamily: "ScheherazadeNew",
+          fontSize: fontSize+13,
+          height: height,
+
+      )
+  );
+}
+
+Widget getArabicRichWidget(String content,double fontSize,
+    {String fontFamily = "ScheherazadeNew",int height = 2,TextStyle? style}){
+  return RichText(
+    text: getArabicTextSpan(content, fontSize,fontFamily: fontFamily,height: height,style: style),
+    textDirection: TextDirection.rtl,);
+}
+
+
+Widget getArabicVerseWidgetWithVerseModel(VerseModel verseModel,double fontSize,TextStyle? contentTextStyle,
     bool showTurkishVerseNum){
   final children=<InlineSpan>[];
   final verseStopImg=Image.asset("assets/images/verse_stop.png",width: fontSize+7,height: fontSize+3);
@@ -76,11 +117,7 @@ Widget getArabicVerseWidget(VerseModel verseModel,double fontSize,TextStyle? con
     children.add(TextSpan(
       style: TextStyle(fontSize: fontSize+5),
       children: [
-        TextSpan(text: arabicVerse.verse,style: contentTextStyle?.copyWith(
-            fontFamily: "ScheherazadeNew",
-            fontSize: fontSize+13,
-            height: 2.0
-        )),
+        getArabicTextSpan(arabicVerse.verse,fontSize,style: contentTextStyle),
         WidgetSpan(child: Stack(
           alignment: Alignment.center,
           children: [

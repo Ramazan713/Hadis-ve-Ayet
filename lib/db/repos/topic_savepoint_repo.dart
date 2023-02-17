@@ -18,10 +18,10 @@ class TopicSavePointRepo{
   Future<int>deleteTopicSavePoint(TopicSavePoint topicSavePoint)=>
       savePointDao.deleteTopicSavePoint(topicSavePoint.toTopicSavePointEntity());
 
-  Stream<TopicSavePoint?>getStreamTopicSavePointEntity(TopicSavePointEnum topicSavePointEnum,
+  Stream<TopicSavePoint?>getStreamTopicSavePoint(TopicSavePointEnum topicSavePointEnum,
       String parentKey)=>savePointDao.getStreamTopicSavePointEntity(topicSavePointEnum.type, parentKey).map((event) => event?.toTopicSavePoint());
 
-  Future<TopicSavePoint?>getTopicSavePointEntity(TopicSavePointEnum topicSavePointEnum,
+  Future<TopicSavePoint?>getTopicSavePoint(TopicSavePointEnum topicSavePointEnum,
       String parentKey)async{
     return (await savePointDao.getTopicSavePointEntity(topicSavePointEnum.type, parentKey))?.toTopicSavePoint();
   }
