@@ -29,7 +29,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     _insertCounterUseCase = insertCounterUseCase;
 
     on<DetailEsmaulHusnaEventInit>(_onInit);
-    on<DetailEsmaulHusnaEventSetCurrent>(_onSetCurrent,transformer: droppable());
+    on<DetailEsmaulHusnaEventSetInit>(_onSetInit,transformer: droppable());
     on<DetailEsmaulHusnaEventSaveAsDhikr>(_onSaveAsDhikr,transformer: droppable());
     on<DetailEsmaulHusnaEventGotoDhikr>(_onGotoDhikr,transformer: droppable());
 
@@ -48,7 +48,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     );
   }
 
-  void _onSetCurrent(DetailEsmaulHusnaEventSetCurrent event,Emitter<DetailEsmaulHusnaState>emit)async{
+  void _onSetInit(DetailEsmaulHusnaEventSetInit event,Emitter<DetailEsmaulHusnaState>emit)async{
     emit(state.copyWith(currentItem: event.item,setCurrentItem: true,jumpToPage: event.jumpToPage));
     emit(state.copyWith(jumpToPage: false));
     if(state.isLoading){

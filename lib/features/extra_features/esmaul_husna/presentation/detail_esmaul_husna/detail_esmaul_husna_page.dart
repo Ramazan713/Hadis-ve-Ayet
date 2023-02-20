@@ -21,15 +21,16 @@ class DetailEsmaulHusnaPage extends StatelessWidget {
 
   DetailEsmaulHusnaPage({Key? key}) : super(key: key);
 
-  final PageController controller = PageController();
+  late final PageController controller;
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<DetailEsmaulHusnaBloc>();
     final esmaulHusna = (ModalRoute.of(context)?.settings.arguments as EsmaulHusna?);
     if(esmaulHusna!=null){
-      bloc.add(DetailEsmaulHusnaEventSetCurrent(item: esmaulHusna,jumpToPage: true));
+      bloc.add(DetailEsmaulHusnaEventSetInit(item: esmaulHusna,jumpToPage: true));
     }
+    controller = PageController(initialPage: esmaulHusna?.order??0);
 
     return Scaffold(
       body: SafeArea(
@@ -58,8 +59,8 @@ class DetailEsmaulHusnaPage extends StatelessWidget {
           },
           child: BlocListener<DetailEsmaulHusnaBloc,DetailEsmaulHusnaState>(
             listener: (context,state){
-              if(state.jumpToPage){
-                controller.jumpToPage((state.currentItem?.order??0));
+              if(controller.hasClients&&state.jumpToPage){
+                controller.animateToPage((state.currentItem?.order??0),duration: const Duration(microseconds: 300),curve: Curves.easeIn);
               }
               if(state.message!=null){
                 ToastUtils.showLongToast(state.message??"");

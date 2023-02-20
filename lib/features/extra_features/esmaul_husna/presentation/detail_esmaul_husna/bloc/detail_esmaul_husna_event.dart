@@ -7,10 +7,10 @@ abstract class IDetailEsmaulHusnaEvent{}
 
 class DetailEsmaulHusnaEventInit extends IDetailEsmaulHusnaEvent{}
 
-class DetailEsmaulHusnaEventSetCurrent extends IDetailEsmaulHusnaEvent{
+class DetailEsmaulHusnaEventSetInit extends IDetailEsmaulHusnaEvent{
   final EsmaulHusna item;
   final bool jumpToPage;
-  DetailEsmaulHusnaEventSetCurrent({required this.item,required this.jumpToPage});
+  DetailEsmaulHusnaEventSetInit({required this.item,required this.jumpToPage});
 }
 
 class DetailEsmaulHusnaEventSaveAsDhikr extends IDetailEsmaulHusnaEvent{
