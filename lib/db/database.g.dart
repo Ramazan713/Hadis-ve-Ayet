@@ -107,6 +107,8 @@ class _$AppDatabase extends AppDatabase {
 
   QuranPrayerDao? _quranPrayerDaoInstance;
 
+  HadithAllDao? _hadithAllDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -201,6 +203,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE VIEW IF NOT EXISTS `cuzAudioView` AS select E.name editionName , E.identifier, V.cuzNo,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.cuzNo=V.cuzNo) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E\n  where  A.identifier = E.identifier and A.mealId=V.id group by E.identifier,V.cuzNo');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `surahAudioView` AS select E.name editionName , E.identifier, V.surahId,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.surahId=V.surahId) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E\n  where V.id=A.mealId and A.identifier = E.identifier group by E.identifier,V.surahId');
+        await database.execute(
+            'CREATE VIEW IF NOT EXISTS `VerseInfoListView` AS  select V.id verseId,\n        (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 1 and LV.verseId = V.id)) inAnyList,\n        (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 0 and LV.verseId = V.id)) inFavorite \n        from verse V');
+        await database.execute(
+            'CREATE VIEW IF NOT EXISTS `HadithInfoListView` AS  select H.id hadithId,\n        (select exists(select * from ListHadith LH, list L\n          where LH.listId = L.id and L.isRemovable = 1 and LH.hadithId = H.id)) inAnyList,\n        (select exists(select * from ListHadith LH, list L\n          where LH.listId = L.id and L.isRemovable = 0 and LH.hadithId = H.id)) inFavorite \n        from Hadith H');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -328,6 +334,11 @@ class _$AppDatabase extends AppDatabase {
   QuranPrayerDao get quranPrayerDao {
     return _quranPrayerDaoInstance ??=
         _$QuranPrayerDao(database, changeListener);
+  }
+
+  @override
+  HadithAllDao get hadithAllDao {
+    return _hadithAllDaoInstance ??= _$HadithAllDao(database, changeListener);
   }
 }
 
@@ -3436,5 +3447,71 @@ class _$QuranPrayerDao extends QuranPrayerDao {
             arabicContent: row['arabicContent'] as String,
             source: row['source'] as String,
             meaningContent: row['meaningContent'] as String));
+  }
+}
+
+class _$HadithAllDao extends HadithAllDao {
+  _$HadithAllDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<int?> getAllHadithCount() async {
+    return _queryAdapter.query('select count(*) data from hadith',
+        mapper: (Map<String, Object?> row) => row.values.first as int);
+  }
+
+  @override
+  Future<List<Hadith>> getPagingAllHadiths(
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList('select * from hadith limit ?1 offset ?2',
+        mapper: (Map<String, Object?> row) => Hadith(
+            content: row['content'] as String,
+            contentSize: row['contentSize'] as int,
+            source: row['source'] as String,
+            id: row['id'] as int?,
+            bookId: row['bookId'] as int),
+        arguments: [pageSize, startIndex]);
+  }
+
+  @override
+  Future<Hadith?> getHadithById(int id) async {
+    return _queryAdapter.query('select * from hadith where id=?1',
+        mapper: (Map<String, Object?> row) => Hadith(
+            content: row['content'] as String,
+            contentSize: row['contentSize'] as int,
+            source: row['source'] as String,
+            id: row['id'] as int?,
+            bookId: row['bookId'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<int?> getPosById(int id) async {
+    return _queryAdapter.query('select count(*) from hadith where id<?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id]);
+  }
+
+  @override
+  Stream<bool?> isHadithInList(
+    int hadithId,
+    bool isRemovable,
+  ) {
+    return _queryAdapter.queryStream(
+        'select exists (select LH.* from listHadith LH,List L where      LH.listId=L.id and LH.hadithId=?1 and L.isRemovable=?2)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [hadithId, isRemovable ? 1 : 0],
+        queryableName: 'listHadith',
+        isView: false);
   }
 }

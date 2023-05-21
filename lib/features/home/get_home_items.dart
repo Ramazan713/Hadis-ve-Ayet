@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_item.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
@@ -69,15 +70,18 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Tümü",
           iconData: Icons.all_inclusive,
           onTap: () {
-            var loader = HadithSerlevhaPagingLoader(context: context);
-            routeHadithPage(
-                context,
-                PagingArgument(
-                    savePointArg: SavePointLoadArg(parentKey: BookEnum.serlevha.bookId.toString()),
-                    bookScope: BookScopeEnum.serlevha,
-                    title: "Tümü",
-                    loader: loader,
-                    originTag: originTag));
+            // var loader = HadithSerlevhaPagingLoader(context: context);
+
+            Navigator.pushNamed(context, HadithAllPage.id);
+
+            // routeHadithPage(
+            //     context,
+            //     PagingArgument(
+            //         savePointArg: SavePointLoadArg(parentKey: BookEnum.serlevha.bookId.toString()),
+            //         bookScope: BookScopeEnum.serlevha,
+            //         title: "Tümü",
+            //         loader: loader,
+            //         originTag: originTag));
           },
         ),
         item2: HomeSubItem(

@@ -2,6 +2,7 @@ import 'package:hadith/features/extra_features/counter/presentation/counter_deta
 import 'package:hadith/features/extra_features/islamic_info/presentation/detail_islamic_info/detail_islamic_info_page.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/detail_prayer/detail_prayer_page.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/show_prayer_surah/show_prayer_surah_page.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/settings/audio_setting/audio_settings.dart';
 
 import '../../features/hadith/hadith_page_scrollable.dart';
@@ -44,6 +45,8 @@ final kRouters={
   ShowPrayerSurahPage.id: (context) => ShowPrayerSurahPage(),
   DetailPrayerPage.id: (context) => const DetailPrayerPage(),
   DetailIslamicInfoPage.id: (context) => DetailIslamicInfoPage(),
-  ShowQuranPrayerPage.id: (context)=>ShowQuranPrayerPage()
+  ShowQuranPrayerPage.id: (context)=>ShowQuranPrayerPage(),
+
+  HadithAllPage.id: (context)=>HadithAllPage()
 
 };

@@ -13,8 +13,10 @@ import 'package:hadith/db/entities/user_info_entity.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/db/entities/verse_audio.dart';
 import 'package:hadith/db/entities/views/cuz_audio_view.dart';
+import 'package:hadith/db/entities/views/hadith_info_list_view.dart';
 import 'package:hadith/db/entities/views/i_list_view.dart';
 import 'package:hadith/db/entities/views/surah_audio_view.dart';
+import 'package:hadith/db/entities/views/verse_info_list_view.dart';
 import 'package:hadith/db/services/audio_edition_dao.dart';
 import 'package:hadith/db/services/backup_dao.dart';
 import 'package:hadith/db/services/backup_meta_dao.dart';
@@ -36,6 +38,7 @@ import 'package:hadith/features/extra_features/islamic_info/data/islamic_info_da
 import 'package:hadith/features/extra_features/prayer_surah/data/entity/prayer_entity.dart';
 import 'package:hadith/features/extra_features/prayer_surah/data/prayer_dao.dart';
 import 'package:hadith/features/extra_features/quran_prayer/data/entity/quran_prayer_entity.dart';
+import 'package:hadith/features/hadiths/data/services/hadith_all_dao.dart';
 import '../features/extra_features/counter/data/counter_dao.dart';
 import '../features/extra_features/counter/data/entity/counter_entity.dart';
 import '../features/extra_features/esmaul_husna/data/entity/esmaul_husna_entity.dart';
@@ -75,7 +78,7 @@ part 'database.g.dart';
       EsmaulHusnaEntity, PrayerEntity, IslamicInfoItemEntity,IslamicInfoTitleEntity,
       QuranPrayerEntity
     ],
-    views: [ListVerseView,ListHadithView,CuzAudioView,SurahAudioView])
+    views: [ListVerseView,ListHadithView,CuzAudioView,SurahAudioView,VerseInfoListView,HadithInfoListView])
 abstract class AppDatabase extends FloorDatabase{
   HadithDao get hadithDao;
   CuzDao get cuzDao;
@@ -100,4 +103,6 @@ abstract class AppDatabase extends FloorDatabase{
   PrayerDao get prayerDao;
   IslamicInfoDao get islamicInfoDao;
   QuranPrayerDao get quranPrayerDao;
+
+  HadithAllDao get hadithAllDao;
 }

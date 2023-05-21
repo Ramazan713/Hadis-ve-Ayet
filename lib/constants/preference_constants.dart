@@ -59,7 +59,7 @@ class PrefConstants{
         case double:
           await sharedPref.setDouble(item.key, item.defaultValue);
           break;
-        case List<String>:
+        case const (List<String>):
           await sharedPref.setStringList(item.key, item.defaultValue);
           break;
       }

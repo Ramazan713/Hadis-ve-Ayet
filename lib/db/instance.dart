@@ -1,6 +1,7 @@
 import 'package:hadith/db/database.dart';
 import 'package:hadith/db/migrations/migration_1_to_2.dart';
 import 'package:hadith/db/migrations/migration_2_to_3.dart';
+import 'package:hadith/db/migrations/migration_4_to_5.dart';
 import 'package:path/path.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
@@ -23,6 +24,6 @@ Future<AppDatabase> getDatabase() async {
   }
 
   return await $FloorAppDatabase.databaseBuilder(dbName)
-      .addMigrations([migration1To2,migration2To3,migration3To4])
+      .addMigrations([migration1To2,migration2To3,migration3To4,migration4To5])
       .build();
 }
