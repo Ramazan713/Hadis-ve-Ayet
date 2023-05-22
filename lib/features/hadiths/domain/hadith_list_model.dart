@@ -1,4 +1,4 @@
-import 'package:hadith/core/pagination/domain/model/i_paging_item.dart';
+import 'package:hadith/core/features/pagination/domain/model/i_paging_item.dart';
 import 'package:hadith/db/entities/hadith.dart';
 import 'package:hadith/db/entities/topic.dart';
 

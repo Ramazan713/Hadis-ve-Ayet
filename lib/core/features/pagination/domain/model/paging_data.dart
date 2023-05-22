@@ -1,8 +1,8 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/pagination/domain/enums/paging_status.dart';
 
+import '../enums/paging_status.dart';
 import 'i_paging_item.dart';
 
 class PagingData<T extends IPagingItem> extends Equatable{

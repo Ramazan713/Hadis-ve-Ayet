@@ -1,12 +1,9 @@
-
-
-
-import 'package:hadith/core/pagination/data/pagination_manager_impl.dart';
-import 'package:hadith/core/pagination/domain/model/paging_config.dart';
-import 'package:hadith/core/pagination/domain/enums/paging_invalidate_op.dart';
-import 'package:hadith/core/pagination/domain/pagination_manager.dart';
-import 'package:hadith/core/pagination/domain/pagination_repo.dart';
 import 'package:hadith/features/hadiths/domain/hadith_list_model.dart';
+
+import '../../domain/enums/paging_invalidate_op.dart';
+import '../../domain/model/paging_config.dart';
+import '../../domain/pagination_repo.dart';
+import 'pagination_state.dart';
 
 abstract class IPaginationEvent{}
 
@@ -27,7 +24,8 @@ class PaginationEventFetchPreviousPage extends IPaginationEvent{
 
 class PaginationEventJumpToPage extends IPaginationEvent{
   final int page;
-  PaginationEventJumpToPage({required this.page});
+  final int?jumpToPos;
+  PaginationEventJumpToPage({required this.page, this.jumpToPos});
 }
 
 class PaginationEventJumpToPos extends IPaginationEvent{
@@ -40,3 +38,9 @@ class PaginationEventInValidate extends IPaginationEvent{
   final PagingInvalidateOp op;
   PaginationEventInValidate({required this.item,required this.op});
 }
+
+class PaginationEventChangeState extends IPaginationEvent{
+  final PaginationState newState;
+  PaginationEventChangeState({required this.newState});
+}
+

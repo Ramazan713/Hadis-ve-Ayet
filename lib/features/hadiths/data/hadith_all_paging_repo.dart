@@ -1,7 +1,7 @@
 
 
 import 'package:hadith/constants/preference_constants.dart';
-import 'package:hadith/core/pagination/domain/pagination_repo.dart';
+import 'package:hadith/core/features/pagination/domain/pagination_repo.dart';
 import 'package:hadith/db/entities/hadith.dart';
 import 'package:hadith/db/repos/list_repo.dart';
 import 'package:hadith/db/repos/topic_repo.dart';

@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
 
-import '../../../../core/pagination/presentation/bloc/pagination_bloc.dart';
 import '../bloc/hadith_bloc.dart';
 import '../bloc/hadith_event.dart';
 import '../bloc/hadith_state.dart';

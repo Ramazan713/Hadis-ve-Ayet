@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/pagination/domain/model/paging_config.dart';
-import 'package:hadith/core/pagination/domain/model/paging_loading_item.dart';
-import 'package:hadith/core/pagination/presentation/bloc/pagination_bloc.dart';
-import 'package:hadith/core/pagination/presentation/bloc/pagination_event.dart';
-import 'package:hadith/core/pagination/presentation/paging_list_view.dart';
+import 'package:hadith/core/features/pagination/domain/model/paging_config.dart';
+import 'package:hadith/core/features/pagination/domain/model/paging_loading_item.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/pagination/presentation/paging_list_view.dart';
 import 'package:hadith/features/hadiths/data/hadith_all_paging_repo.dart';
 import 'package:hadith/features/hadiths/domain/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/presentation/bloc/hadith_bloc.dart';
@@ -13,10 +13,6 @@ import 'package:hadith/features/hadiths/presentation/hadith_item.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'bloc/hadith_state.dart';
 import 'components/paging_hadith_connect.dart';
-
-
-
-
 
 
 class HadithAllPage extends StatelessWidget {
@@ -33,7 +29,7 @@ class HadithAllPage extends StatelessWidget {
     final hadithPagingRepo = context.read<HadithAllPagingRepo>();
 
     pagingBloc.add(PaginationEventInit(hadithPagingRepo, config: PagingConfig(
-      pageSize: 10,currentPos: 357,preFetchDistance: 3
+      pageSize: 10,currentPos: 0,preFetchDistance: 3
     )));
 
     return PagingHadithConnect(
@@ -53,7 +49,7 @@ class HadithAllPage extends StatelessWidget {
                 builder: (context,state){
                   return PagingListView(
                     onScroll: (scroll){
-                      // print("scroll: $scroll");
+
                     },
                     itemBuilder: (context,item,pos){
 

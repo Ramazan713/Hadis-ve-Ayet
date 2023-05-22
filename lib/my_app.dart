@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/pagination/data/pagination_manager_impl.dart';
-import 'package:hadith/core/pagination/domain/pagination_repo.dart';
-import 'package:hadith/core/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
@@ -66,7 +64,6 @@ import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:hadith/themes/dark_theme.dart';
 import 'package:hadith/themes/light_theme.dart';
 import 'package:hadith/utils/localstorage.dart';
-import 'core/pagination/domain/pagination_manager.dart';
 import 'db/repos/audio_edition_repo.dart';
 import 'db/repos/verse_arabic_repo.dart';
 import 'db/repos/verse_audio_state_repo.dart';
@@ -105,7 +102,6 @@ class MyApp extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<PaginationManager>(create: (context)=>PaginationManagerImpl()),
         RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
@@ -167,7 +163,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context)=> PaginationBloc(pagingManager: context.read())),
+          BlocProvider(create: (context)=> PaginationBloc()),
           BlocProvider(create: (context)=> HadithBloc(hadithPagingRepo: context.read(),listRepo: context.read() )),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
