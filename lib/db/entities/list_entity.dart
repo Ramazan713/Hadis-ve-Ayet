@@ -12,7 +12,7 @@ import 'package:hadith/db/entities/source_type_entity.dart';
       entity: SourceTypeEntity
   )
 ])
-class ListEntity extends Equatable{
+class ListEntityOld extends Equatable{
   @PrimaryKey(autoGenerate: true)
   final int? id;
   final String name;
@@ -21,7 +21,7 @@ class ListEntity extends Equatable{
   final bool isArchive;
   final int pos;
 
-  const ListEntity({this.id,required this.name,this.isArchive=false,
+  const ListEntityOld({this.id,required this.name,this.isArchive=false,
     required this.isRemovable,required this.sourceId,required this.pos});
 
   @override
@@ -33,9 +33,9 @@ class ListEntity extends Equatable{
     return json.encode({"id":id,"name":name,"isRemovable":isRemovable,"sourceId":sourceId,"isArchive":isArchive,"pos":pos});
   }
 
-  static ListEntity fromJson(String data){
+  static ListEntityOld fromJson(String data){
     final map=json.decode(data);
-    return ListEntity(id: map["id"], name: map["name"],isRemovable:map["isRemovable"],
+    return ListEntityOld(id: map["id"], name: map["name"],isRemovable:map["isRemovable"],
         sourceId:map["sourceId"],isArchive:map["isArchive"],pos:map["pos"]);
   }
 

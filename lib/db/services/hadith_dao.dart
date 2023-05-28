@@ -4,7 +4,7 @@ import 'package:hadith/db/entities/hadith.dart';
 
 
 @dao
-abstract class HadithDao{
+abstract class HadithDaoOld{
 
   @Query("select * from hadith")
   Stream<List<Hadith>> getStreamAllHadiths();

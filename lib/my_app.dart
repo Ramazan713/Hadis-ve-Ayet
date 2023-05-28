@@ -2,7 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/data/providers/core_data_repo_providers.dart';
+import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
+import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_bloc.dart';
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
@@ -17,11 +21,11 @@ import 'package:hadith/features/extra_features/prayer_surah/data/repo/prayer_rep
 import 'package:hadith/features/extra_features/prayer_surah/domain/repo/prayer_repo.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/detail_prayer/bloc/detail_prayer_bloc.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/show_prayer_surah/bloc/show_prayer_bloc.dart';
-import 'package:hadith/features/hadiths/data/hadith_all_paging_repo.dart';
-import 'package:hadith/features/hadiths/presentation/bloc/hadith_bloc.dart';
+import 'package:hadith/features/hadiths/data/repo/hadith_all_paging_repo.dart';
 import 'package:hadith/features/list/bloc/blocs/list_archive_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_hadith_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_verse_bloc.dart';
+import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/bloc/visibility_bloc/visibility_bloc.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
@@ -79,6 +83,8 @@ import 'features/extra_features/islamic_info/domain/repo/islamic_info_repo.dart'
 import 'features/extra_features/quran_prayer/data/repo/quran_prayer_repo_impl.dart';
 import 'features/extra_features/quran_prayer/domain/repo/quran_prayer_repo.dart';
 import 'features/extra_features/quran_prayer/presentation/show_quran_prayer_page/bloc/show_quran_prayer_bloc.dart';
+import 'features/hadiths/data/providers/hadith_data_repo_providers.dart';
+import 'features/hadiths/presentation/all_hadith/bloc/hadith_all_bloc.dart';
 import 'features/premium/bloc/premium_event.dart';
 import 'features/settings/audio_setting/bloc/audio_setting_bloc.dart';
 import 'features/verse/common_services/file_audio_editor.dart';
@@ -102,16 +108,19 @@ class MyApp extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
+        ...pCoreDataRepoProviders(appDatabase),
+        ...pCoreDomainRepoProviders(appDatabase),
+        ...pHadithDataRepoProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
         RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDao)),
         RepositoryProvider<CounterRepo>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDao)),
         RepositoryProvider(create: (context)=>InsertCounterUseCase(counterRepo: context.read<CounterRepo>())),
-        RepositoryProvider<ListRepo>(
-            create: (context) => ListRepo(listDao: appDatabase.listDao)),
-        RepositoryProvider<HadithRepo>(
-            create: (context) => HadithRepo(hadithDao: appDatabase.hadithDao)),
+        RepositoryProvider<ListRepoOld>(
+            create: (context) => ListRepoOld(listDao: appDatabase.listDaoOld)),
+        RepositoryProvider<HadithRepoOld>(
+            create: (context) => HadithRepoOld(hadithDao: appDatabase.hadithDao)),
         RepositoryProvider<CuzRepo>(
             create: (context) => CuzRepo(cuzDao: appDatabase.cuzDao)),
         RepositoryProvider<SectionRepo>(
@@ -119,52 +128,55 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<SurahRepo>(
             create: (context) => SurahRepo(surahDao: appDatabase.surahDao)),
         RepositoryProvider<TopicRepo>(
-            create: (context) => TopicRepo(topicDao: appDatabase.topicDao)),
+            create: (context) => TopicRepo(topicDao: appDatabase.topicDaoOld)),
         RepositoryProvider<VerseRepo>(
             create: (context) => VerseRepo(verseDao: appDatabase.verseDao)),
-        RepositoryProvider<SavePointRepo>(
-            create: (context) =>
-                SavePointRepo(savePointDao:appDatabase.savePointDao)),
+        // RepositoryProvider<SavePointRepoOld>(
+        //     create: (context) =>
+        //         SavePointRepoOld(savePointDao:appDatabase.savePointDaoOld)),
         RepositoryProvider<HistoryRepo>(
             create: (context) => HistoryRepo(historyDao: appDatabase.historyDao)),
         RepositoryProvider(
             create: (context) =>
                 UserInfoRepo(userInfoDao: appDatabase.userInfoDao)),
-        RepositoryProvider(
-            create: (context) =>
-                VerseAudioStateRepo(audioStateDao: appDatabase.verseAudioStateDao)),
-        RepositoryProvider(
-            create: (context) => LocalBackupRepo(backupDao: appDatabase.backupDao)),
-        RepositoryProvider(
-            create: (context) =>
-                BackupMetaRepo(backupMetaDao: appDatabase.backupMetaDao)),
-        RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
+        // RepositoryProvider(
+        //     create: (context) =>
+        //         VerseAudioStateRepo(audioStateDao: appDatabase.verseAudioStateDao)),
+        // RepositoryProvider(
+        //     create: (context) => LocalBackupRepo(backupDao: appDatabase.backupDao)),
+        // RepositoryProvider(
+        //     create: (context) =>
+        //         BackupMetaRepo(backupMetaDao: appDatabase.backupMetaDao)),
+        // RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
         RepositoryProvider(
             create: (context) =>
                 TopicSavePointRepo(savePointDao: appDatabase.topicSavePointDao)),
-        RepositoryProvider(create: (context)=>VerseAudioEditorRepo(audioDao: appDatabase.verseAudioDao,fileAudioEditor: FileAudioEditor())),
-        RepositoryProvider(create: (context) => VerseAudioRepo(verseAudioDao: appDatabase.verseAudioDao)),
+        // RepositoryProvider(create: (context)=>VerseAudioEditorRepo(audioDao: appDatabase.verseAudioDao,fileAudioEditor: FileAudioEditor())),
+        // RepositoryProvider(create: (context) => VerseAudioRepo(verseAudioDao: appDatabase.verseAudioDao)),
         RepositoryProvider(
             create: (context) =>
                 QuranDownloadService(audioRepo: context.read<VerseAudioRepo>())),
-        RepositoryProvider(create: (context) => AudioEditionRepo(editionDao: appDatabase.editionDao,downloadService: context.read<QuranDownloadService>())),
+        // RepositoryProvider(create: (context) => AudioEditionRepo(editionDao: appDatabase.editionDao,downloadService: context.read<QuranDownloadService>())),
         RepositoryProvider(create: (context)=>StorageService()),
         RepositoryProvider(create: (context)=>AuthService()),
         RepositoryProvider(create: (context)=>BackupManager(authService: context.read<AuthService>(),
           storageService: context.read<StorageService>(),backupMetaRepo: context.read<BackupMetaRepo>(),
           localBackupRepo: context.read<LocalBackupRepo>(),userInfoRepo: context.read<UserInfoRepo>())),
-        RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDao,cuzDao: appDatabase.cuzDao,
-          surahDao: appDatabase.surahDao,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
+        // RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDao,cuzDao: appDatabase.cuzDao,
+        //   surahDao: appDatabase.surahDao,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
         RepositoryProvider<IVerseAudioService>(create: (context) => VerseAudioJustService(
             verseAudioRepo: context.read<VerseAudioRepo>(),verseAudioStateRepo: context.read<VerseAudioStateRepo>(),sharedPreferences: LocalStorage.sharedPreferences)),
 
-        RepositoryProvider(create: (context)=> HadithAllPagingRepo(hadithAllDao: appDatabase.hadithAllDao,listRepo: context.read(),topicRepo: context.read())),
+        RepositoryProvider(create: (context)=> HadithAllPagingRepo(hadithRepo: context.read(),itemListInfoRepo: context.read(),topicRepo: context.read())),
 
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
-          BlocProvider(create: (context)=> HadithBloc(hadithPagingRepo: context.read(),listRepo: context.read() )),
+          BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
+          BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
+          BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
+          BlocProvider(create: (context)=> HadithAllBloc(listHadithUseCases: context.read() )),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),
@@ -191,31 +203,31 @@ class MyApp extends StatelessWidget {
                   SurahBloc(surahRepo: context.read<SurahRepo>())),
           BlocProvider(
               create: (context) =>
-                  SavePointBloc(savePointRepo: context.read<SavePointRepo>())),
+                  SavePointBloc(savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(
               create: (context) => SavePointEditBloc(
-                  savePointRepo: context.read<SavePointRepo>())),
+                  savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(
               create: (context) =>
-                  ListHadithBloc(listRepo: context.read<ListRepo>(),
-                      savePointRepo: context.read<SavePointRepo>())),
+                  ListHadithBloc(listRepo: context.read<ListRepoOld>(),
+                      savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(
               create: (context) => SearchBloc(
-                  hadithRepo: context.read<HadithRepo>(),
+                  hadithRepo: context.read<HadithRepoOld>(),
                   verseRepo: context.read<VerseRepo>())),
           BlocProvider(
               create: (context) =>
-                  ListVerseBloc(listRepo: context.read<ListRepo>(),
-                      savePointRepo: context.read<SavePointRepo>())),
+                  ListVerseBloc(listRepo: context.read<ListRepoOld>(),
+                      savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(
               create: (context) =>
                   HistoryBloc(historyRepo: context.read<HistoryRepo>())),
           BlocProvider(create: (context) => BottomNavBloc()),
-          BlocProvider(create: (context)=>ListArchiveBloc(listRepo: context.read<ListRepo>(),savePointRepo: context.read<SavePointRepo>())),
+          BlocProvider(create: (context)=>ListArchiveBloc(listRepo: context.read<ListRepoOld>(),savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(create: (context)=>ThemeBloc()),
           BlocProvider(create: (context)=>PremiumBloc(), lazy: false,),
           BlocProvider(create: (context)=>VisibilityBloc()),
-          BlocProvider(create: (context)=>SavePointEditBookBloc(savePointRepo: context.read<SavePointRepo>())),
+          BlocProvider(create: (context)=>SavePointEditBookBloc(savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(create: (context)=>BasicAudioBloc(audioService: context.read<IVerseAudioService>(),
               downloadService: context.read<QuranDownloadService>(), audioRepo: context.read<VerseAudioRepo>())),
           BlocProvider(create: (context)=>DownloadAudioBloc()),

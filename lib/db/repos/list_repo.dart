@@ -7,21 +7,21 @@ import 'package:hadith/db/entities/views/list_hadith_view.dart';
 import 'package:hadith/db/entities/views/list_verse_view.dart';
 import 'package:hadith/db/services/list_dao.dart';
 
-class ListRepo{
-  ListDao listDao;
-  ListRepo({required this.listDao});
+class ListRepoOld{
+  ListDaoOld listDao;
+  ListRepoOld({required this.listDao});
 
-  Stream<List<ListEntity>>getStreamList(int sourceId) =>
+  Stream<List<ListEntityOld>>getStreamList(int sourceId) =>
       listDao.getStreamList(sourceId);
 
-  Stream<List<ListEntity>>getStreamListWithArchive(int sourceId,bool isArchive)=>
+  Stream<List<ListEntityOld>>getStreamListWithArchive(int sourceId,bool isArchive)=>
       listDao.getStreamListWithArchive(sourceId, isArchive);
 
 
-  Stream<List<ListEntity>>getStreamRemovableList(int sourceId)=>
+  Stream<List<ListEntityOld>>getStreamRemovableList(int sourceId)=>
       listDao.getStreamRemovableList(sourceId);
 
-  Stream<List<ListEntity>>getStreamRemovableListWithArchive(int sourceId,bool isArchive)=>
+  Stream<List<ListEntityOld>>getStreamRemovableListWithArchive(int sourceId,bool isArchive)=>
       listDao.getStreamRemovableListWithArchive(sourceId, isArchive);
 
 
@@ -38,90 +38,90 @@ class ListRepo{
   Future<IntData?>getMaxPosList()=>listDao.getMaxPosList();
 
 
-  Future<List<ListHadithEntity>>getHadithListWithHadithId(int hadithId)=>
+  Future<List<ListHadithEntityOld>>getHadithListWithHadithId(int hadithId)=>
       listDao.getHadithListWithHadithId(hadithId);
 
-  Future<List<ListHadithEntity>>getHadithListWithHadithIdArchive(int hadithId,bool isArchive)=>
+  Future<List<ListHadithEntityOld>>getHadithListWithHadithIdArchive(int hadithId,bool isArchive)=>
       listDao.getHadithListWithHadithIdArchive(hadithId, isArchive);
 
 
-  Future<List<ListHadithEntity>>getHadithListWithRemovable(int hadithId,bool isRemovable)=>
+  Future<List<ListHadithEntityOld>>getHadithListWithRemovable(int hadithId,bool isRemovable)=>
       listDao.getHadithListWithRemovable(hadithId, isRemovable);
 
-  Future<List<ListHadithEntity>>getHadithListWithRemovableArchive(int hadithId,
+  Future<List<ListHadithEntityOld>>getHadithListWithRemovableArchive(int hadithId,
       bool isRemovable,bool isArchive)=>
       listDao.getHadithListWithRemovableArchive(hadithId, isRemovable, isArchive);
 
 
 
-  Future<List<ListVerseEntity>>getVerseListWithListId(int listId)=>
+  Future<List<ListVerseEntityOld>>getVerseListWithListId(int listId)=>
       listDao.getVerseListWithListId(listId);
 
-  Future<List<ListVerseEntity>>getVerseListWithVerseId(int verseId)=>
+  Future<List<ListVerseEntityOld>>getVerseListWithVerseId(int verseId)=>
       listDao.getVerseListWithVerseId(verseId);
 
-  Future<List<ListVerseEntity>>getVerseListWithVerseIdArchive(int verseId,bool isArchive)=>
+  Future<List<ListVerseEntityOld>>getVerseListWithVerseIdArchive(int verseId,bool isArchive)=>
       listDao.getVerseListWithVerseIdArchive(verseId, isArchive);
 
 
-  Future<List<ListVerseEntity>>getVerseListWithRemovable(int verseId,bool isRemovable)=>
+  Future<List<ListVerseEntityOld>>getVerseListWithRemovable(int verseId,bool isRemovable)=>
       listDao.getVerseListWithRemovable(verseId, isRemovable);
 
-  Future<List<ListVerseEntity>>getVerseListWithRemovableArchive(int verseId,
+  Future<List<ListVerseEntityOld>>getVerseListWithRemovableArchive(int verseId,
       bool isRemovable,bool isArchive)=>
       listDao.getVerseListWithRemovableArchive(verseId, isRemovable, isArchive);
 
 
 
-  Stream<List<ListHadithView>> getListHadithViews(bool isArchive)=>
+  Stream<List<ListHadithViewOld>> getListHadithViews(bool isArchive)=>
       listDao.getListHadithViews(isArchive);
 
-  Stream<List<ListHadithView>> getSearchResultHadithViews(String name,bool isArchive)=>
+  Stream<List<ListHadithViewOld>> getSearchResultHadithViews(String name,bool isArchive)=>
       listDao.getSearchResultHadithViews("%$name%",name,"$name%","%$name",isArchive);
 
-  Stream<List<ListHadithView>>getAllArchivedListViews()=>
+  Stream<List<ListHadithViewOld>>getAllArchivedListViews()=>
       listDao.getAllArchivedListViews();
 
-  Stream<List<ListVerseView>> getListVerseViews(bool isArchive)=>
+  Stream<List<ListVerseViewOld>> getListVerseViews(bool isArchive)=>
       listDao.getListVerseViews(isArchive);
 
-  Stream<List<ListVerseView>>getSearchResultVerseViews(String name,bool isArchive)=>
+  Stream<List<ListVerseViewOld>>getSearchResultVerseViews(String name,bool isArchive)=>
       listDao.getSearchResultVerseViews("%$name%",name,"$name%","%$name",isArchive);
 
 
-  Future<List<ListHadithEntity>>getHadithListWithListId(int listId)=>
+  Future<List<ListHadithEntityOld>>getHadithListWithListId(int listId)=>
       listDao.getHadithListWithListId(listId);
 
-  Future<int> insertList(ListEntity listEntity)=>listDao.insertList(listEntity);
+  Future<int> insertList(ListEntityOld listEntity)=>listDao.insertList(listEntity);
 
-  Future<int> updateList(ListEntity listEntity)=>listDao.updateList(listEntity);
+  Future<int> updateList(ListEntityOld listEntity)=>listDao.updateList(listEntity);
 
-  Future<int> deleteList(ListEntity listEntity)=>listDao.deleteList(listEntity);
+  Future<int> deleteList(ListEntityOld listEntity)=>listDao.deleteList(listEntity);
 
 
-  Future<int> insertHadithList(ListHadithEntity listHadithEntity)=>
+  Future<int> insertHadithList(ListHadithEntityOld listHadithEntity)=>
       listDao.insertHadithList(listHadithEntity);
 
-  Future<List<int>> insertHadithLists(List<ListHadithEntity> listHadithEntities)=>
+  Future<List<int>> insertHadithLists(List<ListHadithEntityOld> listHadithEntities)=>
       listDao.insertHadithLists(listHadithEntities);
 
-  Future<int> updateHadithList(ListHadithEntity listHadithEntity)=>
+  Future<int> updateHadithList(ListHadithEntityOld listHadithEntity)=>
       listDao.updateHadithList(listHadithEntity);
 
-  Future<int> deleteHadithList(ListHadithEntity listHadithEntity)=>
+  Future<int> deleteHadithList(ListHadithEntityOld listHadithEntity)=>
       listDao.deleteHadithList(listHadithEntity);
 
 
-  Future<int> insertVerseList(ListVerseEntity listVerseEntity)=>
+  Future<int> insertVerseList(ListVerseEntityOld listVerseEntity)=>
       listDao.insertVerseList(listVerseEntity);
 
-  Future<List<int>> insertVerseLists(List<ListVerseEntity> listVerseEntities)=>
+  Future<List<int>> insertVerseLists(List<ListVerseEntityOld> listVerseEntities)=>
       listDao.insertVerseLists(listVerseEntities);
 
-  Future<int> updateVerseList(ListVerseEntity listVerseEntity)=>
+  Future<int> updateVerseList(ListVerseEntityOld listVerseEntity)=>
       listDao.updateVerseList(listVerseEntity);
 
-  Future<int> deleteVerseList(ListVerseEntity listVerseEntity)=>
+  Future<int> deleteVerseList(ListVerseEntityOld listVerseEntity)=>
       listDao.deleteVerseList(listVerseEntity);
 
 
@@ -131,10 +131,10 @@ class ListRepo{
   Future<void>deleteListVerseWithQuery(int listId)=>
       listDao.deleteListVerseWithQuery(listId);
 
-  Future<int> deleteHadithLists(List<ListHadithEntity> listHadithEntities)=>
+  Future<int> deleteHadithLists(List<ListHadithEntityOld> listHadithEntities)=>
       listDao.deleteHadithLists(listHadithEntities);
 
-  Future<int> deleteVerseLists(List<ListVerseEntity> listVerseEntities)=>
+  Future<int> deleteVerseLists(List<ListVerseEntityOld> listVerseEntities)=>
       listDao.deleteVerseLists(listVerseEntities);
 
 

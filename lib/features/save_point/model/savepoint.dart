@@ -30,8 +30,8 @@ class SavePoint extends Equatable{
     this.modifiedDate=modifiedDate??DateTime.now().toIso8601String();
   }
 
-  SavePointEntity toSavePointEntity(){
-    return SavePointEntity(
+  SavePointEntityOld toSavePointEntity(){
+    return SavePointEntityOld(
       id: id,
       itemIndexPos: itemIndexPos,
       title: title,

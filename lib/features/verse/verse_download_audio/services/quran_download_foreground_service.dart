@@ -56,12 +56,12 @@ class QuranDownloadForegroundService{
   Future<void> runService(AudioParam audioParam)async{
     await _notification.initListeners(_notificationTapBackground);
 
-    _downloadManager = await _getDownloadManager();
-    _listenNotificationButtons();
-    await _listenStateChangeAndSend();
-
-    _downloadManager?.startDownload(audioParam);
-    await _notification.showNotification(DownloadVoiceServiceState.init());
+    // _downloadManager = await _getDownloadManager();
+    // _listenNotificationButtons();
+    // await _listenStateChangeAndSend();
+    //
+    // _downloadManager?.startDownload(audioParam);
+    // await _notification.showNotification(DownloadVoiceServiceState.init());
 
   }
 
@@ -130,17 +130,17 @@ class QuranDownloadForegroundService{
   }
 
 
-  Future<QuranDownloadManager> _getDownloadManager()async{
-    final database = await getDatabase();
-    final verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
-    final audioRepo = VerseAudioRepo(verseAudioDao: database.verseAudioDao);
-    final quranService = QuranDownloadService(audioRepo: audioRepo);
-    final editionRepo = AudioEditionRepo(editionDao: database.editionDao,downloadService: quranService);
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final downloadManager = QuranDownloadManager(verseAudioStateRepo: verseAudioStateRepo, audioEditionRepo: editionRepo,
-        quranService: quranService,sharedPreferences: sharedPreferences);
-    return downloadManager;
-  }
+  // Future<QuranDownloadManager> _getDownloadManager()async{
+  //   final database = await getDatabase();
+  //   final verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
+  //   final audioRepo = VerseAudioRepo(verseAudioDao: database.verseAudioDao);
+  //   final quranService = QuranDownloadService(audioRepo: audioRepo);
+  //   final editionRepo = AudioEditionRepo(editionDao: database.editionDao,downloadService: quranService);
+  //   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   final downloadManager = QuranDownloadManager(verseAudioStateRepo: verseAudioStateRepo, audioEditionRepo: editionRepo,
+  //       quranService: quranService,sharedPreferences: sharedPreferences);
+  //   return downloadManager;
+  // }
 
   Future<void>_callOnCancel()async{
     await _downloadManager?.cancel();

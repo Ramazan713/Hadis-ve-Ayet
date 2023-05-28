@@ -9,7 +9,7 @@ import 'package:hadith/features/search/bloc/search_state.dart';
 
 class SearchBloc extends Bloc<ISearchEvent,SearchState>{
   final VerseRepo verseRepo;
-  final HadithRepo hadithRepo;
+  final HadithRepoOld hadithRepo;
   late final SearchManager searchManager;
   SearchBloc({required this.verseRepo,required this.hadithRepo})
       : super(const SearchState.initial()){

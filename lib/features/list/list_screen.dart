@@ -214,7 +214,7 @@ class _ListScreenState extends State<ListScreen> {
                           valueListenable: fabVisibilityNotifier,
                           builder: (context, val, child) {
                             return CustomAnimatedWidget(
-                              value: val,
+                              isVisible: val,
                               child: FloatingActionButton(
                                 onPressed: (){
                                   showEditTextBottomDia(context, (text) {

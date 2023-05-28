@@ -16,7 +16,7 @@ class HadithSharePdf extends ISharePdf<Hadith>{
 
   @override
   Future<List<Hadith>> getItems(BuildContext context, IListView listItem) {
-    final hadithRepo=context.read<HadithRepo>();
+    final hadithRepo=context.read<HadithRepoOld>();
     return hadithRepo.getListHadiths(listItem.id);
   }
 

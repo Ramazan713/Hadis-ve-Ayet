@@ -6,7 +6,7 @@ import 'package:hadith/db/services/topic_dao.dart';
 import 'package:hadith/db/entities/helper/item_count_model.dart';
 
 class TopicRepo{
-  final TopicDao topicDao;
+  final TopicDaoOld topicDao;
 
   TopicRepo({required this.topicDao});
 

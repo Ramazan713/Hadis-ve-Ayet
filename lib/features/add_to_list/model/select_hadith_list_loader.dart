@@ -7,28 +7,28 @@ import 'package:hadith/db/repos/list_repo.dart';
 import 'package:hadith/features/add_to_list/model/i_select_list_loader.dart';
 
 class SelectHadithListLoader extends ISelectListLoader{
-  late final ListRepo listRepo;
+  late final ListRepoOld listRepo;
   final int hadithId;
   final int _sourceId=SourceTypeEnum.hadith.sourceId;
 
   SelectHadithListLoader({required BuildContext context,required this.hadithId}){
-    listRepo=context.read<ListRepo>();
+    listRepo=context.read<ListRepoOld>();
   }
 
   @override
   Future<int> deleteItemList(int listId) {
-    return listRepo.deleteHadithList(ListHadithEntity(listId: listId, hadithId: hadithId,pos: 0));
+    return listRepo.deleteHadithList(ListHadithEntityOld(listId: listId, hadithId: hadithId,pos: 0));
   }
 
   @override
-  Stream<List<ListEntity>> getListItems() {
+  Stream<List<ListEntityOld>> getListItems() {
     return useArchiveListFeatures?listRepo.getStreamList(_sourceId):
         listRepo.getStreamListWithArchive(_sourceId, false);
   }
   @override
   Future<int> insertItemList(int listId) async {
     int maxPos=((await listRepo.getContentMaxPosFromListHadith(listId))?.data)??0;
-    return listRepo.insertHadithList(ListHadithEntity(listId: listId, hadithId: hadithId,pos: maxPos+1));
+    return listRepo.insertHadithList(ListHadithEntityOld(listId: listId, hadithId: hadithId,pos: maxPos+1));
   }
 
   @override
@@ -43,14 +43,14 @@ class SelectHadithListLoader extends ISelectListLoader{
     final maxPosData=await listRepo.getMaxPosListWithSourceId(_sourceId);
     final maxPos=maxPosData?.data;
     if(maxPos!=null){
-      await listRepo.insertList(ListEntity(name: label,
+      await listRepo.insertList(ListEntityOld(name: label,
           isRemovable: true, sourceId: _sourceId,pos: maxPos+1));
     }
 
   }
 
   @override
-  Stream<List<ListEntity>> getStreamRemovableList() {
+  Stream<List<ListEntityOld>> getStreamRemovableList() {
     return useArchiveListFeatures? listRepo.getStreamRemovableList(_sourceId):
         listRepo.getStreamRemovableListWithArchive(_sourceId,false);
   }

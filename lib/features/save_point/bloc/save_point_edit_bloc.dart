@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 
 class SavePointEditBloc extends Bloc<ISavePointEditEvent,SavePointEditState>{
-  final SavePointRepo savePointRepo;
+  final SavePointRepoOld savePointRepo;
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
   final BehaviorSubject<ScopeFilterEnum> _filterController = BehaviorSubject<ScopeFilterEnum>();

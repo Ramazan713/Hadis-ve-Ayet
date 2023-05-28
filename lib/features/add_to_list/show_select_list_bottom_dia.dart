@@ -15,11 +15,11 @@ import 'package:hadith/widgets/icon_text_button_side.dart';
 
 void showSelectListBottomDia(BuildContext context,
     {required ISelectListLoader listLoader, int? parentListId,
-    void Function(bool isAnyChange, List<ListEntity> selectedLists)? anyChange,
+    void Function(bool isAnyChange, List<ListEntityOld> selectedLists)? anyChange,
     bool includeFavoriteList = true}) async {
 
   var isAnyChange = false;
-  var selectedLists = <ListEntity>[];
+  var selectedLists = <ListEntityOld>[];
   final ScrollController scrollController = ScrollController();
   final ValueNotifier<bool>_rebuildItemsNotifier=ValueNotifier(false);
   final bloc = context.read<ListBloc>();
@@ -36,21 +36,21 @@ void showSelectListBottomDia(BuildContext context,
     Navigator.pop(context);
   }
 
-  void addToList(ListEntity list) {
+  void addToList(ListEntityOld list) {
     selectedLists.add(list);
     bloc.add(ListEventAddToList(listId: list.id??0));
     isAnyChange = true;
     rebuildItems();
   }
 
-  void removeToList(ListEntity list) {
+  void removeToList(ListEntityOld list) {
     selectedLists.remove(list);
     bloc.add(ListEventRemoveToList(listId: list.id??0));
     isAnyChange = true;
     rebuildItems();
   }
 
-  void editList(ListEntity list, bool isSelected) async {
+  void editList(ListEntityOld list, bool isSelected) async {
     if (isSelected) {
       addToList(list);
     } else {

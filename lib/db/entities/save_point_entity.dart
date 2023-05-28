@@ -18,7 +18,7 @@ import 'package:hadith/features/save_point/model/savepoint.dart';
       parentColumns: ["id"],
       entity: Book)
 ])
-class SavePointEntity{
+class SavePointEntityOld{
   @PrimaryKey(autoGenerate: true)
   final int? id;
   final int itemIndexPos;
@@ -34,7 +34,7 @@ class SavePointEntity{
   //for all=>bookId, topic=>topicId, list=>listId,cuz=>CuzNo...
   final String parentKey;
 
-  SavePointEntity({this.id,required this.itemIndexPos,required this.title,required this.autoType,
+  SavePointEntityOld({this.id,required this.itemIndexPos,required this.title,required this.autoType,
     String? modifiedDate,required this.savePointType, required this.bookScope,
     required this.parentKey,required this.parentName}){
 
@@ -63,11 +63,11 @@ class SavePointEntity{
       "modifiedDate":modifiedDate,"itemIndexPos":itemIndexPos});
   }
 
-  static SavePointEntity fromJson(String data){
+  static SavePointEntityOld fromJson(String data){
     final map=json.decode(data);
     final bool? isAuto = map["isAuto"];
     final autoType = isAuto!=null ? isAuto?SaveAutoType.general:SaveAutoType.none : SaveAutoTypeExt.fromIndex(map["autoType"]);
-    return SavePointEntity(id: map["id"], title: map["title"],autoType: autoType.index,
+    return SavePointEntityOld(id: map["id"], title: map["title"],autoType: autoType.index,
         savePointType:map["savePointType"],
         bookScope: map["bookIdBinary"],
         parentKey: map["parentKey"],

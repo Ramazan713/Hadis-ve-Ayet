@@ -14,7 +14,7 @@ import 'i_list_count_bloc.dart';
 
 class ListHadithBloc extends IListCountBloc<IListCountEvent, ListHadithState>{
   final isArchive=false;
-  ListHadithBloc({required ListRepo listRepo,required SavePointRepo savePointRepo})
+  ListHadithBloc({required ListRepoOld listRepo,required SavePointRepoOld savePointRepo})
       : super(listRepo: listRepo,savePointRepo: savePointRepo,firstState: const ListHadithState()){
     on<ListCountEventInserted>(onListInserted);
     on<ListCountEventRemoved>(onListDeleted);
@@ -35,7 +35,7 @@ class ListHadithBloc extends IListCountBloc<IListCountEvent, ListHadithState>{
     listRepo.getSearchResultHadithViews(event.searchCriteria!,isArchive):
     listRepo.getListHadithViews(isArchive);
 
-    await emit.forEach<List<ListHadithView>>(streamData,
+    await emit.forEach<List<ListHadithViewOld>>(streamData,
         onData: (data)=>state.copyWith(listItems: data,status: DataStatus.success));
   }
 }

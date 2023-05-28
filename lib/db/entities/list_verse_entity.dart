@@ -17,13 +17,13 @@ import 'package:hadith/db/entities/verse.dart';
       entity: Verse
   )
 ],primaryKeys: ["listId","verseId"])
-class ListVerseEntity extends Equatable{
+class ListVerseEntityOld extends Equatable{
   final int listId;
   final int verseId;
   final int pos;
 
 
-  const ListVerseEntity({required this.listId,required this.verseId,required this.pos});
+  const ListVerseEntityOld({required this.listId,required this.verseId,required this.pos});
 
   @override
   List<Object?> get props => [listId,verseId];
@@ -31,9 +31,9 @@ class ListVerseEntity extends Equatable{
   String toJson(){
     return json.encode({"listId":listId,"verseId":verseId,"pos":pos});
   }
-  static ListVerseEntity fromJson(String data){
+  static ListVerseEntityOld fromJson(String data){
     final map=json.decode(data);
-    return ListVerseEntity(listId: map["listId"], verseId: map["verseId"],pos:map["pos"]);
+    return ListVerseEntityOld(listId: map["listId"], verseId: map["verseId"],pos:map["pos"]);
   }
 
 }

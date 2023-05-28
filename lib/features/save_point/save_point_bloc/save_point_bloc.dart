@@ -7,7 +7,7 @@ import 'package:hadith/features/save_point/save_point_bloc/save_point_event.dart
 import 'package:hadith/features/save_point/save_point_bloc/save_point_state.dart';
 
 class SavePointBloc extends Bloc<ISavePointEvent,SavePointState>{
-  final SavePointRepo savePointRepo;
+  final SavePointRepoOld savePointRepo;
   SavePointBloc({required this.savePointRepo})
       : super(const SavePointState(status: DataStatus.initial,savePoint: null)){
     on<SavePointEventRequest>(_onSavePointRequest,transformer: restartable());

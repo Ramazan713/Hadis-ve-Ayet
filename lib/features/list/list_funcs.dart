@@ -69,7 +69,7 @@ List<IconTextItem>getAskedListIconTextItems(BuildContext context,
   List<IconTextItem> items = [];
   for(var listEnum in listEnums){
     items.add(
-        IconTextItem(title: listEnum.name, iconData: listEnum.iconData,
+        IconTextItem(title: listEnum.description, iconData: listEnum.iconData,
             onTap: () {
               if(isPop){
                 Navigator.pop(context);

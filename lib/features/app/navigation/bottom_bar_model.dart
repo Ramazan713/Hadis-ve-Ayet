@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/features/extra_features/extra_features_page.dart';
 import 'package:hadith/features/home/home_screen.dart';
 import 'package:hadith/features/list/list_screen.dart';
+import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
 import 'package:hadith/features/search/search_page.dart';
 
 const kBottomPageModels = [
@@ -58,7 +59,7 @@ class _BottomList extends BottomBarModel{
       keyName: "List",
       label: "Liste",
       icon: const Icon(Icons.view_list),
-      page: const ListScreen()
+      page: const ShowListPage()
   );
 }
 

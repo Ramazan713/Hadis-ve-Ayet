@@ -38,7 +38,7 @@ class ListBloc extends Bloc<IListEvent,ListState>{
       await listLoader!.getSelectedListItemsWithRemovable(true);
       final selectedListIds=List.of(selectedItems.map((e) => (cast<int>(e.listId)??0)));
 
-      await emit.forEach<List<ListEntity>>(allItems, onData: (data)=>state.copyWith(
+      await emit.forEach<List<ListEntityOld>>(allItems, onData: (data)=>state.copyWith(
           status: DataStatus.success,selectedListIds: selectedListIds,allList: data));
     }
   }

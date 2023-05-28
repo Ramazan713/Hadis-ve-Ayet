@@ -64,7 +64,7 @@ class QuranAudioForegroundService{
   late final ServiceInstance _service;
   final _m = Mutex();
 
-  SavePointRepo? _savePointRepo;
+  SavePointRepoOld? _savePointRepo;
   VerseAudioStateRepo? _verseAudioStateRepo;
   CuzRepo? _cuzRepo;
   AudioParam? _audioParam;
@@ -88,27 +88,27 @@ class QuranAudioForegroundService{
   }
 
   Future<void> runService(AudioParam audioParam,String identifier)async{
-    _audioParam = audioParam;
-    await _audioService?.dispose();
-    await _notification.initListeners(_notificationTapBackground);
-
-    final database = await _getDatabase();
-    final verseAudioRepo = VerseAudioRepo(verseAudioDao: database.verseAudioDao);
-    _verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
-    _savePointRepo = SavePointRepo(savePointDao: database.savePointDao);
-    _cuzRepo = CuzRepo(cuzDao: database.cuzDao);
-
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    _audioService = VerseAudioJustService(
-        sharedPreferences: sharedPreferences,
-        verseAudioRepo: verseAudioRepo,verseAudioStateRepo: _verseAudioStateRepo!);
-
-    _listenServiceEvents();
-    _audioService?.playAudios(audioParam,identifier);
-
-    _listenNotificationButtons();
-    await _notification.showNotification(VerseAudioModel.init());
+    // _audioParam = audioParam;
+    // await _audioService?.dispose();
+    // await _notification.initListeners(_notificationTapBackground);
+    //
+    // final database = await _getDatabase();
+    // final verseAudioRepo = VerseAudioRepo(verseAudioDao: database.verseAudioDao);
+    // _verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
+    // // _savePointRepo = SavePointRepo(savePointDao: database.savePointDaoOld);
+    // _cuzRepo = CuzRepo(cuzDao: database.cuzDao);
+    //
+    // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //
+    // _audioService = VerseAudioJustService(
+    //     sharedPreferences: sharedPreferences,
+    //     verseAudioRepo: verseAudioRepo,verseAudioStateRepo: _verseAudioStateRepo!);
+    //
+    // _listenServiceEvents();
+    // _audioService?.playAudios(audioParam,identifier);
+    //
+    // _listenNotificationButtons();
+    // await _notification.showNotification(VerseAudioModel.init());
   }
 
 

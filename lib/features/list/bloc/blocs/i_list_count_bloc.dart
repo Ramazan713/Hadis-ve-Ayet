@@ -19,8 +19,8 @@ import '../state/i_list_count_state.dart';
 
 abstract class IListCountBloc<E extends IListCountEvent, S extends IListCountState> extends Bloc<E,S> {
 
-  final ListRepo listRepo;
-  final SavePointRepo savePointRepo;
+  final ListRepoOld listRepo;
+  final SavePointRepoOld savePointRepo;
   final S firstState;
 
   IListCountBloc({required this.listRepo,required this.savePointRepo,required this.firstState})  : super(firstState);
@@ -33,7 +33,7 @@ abstract class IListCountBloc<E extends IListCountEvent, S extends IListCountSta
     final maxPosData=await listRepo.getMaxPosListWithSourceId(event.sourceId);
     final maxPos=maxPosData?.data;
     if(maxPos!=null){
-      await listRepo.insertList(ListEntity(id: null, name: event.text,
+      await listRepo.insertList(ListEntityOld(id: null, name: event.text,
           isRemovable: true, sourceId: event.sourceId,pos: maxPos+1));
     }
   }
@@ -81,18 +81,18 @@ abstract class IListCountBloc<E extends IListCountEvent, S extends IListCountSta
     final maxPos=maxPosData?.data;
     if(maxPos!=null){
 
-      final newListId=await listRepo.insertList(ListEntity(name: "${list.name} - Kopya", isRemovable: true,
+      final newListId=await listRepo.insertList(ListEntityOld(name: "${list.name} - Kopya", isRemovable: true,
           sourceId: list.sourceId,isArchive: list.isArchive,pos: maxPos+1));
 
       if(SourceTypeHelper.getSourceTypeWithSourceId(list.sourceId)==SourceTypeEnum.verse){
         final oldListVerses=await listRepo.getVerseListWithListId(list.id);
         final newListVerses=oldListVerses.map((e) =>
-            ListVerseEntity(listId: newListId, verseId: e.verseId, pos: e.pos)).toList();
+            ListVerseEntityOld(listId: newListId, verseId: e.verseId, pos: e.pos)).toList();
         await listRepo.insertVerseLists(newListVerses);
       }else{
         final oldListHadiths=await listRepo.getHadithListWithListId(list.id);
         final newListHadiths=oldListHadiths.map((e) =>
-            ListHadithEntity(listId: newListId, hadithId: e.hadithId, pos: e.pos)).toList();
+            ListHadithEntityOld(listId: newListId, hadithId: e.hadithId, pos: e.pos)).toList();
         await listRepo.insertHadithLists(newListHadiths);
       }
 

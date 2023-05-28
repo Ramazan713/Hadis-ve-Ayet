@@ -17,12 +17,12 @@ import 'package:hadith/db/entities/hadith.dart';
       entity: Hadith
   )
 ],primaryKeys: ["listId","hadithId"])
-class ListHadithEntity extends Equatable{
+class ListHadithEntityOld extends Equatable{
   final int listId;
   final int hadithId;
   final int pos;
 
-  const ListHadithEntity({required this.listId,required this.hadithId,required this.pos});
+  const ListHadithEntityOld({required this.listId,required this.hadithId,required this.pos});
 
   @override
   List<Object?> get props => [listId,hadithId];
@@ -30,9 +30,9 @@ class ListHadithEntity extends Equatable{
   String toJson(){
     return json.encode({"listId":listId,"hadithId":hadithId,"pos":pos});
   }
-  static ListHadithEntity fromJson(String data){
+  static ListHadithEntityOld fromJson(String data){
     final map=json.decode(data);
-    return ListHadithEntity(listId: map["listId"], hadithId: map["hadithId"],pos:map["pos"]);
+    return ListHadithEntityOld(listId: map["listId"], hadithId: map["hadithId"],pos:map["pos"]);
   }
 
 }

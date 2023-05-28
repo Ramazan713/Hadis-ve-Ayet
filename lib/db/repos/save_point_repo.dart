@@ -9,9 +9,9 @@ import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/models/save_point_argument.dart';
 import 'package:hadith/utils/save_point_helper.dart';
 
-class SavePointRepo{
-  final SavePointDao savePointDao;
-  SavePointRepo({required this.savePointDao});
+class SavePointRepoOld{
+  final SavePointDaoOld savePointDao;
+  SavePointRepoOld({required this.savePointDao});
 
   Future<int>insertSavePoint(SavePoint savePoint)=>savePointDao.insertSavePoint(savePoint.toSavePointEntity());
   Future<int>deleteSavePoint(SavePoint savePoint)=>savePointDao.deleteSavePoint(savePoint.toSavePointEntity());

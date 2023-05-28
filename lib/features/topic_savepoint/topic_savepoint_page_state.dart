@@ -171,7 +171,7 @@ abstract class TopicSavePointPageState <T extends StatefulWidget> extends State<
     return BlocBuilder<VisibilityBloc,VisibilityState>(
       builder: (context,state){
         return  CustomAnimatedWidget(
-          value: state.isVisible,
+          isVisible: state.isVisible,
           duration: const Duration(milliseconds: 200),
           child: FloatingActionButton(
             child: const Icon(Icons.beenhere),

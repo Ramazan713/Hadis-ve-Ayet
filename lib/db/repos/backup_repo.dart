@@ -81,11 +81,11 @@ class LocalBackupRepo{
       final sharedJsonArr=data["sharedPreferences"] as List;
       final countersJsonArr = data["counters"] as List?;
 
-      final hadithLists=hadithListJsonArr.map((e) => ListHadithEntity.fromJson(e)).toList();
-      final lists=listsJsonArr.map((e) => ListEntity.fromJson(e)).toList();
-      final savePoints=savePointsJsonArr.map((e) => SavePointEntity.fromJson(e)).toList();
+      final hadithLists=hadithListJsonArr.map((e) => ListHadithEntityOld.fromJson(e)).toList();
+      final lists=listsJsonArr.map((e) => ListEntityOld.fromJson(e)).toList();
+      final savePoints=savePointsJsonArr.map((e) => SavePointEntityOld.fromJson(e)).toList();
       final topicSavePoints=topicSavePointsJsonArr.map((e) => TopicSavePointEntity.fromJson(e)).toList();
-      final verseLists=verseListJsonArr.map((e) => ListVerseEntity.fromJson(e)).toList();
+      final verseLists=verseListJsonArr.map((e) => ListVerseEntityOld.fromJson(e)).toList();
       final histories=historiesJsonArr.map((e) => HistoryEntity.fromJson(e)).toList();
       final List<CounterEntity> counters = countersJsonArr!=null ?
         countersJsonArr.map((e) => CounterEntity.fromJson(e)).toList():[];

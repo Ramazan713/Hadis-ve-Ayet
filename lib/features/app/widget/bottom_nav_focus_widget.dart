@@ -16,10 +16,10 @@ class BottomBarFocusWidget extends StatelessWidget {
 
     return FocusDetector(
         onFocusLost: () {
-          bottomNavBloc.add(BottomNavChangeVisibility(isCollapsed: true,withAnimation: false));
+          // bottomNavBloc.add(BottomNavChangeVisibility(isCollapsed: true,withAnimation: false));
         },
         onFocusGained: () {
-          bottomNavBloc.add(BottomNavChangeVisibility(isCollapsed: false,withAnimation: false));
+          // bottomNavBloc.add(BottomNavChangeVisibility(isCollapsed: false,withAnimation: false));
         },
         child: child
     );

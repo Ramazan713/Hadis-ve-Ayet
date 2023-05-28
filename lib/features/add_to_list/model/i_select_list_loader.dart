@@ -9,8 +9,8 @@ import '../../../utils/localstorage.dart';
 abstract class ISelectListLoader<T>{
   final SharedPreferences _sharedPreferences=LocalStorage.sharedPreferences;
 
-  Stream<List<ListEntity>>getStreamRemovableList();
-  Stream<List<ListEntity>>getListItems();
+  Stream<List<ListEntityOld>>getStreamRemovableList();
+  Stream<List<ListEntityOld>>getListItems();
   Future<List<T>> getSelectedListItems();
   Future<List<T>> getSelectedListItemsWithRemovable(bool isRemovable);
   Future<int> insertItemList(int listId);

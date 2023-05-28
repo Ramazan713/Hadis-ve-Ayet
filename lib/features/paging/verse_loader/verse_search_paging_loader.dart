@@ -11,7 +11,7 @@ class VerseSearchPagingLoader extends IPagingVerseLoader{
   late final SearchManager _searchManager;
 
   VerseSearchPagingLoader(BuildContext context,{required this.searchKey}) : super(context){
-    _searchManager=SearchManager(verseRepo: verseRepo, hadithRepo:  context.read<HadithRepo>());
+    _searchManager=SearchManager(verseRepo: verseRepo, hadithRepo:  context.read<HadithRepoOld>());
 
   }
 

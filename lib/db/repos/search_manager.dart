@@ -9,7 +9,7 @@ import 'package:hadith/db/repos/verse_repo.dart';
 import 'package:hadith/utils/search_helper.dart';
 
 class SearchManager{
-  final HadithRepo hadithRepo;
+  final HadithRepoOld hadithRepo;
   final VerseRepo verseRepo;
 
   SearchManager({required this.verseRepo,required this.hadithRepo});

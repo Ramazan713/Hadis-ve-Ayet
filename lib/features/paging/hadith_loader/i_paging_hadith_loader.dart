@@ -16,15 +16,15 @@ import '../../../db/entities/helper/int_data.dart';
 
 abstract class IPagingHadithLoader extends IPagingLoader<HadithTopicsModel>{
   late final TopicRepo topicRepo;
-  late final HadithRepo hadithRepo;
-  late final ListRepo listRepo;
+  late final HadithRepoOld hadithRepo;
+  late final ListRepoOld listRepo;
 
   final SharedPreferences _sharedPreferences=LocalStorage.sharedPreferences;
 
   IPagingHadithLoader(BuildContext context){
     topicRepo=context.read<TopicRepo>();
-    hadithRepo=context.read<HadithRepo>();
-    listRepo=context.read<ListRepo>();
+    hadithRepo=context.read<HadithRepoOld>();
+    listRepo=context.read<ListRepoOld>();
   }
 
   @override

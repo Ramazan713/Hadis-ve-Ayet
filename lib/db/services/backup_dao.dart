@@ -15,16 +15,16 @@ abstract class BackupDao{
   Future<List<HistoryEntity>>getHistories();
 
   @Query("""select * from list where isRemovable=1""")
-  Future<List<ListEntity>>getLists();
+  Future<List<ListEntityOld>>getLists();
 
   @Query("""select * from ListHadith""")
-  Future<List<ListHadithEntity>>getHadithListEntities();
+  Future<List<ListHadithEntityOld>>getHadithListEntities();
 
   @Query("""select * from listVerse""")
-  Future<List<ListVerseEntity>>getVerseListEntities();
+  Future<List<ListVerseEntityOld>>getVerseListEntities();
 
   @Query("""select * from savepoint""")
-  Future<List<SavePointEntity>>getSavePoints();
+  Future<List<SavePointEntityOld>>getSavePoints();
 
   @Query("""select * from topicSavePoint""")
   Future<List<TopicSavePointEntity>>getTopicSavePoints();
@@ -38,16 +38,16 @@ abstract class BackupDao{
   Future<void>insertHistories(List<HistoryEntity>histories);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertLists(List<ListEntity>lists);
+  Future<void>insertLists(List<ListEntityOld>lists);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertHadithLists(List<ListHadithEntity>hadithLists);
+  Future<void>insertHadithLists(List<ListHadithEntityOld>hadithLists);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertVerseLists(List<ListVerseEntity>verseLists);
+  Future<void>insertVerseLists(List<ListVerseEntityOld>verseLists);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertSavePoints(List<SavePointEntity>savePointEntities);
+  Future<void>insertSavePoints(List<SavePointEntityOld>savePointEntities);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void>insertTopicSavePoints(List<TopicSavePointEntity>topicSavePoints);
@@ -60,16 +60,16 @@ abstract class BackupDao{
   Future<void>insertHistory(HistoryEntity history);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertList(ListEntity list);
+  Future<void>insertList(ListEntityOld list);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertHadithList(ListHadithEntity hadithList);
+  Future<void>insertHadithList(ListHadithEntityOld hadithList);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertVerseList(ListVerseEntity verseList);
+  Future<void>insertVerseList(ListVerseEntityOld verseList);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertSavePoint(SavePointEntity savePoint);
+  Future<void>insertSavePoint(SavePointEntityOld savePoint);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void>insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity);

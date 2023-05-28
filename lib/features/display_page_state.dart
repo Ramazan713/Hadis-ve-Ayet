@@ -221,7 +221,7 @@ abstract class DisplayPageState<T extends StatefulWidget> extends State<T>
 
   void editSelectedLists(
       EditSelectListModel listParam, ISelectListLoader listLoader,bool rebuildWhenChange,
-    {Function(List<ListEntity>)?changeListener}) {
+    {Function(List<ListEntityOld>)?changeListener}) {
     final bool isLoaderListPaging=listParam.loader is ListMixinLoader;
     final int? parentId=isLoaderListPaging?(listParam.loader as ListMixinLoader).listId:null;
 

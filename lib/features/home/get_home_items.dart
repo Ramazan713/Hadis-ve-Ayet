@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
+import 'package:hadith/features/hadiths/presentation/all_hadith/hadith_all_page.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_item.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
@@ -98,16 +101,23 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Kayıt Noktaları",
           iconData: Icons.save,
           onTap: () {
-            showSelectSavePointWithBookDia(context,
-                bookEnum: BookEnum.serlevha,
-                bookScopes: [
-                  BookScopeEnum.serlevha,
-                  BookScopeEnum.serlevhaSitte
-                ],
-                exclusiveTags: [
-                  OriginTag.surah,
-                  OriginTag.cuz
-                ]);
+
+            showSelectSavePointsWithScopes(context,
+                shortTitle: BookScopeEnum.serlevha.description,
+                menuItems: SavePointTypeBarExt.getSavePointTypes(BookEnum.serlevha),
+                scopes: [BookScopeEnum.serlevha,BookScopeEnum.serlevhaSitte],
+            );
+
+            // showSelectSavePointWithBookDia(context,
+            //     bookEnum: BookEnum.serlevha,
+            //     bookScopes: [
+            //       BookScopeEnum.serlevha,
+            //       BookScopeEnum.serlevhaSitte
+            //     ],
+            //     exclusiveTags: [
+            //       OriginTag.surah,
+            //       OriginTag.cuz
+            //     ]);
           },
         ),
         title: homeTitles[1]), //Serlevha
@@ -121,7 +131,8 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
             routeHadithPage(
                 context,
                 PagingArgument(
-                    savePointArg: SavePointLoadArg(parentKey:BookEnum.sitte.bookId.toString() ),
+                    savePointArg: SavePointLoadArg(
+                        parentKey:BookEnum.sitte.bookId.toString() ),
                     bookScope: BookScopeEnum.sitte,
                     title: "Tümü",
                     loader: loader,

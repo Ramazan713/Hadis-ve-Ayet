@@ -12,7 +12,7 @@ class ShareHadithText extends IShareText<Hadith>{
 
   @override
   Future<String> getSharedTextWithList(BuildContext context,int listId) async{
-    final hadithRepo=context.read<HadithRepo>();
+    final hadithRepo=context.read<HadithRepoOld>();
     final items=await hadithRepo.getListHadiths(listId);
     var text="";
     for(var item in items){

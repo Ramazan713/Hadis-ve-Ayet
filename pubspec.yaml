@@ -58,7 +58,9 @@ dependencies:
   ffmpeg_kit_flutter_audio: ^5.1.0-LTS
   mutex: ^3.0.1
   vibration: ^1.7.5
+
   debounce_throttle: ^2.0.0
+  sliver_tools: ^0.2.10
 
 #flutter packages pub run build_runner build
 

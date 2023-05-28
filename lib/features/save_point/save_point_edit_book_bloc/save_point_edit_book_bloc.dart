@@ -11,11 +11,11 @@ import 'package:hadith/features/save_point/save_point_edit_book_bloc/save_point_
 import 'package:rxdart/rxdart.dart';
 
 class SavePointEditBookBloc extends Bloc<ISavePointBookEditEvent,SavePointEditBookState>{
-  late final SavePointRepo _savePointRepo;
+  late final SavePointRepoOld _savePointRepo;
 
   final BehaviorSubject<OriginTag?>_filterController = BehaviorSubject();
 
-  SavePointEditBookBloc({required SavePointRepo savePointRepo}) : super(SavePointEditBookState.init()){
+  SavePointEditBookBloc({required SavePointRepoOld savePointRepo}) : super(SavePointEditBookState.init()){
     _savePointRepo = savePointRepo;
 
     on<SavePointBookEditEventRequest>(_onDataRequest,transformer: restartable());

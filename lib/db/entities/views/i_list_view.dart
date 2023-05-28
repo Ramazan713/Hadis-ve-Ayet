@@ -48,8 +48,8 @@ class IListView{
         isRemovable: isRemovable ?? this.isRemovable);
   }
 
-  ListEntity toListEntity({int? id, String? name, bool? isRemovable,bool? isArchive,int? listPos}) {
-    return ListEntity(
+  ListEntityOld toListEntity({int? id, String? name, bool? isRemovable,bool? isArchive,int? listPos}) {
+    return ListEntityOld(
         pos: listPos??this.listPos,
         name: name ?? this.name,
         isRemovable: isRemovable ?? this.isRemovable,

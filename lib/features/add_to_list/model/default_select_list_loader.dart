@@ -10,7 +10,7 @@ class DefaultSelectListLoader extends ISelectListLoader{
   }
 
   @override
-  Stream<List<ListEntity>> getListItems() {
+  Stream<List<ListEntityOld>> getListItems() {
     return const Stream.empty();
   }
 
@@ -30,7 +30,7 @@ class DefaultSelectListLoader extends ISelectListLoader{
   }
 
   @override
-  Stream<List<ListEntity>> getStreamRemovableList() {
+  Stream<List<ListEntityOld>> getStreamRemovableList() {
     return const Stream.empty();
   }
 

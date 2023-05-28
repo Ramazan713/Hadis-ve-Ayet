@@ -4,6 +4,7 @@ import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showEditTextBottomDia(BuildContext context, Function(String) listener,
     {String title = "Başlık", String content = ""}) async{
+
   var controller = TextEditingController(text: content);
   var _errorText = "";
   final _formKey = GlobalKey<FormState>();

@@ -3,9 +3,9 @@ import 'package:hadith/db/services/hadith_dao.dart';
 
 import '../entities/helper/int_data.dart';
 
-class HadithRepo {
-  final HadithDao hadithDao;
-  HadithRepo({required this.hadithDao});
+class HadithRepoOld {
+  final HadithDaoOld hadithDao;
+  HadithRepoOld({required this.hadithDao});
 
   Stream<List<Hadith>> getStreamAllHadiths() => hadithDao.getStreamAllHadiths();
 

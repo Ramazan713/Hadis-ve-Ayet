@@ -12,7 +12,7 @@ import 'i_list_count_bloc.dart';
 
 class ListArchiveBloc extends IListCountBloc<IListCountEvent, ListArchiveState>{
   final isArchive=true;
-  ListArchiveBloc({required ListRepo listRepo,required SavePointRepo savePointRepo})
+  ListArchiveBloc({required ListRepoOld listRepo,required SavePointRepoOld savePointRepo})
       : super(listRepo: listRepo,savePointRepo: savePointRepo, firstState: const ListArchiveState()){
     on<ListCountEventItemsRequested>(onItemsListRequested,transformer: restartable());
     on<ListCountEventRemoved>(onListDeleted);
@@ -26,7 +26,7 @@ class ListArchiveBloc extends IListCountBloc<IListCountEvent, ListArchiveState>{
 
     final streamData=listRepo.getAllArchivedListViews();
 
-    await emit.forEach<List<ListHadithView>>(streamData,
+    await emit.forEach<List<ListHadithViewOld>>(streamData,
         onData: (data)=>state.copyWith(listItems: data,status: DataStatus.success));
   }
 

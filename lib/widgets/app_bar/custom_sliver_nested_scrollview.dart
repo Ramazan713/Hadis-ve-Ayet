@@ -15,11 +15,11 @@ class CustomSliverNestedView extends NestedScrollView {
   }) : super(key: key,
           body: child,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            if(isBottomNavAffected){
-              context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: innerBoxIsScrolled));
-            }else{
-              context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: true));
-            }
+            // if(isBottomNavAffected){
+            //   context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: innerBoxIsScrolled));
+            // }else{
+            //   context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: true));
+            // }
             return headerSliverBuilder(context, innerBoxIsScrolled);
           },controller: scrollController
         );

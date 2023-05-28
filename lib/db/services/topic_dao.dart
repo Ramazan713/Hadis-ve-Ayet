@@ -6,7 +6,7 @@ import 'package:hadith/db/entities/topic.dart';
 import 'package:hadith/db/entities/helper/item_count_model.dart';
 
 @dao
-abstract class TopicDao{
+abstract class TopicDaoOld{
 
   @Query("""select T.* from topic T,HadithTopic HT
      where T.id=HT.topicId and HT.hadithId=:hadithId""")

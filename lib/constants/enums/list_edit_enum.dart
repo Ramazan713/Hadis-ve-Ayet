@@ -13,7 +13,7 @@ enum ListEditEnum{
 }
 
 extension ListEditEnumExtension on ListEditEnum{
-  String get name{
+  String get description{
     switch(this){
       case ListEditEnum.rename:
         return "Yeniden İsimlendir";

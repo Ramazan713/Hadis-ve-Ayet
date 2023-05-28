@@ -15,7 +15,7 @@ import 'i_list_count_bloc.dart';
 class ListVerseBloc extends IListCountBloc<IListCountEvent, ListVerseState>{
   final isArchive=false;
 
-  ListVerseBloc({required ListRepo listRepo,required SavePointRepo savePointRepo})
+  ListVerseBloc({required ListRepoOld listRepo,required SavePointRepoOld savePointRepo})
       : super(listRepo: listRepo,savePointRepo: savePointRepo,firstState: const ListVerseState()){
     on<ListCountEventInserted>(onListInserted);
     on<ListCountEventRemoved>(onListDeleted);
@@ -33,7 +33,7 @@ class ListVerseBloc extends IListCountBloc<IListCountEvent, ListVerseState>{
     final streamData= isSearching?listRepo.getSearchResultVerseViews(event.searchCriteria!,isArchive):
     listRepo.getListVerseViews(isArchive);
 
-    await emit.forEach<List<ListVerseView>>(streamData,
+    await emit.forEach<List<ListVerseViewOld>>(streamData,
         onData: (data)=>state.copyWith(listItems: data,status: DataStatus.success));
   }
 }
