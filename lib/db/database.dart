@@ -56,7 +56,7 @@ import 'package:hadith/features/extra_features/islamic_info/data/islamic_info_da
 import 'package:hadith/features/extra_features/prayer_surah/data/entity/prayer_entity.dart';
 import 'package:hadith/features/extra_features/prayer_surah/data/prayer_dao.dart';
 import 'package:hadith/features/extra_features/quran_prayer/data/entity/quran_prayer_entity.dart';
-import 'package:hadith/features/hadiths/data/services/hadith_all_dao.dart';
+import 'package:hadith/core/data/local/services/hadith_all_dao.dart';
 import '../core/data/local/services/hadith_info_list_dao.dart';
 import '../core/data/local/services/topic_dao.dart';
 import '../core/data/local/services/verse_info_list_dao.dart';
@@ -92,7 +92,7 @@ part 'database.g.dart';
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntity,CounterEntity,
       EsmaulHusnaEntity, PrayerEntity, IslamicInfoItemEntity,IslamicInfoTitleEntity,
-      // SavePointEntityOld,
+      SavePointEntityOld,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
     ],
     views: [ListVerseView,ListHadithView,CuzAudioView,SurahAudioView,
@@ -106,16 +106,16 @@ abstract class AppDatabase extends FloorDatabase{
   VerseDao get verseDao;
   TopicDaoOld get topicDaoOld;
   SectionDao get sectionDao;
-  // SavePointDaoOld get savePointDaoOld;
+  SavePointDaoOld get savePointDaoOld;
   TopicSavePointDao get topicSavePointDao;
   HistoryDao get historyDao;
-  // BackupMetaDao get backupMetaDao;
-  // BackupDao get backupDao;
+  BackupMetaDao get backupMetaDao;
+  BackupDao get backupDao;
   UserInfoDao get userInfoDao;
-  // AudioEditionDao get editionDao;
-  // VerseAudioDao get verseAudioDao;
-  // VerseArabicDao get verseArabicDao;
-  // VerseAudioStateDao get verseAudioStateDao;
+  AudioEditionDao get editionDao;
+  VerseAudioDao get verseAudioDao;
+  VerseArabicDao get verseArabicDao;
+  VerseAudioStateDao get verseAudioStateDao;
   ManageAudioDao get manageAudioDao;
   CounterDao get counterDao;
   EsmaulHusnaDao get esmaulHusnaDao;

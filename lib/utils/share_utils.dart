@@ -57,10 +57,10 @@ class ShareUtils{
     final IShareImage iShareImage;
     switch(sourceTypeEnum){
       case SourceTypeEnum.hadith:
-        iShareImage=HadithShareImage();
+        iShareImage = HadithShareImage();
         break;
       case SourceTypeEnum.verse:
-        iShareImage=ShareVerseImage();
+        iShareImage = ShareVerseImage();
         break;
     }
     return iShareImage;
@@ -73,10 +73,10 @@ class ShareUtils{
     final IShareText iShareText;
     switch(sourceTypeEnum){
       case SourceTypeEnum.hadith:
-        iShareText=ShareHadithText();
+        iShareText = ShareHadithText();
         break;
       case SourceTypeEnum.verse:
-        iShareText=ShareVerseText();
+        iShareText = ShareVerseText();
         break;
     }
     Share.share(iShareText.getSharedText(item));
@@ -87,10 +87,10 @@ class ShareUtils{
       final IShareText iShareText;
       switch(sourceTypeEnum){
         case SourceTypeEnum.hadith:
-          iShareText=ShareHadithText();
+          iShareText = ShareHadithText();
           break;
         case SourceTypeEnum.verse:
-          iShareText=ShareVerseText();
+          iShareText = ShareVerseText();
           break;
       }
       String text=await iShareText.getSharedTextWithList(context, listId);

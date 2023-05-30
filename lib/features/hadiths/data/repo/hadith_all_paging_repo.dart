@@ -1,5 +1,5 @@
 
-import 'package:hadith/features/hadiths/domain/models/hadith.dart';
+import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/features/hadiths/domain/repo/hadith_pagination_repo.dart';
 
 import '../../domain/constants/hadith_book_enum.dart';

@@ -6,7 +6,7 @@ import 'package:hadith/core/domain/models/item_list_info.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/topic_repo.dart';
 import 'package:hadith/core/domain/repo/pagination_repo.dart';
-import 'package:hadith/features/hadiths/domain/models/hadith.dart';
+import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/domain/repo/hadith_repo.dart';
 import 'package:hadith/utils/localstorage.dart';

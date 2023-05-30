@@ -2,7 +2,6 @@
 
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
-import 'package:hadith/db/entities/hadith.dart';
 
 @dao
 abstract class HadithAllDao{
@@ -21,6 +20,13 @@ abstract class HadithAllDao{
     select count(*) from hadith where id<:id
   """)
   Future<int?> getPosById(int id);
+
+
+  @Query("""select H.* from Hadith H,ListHadith LH
+     where LH.hadithId=H.id and LH.listId=:listId order by
+      LH.pos desc
+     """)
+  Future<List<HadithEntity>> getHadithsFromListId(int listId);
 
 
 }

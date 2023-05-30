@@ -8,7 +8,7 @@ import 'package:hadith/db/entities/savepoint_type_entity.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/save_point/model/savepoint.dart';
 
-@Entity(tableName: "savePoint",foreignKeys: [
+@Entity(tableName: "savePoints",foreignKeys: [
   ForeignKey(
       childColumns: ["savePointType"],
       parentColumns: ["id"],

@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_bloc.dart';
+import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
@@ -68,6 +69,7 @@ import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:hadith/themes/dark_theme.dart';
 import 'package:hadith/themes/light_theme.dart';
 import 'package:hadith/utils/localstorage.dart';
+import 'core/data/providers/pCoreDataManagerProviders.dart';
 import 'db/repos/audio_edition_repo.dart';
 import 'db/repos/verse_arabic_repo.dart';
 import 'db/repos/verse_audio_state_repo.dart';
@@ -131,48 +133,49 @@ class MyApp extends StatelessWidget {
             create: (context) => TopicRepo(topicDao: appDatabase.topicDaoOld)),
         RepositoryProvider<VerseRepo>(
             create: (context) => VerseRepo(verseDao: appDatabase.verseDao)),
-        // RepositoryProvider<SavePointRepoOld>(
-        //     create: (context) =>
-        //         SavePointRepoOld(savePointDao:appDatabase.savePointDaoOld)),
+        RepositoryProvider<SavePointRepoOld>(
+            create: (context) =>
+                SavePointRepoOld(savePointDao:appDatabase.savePointDaoOld)),
         RepositoryProvider<HistoryRepo>(
             create: (context) => HistoryRepo(historyDao: appDatabase.historyDao)),
         RepositoryProvider(
             create: (context) =>
                 UserInfoRepo(userInfoDao: appDatabase.userInfoDao)),
-        // RepositoryProvider(
-        //     create: (context) =>
-        //         VerseAudioStateRepo(audioStateDao: appDatabase.verseAudioStateDao)),
-        // RepositoryProvider(
-        //     create: (context) => LocalBackupRepo(backupDao: appDatabase.backupDao)),
-        // RepositoryProvider(
-        //     create: (context) =>
-        //         BackupMetaRepo(backupMetaDao: appDatabase.backupMetaDao)),
-        // RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
+        RepositoryProvider(
+            create: (context) =>
+                VerseAudioStateRepo(audioStateDao: appDatabase.verseAudioStateDao)),
+        RepositoryProvider(
+            create: (context) => LocalBackupRepo(backupDao: appDatabase.backupDao)),
+        RepositoryProvider(
+            create: (context) =>
+                BackupMetaRepo(backupMetaDao: appDatabase.backupMetaDao)),
+        RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
         RepositoryProvider(
             create: (context) =>
                 TopicSavePointRepo(savePointDao: appDatabase.topicSavePointDao)),
-        // RepositoryProvider(create: (context)=>VerseAudioEditorRepo(audioDao: appDatabase.verseAudioDao,fileAudioEditor: FileAudioEditor())),
-        // RepositoryProvider(create: (context) => VerseAudioRepo(verseAudioDao: appDatabase.verseAudioDao)),
+        RepositoryProvider(create: (context)=>VerseAudioEditorRepo(audioDao: appDatabase.verseAudioDao,fileAudioEditor: FileAudioEditor())),
+        RepositoryProvider(create: (context) => VerseAudioRepo(verseAudioDao: appDatabase.verseAudioDao)),
         RepositoryProvider(
             create: (context) =>
                 QuranDownloadService(audioRepo: context.read<VerseAudioRepo>())),
-        // RepositoryProvider(create: (context) => AudioEditionRepo(editionDao: appDatabase.editionDao,downloadService: context.read<QuranDownloadService>())),
+        RepositoryProvider(create: (context) => AudioEditionRepo(editionDao: appDatabase.editionDao,downloadService: context.read<QuranDownloadService>())),
         RepositoryProvider(create: (context)=>StorageService()),
         RepositoryProvider(create: (context)=>AuthService()),
         RepositoryProvider(create: (context)=>BackupManager(authService: context.read<AuthService>(),
           storageService: context.read<StorageService>(),backupMetaRepo: context.read<BackupMetaRepo>(),
           localBackupRepo: context.read<LocalBackupRepo>(),userInfoRepo: context.read<UserInfoRepo>())),
-        // RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDao,cuzDao: appDatabase.cuzDao,
-        //   surahDao: appDatabase.surahDao,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
+        RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDao,cuzDao: appDatabase.cuzDao,
+          surahDao: appDatabase.surahDao,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
         RepositoryProvider<IVerseAudioService>(create: (context) => VerseAudioJustService(
             verseAudioRepo: context.read<VerseAudioRepo>(),verseAudioStateRepo: context.read<VerseAudioStateRepo>(),sharedPreferences: LocalStorage.sharedPreferences)),
 
         RepositoryProvider(create: (context)=> HadithAllPagingRepo(hadithRepo: context.read(),itemListInfoRepo: context.read(),topicRepo: context.read())),
-
+        ...pCoreDataManagerRepoProviders(appDatabase),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> ShareBloc(shareManager: context.read(),sharePdfRepo: context.read())),
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),

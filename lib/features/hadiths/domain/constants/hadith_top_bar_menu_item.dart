@@ -4,7 +4,7 @@ import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
 import 'package:flutter/material.dart';
 
-enum SharedHadithBarItem implements IMenuItem{
+enum HadithTopBarMenuItem implements IMenuItem{
 
   fontSize(
       title: "Yazı Boyutu",
@@ -15,7 +15,7 @@ enum SharedHadithBarItem implements IMenuItem{
       iconInfo: IconInfo(iconData: Icons.save)
   );
 
-  const SharedHadithBarItem({required this.title, this.iconInfo});
+  const HadithTopBarMenuItem({required this.title, this.iconInfo});
 
   @override
   final String title;

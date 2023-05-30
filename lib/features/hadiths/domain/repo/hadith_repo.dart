@@ -1,6 +1,6 @@
 
 
-import '../models/hadith.dart';
+import '../../../../core/domain/models/hadith.dart';
 
 abstract class HadithRepo{
 
@@ -11,5 +11,7 @@ abstract class HadithRepo{
   Future<Hadith?> getHadithById(int id);
 
   Future<int?> getPosById(int id);
+
+  Future<List<Hadith>> getHadithsFromListId(int listId);
 
 }

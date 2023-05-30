@@ -19,6 +19,8 @@ class PaginationState<T extends IPagingItem> extends Equatable{
   final int visibleMaxPos;
 
   int get totalPages => totalItems ~/ pageSize;
+  int get visibleMiddlePos => (visibleMaxPos + visibleMinPos) ~/ 2;
+  T? get visibleMiddleItem => items.elementAtOrNull(visibleMiddlePos);
 
 
   const PaginationState({

@@ -1,7 +1,7 @@
 
 
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
-import 'package:hadith/features/hadiths/domain/models/hadith.dart';
+import 'package:hadith/core/domain/models/hadith.dart';
 
 
 extension HadithEntityExt on HadithEntity{

@@ -22,8 +22,8 @@ class LoadingUtil{
               child: DraggableScrollableSheet(
                 maxChildSize: 1,
                 builder: (context,scrollController){
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       Center(child: CircularProgressIndicator(),)
                     ],
                   );
