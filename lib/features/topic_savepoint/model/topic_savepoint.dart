@@ -17,8 +17,8 @@ class TopicSavePoint extends Equatable{
         parentKey: parentKey??this.parentKey,id: keepOldId?id??this.id:id);
   }
 
-  TopicSavePointEntity toTopicSavePointEntity(){
-    return TopicSavePointEntity(id: id,pos: pos, type: type.type, parentKey: parentKey);
+  TopicSavePointEntityOld toTopicSavePointEntity(){
+    return TopicSavePointEntityOld(id: id,pos: pos, type: type.type, parentKey: parentKey);
   }
 
   @override

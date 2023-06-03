@@ -156,7 +156,7 @@ void showSelectSavePointWithBookDia(BuildContext context,
                                     bookScope: selectedSavePoint.bookScope,
                                     loader: loader,title:label);
 
-                                switch(selectedSavePoint.bookScope.sourceType){
+                                switch(selectedSavePoint.bookScope.sourceTypeOld){
                                   case SourceTypeEnum.hadith:
                                     routeHadithPage(context,argument);
                                     break;

@@ -48,7 +48,7 @@ final kRouters={
   DetailIslamicInfoPage.id: (context) => DetailIslamicInfoPage(),
   ShowQuranPrayerPage.id: (context)=>ShowQuranPrayerPage(),
 
-  HadithAllPage.id: (context)=>HadithAllPage(),
+  // HadithAllPage.id: (context)=>HadithAllPage(),
   ShowListPage.id: (context)=>ShowListPage()
 
 };

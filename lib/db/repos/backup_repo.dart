@@ -84,7 +84,7 @@ class LocalBackupRepo{
       final hadithLists=hadithListJsonArr.map((e) => ListHadithEntityOld.fromJson(e)).toList();
       final lists=listsJsonArr.map((e) => ListEntityOld.fromJson(e)).toList();
       final savePoints=savePointsJsonArr.map((e) => SavePointEntityOld.fromJson(e)).toList();
-      final topicSavePoints=topicSavePointsJsonArr.map((e) => TopicSavePointEntity.fromJson(e)).toList();
+      final topicSavePoints=topicSavePointsJsonArr.map((e) => TopicSavePointEntityOld.fromJson(e)).toList();
       final verseLists=verseListJsonArr.map((e) => ListVerseEntityOld.fromJson(e)).toList();
       final histories=historiesJsonArr.map((e) => HistoryEntity.fromJson(e)).toList();
       final List<CounterEntity> counters = countersJsonArr!=null ?

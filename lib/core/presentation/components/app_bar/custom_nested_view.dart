@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/presentation/components/custom_scroll_controller.dart';
 
 class CustomNestedView extends StatelessWidget {
 
   final List<Widget> Function(BuildContext context, bool innerBoxIsScrolled) headerSliverBuilder;
   final Widget child;
-  final ScrollController? scrollController;
+  final CustomScrollController? scrollController;
   final bool floatHeaderSlivers;
 
   const CustomNestedView({

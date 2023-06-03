@@ -5,25 +5,25 @@ import 'package:hadith/db/entities/topic_savepoint_entity.dart';
 import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 
 @dao
-abstract class TopicSavePointDao{
+abstract class TopicSavePointDaoOld{
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int>insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity);
+  Future<int>insertTopicSavePoint(TopicSavePointEntityOld topicSavePointEntity);
 
   @Update()
-  Future<int>updateTopicSavePoint(TopicSavePointEntity topicSavePointEntity);
+  Future<int>updateTopicSavePoint(TopicSavePointEntityOld topicSavePointEntity);
 
   @delete
-  Future<int>deleteTopicSavePoint(TopicSavePointEntity topicSavePointEntity);
+  Future<int>deleteTopicSavePoint(TopicSavePointEntityOld topicSavePointEntity);
 
   @Query("""select * from topicSavePoint where type=:type and parentKey=:parentKey
      order by id desc limit 1""")
-  Stream<TopicSavePointEntity?>getStreamTopicSavePointEntity(int type,
+  Stream<TopicSavePointEntityOld?> getStreamTopicSavePointEntity(int type,
       String parentKey);
 
   @Query("""select * from topicSavePoint where type=:type and parentKey=:parentKey
      order by id desc limit 1""")
-  Future<TopicSavePointEntity?>getTopicSavePointEntity(int type,
+  Future<TopicSavePointEntityOld?> getTopicSavePointEntity(int type,
       String parentKey);
 
 

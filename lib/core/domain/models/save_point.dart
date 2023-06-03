@@ -44,7 +44,7 @@ class SavePoint extends Equatable{
 
     final saveLabel = autoType.label != "" ? "${autoType.label} -" : "";
     final name = useLocalWideScope ? destination.getType().title : destination.getParentName();
-    final sourceName = destination.getBookScope().sourceType.shortName;
+    final sourceName = destination.getBookScope().sourceTypeOld.shortName;
     final readableDate = DateTimeFormats.formatDate1(date);
 
     return "$saveLabel $name - $sourceName - $readableDate";

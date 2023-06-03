@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'db/instance.dart';
-import 'my_app.dart';
+import 'features/app/my_app_providers.dart';
 import 'services/foreground_service/foreground_service_helper.dart';
 
 
@@ -25,8 +25,7 @@ Future<void> main() async {
     // FlutterError.onError =
     //     FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-
-    runApp(MyApp(
+    runApp(MyAppProviders(
       appDatabase: database,
     ));
   }, (error, stack) {

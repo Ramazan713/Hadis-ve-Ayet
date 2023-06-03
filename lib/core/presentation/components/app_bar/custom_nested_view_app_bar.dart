@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/presentation/components/custom_nested_view.dart';
+import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 
 class CustomNestedViewAppBar extends StatelessWidget {
@@ -17,7 +17,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
     Key? key,
     required this.child,
     this.scrollController,
-    required this.floatHeaderSlivers,
+    this.floatHeaderSlivers = false,
     this.appBarBottom,
     this.title,
     this.actions,

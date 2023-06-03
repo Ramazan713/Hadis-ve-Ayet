@@ -2,15 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
+import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/all_hadith/hadith_all_page.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_item.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 import '../../constants/enums/book_enum.dart';
+import '../app/routes/app_routers.dart';
 import '../save_point/constants/origin_tag_enum.dart';
 import '../../models/save_point_argument.dart';
 import '../hadith/hadith_router.dart';
@@ -75,7 +78,8 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           onTap: () {
             // var loader = HadithSerlevhaPagingLoader(context: context);
 
-            Navigator.pushNamed(context, HadithAllPage.id);
+
+            HadithAllRoute(hadithBookId: HadithBookEnum.serlevha.bookId).push(context);
 
             // routeHadithPage(
             //     context,
@@ -91,10 +95,13 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Konular",
           iconData: FontAwesomeIcons.bookOpenReader,
           onTap: () {
-            final sectionArgument =
-            SectionArgument(bookEnum: BookEnum.serlevha);
-            Navigator.pushNamed(context, SectionScreen.id,
-                arguments: sectionArgument);
+
+            SectionRoute(bookId: BookEnum.serlevha.bookId).push(context);
+
+            // final sectionArgument =
+            // SectionArgument(bookEnum: BookEnum.serlevha);
+            // Navigator.pushNamed(context, SectionScreen.id,
+            //     arguments: sectionArgument);
           },
         ),
         item3: HomeSubItem(
@@ -127,16 +134,19 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Tümü",
           iconData: Icons.all_inclusive,
           onTap: () {
-            var loader = HadithSittePagingLoader(context: context);
-            routeHadithPage(
-                context,
-                PagingArgument(
-                    savePointArg: SavePointLoadArg(
-                        parentKey:BookEnum.sitte.bookId.toString() ),
-                    bookScope: BookScopeEnum.sitte,
-                    title: "Tümü",
-                    loader: loader,
-                    originTag: originTag));
+
+            HadithAllRoute(hadithBookId: HadithBookEnum.sitte.bookId).push(context);
+
+            // var loader = HadithSittePagingLoader(context: context);
+            // routeHadithPage(
+            //     context,
+            //     PagingArgument(
+            //         savePointArg: SavePointLoadArg(
+            //             parentKey:BookEnum.sitte.bookId.toString() ),
+            //         bookScope: BookScopeEnum.sitte,
+            //         title: "Tümü",
+            //         loader: loader,
+            //         originTag: originTag));
           },
         ),
         item2: HomeSubItem(

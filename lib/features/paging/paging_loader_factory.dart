@@ -86,7 +86,7 @@ class PagingLoaderFactory{
   static IPagingLoader getLoader(BookEnum bookEnum,BookScopeEnum bookScope
       ,OriginTag originTag,String parentKey,BuildContext context){
 
-    switch(bookScope.sourceType){
+    switch(bookScope.sourceTypeOld){
       case SourceTypeEnum.hadith:
         return _getHadithLoader(originTag, bookEnum,parentKey, context);
       case SourceTypeEnum.verse:

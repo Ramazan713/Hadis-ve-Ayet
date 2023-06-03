@@ -77,7 +77,7 @@ class _$AppDatabase extends AppDatabase {
 
   SavePointDaoOld? _savePointDaoOldInstance;
 
-  TopicSavePointDao? _topicSavePointDaoInstance;
+  TopicSavePointDaoOld? _topicSavePointDaoOldInstance;
 
   HistoryDao? _historyDaoInstance;
 
@@ -126,6 +126,14 @@ class _$AppDatabase extends AppDatabase {
   VerseInfoListDao? _verseInfoListDaoInstance;
 
   TopicDao? _topicDaoInstance;
+
+  TopicHadithViewDao? _topicHadithsViewDaoInstance;
+
+  TopicVersesViewDao? _topicVersesViewDaoInstance;
+
+  SectionViewDao? _sectionViewDaoInstance;
+
+  TopicSavePointDao? _topicSavePointDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -213,6 +221,8 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `topicSavePoint` (`id` INTEGER, `pos` INTEGER NOT NULL, `type` INTEGER NOT NULL, `parentKey` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `PrayerQuran` (`id` INTEGER, `arabicContent` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `source` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hadith` (`content` TEXT NOT NULL, `source` TEXT NOT NULL, `contentSize` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
@@ -237,6 +247,12 @@ class _$AppDatabase extends AppDatabase {
             'CREATE VIEW IF NOT EXISTS `ListHadithView` AS select L.id,L.name,L.isRemovable,count(LH.hadithId)itemCounts,L.isArchive,L.sourceId,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListHadith LH on  L.id=LH.listId where L.sourceId=1 group by L.id');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `ListVerseView` AS select L.id,L.name,L.isRemovable,L.isArchive,L.sourceId,count(LV.verseId)itemCounts,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListVerse LV on L.id=LV.listId where L.sourceId=2  group by L.id');
+        await database.execute(
+            'CREATE VIEW IF NOT EXISTS `SectionTopicsView` AS     select S.id, S.name, S.bookId, count(T.id)topicCount from section S,Topic T \n    where S.id=T.sectionId  group by S.id\n  ');
+        await database.execute(
+            'CREATE VIEW IF NOT EXISTS `TopicHadithsView` AS     select T.id,T.name,T.sectionId, count(HT.hadithId)hadithCount from \n    topic T,HadithTopic HT where T.id=HT.topicId group by T.id\n  ');
+        await database.execute(
+            'CREATE VIEW IF NOT EXISTS `TopicVersesView` AS   select T.id,T.name,T.sectionId, count(VT.verseId)verseCount from \n  topic T,VerseTopic VT where T.id=VT.topicId group by T.id\n  ');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `VerseInfoListView` AS select V.id verseId,\n        (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 1 and L.isArchive = 0 and LV.verseId = V.id)) inAnyList,\n\t\t    (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 1 and L.isArchive = 1 and LV.verseId = V.id)) inAnyArchiveList,  \n        (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 0 and LV.verseId = V.id)) inFavorite \n        from verse V');
         await database.execute(
@@ -290,9 +306,9 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  TopicSavePointDao get topicSavePointDao {
-    return _topicSavePointDaoInstance ??=
-        _$TopicSavePointDao(database, changeListener);
+  TopicSavePointDaoOld get topicSavePointDaoOld {
+    return _topicSavePointDaoOldInstance ??=
+        _$TopicSavePointDaoOld(database, changeListener);
   }
 
   @override
@@ -423,6 +439,30 @@ class _$AppDatabase extends AppDatabase {
   @override
   TopicDao get topicDao {
     return _topicDaoInstance ??= _$TopicDao(database, changeListener);
+  }
+
+  @override
+  TopicHadithViewDao get topicHadithsViewDao {
+    return _topicHadithsViewDaoInstance ??=
+        _$TopicHadithViewDao(database, changeListener);
+  }
+
+  @override
+  TopicVersesViewDao get topicVersesViewDao {
+    return _topicVersesViewDaoInstance ??=
+        _$TopicVersesViewDao(database, changeListener);
+  }
+
+  @override
+  SectionViewDao get sectionViewDao {
+    return _sectionViewDaoInstance ??=
+        _$SectionViewDao(database, changeListener);
+  }
+
+  @override
+  TopicSavePointDao get topicSavePointDao {
+    return _topicSavePointDaoInstance ??=
+        _$TopicSavePointDao(database, changeListener);
   }
 }
 
@@ -1917,37 +1957,37 @@ class _$SavePointDaoOld extends SavePointDaoOld {
   }
 }
 
-class _$TopicSavePointDao extends TopicSavePointDao {
-  _$TopicSavePointDao(
+class _$TopicSavePointDaoOld extends TopicSavePointDaoOld {
+  _$TopicSavePointDaoOld(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _topicSavePointEntityInsertionAdapter = InsertionAdapter(
+        _topicSavePointEntityOldInsertionAdapter = InsertionAdapter(
             database,
             'topicSavePoint',
-            (TopicSavePointEntity item) => <String, Object?>{
+            (TopicSavePointEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
                   'type': item.type,
                   'parentKey': item.parentKey
                 },
             changeListener),
-        _topicSavePointEntityUpdateAdapter = UpdateAdapter(
+        _topicSavePointEntityOldUpdateAdapter = UpdateAdapter(
             database,
             'topicSavePoint',
             ['id'],
-            (TopicSavePointEntity item) => <String, Object?>{
+            (TopicSavePointEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
                   'type': item.type,
                   'parentKey': item.parentKey
                 },
             changeListener),
-        _topicSavePointEntityDeletionAdapter = DeletionAdapter(
+        _topicSavePointEntityOldDeletionAdapter = DeletionAdapter(
             database,
             'topicSavePoint',
             ['id'],
-            (TopicSavePointEntity item) => <String, Object?>{
+            (TopicSavePointEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
                   'type': item.type,
@@ -1961,22 +2001,23 @@ class _$TopicSavePointDao extends TopicSavePointDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<TopicSavePointEntity>
-      _topicSavePointEntityInsertionAdapter;
+  final InsertionAdapter<TopicSavePointEntityOld>
+      _topicSavePointEntityOldInsertionAdapter;
 
-  final UpdateAdapter<TopicSavePointEntity> _topicSavePointEntityUpdateAdapter;
+  final UpdateAdapter<TopicSavePointEntityOld>
+      _topicSavePointEntityOldUpdateAdapter;
 
-  final DeletionAdapter<TopicSavePointEntity>
-      _topicSavePointEntityDeletionAdapter;
+  final DeletionAdapter<TopicSavePointEntityOld>
+      _topicSavePointEntityOldDeletionAdapter;
 
   @override
-  Stream<TopicSavePointEntity?> getStreamTopicSavePointEntity(
+  Stream<TopicSavePointEntityOld?> getStreamTopicSavePointEntity(
     int type,
     String parentKey,
   ) {
     return _queryAdapter.queryStream(
         'select * from topicSavePoint where type=?1 and parentKey=?2      order by id desc limit 1',
-        mapper: (Map<String, Object?> row) => TopicSavePointEntity(
+        mapper: (Map<String, Object?> row) => TopicSavePointEntityOld(
             id: row['id'] as int?,
             pos: row['pos'] as int,
             type: row['type'] as int,
@@ -1987,31 +2028,34 @@ class _$TopicSavePointDao extends TopicSavePointDao {
   }
 
   @override
-  Future<TopicSavePointEntity?> getTopicSavePointEntity(
+  Future<TopicSavePointEntityOld?> getTopicSavePointEntity(
     int type,
     String parentKey,
   ) async {
     return _queryAdapter.query(
         'select * from topicSavePoint where type=?1 and parentKey=?2      order by id desc limit 1',
-        mapper: (Map<String, Object?> row) => TopicSavePointEntity(id: row['id'] as int?, pos: row['pos'] as int, type: row['type'] as int, parentKey: row['parentKey'] as String),
+        mapper: (Map<String, Object?> row) => TopicSavePointEntityOld(id: row['id'] as int?, pos: row['pos'] as int, type: row['type'] as int, parentKey: row['parentKey'] as String),
         arguments: [type, parentKey]);
   }
 
   @override
-  Future<int> insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity) {
-    return _topicSavePointEntityInsertionAdapter.insertAndReturnId(
+  Future<int> insertTopicSavePoint(
+      TopicSavePointEntityOld topicSavePointEntity) {
+    return _topicSavePointEntityOldInsertionAdapter.insertAndReturnId(
         topicSavePointEntity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> updateTopicSavePoint(TopicSavePointEntity topicSavePointEntity) {
-    return _topicSavePointEntityUpdateAdapter.updateAndReturnChangedRows(
+  Future<int> updateTopicSavePoint(
+      TopicSavePointEntityOld topicSavePointEntity) {
+    return _topicSavePointEntityOldUpdateAdapter.updateAndReturnChangedRows(
         topicSavePointEntity, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> deleteTopicSavePoint(TopicSavePointEntity topicSavePointEntity) {
-    return _topicSavePointEntityDeletionAdapter
+  Future<int> deleteTopicSavePoint(
+      TopicSavePointEntityOld topicSavePointEntity) {
+    return _topicSavePointEntityOldDeletionAdapter
         .deleteAndReturnChangedRows(topicSavePointEntity);
   }
 }
@@ -2355,10 +2399,10 @@ class _$BackupDao extends BackupDao {
                   'parentKey': item.parentKey
                 },
             changeListener),
-        _topicSavePointEntityInsertionAdapter = InsertionAdapter(
+        _topicSavePointEntityOldInsertionAdapter = InsertionAdapter(
             database,
             'topicSavePoint',
-            (TopicSavePointEntity item) => <String, Object?>{
+            (TopicSavePointEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'pos': item.pos,
                   'type': item.type,
@@ -2418,8 +2462,8 @@ class _$BackupDao extends BackupDao {
   final InsertionAdapter<SavePointEntityOld>
       _savePointEntityOldInsertionAdapter;
 
-  final InsertionAdapter<TopicSavePointEntity>
-      _topicSavePointEntityInsertionAdapter;
+  final InsertionAdapter<TopicSavePointEntityOld>
+      _topicSavePointEntityOldInsertionAdapter;
 
   final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
 
@@ -2481,9 +2525,9 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<List<TopicSavePointEntity>> getTopicSavePoints() async {
+  Future<List<TopicSavePointEntityOld>> getTopicSavePoints() async {
     return _queryAdapter.queryList('select * from topicSavePoint',
-        mapper: (Map<String, Object?> row) => TopicSavePointEntity(
+        mapper: (Map<String, Object?> row) => TopicSavePointEntityOld(
             id: row['id'] as int?,
             pos: row['pos'] as int,
             type: row['type'] as int,
@@ -2575,8 +2619,8 @@ class _$BackupDao extends BackupDao {
 
   @override
   Future<void> insertTopicSavePoints(
-      List<TopicSavePointEntity> topicSavePoints) async {
-    await _topicSavePointEntityInsertionAdapter.insertList(
+      List<TopicSavePointEntityOld> topicSavePoints) async {
+    await _topicSavePointEntityOldInsertionAdapter.insertList(
         topicSavePoints, OnConflictStrategy.replace);
   }
 
@@ -2619,8 +2663,8 @@ class _$BackupDao extends BackupDao {
 
   @override
   Future<void> insertTopicSavePoint(
-      TopicSavePointEntity topicSavePointEntity) async {
-    await _topicSavePointEntityInsertionAdapter.insert(
+      TopicSavePointEntityOld topicSavePointEntity) async {
+    await _topicSavePointEntityOldInsertionAdapter.insert(
         topicSavePointEntity, OnConflictStrategy.replace);
   }
 
@@ -4263,5 +4307,318 @@ class _$TopicDao extends TopicDao {
         'select T.name from topic T,HadithTopic HT      where T.id=HT.topicId and HT.hadithId=?1',
         mapper: (Map<String, Object?> row) => row.values.first as String,
         arguments: [hadithId]);
+  }
+}
+
+class _$TopicHadithViewDao extends TopicHadithViewDao {
+  _$TopicHadithViewDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database, changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Stream<List<TopicHadithsView>> getStreamTopicHadithsBySectionId(
+      int sectionId) {
+    return _queryAdapter.queryListStream(
+        'select * from topicHadithsView where sectionId = ?1',
+        mapper: (Map<String, Object?> row) => TopicHadithsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            hadithCount: row['hadithCount'] as int),
+        arguments: [sectionId],
+        queryableName: 'topicHadithsView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TopicHadithsView>> getStreamTopicHadithsBySectionIdAndQuery(
+    int sectionId,
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select * from topicHadithsView where sectionId = ?1 and      name like ?2 order by       (case when lower(name)=?4 then 1 when name like ?3       then 2 else 3 end )',
+        mapper: (Map<String, Object?> row) => TopicHadithsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            hadithCount: row['hadithCount'] as int),
+        arguments: [sectionId, querySearchFull, queryOrderForLike, queryRaw],
+        queryableName: 'topicHadithsView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TopicHadithsView>> getStreamTopicHadithsByBookId(int bookId) {
+    return _queryAdapter.queryListStream(
+        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1',
+        mapper: (Map<String, Object?> row) => TopicHadithsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            hadithCount: row['hadithCount'] as int),
+        arguments: [bookId],
+        queryableName: 'topicHadithsView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TopicHadithsView>> getStreamTopicHadithsByBookIdAndQuery(
+    int bookId,
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 and     TH.name like ?2 order by      (case when lower(TH.name)=?4 then 1 when TH.name like ?3      then 2 else 3 end )',
+        mapper: (Map<String, Object?> row) => TopicHadithsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            hadithCount: row['hadithCount'] as int),
+        arguments: [bookId, querySearchFull, queryOrderForLike, queryRaw],
+        queryableName: 'topicHadithsView',
+        isView: true);
+  }
+}
+
+class _$TopicVersesViewDao extends TopicVersesViewDao {
+  _$TopicVersesViewDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database, changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Stream<List<TopicVersesView>> getStreamTopicVersesBySectionId(int sectionId) {
+    return _queryAdapter.queryListStream(
+        'select * from topicVersesView where sectionId = ?1',
+        mapper: (Map<String, Object?> row) => TopicVersesView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            verseCount: row['verseCount'] as int),
+        arguments: [sectionId],
+        queryableName: 'topicVersesView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TopicVersesView>> getStreamTopicVersesBySectionIdAndQuery(
+    int sectionId,
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select * from topicVersesView where sectionId = ?1 and      name like ?2 order by       (case when lower(name)=?4 then 1 when name like ?3       then 2 else 3 end )',
+        mapper: (Map<String, Object?> row) => TopicVersesView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            verseCount: row['verseCount'] as int),
+        arguments: [sectionId, querySearchFull, queryOrderForLike, queryRaw],
+        queryableName: 'topicVersesView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TopicVersesView>> getStreamTopicVersesByBookId(int bookId) {
+    return _queryAdapter.queryListStream(
+        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1',
+        mapper: (Map<String, Object?> row) => TopicVersesView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            verseCount: row['verseCount'] as int),
+        arguments: [bookId],
+        queryableName: 'topicVersesView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TopicVersesView>> getStreamTopicVersesByBookIdAndQuery(
+    int bookId,
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 and     TV.name like ?2 order by      (case when lower(TV.name)=?4 then 1 when TH.name like ?3      then 2 else 3 end )',
+        mapper: (Map<String, Object?> row) => TopicVersesView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            sectionId: row['sectionId'] as int,
+            verseCount: row['verseCount'] as int),
+        arguments: [bookId, querySearchFull, queryOrderForLike, queryRaw],
+        queryableName: 'topicVersesView',
+        isView: true);
+  }
+}
+
+class _$SectionViewDao extends SectionViewDao {
+  _$SectionViewDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database, changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Stream<List<SectionTopicsView>> getSectionTopicsByBookId(int bookId) {
+    return _queryAdapter.queryListStream(
+        'select * from sectionTopicsView where bookId = ?1',
+        mapper: (Map<String, Object?> row) => SectionTopicsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            bookId: row['bookId'] as int,
+            topicCount: row['topicCount'] as int),
+        arguments: [bookId],
+        queryableName: 'sectionTopicsView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<SectionTopicsView>> getSectionTopicsByBookIdAndQuery(
+    int bookId,
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select * from sectionTopicsView where bookId = ?1 and      name like ?2 order by       (case when lower(name)=?4 then 1 when name like ?3       then 2 else 3 end )',
+        mapper: (Map<String, Object?> row) => SectionTopicsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            bookId: row['bookId'] as int,
+            topicCount: row['topicCount'] as int),
+        arguments: [bookId, querySearchFull, queryOrderForLike, queryRaw],
+        queryableName: 'sectionTopicsView',
+        isView: true);
+  }
+
+  @override
+  Future<int?> getTopicsCountByBookId(int bookId) async {
+    return _queryAdapter.query(
+        'select sum(topicCount) from sectionTopicsView where bookId = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [bookId]);
+  }
+}
+
+class _$TopicSavePointDao extends TopicSavePointDao {
+  _$TopicSavePointDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _topicSavePointEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'topicSavePoint',
+            (TopicSavePointEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'pos': item.pos,
+                  'type': item.type,
+                  'parentKey': item.parentKey
+                },
+            changeListener),
+        _topicSavePointEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'topicSavePoint',
+            ['id'],
+            (TopicSavePointEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'pos': item.pos,
+                  'type': item.type,
+                  'parentKey': item.parentKey
+                },
+            changeListener),
+        _topicSavePointEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'topicSavePoint',
+            ['id'],
+            (TopicSavePointEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'pos': item.pos,
+                  'type': item.type,
+                  'parentKey': item.parentKey
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TopicSavePointEntity>
+      _topicSavePointEntityInsertionAdapter;
+
+  final UpdateAdapter<TopicSavePointEntity> _topicSavePointEntityUpdateAdapter;
+
+  final DeletionAdapter<TopicSavePointEntity>
+      _topicSavePointEntityDeletionAdapter;
+
+  @override
+  Stream<TopicSavePointEntity?> getStreamTopicSavePointEntity(
+    int type,
+    String parentKey,
+  ) {
+    return _queryAdapter.queryStream(
+        'select * from topicSavePoint where type=?1 and parentKey=?2      order by id desc limit 1',
+        mapper: (Map<String, Object?> row) => TopicSavePointEntity(
+            id: row['id'] as int?,
+            pos: row['pos'] as int,
+            type: row['type'] as int,
+            parentKey: row['parentKey'] as String),
+        arguments: [type, parentKey],
+        queryableName: 'topicSavePoint',
+        isView: false);
+  }
+
+  @override
+  Future<TopicSavePointEntity?> getTopicSavePointEntity(
+    int type,
+    String parentKey,
+  ) async {
+    return _queryAdapter.query(
+        'select * from topicSavePoint where type=?1 and parentKey=?2      order by id desc limit 1',
+        mapper: (Map<String, Object?> row) => TopicSavePointEntity(id: row['id'] as int?, pos: row['pos'] as int, type: row['type'] as int, parentKey: row['parentKey'] as String),
+        arguments: [type, parentKey]);
+  }
+
+  @override
+  Future<int> insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity) {
+    return _topicSavePointEntityInsertionAdapter.insertAndReturnId(
+        topicSavePointEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateTopicSavePoint(
+      TopicSavePointEntity topicSavePointEntity) async {
+    await _topicSavePointEntityUpdateAdapter.update(
+        topicSavePointEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteTopicSavePoint(
+      TopicSavePointEntity topicSavePointEntity) async {
+    await _topicSavePointEntityDeletionAdapter.delete(topicSavePointEntity);
   }
 }

@@ -28,6 +28,21 @@ final migration4To5 = Migration(4, 5, (database)async{
         from verse V
     """);
 
+    txn.execute("""
+      CREATE VIEW SectionTopicsView as select S.id, S.name, S.bookId, count(T.id)topicCount from section S,Topic T 
+      where S.id=T.sectionId  group by S.id
+    """);
+
+    txn.execute("""
+      CREATE VIEW TopicHadithsView as select T.id,T.name,T.sectionId, count(HT.hadithId)hadithCount from 
+      topic T,HadithTopic HT where T.id=HT.topicId group by T.id
+    """);
+
+    txn.execute("""
+      CREATE VIEW TopicVersesView as select T.id,T.name,T.sectionId, count(VT.verseId)verseCount from 
+      topic T,VerseTopic VT where T.id=VT.topicId group by T.id
+    """);
+
     txn.execute("alter table SavePoint RENAME to SavePoints");
 
   });

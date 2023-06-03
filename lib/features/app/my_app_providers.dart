@@ -1,8 +1,8 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/data/providers/core_data_repo_providers.dart';
+import 'package:hadith/core/domain/providers/core_domain_first_provider.dart';
 import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
@@ -11,6 +11,7 @@ import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
+import 'package:hadith/features/app/my_app.dart';
 import 'package:hadith/features/extra_features/counter/data/repo/counter_repo_impl.dart';
 import 'package:hadith/features/extra_features/counter/domain/repo/counter_repo.dart';
 import 'package:hadith/features/extra_features/counter/domain/use_case/insert_counter_use_case.dart';
@@ -53,9 +54,10 @@ import 'package:hadith/features/search/bloc/search_bloc.dart';
 import 'package:hadith/features/settings/auth_bloc/auth_bloc.dart';
 import 'package:hadith/features/backup/backup_manager.dart';
 import 'package:hadith/features/settings/bloc/setting_bloc.dart';
-import 'package:hadith/features/topic/bloc/section_bloc.dart';
-import 'package:hadith/features/topic/bloc/topic_bloc.dart';
 import 'package:hadith/features/topic_savepoint/bloc/topic_savepoint_bloc.dart';
+import 'package:hadith/features/topics/data/providers/topic_data_repo_provider.dart';
+import 'package:hadith/features/topics/presentation/section_page/bloc/section_bloc.dart';
+import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/verse/edition_bloc/edition_bloc.dart';
 import 'package:hadith/features/verse/manage_audios/bloc/manage_audio_bloc.dart';
 import 'package:hadith/features/verse/manage_audios/manage_audio_repo.dart';
@@ -69,38 +71,38 @@ import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:hadith/themes/dark_theme.dart';
 import 'package:hadith/themes/light_theme.dart';
 import 'package:hadith/utils/localstorage.dart';
-import 'core/data/providers/pCoreDataManagerProviders.dart';
-import 'db/repos/audio_edition_repo.dart';
-import 'db/repos/verse_arabic_repo.dart';
-import 'db/repos/verse_audio_state_repo.dart';
-import 'features/app/bottom_navbar.dart';
-import 'features/extra_features/counter/presentation/add_counter/bloc/add_counter_bloc.dart';
-import 'features/extra_features/counter/presentation/manage_counter/bloc/manage_counter_bloc.dart';
-import 'features/extra_features/counter/presentation/show_counters/bloc/counter_show_bloc.dart';
-import 'features/extra_features/esmaul_husna/data/repo/esmaul_husna_repo_impl.dart';
-import 'features/extra_features/esmaul_husna/domain/repo/esmaul_husna_repo.dart';
-import 'features/extra_features/esmaul_husna/presentation/detail_esmaul_husna/bloc/detail_esmaul_husna_bloc.dart';
-import 'features/extra_features/islamic_info/data/repo/islamic_info_repo_impl.dart';
-import 'features/extra_features/islamic_info/domain/repo/islamic_info_repo.dart';
-import 'features/extra_features/quran_prayer/data/repo/quran_prayer_repo_impl.dart';
-import 'features/extra_features/quran_prayer/domain/repo/quran_prayer_repo.dart';
-import 'features/extra_features/quran_prayer/presentation/show_quran_prayer_page/bloc/show_quran_prayer_bloc.dart';
-import 'features/hadiths/data/providers/hadith_data_repo_providers.dart';
-import 'features/hadiths/presentation/all_hadith/bloc/hadith_all_bloc.dart';
-import 'features/premium/bloc/premium_event.dart';
-import 'features/settings/audio_setting/bloc/audio_setting_bloc.dart';
-import 'features/verse/common_services/file_audio_editor.dart';
-import 'features/verse/common_services/file_service.dart';
-import 'features/verse/cuz/bloc/cuz_bloc.dart';
-import 'features/verse/surah/bloc/surah_bloc.dart';
-import 'features/save_point/bloc/save_point_edit_bloc.dart';
+import '../../core/data/providers/core_data_manager_providers.dart';
+import '../../db/repos/audio_edition_repo.dart';
+import '../../db/repos/verse_arabic_repo.dart';
+import '../../db/repos/verse_audio_state_repo.dart';
+import 'bottom_navbar.dart';
+import '../extra_features/counter/presentation/add_counter/bloc/add_counter_bloc.dart';
+import '../extra_features/counter/presentation/manage_counter/bloc/manage_counter_bloc.dart';
+import '../extra_features/counter/presentation/show_counters/bloc/counter_show_bloc.dart';
+import '../extra_features/esmaul_husna/data/repo/esmaul_husna_repo_impl.dart';
+import '../extra_features/esmaul_husna/domain/repo/esmaul_husna_repo.dart';
+import '../extra_features/esmaul_husna/presentation/detail_esmaul_husna/bloc/detail_esmaul_husna_bloc.dart';
+import '../extra_features/islamic_info/data/repo/islamic_info_repo_impl.dart';
+import '../extra_features/islamic_info/domain/repo/islamic_info_repo.dart';
+import '../extra_features/quran_prayer/data/repo/quran_prayer_repo_impl.dart';
+import '../extra_features/quran_prayer/domain/repo/quran_prayer_repo.dart';
+import '../extra_features/quran_prayer/presentation/show_quran_prayer_page/bloc/show_quran_prayer_bloc.dart';
+import '../hadiths/data/providers/hadith_data_repo_providers.dart';
+import '../hadiths/presentation/all_hadith/bloc/hadith_all_bloc.dart';
+import '../premium/bloc/premium_event.dart';
+import '../settings/audio_setting/bloc/audio_setting_bloc.dart';
+import '../verse/common_services/file_audio_editor.dart';
+import '../verse/common_services/file_service.dart';
+import '../verse/cuz/bloc/cuz_bloc.dart';
+import '../verse/surah/bloc/surah_bloc.dart';
+import '../save_point/bloc/save_point_edit_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'features/verse/verse_download_audio/services/quran_download_service.dart';
-import 'features/verse/verse_listen_audio/services/i_verse_audio_service.dart';
+import '../verse/verse_download_audio/services/quran_download_service.dart';
+import '../verse/verse_listen_audio/services/i_verse_audio_service.dart';
 
-class MyApp extends StatelessWidget {
+class MyAppProviders extends StatelessWidget {
 
-  const MyApp({Key? key, required this.appDatabase})
+  const MyAppProviders({Key? key, required this.appDatabase})
       : super(key: key);
 
   final AppDatabase appDatabase;
@@ -110,9 +112,11 @@ class MyApp extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
+        ...pCoreDomainFirstProviders(appDatabase),
         ...pCoreDataRepoProviders(appDatabase),
         ...pCoreDomainRepoProviders(appDatabase),
         ...pHadithDataRepoProviders(appDatabase),
+        ...pTopicDataRepoProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
@@ -152,7 +156,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
         RepositoryProvider(
             create: (context) =>
-                TopicSavePointRepo(savePointDao: appDatabase.topicSavePointDao)),
+                TopicSavePointRepo(savePointDao: appDatabase.topicSavePointDaoOld)),
         RepositoryProvider(create: (context)=>VerseAudioEditorRepo(audioDao: appDatabase.verseAudioDao,fileAudioEditor: FileAudioEditor())),
         RepositoryProvider(create: (context) => VerseAudioRepo(verseAudioDao: appDatabase.verseAudioDao)),
         RepositoryProvider(
@@ -175,6 +179,8 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> SectionBloc(sectionViewRepo: context.read())),
+          BlocProvider(create: (context)=> TopicBloc(topicViewRepo: context.read(),topicSavePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShareBloc(shareManager: context.read(),sharePdfRepo: context.read())),
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
@@ -192,12 +198,12 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context)=>ManageCounterBloc(counterRepo: context.read<CounterRepo>(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>CounterShowBloc(counterRepo: context.read<CounterRepo>())),
           BlocProvider(create: (context)=>AudioSettingBloc(editionRepo: context.read<AudioEditionRepo>())),
-          BlocProvider(
-              create: (context) =>
-                  TopicBloc(topicRepo: context.read<TopicRepo>())),
-          BlocProvider(
-              create: (context) =>
-                  SectionBloc(topicRepo: context.read<TopicRepo>())),
+          // BlocProvider(
+          //     create: (context) =>
+          //         TopicBloc(topicRepo: context.read<TopicRepo>())),
+          // BlocProvider(
+          //     create: (context) =>
+          //         SectionBloc(topicRepo: context.read<TopicRepo>())),
           BlocProvider(create: (context) => ListBloc()),
           BlocProvider(
               create: (context) => CuzBloc(cuzRepo: context.read<CuzRepo>())),
@@ -244,22 +250,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context)=>VerseAudioBloc(audioRepo: context.read<VerseAudioRepo>(),
               editionRepo: context.read<AudioEditionRepo>(), audioEditorRepo: context.read<VerseAudioEditorRepo>()))
         ],
-        child: BlocBuilder<ThemeBloc,ThemeState>(
-          builder: (context,state){
-            context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
-
-            return Phoenix(
-              child: MaterialApp(
-                title: 'Hadis ve Ayet',
-                debugShowCheckedModeBanner: false,
-                themeMode: state.themeEnum.mode,
-                theme: getLightThemeData(),
-                darkTheme: getDarkThemeData(),
-                home: const BottomNavBar(),
-              ),
-            );
-          },
-        ),
+        child: const MyApp(),
       ),
     );
   }

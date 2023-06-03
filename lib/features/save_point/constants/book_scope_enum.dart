@@ -1,7 +1,8 @@
 
 
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/constants/enums/sourcetype_enum.dart';
+import 'package:hadith/constants/enums/sourcetype_enum.dart' as Old;
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
 
 enum BookScopeEnum{
   serlevha,
@@ -50,6 +51,19 @@ extension BookScopeExt on BookScopeEnum{
         return SourceTypeEnum.hadith;
       case BookScopeEnum.diyanetMeal:
         return SourceTypeEnum.verse;
+    }
+  }
+
+  Old.SourceTypeEnum get sourceTypeOld{
+    switch(this){
+      case BookScopeEnum.serlevha:
+        return Old.SourceTypeEnum.hadith;
+      case BookScopeEnum.sitte:
+        return Old.SourceTypeEnum.hadith;
+      case BookScopeEnum.serlevhaSitte:
+        return Old.SourceTypeEnum.hadith;
+      case BookScopeEnum.diyanetMeal:
+        return Old.SourceTypeEnum.verse;
     }
   }
 

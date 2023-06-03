@@ -2,38 +2,42 @@
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 enum BookEnum{
-  serlevha,
-  sitte,
-  diyanetMeal,
-  none
-}
+  none(
+    bookId: 0,
+    bookScope: null
+  ),
+  serlevha(
+    bookId: 1,
+    bookScope: BookScopeEnum.serlevha
+  ),
+  sitte(
+    bookId: 2,
+    bookScope: BookScopeEnum.sitte
+  ),
+  diyanetMeal(
+    bookId: 3,
+    bookScope: BookScopeEnum.diyanetMeal
+  );
 
-extension BookIdsExtension on BookEnum{
+  const BookEnum({required this.bookId, required this.bookScope});
 
-  int get bookId{
-    switch(this){
-      case BookEnum.none:
-        return 0;
-      case BookEnum.serlevha:
-        return 1;
-      case BookEnum.sitte:
-        return 2;
-      case BookEnum.diyanetMeal:
-        return 3;
+  final int bookId;
+  final BookScopeEnum? bookScope;
+
+
+  static BookEnum from(int bookId) {
+    if (bookId == BookEnum.none.bookId) {
+      return BookEnum.none;
     }
-  }
-
-  BookScopeEnum? get bookScope{
-    switch(this){
-      case BookEnum.none:
-        return null;
-      case BookEnum.serlevha:
-        return BookScopeEnum.serlevha;
-      case BookEnum.sitte:
-        return BookScopeEnum.sitte;
-      case BookEnum.diyanetMeal:
-        return BookScopeEnum.diyanetMeal;
+    if (bookId == BookEnum.serlevha.bookId) {
+      return BookEnum.serlevha;
     }
+    if (bookId == BookEnum.sitte.bookId) {
+      return BookEnum.sitte;
+    }
+    if (bookId == BookEnum.diyanetMeal.bookId) {
+      return BookEnum.diyanetMeal;
+    }
+    return BookEnum.serlevha;
   }
-
 }

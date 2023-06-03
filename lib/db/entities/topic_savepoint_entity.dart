@@ -7,7 +7,7 @@ import 'package:hadith/constants/enums/topic_savepoint_enum.dart';
 import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 
 @Entity(tableName: "topicSavePoint")
-class TopicSavePointEntity{
+class TopicSavePointEntityOld{
 
   @primaryKey
   final int? id;
@@ -16,7 +16,7 @@ class TopicSavePointEntity{
   final String parentKey;
 
 
-  TopicSavePointEntity({this.id,required this.pos,required this.type,required this.parentKey});
+  TopicSavePointEntityOld({this.id,required this.pos,required this.type,required this.parentKey});
 
 
   TopicSavePoint toTopicSavePoint(){
@@ -32,9 +32,9 @@ class TopicSavePointEntity{
   String toJson(){
     return json.encode({"id":id,"type":type,"parentKey":parentKey,"pos":pos});
   }
-  static TopicSavePointEntity fromJson(String data){
+  static TopicSavePointEntityOld fromJson(String data){
     final map=json.decode(data);
-    return TopicSavePointEntity(id: map["id"], type: map["type"],parentKey:map["parentKey"],
+    return TopicSavePointEntityOld(id: map["id"], type: map["type"],parentKey:map["parentKey"],
         pos:map["pos"]);
   }
 

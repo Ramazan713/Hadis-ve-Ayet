@@ -27,4 +27,16 @@ extension HadithBookEnumExt on HadithBookEnum{
     }
   }
 
+
+  static HadithBookEnum from(int hadithBookId){
+    if(hadithBookId == BookEnum.serlevha.bookId) {
+      return HadithBookEnum.serlevha;
+    }
+
+    if(hadithBookId == BookEnum.sitte.bookId) {
+      return HadithBookEnum.sitte;
+    }
+    return HadithBookEnum.serlevha;
+  }
+
 }

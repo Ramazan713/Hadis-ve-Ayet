@@ -5,7 +5,7 @@ import 'package:hadith/features/topic_savepoint/model/topic_savepoint.dart';
 import 'package:hadith/db/services/topic_savepoint_dao.dart';
 
 class TopicSavePointRepo{
-  final TopicSavePointDao savePointDao;
+  final TopicSavePointDaoOld savePointDao;
 
   TopicSavePointRepo({required this.savePointDao});
 

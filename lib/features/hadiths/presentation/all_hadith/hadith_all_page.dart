@@ -4,9 +4,7 @@ import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/paging/scroll_direction.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/extensions/app_extension.dart';
-import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
 import 'package:hadith/core/features/pagination/paging_loading_item.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
@@ -17,22 +15,16 @@ import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/dialogs/show_preview_hadith_image.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
-import 'package:hadith/core/presentation/components/custom_nested_view.dart';
-import 'package:hadith/core/presentation/components/custom_nested_view_app_bar.dart';
-import 'package:hadith/core/presentation/components/dropdown_bar_menu.dart';
+import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/dialogs/showShareAlertDialog.dart';
-import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
-import 'package:hadith/dialogs/show_select_font_size_bottom_dia.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_all_paging_repo.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_bottom_menu_item.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_share_menu_item.dart';
-import 'package:hadith/features/hadiths/domain/constants/hadith_top_bar_menu_item.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_dropdown_menu.dart';
 import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_navigator_icon.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
-import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 import '../shared/components/hadith_item.dart';
 import '../shared/hadith_shared_stateless_wdiget.dart';
 import 'bloc/hadith_all_bloc.dart';
@@ -43,7 +35,10 @@ import 'components/paging_hadith_connect.dart';
 
 class HadithAllPage extends HadithSharedStatelessWidget {
   static String id = "HadithAllPage";
-  HadithAllPage({Key? key}) : super(key: key);
+
+  final HadithBookEnum hadithBookEnum;
+
+  HadithAllPage({Key? key, required this.hadithBookEnum}) : super(key: key);
 
 
   final ScrollController controller = ScrollController();
@@ -74,7 +69,7 @@ class HadithAllPage extends HadithSharedStatelessWidget {
     final bloc = context.read<HadithAllBloc>();
     final shareBloc = context.read<ShareBloc>();
     final pagingBloc = context.read<PaginationBloc>();
-    final hadithPagingRepo = context.read<HadithAllPagingRepo>().init(HadithBookEnum.serlevha);
+    final hadithPagingRepo = context.read<HadithAllPagingRepo>().init(hadithBookEnum);
 
     pagingBloc.add(PaginationEventInit(hadithPagingRepo, config: PagingConfig(
       pageSize: 10,currentPos: 0,preFetchDistance: 3

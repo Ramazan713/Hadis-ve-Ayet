@@ -12,7 +12,7 @@ import 'package:hadith/features/save_point/save_point_param.dart';
 class SavePointHelper{
   static String getAutoSavePointTitle(SavePointParam savePointParam,String modifiedDate,SaveAutoType autoType,){
 
-    final typeDescription = savePointParam.bookScope.sourceType.shortName;
+    final typeDescription = savePointParam.bookScope.sourceTypeOld.shortName;
     final wideSavePointScope = kSavePointScopeOrigins.contains(savePointParam.originTag);
     final name = wideSavePointScope?savePointParam.originTag.shortName:savePointParam.parentName;
     final label = autoType.label;

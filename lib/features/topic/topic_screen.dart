@@ -142,7 +142,7 @@ class _TopicScreenState extends TopicSavePointPageState<TopicScreen> {
         (ModalRoute.of(context)?.settings.arguments as TopicArgument?) ??
             TopicArgument();
 
-    final SourceTypeEnum sourceTypeEnum = argument.bookEnum.bookScope?.sourceType??SourceTypeEnum.hadith;
+    final SourceTypeEnum sourceTypeEnum = argument.bookEnum.bookScope?.sourceTypeOld??SourceTypeEnum.hadith;
 
 
     bloc.add(TopicEventRequest(
