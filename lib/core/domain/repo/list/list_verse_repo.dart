@@ -20,4 +20,5 @@ abstract class ListVerseRepo{
 
   Future<int> getMaxPos();
 
+  Future<List<int>> getListIdsFromVerseId(int verseId);
 }

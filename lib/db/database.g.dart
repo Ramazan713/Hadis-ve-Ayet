@@ -620,7 +620,7 @@ class _$HadithDaoOld extends HadithDaoOld {
   @override
   Future<IntData?> getSearchWithHadithCountWithRegEx(String regExp) async {
     return _queryAdapter.query(
-        'select count(id) data from Hadith where lower(content)  REGEXP lower(?1)',
+        'select count(id) data from Hadith where lower(content) REGEXP lower(?1)',
         mapper: (Map<String, Object?> row) => IntData(data: row['data'] as int),
         arguments: [regExp]);
   }
@@ -632,7 +632,7 @@ class _$HadithDaoOld extends HadithDaoOld {
     String regExp,
   ) async {
     return _queryAdapter.queryList(
-        'select * from Hadith where lower(content)  REGEXP lower(?3)       limit ?1 offset ?1 * ((?2) -1)',
+        'select * from Hadith where lower(content) REGEXP lower(?3)       limit ?1 offset ?1 * ((?2) -1)',
         mapper: (Map<String, Object?> row) => Hadith(content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String, id: row['id'] as int?, bookId: row['bookId'] as int),
         arguments: [limit, page, regExp]);
   }
@@ -3626,6 +3626,66 @@ class _$HadithAllDao extends HadithAllDao {
   }
 
   @override
+  Future<int?> getHadithCountByTopicId(int topicId) async {
+    return _queryAdapter.query(
+        'select count(*) from Hadith H, HadithTopic HT where     HT.hadithId=H.id and HT.topicId=?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [topicId]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getPagingHadithsByTopicId(
+    int topicId,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select H.* from Hadith H, HadithTopic HT      where HT.hadithId=H.id and HT.topicId=?1 limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [topicId, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getHadithCountByListId(int listId) async {
+    return _queryAdapter.query(
+        'select count(*) from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [listId]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getPagingHadithsByListId(
+    int listId,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select H.* from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1 limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [listId, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getHadithCountByRegExp(String regExp) async {
+    return _queryAdapter.query(
+        'select count(*) from Hadith where lower(content) REGEXP lower(?1)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [regExp]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getPagingHadithsByRegExp(
+    String regExp,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from Hadith where lower(content) REGEXP lower(?1)     limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [regExp, pageSize, startIndex]);
+  }
+
+  @override
   Future<HadithEntity?> getHadithById(int id) async {
     return _queryAdapter.query('select * from hadith where id=?1',
         mapper: (Map<String, Object?> row) => HadithEntity(
@@ -3833,6 +3893,24 @@ class _$ListHadithDao extends ListHadithDao {
   }
 
   @override
+  Stream<List<int>> getStreamListIdsFromHadithId(int hadithId) {
+    return _queryAdapter.queryListStream(
+        'select listId from listHadith where hadithId = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [hadithId],
+        queryableName: 'listHadith',
+        isView: false);
+  }
+
+  @override
+  Future<List<int>> getListIdsFromHadithId(int hadithId) async {
+    return _queryAdapter.queryList(
+        'select listId from listHadith where hadithId = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [hadithId]);
+  }
+
+  @override
   Future<int> insertListHadith(ListHadithEntity listHadithEntity) {
     return _listHadithEntityInsertionAdapter.insertAndReturnId(
         listHadithEntity, OnConflictStrategy.replace);
@@ -3881,6 +3959,42 @@ class _$ListHadithViewDao extends ListHadithViewDao {
       bool isArchive) {
     return _queryAdapter.queryListStream(
         'select * from listHadithView where isArchive=?1 order by isRemovable asc,listPos desc',
+        mapper: (Map<String, Object?> row) => ListHadithView(
+            id: row['id'] as int,
+            contentMaxPos: row['contentMaxPos'] as int,
+            name: row['name'] as String,
+            isArchive: (row['isArchive'] as int) != 0,
+            sourceId: row['sourceId'] as int,
+            listPos: row['listPos'] as int,
+            itemCounts: row['itemCounts'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [isArchive ? 1 : 0],
+        queryableName: 'listHadithView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<ListHadithView>> getStreamRemovableListHadithViews() {
+    return _queryAdapter.queryListStream(
+        'select * from listHadithView where isRemovable=1 order by isRemovable asc,listPos desc',
+        mapper: (Map<String, Object?> row) => ListHadithView(
+            id: row['id'] as int,
+            contentMaxPos: row['contentMaxPos'] as int,
+            name: row['name'] as String,
+            isArchive: (row['isArchive'] as int) != 0,
+            sourceId: row['sourceId'] as int,
+            listPos: row['listPos'] as int,
+            itemCounts: row['itemCounts'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        queryableName: 'listHadithView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<ListHadithView>> getStreamRemovableListHadithViewsByIsArchive(
+      bool isArchive) {
+    return _queryAdapter.queryListStream(
+        'select * from listHadithView where isRemovable=1 and isArchive=?1 order by isRemovable asc,listPos desc',
         mapper: (Map<String, Object?> row) => ListHadithView(
             id: row['id'] as int,
             contentMaxPos: row['contentMaxPos'] as int,
@@ -4002,6 +4116,14 @@ class _$ListVerseDao extends ListVerseDao {
   }
 
   @override
+  Future<List<int>> getListIdsFromVerseId(int verseId) async {
+    return _queryAdapter.queryList(
+        'select listId from listVerse where verseId = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [verseId]);
+  }
+
+  @override
   Future<int> insertListVerse(ListVerseEntity listVerseEntity) {
     return _listVerseEntityInsertionAdapter.insertAndReturnId(
         listVerseEntity, OnConflictStrategy.replace);
@@ -4049,6 +4171,42 @@ class _$ListVerseViewDao extends ListVerseViewDao {
       bool isArchive) {
     return _queryAdapter.queryListStream(
         'select * from listVerseView where isArchive=?1 order by isRemovable asc,listPos desc',
+        mapper: (Map<String, Object?> row) => ListVerseView(
+            id: row['id'] as int,
+            contentMaxPos: row['contentMaxPos'] as int,
+            name: row['name'] as String,
+            isArchive: (row['isArchive'] as int) != 0,
+            sourceId: row['sourceId'] as int,
+            listPos: row['listPos'] as int,
+            itemCounts: row['itemCounts'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [isArchive ? 1 : 0],
+        queryableName: 'listVerseView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<ListVerseView>> getStreamRemovableListVerseView() {
+    return _queryAdapter.queryListStream(
+        'select * from listVerseView where isRemovable=1 order by isRemovable asc,listPos desc',
+        mapper: (Map<String, Object?> row) => ListVerseView(
+            id: row['id'] as int,
+            contentMaxPos: row['contentMaxPos'] as int,
+            name: row['name'] as String,
+            isArchive: (row['isArchive'] as int) != 0,
+            sourceId: row['sourceId'] as int,
+            listPos: row['listPos'] as int,
+            itemCounts: row['itemCounts'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        queryableName: 'listVerseView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<ListVerseView>> getStreamRemovableListVerseViewByIsArchive(
+      bool isArchive) {
+    return _queryAdapter.queryListStream(
+        'select * from listVerseView where isRemovable=1 and isArchive=?1 order by isRemovable asc,listPos desc',
         mapper: (Map<String, Object?> row) => ListVerseView(
             id: row['id'] as int,
             contentMaxPos: row['contentMaxPos'] as int,

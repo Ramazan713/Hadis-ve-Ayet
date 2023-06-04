@@ -59,10 +59,10 @@ abstract class HadithDaoOld{
 
 
 
-  @Query("""select count(id) data from Hadith where lower(content)  REGEXP lower(:regExp)""")
+  @Query("""select count(id) data from Hadith where lower(content) REGEXP lower(:regExp)""")
   Future<IntData?> getSearchWithHadithCountWithRegEx(String regExp);
 
-  @Query("""select * from Hadith where lower(content)  REGEXP lower(:regExp)
+  @Query("""select * from Hadith where lower(content) REGEXP lower(:regExp)
       limit :limit offset :limit * ((:page) -1)""")
   Future<List<Hadith>>getPagingSearchHadithsWithRegEx(int limit,int page,String regExp);
 

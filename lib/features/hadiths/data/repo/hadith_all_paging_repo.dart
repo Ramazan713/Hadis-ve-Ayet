@@ -22,8 +22,8 @@ class HadithAllPagingRepo extends HadithPaginationRepo{
   }
 
   @override
-  Future<int> getTotalItems() async{
-    return (await hadithRepo.getHadithCountByBookId(_hadithBookEnum.bookId)) ?? 0;
+  Future<int> getTotalItems(){
+    return hadithRepo.getHadithCountByBookId(_hadithBookEnum.bookId);
   }
 
 }

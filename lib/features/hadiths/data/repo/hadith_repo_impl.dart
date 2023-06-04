@@ -19,17 +19,6 @@ class HadithRepoImpl extends HadithRepo{
   }
 
   @override
-  Future<int?> getHadithCountByBookId(int bookId) async{
-    return _hadithAllDao.getHadithCountByBookId(bookId);
-  }
-
-  @override
-  Future<List<Hadith>> getPagingHadithsByBookId(int bookId, int pageSize, int startIndex) async{
-    return (await _hadithAllDao.getPagingHadithsByBookId(bookId, pageSize, startIndex))
-        .map((e) => e.toHadith()).toList();
-  }
-
-  @override
   Future<int?> getPosById(int id) async{
     return _hadithAllDao.getPosById(id);
   }
@@ -40,5 +29,56 @@ class HadithRepoImpl extends HadithRepo{
         .map((e) => e.toHadith()).toList();
   }
 
+
+
+  @override
+  Future<int> getHadithCountByBookId(int bookId) async{
+    return (await _hadithAllDao.getHadithCountByBookId(bookId)) ?? 0;
+  }
+
+  @override
+  Future<List<Hadith>> getPagingHadithsByBookId(int bookId, int pageSize, int startIndex) async{
+    return (await _hadithAllDao.getPagingHadithsByBookId(bookId, pageSize, startIndex))
+        .map((e) => e.toHadith()).toList();
+  }
+
+
+  @override
+  Future<int> getHadithCountByTopicId(int topicId) async{
+    return (await _hadithAllDao.getHadithCountByTopicId(topicId)) ?? 0;
+  }
+
+  @override
+  Future<List<Hadith>> getPagingHadithsByTopicId(int topicId, int pageSize, int startIndex) async{
+    return (await _hadithAllDao.getPagingHadithsByTopicId(topicId,pageSize,startIndex))
+        .map((e) => e.toHadith()).toList();
+  }
+
+
+
+  @override
+  Future<List<Hadith>> getPagingHadithsByListId(int listId, int pageSize, int startIndex) async{
+    return (await _hadithAllDao.getPagingHadithsByListId(listId,pageSize,startIndex))
+        .map((e) => e.toHadith()).toList();
+  }
+
+  @override
+  Future<int> getHadithCountByListId(int listId) async{
+    return (await _hadithAllDao.getHadithCountByListId(listId)) ?? 0;
+  }
+
+
+
+
+  @override
+  Future<int> getHadithCountByQuery(String query) async{
+    return (await _hadithAllDao.getHadithCountByRegExp(query)) ?? 0;
+  }
+
+  @override
+  Future<List<Hadith>> getPagingHadithsByQuery(String query, int pageSize, int startIndex) async{
+    return (await _hadithAllDao.getPagingHadithsByRegExp(query,pageSize,startIndex))
+        .map((e) => e.toHadith()).toList();
+  }
 
 }

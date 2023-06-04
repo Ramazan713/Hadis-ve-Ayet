@@ -10,6 +10,8 @@ List<RouteBase> get $appRoutes => [
       $hadithAllRoute,
       $sectionRoute,
       $topicRoute,
+      $hadithTopicRoute,
+      $hadithListRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -91,4 +93,52 @@ bool _$boolConverter(String value) {
     default:
       throw UnsupportedError('Cannot convert "$value" into a bool.');
   }
+}
+
+RouteBase get $hadithTopicRoute => GoRouteData.$route(
+      path: '/hadithTopic/:bookId/:topicId/:topicName',
+      factory: $HadithTopicRouteExtension._fromState,
+    );
+
+extension $HadithTopicRouteExtension on HadithTopicRoute {
+  static HadithTopicRoute _fromState(GoRouterState state) => HadithTopicRoute(
+        bookId: int.parse(state.pathParameters['bookId']!),
+        topicId: int.parse(state.pathParameters['topicId']!),
+        topicName: state.pathParameters['topicName']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/hadithTopic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(topicName)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $hadithListRoute => GoRouteData.$route(
+      path: '/hadithList/:listBookId/:listId/:listName',
+      factory: $HadithListRouteExtension._fromState,
+    );
+
+extension $HadithListRouteExtension on HadithListRoute {
+  static HadithListRoute _fromState(GoRouterState state) => HadithListRoute(
+        listBookId: int.parse(state.pathParameters['listBookId']!),
+        listId: int.parse(state.pathParameters['listId']!),
+        listName: state.pathParameters['listName']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/hadithList/${Uri.encodeComponent(listBookId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(listName)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 }

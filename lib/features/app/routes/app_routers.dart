@@ -1,9 +1,13 @@
 
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/all_hadith/hadith_all_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_list_page.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_topic_page.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 part 'app_routers.g.dart';
@@ -65,8 +69,53 @@ class TopicRoute extends GoRouteData{
 }
 
 
+@TypedGoRoute<HadithTopicRoute>(
+    path: "/hadithTopic/:bookId/:topicId/:topicName"
+)
+class HadithTopicRoute extends GoRouteData{
+  final int bookId;
+  final int topicId;
+  final String topicName;
+  HadithTopicRoute({
+    required this.bookId,
+    required this.topicId,
+    required this.topicName
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return HadithTopicPage(
+        bookEnum: BookEnum.from(bookId),
+        topicId: topicId,
+        topicName: topicName
+    );
+  }
+}
 
 
+@TypedGoRoute<HadithListRoute>(
+    path: "/hadithList/:listBookId/:listId/:listName"
+)
+class HadithListRoute extends GoRouteData{
+  final int listId;
+  final String listName;
+  final int listBookId;
+
+  HadithListRoute({
+    required this.listBookId,
+    required this.listId,
+    required this.listName
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return HadithListPage(
+        listBookScope: ListBookScopeExt.fromWithDefault(BookScopeExt.fromBinaryId(listBookId)),
+        listId: listId,
+        listName: listName,
+    );
+  }
+}
 
 
 

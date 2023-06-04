@@ -35,4 +35,10 @@ abstract class ListVerseDao{
   @Query("""select * from listVerse where listId=:listId""")
   Future<List<ListVerseEntity>> getListVersesWithListId(int listId);
 
+
+  @Query("""
+    select listId from listVerse where verseId = :verseId
+  """)
+  Future<List<int>> getListIdsFromVerseId(int verseId);
+
 }

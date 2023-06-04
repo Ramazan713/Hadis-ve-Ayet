@@ -4,5 +4,9 @@ abstract class ListVerseViewRepo{
 
   Stream<List<ListViewModel>> getStreamListVerseViewByIsArchive(bool isArchive);
 
+  Stream<List<ListViewModel>> getStreamRemovableListVerseView();
+
+  Stream<List<ListViewModel>> getStreamRemovableListVerseViewByIsArchive(bool isArchive);
+
   Stream<List<ListViewModel>> getStreamListVersesViewByQueryAndIsArchive(String query, bool isArchive);
 }

@@ -56,4 +56,9 @@ class ListHadithRepoImpl extends ListHadithRepo{
     return (await _listHadithDao.getMaxPos())??0;
   }
 
+  @override
+  Future<List<int>> getListIdsFromHadithId(int hadithId) {
+    return _listHadithDao.getListIdsFromHadithId(hadithId);
+  }
+
 }

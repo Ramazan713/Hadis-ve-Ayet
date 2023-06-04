@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 
+import '../custom_scroll_controller.dart';
+
 class CustomNestedViewAppBar extends StatelessWidget {
 
   final Widget child;
-  final ScrollController? scrollController;
+  final CustomScrollController? scrollController;
   final bool floatHeaderSlivers;
   final PreferredSizeWidget? appBarBottom;
   final Widget? title;
@@ -29,6 +31,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomNestedView(
+        scrollController: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
           return [
             CustomSliverAppBar(

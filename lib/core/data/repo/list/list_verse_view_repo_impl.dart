@@ -35,4 +35,16 @@ class ListVerseViewRepoImpl extends ListVerseViewRepo{
     ).map((items)=> items.map((e) => e.toListViewModel()).toList());
   }
 
+  @override
+  Stream<List<ListViewModel>> getStreamRemovableListVerseView() {
+    return _listVerseViewDao.getStreamRemovableListVerseView()
+        .map((items) => items.map((e) => e.toListViewModel()).toList());
+  }
+
+  @override
+  Stream<List<ListViewModel>> getStreamRemovableListVerseViewByIsArchive(bool isArchive) {
+    return _listVerseViewDao.getStreamRemovableListVerseViewByIsArchive(isArchive)
+        .map((items)=> items.map((e) => e.toListViewModel()).toList());
+  }
+
 }

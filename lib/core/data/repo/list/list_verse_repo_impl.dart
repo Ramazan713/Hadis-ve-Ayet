@@ -58,4 +58,9 @@ class ListVerseRepoImpl extends ListVerseRepo{
     return (await _listVerseDao.getMaxPos())??0;
   }
 
+  @override
+  Future<List<int>> getListIdsFromVerseId(int verseId) {
+    return _listVerseDao.getListIdsFromVerseId(verseId);
+  }
+
 }

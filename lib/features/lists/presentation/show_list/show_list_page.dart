@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/lists/presentation/components/list_item.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
@@ -96,7 +98,17 @@ class ShowListPage extends StatelessWidget {
             listViewModel: item,
             icon: sourceType.getListIcon(context, item.isRemovable),
             onClick: (){
-
+              switch(sourceType){
+                case SourceTypeEnum.hadith:
+                  HadithListRoute(
+                    listName: item.name,
+                    listId: item.id,
+                    listBookId: ListBookScopeExt.fromSourceType(item.sourceType).binaryId
+                  ).push(context);
+                  break;
+                case SourceTypeEnum.verse:
+                  break;
+              }
             },
             onMenuClick: (){
               showAndManageBottomMenu(context,item,sourceType);

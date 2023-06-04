@@ -33,4 +33,16 @@ class ListHadithViewRepoImpl extends ListHadithViewRepo{
         .map((items)=> items.map((e) => e.toListViewModel()).toList());
   }
 
+  @override
+  Stream<List<ListViewModel>> getStreamRemovableListHadithViews() {
+    return _listHadithViewDao.getStreamRemovableListHadithViews()
+        .map((items) => items.map((e) => e.toListViewModel()).toList());
+  }
+
+  @override
+  Stream<List<ListViewModel>> getStreamRemovableListHadithViewsByIsArchive(bool isArchive) {
+    return _listHadithViewDao.getStreamRemovableListHadithViewsByIsArchive(isArchive)
+        .map((items)=> items.map((e) => e.toListViewModel()).toList());
+  }
+
 }

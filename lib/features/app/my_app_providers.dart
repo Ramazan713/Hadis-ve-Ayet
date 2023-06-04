@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_bloc.dart';
+import 'package:hadith/core/features/select_list/bloc/select_list_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
@@ -172,20 +173,19 @@ class MyAppProviders extends StatelessWidget {
           surahDao: appDatabase.surahDao,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
         RepositoryProvider<IVerseAudioService>(create: (context) => VerseAudioJustService(
             verseAudioRepo: context.read<VerseAudioRepo>(),verseAudioStateRepo: context.read<VerseAudioStateRepo>(),sharedPreferences: LocalStorage.sharedPreferences)),
-
-        RepositoryProvider(create: (context)=> HadithAllPagingRepo(hadithRepo: context.read(),itemListInfoRepo: context.read(),topicRepo: context.read())),
         ...pCoreDataManagerRepoProviders(appDatabase),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> SelectListBloc(selectListUseCases: context.read(), listUseCases: context.read())),
           BlocProvider(create: (context)=> SectionBloc(sectionViewRepo: context.read())),
           BlocProvider(create: (context)=> TopicBloc(topicViewRepo: context.read(),topicSavePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShareBloc(shareManager: context.read(),sharePdfRepo: context.read())),
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
-          BlocProvider(create: (context)=> HadithAllBloc(listHadithUseCases: context.read() )),
+          BlocProvider(create: (context)=> HadithAllBloc()),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),

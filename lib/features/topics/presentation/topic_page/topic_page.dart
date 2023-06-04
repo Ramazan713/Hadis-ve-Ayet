@@ -12,6 +12,7 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.d
 import 'package:hadith/core/presentation/components/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_event.dart';
@@ -99,7 +100,17 @@ class TopicPage extends StatelessWidget {
                               hasSavePoint: !state.searchBarVisible && hasSavePoint,
                               sourceType: sourceType,
                               onTap: (){
-
+                                switch(sourceType){
+                                  case SourceTypeEnum.hadith:
+                                    HadithTopicRoute(
+                                      bookId: bookEnum.bookId,
+                                      topicId: item.id,
+                                      topicName: item.name
+                                    ).push(context);
+                                    break;
+                                  case SourceTypeEnum.verse:
+                                    break;
+                                }
                               },
                               onLongPress: state.searchBarVisible ? null : (){
                                 _handleBottomMenu(context, hasSavePoint, index);

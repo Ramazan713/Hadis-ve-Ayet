@@ -21,4 +21,5 @@ abstract class ListHadithRepo{
 
   Future<int> getMaxPos();
 
+  Future<List<int>> getListIdsFromHadithId(int hadithId);
 }

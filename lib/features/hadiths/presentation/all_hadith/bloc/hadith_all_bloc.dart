@@ -15,10 +15,8 @@ import 'hadith_all_state.dart';
 
 class HadithAllBloc extends Bloc<IHadithAllEvent,HadithAllState>{
 
-  late final ListHadithUseCases _listHadithUseCases;
 
-  HadithAllBloc({required ListHadithUseCases listHadithUseCases}) : super(HadithAllState.init()){
-    _listHadithUseCases = listHadithUseCases;
+  HadithAllBloc() : super(HadithAllState.init()){
 
     on<HadithEventFavorite>(_onHadithClick);
     on<HadithEventListenFontSize>(_onListenFontSize);
@@ -30,9 +28,9 @@ class HadithAllBloc extends Bloc<IHadithAllEvent,HadithAllState>{
 
 
   void _onHadithClick(HadithEventFavorite event,Emitter<HadithAllState>emit)async{
-    await _listHadithUseCases.addFavoriteList.call(event.item.hadith.id??0);
-    emit(state.copyWith(invalidateEvent: HadithInvalidateEvent(item: event.item,
-        op: PagingInvalidateOp.update),setInvalidateEvent: true));
+    // await _listHadithUseCases.addFavoriteList.call(event.item.hadith.id??0);
+    // emit(state.copyWith(invalidateEvent: HadithInvalidateEvent(item: event.item,
+    //     op: PagingInvalidateOp.update),setInvalidateEvent: true));
   }
 
   void _onHadithEventClearInvalidateEvent(HadithEventClearInvalidateEvent event,Emitter<HadithAllState>emit)async{

@@ -1,5 +1,6 @@
 
 
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 enum ListBookScope{
@@ -34,6 +35,15 @@ extension ListBookScopeExt on ListBookScope{
         return ListBookScope.verse;
       default:
         return null;
+    }
+  }
+
+  static ListBookScope fromSourceType(SourceTypeEnum sourceType){
+    switch(sourceType){
+      case SourceTypeEnum.hadith:
+        return ListBookScope.hadith;
+      case SourceTypeEnum.verse:
+        return ListBookScope.verse;
     }
   }
 

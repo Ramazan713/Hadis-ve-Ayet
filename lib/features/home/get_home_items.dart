@@ -40,24 +40,24 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Konular",
           iconData: FontAwesomeIcons.bookOpenReader,
           onTap: () {
-            final sectionArgument =
-            SectionArgument(bookEnum: BookEnum.diyanetMeal);
-            Navigator.pushNamed(context, SectionScreen.id,
-                arguments: sectionArgument);
+            // final sectionArgument =
+            // SectionArgument(bookEnum: BookEnum.diyanetMeal);
+            // Navigator.pushNamed(context, SectionScreen.id,
+            //     arguments: sectionArgument);
           },
         ),
         item2: HomeSubItem(
           title: "Cüz",
           iconData: FontAwesomeIcons.bookQuran,
           onTap: () {
-            Navigator.pushNamed(context, CuzScreen.id);
+            // Navigator.pushNamed(context, CuzScreen.id);
           },
         ),
         item3: HomeSubItem(
           title: "Sure",
           iconData: FontAwesomeIcons.bookQuran,
           onTap: () {
-            Navigator.pushNamed(context, SurahScreen.id);
+            // Navigator.pushNamed(context, SurahScreen.id);
           },
         ),
         item4: HomeSubItem(
@@ -153,9 +153,9 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Konular",
           iconData: FontAwesomeIcons.bookOpenReader,
           onTap: () {
-            final sectionArgument = SectionArgument(bookEnum: BookEnum.sitte);
-            Navigator.pushNamed(context, SectionScreen.id,
-                arguments: sectionArgument);
+            // final sectionArgument = SectionArgument(bookEnum: BookEnum.sitte);
+            // Navigator.pushNamed(context, SectionScreen.id,
+            //     arguments: sectionArgument);
           },
         ),
         item3: HomeSubItem(

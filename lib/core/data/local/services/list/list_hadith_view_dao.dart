@@ -11,6 +11,15 @@ abstract class ListHadithViewDao{
   """)
   Stream<List<ListHadithView>> getStreamListHadithViewsByIsArchive(bool isArchive);
 
+  @Query("""
+    select * from listHadithView where isRemovable=1 order by isRemovable asc,listPos desc
+  """)
+  Stream<List<ListHadithView>> getStreamRemovableListHadithViews();
+
+  @Query("""
+    select * from listHadithView where isRemovable=1 and isArchive=:isArchive order by isRemovable asc,listPos desc
+  """)
+  Stream<List<ListHadithView>> getStreamRemovableListHadithViewsByIsArchive(bool isArchive);
 
   @Query("""select * from listHadithView where isArchive=:isArchive and
      name like :querySearchFull order by 

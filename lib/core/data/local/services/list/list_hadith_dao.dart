@@ -33,4 +33,14 @@ abstract class ListHadithDao{
   @Query("""select * from listHadith where listId=:listId""")
   Future<List<ListHadithEntity>> getListHadithsWithListId(int listId);
 
+  @Query("""
+    select listId from listHadith where hadithId = :hadithId
+  """)
+  Stream<List<int>> getStreamListIdsFromHadithId(int hadithId);
+
+  @Query("""
+    select listId from listHadith where hadithId = :hadithId
+  """)
+  Future<List<int>> getListIdsFromHadithId(int hadithId);
+
 }
