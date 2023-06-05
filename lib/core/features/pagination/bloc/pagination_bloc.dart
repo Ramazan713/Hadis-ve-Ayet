@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 import '../../../domain/enums/paging/paging_invalidate_op.dart';
 import '../../../domain/enums/paging/paging_status.dart';
 import '../../../domain/repo/pagination_repo.dart';
@@ -98,7 +99,7 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
         prevPage: updatedPrevPage,
         currentPage: updatedNextPage,
         status: PagingStatus.loading,
-        jumpToAlignment: 0.5,
+        jumpToAlignment: 0,
         jumpToPos: usePrevPage ? state.pageSize : null
     ));
 
@@ -122,36 +123,6 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     add(PaginationEventJumpToPage(page: pageNumber,jumpToPos: jumpToPos));
   }
 
-  void _onInValidate(PaginationEventInValidate event,Emitter<PaginationState>emit)async{
-    if(_paginationRepo == null) return;
-
-    final items = state.items.toList();
-
-    switch(event.op){
-      case PagingInvalidateOp.update:
-        final updatedItem = await _paginationRepo!.getUpdatedItem(event.item);
-        if(updatedItem==null)return;
-
-        final index = items.indexWhere((element) => element.pagingId == updatedItem.pagingId);
-        if(index != -1){
-          items.removeAt(index);
-          items.insert(index, updatedItem);
-          emit(state.copyWith(items: items));
-          return;
-        }
-        break;
-      case PagingInvalidateOp.insert:
-
-        break;
-      case PagingInvalidateOp.delete:
-        items.removeWhere((element) => element.pagingId == event.item.pagingId);
-        emit(state.copyWith(items: items));
-        break;
-      case PagingInvalidateOp.insertOrDelete:
-
-        break;
-    }
-  }
 
   void _onSetVisiblePos(PaginationEventSetVisiblePos event,Emitter<PaginationState>emit){
     emit(state.copyWith(visibleMaxPos: event.visibleMaxPos, visibleMinPos: event.visibleMinPos));
@@ -205,6 +176,83 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     await _fetchDatas(startPage: page, endPage: page,shouldAppendAtEnd: shouldAppendAtEnd,
         shouldReplaceItems: shouldReplaceItems,jumpToPos: jumpToPos);
   }
+
+  void _onInValidate(PaginationEventInValidate event,Emitter<PaginationState>emit)async{
+    if(_paginationRepo == null) return;
+
+    var items = state.items.toList();
+
+    switch(event.op){
+      case PagingInvalidateOp.update:
+        items = await _updateItem(items, event.item);
+        break;
+      case PagingInvalidateOp.insert:
+        items = await _insertItem(items, event.item, event.pos);
+        break;
+      case PagingInvalidateOp.delete:
+        items = _deleteItem(items, event.item);
+        break;
+      case PagingInvalidateOp.unknown:
+        final isItemExists = await _paginationRepo?.isItemExists(event.item);
+        if(isItemExists == null) return;
+
+        if(isItemExists){//insert or update
+          final index = items.indexWhere((element) => element.pagingId == event.item.pagingId);
+          if(index!=-1){// if index not -1 item already exists we need to update
+            items = await _updateItem(items, event.item);
+          }else{
+            items = await _insertItem(items, event.item, event.pos);
+          }
+        }else{//delete
+          items = _deleteItem(items, event.item);
+        }
+        break;
+    }
+    emit(state.copyWith(items: items));
+  }
+
+
+  Future<List<IPagingItem>> _updateItem(List<IPagingItem> items, IPagingItem item)async{
+    final updatedItem = await _paginationRepo!.getUpdatedItem(item);
+    if(updatedItem==null)return items;
+
+    final index = items.indexWhere((element) => element.pagingId == updatedItem.pagingId);
+    if(index != -1){
+      items.removeAt(index);
+      items.insert(index, updatedItem);
+    }
+    return items;
+  }
+
+  Future<List<IPagingItem>> _insertItem(List<IPagingItem> items,IPagingItem item, int pos)async{
+    final updatedItem = await _paginationRepo!.getUpdatedItem(item);
+    if(updatedItem==null)return items;
+
+    items.insert(pos, updatedItem);
+    final updatedPosItems = items.sublist(pos + 1).map((e){
+      e.rowNumber = e.rowNumber + 1;
+      return e;
+    }).toList();
+
+    items.replaceRange(pos + 1, items.length, updatedPosItems);
+    return items;
+  }
+
+  List<IPagingItem> _deleteItem(List<IPagingItem> items,IPagingItem item){
+
+    final index = items.indexWhere((e) => e.pagingId == item.pagingId);
+    if(index == -1) return items;
+
+    items.removeAt(index);
+    final updatedPosItems = items.toList().sublist(index).map((e){
+      e.rowNumber = e.rowNumber - 1;
+      return e;
+    }).toList();
+
+    items.replaceRange(index, items.length, updatedPosItems);
+    return items;
+  }
+
 
 
   bool _isPageNumberValid(pageNumber){

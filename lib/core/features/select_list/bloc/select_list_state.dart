@@ -11,13 +11,15 @@ class SelectListState extends Equatable{
   final SourceTypeEnum sourceType;
   final int? listIdControl;
   final String? message;
+  final bool? onListAffected;
 
   const SelectListState({
     required this.items,
     required this.itemId,
     required this.sourceType,
     this.listIdControl,
-    this.message
+    this.message,
+    this.onListAffected
   });
 
   SelectListState copyWith({
@@ -26,6 +28,7 @@ class SelectListState extends Equatable{
     SourceTypeEnum? sourceType,
     int? listIdControl, bool setListIdControl = false,
     String? message, bool setMessage = false,
+    bool? onListAffected, bool setOnListAffected=false
   }){
     return SelectListState(
         items: items ?? this.items,
@@ -33,6 +36,7 @@ class SelectListState extends Equatable{
         sourceType: sourceType ?? this.sourceType,
         listIdControl: setListIdControl ? listIdControl : this.listIdControl,
         message: setMessage ? message : this.message,
+        onListAffected: setOnListAffected ? onListAffected : this.onListAffected
     );
   }
 
@@ -47,5 +51,5 @@ class SelectListState extends Equatable{
 
 
   @override
-  List<Object?> get props => [items, sourceType, itemId, listIdControl, message];
+  List<Object?> get props => [items, sourceType, itemId, listIdControl, message, onListAffected];
 }

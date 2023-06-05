@@ -10,4 +10,6 @@ abstract class PaginationRepo<T extends IPagingItem>{
   Future<List<T>> getItems(int startIndex, int endIndex);
 
   Future<int> getTotalItems();
+
+  Future<bool> isItemExists(T item);
 }

@@ -89,7 +89,7 @@ import '../extra_features/quran_prayer/data/repo/quran_prayer_repo_impl.dart';
 import '../extra_features/quran_prayer/domain/repo/quran_prayer_repo.dart';
 import '../extra_features/quran_prayer/presentation/show_quran_prayer_page/bloc/show_quran_prayer_bloc.dart';
 import '../hadiths/data/providers/hadith_data_repo_providers.dart';
-import '../hadiths/presentation/all_hadith/bloc/hadith_all_bloc.dart';
+import '../hadiths/presentation/shared/bloc/hadith_shared_bloc.dart';
 import '../premium/bloc/premium_event.dart';
 import '../settings/audio_setting/bloc/audio_setting_bloc.dart';
 import '../verse/common_services/file_audio_editor.dart';
@@ -185,7 +185,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
-          BlocProvider(create: (context)=> HadithAllBloc()),
+          BlocProvider(create: (context)=> HadithSharedBloc(selectListUseCases: context.read())),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),

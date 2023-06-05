@@ -2,7 +2,7 @@ import 'package:hadith/features/extra_features/counter/presentation/counter_deta
 import 'package:hadith/features/extra_features/islamic_info/presentation/detail_islamic_info/detail_islamic_info_page.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/detail_prayer/detail_prayer_page.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/show_prayer_surah/show_prayer_surah_page.dart';
-import 'package:hadith/features/hadiths/presentation/all_hadith/hadith_all_page.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
 import 'package:hadith/features/settings/audio_setting/audio_settings.dart';
 

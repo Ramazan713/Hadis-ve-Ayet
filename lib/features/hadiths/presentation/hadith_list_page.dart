@@ -35,7 +35,6 @@ class HadithListPage extends StatelessWidget {
 
     return HadithSharedPage(
         savePointDestination: savePointDestination,
-        fontSize: FontSize.medium,
         paginationRepo: listPagingRepo,
         title: "$listName - ${listBookScope.bookScopeEnum.sourceType.shortName}",
         listIdControlForSelectList: listId,

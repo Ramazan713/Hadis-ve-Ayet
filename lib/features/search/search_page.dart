@@ -85,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
                       }),
                       getSavePointIcon(onPress: (){
                         showSelectSavePointWithBookDia(context,
-                            bookEnum: BookEnum.none,
+                            bookEnum: BookEnum.serlevha,
                             bookScopes: BookScopeEnum.values,
                             filter: OriginTag.search);
                       }),

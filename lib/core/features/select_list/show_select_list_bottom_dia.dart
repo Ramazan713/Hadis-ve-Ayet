@@ -19,7 +19,8 @@ void showSelectListBottomDia(
   required int itemId,
   required SourceTypeEnum sourceType,
   int? listIdControl,
-  void Function()? onClosed
+  void Function()? onClosed,
+  void Function(bool currentListAffected)? onDataChanged
 }) async {
 
   final ScrollController scrollController = ScrollController();
@@ -88,9 +89,14 @@ void showSelectListBottomDia(
         return BlocListener<SelectListBloc, SelectListState>(
           listener: (context, state){
             final message = state.message;
+            final listAffected = state.onListAffected;
             if(message!=null){
               ToastUtils.showLongToast(message);
               bloc.add(SelectListEventClearMessage());
+            }
+            if(listAffected!=null){
+              onDataChanged?.call(listAffected);
+              bloc.add(SelectListEventClearListAffected());
             }
           },
           child: DraggableScrollableSheet(
@@ -126,15 +132,16 @@ void showSelectListBottomDia(
 
                                     return SelectListItem(
                                       onClicked: (){
+                                        final listAffected = item.listViewModel.id == state.listIdControl;
                                         if(item.isSelected && item.listViewModel.id == state.listIdControl){
                                           showCustomAlertBottomDia(context,
                                               title: "Listeden kaldırmak istediğinize emin misiniz?",
                                               content: "Bulunduğunuz listeyi etkileyecektir",
                                               btnApproved: () {
-                                                bloc.add(SelectListEventInsertOrDelete(item: item));
+                                                bloc.add(SelectListEventInsertOrDelete(item: item,listAffected: listAffected));
                                               });
                                         }else{
-                                          bloc.add(SelectListEventInsertOrDelete(item: item));
+                                          bloc.add(SelectListEventInsertOrDelete(item: item,listAffected: listAffected));
                                         }
                                       },
                                       isParentList: item.listViewModel.id == state.listIdControl,

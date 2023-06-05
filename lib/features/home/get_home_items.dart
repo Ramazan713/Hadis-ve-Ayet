@@ -7,7 +7,7 @@ import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
-import 'package:hadith/features/hadiths/presentation/all_hadith/hadith_all_page.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_item.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';

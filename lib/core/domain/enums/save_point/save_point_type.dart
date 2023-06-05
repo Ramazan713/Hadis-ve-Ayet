@@ -67,8 +67,6 @@ extension SavePointTypeBarExt on SavePointType{
       case BookEnum.diyanetMeal:
         return [SavePointType.list, SavePointType.topic,
           SavePointType.surah, SavePointType.cuz, SavePointType.search];
-      case BookEnum.none:
-        return [];
     }
   }
 

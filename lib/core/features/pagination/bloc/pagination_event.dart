@@ -1,4 +1,4 @@
-import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
+import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 
 import '../../../domain/enums/paging/paging_invalidate_op.dart';
 import '../../../domain/models/paging/paging_config.dart';
@@ -41,9 +41,10 @@ class PaginationEventSetVisiblePos extends IPaginationEvent{
 }
 
 class PaginationEventInValidate extends IPaginationEvent{
-  final HadithListModel item;
+  final IPagingItem item;
   final PagingInvalidateOp op;
-  PaginationEventInValidate({required this.item,required this.op});
+  final int pos;
+  PaginationEventInValidate({required this.item,required this.op, this.pos = 0});
 }
 
 class PaginationEventChangeState extends IPaginationEvent{

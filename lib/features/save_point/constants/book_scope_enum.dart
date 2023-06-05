@@ -83,13 +83,13 @@ extension BookScopeExt on BookScopeEnum{
   String get description{
     switch(this){
       case BookScopeEnum.serlevha:
-        return "Serlevha";
+        return BookEnum.serlevha.title;
       case BookScopeEnum.sitte:
-        return "Kütübi Sitte";
+        return BookEnum.sitte.title;
       case BookScopeEnum.serlevhaSitte:
         return "Hadisler";
       case BookScopeEnum.diyanetMeal:
-        return "Kur'an";
+        return BookEnum.diyanetMeal.title;
     }
   }
 

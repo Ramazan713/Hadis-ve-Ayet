@@ -10,12 +10,6 @@ import 'package:hadith/core/domain/use_cases/list/insert_list.dart';
 import 'package:hadith/core/domain/use_cases/list/list_use_cases.dart';
 import 'package:hadith/core/domain/use_cases/list/search_lists.dart';
 import 'package:hadith/core/domain/use_cases/list/update_list.dart';
-import 'package:hadith/core/domain/use_cases/list_hadith/add_favorite_list_hadith.dart';
-import 'package:hadith/core/domain/use_cases/list_hadith/add_list_hadith.dart';
-import 'package:hadith/core/domain/use_cases/list_hadith/list_hadith_use_cases.dart';
-import 'package:hadith/core/domain/use_cases/list_verse/add_favorite_list_verse.dart';
-import 'package:hadith/core/domain/use_cases/list_verse/add_list_verse.dart';
-import 'package:hadith/core/domain/use_cases/list_verse/list_verse_use_cases.dart';
 import 'package:hadith/core/domain/use_cases/save_point/delete_save_point.dart';
 import 'package:hadith/core/domain/use_cases/save_point/get_save_points.dart';
 import 'package:hadith/core/domain/use_cases/save_point/insert_save_point.dart';
@@ -23,6 +17,7 @@ import 'package:hadith/core/domain/use_cases/save_point/save_point_use_cases.dar
 import 'package:hadith/core/domain/use_cases/save_point/update_save_point.dart';
 import 'package:hadith/core/domain/use_cases/select_list/add_favorite.dart';
 import 'package:hadith/core/domain/use_cases/select_list/add_list.dart';
+import 'package:hadith/core/domain/use_cases/select_list/get_favorite_list.dart';
 import 'package:hadith/core/domain/use_cases/select_list/get_selectable_list_view.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
 import 'package:hadith/core/domain/use_cases/topic_save_point/delete_topic_save_point.dart';
@@ -46,32 +41,24 @@ List<RepositoryProvider> pCoreDomainRepoProviders(AppDatabase appDatabase){
         deleteItemsInList: DeleteItemsInList(listHadithRepo: context.read(), listVerseRepo: context.read())
     )),
 
-    // RepositoryProvider<ListHadithUseCases>(create: (context)=> ListHadithUseCases(
-    //     addFavoriteList: AddFavoriteListHadith(listRepo: context.read(), listHadithRepo: context.read()),
-    //     addList: AddListHadith(listHadithRepo: context.read())
-    // )),
-    //
-    // RepositoryProvider<ListVerseUseCases>(create: (context)=> ListVerseUseCases(
-    //     addFavoriteList: AddFavoriteListVerse(listRepo: context.read(), listVerseRepo: context.read()),
-    //     addList: AddListVerse(listVerseRepo: context.read())
-    // )),
-
     RepositoryProvider<SelectListUseCases>(create: (context){
       final insertOrDeleteListItem = InsertOrDeleteListItem(
         listVerseRepo: context.read(),
         listHadithRepo: context.read()
       );
+      final getFavoriteList = GetFavoriteList(listRepo: context.read());
 
       return SelectListUseCases(
           addList: AddList(insertOrDeleteListItem: insertOrDeleteListItem),
-          addFavoriteList: AddFavoriteList(listRepo: context.read(),
+          addFavoriteList: AddFavoriteList(getFavoriteList: getFavoriteList,
               insertOrDeleteListItem: insertOrDeleteListItem),
           getSelectableListView: GetSelectableListView(
               listHadithViewRepo: context.read(),
               listHadithRepo: context.read(),
               listVerseViewRepo: context.read(),
-              listVerseRepo: context.read()
-          )
+              listVerseRepo: context.read(),
+          ),
+          getFavoriteList: getFavoriteList
       );
     }),
 

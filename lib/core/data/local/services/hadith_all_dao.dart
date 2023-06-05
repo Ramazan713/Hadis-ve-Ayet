@@ -13,6 +13,8 @@ abstract class HadithAllDao{
   @Query("select * from hadith where bookId = :bookId limit :pageSize offset :startIndex")
   Future<List<HadithEntity>> getPagingHadithsByBookId(int bookId, int pageSize, int startIndex);
 
+  @Query("select exists(select * from hadith where bookId = :bookId and id = :id )")
+  Future<bool?> getExistsHadithByBookId(int bookId, int id);
 
 
   //Hadith Topic Pagination Functions
@@ -28,6 +30,10 @@ abstract class HadithAllDao{
   """)
   Future<List<HadithEntity>> getPagingHadithsByTopicId(int topicId, int pageSize, int startIndex);
 
+  @Query("""select exists(select H.* from Hadith H, HadithTopic HT 
+    where HT.hadithId=H.id and HT.topicId = :topicId and id = :id )""")
+  Future<bool?> getExistsHadithByTopicId(int topicId, int id);
+
 
   //Hadith List Pagination Functions
   @Query("""
@@ -41,6 +47,10 @@ abstract class HadithAllDao{
     where LH.hadithId=H.id and LH.listId=:listId limit :pageSize offset :startIndex
   """)
   Future<List<HadithEntity>> getPagingHadithsByListId(int listId, int pageSize, int startIndex);
+
+  @Query("""select exists(select H.* from Hadith H,ListHadith LH
+    where LH.hadithId=H.id and LH.listId=:listId and id = :id )""")
+  Future<bool?> getExistsHadithByListId(int listId, int id);
 
 
   //Hadith Search Pagination Functions

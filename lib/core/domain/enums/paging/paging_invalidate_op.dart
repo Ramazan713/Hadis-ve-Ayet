@@ -3,5 +3,5 @@ enum PagingInvalidateOp{
   update,
   insert,
   delete,
-  insertOrDelete
+  unknown
 }

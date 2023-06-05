@@ -16,8 +16,9 @@ class SelectListEventLoadData extends ISelectListEvent{
 
 class SelectListEventInsertOrDelete extends ISelectListEvent{
   final SelectableListViewModel item;
+  final bool listAffected;
 
-  SelectListEventInsertOrDelete({required this.item});
+  SelectListEventInsertOrDelete({required this.item, required this.listAffected});
 }
 
 class SelectListEventInsertNewList extends ISelectListEvent{
@@ -27,4 +28,6 @@ class SelectListEventInsertNewList extends ISelectListEvent{
 }
 
 class SelectListEventClearMessage extends ISelectListEvent{}
+
+class SelectListEventClearListAffected extends ISelectListEvent{}
 

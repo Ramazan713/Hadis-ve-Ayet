@@ -2,33 +2,30 @@
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 enum BookEnum{
-  none(
-    bookId: 0,
-    bookScope: null
-  ),
   serlevha(
     bookId: 1,
-    bookScope: BookScopeEnum.serlevha
+    bookScope: BookScopeEnum.serlevha,
+    title: "Serlevha"
   ),
   sitte(
     bookId: 2,
-    bookScope: BookScopeEnum.sitte
+    bookScope: BookScopeEnum.sitte,
+    title: "Kütübi Sitte"
   ),
   diyanetMeal(
     bookId: 3,
-    bookScope: BookScopeEnum.diyanetMeal
+    bookScope: BookScopeEnum.diyanetMeal,
+    title: "Kur'an"
   );
 
-  const BookEnum({required this.bookId, required this.bookScope});
+  const BookEnum({required this.bookId, required this.bookScope, required this.title});
 
   final int bookId;
   final BookScopeEnum? bookScope;
+  final String title;
 
 
   static BookEnum from(int bookId) {
-    if (bookId == BookEnum.none.bookId) {
-      return BookEnum.none;
-    }
     if (bookId == BookEnum.serlevha.bookId) {
       return BookEnum.serlevha;
     }

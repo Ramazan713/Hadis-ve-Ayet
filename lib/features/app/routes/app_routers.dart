@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
-import 'package:hadith/features/hadiths/presentation/all_hadith/hadith_all_page.dart';
+import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_list_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_topic_page.dart';

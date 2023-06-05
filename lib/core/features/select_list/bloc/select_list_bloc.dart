@@ -30,6 +30,7 @@ class SelectListBloc extends Bloc<ISelectListEvent,SelectListState>{
     on<SelectListEventInsertOrDelete>(_onInsertOrDelete, transformer: restartable());
     on<SelectListEventInsertNewList>(_onInsertNewList, transformer: restartable());
     on<SelectListEventClearMessage>(_onClearMessage, transformer: restartable());
+    on<SelectListEventClearListAffected>(_onClearListAffected, transformer: restartable());
   }
 
 
@@ -54,6 +55,7 @@ class SelectListBloc extends Bloc<ISelectListEvent,SelectListState>{
 
   void _onInsertOrDelete(SelectListEventInsertOrDelete event, Emitter<SelectListState> emit) async{
     await _selectListUseCases.addList.call(listViewModel: event.item.listViewModel, itemId: state.itemId);
+    emit(state.copyWith(onListAffected: event.listAffected, setOnListAffected: true));
   }
 
   void _onInsertNewList(SelectListEventInsertNewList event, Emitter<SelectListState> emit) async{
@@ -63,5 +65,8 @@ class SelectListBloc extends Bloc<ISelectListEvent,SelectListState>{
 
   void _onClearMessage(SelectListEventClearMessage event, Emitter<SelectListState> emit){
     emit(state.copyWith(setMessage: true));
+  }
+  void _onClearListAffected(SelectListEventClearListAffected event, Emitter<SelectListState> emit){
+    emit(state.copyWith(setOnListAffected: true));
   }
 }

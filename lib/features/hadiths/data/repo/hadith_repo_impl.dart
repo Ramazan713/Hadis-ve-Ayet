@@ -81,4 +81,19 @@ class HadithRepoImpl extends HadithRepo{
         .map((e) => e.toHadith()).toList();
   }
 
+  @override
+  Future<bool> getExistsHadithByBookId(int bookId, int id) async{
+    return (await _hadithAllDao.getExistsHadithByBookId(bookId, id)) ?? false;
+  }
+
+  @override
+  Future<bool> getExistsHadithByListId(int listId, int id) async{
+    return (await _hadithAllDao.getExistsHadithByListId(listId, id)) ?? false;
+  }
+
+  @override
+  Future<bool> getExistsHadithByTopicId(int topicId, int id) async{
+    return (await _hadithAllDao.getExistsHadithByTopicId(topicId, id)) ?? false;
+  }
+
 }

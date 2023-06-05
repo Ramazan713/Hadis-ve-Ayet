@@ -3626,6 +3626,17 @@ class _$HadithAllDao extends HadithAllDao {
   }
 
   @override
+  Future<bool?> getExistsHadithByBookId(
+    int bookId,
+    int id,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(select * from hadith where bookId = ?1 and id = ?2 )',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [bookId, id]);
+  }
+
+  @override
   Future<int?> getHadithCountByTopicId(int topicId) async {
     return _queryAdapter.query(
         'select count(*) from Hadith H, HadithTopic HT where     HT.hadithId=H.id and HT.topicId=?1',
@@ -3646,6 +3657,17 @@ class _$HadithAllDao extends HadithAllDao {
   }
 
   @override
+  Future<bool?> getExistsHadithByTopicId(
+    int topicId,
+    int id,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(select H.* from Hadith H, HadithTopic HT      where HT.hadithId=H.id and HT.topicId = ?1 and id = ?2 )',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [topicId, id]);
+  }
+
+  @override
   Future<int?> getHadithCountByListId(int listId) async {
     return _queryAdapter.query(
         'select count(*) from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1',
@@ -3663,6 +3685,17 @@ class _$HadithAllDao extends HadithAllDao {
         'select H.* from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1 limit ?2 offset ?3',
         mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
         arguments: [listId, pageSize, startIndex]);
+  }
+
+  @override
+  Future<bool?> getExistsHadithByListId(
+    int listId,
+    int id,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(select H.* from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1 and id = ?2 )',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [listId, id]);
   }
 
   @override

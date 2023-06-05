@@ -1,6 +1,7 @@
 
 
 import 'package:hadith/core/domain/models/hadith.dart';
+import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/domain/repo/hadith_pagination_repo.dart';
 
 class HadithTopicPagingRepo extends HadithPaginationRepo{
@@ -27,6 +28,11 @@ class HadithTopicPagingRepo extends HadithPaginationRepo{
   @override
   Future<int> getTotalItems() {
     return hadithRepo.getHadithCountByTopicId(_topicId);
+  }
+
+  @override
+  Future<bool> isItemExists(HadithListModel item) {
+    return hadithRepo.getExistsHadithByTopicId(_topicId, item.pagingId);
   }
 
 }

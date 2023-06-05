@@ -7,11 +7,13 @@ class HadithListModel with IPagingItem {
   final bool isInAnyList;
   final bool isInAnyArchiveList;
   final Hadith hadith;
-  final int rowNumber;
+  int _rowNumber = 0;
   final String topicNames;
 
   HadithListModel({required this.isInFavorite, required this.isInAnyList, required this.hadith,
-    required this.rowNumber, required this.topicNames,required this.isInAnyArchiveList});
+    required int rowNumber, required this.topicNames,required this.isInAnyArchiveList}){
+    _rowNumber = rowNumber;
+  }
 
 
   HadithListModel copyWith({
@@ -29,7 +31,7 @@ class HadithListModel with IPagingItem {
       isInAnyArchiveList: isInAnyArchiveList??this.isInAnyArchiveList,
       isInAnyList: isInAnyList??this.isInAnyList,
       isInFavorite: isInFavorite??this.isInFavorite,
-      rowNumber: rowNumber??this.rowNumber,
+      rowNumber: rowNumber??_rowNumber,
     );
   }
 
@@ -38,7 +40,7 @@ class HadithListModel with IPagingItem {
         isInFavorite: itemListInfo.inFavorite,
         isInAnyList: itemListInfo.getInAnyListWithArchiveList(useArchiveListFeatures),
         hadith: updatedHadith,
-        rowNumber: rowNumber,
+        rowNumber: _rowNumber,
         topicNames: topicNames,
         isInAnyArchiveList: itemListInfo.inAnyArchiveList
     );
@@ -47,4 +49,12 @@ class HadithListModel with IPagingItem {
 
   @override
   int get pagingId => hadith.id??0;
+
+  @override
+  int get rowNumber => _rowNumber;
+
+  @override
+  set rowNumber(value) {
+    _rowNumber = value;
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_topic_paging_repo.dart';
@@ -37,7 +36,6 @@ class HadithTopicPage extends StatelessWidget {
 
     return HadithSharedPage(
         savePointDestination: savePointDestination,
-        fontSize: FontSize.medium,
         paginationRepo: hadithTopicPagingRepo,
         title: "$topicName - ${bookEnum.bookScope?.sourceType.shortName}"
     );

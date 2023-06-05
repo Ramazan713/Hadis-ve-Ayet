@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/constants/app_constants.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
-import 'package:hadith/constants/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
