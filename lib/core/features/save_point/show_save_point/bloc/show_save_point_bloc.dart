@@ -21,9 +21,10 @@ class ShowSavePointBloc extends Bloc<IShowSavePointEvent,ShowSavePointState>{
 
     on<ShowSavePointEventLoadData>(_onLoadData,transformer: restartable());
     on<ShowSavePointEventChangeMenuItem>(_onChangeMenuItem,transformer: restartable());
-    on<ShowSavePointEventRename>(_onRename);
-    on<ShowSavePointEventDelete>(_onDelete);
-    on<ShowSavePointEventSelect>(_onSelect);
+    on<ShowSavePointEventRename>(_onRename, transformer: restartable());
+    on<ShowSavePointEventDelete>(_onDelete, transformer: restartable());
+    on<ShowSavePointEventSelect>(_onSelect, transformer: restartable());
+    on<ShowSavePointEventLoadAndGo>(_onLoadAndGo, transformer: restartable());
 
   }
 
@@ -46,6 +47,7 @@ class ShowSavePointBloc extends Bloc<IShowSavePointEvent,ShowSavePointState>{
   }
 
 
+
   void _onDelete(ShowSavePointEventDelete event,Emitter<ShowSavePointState>emit)async{
     await _savePointUseCases.deleteSavePoint.call(event.savePoint);
   }
@@ -57,6 +59,16 @@ class ShowSavePointBloc extends Bloc<IShowSavePointEvent,ShowSavePointState>{
   void _onSelect(ShowSavePointEventSelect event,Emitter<ShowSavePointState>emit)async{
     emit(state.copyWith(selectedSavePoint: event.savePoint,setSavePoint: true));
   }
+
+  void _onLoadAndGo(ShowSavePointEventLoadAndGo event,Emitter<ShowSavePointState>emit)async{
+    final selectedSavePoint = state.selectedSavePoint;
+    if(selectedSavePoint == null) return;
+
+    selectedSavePoint.destination.getType() == SavePointType.topic;
+
+
+  }
+
 
   @override
   Future<void> close() async{

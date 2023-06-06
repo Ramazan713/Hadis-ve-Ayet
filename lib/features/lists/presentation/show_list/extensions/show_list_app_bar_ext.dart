@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/list/list_archive_screen.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
@@ -42,7 +43,7 @@ extension ShowListAppBar on ShowListPage{
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, ListArchiveScreen.id);
+            ArchiveListRoute().push(context);
           },
           icon: const Icon(Icons.archive),
           tooltip: "Arşiv",

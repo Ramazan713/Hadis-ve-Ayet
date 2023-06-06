@@ -3668,6 +3668,13 @@ class _$HadithAllDao extends HadithAllDao {
   }
 
   @override
+  Future<String?> getTopicName(int topicId) async {
+    return _queryAdapter.query('select name from topic where id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
+        arguments: [topicId]);
+  }
+
+  @override
   Future<int?> getHadithCountByListId(int listId) async {
     return _queryAdapter.query(
         'select count(*) from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1',
@@ -3696,6 +3703,13 @@ class _$HadithAllDao extends HadithAllDao {
         'select exists(select H.* from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1 and id = ?2 )',
         mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
         arguments: [listId, id]);
+  }
+
+  @override
+  Future<String?> getListName(int listId) async {
+    return _queryAdapter.query('select name from list where id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
+        arguments: [listId]);
   }
 
   @override

@@ -28,6 +28,7 @@ import 'package:hadith/features/hadiths/data/repo/hadith_all_paging_repo.dart';
 import 'package:hadith/features/list/bloc/blocs/list_archive_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_hadith_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_verse_bloc.dart';
+import 'package:hadith/features/lists/presentation/archive_list/bloc/archive_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/bloc/visibility_bloc/visibility_bloc.dart';
@@ -178,6 +179,7 @@ class MyAppProviders extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> ArchiveListBloc(listUseCases: context.read())),
           BlocProvider(create: (context)=> SelectListBloc(selectListUseCases: context.read(), listUseCases: context.read())),
           BlocProvider(create: (context)=> SectionBloc(sectionViewRepo: context.read())),
           BlocProvider(create: (context)=> TopicBloc(topicViewRepo: context.read(),topicSavePointUseCases: context.read())),
@@ -185,7 +187,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
-          BlocProvider(create: (context)=> HadithSharedBloc(selectListUseCases: context.read())),
+          BlocProvider(create: (context)=> HadithSharedBloc(selectListUseCases: context.read(), hadithRepo: context.read())),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),

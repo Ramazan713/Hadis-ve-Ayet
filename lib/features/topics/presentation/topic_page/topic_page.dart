@@ -105,7 +105,6 @@ class TopicPage extends StatelessWidget {
                                     HadithTopicRoute(
                                       bookId: bookEnum.bookId,
                                       topicId: item.id,
-                                      topicName: item.name
                                     ).push(context);
                                     break;
                                   case SourceTypeEnum.verse:

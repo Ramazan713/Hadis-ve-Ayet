@@ -15,12 +15,17 @@ abstract class HadithRepo{
 
   Future<List<Hadith>> getPagingHadithsByTopicId(int topicId, int pageSize, int startIndex);
 
+  Future<String?> getTopicName(int topicId);
+
 
   Future<int> getHadithCountByListId(int listId);
 
   Future<List<Hadith>> getPagingHadithsByListId(int listId, int pageSize, int startIndex);
 
   Future<bool> getExistsHadithByTopicId(int topicId, int id);
+
+  Future<String?> getListName(int listId);
+
 
 
   Future<int> getHadithCountByQuery(String query);

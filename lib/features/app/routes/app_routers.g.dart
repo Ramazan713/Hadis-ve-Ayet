@@ -8,6 +8,7 @@ part of 'app_routers.dart';
 
 List<RouteBase> get $appRoutes => [
       $hadithAllRoute,
+      $archiveListRoute,
       $sectionRoute,
       $topicRoute,
       $hadithTopicRoute,
@@ -15,17 +16,50 @@ List<RouteBase> get $appRoutes => [
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
-      path: '/all_hadiths/:hadithBookId',
+      path: '/all_hadiths/:hadithBookId/:pos',
       factory: $HadithAllRouteExtension._fromState,
     );
 
 extension $HadithAllRouteExtension on HadithAllRoute {
   static HadithAllRoute _fromState(GoRouterState state) => HadithAllRoute(
         hadithBookId: int.parse(state.pathParameters['hadithBookId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
       );
 
   String get location => GoRouteData.$location(
-        '/all_hadiths/${Uri.encodeComponent(hadithBookId.toString())}',
+        '/all_hadiths/${Uri.encodeComponent(hadithBookId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
+}
+
+RouteBase get $archiveListRoute => GoRouteData.$route(
+      path: '/archiveList',
+      factory: $ArchiveListRouteExtension._fromState,
+    );
+
+extension $ArchiveListRouteExtension on ArchiveListRoute {
+  static ArchiveListRoute _fromState(GoRouterState state) => ArchiveListRoute();
+
+  String get location => GoRouteData.$location(
+        '/archiveList',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -96,7 +130,7 @@ bool _$boolConverter(String value) {
 }
 
 RouteBase get $hadithTopicRoute => GoRouteData.$route(
-      path: '/hadithTopic/:bookId/:topicId/:topicName',
+      path: '/hadithTopic/:bookId/:topicId/:pos',
       factory: $HadithTopicRouteExtension._fromState,
     );
 
@@ -104,11 +138,14 @@ extension $HadithTopicRouteExtension on HadithTopicRoute {
   static HadithTopicRoute _fromState(GoRouterState state) => HadithTopicRoute(
         bookId: int.parse(state.pathParameters['bookId']!),
         topicId: int.parse(state.pathParameters['topicId']!),
-        topicName: state.pathParameters['topicName']!,
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
       );
 
   String get location => GoRouteData.$location(
-        '/hadithTopic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(topicName)}',
+        '/hadithTopic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -120,7 +157,7 @@ extension $HadithTopicRouteExtension on HadithTopicRoute {
 }
 
 RouteBase get $hadithListRoute => GoRouteData.$route(
-      path: '/hadithList/:listBookId/:listId/:listName',
+      path: '/hadithList/:listBookId/:listId/:pos',
       factory: $HadithListRouteExtension._fromState,
     );
 
@@ -128,11 +165,14 @@ extension $HadithListRouteExtension on HadithListRoute {
   static HadithListRoute _fromState(GoRouterState state) => HadithListRoute(
         listBookId: int.parse(state.pathParameters['listBookId']!),
         listId: int.parse(state.pathParameters['listId']!),
-        listName: state.pathParameters['listName']!,
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
       );
 
   String get location => GoRouteData.$location(
-        '/hadithList/${Uri.encodeComponent(listBookId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(listName)}',
+        '/hadithList/${Uri.encodeComponent(listBookId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);

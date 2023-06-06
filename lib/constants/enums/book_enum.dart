@@ -1,4 +1,5 @@
 
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 enum BookEnum{
@@ -21,9 +22,13 @@ enum BookEnum{
   const BookEnum({required this.bookId, required this.bookScope, required this.title});
 
   final int bookId;
-  final BookScopeEnum? bookScope;
+  final BookScopeEnum bookScope;
   final String title;
 
+
+  SourceTypeEnum get sourceType{
+    return bookScope.sourceType;
+  }
 
   static BookEnum from(int bookId) {
     if (bookId == BookEnum.serlevha.bookId) {

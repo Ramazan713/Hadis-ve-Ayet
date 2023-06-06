@@ -4,6 +4,7 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_view_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_verse_view_repo.dart';
+import 'package:rxdart/rxdart.dart';
 
 class GetLists {
   late final ListHadithViewRepo _listHadithViewRepo;
@@ -24,6 +25,22 @@ class GetLists {
         break;
     }
     return streamData;
+  }
+
+  Stream<List<ListViewModel>> callRemovableWithArchive(bool isArchive){
+    final hadithStream = _listHadithViewRepo.getStreamRemovableListHadithViewsByIsArchive(isArchive);
+    final verseStream = _listVerseViewRepo.getStreamRemovableListVerseViewByIsArchive(isArchive);
+
+    return Rx.combineLatest2(hadithStream, verseStream, (a, b){
+      final items = <ListViewModel>[];
+      items.addAll(a);
+      items.addAll(b);
+
+      items.sort((a,b){
+        return a.listPos.compareTo(b.listPos);
+      });
+      return items;
+    });
   }
 
 }

@@ -1,0 +1,6 @@
+
+
+enum HadithFetchNameEnum{
+  list,
+  topic
+}

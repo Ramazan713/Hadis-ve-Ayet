@@ -37,6 +37,7 @@ import 'paging_hadith_connect.dart';
   final HadithSharedDropdownMenu? sharedDropdownMenu;
   final String title;
   final SearchParam? searchParam;
+  final int pos;
   final int? listIdControlForSelectList;
 
   HadithSharedPage({
@@ -46,7 +47,8 @@ import 'paging_hadith_connect.dart';
     this.sharedDropdownMenu,
     required this.title,
     this.searchParam,
-    this.listIdControlForSelectList
+    this.listIdControlForSelectList,
+    required this.pos
   }) : super(key: key);
 
 
@@ -59,7 +61,7 @@ import 'paging_hadith_connect.dart';
     final hadithSharedBloc = context.read<HadithSharedBloc>();
 
     pagingBloc.add(PaginationEventInit(paginationRepo, config: PagingConfig(
-        pageSize: 10,currentPos: 0,preFetchDistance: 3
+        pageSize: 10,currentPos: pos,preFetchDistance: 3
     )));
 
     return PagingHadithConnect(

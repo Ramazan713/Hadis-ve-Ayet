@@ -10,8 +10,13 @@ class HadithAllPage extends StatelessWidget {
   static String id = "HadithAllPage";
 
   final HadithBookEnum hadithBookEnum;
+  final int pos;
 
-  const HadithAllPage({Key? key, required this.hadithBookEnum}) : super(key: key);
+  const HadithAllPage({
+    Key? key,
+    required this.hadithBookEnum,
+    required this.pos
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,7 @@ class HadithAllPage extends StatelessWidget {
     return HadithSharedPage(
         savePointDestination: destination,
         paginationRepo: hadithPagingRepo,
+        pos: pos,
         title: "Tümü - ${hadithBookEnum.toBookEnum().title}"
     );
   }

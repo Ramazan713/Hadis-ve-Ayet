@@ -101,7 +101,6 @@ class ShowListPage extends StatelessWidget {
               switch(sourceType){
                 case SourceTypeEnum.hadith:
                   HadithListRoute(
-                    listName: item.name,
                     listId: item.id,
                     listBookId: ListBookScopeExt.fromSourceType(item.sourceType).binaryId
                   ).push(context);

@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/presentation/components/share_item.dart';
 
@@ -18,7 +19,6 @@ void showShareAlertDialog(BuildContext context,{
           return ShareItem(
               title: menuItem.title,
               onTap: (){
-                Navigator.pop(context);
                 onClick(menuItem);
               },
               iconInfo: menuItem.iconInfo,

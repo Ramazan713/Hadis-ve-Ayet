@@ -35,5 +35,5 @@ class ShowSavePointEventSelect extends IShowSavePointEvent{
   ShowSavePointEventSelect({required this.savePoint});
 }
 
-
+class ShowSavePointEventLoadAndGo extends IShowSavePointEvent {}
 

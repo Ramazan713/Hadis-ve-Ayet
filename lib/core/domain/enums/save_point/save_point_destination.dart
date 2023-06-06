@@ -35,7 +35,7 @@ sealed class SavePointDestination{
           listName: parentName, listBookScope: ListBookScopeExt.fromWithDefault(bookScope));
     }
     else if(typeId == DestinationTopic.type.typeId){
-      DestinationTopic(topicId: int.tryParse(parentKey)??0,
+      return DestinationTopic(topicId: int.tryParse(parentKey)??0,
           topicName: parentName, bookEnum: bookScope.book??BookEnum.serlevha
       );
     }
@@ -80,10 +80,14 @@ sealed class SavePointDestination{
 class DestinationList extends SavePointDestination{
   static const SavePointType type = SavePointType.list;
 
+  final int listId;
+  final String listName;
+  final ListBookScope listBookScope;
+
   DestinationList({
-    required int listId,
-    required String listName,
-    required ListBookScope listBookScope
+    required this.listId,
+    required this.listName,
+    required this.listBookScope
   }): super(
       bookScope: listBookScope.bookScopeEnum,
       parentKey: listId.toString(),

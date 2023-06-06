@@ -34,6 +34,9 @@ abstract class HadithAllDao{
     where HT.hadithId=H.id and HT.topicId = :topicId and id = :id )""")
   Future<bool?> getExistsHadithByTopicId(int topicId, int id);
 
+  @Query("select name from topic where id = :topicId")
+  Future<String?> getTopicName(int topicId);
+
 
   //Hadith List Pagination Functions
   @Query("""
@@ -51,6 +54,9 @@ abstract class HadithAllDao{
   @Query("""select exists(select H.* from Hadith H,ListHadith LH
     where LH.hadithId=H.id and LH.listId=:listId and id = :id )""")
   Future<bool?> getExistsHadithByListId(int listId, int id);
+
+  @Query("select name from list where id = :listId")
+  Future<String?> getListName(int listId);
 
 
   //Hadith Search Pagination Functions

@@ -1,12 +1,14 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
+import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/components/save_point_list_view.dart';
 import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_event.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
@@ -69,9 +71,9 @@ void _showSelectSavePoints(
   List<DropdownMenuItem<SavePointType>> getDropDownItems(){
     List<DropdownMenuItem<SavePointType>>items=[];
 
-    items.add(DropdownMenuItem(child: Text("Seçilmedi",style: Theme.of(context).textTheme.subtitle1,),value: null,));
+    items.add(DropdownMenuItem(value: null,child: Text("Seçilmedi",style: Theme.of(context).textTheme.subtitle1,),));
     for(var item in menuItems){
-      items.add(DropdownMenuItem(child: Text(item.title),value: item,));
+      items.add(DropdownMenuItem(value: item,child: Text(item.title),));
     }
     return items;
   }
@@ -174,29 +176,16 @@ void _showSelectSavePoints(
                 Row(
                   children: [
                     Expanded(
-                      child: CustomButtonPositive(
-                        onTap: () {
-                          // if(selectedSavePoint!=null){
-                          //   final label=selectedSavePoint.parentName;
-                          //   final loader=PagingLoaderFactory.getLoader(bookEnum,selectedSavePoint.bookScope,
-                          //       selectedSavePoint.savePointType, selectedSavePoint.parentKey,
-                          //       context);
-                          //   final argument=PagingArgument(originTag: selectedSavePoint.savePointType,
-                          //       savePointArg: SavePointLoadArg(parentKey: selectedSavePoint.parentKey,id: selectedSavePoint.id),
-                          //       bookScope: selectedSavePoint.bookScope,
-                          //       loader: loader,title:label);
-                          //
-                          //   switch(selectedSavePoint.bookScope.sourceType){
-                          //     case SourceTypeEnum.hadith:
-                          //       routeHadithPage(context,argument);
-                          //       break;
-                          //     case SourceTypeEnum.verse:
-                          //       Navigator.pushNamed(context, VerseScreen.id,arguments: argument);
-                          //       break;
-                          //   }
-                          // }
+                      child: BlocSelector<ShowSavePointBloc,ShowSavePointState,SavePoint?>(
+                        selector: (state)=>state.selectedSavePoint,
+                        builder: (context, selectedSavePoint){
+                          return CustomButtonPositive(
+                            onTap: () {
+                              _loadAndGo(context, selectedSavePoint);
+                            },
+                            label: "Yükle ve Git",
+                          );
                         },
-                        label: "Yükle ve Git",
                       ),
                     ),
                   ],
@@ -207,3 +196,111 @@ void _showSelectSavePoints(
         );
       });
 }
+
+void _loadAndGo(BuildContext context, SavePoint? selectedSavePoint){
+  if(selectedSavePoint == null) return;
+  final destination = selectedSavePoint.destination;
+
+  switch(destination){
+    case DestinationAll _:
+      _loadAndGoAll(context, destination, selectedSavePoint.itemIndexPos);
+      break;
+    case DestinationTopic _:
+      _loadAndGoTopic(context, destination, selectedSavePoint.itemIndexPos);
+      break;
+    case DestinationList _:
+      _loadAndGoList(context, destination, selectedSavePoint.itemIndexPos);
+      break;
+    case DestinationSearch _:
+      _loadAndGoSearch(context, destination, selectedSavePoint.itemIndexPos);
+      break;
+    case DestinationSurah _:
+      _loadAndGoSurah(context, destination, selectedSavePoint.itemIndexPos);
+      break;
+    case DestinationCuz _:
+      _loadAndGoCuz(context, destination, selectedSavePoint.itemIndexPos);
+      break;
+  }
+}
+
+void _loadAndGoAll(BuildContext context, DestinationAll destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+  
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      HadithAllRoute(
+          hadithBookId: destination.bookEnum.bookId,
+          pos: itemIndexPos
+      ).push(context);
+      break;
+    case SourceTypeEnum.verse:
+      break;
+  }
+}
+
+void _loadAndGoList(BuildContext context, DestinationList destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      HadithListRoute(
+        listBookId: destination.listBookScope.binaryId,
+        listId: destination.listId,
+        pos: itemIndexPos
+      ).push(context);
+      break;
+    case SourceTypeEnum.verse:
+      break;
+  }
+}
+
+void _loadAndGoTopic(BuildContext context, DestinationTopic destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      HadithTopicRoute(
+          bookId: destination.bookEnum.bookId,
+          topicId: destination.topicId,
+          pos: itemIndexPos
+      ).push(context);
+      break;
+    case SourceTypeEnum.verse:
+      break;
+  }
+}
+
+void _loadAndGoSearch(BuildContext context, DestinationSearch destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      break;
+    case SourceTypeEnum.verse:
+      break;
+  }
+}
+
+void _loadAndGoSurah(BuildContext context, DestinationSurah destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      break;
+    case SourceTypeEnum.verse:
+      break;
+  }
+}
+
+void _loadAndGoCuz(BuildContext context, DestinationCuz destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      break;
+    case SourceTypeEnum.verse:
+      break;
+  }
+}
+
+

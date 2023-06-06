@@ -96,4 +96,14 @@ class HadithRepoImpl extends HadithRepo{
     return (await _hadithAllDao.getExistsHadithByTopicId(topicId, id)) ?? false;
   }
 
+  @override
+  Future<String?> getListName(int listId) {
+    return _hadithAllDao.getListName(listId);
+  }
+
+  @override
+  Future<String?> getTopicName(int topicId) {
+    return _hadithAllDao.getTopicName(topicId);
+  }
+
 }
