@@ -63,11 +63,11 @@ class _$AppDatabase extends AppDatabase {
 
   HadithDaoOld? _hadithDaoInstance;
 
-  CuzDao? _cuzDaoInstance;
+  CuzDaoOld? _cuzDaoOldInstance;
 
   ListDaoOld? _listDaoOldInstance;
 
-  SurahDao? _surahDaoInstance;
+  SurahDaoOld? _surahDaoOldInstance;
 
   VerseDao? _verseDaoInstance;
 
@@ -134,6 +134,10 @@ class _$AppDatabase extends AppDatabase {
   SectionViewDao? _sectionViewDaoInstance;
 
   TopicSavePointDao? _topicSavePointDaoInstance;
+
+  CuzDao? _cuzDaoInstance;
+
+  SurahDao? _surahDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -223,6 +227,10 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `topicSavePoint` (`id` INTEGER, `pos` INTEGER NOT NULL, `type` INTEGER NOT NULL, `parentKey` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `CuzEntity` (`cuzNo` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY (`cuzNo`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `SurahEntity` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `searchName` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `PrayerQuran` (`id` INTEGER, `arabicContent` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `source` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hadith` (`content` TEXT NOT NULL, `source` TEXT NOT NULL, `contentSize` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
@@ -270,8 +278,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  CuzDao get cuzDao {
-    return _cuzDaoInstance ??= _$CuzDao(database, changeListener);
+  CuzDaoOld get cuzDaoOld {
+    return _cuzDaoOldInstance ??= _$CuzDaoOld(database, changeListener);
   }
 
   @override
@@ -280,8 +288,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  SurahDao get surahDao {
-    return _surahDaoInstance ??= _$SurahDao(database, changeListener);
+  SurahDaoOld get surahDaoOld {
+    return _surahDaoOldInstance ??= _$SurahDaoOld(database, changeListener);
   }
 
   @override
@@ -463,6 +471,16 @@ class _$AppDatabase extends AppDatabase {
   TopicSavePointDao get topicSavePointDao {
     return _topicSavePointDaoInstance ??=
         _$TopicSavePointDao(database, changeListener);
+  }
+
+  @override
+  CuzDao get cuzDao {
+    return _cuzDaoInstance ??= _$CuzDao(database, changeListener);
+  }
+
+  @override
+  SurahDao get surahDao {
+    return _surahDaoInstance ??= _$SurahDao(database, changeListener);
   }
 }
 
@@ -706,8 +724,8 @@ class _$HadithDaoOld extends HadithDaoOld {
   }
 }
 
-class _$CuzDao extends CuzDao {
-  _$CuzDao(
+class _$CuzDaoOld extends CuzDaoOld {
+  _$CuzDaoOld(
     this.database,
     this.changeListener,
   ) : _queryAdapter = QueryAdapter(database);
@@ -1295,8 +1313,8 @@ class _$ListDaoOld extends ListDaoOld {
   }
 }
 
-class _$SurahDao extends SurahDao {
-  _$SurahDao(
+class _$SurahDaoOld extends SurahDaoOld {
+  _$SurahDaoOld(
     this.database,
     this.changeListener,
   ) : _queryAdapter = QueryAdapter(database);
@@ -4564,7 +4582,7 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
   @override
   Stream<List<TopicHadithsView>> getStreamTopicHadithsByBookId(int bookId) {
     return _queryAdapter.queryListStream(
-        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1',
+        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 order by TH.id',
         mapper: (Map<String, Object?> row) => TopicHadithsView(
             id: row['id'] as int,
             name: row['name'] as String,
@@ -4583,7 +4601,7 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 and     TH.name like ?2 order by      (case when lower(TH.name)=?4 then 1 when TH.name like ?3      then 2 else 3 end )',
+        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 and     TH.name like ?2 order by      (case when lower(TH.name)=?4 then 1 when TH.name like ?3      then 2 else 3 end ), TH.id',
         mapper: (Map<String, Object?> row) => TopicHadithsView(
             id: row['id'] as int,
             name: row['name'] as String,
@@ -4643,7 +4661,7 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
   @override
   Stream<List<TopicVersesView>> getStreamTopicVersesByBookId(int bookId) {
     return _queryAdapter.queryListStream(
-        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1',
+        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 order by TV.id',
         mapper: (Map<String, Object?> row) => TopicVersesView(
             id: row['id'] as int,
             name: row['name'] as String,
@@ -4662,7 +4680,7 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 and     TV.name like ?2 order by      (case when lower(TV.name)=?4 then 1 when TH.name like ?3      then 2 else 3 end )',
+        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 and     TV.name like ?2 order by      (case when lower(TV.name)=?4 then 1 when TV.name like ?3      then 2 else 3 end ), TV.id',
         mapper: (Map<String, Object?> row) => TopicVersesView(
             id: row['id'] as int,
             name: row['name'] as String,
@@ -4825,5 +4843,77 @@ class _$TopicSavePointDao extends TopicSavePointDao {
   Future<void> deleteTopicSavePoint(
       TopicSavePointEntity topicSavePointEntity) async {
     await _topicSavePointEntityDeletionAdapter.delete(topicSavePointEntity);
+  }
+}
+
+class _$CuzDao extends CuzDao {
+  _$CuzDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<CuzEntity>> getAllCuz() async {
+    return _queryAdapter.queryList('select * from cuz',
+        mapper: (Map<String, Object?> row) =>
+            CuzEntity(cuzNo: row['cuzNo'] as int, name: row['name'] as String));
+  }
+
+  @override
+  Future<CuzEntity?> getCuz(int cuzNo) async {
+    return _queryAdapter.query('select * from Cuz where cuzNo=?1',
+        mapper: (Map<String, Object?> row) =>
+            CuzEntity(cuzNo: row['cuzNo'] as int, name: row['name'] as String),
+        arguments: [cuzNo]);
+  }
+}
+
+class _$SurahDao extends SurahDao {
+  _$SurahDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<SurahEntity>> getAllSurah() async {
+    return _queryAdapter.queryList('select * from surah',
+        mapper: (Map<String, Object?> row) => SurahEntity(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String));
+  }
+
+  @override
+  Future<List<SurahEntity>> getSurahesWithQuery(
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from surah where name like ?1 or searchName like ?1      order by (case when lower(searchName)=?3 then 1      when searchName like ?2 then 2      else 3 end)',
+        mapper: (Map<String, Object?> row) => SurahEntity(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String),
+        arguments: [querySearchFull, queryOrderForLike, queryRaw]);
+  }
+
+  @override
+  Future<SurahEntity?> getSurah(int surahId) async {
+    return _queryAdapter.query('select * from Surah where id=?1',
+        mapper: (Map<String, Object?> row) => SurahEntity(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String),
+        arguments: [surahId]);
   }
 }

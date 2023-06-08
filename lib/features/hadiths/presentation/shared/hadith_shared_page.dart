@@ -15,7 +15,7 @@ import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dar
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
-import 'package:hadith/core/presentation/components/custom_scroll_controller.dart';
+import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/domain/repo/hadith_pagination_repo.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_bloc.dart';
@@ -81,7 +81,7 @@ import 'paging_hadith_connect.dart';
                 builder: (context, state){
                   return PagingListView(
                     onScroll: (scroll){
-                      controller.scrollWithAnimateTopBar(scroll);
+                      controller.setScrollDirectionAndAnimateTopBar(scroll);
                     },
                     itemBuilder: (context,itemParam,pos){
                       final item = itemParam?.castOrNull<HadithListModel>();

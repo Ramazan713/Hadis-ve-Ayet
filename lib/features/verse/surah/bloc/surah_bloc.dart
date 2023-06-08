@@ -7,7 +7,7 @@ import 'package:hadith/features/verse/surah/bloc/surah_event.dart';
 import 'package:hadith/features/verse/surah/bloc/surah_state.dart';
 
 class SurahBloc extends Bloc<ISurahEvent,SurahState>{
-  final SurahRepo surahRepo;
+  final SurahRepoOld surahRepo;
   SurahBloc({required this.surahRepo}) : super(const SurahState(items: [], status: DataStatus.initial)){
     on<SurahEventRequested>(_onDataRequested);
   }

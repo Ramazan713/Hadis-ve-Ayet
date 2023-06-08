@@ -27,7 +27,7 @@ abstract class TopicHadithViewDao{
 
   @Query("""
     select TH.* from topicHadithsView TH, sectionTopicsView ST
-    where TH.sectionId = ST.id and ST.bookId = :bookId
+    where TH.sectionId = ST.id and ST.bookId = :bookId order by TH.id
   """)
   Stream<List<TopicHadithsView>> getStreamTopicHadithsByBookId(int bookId);
 
@@ -37,7 +37,7 @@ abstract class TopicHadithViewDao{
     where TH.sectionId = ST.id and ST.bookId = :bookId and
     TH.name like :querySearchFull order by 
     (case when lower(TH.name)=:queryRaw then 1 when TH.name like :queryOrderForLike 
-    then 2 else 3 end )
+    then 2 else 3 end ), TH.id
   """)
   Stream<List<TopicHadithsView>> getStreamTopicHadithsByBookIdAndQuery(
       int bookId,

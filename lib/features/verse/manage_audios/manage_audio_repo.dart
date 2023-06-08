@@ -16,12 +16,12 @@ import 'package:rxdart/rxdart.dart';
 class ManageAudioRepo{
 
   late final ManageAudioDao _manageAudioDao;
-  late final CuzDao _cuzDao;
-  late final SurahDao _surahDao;
+  late final CuzDaoOld _cuzDao;
+  late final SurahDaoOld _surahDao;
   late final FileService _fileService;
   late final VerseAudioDao _verseAudioDao;
 
-  ManageAudioRepo({required ManageAudioDao manageAudioDao,required CuzDao cuzDao,required SurahDao surahDao,
+  ManageAudioRepo({required ManageAudioDao manageAudioDao,required CuzDaoOld cuzDao,required SurahDaoOld surahDao,
     required FileService fileService,required VerseAudioDao verseAudioDao}){
     _manageAudioDao = manageAudioDao;
     _cuzDao = cuzDao;

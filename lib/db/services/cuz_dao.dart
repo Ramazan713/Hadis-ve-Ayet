@@ -4,7 +4,7 @@ import 'package:hadith/db/entities/cuz.dart';
 
 
 @dao
-abstract class CuzDao{
+abstract class CuzDaoOld{
 
   @Query("select * from cuz")
   Future<List<Cuz>>getAllCuz();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/presentation/components/custom_scroll_controller.dart';
+import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 
 class CustomNestedView extends StatelessWidget {
 
@@ -21,7 +21,7 @@ class CustomNestedView extends StatelessWidget {
     return NestedScrollView(
         headerSliverBuilder: headerSliverBuilder,
         body: child,
-        controller: scrollController,
+        controller: scrollController?.controller,
         floatHeaderSlivers: floatHeaderSlivers
     );
   }

@@ -22,24 +22,3 @@ class TopicEventSearch extends ITopicEvent{
   final String query;
   TopicEventSearch({required this.query});
 }
-
-class TopicEventListenTopicSavePoint extends ITopicEvent{}
-
-class TopicEventSetScrollDirection extends ITopicEvent{
-  final ScrollDirection scrollDirection;
-  TopicEventSetScrollDirection({required this.scrollDirection});
-}
-
-class TopicEventSetVisibleMiddlePos extends ITopicEvent{
-  final int firstVisiblePos;
-  final int lastVisiblePos;
-  TopicEventSetVisibleMiddlePos({required this.firstVisiblePos, required this.lastVisiblePos});
-}
-
-
-class TopicEventInsertSavePoint extends ITopicEvent{
-  final int pos;
-  TopicEventInsertSavePoint({required this.pos});
-}
-
-class TopicEventDeleteSavePoint extends ITopicEvent{}

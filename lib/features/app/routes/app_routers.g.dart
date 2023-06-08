@@ -13,6 +13,8 @@ List<RouteBase> get $appRoutes => [
       $topicRoute,
       $hadithTopicRoute,
       $hadithListRoute,
+      $cuzRoute,
+      $surahRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -173,6 +175,46 @@ extension $HadithListRouteExtension on HadithListRoute {
         queryParams: {
           if (pos != 0) 'pos': pos.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $cuzRoute => GoRouteData.$route(
+      path: '/cuz',
+      factory: $CuzRouteExtension._fromState,
+    );
+
+extension $CuzRouteExtension on CuzRoute {
+  static CuzRoute _fromState(GoRouterState state) => CuzRoute();
+
+  String get location => GoRouteData.$location(
+        '/cuz',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $surahRoute => GoRouteData.$route(
+      path: '/surah',
+      factory: $SurahRouteExtension._fromState,
+    );
+
+extension $SurahRouteExtension on SurahRoute {
+  static SurahRoute _fromState(GoRouterState state) => SurahRoute();
+
+  String get location => GoRouteData.$location(
+        '/surah',
       );
 
   void go(BuildContext context) => context.go(location);

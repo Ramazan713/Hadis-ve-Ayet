@@ -12,6 +12,7 @@ import 'package:hadith/features/topics/presentation/section_page/bloc/section_bl
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_event.dart';
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_state.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_item.dart';
+import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 
 class SectionPage extends StatelessWidget {
@@ -46,7 +47,15 @@ class SectionPage extends StatelessWidget {
                   },
                   child: BlocBuilder<SectionBloc,SectionState>(
                     builder: (context, state){
+
+                      if(state.isLoading){
+                        return ListView.builder(itemBuilder: (context, index) {
+                          return getTopicShimmer(context);
+                        },itemCount: 19,);
+                      }
+
                       final items = state.items;
+
                       return ListView.builder(
                         itemCount: items.length,
                         itemBuilder: (context,index){

@@ -25,47 +25,19 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
   final BehaviorSubject<String> _queryFilter = BehaviorSubject();
 
   late final TopicViewRepo _topicViewRepo;
-  late final TopicSavePointUseCases _topicSavePointUseCases;
 
   Timer? _timer;
 
   TopicBloc({
     required TopicViewRepo topicViewRepo,
-    required TopicSavePointUseCases topicSavePointUseCases
   }):super(TopicState.init()){
 
     _topicViewRepo = topicViewRepo;
-    _topicSavePointUseCases = topicSavePointUseCases;
 
     on<TopicEventSetSearchBarVisibility>(_onSearchBarVisible, transformer: restartable());
     on<TopicEventSearch>(_onSearch, transformer: restartable());
     on<TopicEventLoadData>(_onLoadData, transformer: restartable());
-    on<TopicEventListenTopicSavePoint>(_onListenSavePoint, transformer: restartable());
-    on<TopicEventInsertSavePoint>(_onInsertSavePoint, transformer: restartable());
-    on<TopicEventDeleteSavePoint>(_onDeleteSavePoint, transformer: restartable());
-    on<TopicEventSetScrollDirection>(_onSetScrollDirection, transformer: restartable());
-    on<TopicEventSetVisibleMiddlePos>(_onSetVisibleMiddlePos, transformer: restartable());
 
-  }
-
-
-  void _onSetScrollDirection(TopicEventSetScrollDirection event, Emitter<TopicState> emit){
-    emit(state.copyWith(scrollDirection: event.scrollDirection));
-  }
-
-  void _onSetVisibleMiddlePos(TopicEventSetVisibleMiddlePos event, Emitter<TopicState> emit){
-    final middlePos = (event.firstVisiblePos + event.lastVisiblePos) ~/ 2;
-    emit(state.copyWith(middleVisiblePos: middlePos));
-  }
-
-  void _onInsertSavePoint(TopicEventInsertSavePoint event, Emitter<TopicState> emit)async{
-    await _topicSavePointUseCases.insertSavePoint.call(event.pos, state.topicType);
-  }
-  void _onDeleteSavePoint(TopicEventDeleteSavePoint event, Emitter<TopicState> emit)async{
-    final topicSavePoint = state.topicSavePoint;
-    if(topicSavePoint!=null){
-      await _topicSavePointUseCases.deleteSavePoint.call(topicSavePoint);
-    }
   }
 
   void _onSearchBarVisible(TopicEventSetSearchBarVisibility event, Emitter<TopicState> emit){
@@ -80,23 +52,12 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
   }
 
 
-  void _onListenSavePoint(TopicEventListenTopicSavePoint event, Emitter<TopicState> emit)async{
-
-    final streamData = _topicSavePointUseCases.getSavePoint(state.topicType);
-
-    await emit.forEach<TopicSavePoint?>(streamData, onData: (topicSavePoint){
-      return state.copyWith(setTopicSavePoint: true, topicSavePoint: topicSavePoint);
-    });
-  }
-
   void _onLoadData(TopicEventLoadData event, Emitter<TopicState> emit) async{
 
     _queryFilter.add("");
-    final sourceType = event.book.bookScope?.sourceType ?? SourceTypeEnum.hadith;
+    final sourceType = event.book.sourceType;
 
-    emit(state.copyWith(topicType: _getTopicType(event.book, event.useBookAllSections, event.sectionId)));
-    add(TopicEventListenTopicSavePoint());
-
+    emit(state.copyWith(isLoading: true, items: []));
 
     final streamData = _queryFilter.switchMap((query){
       if(event.useBookAllSections) {
@@ -106,7 +67,7 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
     });
 
     await emit.forEach<List<TopicViewModel>>(streamData, onData: (items){
-      return state.copyWith(items: items);
+      return state.copyWith(items: items,isLoading: false);
     });
   }
 
@@ -122,18 +83,6 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
       return _topicViewRepo.getTopicViewsBySectionId(sectionId, sourceType);
     }
     return _topicViewRepo.getTopicViewsBySectionIdAndQuery(sectionId, query, sourceType);
-  }
-
-
-  TopicSavePointType _getTopicType(
-    BookEnum book,
-    bool useBookAllSections,
-    int sectionId
-  ){
-    if(useBookAllSections){
-      return TopicSavePointTypeTopicUsesAllBook(bookEnum: book);
-    }
-    return TopicSavePointTypeTopic(sectionId: sectionId);
   }
 
 }

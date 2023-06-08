@@ -4,7 +4,7 @@ import 'package:hadith/db/entities/cuz.dart';
 import 'package:hadith/db/services/cuz_dao.dart';
 
 class CuzRepo{
-  final CuzDao cuzDao;
+  final CuzDaoOld cuzDao;
 
   CuzRepo({required this.cuzDao});
 

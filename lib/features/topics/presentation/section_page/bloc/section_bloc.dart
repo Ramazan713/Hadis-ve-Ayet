@@ -37,6 +37,8 @@ class SectionBloc extends Bloc<ISectionEvent, SectionState>{
 
     _queryFilter.add("");
 
+    emit(state.copyWith(isLoading: true, items: []));
+
     final bookSection = await _getBookSectionModel(event.book);
 
     final streamData = _queryFilter.switchMap((query){
@@ -53,7 +55,7 @@ class SectionBloc extends Bloc<ISectionEvent, SectionState>{
       if(_queryFilter.value.trim().isEmpty){
         sectionModels.insert(0, bookSection);
       }
-      return state.copyWith(items: sectionModels);
+      return state.copyWith(items: sectionModels, isLoading: false);
     });
   }
 

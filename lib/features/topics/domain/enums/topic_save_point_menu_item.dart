@@ -4,6 +4,7 @@ import 'package:hadith/core/domain/models/icon_info.dart';
 
 
 enum TopicSavePointMenuItem implements IMenuItem{
+
   goToLastSavePoint(
       title: "Git (son kayıt noktası)",
       iconInfo: IconInfo(iconData: Icons.login)

@@ -11,6 +11,8 @@ import 'package:hadith/features/lists/presentation/archive_list/archive_list_pag
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
+import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
+import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
 part 'app_routers.g.dart';
 
 
@@ -134,7 +136,29 @@ class HadithListRoute extends GoRouteData{
 }
 
 
+@TypedGoRoute<CuzRoute>(
+  path: "/cuz"
+)
+class CuzRoute extends GoRouteData{
 
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return CuzPage();
+  }
+}
+
+
+
+@TypedGoRoute<SurahRoute>(
+    path: "/surah"
+)
+class SurahRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SurahPage();
+  }
+}
 
 
 

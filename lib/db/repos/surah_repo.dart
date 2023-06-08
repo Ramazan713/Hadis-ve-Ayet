@@ -3,10 +3,10 @@
 import 'package:hadith/db/entities/surah.dart';
 import 'package:hadith/db/services/surah_dao.dart';
 
-class SurahRepo{
-  final SurahDao surahDao;
+class SurahRepoOld{
+  final SurahDaoOld surahDao;
 
-  SurahRepo({required this.surahDao});
+  SurahRepoOld({required this.surahDao});
 
   Future<List<Surah>> getAllSurah()=>surahDao.getAllSurah();
 

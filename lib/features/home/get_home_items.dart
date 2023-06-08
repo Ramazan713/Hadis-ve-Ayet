@@ -40,6 +40,9 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Konular",
           iconData: FontAwesomeIcons.bookOpenReader,
           onTap: () {
+
+            SectionRoute(bookId: BookEnum.diyanetMeal.bookId).push(context);
+
             // final sectionArgument =
             // SectionArgument(bookEnum: BookEnum.diyanetMeal);
             // Navigator.pushNamed(context, SectionScreen.id,
@@ -50,6 +53,7 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Cüz",
           iconData: FontAwesomeIcons.bookQuran,
           onTap: () {
+            CuzRoute().push(context);
             // Navigator.pushNamed(context, CuzScreen.id);
           },
         ),
@@ -57,6 +61,7 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Sure",
           iconData: FontAwesomeIcons.bookQuran,
           onTap: () {
+            SurahRoute().push(context);
             // Navigator.pushNamed(context, SurahScreen.id);
           },
         ),

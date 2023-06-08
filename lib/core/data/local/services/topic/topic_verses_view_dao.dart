@@ -27,7 +27,7 @@ abstract class TopicVersesViewDao{
 
   @Query("""
     select TV.* from topicVersesView TV, sectionTopicsView ST
-    where TV.sectionId = ST.id and ST.bookId = :bookId
+    where TV.sectionId = ST.id and ST.bookId = :bookId order by TV.id
   """)
   Stream<List<TopicVersesView>> getStreamTopicVersesByBookId(int bookId);
 
@@ -36,8 +36,8 @@ abstract class TopicVersesViewDao{
     select TV.* from topicVersesView TV, sectionTopicsView ST
     where TV.sectionId = ST.id and ST.bookId = :bookId and
     TV.name like :querySearchFull order by 
-    (case when lower(TV.name)=:queryRaw then 1 when TH.name like :queryOrderForLike 
-    then 2 else 3 end )
+    (case when lower(TV.name)=:queryRaw then 1 when TV.name like :queryOrderForLike 
+    then 2 else 3 end ), TV.id
   """)
   Stream<List<TopicVersesView>> getStreamTopicVersesByBookIdAndQuery(
       int bookId,

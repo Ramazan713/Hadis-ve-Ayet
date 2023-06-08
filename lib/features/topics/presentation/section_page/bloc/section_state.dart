@@ -10,30 +10,34 @@ class SectionState extends Equatable{
 
   final bool searchBarVisible;
   final List<SectionModel> items;
-
+  final bool isLoading;
 
   const SectionState({
     required this.searchBarVisible,
-    required this.items
+    required this.items,
+    required this.isLoading
   });
 
   SectionState copyWith({
     bool? searchBarVisible,
-    List<SectionModel>? items
+    List<SectionModel>? items,
+    bool? isLoading
   }){
     return SectionState(
         searchBarVisible: searchBarVisible ?? this.searchBarVisible,
-        items: items ?? this.items
+        items: items ?? this.items,
+        isLoading: isLoading ?? this.isLoading
     );
   }
 
   static SectionState init(){
     return const SectionState(
         searchBarVisible: false,
-        items: []
+        items: [],
+        isLoading: false
     );
   }
 
   @override
-  List<Object?> get props => [searchBarVisible, items];
+  List<Object?> get props => [searchBarVisible, items, isLoading];
 }

@@ -3,7 +3,7 @@ import 'package:hadith/db/entities/surah.dart';
 
 
 @dao
-abstract class SurahDao{
+abstract class SurahDaoOld{
 
   @Query("select * from surah")
   Future<List<Surah>> getAllSurah();

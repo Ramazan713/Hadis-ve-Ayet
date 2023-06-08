@@ -10,13 +10,13 @@ class CustomScrollablePositionedList extends StatefulWidget {
   final Widget Function(BuildContext context, int index) itemBuilder;
 
   final ItemScrollController? itemScrollController;
+  final ItemPositionsListener? itemPositionsListener;
   final int itemCount;
   final int initialScrollIndex;
   final bool shrinkWrap;
 
   final int debouncerDelayMilliSeconds;
   final void Function(int firstVisibleItemIndex, int lastVisibleItemIndex)? onVisibleItemChanged;
-  final ItemPositionsListener? itemPositionsListener;
 
   const CustomScrollablePositionedList({
     Key? key,
@@ -44,12 +44,12 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
 
   late final Debouncer<Iterable<ItemPosition>> _debouncer;
 
-  late final ItemPositionsListener? itemPositionsListener;
+  late final ItemPositionsListener itemPositionsListener;
 
   @override
   void initState() {
     super.initState();
-    itemPositionsListener = widget.itemPositionsListener;
+    itemPositionsListener = widget.itemPositionsListener ?? ItemPositionsListener.create();
     _previousScrollDirection = ScrollDirection.up;
 
     _debouncer = Debouncer<Iterable<ItemPosition>>(
@@ -83,18 +83,18 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
   }
 
   void _addListeners() {
-    itemPositionsListener?.itemPositions.addListener(_onPositionChanged);
+    itemPositionsListener.itemPositions.addListener(_onPositionChanged);
     _posListener?.cancel();
     _posListener = _debouncer.values.listen((itemsPos) {
 
       var (min, max) = _getMinMaxPositions(itemsPos);
       widget.onVisibleItemChanged?.call(min,max);
-      _detectScrollPosition(itemsPos);
+      _detectScrollPosition(min,max);
     });
   }
 
   void _removeListeners() async {
-    itemPositionsListener?.itemPositions.removeListener(_onPositionChanged);
+    itemPositionsListener.itemPositions.removeListener(_onPositionChanged);
     await _posListener?.cancel();
   }
 }
@@ -104,18 +104,23 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
 extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositionedListState {
 
   void _onPositionChanged() {
-    _debouncer.notify(itemPositionsListener?.itemPositions.value ?? []);
+    _debouncer.notify(itemPositionsListener.itemPositions.value ?? []);
   }
 
-  void _detectScrollPosition(Iterable<ItemPosition> itemPositions) {
-    final currentPosition = itemPositions.isNotEmpty ? itemPositions.first.index : -1;
+  void _detectScrollPosition(int firstVisiblePos, int lastVisiblePos) {
+
     ScrollDirection? scrollDirection;
 
-
-    if (currentPosition < _previousScrollPosition || currentPosition == 1) {
+    if(firstVisiblePos <= 1){
       scrollDirection = ScrollDirection.up;
     }
-    else if (currentPosition > _previousScrollPosition) {
+    else if(lastVisiblePos >= widget.itemCount - 1){
+      scrollDirection = ScrollDirection.down;
+    }
+    else if (firstVisiblePos < _previousScrollPosition) {
+      scrollDirection = ScrollDirection.up;
+    }
+    else if (firstVisiblePos > _previousScrollPosition) {
       scrollDirection = ScrollDirection.down;
     }
 
@@ -123,8 +128,7 @@ extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositioned
       widget.onScroll?.call(scrollDirection);
       _previousScrollDirection = scrollDirection;
     }
-
-    _previousScrollPosition = currentPosition.toDouble();
+    _previousScrollPosition = firstVisiblePos.toDouble();
   }
 
   (int, int) _getMinMaxPositions(Iterable<ItemPosition> itemsPos) {
