@@ -103,6 +103,7 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
         jumpToPos: usePrevPage ? state.pageSize : null
     ));
 
+
     await _fetchDatas(
         shouldReplaceItems: true, shouldAppendAtEnd: true,
         jumpToPos: newJumpToPos,
@@ -125,7 +126,10 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
 
 
   void _onSetVisiblePos(PaginationEventSetVisiblePos event,Emitter<PaginationState>emit){
-    emit(state.copyWith(visibleMaxPos: event.visibleMaxPos, visibleMinPos: event.visibleMinPos));
+
+    if(event.visibleMinPos >= 0 && event.visibleMaxPos >= 0){
+      emit(state.copyWith(visibleMaxPos: event.visibleMaxPos, visibleMinPos: event.visibleMinPos));
+    }
   }
 
 
@@ -160,6 +164,7 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
         status: PagingStatus.success,jumpToPos: jumpToPos, setJumpToPos: jumpToPos!=null);
 
     add(PaginationEventChangeState(newState: newState));
+
     add(PaginationEventChangeState(newState: newState.copyWith(setJumpToPos: jumpToPos!=null)));
   }
 

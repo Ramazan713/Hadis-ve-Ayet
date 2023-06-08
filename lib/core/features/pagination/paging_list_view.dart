@@ -1,8 +1,7 @@
-import 'dart:async';
-
-import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/extensions/app_extension.dart';
+import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../domain/enums/paging/paging_status.dart';
@@ -13,52 +12,30 @@ import 'bloc/pagination_bloc.dart';
 import 'bloc/pagination_event.dart';
 import 'bloc/pagination_state.dart';
 
-class PagingListView<T extends IPagingItem> extends StatefulWidget {
+class PagingListView<T extends IPagingItem> extends StatelessWidget {
+
   final Function(ScrollDirection direction)? onScroll;
-  final Widget Function(BuildContext, T, int) itemBuilder;
+  final Widget Function(BuildContext, T  , int) itemBuilder;
   final PagingLoadingItem? loadingItem;
 
-  const PagingListView({
-    Key? key, required this.itemBuilder, this.onScroll, this.loadingItem,
-  }) : super(key: key);
+  PagingListView({super.key, this.onScroll, required this.itemBuilder, this.loadingItem});
 
-  @override
-  State<PagingListView> createState() => _PagingListViewState();
-}
-
-class _PagingListViewState extends State<PagingListView> {
   final ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
   final ItemScrollController _itemScrollController = ItemScrollController();
-  StreamSubscription<Iterable<ItemPosition>>? _posListener;
-
-  final _debouncer = Debouncer<Iterable<ItemPosition>>(
-      const Duration(milliseconds: 200),
-      initialValue: [],
-      checkEquality: true);
-
-  double _previousScrollPosition = -1;
-  late ScrollDirection _previousScrollDirection;
-  PaginationState? _pagingState;
-  PaginationBloc? _paginationBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _previousScrollDirection = ScrollDirection.up;
-    _paginationBloc = context.read<PaginationBloc>();
-
-    _addListeners();
-  }
 
   @override
   Widget build(BuildContext context) {
+
+    final paginationBloc = context.read<PaginationBloc>();
+
     return BlocConsumer<PaginationBloc, PaginationState>(
       listenWhen: (prevState, nextState) {
-        _pagingState = nextState;
+        // _pagingState = nextState;
         return prevState.jumpToPos != nextState.jumpToPos;
       },
       listener: (context, state) {
         final jumpToPos = state.jumpToPos;
+
         if (jumpToPos != null && _itemScrollController.isAttached) {
           _itemScrollController.jumpTo(index: jumpToPos,
               alignment: state.jumpToAlignment);
@@ -83,58 +60,47 @@ class _PagingListViewState extends State<PagingListView> {
         */
         var initialScrollIndex =  !_itemScrollController.isAttached &&
             status.isSuccess ? (state.jumpToPos??0):0;
-        return ScrollablePositionedList.builder(
+
+        return CustomScrollablePositionedList(
           shrinkWrap: false,
           itemCount: itemCount,
-          addSemanticIndexes: true,
-          addRepaintBoundaries: true,
-          initialScrollIndex: initialScrollIndex??0,
+          debouncerDelayMilliSeconds: 200,
+          initialScrollIndex: initialScrollIndex,
           itemPositionsListener: _itemPositionsListener,
           itemScrollController: _itemScrollController,
+          onVisibleItemChanged: (firstPos,lastPos){
+
+            // -1 added because LoadingPlaceholderContent causes adding two extra widget
+            final min = firstPos - 1;
+            final max = lastPos - 1;
+
+            paginationBloc.add(PaginationEventSetVisiblePos(visibleMaxPos: min, visibleMinPos: max));
+            _onFetchPagesWithPositions(context,state,min,max);
+          },
+          onScroll: (scrollDirection){
+            onScroll?.call(scrollDirection);
+          },
           itemBuilder: (context, index) {
 
             final loadingContent = _getLoadingPlaceholderContent(
-              status,index,itemCount
+                status,index,itemCount
             );
             if(loadingContent!=null)return loadingContent;
 
             final currentIndex = index - 1;
             final item = items[currentIndex];
 
-            return widget.itemBuilder(context, item, currentIndex);
+            return itemBuilder(context, item.castOrNull(), currentIndex);
           },
         );
       },
     );
   }
-
-  @override
-  void dispose() {
-    _removeListeners();
-    super.dispose();
-  }
-
-  void _addListeners() {
-    _itemPositionsListener.itemPositions.addListener(_onPositionChanged);
-
-    _posListener?.cancel();
-    _posListener = _debouncer.values.listen((itemsPos) {
-      var (min, max) = _getMinMaxPositions(itemsPos);
-      _onVisibleItemChanged(min,max);
-      _onItemPositionsChanged(min, max);
-      _detectScrollPosition(itemsPos);
-    });
-  }
-
-  void _removeListeners() async {
-    _itemPositionsListener.itemPositions.removeListener(_onPositionChanged);
-    await _posListener?.cancel();
-  }
 }
 
 
 // about extentions of loading widgets
-extension _PagingListViewLoadingExt on _PagingListViewState{
+extension _PagingListViewLoadingExt on PagingListView{
 
   Widget? _getLoadingPlaceholderContent(PagingStatus status,int index, int itemCount){
     if (status.isNextLoading && index == itemCount - 1) {
@@ -160,91 +126,43 @@ extension _PagingListViewLoadingExt on _PagingListViewState{
   );
 
   Widget _getLoadingWidget() {
-    final loadingItem = widget.loadingItem;
-
     if (loadingItem == null) {
       return defaultLoading;
     }
 
     return ListView.builder(
         itemBuilder: (context, index) {
-          return loadingItem.loadingWidget;
+          return loadingItem?.loadingWidget;
         },
-        itemCount: loadingItem.childCount);
+        itemCount: loadingItem?.childCount);
   }
 }
 
 
 // about extentions of positions functions
-extension _PagingListViewPositionExt on _PagingListViewState {
-  void _onPositionChanged() {
-    _debouncer.notify(_itemPositionsListener.itemPositions.value);
+extension _PagingListViewPositionExt on PagingListView {
 
-  }
-
-
-  void _onVisibleItemChanged(int firstVisibleItemIndex, int lastVisibleItemIndex){
-    if(firstVisibleItemIndex>=0 && lastVisibleItemIndex>=0){
-      _paginationBloc?.add(PaginationEventSetVisiblePos(visibleMaxPos: firstVisibleItemIndex,
-          visibleMinPos: lastVisibleItemIndex));
-    }
-  }
-
-  void _onItemPositionsChanged(
+  void _onFetchPagesWithPositions(
+      BuildContext context,
+      PaginationState pagingState,
       int firstVisibleItemIndex, int lastVisibleItemIndex,
   ) {
-    final pagingData = _pagingState;
-    if (pagingData == null) return;
+    final paginationBloc = context.read<PaginationBloc>();
 
     if (firstVisibleItemIndex != -1 && lastVisibleItemIndex != -1) {
       //if first item smaller than preFetch and page is greater than 1
-      if (firstVisibleItemIndex <= pagingData.preFetchDistance &&
-          pagingData.currentPage > 1) {
+      if (firstVisibleItemIndex <= pagingState.preFetchDistance &&
+          pagingState.currentPage > 1) {
         final pos = (lastVisibleItemIndex + firstVisibleItemIndex) ~/ 2;
-        _paginationBloc?.add(PaginationEventFetchPreviousPage(firstPos: pos));
+        paginationBloc.add(PaginationEventFetchPreviousPage(firstPos: pos));
       }
       //if lastVisibleItemIndex and prefetch greater than item size
-      else if (lastVisibleItemIndex + pagingData.preFetchDistance >=
-              pagingData.items.length - 1 &&
-          pagingData.currentPage * pagingData.pageSize <
-              pagingData.totalItems) {
-        _paginationBloc?.add(PaginationEventFetchNextPage());
+      else if (lastVisibleItemIndex + pagingState.preFetchDistance >=
+              pagingState.items.length - 1 &&
+          pagingState.currentPage * pagingState.pageSize <
+              pagingState.totalItems) {
+        paginationBloc.add(PaginationEventFetchNextPage());
       }
     }
-  }
-
-  void _detectScrollPosition(Iterable<ItemPosition> itemPositions) {
-    final currentPosition =
-        itemPositions.isNotEmpty ? itemPositions.first.index : -1;
-    ScrollDirection? scrollDirection;
-    if (currentPosition < _previousScrollPosition || currentPosition == 1) {
-      scrollDirection = ScrollDirection.up;
-    }
-    else if (currentPosition > _previousScrollPosition) {
-      scrollDirection = ScrollDirection.down;
-    }
-
-    if(scrollDirection!=null && scrollDirection != _previousScrollDirection){
-      widget.onScroll?.call(scrollDirection);
-      _previousScrollDirection = scrollDirection;
-    }
-
-    _previousScrollPosition = currentPosition.toDouble();
-  }
-
-  (int, int) _getMinMaxPositions(Iterable<ItemPosition> itemsPos) {
-    int min = 0;
-    int max = 0;
-    if (itemsPos.isNotEmpty) {
-      if (itemsPos.last.index > itemsPos.first.index) {
-        min = itemsPos.first.index;
-        max = itemsPos.last.index;
-      } else {
-        min = itemsPos.last.index;
-        max = itemsPos.first.index;
-      }
-    }
-    // -1 added because LoadingPlaceholderContent causes adding two extra widget
-    return (min - 1, max - 1);
   }
 }

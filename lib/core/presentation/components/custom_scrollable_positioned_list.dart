@@ -25,10 +25,10 @@ class CustomScrollablePositionedList extends StatefulWidget {
     this.itemScrollController,
     required this.itemCount,
     this.debouncerDelayMilliSeconds = 200,
+    this.itemPositionsListener,
     this.initialScrollIndex = 0,
     this.shrinkWrap = false,
     this.onVisibleItemChanged,
-    this.itemPositionsListener
   }) : super(key: key);
 
 
@@ -49,6 +49,7 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
   @override
   void initState() {
     super.initState();
+
     itemPositionsListener = widget.itemPositionsListener ?? ItemPositionsListener.create();
     _previousScrollDirection = ScrollDirection.up;
 
@@ -68,6 +69,7 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
         addSemanticIndexes: true,
         addRepaintBoundaries: true,
         itemCount: widget.itemCount,
+        initialScrollIndex: widget.initialScrollIndex,
         itemPositionsListener: itemPositionsListener,
         itemScrollController: widget.itemScrollController,
         itemBuilder: (context, index){
@@ -111,6 +113,7 @@ extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositioned
 
     ScrollDirection? scrollDirection;
 
+
     if(firstVisiblePos <= 1){
       scrollDirection = ScrollDirection.up;
     }
@@ -120,6 +123,7 @@ extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositioned
     else if (firstVisiblePos < _previousScrollPosition) {
       scrollDirection = ScrollDirection.up;
     }
+
     else if (firstVisiblePos > _previousScrollPosition) {
       scrollDirection = ScrollDirection.down;
     }
