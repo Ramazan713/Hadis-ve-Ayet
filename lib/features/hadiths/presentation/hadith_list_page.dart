@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_list_paging_repo.dart';
-import 'package:hadith/features/hadiths/domain/constants/hadith_fetch_name_enum.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_event.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_state.dart';
 import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_page.dart';
@@ -28,16 +28,18 @@ class HadithListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    context.read<HadithSharedBloc>()
-        .add(HadithSharedEventFetchName(fetchNameEnum: HadithFetchNameEnum.list, itemId: listId));
+    context.read<HadithSharedBloc>().add(HadithSharedEventSetTitle(
+      itemId: listId,
+      titleEnum: PagingTitleEnum.list
+    ));
 
     return BlocSelector<HadithSharedBloc, HadithSharedState, String>(
-        selector: (state) => state.name,
-        builder: (context, listName){
+        selector: (state) => state.title,
+        builder: (context, currentTitle){
 
           final savePointDestination = DestinationList(
               listId: listId,
-              listName: listName,
+              listName: currentTitle,
               listBookScope: listBookScope
           );
 
@@ -48,7 +50,7 @@ class HadithListPage extends StatelessWidget {
             pos: pos,
             savePointDestination: savePointDestination,
             paginationRepo: listPagingRepo,
-            title: "$listName - ${listBookScope.bookScopeEnum.sourceType.shortName}",
+            title: "$currentTitle - ${listBookScope.bookScopeEnum.sourceType.shortName}",
             listIdControlForSelectList: listId,
           );
         }

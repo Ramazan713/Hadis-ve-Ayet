@@ -1,13 +1,14 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
+import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/domain/repo/list/list_repo.dart';
+import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/domain/preferences/model/i_key.dart';
+import 'package:hadith/core/domain/repo/title_repo.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
-import 'package:hadith/features/hadiths/domain/constants/hadith_fetch_name_enum.dart';
-import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/utils/font_size_helper.dart';
 
 import 'hadith_shared_event.dart';
@@ -16,21 +17,21 @@ import 'hadith_shared_state.dart';
 class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
 
   late final SelectListUseCases _selectListUseCases;
-  late final HadithRepo _hadithRepo;
-  late final ListRepo _listRepo;
+  late final TitleRepo _titleRepo;
+  late final AppPreferences _appPreferences;
 
   HadithSharedBloc({
     required SelectListUseCases selectListUseCases,
-    required HadithRepo hadithRepo,
-    required ListRepo listRepo
+    required TitleRepo titleRepo,
+    required AppPreferences appPreferences
   }) : super(HadithSharedState.init()){
 
     _selectListUseCases = selectListUseCases;
-    _hadithRepo = hadithRepo;
-    _listRepo = listRepo;
+    _titleRepo = titleRepo;
+    _appPreferences = appPreferences;
 
     on<HadithSharedEventFavorite>(_onHadithClick, transformer: restartable());
-    on<HadithSharedEventFetchName>(_onFetchName, transformer: restartable());
+    on<HadithSharedEventSetTitle>(_onSetTitle, transformer: restartable());
     on<HadithSharedEventListenFontSize>(_onListenFontSize, transformer: restartable());
     on<HadithSharedEventClearInvalidateEvent>(_onHadithEventClearInvalidateEvent, transformer: restartable());
 
@@ -53,27 +54,23 @@ class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
     emit(state.copyWith(setInvalidateEvent: true));
   }
 
-  void _onFetchName(HadithSharedEventFetchName event,Emitter<HadithSharedState>emit)async{
-    final String name;
-    switch(event.fetchNameEnum){
-      case HadithFetchNameEnum.topic:
-        name = (await _hadithRepo.getTopicName(event.itemId)) ?? "";
-        break;
-      case HadithFetchNameEnum.list:
-        name = (await _listRepo.getListName(event.itemId)) ?? "";
-        break;
-    }
-    emit(state.copyWith(name: name));
+  void _onSetTitle(HadithSharedEventSetTitle event,Emitter<HadithSharedState>emit)async{
+    final title = await _titleRepo.getTitle(event.itemId, event.titleEnum);
+    emit(state.copyWith(title: title));
   }
 
   void _onListenFontSize(HadithSharedEventListenFontSize event, Emitter<HadithSharedState>emit )async{
 
+    final fontSize = _appPreferences.getItem(KPref.fontSizeContent);
     final listFav = await _selectListUseCases.getFavoriteList.call(sourceType: SourceTypeEnum.hadith);
 
-    emit(state.copyWith(favListId: listFav.id));
+    emit(state.copyWith(favListId: listFav.id,contentFontSize: fontSize));
 
-    await emit.forEach<FontSize>(FontSizeHelper.streamFontSize, onData: (data){
-      return state.copyWith(fontSize: data);
+    final streamData = _appPreferences.listenerFiltered([KPref.fontSizeContent]);
+
+    await emit.forEach<IKey>(streamData, onData: (data){
+      final fontSize = _appPreferences.getItem(KPref.fontSizeContent);
+      return state.copyWith(contentFontSize: fontSize);
     });
   }
 

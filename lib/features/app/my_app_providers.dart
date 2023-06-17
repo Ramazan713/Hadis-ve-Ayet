@@ -202,7 +202,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
           BlocProvider(create: (context)=> HadithSharedBloc(selectListUseCases: context.read(),
-              hadithRepo: context.read(), listRepo: context.read())),
+              titleRepo: context.read(), appPreferences: context.read())),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),

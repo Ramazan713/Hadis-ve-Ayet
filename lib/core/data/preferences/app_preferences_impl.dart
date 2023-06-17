@@ -24,8 +24,7 @@ class AppPreferencesImpl extends AppPreferences{
 
   @override
   ValueStream<IKey> listenerFiltered(List<IKey> filter) {
-    return _listener.distinct().where((event)=>filter.contains(event))
-        .shareValue();
+    return _listener.where((event)=>filter.contains(event)).shareValue();
   }
 
 

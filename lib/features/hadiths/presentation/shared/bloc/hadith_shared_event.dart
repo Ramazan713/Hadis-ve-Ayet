@@ -1,7 +1,6 @@
 
 
-import 'package:hadith/db/entities/hadith.dart';
-import 'package:hadith/features/hadiths/domain/constants/hadith_fetch_name_enum.dart';
+import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 
 abstract class IHadithSharedEvent{}
@@ -16,9 +15,9 @@ class HadithSharedEventFavorite extends IHadithSharedEvent{
 
 class HadithSharedEventListenFontSize extends IHadithSharedEvent{}
 
-class HadithSharedEventFetchName extends IHadithSharedEvent{
-  final HadithFetchNameEnum fetchNameEnum;
+class HadithSharedEventSetTitle extends IHadithSharedEvent{
+  final PagingTitleEnum titleEnum;
   final int itemId;
 
-  HadithSharedEventFetchName({required this.fetchNameEnum, required this.itemId});
+  HadithSharedEventSetTitle({required this.titleEnum, required this.itemId});
 }
