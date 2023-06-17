@@ -34,10 +34,15 @@ class VerseEntity{
   final String verseNumber;
   final String content;
   final bool isProstrationVerse;
-  final String? surahName;
 
-  const VerseEntity({required this.surahId,required this.cuzNo,required this.pageNo,
-    required this.verseNumber,required this.content,
-    required this.surahName,required this.isProstrationVerse,this.id,
-    required this.bookId});
+  const VerseEntity({
+    this.id,
+    required this.surahId,
+    required this.cuzNo,
+    required this.pageNo,
+    required this.verseNumber,
+    required this.content,
+    required this.isProstrationVerse,
+    required this.bookId
+  });
 }

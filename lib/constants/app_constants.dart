@@ -3,6 +3,9 @@
 const kTimerDelaySearchMilliSecond=300;
 const kMaxContentSize=700;
 
+const double kFontSizeMin = 12;
+const double kFontSizeMax = 70;
+
 const kAutoMaxBackups=1;
 const kNonAutoMaxBackups=2;
 const kWaitingRefreshTime=60;

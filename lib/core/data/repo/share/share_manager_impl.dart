@@ -1,10 +1,10 @@
 
 
+import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/repo/share/share_manager.dart';
-import 'package:hadith/db/entities/verse.dart';
-import 'package:hadith/db/repos/verse_repo.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
-import 'package:hadith/features/hadiths/domain/repo/hadith_repo.dart';
+import 'package:hadith/core/domain/repo/hadith_repo.dart';
+import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
 
 class ShareManagerImpl extends ShareManager{
   late final HadithRepo _hadithRepo;
@@ -37,7 +37,7 @@ class ShareManagerImpl extends ShareManager{
 
   @override
   Future<String> getVerseSharedTextWithList(int listId) async{
-    final items=await _verseRepo.getListVerses(listId);
+    final items=await _verseRepo.getVersesByListId(listId);
     var text="";
     for(var item in items){
       text+="""${item.surahId}/${item.surahName}\n${item.verseNumber} - ${item.content}\n\n\n""";
@@ -52,7 +52,7 @@ class ShareManagerImpl extends ShareManager{
 
   @override
   Future<List<Verse>> getVersesWithList(int listId) async{
-    return await _verseRepo.getListVerses(listId);
+    return await _verseRepo.getVersesByListId(listId);
   }
 
 }

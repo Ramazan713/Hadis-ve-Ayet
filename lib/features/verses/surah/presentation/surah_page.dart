@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/paging/scroll_direction.dart';
+import 'package:hadith/core/domain/enums/scroll_direction.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
@@ -109,7 +109,8 @@ class SurahPage extends StatelessWidget {
                                       isAudioRunning: isAudioRunning,
                                       hasSavePoint: !state.searchBarVisible && hasSavePoint,
                                       onTap: (){
-
+                                        VerseShowSurahRoute(surahId: item.id)
+                                            .push(context);
                                       },
                                       onLongPress: state.searchBarVisible ? null : (){
                                         _handleBottomMenu(context, hasSavePoint, index);

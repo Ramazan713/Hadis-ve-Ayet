@@ -56,10 +56,14 @@ class ArchiveListPage extends StatelessWidget {
                               case SourceTypeEnum.hadith:
                                 HadithListRoute(
                                         listId: item.id,
-                                        listBookId: ListBookScopeExt.fromSourceType(item.sourceType).binaryId)
-                                    .push(context);
+                                        sourceId: item.sourceType.sourceId
+                                ).push(context);
                                 break;
                               case SourceTypeEnum.verse:
+                                VerseShowListRoute(
+                                    listId: item.id,
+                                    sourceId: item.sourceType.sourceId
+                                ).push(context);
                                 break;
                             }
                           },

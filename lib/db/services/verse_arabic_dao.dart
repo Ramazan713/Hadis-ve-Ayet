@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 
 @dao
-abstract class VerseArabicDao{
+abstract class VerseArabicDaoOld{
 
   @Query("""select VA.* from VerseArabic VA, Verse V where VA.mealId = V.id and V.cuzNo=:cuzNo and 
         VA.mealId not in (select A.mealId from Verse V, VerseAudio A where V.id=A.mealId and 

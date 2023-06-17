@@ -8,17 +8,21 @@ part of 'app_routers.dart';
 
 List<RouteBase> get $appRoutes => [
       $hadithAllRoute,
+      $hadithTopicRoute,
+      $hadithListRoute,
       $archiveListRoute,
       $sectionRoute,
       $topicRoute,
-      $hadithTopicRoute,
-      $hadithListRoute,
       $cuzRoute,
       $surahRoute,
+      $verseShowCuzRoute,
+      $verseShowSurahRoute,
+      $verseShowListRoute,
+      $verseShowTopicRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
-      path: '/all_hadiths/:hadithBookId/:pos',
+      path: '/hadith/all/:hadithBookId/:pos',
       factory: $HadithAllRouteExtension._fromState,
     );
 
@@ -29,7 +33,7 @@ extension $HadithAllRouteExtension on HadithAllRoute {
       );
 
   String get location => GoRouteData.$location(
-        '/all_hadiths/${Uri.encodeComponent(hadithBookId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        '/hadith/all/${Uri.encodeComponent(hadithBookId.toString())}/${Uri.encodeComponent(pos.toString())}',
         queryParams: {
           if (pos != 0) 'pos': pos.toString(),
         },
@@ -50,6 +54,60 @@ T? _$convertMapValue<T>(
 ) {
   final value = map[key];
   return value == null ? null : converter(value);
+}
+
+RouteBase get $hadithTopicRoute => GoRouteData.$route(
+      path: '/hadith/topic/:bookId/:topicId/:pos',
+      factory: $HadithTopicRouteExtension._fromState,
+    );
+
+extension $HadithTopicRouteExtension on HadithTopicRoute {
+  static HadithTopicRoute _fromState(GoRouterState state) => HadithTopicRoute(
+        bookId: int.parse(state.pathParameters['bookId']!),
+        topicId: int.parse(state.pathParameters['topicId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/hadith/topic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $hadithListRoute => GoRouteData.$route(
+      path: '/hadith/list/:sourceId/:listId/:pos',
+      factory: $HadithListRouteExtension._fromState,
+    );
+
+extension $HadithListRouteExtension on HadithListRoute {
+  static HadithListRoute _fromState(GoRouterState state) => HadithListRoute(
+        sourceId: int.parse(state.pathParameters['sourceId']!),
+        listId: int.parse(state.pathParameters['listId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/hadith/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 }
 
 RouteBase get $archiveListRoute => GoRouteData.$route(
@@ -131,60 +189,6 @@ bool _$boolConverter(String value) {
   }
 }
 
-RouteBase get $hadithTopicRoute => GoRouteData.$route(
-      path: '/hadithTopic/:bookId/:topicId/:pos',
-      factory: $HadithTopicRouteExtension._fromState,
-    );
-
-extension $HadithTopicRouteExtension on HadithTopicRoute {
-  static HadithTopicRoute _fromState(GoRouterState state) => HadithTopicRoute(
-        bookId: int.parse(state.pathParameters['bookId']!),
-        topicId: int.parse(state.pathParameters['topicId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
-      );
-
-  String get location => GoRouteData.$location(
-        '/hadithTopic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-}
-
-RouteBase get $hadithListRoute => GoRouteData.$route(
-      path: '/hadithList/:listBookId/:listId/:pos',
-      factory: $HadithListRouteExtension._fromState,
-    );
-
-extension $HadithListRouteExtension on HadithListRoute {
-  static HadithListRoute _fromState(GoRouterState state) => HadithListRoute(
-        listBookId: int.parse(state.pathParameters['listBookId']!),
-        listId: int.parse(state.pathParameters['listId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
-      );
-
-  String get location => GoRouteData.$location(
-        '/hadithList/${Uri.encodeComponent(listBookId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-}
-
 RouteBase get $cuzRoute => GoRouteData.$route(
       path: '/cuz',
       factory: $CuzRouteExtension._fromState,
@@ -215,6 +219,115 @@ extension $SurahRouteExtension on SurahRoute {
 
   String get location => GoRouteData.$location(
         '/surah',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $verseShowCuzRoute => GoRouteData.$route(
+      path: '/cuz/:cuzNo/:pos',
+      factory: $VerseShowCuzRouteExtension._fromState,
+    );
+
+extension $VerseShowCuzRouteExtension on VerseShowCuzRoute {
+  static VerseShowCuzRoute _fromState(GoRouterState state) => VerseShowCuzRoute(
+        cuzNo: int.parse(state.pathParameters['cuzNo']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/cuz/${Uri.encodeComponent(cuzNo.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $verseShowSurahRoute => GoRouteData.$route(
+      path: '/surah/:surahId/:pos',
+      factory: $VerseShowSurahRouteExtension._fromState,
+    );
+
+extension $VerseShowSurahRouteExtension on VerseShowSurahRoute {
+  static VerseShowSurahRoute _fromState(GoRouterState state) =>
+      VerseShowSurahRoute(
+        surahId: int.parse(state.pathParameters['surahId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/surah/${Uri.encodeComponent(surahId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $verseShowListRoute => GoRouteData.$route(
+      path: '/verse/list/:sourceId/:listId/:pos',
+      factory: $VerseShowListRouteExtension._fromState,
+    );
+
+extension $VerseShowListRouteExtension on VerseShowListRoute {
+  static VerseShowListRoute _fromState(GoRouterState state) =>
+      VerseShowListRoute(
+        listId: int.parse(state.pathParameters['listId']!),
+        sourceId: int.parse(state.pathParameters['sourceId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/verse/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $verseShowTopicRoute => GoRouteData.$route(
+      path: '/verse/topic/:bookId/:topicId//:pos',
+      factory: $VerseShowTopicRouteExtension._fromState,
+    );
+
+extension $VerseShowTopicRouteExtension on VerseShowTopicRoute {
+  static VerseShowTopicRoute _fromState(GoRouterState state) =>
+      VerseShowTopicRoute(
+        topicId: int.parse(state.pathParameters['topicId']!),
+        bookId: int.parse(state.pathParameters['bookId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/verse/topic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}//${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);

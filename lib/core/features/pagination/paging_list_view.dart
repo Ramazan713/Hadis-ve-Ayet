@@ -5,7 +5,7 @@ import 'package:hadith/core/presentation/components/custom_scrollable_positioned
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../domain/enums/paging/paging_status.dart';
-import '../../domain/enums/paging/scroll_direction.dart';
+import '../../domain/enums/scroll_direction.dart';
 import '../../domain/models/paging/i_paging_item.dart';
 import 'paging_loading_item.dart';
 import 'bloc/pagination_bloc.dart';
@@ -90,7 +90,10 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
             final currentIndex = index - 1;
             final item = items[currentIndex];
 
-            return itemBuilder(context, item.castOrNull(), currentIndex);
+            final castedItem = item.castOrNull<T>();
+            if(castedItem == null) return const Text("");
+
+            return itemBuilder(context, castedItem, currentIndex);
           },
         );
       },

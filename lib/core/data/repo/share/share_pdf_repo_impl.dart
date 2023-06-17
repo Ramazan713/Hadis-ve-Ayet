@@ -4,8 +4,7 @@ import 'dart:typed_data';
 
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/core/domain/repo/share/share_pdf_repo.dart';
-import 'package:hadith/db/entities/verse.dart';
-import 'package:pdf/widgets.dart' as pw;
+import 'package:hadith/core/domain/models/verse/verse.dart';import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 

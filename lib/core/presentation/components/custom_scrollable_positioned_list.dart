@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/enums/paging/scroll_direction.dart';
+import 'package:hadith/core/domain/enums/scroll_direction.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CustomScrollablePositionedList extends StatefulWidget {

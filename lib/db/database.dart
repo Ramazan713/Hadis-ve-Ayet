@@ -11,6 +11,7 @@ import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/savepoint_type_entity.dart';
 import 'package:hadith/core/data/local/entities/surah_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
+import 'package:hadith/core/data/local/entities/verse_arabic_entity.dart';
 import 'package:hadith/core/data/local/entities/views/list_hadith_view.dart';
 import 'package:hadith/core/data/local/entities/views/list_verse_view.dart';
 import 'package:hadith/core/data/local/entities/views/section_topics_view.dart';
@@ -24,10 +25,13 @@ import 'package:hadith/core/data/local/services/list/list_verse_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_verse_view_dao.dart';
 import 'package:hadith/core/data/local/services/save_point_dao.dart';
 import 'package:hadith/core/data/local/services/surah_dao.dart';
+import 'package:hadith/core/data/local/services/title_dao.dart';
 import 'package:hadith/core/data/local/services/topic/section_view_dao.dart';
 import 'package:hadith/core/data/local/services/topic/topic_hadiths_view_dao.dart';
 import 'package:hadith/core/data/local/services/topic/topic_verses_view_dao.dart';
 import 'package:hadith/core/data/local/services/topic_save_point_dao.dart';
+import 'package:hadith/core/data/local/services/verse_arabic_dao.dart';
+import 'package:hadith/core/data/local/services/verse_dao.dart';
 import 'package:hadith/db/entities/audio_edition.dart';
 import 'package:hadith/db/entities/backup_meta.dart';
 import 'package:hadith/db/entities/helper/int_data.dart';
@@ -69,6 +73,7 @@ import 'package:hadith/features/extra_features/prayer_surah/data/entity/prayer_e
 import 'package:hadith/features/extra_features/prayer_surah/data/prayer_dao.dart';
 import 'package:hadith/features/extra_features/quran_prayer/data/entity/quran_prayer_entity.dart';
 import 'package:hadith/core/data/local/services/hadith_all_dao.dart';
+import '../core/data/local/entities/verse_entity.dart';
 import '../core/data/local/services/hadith_info_list_dao.dart';
 import '../core/data/local/services/topic_dao.dart';
 import '../core/data/local/services/verse_info_list_dao.dart';
@@ -92,7 +97,7 @@ import 'services/hadith_dao.dart';
 import 'services/cuz_dao.dart';
 import 'services/list_dao.dart';
 import 'services/surah_dao.dart';
-import 'services/verse_dao.dart';
+import 'services/verse_dao_old.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 
@@ -104,7 +109,8 @@ part 'database.g.dart';
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntity,CounterEntity,
       EsmaulHusnaEntity, PrayerEntity, IslamicInfoItemEntity,IslamicInfoTitleEntity,
-      SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity,
+      VerseEntity,
+      SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
     ],
     views: [ListVerseView,ListHadithView,CuzAudioView,SurahAudioView,
@@ -116,7 +122,7 @@ abstract class AppDatabase extends FloorDatabase{
   CuzDaoOld get cuzDaoOld;
   ListDaoOld get listDaoOld;
   SurahDaoOld get surahDaoOld;
-  VerseDao get verseDao;
+  VerseDaoOld get verseDaoOld;
   TopicDaoOld get topicDaoOld;
   SectionDao get sectionDao;
   SavePointDaoOld get savePointDaoOld;
@@ -127,7 +133,7 @@ abstract class AppDatabase extends FloorDatabase{
   UserInfoDao get userInfoDao;
   AudioEditionDao get editionDao;
   VerseAudioDao get verseAudioDao;
-  VerseArabicDao get verseArabicDao;
+  VerseArabicDaoOld get verseArabicDaoOld;
   VerseAudioStateDao get verseAudioStateDao;
   ManageAudioDao get manageAudioDao;
   CounterDao get counterDao;
@@ -152,4 +158,8 @@ abstract class AppDatabase extends FloorDatabase{
   TopicSavePointDao get topicSavePointDao;
   CuzDao get cuzDao;
   SurahDao get surahDao;
+  VerseArabicDao get verseArabicDao;
+  VerseDao get verseDao;
+  TitleDao get titleDao;
+
 }

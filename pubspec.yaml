@@ -103,6 +103,14 @@ flutter:
       fonts:
         - asset: assets/fonts/ScheherazadeNew-Regular.ttf
 
+    - family: Lateef
+      fonts:
+        - asset: assets/fonts/Lateef-Regular.ttf
+
+    - family: Harmattan
+      fonts:
+        - asset: assets/fonts/Harmattan-Regular.ttf
+
   assets:
     - assets/hadithDb.db
     - assets/images/

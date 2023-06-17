@@ -28,7 +28,9 @@ void showEditSavePointsDiaBasic(BuildContext context, {
     destination: destination,
     itemIndexPos: itemIndexPos,
     selectedSavePointId: selectedSavePointId,
-    onLoadSavePointClick: onLoadSavePointClick,
+    onLoadSavePointClick: (savePoint, differentLocation){
+      onLoadSavePointClick?.call(savePoint);
+    },
     description: description,
     useWideScope: false
   );
@@ -37,7 +39,7 @@ void showEditSavePointsDiaBasic(BuildContext context, {
 void showEditSavePointsDiaAdvanced(BuildContext context, {
   required SavePointDestination destination,
   required int itemIndexPos,
-  required void Function(SavePoint savePoint) onLoadSavePointClick,
+  required void Function(SavePoint savePoint, bool differentLocation) onLoadSavePointClick,
   required void Function(void Function(bool)) onOverrideSavePointRequestHandler,
   required void Function(void Function(bool)) onLoadSavePointRequestHandler,
   int? selectedSavePointId,
@@ -60,7 +62,7 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
 void showEditSavePointsDiaCustom(BuildContext context, {
   required SavePointDestination destination,
   required int itemIndexPos,
-  void Function(SavePoint savePoint)? onLoadSavePointClick,
+  void Function(SavePoint savePoint, bool differentLocation)? onLoadSavePointClick,
   void Function(void Function(bool))? onOverrideSavePointRequestHandler,
   void Function(void Function(bool))? onLoadSavePointRequestHandler,
   int? selectedSavePointId,
@@ -135,11 +137,11 @@ void showEditSavePointsDiaCustom(BuildContext context, {
                     if(useWideScope && selectedSavePoint.destination.getParentKey()!=destination.getParentKey()){
                       onLoadSavePointRequestHandler?.call((result){
                         if(result){
-                          onLoadSavePointClick?.call(selectedSavePoint);
+                          onLoadSavePointClick?.call(selectedSavePoint,true);
                         }
                       });
                     }else{
-                      onLoadSavePointClick?.call(selectedSavePoint);
+                      onLoadSavePointClick?.call(selectedSavePoint,false);
                     }
                   },
                 ),

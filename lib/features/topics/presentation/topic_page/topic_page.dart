@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/paging/scroll_direction.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
-import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
@@ -18,7 +16,6 @@ import 'package:hadith/core/presentation/components/navigation_icon.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
@@ -151,6 +148,10 @@ class TopicPage extends StatelessWidget {
         ).push(context);
         break;
       case SourceTypeEnum.verse:
+        VerseShowTopicRoute(
+            topicId: item.id,
+            bookId: bookEnum.bookId,
+        ).push(context);
         break;
     }
   }

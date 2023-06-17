@@ -55,9 +55,6 @@ abstract class HadithAllDao{
     where LH.hadithId=H.id and LH.listId=:listId and id = :id )""")
   Future<bool?> getExistsHadithByListId(int listId, int id);
 
-  @Query("select name from list where id = :listId")
-  Future<String?> getListName(int listId);
-
 
   //Hadith Search Pagination Functions
   @Query("""

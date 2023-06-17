@@ -28,5 +28,7 @@ abstract class ListDao{
   """)
   Future<ListEntity?> getFavoriteList(int sourceId);
 
+  @Query("select name from list where id = :listId")
+  Future<String?> getListName(int listId);
 
 }

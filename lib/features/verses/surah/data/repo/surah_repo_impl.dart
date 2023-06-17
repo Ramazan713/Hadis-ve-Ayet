@@ -42,4 +42,9 @@ class SurahRepoImpl extends SurahRepo{
     )).map((e) => e.toSurah()).toList();
   }
 
+  @override
+  Future<String?> getSurahNameById(int surahId) {
+    return _surahDao.getSurahNameById(surahId);
+  }
+
 }

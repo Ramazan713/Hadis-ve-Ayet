@@ -3,7 +3,7 @@
 import 'package:hadith/core/data/local/mapper/hadith_mapper.dart';
 import 'package:hadith/core/data/local/services/hadith_all_dao.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
-import 'package:hadith/features/hadiths/domain/repo/hadith_repo.dart';
+import 'package:hadith/core/domain/repo/hadith_repo.dart';
 
 class HadithRepoImpl extends HadithRepo{
 
@@ -94,11 +94,6 @@ class HadithRepoImpl extends HadithRepo{
   @override
   Future<bool> getExistsHadithByTopicId(int topicId, int id) async{
     return (await _hadithAllDao.getExistsHadithByTopicId(topicId, id)) ?? false;
-  }
-
-  @override
-  Future<String?> getListName(int listId) {
-    return _hadithAllDao.getListName(listId);
   }
 
   @override

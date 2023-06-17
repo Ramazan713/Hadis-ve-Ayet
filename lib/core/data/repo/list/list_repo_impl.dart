@@ -44,4 +44,9 @@ class ListRepoImpl extends ListRepo{
     return (await _listDao.getFavoriteList(sourceType.sourceId))?.toListModel();
   }
 
+  @override
+  Future<String?> getListName(int listId) {
+    return _listDao.getListName(listId);
+  }
+
 }

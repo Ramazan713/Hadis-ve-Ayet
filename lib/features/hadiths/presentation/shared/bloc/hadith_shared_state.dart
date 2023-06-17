@@ -2,12 +2,11 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
-
-import '../model/hadith_invalidate_event.dart';
+import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 
 class HadithSharedState extends Equatable{
 
-  final HadithInvalidateEventModel? invalidateEvent;
+  final PagingModifiedItem? invalidateEvent;
   final FontSize fontSize;
   final int favListId;
   final String name;
@@ -20,7 +19,7 @@ class HadithSharedState extends Equatable{
   });
 
   HadithSharedState copyWith({
-    HadithInvalidateEventModel? invalidateEvent,
+    PagingModifiedItem? invalidateEvent,
     bool setInvalidateEvent=false,
     FontSize? fontSize,
     int? favListId,

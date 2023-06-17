@@ -244,9 +244,9 @@ void _loadAndGoList(BuildContext context, DestinationList destination, int itemI
   switch(sourceType){
     case SourceTypeEnum.hadith:
       HadithListRoute(
-        listBookId: destination.listBookScope.binaryId,
-        listId: destination.listId,
-        pos: itemIndexPos
+          listId: destination.listId,
+          pos: itemIndexPos,
+          sourceId: destination.listBookScope.bookScopeEnum.sourceType.sourceId
       ).push(context);
       break;
     case SourceTypeEnum.verse:

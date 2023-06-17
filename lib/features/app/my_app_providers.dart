@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_bloc.dart';
+import 'package:hadith/core/features/select_font_size/bloc/select_font_size_bloc.dart';
 import 'package:hadith/core/features/select_list/bloc/select_list_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
@@ -67,7 +68,9 @@ import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_b
 import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_audio_bloc.dart';
 import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_bloc.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_bloc.dart';
-import 'package:hadith/features/verses/shared/data/providers/verse_data_repo_providers.dart';
+import 'package:hadith/features/verses/providers/data/verse_data_paging_providers.dart';
+import 'package:hadith/features/verses/providers/data/verse_data_repo_providers.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/services/auth_service.dart';
 import 'package:hadith/services/storage_service.dart';
@@ -123,6 +126,7 @@ class MyAppProviders extends StatelessWidget {
         ...pHadithDataRepoProviders(appDatabase),
         ...pTopicDataRepoProviders(appDatabase),
         ...pVerseDataRepoProviders(appDatabase),
+        ...pVerseDataPagingProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
@@ -142,7 +146,7 @@ class MyAppProviders extends StatelessWidget {
         RepositoryProvider<TopicRepo>(
             create: (context) => TopicRepo(topicDao: appDatabase.topicDaoOld)),
         RepositoryProvider<VerseRepo>(
-            create: (context) => VerseRepo(verseDao: appDatabase.verseDao)),
+            create: (context) => VerseRepo(verseDao: appDatabase.verseDaoOld)),
         RepositoryProvider<SavePointRepoOld>(
             create: (context) =>
                 SavePointRepoOld(savePointDao:appDatabase.savePointDaoOld)),
@@ -159,7 +163,7 @@ class MyAppProviders extends StatelessWidget {
         RepositoryProvider(
             create: (context) =>
                 BackupMetaRepo(backupMetaDao: appDatabase.backupMetaDao)),
-        RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDao)),
+        RepositoryProvider(create: (context)=> VerseArabicRepo(verseArabicDao: appDatabase.verseArabicDaoOld)),
         RepositoryProvider(
             create: (context) =>
                 TopicSavePointRepo(savePointDao: appDatabase.topicSavePointDaoOld)),
@@ -183,6 +187,9 @@ class MyAppProviders extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> VerseSharedBloc(appPreferences: context.read(),
+              selectListUseCases: context.read(), titleRepo: context.read())),
+          BlocProvider(create: (context)=> SelectFontSizeBloc(appPreferences: context.read())),
           BlocProvider(create: (context)=> SurahBloc(surahRepo: context.read())),
           BlocProvider(create: (context)=> CuzBloc(cuzRepo: context.read())),
           BlocProvider(create: (context)=> TopicSavePointBloc(topicSavePointUseCases: context.read())),
@@ -194,7 +201,8 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
-          BlocProvider(create: (context)=> HadithSharedBloc(selectListUseCases: context.read(), hadithRepo: context.read())),
+          BlocProvider(create: (context)=> HadithSharedBloc(selectListUseCases: context.read(),
+              hadithRepo: context.read(), listRepo: context.read())),
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),

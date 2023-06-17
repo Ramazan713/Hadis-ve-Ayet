@@ -8,9 +8,17 @@ import 'package:hadith/utils/theme_util.dart';
 import '../constants/enums/search_criteria_enum.dart';
 
 class TextUtils{
-  static List<TextSpan>getSelectedText(String fullText,String? searchKey,
-  {bool caseSensitive=false,TextStyle? textStyle,required BuildContext context,
-    bool inheritTextStyle=false,required SearchCriteriaEnum? searchCriteriaEnum}){
+
+  static List<TextSpan> getSelectedText(
+      String fullText,
+      String? searchKey, {
+        bool caseSensitive=false,
+        TextStyle? textStyle,
+        required BuildContext context,
+        bool inheritTextStyle=false,
+        required SearchCriteriaEnum? searchCriteriaEnum
+      }
+  ){
 
     if(searchKey == null || searchCriteriaEnum == null){
       return [TextSpan(text: fullText,style: textStyle)];
@@ -22,9 +30,6 @@ class TextUtils{
         backgroundColor: ThemeUtil.getThemeModel(context).selectedTextColor()
     );
 
-    if(inheritTextStyle&&textStyle!=null){
-      searchStyle=searchStyle.merge(textStyle);
-    }
     final RegExp reg = SearchHelper.findWordsPattern(searchKey, caseSensitive);
 
     var firstIndex=0;
@@ -33,6 +38,7 @@ class TextUtils{
         spans.add(TextSpan(text: fullText.substring(firstIndex,matcher.start),style: textStyle));
       }
       final text=fullText.substring(matcher.start,matcher.end);
+
       spans.add(TextSpan(text: text,style: searchStyle));
       firstIndex=matcher.end;
     }

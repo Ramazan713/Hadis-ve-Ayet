@@ -8,4 +8,6 @@ abstract class SurahRepo{
   Future<List<Surah>>getSurahesWithQuery(String query);
 
   Future<Surah?>getSurah(int surahId);
+
+  Future<String?> getSurahNameById(int surahId);
 }

@@ -5,7 +5,7 @@ import 'package:hadith/db/entities/verse_arabic.dart';
 
 
 @dao
-abstract class VerseDao{
+abstract class VerseDaoOld{
 
   @Query("select * from verse where surahId=:surahId")
   Future<List<Verse>> getVersesWithSurahId(int surahId);

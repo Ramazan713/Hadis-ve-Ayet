@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/paging/scroll_direction.dart';
+import 'package:hadith/core/domain/enums/scroll_direction.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';

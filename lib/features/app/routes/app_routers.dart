@@ -2,6 +2,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,16 @@ import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
+import 'package:hadith/features/verses/show_verse/presentation/verse_show_cuz_page.dart';
+import 'package:hadith/features/verses/show_verse/presentation/verse_show_list_page.dart';
+import 'package:hadith/features/verses/show_verse/presentation/verse_show_surah_page.dart';
+import 'package:hadith/features/verses/show_verse/presentation/verse_show_topic_page.dart';
 import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
 part 'app_routers.g.dart';
 
 
 @TypedGoRoute<HadithAllRoute>(
-  path: "/all_hadiths/:hadithBookId/:pos"
+  path: "/hadith/all/:hadithBookId/:pos"
 )
 class HadithAllRoute extends GoRouteData{
 
@@ -34,6 +39,57 @@ class HadithAllRoute extends GoRouteData{
     );
   }
 }
+
+
+@TypedGoRoute<HadithTopicRoute>(
+    path: "/hadith/topic/:bookId/:topicId/:pos"
+)
+class HadithTopicRoute extends GoRouteData{
+  final int bookId;
+  final int topicId;
+  final int pos;
+
+  HadithTopicRoute({
+    required this.bookId,
+    required this.topicId,
+    this.pos = 0
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return HadithTopicPage(
+        bookEnum: BookEnum.from(bookId),
+        topicId: topicId,
+        pos: pos
+    );
+  }
+}
+
+
+@TypedGoRoute<HadithListRoute>(
+    path: "/hadith/list/:sourceId/:listId/:pos"
+)
+class HadithListRoute extends GoRouteData{
+  final int listId;
+  final int sourceId;
+  final int pos;
+
+  HadithListRoute({
+    required this.sourceId,
+    required this.listId,
+    this.pos = 0
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return HadithListPage(
+        listBookScope: ListBookScopeExt.fromSourceType(SourceTypeEnumExt.fromSourceId(sourceId)),
+        listId: listId,
+        pos: pos
+    );
+  }
+}
+
 
 @TypedGoRoute<ArchiveListRoute>(
     path: "/archiveList"
@@ -86,56 +142,6 @@ class TopicRoute extends GoRouteData{
 }
 
 
-@TypedGoRoute<HadithTopicRoute>(
-    path: "/hadithTopic/:bookId/:topicId/:pos"
-)
-class HadithTopicRoute extends GoRouteData{
-  final int bookId;
-  final int topicId;
-  final int pos;
-
-  HadithTopicRoute({
-    required this.bookId,
-    required this.topicId,
-    this.pos = 0
-  });
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return HadithTopicPage(
-        bookEnum: BookEnum.from(bookId),
-        topicId: topicId,
-        pos: pos
-    );
-  }
-}
-
-
-@TypedGoRoute<HadithListRoute>(
-    path: "/hadithList/:listBookId/:listId/:pos"
-)
-class HadithListRoute extends GoRouteData{
-  final int listId;
-  final int listBookId;
-  final int pos;
-
-  HadithListRoute({
-    required this.listBookId,
-    required this.listId,
-    this.pos = 0
-  });
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return HadithListPage(
-        listBookScope: ListBookScopeExt.fromWithDefault(BookScopeExt.fromBinaryId(listBookId)),
-        listId: listId,
-        pos: pos
-    );
-  }
-}
-
-
 @TypedGoRoute<CuzRoute>(
   path: "/cuz"
 )
@@ -160,6 +166,76 @@ class SurahRoute extends GoRouteData{
   }
 }
 
+
+@TypedGoRoute<VerseShowCuzRoute>(
+    path: "/cuz/:cuzNo/:pos"
+)
+class VerseShowCuzRoute extends GoRouteData{
+
+  final int cuzNo;
+  final int pos;
+
+  VerseShowCuzRoute({required this.cuzNo, this.pos = 0});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return VerseShowCuzPage(cuzNo: cuzNo, pos: pos,);
+  }
+}
+
+@TypedGoRoute<VerseShowSurahRoute>(
+    path: "/surah/:surahId/:pos"
+)
+class VerseShowSurahRoute extends GoRouteData{
+
+  final int surahId;
+  final int pos;
+
+  VerseShowSurahRoute({required this.surahId, this.pos = 0});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return VerseShowSurahPage(surahId: surahId, pos: pos,);
+  }
+}
+
+
+@TypedGoRoute<VerseShowListRoute>(
+    path: "/verse/list/:sourceId/:listId/:pos"
+)
+class VerseShowListRoute extends GoRouteData{
+
+  final int listId;
+  final int pos;
+  final int sourceId;
+
+  VerseShowListRoute({required this.listId, required this.sourceId, this.pos = 0});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return VerseShowListPage(
+        listId: listId,
+        pos: pos,
+        listBookScope: ListBookScopeExt.fromSourceType(SourceTypeEnumExt.fromSourceId(sourceId)));
+  }
+}
+
+@TypedGoRoute<VerseShowTopicRoute>(
+    path: "/verse/topic/:bookId/:topicId//:pos"
+)
+class VerseShowTopicRoute extends GoRouteData{
+
+  final int topicId;
+  final int bookId;
+  final int pos;
+
+  VerseShowTopicRoute({required this.topicId, required this.bookId, this.pos = 0});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return VerseShowTopicPage(topicId: topicId, pos: pos,bookEnum: BookEnum.from(bookId));
+  }
+}
 
 
 

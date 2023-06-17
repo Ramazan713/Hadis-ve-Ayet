@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/domain/repo/list/list_repo.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
+import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_fetch_name_enum.dart';
-import 'package:hadith/features/hadiths/domain/repo/hadith_repo.dart';
+import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/utils/font_size_helper.dart';
 
-import '../model/hadith_invalidate_event.dart';
 import 'hadith_shared_event.dart';
 import 'hadith_shared_state.dart';
 
@@ -16,14 +17,17 @@ class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
 
   late final SelectListUseCases _selectListUseCases;
   late final HadithRepo _hadithRepo;
+  late final ListRepo _listRepo;
 
   HadithSharedBloc({
     required SelectListUseCases selectListUseCases,
-    required HadithRepo hadithRepo
+    required HadithRepo hadithRepo,
+    required ListRepo listRepo
   }) : super(HadithSharedState.init()){
 
     _selectListUseCases = selectListUseCases;
     _hadithRepo = hadithRepo;
+    _listRepo = listRepo;
 
     on<HadithSharedEventFavorite>(_onHadithClick, transformer: restartable());
     on<HadithSharedEventFetchName>(_onFetchName, transformer: restartable());
@@ -41,7 +45,7 @@ class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
 
     final op = event.listFavAffected ? PagingInvalidateOp.unknown : PagingInvalidateOp.update;
 
-    emit(state.copyWith(invalidateEvent: HadithInvalidateEventModel(item: event.item,
+    emit(state.copyWith(invalidateEvent: PagingModifiedItem(item: event.item,
         op: op),setInvalidateEvent: true));
   }
 
@@ -56,7 +60,7 @@ class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
         name = (await _hadithRepo.getTopicName(event.itemId)) ?? "";
         break;
       case HadithFetchNameEnum.list:
-        name = (await _hadithRepo.getListName(event.itemId)) ?? "";
+        name = (await _listRepo.getListName(event.itemId)) ?? "";
         break;
     }
     emit(state.copyWith(name: name));

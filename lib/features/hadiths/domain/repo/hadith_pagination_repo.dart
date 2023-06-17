@@ -8,7 +8,7 @@ import 'package:hadith/core/domain/repo/topic_repo.dart';
 import 'package:hadith/core/domain/repo/pagination_repo.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
-import 'package:hadith/features/hadiths/domain/repo/hadith_repo.dart';
+import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';

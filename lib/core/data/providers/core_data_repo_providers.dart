@@ -1,13 +1,20 @@
 
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/data/preferences/app_preferences_impl.dart';
+import 'package:hadith/core/data/repo/hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/item_list_info_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_verse_repo_impl.dart';
 import 'package:hadith/core/data/repo/share/share_manager_impl.dart';
 import 'package:hadith/core/data/repo/share/share_pdf_repo_impl.dart';
+import 'package:hadith/core/data/repo/title_repo_impl.dart';
 import 'package:hadith/core/data/repo/topic_repo_impl.dart';
 import 'package:hadith/core/data/repo/topic_save_point_repo_impl.dart';
+import 'package:hadith/core/data/repo/verse/verse_arabic_repo_impl.dart';
+import 'package:hadith/core/data/repo/verse/verse_repo_impl.dart';
+import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_view_repo.dart';
@@ -15,9 +22,13 @@ import 'package:hadith/core/domain/repo/list/list_repo.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
 import 'package:hadith/core/domain/repo/share/share_manager.dart';
 import 'package:hadith/core/domain/repo/share/share_pdf_repo.dart';
+import 'package:hadith/core/domain/repo/title_repo.dart';
 import 'package:hadith/core/domain/repo/topic_repo.dart';
 import 'package:hadith/core/domain/repo/topic_save_point_repo.dart';
+import 'package:hadith/core/domain/repo/verse/verse_arabic_repo.dart';
+import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
 import 'package:hadith/db/database.dart';
+import 'package:hadith/utils/localstorage.dart';
 
 import '../../domain/repo/list/list_verse_repo.dart';
 import '../../domain/repo/list/list_verse_view_repo.dart';
@@ -28,7 +39,7 @@ import '../repo/save_point_repo_impl.dart';
 
 List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
   return [
-
+    RepositoryProvider<AppPreferences>(create: (context) => AppPreferencesImpl(preferences: LocalStorage.sharedPreferences)),
     RepositoryProvider<ListRepo>(create: (context) => ListRepoImpl(listDao: appDatabase.listDao)),
     RepositoryProvider<ListHadithRepo>(create: (context) => ListHadithRepoImpl(listHadithDao: appDatabase.listHadithDao),),
     RepositoryProvider<ListVerseRepo>(create: (context) => ListVerseRepoImpl(listVerseDao: appDatabase.listVerseDao),),
@@ -42,5 +53,11 @@ List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
     RepositoryProvider<TopicRepo>(create: (context) => TopicRepoImpl(topicDao: appDatabase.topicDao)),
     RepositoryProvider<SharePdfRepo>(create: (context)=> SharePdfRepoImpl()),
     RepositoryProvider<TopicSavePointRepo>(create: (context)=> TopicSavePointRepoImpl(topicSavePointDao: appDatabase.topicSavePointDao)),
+    RepositoryProvider<VerseArabicRepo>(create: (context) => VerseArabicRepoImpl(verseArabicDao: appDatabase.verseArabicDao)),
+    RepositoryProvider<VerseRepo>(create: (context) => VerseRepoImpl(
+        surahDao: appDatabase.surahDao, verseDao: appDatabase.verseDao
+    )),
+    RepositoryProvider<HadithRepo>(create: (context) => HadithRepoImpl(hadithAllDao: appDatabase.hadithAllDao)),
+    RepositoryProvider<TitleRepo>(create: (context) => TitleRepoImpl(titleDao: appDatabase.titleDao)),
   ];
 }

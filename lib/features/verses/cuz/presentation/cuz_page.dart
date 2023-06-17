@@ -16,6 +16,7 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_a
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_bloc.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_state.dart';
@@ -99,7 +100,7 @@ class CuzPage extends StatelessWidget {
                                   _handleBottomMenu(context, hasSavePoint,index);
                                 },
                                 onTap: () {
-                                  // _navigateTo(item,false);
+                                  VerseShowCuzRoute(cuzNo: item.no).push(context);
                                 });
                           },
                         );

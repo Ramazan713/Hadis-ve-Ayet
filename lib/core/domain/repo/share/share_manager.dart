@@ -1,8 +1,7 @@
 
 
-import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
-
+import 'package:hadith/core/domain/models/verse/verse.dart';
 abstract class ShareManager{
 
   String getHadithSharedText(Hadith hadith);

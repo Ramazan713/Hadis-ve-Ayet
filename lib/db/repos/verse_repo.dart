@@ -3,10 +3,10 @@
 import 'package:hadith/db/entities/helper/int_data.dart';
 import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
-import 'package:hadith/db/services/verse_dao.dart';
+import 'package:hadith/db/services/verse_dao_old.dart';
 
 class VerseRepo{
-  final VerseDao verseDao;
+  final VerseDaoOld verseDao;
 
   VerseRepo({required this.verseDao});
 

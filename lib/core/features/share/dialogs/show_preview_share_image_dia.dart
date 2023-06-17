@@ -11,30 +11,47 @@ void showPreviewSharedImageDia(
 }){
 
   showDialog(context: context, builder: (context){
-    return AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 5),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Paylaşılacak Olan Resim",style: Theme.of(context).textTheme.bodyText1,),
-            const SizedBox(height: 13,),
-            previewWidget
-          ],
+
+    return Dialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 7),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 7),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 13,),
+              Text("Paylaşılacak Olan Resim",
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 13,),
+              previewWidget,
+              const SizedBox(height: 13,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: CustomButtonNegative(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      label: "Iptal",
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomButtonPositive(
+                      onTap: onTap,
+                      label: "Paylaş",
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
-      actions: [
-        CustomButtonNegative(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          label: "Iptal",
-        ),
-        CustomButtonPositive(
-          onTap:onTap,
-          label: "Paylaş",
-        ),
-      ],
     );
   });
 }

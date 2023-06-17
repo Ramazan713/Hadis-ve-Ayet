@@ -24,8 +24,6 @@ abstract class HadithRepo{
 
   Future<bool> getExistsHadithByTopicId(int topicId, int id);
 
-  Future<String?> getListName(int listId);
-
 
 
   Future<int> getHadithCountByQuery(String query);

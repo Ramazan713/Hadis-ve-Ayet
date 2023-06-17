@@ -4,8 +4,7 @@
 import 'dart:typed_data';
 
 import 'package:hadith/core/domain/models/hadith.dart';
-import 'package:hadith/db/entities/verse.dart';
-
+import 'package:hadith/core/domain/models/verse/verse.dart';
 abstract class SharePdfRepo{
 
   Future<Uint8List> getHadithPdfContent(List<Hadith> hadiths, String title);

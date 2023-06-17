@@ -3,8 +3,8 @@ import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/db/services/verse_arabic_dao.dart';
 
 class VerseArabicRepo{
-  late final VerseArabicDao _verseArabicDao;
-  VerseArabicRepo({required VerseArabicDao verseArabicDao}){
+  late final VerseArabicDaoOld _verseArabicDao;
+  VerseArabicRepo({required VerseArabicDaoOld verseArabicDao}){
     _verseArabicDao=verseArabicDao;
   }
 

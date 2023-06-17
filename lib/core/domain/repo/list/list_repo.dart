@@ -17,4 +17,6 @@ abstract class ListRepo{
 
   Future<ListModel?> getFavoriteList(SourceTypeEnum sourceType);
 
+  Future<String?> getListName(int listId);
+
 }

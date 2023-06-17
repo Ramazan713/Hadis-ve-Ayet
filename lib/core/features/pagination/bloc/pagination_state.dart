@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 
 import '../../../domain/enums/paging/paging_status.dart';
 import '../../../domain/models/paging/i_paging_item.dart';
@@ -10,6 +11,7 @@ class PaginationState<T extends IPagingItem> extends Equatable{
   final int pageSize;
   final int totalItems;
   final List<T> items;
+  final PagingModifiedItem? lastModifiedItem;
   final PagingStatus status;
   final int preFetchDistance;
   final int? jumpToPos;
@@ -34,7 +36,8 @@ class PaginationState<T extends IPagingItem> extends Equatable{
     this.jumpToPos,
     required this.jumpToAlignment,
     required this.visibleMinPos,
-    required this.visibleMaxPos
+    required this.visibleMaxPos,
+    this.lastModifiedItem,
   });
 
   PaginationState copyWith({
@@ -49,7 +52,8 @@ class PaginationState<T extends IPagingItem> extends Equatable{
     List<T>? items,
     PagingStatus? status,
     int? visibleMinPos,
-    int? visibleMaxPos
+    int? visibleMaxPos,
+    PagingModifiedItem? lastModifiedItem, bool setLastModifiedItem = false
   }){
     return PaginationState(
         currentPage: currentPage??this.currentPage,
@@ -62,7 +66,8 @@ class PaginationState<T extends IPagingItem> extends Equatable{
         totalItems: totalItems??this.totalItems,
         items: items??this.items,
         visibleMaxPos: visibleMaxPos??this.visibleMaxPos,
-        visibleMinPos: visibleMinPos??this.visibleMinPos
+        visibleMinPos: visibleMinPos??this.visibleMinPos,
+        lastModifiedItem: setLastModifiedItem ? lastModifiedItem : this.lastModifiedItem
     );
   }
 
@@ -84,6 +89,6 @@ class PaginationState<T extends IPagingItem> extends Equatable{
 
   @override
   List<Object?> get props => [currentPage,pageSize,totalItems,prevPage,visibleMinPos, visibleMaxPos,
-    jumpToPos,items,status, preFetchDistance, jumpToAlignment];
+    jumpToPos,items,status, preFetchDistance, jumpToAlignment, lastModifiedItem];
 
 }
