@@ -4,6 +4,7 @@ import 'package:hadith/core/domain/constants/k_verse.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/font_model.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/utils/search_utils.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/verse_arabic_content_item.dart';
 import 'package:hadith/utils/text_utils.dart';
 
@@ -47,13 +48,11 @@ class VerseContentFullItem extends StatelessWidget {
       fontSize: fontModel.contentFontSize,
     );
 
-    final contents = TextUtils.getSelectedText(
-        verse.content,
-        searchParam?.searchQuery,
+    final contents = SearchUtils.getSelectedText(
+        context,
+        content: verse.content,
+        searchParam: searchParam,
         textStyle: sharedTextStyle,
-        context: context,
-        inheritTextStyle: true,
-        searchCriteriaEnum: searchParam?.searchCriteria
     );
 
     final items=<Widget>[

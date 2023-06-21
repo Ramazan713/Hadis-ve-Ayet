@@ -1,6 +1,7 @@
 
 
-import 'package:hadith/constants/enums/search_criteria_enum.dart';
+
+import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 
 class SearchParam{
   final SearchCriteriaEnum searchCriteria;

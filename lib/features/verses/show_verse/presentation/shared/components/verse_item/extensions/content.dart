@@ -7,7 +7,6 @@ extension VerseItemContentExt on VerseItem{
 
 
   Widget getContent(BuildContext context){
-
     return Padding(
         padding: const EdgeInsets.only(top: 7, bottom: 13),
         child: Column(

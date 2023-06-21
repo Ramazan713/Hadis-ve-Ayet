@@ -8,7 +8,6 @@ import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/models/item_label_model.dart';
 
 void showSelectVerseUi2X(BuildContext context, {
-  ArabicVerseUI2X? currentValue,
   void Function(ArabicVerseUI2X)? callback,
   PrefKeyEnum<ArabicVerseUI2X>? pref
 })

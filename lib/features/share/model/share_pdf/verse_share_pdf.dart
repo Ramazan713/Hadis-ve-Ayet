@@ -19,7 +19,7 @@ class ShareVersePDF extends ISharePdf<Verse>{
 
   @override
   Future<List<Verse>> getItems(BuildContext context, IListView listItem) {
-    final verseRepo=context.read<VerseRepo>();
+    final verseRepo=context.read<VerseRepoOld>();
     return verseRepo.getListVerses(listItem.id);
   }
 

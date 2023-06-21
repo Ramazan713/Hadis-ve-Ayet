@@ -4,25 +4,25 @@ import 'package:floor/floor.dart';
 import 'package:hadith/db/entities/history_entity.dart';
 
 @dao
-abstract class HistoryDao{
+abstract class HistoryDaoOld{
 
   @Query("select * from history where originType=:originId order by modifiedDate desc")
-  Stream<List<HistoryEntity>>getStreamHistoryWithOrigin(int originId);
+  Stream<List<HistoryEntityOld>>getStreamHistoryWithOrigin(int originId);
 
   @Query("""select * from history where originType=:originId and name=:name""")
-  Future<HistoryEntity?>getHistoryEntity(int originId,String name);
+  Future<HistoryEntityOld?>getHistoryEntity(int originId,String name);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int>insertHistory(HistoryEntity historyEntity);
+  Future<int>insertHistory(HistoryEntityOld historyEntity);
 
   @delete
-  Future<int>deleteHistory(HistoryEntity historyEntity);
+  Future<int>deleteHistory(HistoryEntityOld historyEntity);
 
   @delete
-  Future<int>deleteHistories(List<HistoryEntity>historyEntities);
+  Future<int>deleteHistories(List<HistoryEntityOld>historyEntities);
 
   @update
-  Future<int>updateHistory(HistoryEntity historyEntity);
+  Future<int>updateHistory(HistoryEntityOld historyEntity);
 
 
 }

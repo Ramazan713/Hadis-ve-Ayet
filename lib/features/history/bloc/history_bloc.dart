@@ -19,7 +19,7 @@ class HistoryBloc extends Bloc<IHistoryEvent,HistoryState>{
   void _onHistoryRequest(HistoryEventRequest event,Emitter<HistoryState>emit)async{
     emit(state.copyWith(status: DataStatus.loading));
 
-    await emit.forEach<List<HistoryEntity>>(historyRepo.getStreamHistoryWithOrigin(event.originTag.savePointId)
+    await emit.forEach<List<HistoryEntityOld>>(historyRepo.getStreamHistoryWithOrigin(event.originTag.savePointId)
         , onData: (data)=>state.copyWith(status: DataStatus.success,historyEntities: data));
 
   }
@@ -39,7 +39,7 @@ class HistoryBloc extends Bloc<IHistoryEvent,HistoryState>{
       final historyEntityExists=await historyRepo.getHistoryEntity(event.originTag.savePointId,
           searchText);
       if(historyEntityExists==null){
-        final historyEntity=HistoryEntity(name: searchText, originType: event.originTag.savePointId,modifiedDate: date.toIso8601String());
+        final historyEntity=HistoryEntityOld(name: searchText, originType: event.originTag.savePointId,modifiedDate: date.toIso8601String());
         await historyRepo.insertHistory(historyEntity);
       }else{
         await historyRepo.updateHistory(historyEntityExists.copyWith(modifiedDate: date.toIso8601String()));

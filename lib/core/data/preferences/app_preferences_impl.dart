@@ -1,4 +1,5 @@
 
+import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/extensions/app_extension.dart';
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
@@ -23,7 +24,10 @@ class AppPreferencesImpl extends AppPreferences{
   ValueStream<IKey> get listener => _listener.shareValue();
 
   @override
-  ValueStream<IKey> listenerFiltered(List<IKey> filter) {
+  ValueStream<IKey> listenerFiltered(List<IKey> filter,{IKey? initValue}) {
+    if(initValue != null){
+      _listener.value = initValue;
+    }
     return _listener.where((event)=>filter.contains(event)).shareValue();
   }
 

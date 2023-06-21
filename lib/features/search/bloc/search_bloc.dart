@@ -7,11 +7,11 @@ import 'package:hadith/db/repos/verse_repo.dart';
 import 'package:hadith/features/search/bloc/search_event.dart';
 import 'package:hadith/features/search/bloc/search_state.dart';
 
-class SearchBloc extends Bloc<ISearchEvent,SearchState>{
-  final VerseRepo verseRepo;
+class SearchBlocOld extends Bloc<ISearchEvent,SearchState>{
+  final VerseRepoOld verseRepo;
   final HadithRepoOld hadithRepo;
   late final SearchManager searchManager;
-  SearchBloc({required this.verseRepo,required this.hadithRepo})
+  SearchBlocOld({required this.verseRepo,required this.hadithRepo})
       : super(const SearchState.initial()){
 
     searchManager=SearchManager(verseRepo: verseRepo, hadithRepo: hadithRepo);

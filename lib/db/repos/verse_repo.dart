@@ -5,10 +5,10 @@ import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/db/services/verse_dao_old.dart';
 
-class VerseRepo{
+class VerseRepoOld{
   final VerseDaoOld verseDao;
 
-  VerseRepo({required this.verseDao});
+  VerseRepoOld({required this.verseDao});
 
   Future<List<Verse>> getVersesWithSurahId(int surahId)=>verseDao.getVersesWithSurahId(surahId);
 

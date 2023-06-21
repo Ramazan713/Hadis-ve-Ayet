@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/cuz_entity.dart';
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
+import 'package:hadith/core/data/local/entities/history_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_verse_entity.dart';
@@ -18,12 +19,14 @@ import 'package:hadith/core/data/local/entities/views/section_topics_view.dart';
 import 'package:hadith/core/data/local/entities/views/topic_hadiths_view.dart';
 import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
+import 'package:hadith/core/data/local/services/history_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_view_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_verse_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_verse_view_dao.dart';
 import 'package:hadith/core/data/local/services/save_point_dao.dart';
+import 'package:hadith/core/data/local/services/search_dao.dart';
 import 'package:hadith/core/data/local/services/surah_dao.dart';
 import 'package:hadith/core/data/local/services/title_dao.dart';
 import 'package:hadith/core/data/local/services/topic/section_view_dao.dart';
@@ -105,11 +108,11 @@ part 'database.g.dart';
 
 @Database(version: 4,
     entities: [HadithEntity,Cuz,Surah,Topic,Verse,Section,IntData,SavePointEntity,SavePointTypeEntity,
-      BackupMeta,TopicSavePointEntityOld,HistoryEntity,UserInfoEntity,IListView,VerseArabic,
+      BackupMeta,TopicSavePointEntityOld,HistoryEntityOld,UserInfoEntity,IListView,VerseArabic,
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntity,CounterEntity,
       EsmaulHusnaEntity, PrayerEntity, IslamicInfoItemEntity,IslamicInfoTitleEntity,
-      VerseEntity,
+      VerseEntity, HistoryEntity,
       SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
     ],
@@ -127,7 +130,7 @@ abstract class AppDatabase extends FloorDatabase{
   SectionDao get sectionDao;
   SavePointDaoOld get savePointDaoOld;
   TopicSavePointDaoOld get topicSavePointDaoOld;
-  HistoryDao get historyDao;
+  HistoryDaoOld get historyDaoOld;
   BackupMetaDao get backupMetaDao;
   BackupDao get backupDao;
   UserInfoDao get userInfoDao;
@@ -161,5 +164,7 @@ abstract class AppDatabase extends FloorDatabase{
   VerseArabicDao get verseArabicDao;
   VerseDao get verseDao;
   TitleDao get titleDao;
+  SearchDao get searchDao;
+  HistoryDao get historyDao;
 
 }

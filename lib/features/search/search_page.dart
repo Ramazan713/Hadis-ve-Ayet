@@ -39,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
   var isSearchingNotifier=ValueNotifier(false);
 
 
-  void requestData(SearchBloc bloc,String searchKey,BuildContext context){
+  void requestData(SearchBlocOld bloc,String searchKey,BuildContext context){
     if(searchKey!=""){
       bloc.add(SearchEventRequestResult(searchKey: searchKey));
       isSearchingNotifier.value=true;
@@ -49,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void resetSearchState(SearchBloc bloc){
+  void resetSearchState(SearchBlocOld bloc){
     bloc.add(SearchEventResetState());
     isSearchingNotifier.value=false;
   }
@@ -64,7 +64,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final textBodyStyle2=Theme.of(context).textTheme.bodyText2;
 
-    final SearchBloc searchBloc=context.read<SearchBloc>();
+    final SearchBlocOld searchBloc=context.read<SearchBlocOld>();
     final HistoryBloc historyBloc=context.read<HistoryBloc>();
     searchBloc.add(SearchEventResetState());
     historyBloc.add(HistoryEventRequest(originTag: OriginTag.search));
@@ -149,7 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                         return Visibility(
                           visible: isSearching,
                           child: Expanded(
-                              child: BlocConsumer<SearchBloc,SearchState>(
+                              child: BlocConsumer<SearchBlocOld,SearchState>(
                                 listener: (context,state){
                                   if(state.status==DataStatus.success){
                                     _resultTextNotifier.value=state.searchKey;

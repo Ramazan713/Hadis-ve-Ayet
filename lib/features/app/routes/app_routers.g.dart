@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $hadithAllRoute,
       $hadithTopicRoute,
       $hadithListRoute,
+      $hadithSearchRoute,
       $archiveListRoute,
       $sectionRoute,
       $topicRoute,
@@ -19,6 +20,7 @@ List<RouteBase> get $appRoutes => [
       $verseShowSurahRoute,
       $verseShowListRoute,
       $verseShowTopicRoute,
+      $verseShowSearchRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -97,6 +99,34 @@ extension $HadithListRouteExtension on HadithListRoute {
 
   String get location => GoRouteData.$location(
         '/hadith/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $hadithSearchRoute => GoRouteData.$route(
+      path: '/hadith/search/:query/:bookScopeId/:criteriaId/:pos',
+      factory: $HadithSearchRouteExtension._fromState,
+    );
+
+extension $HadithSearchRouteExtension on HadithSearchRoute {
+  static HadithSearchRoute _fromState(GoRouterState state) => HadithSearchRoute(
+        query: state.pathParameters['query']!,
+        bookScopeId: int.parse(state.pathParameters['bookScopeId']!),
+        criteriaId: int.parse(state.pathParameters['criteriaId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/hadith/search/${Uri.encodeComponent(query)}/${Uri.encodeComponent(bookScopeId.toString())}/${Uri.encodeComponent(criteriaId.toString())}/${Uri.encodeComponent(pos.toString())}',
         queryParams: {
           if (pos != 0) 'pos': pos.toString(),
         },
@@ -311,7 +341,7 @@ extension $VerseShowListRouteExtension on VerseShowListRoute {
 }
 
 RouteBase get $verseShowTopicRoute => GoRouteData.$route(
-      path: '/verse/topic/:bookId/:topicId//:pos',
+      path: '/verse/topic/:bookId/:topicId/:pos',
       factory: $VerseShowTopicRouteExtension._fromState,
     );
 
@@ -324,7 +354,36 @@ extension $VerseShowTopicRouteExtension on VerseShowTopicRoute {
       );
 
   String get location => GoRouteData.$location(
-        '/verse/topic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}//${Uri.encodeComponent(pos.toString())}',
+        '/verse/topic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $verseShowSearchRoute => GoRouteData.$route(
+      path: '/verse/search/:query/:bookScopeId/:criteriaId/:pos',
+      factory: $VerseShowSearchRouteExtension._fromState,
+    );
+
+extension $VerseShowSearchRouteExtension on VerseShowSearchRoute {
+  static VerseShowSearchRoute _fromState(GoRouterState state) =>
+      VerseShowSearchRoute(
+        query: state.pathParameters['query']!,
+        bookScopeId: int.parse(state.pathParameters['bookScopeId']!),
+        criteriaId: int.parse(state.pathParameters['criteriaId']!),
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/verse/search/${Uri.encodeComponent(query)}/${Uri.encodeComponent(bookScopeId.toString())}/${Uri.encodeComponent(criteriaId.toString())}/${Uri.encodeComponent(pos.toString())}',
         queryParams: {
           if (pos != 0) 'pos': pos.toString(),
         },

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/db/database.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_list_paging_repo.dart';
 import 'package:hadith/core/data/repo/hadith_repo_impl.dart';
+import 'package:hadith/features/hadiths/data/repo/hadith_search_paging_repo.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_topic_paging_repo.dart';
 import 'package:hadith/core/domain/repo/hadith_repo.dart';
 
@@ -20,5 +21,10 @@ List<RepositoryProvider> pHadithDataRepoProviders(AppDatabase appDatabase){
 
     RepositoryProvider<HadithTopicPagingRepo>(create: (context)=> HadithTopicPagingRepo(
         hadithRepo: context.read(), itemListInfoRepo: context.read(),topicRepo: context.read())),
+
+    RepositoryProvider<HadithSearchPagingRepo>(create: (context)=> HadithSearchPagingRepo(
+        hadithRepo: context.read(), itemListInfoRepo: context.read(),topicRepo: context.read(),
+        searchRepo: context.read()
+    )),
   ];
 }

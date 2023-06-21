@@ -79,7 +79,7 @@ class _$AppDatabase extends AppDatabase {
 
   TopicSavePointDaoOld? _topicSavePointDaoOldInstance;
 
-  HistoryDao? _historyDaoInstance;
+  HistoryDaoOld? _historyDaoOldInstance;
 
   BackupMetaDao? _backupMetaDaoInstance;
 
@@ -144,6 +144,10 @@ class _$AppDatabase extends AppDatabase {
   VerseDao? _verseDaoInstance;
 
   TitleDao? _titleDaoInstance;
+
+  SearchDao? _searchDaoInstance;
+
+  HistoryDao? _historyDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -230,6 +234,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `IslamicInfoTitle` (`id` INTEGER, `title` TEXT NOT NULL, `description` TEXT, `type` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `CuzEntity` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `SurahEntity` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `History` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `originType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, FOREIGN KEY (`originType`) REFERENCES `sourceType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -330,8 +336,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  HistoryDao get historyDao {
-    return _historyDaoInstance ??= _$HistoryDao(database, changeListener);
+  HistoryDaoOld get historyDaoOld {
+    return _historyDaoOldInstance ??= _$HistoryDaoOld(database, changeListener);
   }
 
   @override
@@ -507,6 +513,16 @@ class _$AppDatabase extends AppDatabase {
   @override
   TitleDao get titleDao {
     return _titleDaoInstance ??= _$TitleDao(database, changeListener);
+  }
+
+  @override
+  SearchDao get searchDao {
+    return _searchDaoInstance ??= _$SearchDao(database, changeListener);
+  }
+
+  @override
+  HistoryDao get historyDao {
+    return _historyDaoInstance ??= _$HistoryDao(database, changeListener);
   }
 }
 
@@ -2104,37 +2120,37 @@ class _$TopicSavePointDaoOld extends TopicSavePointDaoOld {
   }
 }
 
-class _$HistoryDao extends HistoryDao {
-  _$HistoryDao(
+class _$HistoryDaoOld extends HistoryDaoOld {
+  _$HistoryDaoOld(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _historyEntityInsertionAdapter = InsertionAdapter(
+        _historyEntityOldInsertionAdapter = InsertionAdapter(
             database,
             'History',
-            (HistoryEntity item) => <String, Object?>{
+            (HistoryEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'originType': item.originType,
                   'modifiedDate': item.modifiedDate
                 },
             changeListener),
-        _historyEntityUpdateAdapter = UpdateAdapter(
+        _historyEntityOldUpdateAdapter = UpdateAdapter(
             database,
             'History',
             ['id'],
-            (HistoryEntity item) => <String, Object?>{
+            (HistoryEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'originType': item.originType,
                   'modifiedDate': item.modifiedDate
                 },
             changeListener),
-        _historyEntityDeletionAdapter = DeletionAdapter(
+        _historyEntityOldDeletionAdapter = DeletionAdapter(
             database,
             'History',
             ['id'],
-            (HistoryEntity item) => <String, Object?>{
+            (HistoryEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'originType': item.originType,
@@ -2148,17 +2164,17 @@ class _$HistoryDao extends HistoryDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<HistoryEntity> _historyEntityInsertionAdapter;
+  final InsertionAdapter<HistoryEntityOld> _historyEntityOldInsertionAdapter;
 
-  final UpdateAdapter<HistoryEntity> _historyEntityUpdateAdapter;
+  final UpdateAdapter<HistoryEntityOld> _historyEntityOldUpdateAdapter;
 
-  final DeletionAdapter<HistoryEntity> _historyEntityDeletionAdapter;
+  final DeletionAdapter<HistoryEntityOld> _historyEntityOldDeletionAdapter;
 
   @override
-  Stream<List<HistoryEntity>> getStreamHistoryWithOrigin(int originId) {
+  Stream<List<HistoryEntityOld>> getStreamHistoryWithOrigin(int originId) {
     return _queryAdapter.queryListStream(
         'select * from history where originType=?1 order by modifiedDate desc',
-        mapper: (Map<String, Object?> row) => HistoryEntity(
+        mapper: (Map<String, Object?> row) => HistoryEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             originType: row['originType'] as int,
@@ -2169,13 +2185,13 @@ class _$HistoryDao extends HistoryDao {
   }
 
   @override
-  Future<HistoryEntity?> getHistoryEntity(
+  Future<HistoryEntityOld?> getHistoryEntity(
     int originId,
     String name,
   ) async {
     return _queryAdapter.query(
         'select * from history where originType=?1 and name=?2',
-        mapper: (Map<String, Object?> row) => HistoryEntity(
+        mapper: (Map<String, Object?> row) => HistoryEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             originType: row['originType'] as int,
@@ -2184,26 +2200,26 @@ class _$HistoryDao extends HistoryDao {
   }
 
   @override
-  Future<int> insertHistory(HistoryEntity historyEntity) {
-    return _historyEntityInsertionAdapter.insertAndReturnId(
+  Future<int> insertHistory(HistoryEntityOld historyEntity) {
+    return _historyEntityOldInsertionAdapter.insertAndReturnId(
         historyEntity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> updateHistory(HistoryEntity historyEntity) {
-    return _historyEntityUpdateAdapter.updateAndReturnChangedRows(
+  Future<int> updateHistory(HistoryEntityOld historyEntity) {
+    return _historyEntityOldUpdateAdapter.updateAndReturnChangedRows(
         historyEntity, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> deleteHistory(HistoryEntity historyEntity) {
-    return _historyEntityDeletionAdapter
+  Future<int> deleteHistory(HistoryEntityOld historyEntity) {
+    return _historyEntityOldDeletionAdapter
         .deleteAndReturnChangedRows(historyEntity);
   }
 
   @override
-  Future<int> deleteHistories(List<HistoryEntity> historyEntities) {
-    return _historyEntityDeletionAdapter
+  Future<int> deleteHistories(List<HistoryEntityOld> historyEntities) {
+    return _historyEntityOldDeletionAdapter
         .deleteListAndReturnChangedRows(historyEntities);
   }
 }
@@ -2388,10 +2404,10 @@ class _$BackupDao extends BackupDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _historyEntityInsertionAdapter = InsertionAdapter(
+        _historyEntityOldInsertionAdapter = InsertionAdapter(
             database,
             'History',
-            (HistoryEntity item) => <String, Object?>{
+            (HistoryEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'originType': item.originType,
@@ -2493,7 +2509,7 @@ class _$BackupDao extends BackupDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<HistoryEntity> _historyEntityInsertionAdapter;
+  final InsertionAdapter<HistoryEntityOld> _historyEntityOldInsertionAdapter;
 
   final InsertionAdapter<ListEntityOld> _listEntityOldInsertionAdapter;
 
@@ -2514,9 +2530,9 @@ class _$BackupDao extends BackupDao {
   final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
 
   @override
-  Future<List<HistoryEntity>> getHistories() async {
+  Future<List<HistoryEntityOld>> getHistories() async {
     return _queryAdapter.queryList('select * from history',
-        mapper: (Map<String, Object?> row) => HistoryEntity(
+        mapper: (Map<String, Object?> row) => HistoryEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             originType: row['originType'] as int,
@@ -2631,8 +2647,8 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<void> insertHistories(List<HistoryEntity> histories) async {
-    await _historyEntityInsertionAdapter.insertList(
+  Future<void> insertHistories(List<HistoryEntityOld> histories) async {
+    await _historyEntityOldInsertionAdapter.insertList(
         histories, OnConflictStrategy.replace);
   }
 
@@ -2676,8 +2692,8 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<void> insertHistory(HistoryEntity history) async {
-    await _historyEntityInsertionAdapter.insert(
+  Future<void> insertHistory(HistoryEntityOld history) async {
+    await _historyEntityOldInsertionAdapter.insert(
         history, OnConflictStrategy.replace);
   }
 
@@ -5195,5 +5211,244 @@ class _$TitleDao extends TitleDao {
     return _queryAdapter.query('select name from cuz where cuzNo = ?1',
         mapper: (Map<String, Object?> row) => row.values.first as String,
         arguments: [cuzNo]);
+  }
+}
+
+class _$SearchDao extends SearchDao {
+  _$SearchDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<int?> getCountAllHadithByRegex(String regExp) async {
+    return _queryAdapter.query(
+        'select count(id) from Hadith where lower(content) REGEXP lower(?1)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [regExp]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getAllHadithByRegex(
+    String regExp,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from Hadith where lower(content) REGEXP lower(?1)     limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [regExp, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getCountAllHadithByLike(String query) async {
+    return _queryAdapter.query(
+        'select count(id) from Hadith where lower(content) Like lower(?1)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [query]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getAllHadithsByLike(
+    String query,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from Hadith where lower(content) Like lower(?1)     limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [query, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getCountHadithByRegexAndBookId(
+    int bookId,
+    String regExp,
+  ) async {
+    return _queryAdapter.query(
+        'select count(id) from Hadith where bookId=?1 and lower(content) REGEXP lower(?2)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [bookId, regExp]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getHadithsByRegexAndBookId(
+    int bookId,
+    String regExp,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from Hadith where bookId=?1 and lower(content) REGEXP lower(?2)      limit ?3 offset ?4',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [bookId, regExp, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getCountHadithByLikeAndBookId(
+    int bookId,
+    String query,
+  ) async {
+    return _queryAdapter.query(
+        'select count(id) from Hadith where bookId=?1 and lower(content) Like lower(?2)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [bookId, query]);
+  }
+
+  @override
+  Future<List<HadithEntity>> getHadithsByLikeAndBookId(
+    int bookId,
+    String query,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from Hadith where bookId=?1 and lower(content) Like lower(?2)      limit ?3 offset ?4',
+        mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
+        arguments: [bookId, query, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getCountVerseByRegex(String regExp) async {
+    return _queryAdapter.query(
+        'select count(id) data from verse V where lower(content)  REGEXP lower(?1)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [regExp]);
+  }
+
+  @override
+  Future<List<VerseEntity>> getVersesByRegex(
+    String regExp,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from verse where lower(content)  REGEXP lower(?1)     limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => VerseEntity(id: row['id'] as int?, surahId: row['surahId'] as int, cuzNo: row['cuzNo'] as int, pageNo: row['pageNo'] as int, verseNumber: row['verseNumber'] as String, content: row['content'] as String, isProstrationVerse: (row['isProstrationVerse'] as int) != 0, bookId: row['bookId'] as int),
+        arguments: [regExp, pageSize, startIndex]);
+  }
+
+  @override
+  Future<int?> getCountVerseByLike(String query) async {
+    return _queryAdapter.query(
+        'select count(id) data from verse V where lower(content) Like lower(?1)',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [query]);
+  }
+
+  @override
+  Future<List<VerseEntity>> getVersesByLike(
+    String query,
+    int pageSize,
+    int startIndex,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from verse where lower(content)  Like lower(?1)     limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => VerseEntity(id: row['id'] as int?, surahId: row['surahId'] as int, cuzNo: row['cuzNo'] as int, pageNo: row['pageNo'] as int, verseNumber: row['verseNumber'] as String, content: row['content'] as String, isProstrationVerse: (row['isProstrationVerse'] as int) != 0, bookId: row['bookId'] as int),
+        arguments: [query, pageSize, startIndex]);
+  }
+}
+
+class _$HistoryDao extends HistoryDao {
+  _$HistoryDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _historyEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'History',
+            (HistoryEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'originType': item.originType,
+                  'modifiedDate': item.modifiedDate
+                },
+            changeListener),
+        _historyEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'History',
+            ['id'],
+            (HistoryEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'originType': item.originType,
+                  'modifiedDate': item.modifiedDate
+                },
+            changeListener),
+        _historyEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'History',
+            ['id'],
+            (HistoryEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'originType': item.originType,
+                  'modifiedDate': item.modifiedDate
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<HistoryEntity> _historyEntityInsertionAdapter;
+
+  final UpdateAdapter<HistoryEntity> _historyEntityUpdateAdapter;
+
+  final DeletionAdapter<HistoryEntity> _historyEntityDeletionAdapter;
+
+  @override
+  Stream<List<HistoryEntity>> getStreamHistories() {
+    return _queryAdapter.queryListStream(
+        'select * from history order by modifiedDate desc',
+        mapper: (Map<String, Object?> row) => HistoryEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            originType: row['originType'] as int,
+            modifiedDate: row['modifiedDate'] as String),
+        queryableName: 'history',
+        isView: false);
+  }
+
+  @override
+  Future<HistoryEntity?> getHistoryEntity(String name) async {
+    return _queryAdapter.query(
+        'select * from history where lower(name) = lower(?1)',
+        mapper: (Map<String, Object?> row) => HistoryEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            originType: row['originType'] as int,
+            modifiedDate: row['modifiedDate'] as String),
+        arguments: [name]);
+  }
+
+  @override
+  Future<void> insertHistory(HistoryEntity historyEntity) async {
+    await _historyEntityInsertionAdapter.insert(
+        historyEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateHistory(HistoryEntity historyEntity) async {
+    await _historyEntityUpdateAdapter.update(
+        historyEntity, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteHistory(HistoryEntity historyEntity) async {
+    await _historyEntityDeletionAdapter.delete(historyEntity);
+  }
+
+  @override
+  Future<void> deleteHistories(List<HistoryEntity> historyEntities) async {
+    await _historyEntityDeletionAdapter.deleteList(historyEntities);
   }
 }

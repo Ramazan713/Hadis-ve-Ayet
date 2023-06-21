@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/features/extra_features/extra_features_page.dart';
 import 'package:hadith/features/home/home_screen.dart';
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
-import 'package:hadith/features/search/search_page.dart';
+import 'package:hadith/features/search_/presentation/search_page.dart';
 
 import '../custom_navigation_bar.dart';
 
@@ -55,7 +55,7 @@ class SearchRoute extends GoRouteData{
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return const NoTransitionPage(child: SearchPage());
+    return NoTransitionPage(child: SearchPage());
   }
 }
 

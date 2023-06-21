@@ -13,6 +13,7 @@ import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_top_bar_menu_item.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_page.dart';
+import 'package:hadith/features/hadiths/presentation/shared/sections/show_select_point.dart';
 
 extension HadithSharedPageHeaderExt on HadithSharedPage{
 
@@ -30,8 +31,6 @@ extension HadithSharedPageHeaderExt on HadithSharedPage{
         selector: (state)=> state.visibleMiddleItem.castOrNull<HadithListModel>(),
         builder: (context, visibleMiddleItem){
 
-          final pagingBloc = context.read<PaginationBloc>();
-
           return CustomDropdownBarMenu(
               items: HadithTopBarMenuItem.values,
               selectedFunc: (menuItem){
@@ -40,12 +39,9 @@ extension HadithSharedPageHeaderExt on HadithSharedPage{
                     showSelectFontSizeDia(context);
                     break;
                   case HadithTopBarMenuItem.savePoint:
-                    showEditSavePointsDiaBasic(context,
-                        destination: savePointDestination,
-                        itemIndexPos: visibleMiddleItem?.rowNumber ?? 0,
-                        onLoadSavePointClick: (savePoint){
-                          pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
-                        }
+                    hadithShowSelectSavePoint(
+                      context,
+                      itemIndexPos: visibleMiddleItem?.rowNumber ?? 0
                     );
                     break;
                 }

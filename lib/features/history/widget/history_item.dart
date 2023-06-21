@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/db/entities/history_entity.dart';
 
 class HistoryItem extends StatelessWidget {
-  final HistoryEntity historyEntity;
+  final HistoryEntityOld historyEntity;
   final void Function()? onClick;
   final void Function()? onRemoveClick;
 

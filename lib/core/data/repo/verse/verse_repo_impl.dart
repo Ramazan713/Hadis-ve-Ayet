@@ -3,19 +3,20 @@ import 'package:hadith/core/data/local/entities/verse_entity.dart';
 import 'package:hadith/core/data/local/services/surah_dao.dart';
 import 'package:hadith/core/data/local/services/verse_dao.dart';
 import 'package:hadith/core/data/local/mapper/verse/verse_mapper.dart';
+import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
 
 class VerseRepoImpl extends VerseRepo {
 
   late final VerseDao _verseDao;
-  late final SurahDao _surahDao;
+  late final GetVerses _getVerses;
 
   VerseRepoImpl({
     required VerseDao verseDao,
-    required SurahDao surahDao
+    required GetVerses getVerses
   }){
     _verseDao = verseDao;
-    _surahDao = surahDao;
+    _getVerses = getVerses;
   }
 
 
@@ -99,9 +100,7 @@ class VerseRepoImpl extends VerseRepo {
   @override
   Future<Verse?> getVerseById(int id) async{
     final verseEntity = await _verseDao.getVerseById(id);
-    if(verseEntity == null) return null;
-    final surahName = await _surahDao.getSurahNameById(verseEntity.surahId);
-    return verseEntity.toVerse(surahName: surahName??"");
+    return _getVerses.getVerseByEntity(verseEntity);
   }
 
 
@@ -111,25 +110,4 @@ class VerseRepoImpl extends VerseRepo {
     final verseEntities = await _verseDao.getVersesFromListId(listId);
     return _getVerses(verseEntities);
   }
-
-
-  Future<List<Verse>> _getVerses(List<VerseEntity> verseEntities)async{
-    final surahMap = <int,String>{};
-    final verses = <Verse>[];
-
-    for (final verseEntity in verseEntities) {
-      final String surahName;
-      final surahId = verseEntity.surahId;
-
-      if(surahMap.containsKey(surahId)){
-        surahName = surahMap[surahId] ?? "";
-      }else{
-        surahName = (await _surahDao.getSurahNameById(surahId)) ?? "";
-        surahMap[surahId] = surahName;
-      }
-      verses.add(verseEntity.toVerse(surahName: surahName));
-    }
-    return verses;
-  }
-
 }

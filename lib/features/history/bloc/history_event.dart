@@ -23,14 +23,14 @@ class HistoryEventInsert extends IHistoryEvent{
 }
 
 class HistoryEventRemoveItem extends IHistoryEvent{
-  final HistoryEntity historyEntity;
+  final HistoryEntityOld historyEntity;
   HistoryEventRemoveItem({required this.historyEntity});
   @override
   List<Object?> get props => [historyEntity];
 }
 
 class HistoryEventRemoveItems extends IHistoryEvent{
-  final List<HistoryEntity> historyEntities;
+  final List<HistoryEntityOld> historyEntities;
   HistoryEventRemoveItems({required this.historyEntities});
   @override
   List<Object?> get props => [historyEntities];

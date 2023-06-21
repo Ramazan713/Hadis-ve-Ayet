@@ -8,6 +8,7 @@ import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/paging_list_view.dart';
 import 'package:hadith/core/features/pagination/paging_loading_item.dart';
+import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
@@ -31,6 +32,7 @@ import 'paging_hadith_connect.dart';
   final SearchParam? searchParam;
   final int pos;
   final int? listIdControlForSelectList;
+  final EditSavePointHandler? editSavePointHandler;
 
   HadithSharedPage({
     Key? key,
@@ -39,6 +41,7 @@ import 'paging_hadith_connect.dart';
     required this.title,
     this.searchParam,
     this.listIdControlForSelectList,
+    this.editSavePointHandler,
     required this.pos
   }) : super(key: key);
 

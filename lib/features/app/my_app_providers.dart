@@ -37,7 +37,6 @@ import 'package:hadith/bloc/visibility_bloc/visibility_bloc.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/db/repos/backup_meta_repo.dart';
 import 'package:hadith/db/repos/backup_repo.dart';
-import 'package:hadith/db/repos/history_repo.dart';
 import 'package:hadith/db/repos/save_point_repo.dart';
 import 'package:hadith/db/repos/topic_savepoint_repo.dart';
 import 'package:hadith/db/repos/user_info_repo.dart';
@@ -51,10 +50,10 @@ import 'package:hadith/db/repos/surah_repo.dart';
 import 'package:hadith/db/repos/topic_repo.dart';
 import 'package:hadith/db/repos/verse_repo.dart';
 import 'package:hadith/features/backup/backup_meta/bloc/backup_meta_bloc.dart';
-import 'package:hadith/features/history/bloc/history_bloc.dart';
 import 'package:hadith/features/save_point/save_point_bloc/save_point_bloc.dart';
 import 'package:hadith/features/save_point/save_point_edit_book_bloc/save_point_edit_book_bloc.dart';
-import 'package:hadith/features/search/bloc/search_bloc.dart';
+import 'package:hadith/features/search_/data/providers/search_data_repo_provider.dart';
+import 'package:hadith/features/search_/presentation/bloc/search_bloc.dart';
 import 'package:hadith/features/settings/auth_bloc/auth_bloc.dart';
 import 'package:hadith/features/backup/backup_manager.dart';
 import 'package:hadith/features/settings/bloc/setting_bloc.dart';
@@ -127,6 +126,7 @@ class MyAppProviders extends StatelessWidget {
         ...pTopicDataRepoProviders(appDatabase),
         ...pVerseDataRepoProviders(appDatabase),
         ...pVerseDataPagingProviders(appDatabase),
+        ...pSearchDataRepoProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
@@ -145,13 +145,13 @@ class MyAppProviders extends StatelessWidget {
             create: (context) => SurahRepoOld(surahDao: appDatabase.surahDaoOld)),
         RepositoryProvider<TopicRepo>(
             create: (context) => TopicRepo(topicDao: appDatabase.topicDaoOld)),
-        RepositoryProvider<VerseRepo>(
-            create: (context) => VerseRepo(verseDao: appDatabase.verseDaoOld)),
+        RepositoryProvider<VerseRepoOld>(
+            create: (context) => VerseRepoOld(verseDao: appDatabase.verseDaoOld)),
         RepositoryProvider<SavePointRepoOld>(
             create: (context) =>
                 SavePointRepoOld(savePointDao:appDatabase.savePointDaoOld)),
-        RepositoryProvider<HistoryRepo>(
-            create: (context) => HistoryRepo(historyDao: appDatabase.historyDao)),
+        // RepositoryProvider<HistoryRepo>(
+        //     create: (context) => HistoryRepo(historyDao: appDatabase.historyDaoOld)),
         RepositoryProvider(
             create: (context) =>
                 UserInfoRepo(userInfoDao: appDatabase.userInfoDao)),
@@ -187,6 +187,8 @@ class MyAppProviders extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context) => SearchBloc(searchRepo: context.read(), historyRepo: context.read(),
+            appPreferences: context.read())),
           BlocProvider(create: (context)=> VerseSharedBloc(appPreferences: context.read(),
               selectListUseCases: context.read(), titleRepo: context.read())),
           BlocProvider(create: (context)=> SelectFontSizeBloc(appPreferences: context.read())),
@@ -237,17 +239,17 @@ class MyAppProviders extends StatelessWidget {
               create: (context) =>
                   ListHadithBloc(listRepo: context.read<ListRepoOld>(),
                       savePointRepo: context.read<SavePointRepoOld>())),
-          BlocProvider(
-              create: (context) => SearchBloc(
-                  hadithRepo: context.read<HadithRepoOld>(),
-                  verseRepo: context.read<VerseRepo>())),
+          // BlocProvider(
+          //     create: (context) => SearchBlocOld(
+          //         hadithRepo: context.read<HadithRepoOld>(),
+          //         verseRepo: context.read<VerseRepoOld>())),
           BlocProvider(
               create: (context) =>
                   ListVerseBloc(listRepo: context.read<ListRepoOld>(),
                       savePointRepo: context.read<SavePointRepoOld>())),
-          BlocProvider(
-              create: (context) =>
-                  HistoryBloc(historyRepo: context.read<HistoryRepo>())),
+          // BlocProvider(
+          //     create: (context) =>
+          //         HistoryBloc(historyRepo: context.read<HistoryRepo>())),
           BlocProvider(create: (context) => BottomNavBloc()),
           BlocProvider(create: (context)=>ListArchiveBloc(listRepo: context.read<ListRepoOld>(),savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(create: (context)=>ThemeBloc()),

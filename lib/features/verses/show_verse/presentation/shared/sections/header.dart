@@ -15,6 +15,7 @@ import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/features/verse/common_dialogs/show_select_edition.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_top_bar_menu_item.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';
 import '../verse_show_shared_page.dart';
 
 extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
@@ -32,7 +33,6 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
     return BlocSelector<PaginationBloc,PaginationState,VerseListModel?>(
         selector: (state)=>state.visibleMiddleItem.castOrNull<VerseListModel>(),
         builder: (context,visibleMiddleItem){
-          final pagingBloc = context.read<PaginationBloc>();
 
           return CustomDropdownBarMenu(
             items: VerseTopBarMenuItem.values,
@@ -42,24 +42,7 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
                   showSelectFontSizeDia(context);
                   break;
                 case VerseTopBarMenuItem.savePoint:
-
-                  if(editSavePointHandler!=null){
-                    showEditSavePointsDiaAdvanced(
-                        context,
-                        destination: savePointDestination,
-                        itemIndexPos: visibleMiddleItem?.rowNumber ?? 0,
-                        onLoadSavePointClick: editSavePointHandler!.onLoadSavePointClick,
-                        onOverrideSavePointRequestHandler: editSavePointHandler!.onOverrideSavePointRequestHandler,
-                        onLoadSavePointRequestHandler: editSavePointHandler!.onLoadSavePointRequestHandler);
-                  }else{
-                    showEditSavePointsDiaBasic(context,
-                        destination: savePointDestination,
-                        itemIndexPos: visibleMiddleItem?.rowNumber ?? 0,
-                        onLoadSavePointClick: (savePoint){
-                          pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
-                        }
-                    );
-                  }
+                  verseShowSelectSavePoint(context, itemIndexPos: visibleMiddleItem?.rowNumber ?? 0);
                   break;
                 case VerseTopBarMenuItem.selectEdition:
                   showSelectEdition(context);

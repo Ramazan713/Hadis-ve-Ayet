@@ -2,6 +2,7 @@
 
 import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/enums/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
 
 import '../preferences/model/pref_key.dart';
@@ -20,9 +21,13 @@ class KPref{
   static final PrefKeyEnum<ArabicVerseUI2X> verseAppearanceEnum = PrefKeyEnum(key: "arabicVerseAppearanceEnum",
       defaultPrefEnum: ArabicVerseUI2X.defaultValue, from: ArabicVerseUI2X.from);
 
+  static final PrefKeyEnum<SearchCriteriaEnum> searchCriteriaEnum = PrefKeyEnum(key: "searchCriteriaEnum",
+      defaultPrefEnum: SearchCriteriaEnum.defaultValue, from: SearchCriteriaEnum.from);
+
 
   static final prefValues = <PrefKey>[fontSizeContent, fontSizeArabic,
     useArchiveListFeatures, showVerseListIcons];
-  static final prefEnumValues = <PrefKeyEnum>[fontFamilyArabic,verseAppearanceEnum];
+
+  static final prefEnumValues = <PrefKeyEnum>[fontFamilyArabic,verseAppearanceEnum,searchCriteriaEnum];
 
 }

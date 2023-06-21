@@ -80,7 +80,8 @@ class VerseShowSharedPage extends StatelessWidget {
                               state: state,
                           );
                         },
-                        verseListModel: item
+                        verseListModel: item,
+                        searchParam: searchParam,
                     );
                   },
                 );

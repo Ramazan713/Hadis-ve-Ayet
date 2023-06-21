@@ -15,7 +15,8 @@ import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.
 import 'package:hadith/core/presentation/dialogs/showShareAlertDialog.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_menu_item.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_share_menu_item.dart';
-import 'package:hadith/core/domain/models/verse/verse_list_model.dart';import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_bottom_menu.dart';
+import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_bottom_menu.dart';
 
 import '../bloc/verse_shared_bloc.dart';
 import '../bloc/verse_shared_event.dart';
@@ -71,7 +72,7 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
               break;
             case VerseBottomMenuItem.savePoint:
               navigateBack();
-              _showSelectSavePointDia(context,verseListModel);
+              verseShowSelectSavePoint(context,itemIndexPos: verseListModel.rowNumber);
               break;
           }
         }
@@ -97,30 +98,6 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
         }
     );
   }
-
-  void _showSelectSavePointDia(BuildContext context, VerseListModel verseListModel){
-
-    if(editSavePointHandler!=null){
-      showEditSavePointsDiaAdvanced(context,
-          destination: savePointDestination,
-          itemIndexPos: verseListModel.rowNumber,
-          onLoadSavePointClick: editSavePointHandler!.onLoadSavePointClick,
-          onOverrideSavePointRequestHandler: editSavePointHandler!.onOverrideSavePointRequestHandler,
-          onLoadSavePointRequestHandler: editSavePointHandler!.onLoadSavePointRequestHandler,
-      );
-    }else{
-      showEditSavePointsDiaBasic(
-          context,
-          destination: savePointDestination,
-          itemIndexPos: verseListModel.rowNumber,
-          onLoadSavePointClick: (savePoint){
-            context.read<PaginationBloc>()
-                .add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
-          }
-      );
-    }
-  }
-
 
   void _addOrDeleteFavoriteList(BuildContext context,{
     required bool deleteFavorite,

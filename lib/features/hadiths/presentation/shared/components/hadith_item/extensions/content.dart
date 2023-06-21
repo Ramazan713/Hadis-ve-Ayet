@@ -1,6 +1,7 @@
 
 
 import 'package:hadith/constants/app_constants.dart';
+import 'package:hadith/core/utils/search_utils.dart';
 import 'package:hadith/utils/text_utils.dart';
 
 import '../hadith_item.dart';
@@ -47,13 +48,11 @@ extension HadithItemContentExt on HadithItem{
         ? hadith.content.substring(0, kMaxContentSize)
         : hadith.content;
 
-    final widgets = TextUtils.getSelectedText(
-        content,
-        searchParam?.searchQuery,
-        searchCriteriaEnum: searchParam?.searchCriteria,
-        context: context,
+    final widgets = SearchUtils.getSelectedText(
+        context,
+        content: content,
+        searchParam: searchParam,
         textStyle: getTextStyle(context),
-        inheritTextStyle: true
     );
 
     if (!showContinue && isContentLarge) {

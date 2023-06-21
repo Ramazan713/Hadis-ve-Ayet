@@ -12,7 +12,7 @@ class ShareVerseText extends IShareText<Verse>{
 
   @override
   Future<String> getSharedTextWithList(BuildContext context, int listId) async{
-    final verseRepo=context.read<VerseRepo>();
+    final verseRepo=context.read<VerseRepoOld>();
     final items=await verseRepo.getListVerses(listId);
     var text="";
     for(var item in items){

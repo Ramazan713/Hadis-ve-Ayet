@@ -4,10 +4,10 @@ import 'package:hadith/db/entities/history_entity.dart';
 
 class HistoryState extends Equatable{
   final DataStatus status;
-  final List<HistoryEntity>historyEntities;
+  final List<HistoryEntityOld>historyEntities;
   const HistoryState({required this.status,required this.historyEntities});
 
-  HistoryState copyWith({DataStatus? status,List<HistoryEntity>?historyEntities}){
+  HistoryState copyWith({DataStatus? status,List<HistoryEntityOld>?historyEntities}){
     return HistoryState(status: status??this.status,
         historyEntities: historyEntities??this.historyEntities);
   }

@@ -10,7 +10,7 @@ import 'package:hadith/utils/search_helper.dart';
 
 class SearchManager{
   final HadithRepoOld hadithRepo;
-  final VerseRepo verseRepo;
+  final VerseRepoOld verseRepo;
 
   SearchManager({required this.verseRepo,required this.hadithRepo});
 

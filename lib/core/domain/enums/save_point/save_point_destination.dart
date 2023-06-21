@@ -1,5 +1,6 @@
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
+import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 import 'save_point_type.dart';
@@ -53,7 +54,8 @@ sealed class SavePointDestination{
       );
     }
     else if(typeId == DestinationSearch.type.typeId){
-      return DestinationSearch(query: parentKey,
+      return DestinationSearch.from(
+          parentKey: parentKey,
           bookScope: bookScope
       );
     }
@@ -162,11 +164,35 @@ class DestinationSearch extends SavePointDestination {
   static const SavePointType type = SavePointType.search;
   final String query;
   final BookScopeEnum bookScope;
+  final SearchCriteriaEnum criteria;
 
-  DestinationSearch({required this.query, required this.bookScope}): super(
+  DestinationSearch({
+    required this.query,
+    required this.bookScope,
+    required this.criteria
+  }): super(
       bookScope: bookScope,
-      parentKey: query,
+      parentKey: "${criteria.enumValue}***$query",
       parentName: query,
       type: type
   );
+
+  static DestinationSearch from({required String parentKey, required BookScopeEnum bookScope}){
+    final dataArr = parentKey.split("***");
+    String query = parentKey;
+    SearchCriteriaEnum criteria = SearchCriteriaEnum.defaultValue;
+    if(dataArr.length == 2){
+      final criteriaValue = int.tryParse(dataArr[0]);
+      if(criteriaValue!=null){
+        criteria = SearchCriteriaEnum.from(criteriaValue);
+        query = dataArr[1];
+      }
+    }
+    return DestinationSearch(
+        query: query,
+        bookScope: bookScope,
+        criteria: criteria,
+    );
+  }
+
 }

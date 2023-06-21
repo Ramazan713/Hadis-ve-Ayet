@@ -6,11 +6,13 @@ import 'package:hadith/core/data/repo/hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/item_list_info_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_verse_repo_impl.dart';
+import 'package:hadith/core/data/repo/search_repo_impl.dart';
 import 'package:hadith/core/data/repo/share/share_manager_impl.dart';
 import 'package:hadith/core/data/repo/share/share_pdf_repo_impl.dart';
 import 'package:hadith/core/data/repo/title_repo_impl.dart';
 import 'package:hadith/core/data/repo/topic_repo_impl.dart';
 import 'package:hadith/core/data/repo/topic_save_point_repo_impl.dart';
+import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/data/repo/verse/verse_arabic_repo_impl.dart';
 import 'package:hadith/core/data/repo/verse/verse_repo_impl.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
@@ -20,6 +22,7 @@ import 'package:hadith/core/domain/repo/list/list_hadith_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_view_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_repo.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
+import 'package:hadith/core/domain/repo/search_repo.dart';
 import 'package:hadith/core/domain/repo/share/share_manager.dart';
 import 'package:hadith/core/domain/repo/share/share_pdf_repo.dart';
 import 'package:hadith/core/domain/repo/title_repo.dart';
@@ -39,6 +42,7 @@ import '../repo/save_point_repo_impl.dart';
 
 List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
   return [
+    RepositoryProvider<GetVerses>(create: (context) => GetVerses(surahDao: appDatabase.surahDao)),
     RepositoryProvider<AppPreferences>(create: (context) => AppPreferencesImpl(preferences: LocalStorage.sharedPreferences)),
     RepositoryProvider<ListRepo>(create: (context) => ListRepoImpl(listDao: appDatabase.listDao)),
     RepositoryProvider<ListHadithRepo>(create: (context) => ListHadithRepoImpl(listHadithDao: appDatabase.listHadithDao),),
@@ -55,7 +59,10 @@ List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
     RepositoryProvider<TopicSavePointRepo>(create: (context)=> TopicSavePointRepoImpl(topicSavePointDao: appDatabase.topicSavePointDao)),
     RepositoryProvider<VerseArabicRepo>(create: (context) => VerseArabicRepoImpl(verseArabicDao: appDatabase.verseArabicDao)),
     RepositoryProvider<VerseRepo>(create: (context) => VerseRepoImpl(
-        surahDao: appDatabase.surahDao, verseDao: appDatabase.verseDao
+        getVerses: context.read(), verseDao: appDatabase.verseDao
+    )),
+    RepositoryProvider<SearchRepo>(create: (context) => SearchRepoImpl(
+      searchDao: appDatabase.searchDao, getVerses: context.read()
     )),
     RepositoryProvider<HadithRepo>(create: (context) => HadithRepoImpl(hadithAllDao: appDatabase.hadithAllDao)),
     RepositoryProvider<TitleRepo>(create: (context) => TitleRepoImpl(titleDao: appDatabase.titleDao)),

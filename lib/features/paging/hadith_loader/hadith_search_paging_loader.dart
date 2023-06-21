@@ -12,7 +12,7 @@ class HadithSearchPagingLoader extends IPagingHadithLoader{
   late final SearchManager _searchManager;
 
   HadithSearchPagingLoader(BuildContext context,{required this.searchKey}) : super(context){
-    _searchManager=SearchManager(verseRepo: context.read<VerseRepo>(), hadithRepo: hadithRepo);
+    _searchManager=SearchManager(verseRepo: context.read<VerseRepoOld>(), hadithRepo: hadithRepo);
   }
 
   @override

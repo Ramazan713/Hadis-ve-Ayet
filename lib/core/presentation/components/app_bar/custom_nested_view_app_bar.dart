@@ -15,6 +15,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
   final bool snap;
   final bool floating;
   final List<Widget>? actions;
+  final List<Widget> headerSlivers;
   const CustomNestedViewAppBar({
     Key? key,
     required this.child,
@@ -25,7 +26,8 @@ class CustomNestedViewAppBar extends StatelessWidget {
     this.actions,
     this.pinned = false,
     this.snap = false,
-    this.floating = false
+    this.floating = false,
+    this.headerSlivers = const []
   }) : super(key: key);
 
   @override
@@ -41,7 +43,8 @@ class CustomNestedViewAppBar extends StatelessWidget {
               floating: floating,
               pinned: pinned,
               snap: snap,
-            )
+            ),
+            ...headerSlivers
           ];
         },
         child: child

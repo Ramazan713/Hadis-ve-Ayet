@@ -11,7 +11,7 @@ abstract class AppPreferences{
 
   ValueStream<IKey> get listener;
 
-  ValueStream<IKey> listenerFiltered(List<IKey> filter);
+  ValueStream<IKey> listenerFiltered(List<IKey> filter,{IKey? initValue});
 
   Future<void> setItem<T>(PrefKey<T> item, T value);
 

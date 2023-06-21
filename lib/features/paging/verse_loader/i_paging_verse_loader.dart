@@ -14,14 +14,14 @@ import '../../../utils/localstorage.dart';
 import '../i_paging_loader.dart';
 
 abstract class IPagingVerseLoader extends IPagingLoader<VerseModel>{
-  late final VerseRepo verseRepo;
+  late final VerseRepoOld verseRepo;
   late final ListRepoOld listRepo;
 
   final SharedPreferences _sharedPreferences=LocalStorage.sharedPreferences;
 
 
   IPagingVerseLoader(BuildContext context){
-    verseRepo=context.read<VerseRepo>();
+    verseRepo=context.read<VerseRepoOld>();
     listRepo=context.read<ListRepoOld>();
   }
 

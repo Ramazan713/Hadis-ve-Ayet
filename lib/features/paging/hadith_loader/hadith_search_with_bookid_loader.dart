@@ -16,7 +16,7 @@ class HadithSearchBookIdLoader extends IPagingHadithLoader{
   HadithSearchBookIdLoader(BuildContext context,{required this.searchKey,
     required this.bookId})
       : super(context){
-    _searchManager=SearchManager(verseRepo: context.read<VerseRepo>(), hadithRepo: hadithRepo);
+    _searchManager=SearchManager(verseRepo: context.read<VerseRepoOld>(), hadithRepo: hadithRepo);
   }
 
   @override

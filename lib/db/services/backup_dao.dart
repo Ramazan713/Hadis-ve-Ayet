@@ -12,7 +12,7 @@ import '../entities/list_verse_entity.dart';
 abstract class BackupDao{
 
   @Query("""select * from history""")
-  Future<List<HistoryEntity>>getHistories();
+  Future<List<HistoryEntityOld>>getHistories();
 
   @Query("""select * from list where isRemovable=1""")
   Future<List<ListEntityOld>>getLists();
@@ -35,7 +35,7 @@ abstract class BackupDao{
 
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertHistories(List<HistoryEntity>histories);
+  Future<void>insertHistories(List<HistoryEntityOld>histories);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void>insertLists(List<ListEntityOld>lists);
@@ -57,7 +57,7 @@ abstract class BackupDao{
 
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertHistory(HistoryEntity history);
+  Future<void>insertHistory(HistoryEntityOld history);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void>insertList(ListEntityOld list);
