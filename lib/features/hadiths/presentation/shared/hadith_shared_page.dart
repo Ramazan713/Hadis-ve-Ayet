@@ -8,7 +8,9 @@ import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/paging_list_view.dart';
 import 'package:hadith/core/features/pagination/paging_loading_item.dart';
+import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_with_paging.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
+import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_widget.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
@@ -19,6 +21,7 @@ import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_s
 import 'package:hadith/features/hadiths/presentation/shared/sections/bottom_menu.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/hadith_icons_handle.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/header.dart';
+import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 
 import 'components/hadith_item/hadith_item.dart';
@@ -59,49 +62,53 @@ import 'paging_hadith_connect.dart';
 
     return PagingHadithConnect(
       child: ShareConnect(
-        child: Scaffold(
-          body: SafeArea(
-            child: CustomNestedViewAppBar(
-              scrollController: controller,
-              floatHeaderSlivers: true,
-              title: Text(title),
-              actions: getTopBarActions(context),
-              child: BlocBuilder<HadithSharedBloc, HadithSharedState>(
-                builder: (context, state){
-                  return PagingListView(
-                    onScroll: (scroll){
-                      controller.setScrollDirectionAndAnimateTopBar(scroll);
-                    },
-                    itemBuilder: (context,itemParam,pos){
-                      final item = itemParam?.castOrNull<HadithListModel>();
-                      if(item==null){
-                        return const Text("");
-                      }
+        child: SaveAutoSavePointWithPaging(
+          destination: savePointDestination,
+          autoType: SaveAutoType.general,
+          child: Scaffold(
+            body: SafeArea(
+              child: CustomNestedViewAppBar(
+                scrollController: controller,
+                floatHeaderSlivers: true,
+                title: Text(title),
+                actions: getTopBarActions(context),
+                child: BlocBuilder<HadithSharedBloc, HadithSharedState>(
+                  builder: (context, state){
+                    return PagingListView(
+                      onScroll: (scroll){
+                        controller.setScrollDirectionAndAnimateTopBar(scroll);
+                      },
+                      itemBuilder: (context,itemParam,pos){
+                        final item = itemParam?.castOrNull<HadithListModel>();
+                        if(item==null){
+                          return const Text("");
+                        }
 
-                      return HadithItem(
-                        hadithList: item,
-                        onFavoriteClick: (){
-                          handleFavoriteClick(context,hadithListModel: item,state: state);
-                        },
-                        searchParam: searchParam,
-                        fontSize: state.contentFontSize,
-                        onLongClick: (){
-                          handleBottomMenu(context,hadithListModel: item);
-                        },
-                        onListClick: (){
-                          selectListMenu(context, hadithListModel: item);
-                        },
-                        onShareClick: (){
-                          handleShareMenus(context,hadithListModel: item);
-                        },
-                      );
-                    },
-                    loadingItem: PagingLoadingItem(
-                        loadingWidget: getHadithShimmer(context),
-                        childCount: 13
-                    ),
-                  );
-                },
+                        return HadithItem(
+                          hadithList: item,
+                          onFavoriteClick: (){
+                            handleFavoriteClick(context,hadithListModel: item,state: state);
+                          },
+                          searchParam: searchParam,
+                          fontSize: state.contentFontSize,
+                          onLongClick: (){
+                            handleBottomMenu(context,hadithListModel: item);
+                          },
+                          onListClick: (){
+                            selectListMenu(context, hadithListModel: item);
+                          },
+                          onShareClick: (){
+                            handleShareMenus(context,hadithListModel: item);
+                          },
+                        );
+                      },
+                      loadingItem: PagingLoadingItem(
+                          loadingWidget: getHadithShimmer(context),
+                          childCount: 13
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

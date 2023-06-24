@@ -75,8 +75,11 @@ void showEditSavePointsDiaCustom(BuildContext context, {
 
   final editPointBloc = context.read<EditSavePointBloc>();
 
-  editPointBloc.add(EditSavePointEventLoadData(destination: destination,
-      selectedSavePointId: selectedSavePointId, position: itemIndexPos));
+  editPointBloc.add(EditSavePointEventLoadData(
+      destination: destination,
+      selectedSavePointId: selectedSavePointId,
+      position: itemIndexPos
+  ));
 
   List<DropdownMenuItem<LocalDestinationScope>> getDropDownItems() {
     List<DropdownMenuItem<LocalDestinationScope>> menuItems = [];
@@ -169,24 +172,29 @@ void showEditSavePointsDiaCustom(BuildContext context, {
     );
   }
 
-  //header contains close, dropdownButton, title and description
-  Widget getHeader(){
+
+  //header contains close, dropdownButton,
+  Widget getTopHeader(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        getDropdownButton(),
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.close,
+              size: 27,
+            ))
+      ],
+    );
+  }
+
+  //header contains title and description
+  Widget getHeaderDescription(){
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            getDropdownButton(),
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.close,
-                  size: 27,
-                ))
-          ],
-        ),
         Text(title,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline6),
@@ -209,7 +217,6 @@ void showEditSavePointsDiaCustom(BuildContext context, {
         showEditTextBottomDia(context, (newTitle) {
           editPointBloc.add(EditSavePointEventInsert(
             title: newTitle,
-            useLocalWide: useWideScope,
             dateTime: date,
           ));
         }, title: "Başlık Girin", content: title);
@@ -251,6 +258,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       builder: (context) {
 
         return BlocListener<EditSavePointBloc, EditSavePointState>(
@@ -261,32 +269,32 @@ void showEditSavePointsDiaCustom(BuildContext context, {
             }
           },
           child: DraggableScrollableSheet(
-            minChildSize: 0.2,
+            minChildSize: 0.4,
             initialChildSize: 0.5,
-            maxChildSize: 1.0,
+            maxChildSize: 0.99,
             expand: false,
             builder: (context, scrollControllerDraggable) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: CustomScrollView(
-                      controller: scrollControllerDraggable,
-                      shrinkWrap: true,
-                      slivers: [
-                        SliverList(
-                            delegate: SliverChildListDelegate([
-                              getHeader(),
-                              getAddSavePointWidget(),
+                  getTopHeader(),
 
-                              BlocBuilder<EditSavePointBloc, EditSavePointState>(
-                                builder: (context, state) {
-                                  return getContent(state);
-                                },
-                              )
-                            ])),
-                      ],
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollControllerDraggable,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          getHeaderDescription(),
+                          getAddSavePointWidget(),
+                          BlocBuilder<EditSavePointBloc, EditSavePointState>(
+                            builder: (context, state) {
+                              return getContent(state);
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   getBottomButtons()

@@ -6,11 +6,16 @@ import 'package:hadith/core/domain/models/save_point.dart';
 class ShowSavePointState extends Equatable{
   final List<SavePoint> savePoints;
   final DataStatus status;
-  final SavePointType selectedMenuItem;
+  final SavePointType? selectedMenuItem;
   final SavePoint? selectedSavePoint;
+  final String? message;
 
-  const ShowSavePointState({required this.status,required this.selectedSavePoint,
-    required this.savePoints, required this.selectedMenuItem
+  const ShowSavePointState({
+    required this.status,
+    required this.selectedSavePoint,
+    required this.savePoints,
+    this.selectedMenuItem,
+    this.message
   });
 
   ShowSavePointState copyWith({
@@ -18,13 +23,15 @@ class ShowSavePointState extends Equatable{
     SavePoint?selectedSavePoint,
     bool setSavePoint=false,
     List<SavePoint>? savePoints,
-    SavePointType? selectedMenuItem
+    SavePointType? selectedMenuItem, bool setSelectedMenuItem = false,
+    String? message, bool setMessage=false
   }) {
     return ShowSavePointState(
         status: status ?? this.status,
         selectedSavePoint: setSavePoint?selectedSavePoint??this.selectedSavePoint:selectedSavePoint,
         savePoints: savePoints??this.savePoints,
-        selectedMenuItem: selectedMenuItem??this.selectedMenuItem
+        message: setMessage ? message : this.message,
+        selectedMenuItem: setSelectedMenuItem ? selectedMenuItem : this.selectedMenuItem
     );
   }
 
@@ -33,11 +40,10 @@ class ShowSavePointState extends Equatable{
         status: DataStatus.initial,
         savePoints: [],
         selectedSavePoint: null,
-        selectedMenuItem: SavePointType.all
     );
   }
 
   @override
-  List<Object?> get props => [status,selectedSavePoint,savePoints, selectedMenuItem];
+  List<Object?> get props => [status,selectedSavePoint,savePoints, message, selectedMenuItem];
 
 }

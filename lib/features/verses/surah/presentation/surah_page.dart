@@ -3,11 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/scroll_direction.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
+import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
@@ -22,6 +26,8 @@ import 'package:hadith/core/presentation/controllers/custom_scroll_controller.da
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
 import 'package:hadith/features/verses/shared/presentation/compoenents/verse_topic_item.dart';
 import 'package:hadith/features/verses/surah/domain/enums/surah_save_point_menu_item.dart';
@@ -113,7 +119,12 @@ class SurahPage extends StatelessWidget {
                                             .push(context);
                                       },
                                       onLongPress: state.searchBarVisible ? null : (){
-                                        _handleBottomMenu(context, hasSavePoint, index);
+                                        _handleBottomMenu(
+                                            context,
+                                            index: index,
+                                            hasSavePoint: hasSavePoint,
+                                            surah: item
+                                        );
                                       },
                                       iconData: FontAwesomeIcons.bookQuran,
                                     );
@@ -131,14 +142,28 @@ class SurahPage extends StatelessWidget {
     );
   }
 
-  void _handleBottomMenu(BuildContext context, bool hasSavePoint, int index){
+  void _handleBottomMenu(
+      BuildContext context,
+  {
+    required bool hasSavePoint,
+    required int index,
+    required Surah surah
+  }){
     final topicSavePointBloc = context.read<TopicSavePointBloc>();
     showBottomMenuItems(
         context,
         items: SurahSavePointMenuItem.getMenuItems(hasSavePoint),
         onItemClick: (menuItem){
+          context.pop();
           switch(menuItem){
             case SurahSavePointMenuItem.goToLastSavePoint:
+              context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
+                  destination: DestinationSurah(
+                      surahName: surah.name,
+                      surahId: surah.id
+                  ),
+                  autoType: SaveAutoType.none
+              ));
               break;
             case SurahSavePointMenuItem.signSavePoint:
               topicSavePointBloc.add(TopicSavePointEventInsertSavePoint(pos: index));
@@ -147,7 +172,7 @@ class SurahPage extends StatelessWidget {
               topicSavePointBloc.add(TopicSavePointEventDeleteSavePoint());
               break;
           }
-          context.pop();
+
         }
     );
   }
@@ -203,8 +228,8 @@ extension TopicPageTopBarExt on SurahPage{
           onPressed: () {
             showSelectSavePoints(context,
               shortTitle: "Surah",
-              menuItems: SavePointTypeBarExt.getSavePointTypes(BookEnum.diyanetMeal),
-              filter: SavePointType.surah,
+              savePointType:  SavePointType.surah,
+              bookScope: BookScopeEnum.diyanetMeal,
             );
           },
           icon: const Icon(Icons.save),

@@ -112,7 +112,7 @@ extension SectionPageTopBarExt on SectionPage{
 
   CustomSliverAppBar _sliverAppBar(BuildContext context){
     return CustomSliverAppBar(
-      title: Text("Bölüm - ${bookEnum.bookScope?.description}"),
+      title: Text("Bölüm - ${bookEnum.bookScope.description}"),
       snap: true,
       floating: true,
       actions: [
@@ -120,8 +120,8 @@ extension SectionPageTopBarExt on SectionPage{
           onPressed: () {
             showSelectSavePoints(context,
               shortTitle: "Konu",
-              menuItems: SavePointTypeBarExt.getSavePointTypes(bookEnum),
-              filter: SavePointType.topic,
+              bookScope: bookEnum.bookScope,
+              savePointType: SavePointType.topic,
             );
           },
           icon: const Icon(Icons.save),

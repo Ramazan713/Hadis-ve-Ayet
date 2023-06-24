@@ -6,15 +6,21 @@ import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 abstract class IShowSavePointEvent{}
 
 
-class ShowSavePointEventLoadData extends IShowSavePointEvent{
+class ShowSavePointEventLoadBookData extends IShowSavePointEvent{
   final List<BookScopeEnum> scopes;
   final SavePointType? filter;
-  ShowSavePointEventLoadData({required this.scopes, required this.filter});
+  ShowSavePointEventLoadBookData({required this.scopes, required this.filter});
+}
+
+class ShowSavePointEventLoadTypeData extends IShowSavePointEvent{
+  final BookScopeEnum? scope;
+  final SavePointType savePointType;
+  ShowSavePointEventLoadTypeData({required this.scope, required this.savePointType});
 }
 
 
 class ShowSavePointEventChangeMenuItem extends IShowSavePointEvent{
-  final SavePointType savePointType;
+  final SavePointType? savePointType;
   ShowSavePointEventChangeMenuItem({required this.savePointType});
 }
 
@@ -36,4 +42,6 @@ class ShowSavePointEventSelect extends IShowSavePointEvent{
 }
 
 class ShowSavePointEventLoadAndGo extends IShowSavePointEvent {}
+
+class ShowSavePointEventClearMessage extends IShowSavePointEvent {}
 

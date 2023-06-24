@@ -4433,6 +4433,31 @@ class _$SavePointDao extends SavePointDao {
   }
 
   @override
+  Future<SavePointEntity?> getLastSavePointByDestinationAndAutoType(
+    int bookScope,
+    int typeId,
+    String parentKey,
+    int autoType,
+  ) async {
+    return _queryAdapter.query(
+        'select * from savePoints where bookScope = ?1 and savePointType = ?2 and     parentKey = ?3 and autoType = ?4 order by modifiedDate desc limit 1',
+        mapper: (Map<String, Object?> row) => SavePointEntity(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: row['autoType'] as int, modifiedDate: row['modifiedDate'] as String, savePointType: row['savePointType'] as int, bookScope: row['bookScope'] as int, parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
+        arguments: [bookScope, typeId, parentKey, autoType]);
+  }
+
+  @override
+  Future<SavePointEntity?> getLastSavePointByBookScopeAndType(
+    int bookScope,
+    int typeId,
+    int autoType,
+  ) async {
+    return _queryAdapter.query(
+        'select * from savePoints where bookScope = ?1 and savePointType = ?2 and     autoType = ?3 order by modifiedDate desc limit 1',
+        mapper: (Map<String, Object?> row) => SavePointEntity(id: row['id'] as int?, itemIndexPos: row['itemIndexPos'] as int, title: row['title'] as String, autoType: row['autoType'] as int, modifiedDate: row['modifiedDate'] as String, savePointType: row['savePointType'] as int, bookScope: row['bookScope'] as int, parentKey: row['parentKey'] as String, parentName: row['parentName'] as String),
+        arguments: [bookScope, typeId, autoType]);
+  }
+
+  @override
   Stream<List<SavePointEntity>> getStreamSavePointsWithScopes(
       List<int> bookScopes) {
     const offset = 1;
@@ -4470,7 +4495,7 @@ class _$SavePointDao extends SavePointDao {
     return _queryAdapter.queryListStream(
         'select * from savePoints where bookScope in(' +
             _sqliteVariablesForBookScopes +
-            ') and savePointType=?1 order by modifiedDate desc',
+            ') and savePointType=?1      order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -4482,6 +4507,47 @@ class _$SavePointDao extends SavePointDao {
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
         arguments: [typeId, ...bookScopes],
+        queryableName: 'savePoints',
+        isView: false);
+  }
+
+  @override
+  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeId(int typeId) {
+    return _queryAdapter.queryListStream(
+        'select * from savePoints where savePointType=?1 order by modifiedDate desc',
+        mapper: (Map<String, Object?> row) => SavePointEntity(
+            id: row['id'] as int?,
+            itemIndexPos: row['itemIndexPos'] as int,
+            title: row['title'] as String,
+            autoType: row['autoType'] as int,
+            modifiedDate: row['modifiedDate'] as String,
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
+            parentKey: row['parentKey'] as String,
+            parentName: row['parentName'] as String),
+        arguments: [typeId],
+        queryableName: 'savePoints',
+        isView: false);
+  }
+
+  @override
+  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeIdAndParentKey(
+    int typeId,
+    String parentKey,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select * from savePoints where savePointType=?1 and parentKey=?2 order by modifiedDate desc',
+        mapper: (Map<String, Object?> row) => SavePointEntity(
+            id: row['id'] as int?,
+            itemIndexPos: row['itemIndexPos'] as int,
+            title: row['title'] as String,
+            autoType: row['autoType'] as int,
+            modifiedDate: row['modifiedDate'] as String,
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
+            parentKey: row['parentKey'] as String,
+            parentName: row['parentName'] as String),
+        arguments: [typeId, parentKey],
         queryableName: 'savePoints',
         isView: false);
   }

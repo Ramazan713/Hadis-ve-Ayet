@@ -12,7 +12,7 @@ class GetSavePoints{
     _savePointRepo = savePointRepo;
   }
 
-  Stream<List<SavePoint>> call({
+  Stream<List<SavePoint>> callBook({
     required List<BookScopeEnum> scopes,
     SavePointType? type
   }) {
@@ -20,6 +20,23 @@ class GetSavePoints{
       return _savePointRepo.getStreamSavePointsWithScopesAndTypeId(scopes, type);
     }
     return _savePointRepo.getStreamSavePointsWithScopes(scopes);
+  }
+
+  Stream<List<SavePoint>> callType({
+    required BookScopeEnum? bookScope,
+    required SavePointType type
+  }) {
+    if(bookScope!=null){
+      return _savePointRepo.getStreamSavePointsWithScopesAndTypeId([bookScope], type);
+    }
+    return _savePointRepo.getStreamSavePointsWithTypeId(type);
+  }
+
+  Stream<List<SavePoint>> callParentKey({
+    required SavePointType type,
+    required String parentKey
+  }) {
+    return _savePointRepo.getStreamSavePointsWithTypeIdAndParentKey(type, parentKey);
   }
 
 }

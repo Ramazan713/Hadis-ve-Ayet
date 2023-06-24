@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
+import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
@@ -17,7 +20,10 @@ import 'package:hadith/core/presentation/controllers/custom_position_controller.
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
+import 'package:hadith/features/verses/cuz/domain/models/cuz.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_bloc.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_state.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -56,8 +62,8 @@ class CuzPage extends StatelessWidget {
               onPressed: () {
                 showSelectSavePoints(context,
                   shortTitle: "Cüz",
-                  menuItems: SavePointTypeBarExt.getSavePointTypes(BookEnum.diyanetMeal),
-                  filter: SavePointType.cuz,
+                  savePointType: SavePointType.cuz,
+                  bookScope: BookScopeEnum.diyanetMeal,
                 );
               },
               icon: const Icon(Icons.save),
@@ -97,10 +103,22 @@ class CuzPage extends StatelessWidget {
                                 label: item.name,
                                 iconData: FontAwesomeIcons.bookQuran,
                                 onLongPress: (){
-                                  _handleBottomMenu(context, hasSavePoint,index);
+                                  _handleBottomMenu(
+                                    context,
+                                    hasSavePoint: hasSavePoint,
+                                    index: index,
+                                    item: item
+                                  );
                                 },
                                 onTap: () {
-                                  VerseShowCuzRoute(cuzNo: item.no).push(context);
+                                  context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
+                                      destination: DestinationCuz(
+                                          cuzName: item.name,
+                                          cuzId: item.no
+                                      ),
+                                      autoType: SaveAutoType.general
+                                  ));
+
                                 });
                           },
                         );
@@ -115,7 +133,14 @@ class CuzPage extends StatelessWidget {
   }
 
 
-  void _handleBottomMenu(BuildContext context, bool hasSavePoint, int index){
+  void _handleBottomMenu(
+      BuildContext context,
+  {
+    required Cuz item,
+    required bool hasSavePoint,
+    required int index,
+  }
+  ){
     final topicSavePointBloc = context.read<TopicSavePointBloc>();
     showBottomMenuItems(
         context,
@@ -123,6 +148,13 @@ class CuzPage extends StatelessWidget {
         onItemClick: (menuItem){
           switch(menuItem){
             case CuzSavePointMenuItem.goToLastSavePoint:
+              context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
+                  destination: DestinationCuz(
+                      cuzName: item.name,
+                      cuzId: item.no
+                  ),
+                  autoType: SaveAutoType.none
+              ));
               break;
             case CuzSavePointMenuItem.signSavePoint:
               topicSavePointBloc.add(TopicSavePointEventInsertSavePoint(pos: index));

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
+import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
@@ -17,6 +21,7 @@ import 'package:hadith/core/presentation/controllers/custom_position_controller.
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
@@ -121,7 +126,12 @@ class TopicPage extends StatelessWidget {
                                       _handleNavigation(context, item);
                                     },
                                     onLongPress: state.searchBarVisible ? null : (){
-                                      _handleBottomMenu(context, hasSavePoint, index);
+                                      _handleBottomMenu(
+                                        context,
+                                        index: index,
+                                        hasSavePoint: hasSavePoint,
+                                        topic: item
+                                      );
                                     },
                                     rowNumber: index + 1
                                 );
@@ -156,7 +166,14 @@ class TopicPage extends StatelessWidget {
     }
   }
 
-  void _handleBottomMenu(BuildContext context, bool hasSavePoint, int index){
+  void _handleBottomMenu(
+      BuildContext context,
+  {
+    required TopicViewModel topic,
+    required bool hasSavePoint,
+    required int index
+  }
+){
     final topicSavePointBloc = context.read<TopicSavePointBloc>();
     showBottomMenuItems(
         context,
@@ -164,6 +181,14 @@ class TopicPage extends StatelessWidget {
         onItemClick: (menuItem){
           switch(menuItem){
             case TopicSavePointMenuItem.goToLastSavePoint:
+              context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
+                  destination: DestinationTopic(
+                      topicId: topic.id,
+                      topicName: topic.name,
+                      bookEnum: bookEnum
+                  ),
+                  autoType: SaveAutoType.none
+              ));
               break;
             case TopicSavePointMenuItem.signSavePoint:
               topicSavePointBloc.add(TopicSavePointEventInsertSavePoint(pos: index));

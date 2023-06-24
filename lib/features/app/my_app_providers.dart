@@ -6,6 +6,7 @@ import 'package:hadith/core/domain/providers/core_domain_first_provider.dart';
 import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_bloc.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_bloc.dart';
 import 'package:hadith/core/features/select_list/bloc/select_list_bloc.dart';
@@ -187,6 +188,7 @@ class MyAppProviders extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> LoadSavePointBloc(savePointRepo: context.read())),
           BlocProvider(create: (context) => SearchBloc(searchRepo: context.read(), historyRepo: context.read(),
             appPreferences: context.read())),
           BlocProvider(create: (context)=> VerseSharedBloc(appPreferences: context.read(),

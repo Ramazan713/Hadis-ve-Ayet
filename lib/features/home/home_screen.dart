@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/common_menu_items.dart';
+import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_title_item.dart';
@@ -60,124 +61,122 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     final List<HomeBookItem> homeItems =
     getHomeItems(context, originTag: originTag);
 
-    return BottomBarFocusWidget(
-      child: Scaffold(
-        body: SafeArea(
-            child: CustomSliverNestedView(context, headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                CustomSliverAppBar(
-                  title: const Text("Hadis ve Ayet"),
-                  actions: [
-                    BlocBuilder<PremiumBloc,PremiumState>(builder: (context,state){
-                      if(state.isPremium){
-                        return getPremiumActiveIcon(onPress: (){
-                          showPremiumActive(context);
-                        });
-                      }
-                      return const SizedBox();
-                    }),
-                    getSettingIcon(context),
-                  ],
-                ),
-              ];
-            },
-                isBottomNavAffected: false,
-                scrollController: nestedViewScrollController,
-                child: Column(
-                  children: [
-                    ValueListenableBuilder<Iterable<ItemPosition>>(
-                        valueListenable: homeItemPositionListener.itemPositions,
-                        builder: (context, positions, child) {
-                          if (positions.isNotEmpty) {
-                            ItemPosition minPos;
-                            if (positions.last.index > positions.first.index) {
-                              minPos = positions.first;
-                            } else {
-                              minPos = positions.last;
+    return Scaffold(
+      body: SafeArea(
+          child: CustomSliverNestedView(context, headerSliverBuilder:
+              (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              CustomSliverAppBar(
+                title: const Text("Hadis ve Ayet"),
+                actions: [
+                  BlocBuilder<PremiumBloc,PremiumState>(builder: (context,state){
+                    if(state.isPremium){
+                      return getPremiumActiveIcon(onPress: (){
+                        showPremiumActive(context);
+                      });
+                    }
+                    return const SizedBox();
+                  }),
+                  getSettingIcon(context),
+                ],
+              ),
+            ];
+          },
+              isBottomNavAffected: false,
+              scrollController: nestedViewScrollController,
+              child: Column(
+                children: [
+                  ValueListenableBuilder<Iterable<ItemPosition>>(
+                      valueListenable: homeItemPositionListener.itemPositions,
+                      builder: (context, positions, child) {
+                        if (positions.isNotEmpty) {
+                          ItemPosition minPos;
+                          if (positions.last.index > positions.first.index) {
+                            minPos = positions.first;
+                          } else {
+                            minPos = positions.last;
+                          }
+
+                          if (prevMin > minPos.index) {//scroll up
+                            context.read<BottomNavBloc>().add(
+                                BottomNavChangeVisibility(isCollapsed: false));
+
+                          } else if (prevMin < minPos.index) {//scroll down
+                            context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: true));
+                            nestedViewScrollController.animateTo(
+                              nestedViewScrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 500), curve: Curves.decelerate,
+                            );
+                          }
+                          if (minPos.index == 0) {
+                            if (minPos.itemLeadingEdge != 0) {
+                              isScrolledTop = false;
                             }
-
-                            if (prevMin > minPos.index) {//scroll up
-                              context.read<BottomNavBloc>().add(
-                                  BottomNavChangeVisibility(isCollapsed: false));
-
-                            } else if (prevMin < minPos.index) {//scroll down
-                              context.read<BottomNavBloc>().add(BottomNavChangeVisibility(isCollapsed: true));
+                            if (minPos.itemLeadingEdge == 0 &&
+                                !isScrolledTop) {
+                              isScrolledTop = true;
                               nestedViewScrollController.animateTo(
-                                nestedViewScrollController.position.maxScrollExtent,
-                                duration: const Duration(milliseconds: 500), curve: Curves.decelerate,
+                                nestedViewScrollController.position.minScrollExtent,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.decelerate,
                               );
                             }
-                            if (minPos.index == 0) {
-                              if (minPos.itemLeadingEdge != 0) {
-                                isScrolledTop = false;
-                              }
-                              if (minPos.itemLeadingEdge == 0 &&
-                                  !isScrolledTop) {
-                                isScrolledTop = true;
-                                nestedViewScrollController.animateTo(
-                                  nestedViewScrollController.position.minScrollExtent,
-                                  duration: const Duration(milliseconds: 500),
-                                  curve: Curves.decelerate,
-                                );
-                              }
-                            }
-                            prevMin = minPos.index;
                           }
-                          return const SizedBox(
-                            height: 0,
-                          );
+                          prevMin = minPos.index;
+                        }
+                        return const SizedBox(
+                          height: 0,
+                        );
+                      }),
+                  SizedBox(
+                    height: 50,
+                    child: ScrollablePositionedList.builder(
+                        itemCount: homeItems.length,
+                        itemScrollController: titleNavItemScrollController,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return ValueListenableBuilder(
+                              valueListenable: titleNavNotifier,
+                              builder: (context, value, child) {
+                                return Center(
+                                    child: HomeSubTitleItem(
+                                      isSelected: index == value,
+                                      title: homeTitles[index],
+                                      onTap: () async {
+                                        titleNavItemScrollController.scrollTo(index: index,
+                                            duration: const Duration(milliseconds: 500));
+                                        await homeItemScrollController.scrollTo(index: index,
+                                            duration: const Duration(milliseconds: 500));
+                                        titleNavNotifier.value = index;
+                                      },
+                                    ));
+                              });
                         }),
-                    SizedBox(
-                      height: 50,
-                      child: ScrollablePositionedList.builder(
-                          itemCount: homeItems.length,
-                          itemScrollController: titleNavItemScrollController,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return ValueListenableBuilder(
-                                valueListenable: titleNavNotifier,
-                                builder: (context, value, child) {
-                                  return Center(
-                                      child: HomeSubTitleItem(
-                                        isSelected: index == value,
-                                        title: homeTitles[index],
-                                        onTap: () async {
-                                          titleNavItemScrollController.scrollTo(index: index,
-                                              duration: const Duration(milliseconds: 500));
-                                          await homeItemScrollController.scrollTo(index: index,
-                                              duration: const Duration(milliseconds: 500));
-                                          titleNavNotifier.value = index;
-                                        },
-                                      ));
-                                });
-                          }),
-                    ),
-                    Flexible(
-                      child: ScrollablePositionedList.builder(
-                          itemScrollController: homeItemScrollController,
-                          itemPositionsListener: homeItemPositionListener,
-                          itemCount: homeItems.length,
-                          itemBuilder: (context, index) {
-                            return VisibilityDetector(
-                                key: Key("my-key-$index"),
-                                onVisibilityChanged: (visibilityInfo) async {
-                                  if (visibilityInfo.visibleFraction * 100 >
-                                      visibilityRatio) {
-                                    titleNavNotifier.value = index;
+                  ),
+                  Flexible(
+                    child: ScrollablePositionedList.builder(
+                        itemScrollController: homeItemScrollController,
+                        itemPositionsListener: homeItemPositionListener,
+                        itemCount: homeItems.length,
+                        itemBuilder: (context, index) {
+                          return VisibilityDetector(
+                              key: Key("my-key-$index"),
+                              onVisibilityChanged: (visibilityInfo) async {
+                                if (visibilityInfo.visibleFraction * 100 >
+                                    visibilityRatio) {
+                                  titleNavNotifier.value = index;
 
-                                    await titleNavItemScrollController.scrollTo(
-                                        index: index,
-                                        duration:
-                                        const Duration(milliseconds: 500));
-                                  }
-                                },
-                                child: homeItems[index]);
-                          }),
-                    ),
-                  ],
-                ))),
-      ),
+                                  await titleNavItemScrollController.scrollTo(
+                                      index: index,
+                                      duration:
+                                      const Duration(milliseconds: 500));
+                                }
+                              },
+                              child: homeItems[index]);
+                        }),
+                  ),
+                ],
+              ))),
     );
   }
 

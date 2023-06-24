@@ -1,16 +1,21 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/home/widget/home_book_item.dart';
 import 'package:hadith/features/home/widget/home_sub_item.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 
 import '../../constants/enums/book_enum.dart';
 import '../app/routes/app_routers.dart';
@@ -34,6 +39,9 @@ final List<String> homeTitles = [
 ];
 
 List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTag}){
+
+  final loadSavePointBloc = context.read<LoadSavePointBloc>();
+
   return [
     HomeBookItem(
         item1: HomeSubItem(
@@ -69,10 +77,18 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Kayıt Noktaları",
           iconData: Icons.save,
           onTap: () {
-            showSelectSavePointWithBookDia(context,
-                bookEnum: BookEnum.diyanetMeal,
-                bookScopes: [BookScopeEnum.diyanetMeal],
-                exclusiveTags: [OriginTag.all]);
+
+
+            showSelectSavePointsWithScopes(context,
+              shortTitle: BookScopeEnum.diyanetMeal.description,
+              menuItems: SavePointTypeBarExt.getSavePointTypes(BookEnum.diyanetMeal),
+              scopes: [BookScopeEnum.diyanetMeal],
+            );
+
+            // showSelectSavePointWithBookDia(context,
+            //     bookEnum: BookEnum.diyanetMeal,
+            //     bookScopes: [BookScopeEnum.diyanetMeal],
+            //     exclusiveTags: [OriginTag.all]);
           },
         ),
         title: homeTitles[0]),
@@ -81,19 +97,10 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Tümü",
           iconData: Icons.all_inclusive,
           onTap: () {
-            // var loader = HadithSerlevhaPagingLoader(context: context);
-
-
-            HadithAllRoute(hadithBookId: HadithBookEnum.serlevha.bookId).push(context);
-
-            // routeHadithPage(
-            //     context,
-            //     PagingArgument(
-            //         savePointArg: SavePointLoadArg(parentKey: BookEnum.serlevha.bookId.toString()),
-            //         bookScope: BookScopeEnum.serlevha,
-            //         title: "Tümü",
-            //         loader: loader,
-            //         originTag: originTag));
+            loadSavePointBloc.add(LoadSavePointEventLoadLastOrDefault(
+                destination: DestinationAll(bookEnum: BookEnum.serlevha),
+                autoType: SaveAutoType.general
+            ));
           },
         ),
         item2: HomeSubItem(
@@ -103,10 +110,6 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
 
             SectionRoute(bookId: BookEnum.serlevha.bookId).push(context);
 
-            // final sectionArgument =
-            // SectionArgument(bookEnum: BookEnum.serlevha);
-            // Navigator.pushNamed(context, SectionScreen.id,
-            //     arguments: sectionArgument);
           },
         ),
         item3: HomeSubItem(
@@ -119,17 +122,6 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
                 menuItems: SavePointTypeBarExt.getSavePointTypes(BookEnum.serlevha),
                 scopes: [BookScopeEnum.serlevha,BookScopeEnum.serlevhaSitte],
             );
-
-            // showSelectSavePointWithBookDia(context,
-            //     bookEnum: BookEnum.serlevha,
-            //     bookScopes: [
-            //       BookScopeEnum.serlevha,
-            //       BookScopeEnum.serlevhaSitte
-            //     ],
-            //     exclusiveTags: [
-            //       OriginTag.surah,
-            //       OriginTag.cuz
-            //     ]);
           },
         ),
         title: homeTitles[1]), //Serlevha
@@ -140,24 +132,18 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           iconData: Icons.all_inclusive,
           onTap: () {
 
-            HadithAllRoute(hadithBookId: HadithBookEnum.sitte.bookId).push(context);
+            loadSavePointBloc.add(LoadSavePointEventLoadLastOrDefault(
+                destination: DestinationAll(bookEnum: BookEnum.sitte),
+                autoType: SaveAutoType.general
+            ));
 
-            // var loader = HadithSittePagingLoader(context: context);
-            // routeHadithPage(
-            //     context,
-            //     PagingArgument(
-            //         savePointArg: SavePointLoadArg(
-            //             parentKey:BookEnum.sitte.bookId.toString() ),
-            //         bookScope: BookScopeEnum.sitte,
-            //         title: "Tümü",
-            //         loader: loader,
-            //         originTag: originTag));
           },
         ),
         item2: HomeSubItem(
           title: "Konular",
           iconData: FontAwesomeIcons.bookOpenReader,
           onTap: () {
+            SectionRoute(bookId: BookEnum.sitte.bookId).push(context);
             // final sectionArgument = SectionArgument(bookEnum: BookEnum.sitte);
             // Navigator.pushNamed(context, SectionScreen.id,
             //     arguments: sectionArgument);
@@ -167,16 +153,23 @@ List<HomeBookItem>getHomeItems(BuildContext context,{required OriginTag originTa
           title: "Kayıt Noktaları",
           iconData: Icons.save,
           onTap: () {
-            showSelectSavePointWithBookDia(context,
-                bookEnum: BookEnum.sitte,
-                bookScopes: [
-                  BookScopeEnum.sitte,
-                  BookScopeEnum.serlevhaSitte
-                ],
-                exclusiveTags: [
-                  OriginTag.surah,
-                  OriginTag.cuz
-                ]);
+
+            showSelectSavePointsWithScopes(context,
+              shortTitle: BookScopeEnum.sitte.description,
+              menuItems: SavePointTypeBarExt.getSavePointTypes(BookEnum.sitte),
+              scopes: [BookScopeEnum.sitte,BookScopeEnum.serlevhaSitte],
+            );
+
+            // showSelectSavePointWithBookDia(context,
+            //     bookEnum: BookEnum.sitte,
+            //     bookScopes: [
+            //       BookScopeEnum.sitte,
+            //       BookScopeEnum.serlevhaSitte
+            //     ],
+            //     exclusiveTags: [
+            //       OriginTag.surah,
+            //       OriginTag.cuz
+            //     ]);
           },
         ),
         title: homeTitles[2]), //Kütübi Sitte

@@ -24,8 +24,7 @@ extension SearchPageHistoryResultExt on SearchPage{
         onPressed: (){
           showSelectSavePoints(context,
               shortTitle: "Arama",
-              menuItems: [SavePointType.search],
-              filter: SavePointType.search,
+              savePointType: SavePointType.search,
           );
         },
         icon: const Icon(Icons.save),

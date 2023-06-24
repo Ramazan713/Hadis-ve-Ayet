@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
+import 'package:hadith/features/app/my_app_top_listeners.dart';
 import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 
 
@@ -26,18 +28,22 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: child,
-      ),
-      bottomNavigationBar: isBottomNavDestination(context) == false ? null :
-      BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _calculateIndex(context),
-          onTap: (i){
-            _onClicked(context,i);
-          },
-          items: _navigationItems
+    
+    
+    return MyAppTopListeners(
+      child: Scaffold(
+        body: SafeArea(
+          child: child,
+        ),
+        bottomNavigationBar: isBottomNavDestination(context) == false ? null :
+        BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _calculateIndex(context),
+            onTap: (i){
+              _onClicked(context,i);
+            },
+            items: _navigationItems
+        ),
       ),
     );
   }

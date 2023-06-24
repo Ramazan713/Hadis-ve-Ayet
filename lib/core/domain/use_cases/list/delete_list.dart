@@ -1,6 +1,7 @@
 
 
 import 'package:hadith/core/data/local/mapper/list/list_view_mapper.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/domain/repo/list/list_repo.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
@@ -18,7 +19,7 @@ class DeleteList{
 
   Future<void> call(ListViewModel listViewModel)async{
       await _listRepo.deleteList(listViewModel.toListModel());
-      await _savePointRepo.deleteSavePointsWithQuery(OriginTag.list, listViewModel.id.toString());
+      await _savePointRepo.deleteSavePointsWithQuery(SavePointType.list, listViewModel.id.toString());
   }
 
 }

@@ -19,56 +19,72 @@ class ShowSavePointBloc extends Bloc<IShowSavePointEvent,ShowSavePointState>{
 
     _savePointUseCases = savePointUseCases;
 
-    on<ShowSavePointEventLoadData>(_onLoadData,transformer: restartable());
+    on<ShowSavePointEventLoadBookData>(_onLoadBookData,transformer: restartable());
+    on<ShowSavePointEventLoadTypeData>(_onLoadTypeData,transformer: restartable());
     on<ShowSavePointEventChangeMenuItem>(_onChangeMenuItem,transformer: restartable());
     on<ShowSavePointEventRename>(_onRename, transformer: restartable());
     on<ShowSavePointEventDelete>(_onDelete, transformer: restartable());
     on<ShowSavePointEventSelect>(_onSelect, transformer: restartable());
-    on<ShowSavePointEventLoadAndGo>(_onLoadAndGo, transformer: restartable());
+    on<ShowSavePointEventClearMessage>(_onClearMessage, transformer: restartable());
 
   }
 
-  void _onLoadData(ShowSavePointEventLoadData event,Emitter<ShowSavePointState>emit)async{
+  void _onLoadBookData(ShowSavePointEventLoadBookData event,Emitter<ShowSavePointState>emit)async{
     _filterController.add(event.filter);
+    emit(state.copyWith(setSelectedMenuItem: true, setSavePoint: true));
 
     final streamData = _filterController.switchMap((SavePointType? filter)=>
-        _savePointUseCases.getSavePoints(scopes: event.scopes, type: filter)
+        _savePointUseCases.getSavePoints.callBook(scopes: event.scopes, type: filter)
+    );
+    await emit.forEach<List<SavePoint>>(streamData, onData: (data)=>
+        state.copyWith(savePoints: data)
+    );
+  }
+
+  void _onLoadTypeData(ShowSavePointEventLoadTypeData event,Emitter<ShowSavePointState>emit)async{
+
+    emit(state.copyWith(setSelectedMenuItem: true, setSavePoint: true));
+
+    final streamData = _savePointUseCases.getSavePoints.callType(
+      bookScope: event.scope,
+      type: event.savePointType
     );
 
     await emit.forEach<List<SavePoint>>(streamData, onData: (data)=>
         state.copyWith(savePoints: data)
     );
-
   }
 
   void _onChangeMenuItem(ShowSavePointEventChangeMenuItem event,Emitter<ShowSavePointState>emit)async{
     _filterController.add(event.savePointType);
-    emit(state.copyWith(selectedMenuItem: event.savePointType));
+    emit(state.copyWith(selectedMenuItem: event.savePointType,setSelectedMenuItem: true));
   }
 
 
 
   void _onDelete(ShowSavePointEventDelete event,Emitter<ShowSavePointState>emit)async{
     await _savePointUseCases.deleteSavePoint.call(event.savePoint);
+    emit(state.copyWith(
+        setMessage: true,
+        message: "Silindi"
+    ));
   }
 
   void _onRename(ShowSavePointEventRename event,Emitter<ShowSavePointState>emit)async{
     await _savePointUseCases.updateSavePoint(event.savePoint.copyWith(title: event.newTitle));
+    emit(state.copyWith(
+      setMessage: true,
+      message: "Yeniden İsimlendirildi"
+    ));
   }
 
   void _onSelect(ShowSavePointEventSelect event,Emitter<ShowSavePointState>emit)async{
     emit(state.copyWith(selectedSavePoint: event.savePoint,setSavePoint: true));
   }
 
-  void _onLoadAndGo(ShowSavePointEventLoadAndGo event,Emitter<ShowSavePointState>emit)async{
-    final selectedSavePoint = state.selectedSavePoint;
-    if(selectedSavePoint == null) return;
-
-    selectedSavePoint.destination.getType() == SavePointType.topic;
-
-
+  void _onClearMessage(ShowSavePointEventClearMessage event,Emitter<ShowSavePointState>emit)async{
+    emit(state.copyWith(setMessage: true));
   }
-
 
   @override
   Future<void> close() async{

@@ -45,7 +45,7 @@ sealed class SavePointDestination{
     }
     else if(typeId == DestinationSurah.type.typeId){
       return DestinationSurah(surahId: int.tryParse(parentKey)??1,
-          surahName: parentKey
+          surahName: parentName
       );
     }
     else if(typeId == DestinationCuz.type.typeId){
