@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/enums/scroll_direction.dart';
+import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
 
 class CustomScrollController with ChangeNotifier{
 

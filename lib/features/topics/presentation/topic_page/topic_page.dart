@@ -106,7 +106,7 @@ class TopicPage extends StatelessWidget {
 
                             return CustomScrollablePositionedList(
                               itemCount: items.length,
-                              debouncerDelayMilliSeconds: 50,
+                              delayMilliSeconds: 50,
                               onScroll: (scrollDirection){
                                 _scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
                               },
@@ -210,8 +210,11 @@ class TopicPage extends StatelessWidget {
             controller: _scrollController,
             showFab: showFab,
             onSavePointClick: (topicSavePoint){
-              _itemScrollController.scrollTo(index: topicSavePoint.pos,
-                  duration: const Duration(milliseconds: 300));
+              _itemScrollController.scrollTo(
+                  index: topicSavePoint.pos,
+                  duration: const Duration(milliseconds: 300),
+                  alignment: 0.5
+              );
             },
           );
         }

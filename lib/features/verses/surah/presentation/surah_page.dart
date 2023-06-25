@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
-import 'package:hadith/core/domain/enums/scroll_direction.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
-import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
-import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
@@ -20,11 +16,8 @@ import 'package:hadith/core/features/topic_save_point/components/topic_save_poin
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_appbar_searchable.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.dart';
-import 'package:hadith/core/presentation/components/navigation_icon.dart';
-import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
@@ -95,7 +88,7 @@ class SurahPage extends StatelessWidget {
 
                             return CustomScrollablePositionedList(
                               itemCount: items.length,
-                              debouncerDelayMilliSeconds: 50,
+                              delayMilliSeconds: 200,
                               onScroll: (scrollDirection){
                                 _scrollController.setScrollDirection(scrollDirection);
                               },
@@ -186,8 +179,11 @@ class SurahPage extends StatelessWidget {
             controller: _scrollController,
             showFab: showFab,
             onSavePointClick: (topicSavePoint){
-              _itemScrollController.scrollTo(index: topicSavePoint.pos,
-                  duration: const Duration(milliseconds: 300));
+              _itemScrollController.scrollTo(
+                  index: topicSavePoint.pos,
+                  duration: const Duration(milliseconds: 300),
+                  alignment: 0.5
+              );
             },
           );
         }

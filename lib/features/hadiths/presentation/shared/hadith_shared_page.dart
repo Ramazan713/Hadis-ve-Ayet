@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/extensions/app_extension.dart';
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
@@ -57,7 +58,7 @@ import 'paging_hadith_connect.dart';
     final pagingBloc = context.read<PaginationBloc>();
 
     pagingBloc.add(PaginationEventInit(paginationRepo, config: PagingConfig(
-        pageSize: 10,currentPos: pos,preFetchDistance: 3
+        pageSize: K.hadithPageSize,currentPos: pos, preFetchDistance: K.hadithPagingPrefetchSize
     )));
 
     return PagingHadithConnect(
@@ -85,6 +86,7 @@ import 'paging_hadith_connect.dart';
                         }
 
                         return HadithItem(
+                          key: ValueKey(item.pagingId),
                           hadithList: item,
                           onFavoriteClick: (){
                             handleFavoriteClick(context,hadithListModel: item,state: state);

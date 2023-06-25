@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
@@ -54,7 +55,7 @@ class VerseShowSharedPage extends StatelessWidget {
     final pagingBloc = context.read<PaginationBloc>();
 
     pagingBloc.add(PaginationEventInit(paginationRepo,
-        config: PagingConfig(pageSize: 10,preFetchDistance: 3,currentPos: pos)
+        config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: pos)
     ));
 
     return ShareConnect(

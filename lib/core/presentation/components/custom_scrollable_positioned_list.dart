@@ -1,8 +1,10 @@
 import 'dart:async';
 
-import 'package:debounce_throttle/debounce_throttle.dart';
+import 'package:easy_debounce/easy_debounce.dart';
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/enums/scroll_direction.dart';
+import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
+import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CustomScrollablePositionedList extends StatefulWidget {
@@ -14,8 +16,10 @@ class CustomScrollablePositionedList extends StatefulWidget {
   final int itemCount;
   final int initialScrollIndex;
   final bool shrinkWrap;
+  final int? pageSize;
 
-  final int debouncerDelayMilliSeconds;
+  final int delayMilliSeconds;
+  final ScrollDelayType scrollDelayType;
   final void Function(int firstVisibleItemIndex, int lastVisibleItemIndex)? onVisibleItemChanged;
 
   const CustomScrollablePositionedList({
@@ -24,11 +28,13 @@ class CustomScrollablePositionedList extends StatefulWidget {
     required this.itemBuilder,
     this.itemScrollController,
     required this.itemCount,
-    this.debouncerDelayMilliSeconds = 200,
+    this.delayMilliSeconds = 500,
     this.itemPositionsListener,
     this.initialScrollIndex = 0,
     this.shrinkWrap = false,
     this.onVisibleItemChanged,
+    this.pageSize,
+    this.scrollDelayType = ScrollDelayType.both
   }) : super(key: key);
 
 
@@ -38,26 +44,19 @@ class CustomScrollablePositionedList extends StatefulWidget {
 
 class _CustomScrollablePositionedListState extends State<CustomScrollablePositionedList> {
 
-  StreamSubscription<Iterable<ItemPosition>>? _posListener;
   double _previousScrollPosition = 0;
   late ScrollDirection _previousScrollDirection;
 
-  late final Debouncer<Iterable<ItemPosition>> _debouncer;
+  late final ItemPositionsListener _itemPositionsListener;
 
-  late final ItemPositionsListener itemPositionsListener;
+  ScrollDelayType get _scrollDelayType => widget.scrollDelayType;
 
   @override
   void initState() {
     super.initState();
 
-    itemPositionsListener = widget.itemPositionsListener ?? ItemPositionsListener.create();
+    _itemPositionsListener = widget.itemPositionsListener ?? ItemPositionsListener.create();
     _previousScrollDirection = ScrollDirection.up;
-
-    _debouncer = Debouncer<Iterable<ItemPosition>>(
-        Duration(milliseconds: widget.debouncerDelayMilliSeconds),
-        initialValue: [],
-        checkEquality: true
-    );
     _addListeners();
 
   }
@@ -70,7 +69,7 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
         addRepaintBoundaries: true,
         itemCount: widget.itemCount,
         initialScrollIndex: widget.initialScrollIndex,
-        itemPositionsListener: itemPositionsListener,
+        itemPositionsListener: _itemPositionsListener,
         itemScrollController: widget.itemScrollController,
         itemBuilder: (context, index){
           return widget.itemBuilder(context,index);
@@ -85,19 +84,22 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
   }
 
   void _addListeners() {
-    itemPositionsListener.itemPositions.addListener(_onPositionChanged);
-    _posListener?.cancel();
-    _posListener = _debouncer.values.listen((itemsPos) {
 
-      var (min, max) = _getMinMaxPositions(itemsPos);
-      widget.onVisibleItemChanged?.call(min,max);
-      _detectScrollPosition(min,max);
-    });
+    if(_scrollDelayType.isThrottle()){
+      _itemPositionsListener.itemPositions.addListener(_onThrottlePositionChanged);
+    }
+    if(_scrollDelayType.isDebouncer()){
+      _itemPositionsListener.itemPositions.addListener(_onDebouncerPositionChanged);
+    }
   }
 
   void _removeListeners() async {
-    itemPositionsListener.itemPositions.removeListener(_onPositionChanged);
-    await _posListener?.cancel();
+    if(_scrollDelayType.isThrottle()){
+      _itemPositionsListener.itemPositions.removeListener(_onThrottlePositionChanged);
+    }
+    if(_scrollDelayType.isDebouncer()){
+      _itemPositionsListener.itemPositions.removeListener(_onDebouncerPositionChanged);
+    }
   }
 }
 
@@ -105,8 +107,28 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
 // about extentions of positions functions
 extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositionedListState {
 
-  void _onPositionChanged() {
-    _debouncer.notify(itemPositionsListener.itemPositions.value ?? []);
+  void _onThrottlePositionChanged(){
+    EasyThrottle.throttle(
+      "throttle-scrolling",
+      Duration(milliseconds: widget.delayMilliSeconds),
+      _handlePositionChanged
+    );
+  }
+
+  void _onDebouncerPositionChanged(){
+    EasyDebounce.debounce(
+        "debounce-scrolling",
+        Duration(milliseconds: widget.delayMilliSeconds),
+        _handlePositionChanged
+    );
+  }
+
+  void _handlePositionChanged(){
+    final itemsPos = _itemPositionsListener.itemPositions.value;
+    var (min, max) = _getMinMaxPositions(itemsPos);
+
+    widget.onVisibleItemChanged?.call(min,max);
+    _detectScrollPosition(min,max);
   }
 
   void _detectScrollPosition(int firstVisiblePos, int lastVisiblePos) {
@@ -116,6 +138,9 @@ extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositioned
 
     if(firstVisiblePos <= 1){
       scrollDirection = ScrollDirection.up;
+    }
+    else if(widget.pageSize!=null && firstVisiblePos - _previousScrollPosition >= (widget.pageSize!)-1){
+      scrollDirection= _previousScrollDirection;
     }
     else if(lastVisiblePos >= widget.itemCount - 1){
       scrollDirection = ScrollDirection.down;

@@ -67,18 +67,23 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
 
     return BlocBuilder<PaginationBloc,PaginationState>(
       buildWhen: (prevState, nextState){
-        return prevState.visibleMinPos != nextState.visibleMinPos;
+        return prevState.visibleMiddleItem != nextState.visibleMiddleItem ||
+            prevState.totalItems != nextState.totalItems;
       },
       builder: (context, state){
         final pagingBloc = context.read<PaginationBloc>();
 
         return IconButton(
             onPressed: () async {
+
+              final visibleMiddleItem = state.visibleMiddleItem.castOrNull<VerseListModel>();
+              if(visibleMiddleItem==null)return;
+
               showGetNumberBottomDia(
                   context, (selected) {
                     pagingBloc.add(PaginationEventJumpToPos(pos: selected));
                   },
-                  currentIndex: state.visibleMiddlePos,
+                  currentIndex: visibleMiddleItem.rowNumber,
                   limitIndex: state.totalItems - 1
               );
             },

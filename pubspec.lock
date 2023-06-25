@@ -297,14 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
-  debounce_throttle:
+  easy_debounce:
     dependency: "direct main"
     description:
-      name: debounce_throttle
-      sha256: c95cf47afda975fc507794a52040a16756fb2f31ad3027d4e691c41862ff5692
+      name: easy_debounce
+      sha256: f082609cfb8f37defb9e37fc28bc978c6712dedf08d4c5a26f820fa10165a236
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.3"
   equatable:
     dependency: "direct main"
     description:
@@ -1245,14 +1245,6 @@ packages:
     description:
       name: shimmer
       sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
-  simple_observable:
-    dependency: transitive
-    description:
-      name: simple_observable
-      sha256: b392795c48f8b5f301b4c8f73e15f56e38fe70f42278c649d8325e859a783301
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"

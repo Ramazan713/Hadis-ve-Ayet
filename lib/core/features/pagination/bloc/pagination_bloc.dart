@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 import '../../../domain/enums/paging/paging_invalidate_op.dart';
@@ -34,19 +35,19 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     _paginationRepo = event.paginationRepo;
     final config = event.config;
 
+    emit(PaginationState.init().copyWith(status: PagingStatus.loading));
+
     final int totalItems = await _paginationRepo!.getTotalItems();
     final currentPage = _calcPageNumber(config.currentPos,config.pageSize);
 
-    emit(
-        PaginationState.init().copyWith(
-          currentPage: currentPage,
-          prevPage: max(currentPage - 1,0),
-          pageSize: config.pageSize,
-          totalItems: totalItems,
-          preFetchDistance: config.preFetchDistance,
-          items: [],
-        )
-    );
+    emit(PaginationState.init().copyWith(
+        currentPage: currentPage,
+        prevPage: max(currentPage - 1,0),
+        pageSize: config.pageSize,
+        preFetchDistance: config.preFetchDistance,
+        totalItems: totalItems
+    ));
+
     add(PaginationEventJumpToPos(pos: config.currentPos));
   }
 
@@ -59,7 +60,6 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
 
     emit(state.copyWith(currentPage: nextPage,
         status: PagingStatus.nextLoading, jumpToAlignment: 1));
-
 
     await _fetchData(
         shouldReplaceItems: false,

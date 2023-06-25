@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/hadith_item.dart';
 
-extension HadithItemHeaderExt on HadithItem{
+extension HadithItemHeaderExt on HadithItemState{
 
   Widget getHeader(BuildContext context){
     return Row(
@@ -12,7 +12,7 @@ extension HadithItemHeaderExt on HadithItem{
         Text(
           "${hadithList.rowNumber}",
           textAlign: TextAlign.start,
-          style: getTextStyle(context)?.copyWith(fontSize: fontSize - 2),
+          style: getTextStyle(context)?.copyWith(fontSize: widget.fontSize - 2),
         ),
         const SizedBox(
           width: 7,
@@ -21,7 +21,7 @@ extension HadithItemHeaderExt on HadithItem{
           child: Text("- ${hadithList.topicNames}",
               textAlign: TextAlign.center,
               style:
-              getTextStyle(context)?.copyWith(fontSize: fontSize - 4)),
+              getTextStyle(context)?.copyWith(fontSize: widget.fontSize - 4)),
         ),
         const SizedBox(
           width: 33,

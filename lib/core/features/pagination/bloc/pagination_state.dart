@@ -67,7 +67,7 @@ class PaginationState<T extends IPagingItem> extends Equatable{
         items: items??this.items,
         visibleMaxPos: visibleMaxPos??this.visibleMaxPos,
         visibleMinPos: visibleMinPos??this.visibleMinPos,
-        lastModifiedItem: setLastModifiedItem ? lastModifiedItem : this.lastModifiedItem
+        lastModifiedItem: setLastModifiedItem ? lastModifiedItem : this.lastModifiedItem,
     );
   }
 
@@ -83,7 +83,7 @@ class PaginationState<T extends IPagingItem> extends Equatable{
         jumpToPos: null,
         jumpToAlignment: 0,
         visibleMinPos: 0,
-        visibleMaxPos: 0
+        visibleMaxPos: 0,
     );
   }
 

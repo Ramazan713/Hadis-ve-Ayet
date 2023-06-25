@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
 import 'package:hadith/core/domain/extensions/app_extension.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../domain/enums/paging/paging_status.dart';
-import '../../domain/enums/scroll_direction.dart';
+import '../../domain/enums/scrolling/scroll_direction.dart';
 import '../../domain/models/paging/i_paging_item.dart';
 import 'paging_loading_item.dart';
 import 'bloc/pagination_bloc.dart';
@@ -30,7 +31,6 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
 
     return BlocConsumer<PaginationBloc, PaginationState>(
       listenWhen: (prevState, nextState) {
-        // _pagingState = nextState;
         return prevState.jumpToPos != nextState.jumpToPos;
       },
       listener: (context, state) {
@@ -64,18 +64,15 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
         return CustomScrollablePositionedList(
           shrinkWrap: false,
           itemCount: itemCount,
-          debouncerDelayMilliSeconds: 200,
+          delayMilliSeconds: 500,
+          pageSize: state.pageSize,
           initialScrollIndex: initialScrollIndex,
           itemPositionsListener: _itemPositionsListener,
           itemScrollController: _itemScrollController,
           onVisibleItemChanged: (firstPos,lastPos){
 
-            // -1 added because LoadingPlaceholderContent causes adding two extra widget
-            final min = firstPos - 1;
-            final max = lastPos - 1;
-
-            paginationBloc.add(PaginationEventSetVisiblePos(visibleMaxPos: min, visibleMinPos: max));
-            _onFetchPagesWithPositions(context,state,min,max);
+            paginationBloc.add(PaginationEventSetVisiblePos(visibleMaxPos: lastPos - 1, visibleMinPos: firstPos - 1));
+            _onFetchPagesWithPositions(context,state,firstPos,lastPos);
           },
           onScroll: (scrollDirection){
             onScroll?.call(scrollDirection);
@@ -106,6 +103,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
 extension _PagingListViewLoadingExt on PagingListView{
 
   Widget? _getLoadingPlaceholderContent(PagingStatus status,int index, int itemCount){
+
     if (status.isNextLoading && index == itemCount - 1) {
       return defaultLoading;
     }
@@ -156,6 +154,7 @@ extension _PagingListViewPositionExt on PagingListView {
       //if first item smaller than preFetch and page is greater than 1
       if (firstVisibleItemIndex <= pagingState.preFetchDistance &&
           pagingState.currentPage > 1) {
+
         final pos = (lastVisibleItemIndex + firstVisibleItemIndex) ~/ 2;
         paginationBloc.add(PaginationEventFetchPreviousPage(firstPos: pos));
       }

@@ -33,7 +33,6 @@ class PaginationEventJumpToPos extends IPaginationEvent{
   PaginationEventJumpToPos({required this.pos});
 }
 
-
 class PaginationEventSetVisiblePos extends IPaginationEvent{
   final int visibleMinPos;
   final int visibleMaxPos;

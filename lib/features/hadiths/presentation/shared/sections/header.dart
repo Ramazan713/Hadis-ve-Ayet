@@ -56,19 +56,23 @@ extension HadithSharedPageHeaderExt on HadithSharedPage{
 
     return BlocBuilder<PaginationBloc, PaginationState>(
       buildWhen: (prevState,nextState){
-        return prevState.visibleMinPos != nextState.visibleMinPos;
+        return prevState.visibleMiddleItem != nextState.visibleMiddleItem ||
+            prevState.totalItems != nextState.totalItems;
       },
       builder: (context,state){
+
         return IconButton(onPressed: (){
-          try{
-            final item = state.visibleMiddleItem?.castOrNull<HadithListModel>();
-            if(item == null) return;
 
-            showGetNumberBottomDia(context,(newPos){
-              pagingBloc.add(PaginationEventJumpToPos(pos: newPos));
-            },currentIndex: item.rowNumber,limitIndex: state.totalItems - 1);
+          final item = state.visibleMiddleItem?.castOrNull<HadithListModel>();
+          if(item == null) return;
 
-          }catch (e){}
+          showGetNumberBottomDia(context,
+              (newPos){
+                pagingBloc.add(PaginationEventJumpToPos(pos: newPos));
+              },
+              currentIndex: item.rowNumber,
+              limitIndex: state.totalItems - 1
+          );
 
         }, icon: const Icon(Icons.map));
       },

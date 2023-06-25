@@ -8,7 +8,6 @@ import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
-import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
@@ -19,7 +18,6 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_a
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
@@ -46,11 +44,14 @@ class CuzPage extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: TopicSavePointFloatingActionButton(
-        controller: _scrollController,
         showFab: true,
+        controller: _scrollController,
         onSavePointClick: (savePoint){
-          _itemScrollController.scrollTo(index: savePoint.pos,
-              duration: const Duration(milliseconds: 300));
+          _itemScrollController.scrollTo(
+              index: savePoint.pos,
+              duration: const Duration(milliseconds: 300),
+              alignment: 0.5
+          );
         },
       ),
       body: SafeArea(
@@ -79,9 +80,9 @@ class CuzPage extends StatelessWidget {
                   builder: (context,currentTopicSavePoint){
                     return CustomScrollablePositionedList(
                       itemCount: items.length,
-                      debouncerDelayMilliSeconds: 50,
+                      delayMilliSeconds: 200,
                       onScroll: (scrollDirection){
-                        _scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                        _scrollController.setScrollDirection(scrollDirection);
                       },
                       onVisibleItemChanged: (min,max){
                         _positionController.setPositions(min, max,totalItems: state.items.length);

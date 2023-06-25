@@ -7,7 +7,7 @@ import 'package:hadith/utils/text_utils.dart';
 import '../hadith_item.dart';
 import 'package:flutter/material.dart';
 
-extension HadithItemContentExt on HadithItem{
+extension HadithItemContentExt on HadithItemState{
 
   Widget getContentBody(BuildContext context){
     return Column(
@@ -21,7 +21,7 @@ extension HadithItemContentExt on HadithItem{
 
         Text("- ${hadithList.hadith.source}",
             textAlign: TextAlign.center,
-            style: getTextStyle(context)?.copyWith(fontSize: fontSize - 4)
+            style: getTextStyle(context)?.copyWith(fontSize: widget.fontSize - 4)
         ),
       ],
     );
@@ -51,7 +51,7 @@ extension HadithItemContentExt on HadithItem{
     final widgets = SearchUtils.getSelectedText(
         context,
         content: content,
-        searchParam: searchParam,
+        searchParam: widget.searchParam,
         textStyle: getTextStyle(context),
     );
 
@@ -68,7 +68,7 @@ extension HadithItemContentExt on HadithItem{
             child: Text(
               "  ... devamını göster",
               style: getTextStyle(context)?.copyWith(
-                  fontWeight: FontWeight.w500, fontSize: fontSize - 2),
+                  fontWeight: FontWeight.w500, fontSize: widget.fontSize - 2),
             ),
             onTap: () {
               showContinue.value = true;

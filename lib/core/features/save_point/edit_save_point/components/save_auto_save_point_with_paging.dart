@@ -30,10 +30,10 @@ class SaveAutoSavePointWithPaging extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<PaginationBloc,PaginationState>(
       listenWhen: (prevState, nextState){
-        return prevState.visibleMiddleItem != nextState.visibleMiddleItem;
+        return prevState.visibleMinPos != nextState.visibleMinPos;
       },
       listener: (context, state){
-        final pagingItem = state.visibleMiddleItem;
+        final pagingItem = state.items.elementAtOrNull(state.visibleMinPos);
         if(pagingItem!=null){
           positionController.setPosition(pagingItem.rowNumber);
         }

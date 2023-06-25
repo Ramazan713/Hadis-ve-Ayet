@@ -10,7 +10,7 @@ import 'package:hadith/features/hadiths/presentation/shared/components/hadith_it
 import 'package:hadith/utils/text_utils.dart';
 
 
-class HadithItem extends StatelessWidget {
+class HadithItem extends StatefulWidget {
 
   final HadithListModel hadithList;
   final Function()? onFavoriteClick;
@@ -20,26 +20,34 @@ class HadithItem extends StatelessWidget {
   final double fontSize;
   final SearchParam? searchParam;
 
-  HadithItem({Key? key,required this.hadithList, this.onFavoriteClick, this.onShareClick, this.onLongClick,
+  const HadithItem({Key? key,required this.hadithList, this.onFavoriteClick, this.onShareClick, this.onLongClick,
     this.onListClick,required this.searchParam, required this.fontSize}) : super(key: key);
 
+  @override
+  State<HadithItem> createState() => HadithItemState();
+}
+
+class HadithItemState extends State<HadithItem> {
+
+  HadithListModel get hadithList => widget.hadithList;
   Hadith get hadith => hadithList.hadith;
+
   bool get isContentLarge => hadith.contentSize > kMaxContentSize;
+
 
   final ValueNotifier<bool> showContinue = ValueNotifier(false);
 
   TextStyle? getTextStyle(BuildContext context){
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-        fontSize: fontSize, fontWeight: FontWeight.w400, inherit: true);
+        fontSize: widget.fontSize, fontWeight: FontWeight.w400, inherit: true);
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: InkWell(
-        onLongPress: onLongClick,
+        onLongPress: widget.onLongClick,
         child: Ink(
           child: Padding(
             padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
@@ -62,7 +70,6 @@ class HadithItem extends StatelessWidget {
       ),
     );
   }
-
 }
 
 
