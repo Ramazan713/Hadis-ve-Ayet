@@ -9,7 +9,7 @@ import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_state.
 
 class AudioStateIconItem<T> extends StatelessWidget {
 
-  final T Function(DownloadAudioState state)keyFuncDownload;
+  final T Function(DownloadAudioStateOld state)keyFuncDownload;
   final T Function(VerseAudioState state)keyFuncAudio;
   final Widget Function(bool isDownloadingActive,bool isAudioRunning) builder;
   final T value;
@@ -19,7 +19,7 @@ class AudioStateIconItem<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DownloadAudioBloc,DownloadAudioState>(
+    return BlocBuilder<DownloadAudioBlocOld,DownloadAudioStateOld>(
         buildWhen: (prevState,nextState){
           return (keyFuncDownload(prevState) != keyFuncDownload(nextState)) ||
               (prevState.voiceState.isActive() != nextState.voiceState.isActive());

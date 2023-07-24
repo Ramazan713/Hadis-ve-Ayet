@@ -22,7 +22,7 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/verse/common_components/audio_state_icon_item.dart';
-import 'package:hadith/features/verses/shared/presentation/compoenents/verse_topic_item.dart';
+import 'package:hadith/features/verses/shared/presentation/compoenents/verse_topic_item/verse_topic_item.dart';
 import 'package:hadith/features/verses/surah/domain/enums/surah_save_point_menu_item.dart';
 import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';

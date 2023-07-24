@@ -1,8 +1,5 @@
 
-import 'package:hadith/core/data/local/entities/verse_entity.dart';
-import 'package:hadith/core/data/local/services/surah_dao.dart';
-import 'package:hadith/core/data/local/services/verse_dao.dart';
-import 'package:hadith/core/data/local/mapper/verse/verse_mapper.dart';
+import 'package:hadith/core/data/local/services/verse/verse_dao.dart';
 import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
 
@@ -109,5 +106,15 @@ class VerseRepoImpl extends VerseRepo {
   Future<List<Verse>> getVersesByListId(int listId) async{
     final verseEntities = await _verseDao.getVersesFromListId(listId);
     return _getVerses(verseEntities);
+  }
+
+  @override
+  Future<int?> getCuzPosById(int id, int cuzNo) {
+    return _verseDao.getCuzPosById(id, cuzNo);
+  }
+
+  @override
+  Future<int?> getSurahPosById(int id, int surahId) {
+    return _verseDao.getSurahPosById(id, surahId);
   }
 }

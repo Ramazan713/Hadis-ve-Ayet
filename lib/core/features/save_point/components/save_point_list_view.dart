@@ -21,6 +21,7 @@ class SavePointListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
       shrinkWrap: true,
       controller: scrollController,
@@ -45,7 +46,9 @@ class SavePointListView extends StatelessWidget {
               if(onDeleteSavePoint == null) return;
               showCustomAlertBottomDia(context,title: "Silmek İstediğinize emin misiniz?",
                   btnApproved: (){
-                    onSelectSavePoint(null);
+                    if(item.id == selectedSavePoint?.id){
+                      onSelectSavePoint(null);
+                    }
                     onDeleteSavePoint?.call(item);
                   });
             },),

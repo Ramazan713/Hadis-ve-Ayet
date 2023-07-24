@@ -13,9 +13,9 @@ import 'package:hadith/services/connectivity_service.dart';
 import 'package:hadith/services/foreground_service/foreground_service_helper.dart';
 import 'package:rxdart/rxdart.dart';
 
-class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
+class DownloadAudioBlocOld extends Bloc<IDownloadAudioEventOld,DownloadAudioStateOld>{
 
-  DownloadAudioBloc() : super(DownloadAudioState.init()){
+  DownloadAudioBlocOld() : super(DownloadAudioStateOld.init()){
     on<DownloadAudioEventStart>(_onStartDownloading,transformer: restartable());
     on<DownloadAudioEventListen>(_onBootListening);
     on<DownloadAudioEventResume>(_onResume,transformer: restartable());
@@ -25,9 +25,9 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
 
     add(DownloadAudioEventListen());
   }
-  void _onBootListening(DownloadAudioEventListen event,Emitter<DownloadAudioState>emit)async{
+  void _onBootListening(DownloadAudioEventListen event,Emitter<DownloadAudioStateOld>emit)async{
     final streamData = QuranDownloadForegroundService.getStateStream();
-    await emit.forEach<DownloadAudioState>(streamData.mapNotNull((e)=>DownloadAudioState.fromServiceState(e)), onData: (data){
+    await emit.forEach<DownloadAudioStateOld>(streamData.mapNotNull((e)=>DownloadAudioStateOld.fromServiceState(e)), onData: (data){
       if(data.voiceState.downloadEnum==DownloadEnum.success){
         return data.copyWith(downloadFinish: true);
       }
@@ -35,12 +35,12 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
     });
   }
 
-  void _sendMessage(String message,Emitter<DownloadAudioState>emit){
+  void _sendMessage(String message,Emitter<DownloadAudioStateOld>emit){
     emit(state.copyWith(message: message,setMessage: true));
     emit(state.copyWith(setMessage: true));
   }
 
-  void _onStartDownloading(DownloadAudioEventStart event,Emitter<DownloadAudioState>emit)async{
+  void _onStartDownloading(DownloadAudioEventStart event,Emitter<DownloadAudioStateOld>emit)async{
     if(!await ConnectivityService.isConnectedInternet()){
       return _sendMessage("internet bağlantınızı kontrol edin", emit);
     }
@@ -49,19 +49,19 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
     QuranDownloadForegroundService.startDownloadingVoices(AudioParam.fromVerse(event.verse, event.option));
   }
 
-  void _onResume(DownloadAudioEventResume event,Emitter<DownloadAudioState>emit)async{
+  void _onResume(DownloadAudioEventResume event,Emitter<DownloadAudioStateOld>emit)async{
     QuranDownloadForegroundService.resume();
   }
 
-  void _onPause(DownloadAudioEventPause event,Emitter<DownloadAudioState>emit)async{
+  void _onPause(DownloadAudioEventPause event,Emitter<DownloadAudioStateOld>emit)async{
     QuranDownloadForegroundService.pause();
   }
 
-  void _onCancel(DownloadAudioEventCancel event,Emitter<DownloadAudioState>emit)async{
+  void _onCancel(DownloadAudioEventCancel event,Emitter<DownloadAudioStateOld>emit)async{
     QuranDownloadForegroundService.cancel();
   }
 
-  void _onRetry(DownloadAudioEventRetry event,Emitter<DownloadAudioState>emit)async{
+  void _onRetry(DownloadAudioEventRetry event,Emitter<DownloadAudioStateOld>emit)async{
     QuranDownloadForegroundService.retry();
   }
 

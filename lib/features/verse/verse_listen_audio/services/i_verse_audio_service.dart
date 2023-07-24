@@ -91,7 +91,7 @@ abstract class IVerseAudioService<T extends IVerseAudioPlay>{
     await _play(verseAudioModels,currentIndex!=-1?currentIndex:0);
   }
 
-  Future<List<File>> _getFiles(List<VerseAudioEntity> items)async{
+  Future<List<File>> _getFiles(List<VerseAudioEntityOld> items)async{
     try{
       final appDic = await VerseAudio.appDocDirPath();
 
@@ -104,7 +104,7 @@ abstract class IVerseAudioService<T extends IVerseAudioPlay>{
     return [];
   }
 
-  Future<void>_play(List<VerseAudioEntity> items,int initialIndex);
+  Future<void>_play(List<VerseAudioEntityOld> items,int initialIndex);
 
   Future<void> resume()async{
     _addState(_state.copyWith(audioEnum: AudioEnum.running));
@@ -161,7 +161,7 @@ class VerseAudioJustService extends IVerseAudioService<VerseJustAudioPlayer>{
           verseAudioRepo: verseAudioRepo, verseAudioStateRepo: verseAudioStateRepo,sharedPreferences:sharedPreferences);
 
   @override
-  Future<void> _play(List<VerseAudioEntity> items,int initialIndex) async{
+  Future<void> _play(List<VerseAudioEntityOld> items,int initialIndex) async{
     final files = await _getFiles(items);
     if(files.isNotEmpty){
       await _subsCurrentIndex?.cancel();

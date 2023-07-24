@@ -14,6 +14,10 @@ abstract class SavePointRepo{
 
   Future<void>updateSavePoint(SavePoint savePoint);
 
+  Future<SavePoint?> getSavePointById(int id);
+
+  Stream<SavePoint?> getStreamSavePointById(int id);
+
   Future<void>deleteSavePointsWithQuery(SavePointType savePointType,String parentKey);
 
   Future<SavePoint?> getLastSavePointByDestinationAndAutoType(

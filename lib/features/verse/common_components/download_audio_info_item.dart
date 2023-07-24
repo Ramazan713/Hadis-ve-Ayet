@@ -9,7 +9,7 @@ import 'download_audio_progress_item.dart';
 class DownloadAudioInfoItem extends StatelessWidget {
   const DownloadAudioInfoItem({Key? key}) : super(key: key);
 
-  Widget getContent(BuildContext context, DownloadAudioState state) {
+  Widget getContent(BuildContext context, DownloadAudioStateOld state) {
     return Card(
       color: Theme.of(context).cardColor,
       margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -45,7 +45,7 @@ class DownloadAudioInfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DownloadAudioBloc, DownloadAudioState>(
+    return BlocBuilder<DownloadAudioBlocOld, DownloadAudioStateOld>(
       builder: (context, state) {
         return AnimatedSwitcher(
             switchInCurve: Curves.easeIn,

@@ -9,7 +9,7 @@ import 'package:hadith/db/entities/helper/verse_audio_entity.dart';
 import 'package:hadith/features/verse/verse_listen_audio/models/verse_audio_model.dart';
 
 class VerseAudioRepo{
-  final VerseAudioDao verseAudioDao;
+  final VerseAudioDaoOld verseAudioDao;
 
   VerseAudioRepo({required this.verseAudioDao});
 
@@ -35,7 +35,7 @@ class VerseAudioRepo{
     verseAudioDao.deleteVerseAudioWithQuery(identifier, mealId);
 
 
-  Future<bool> validateVerseAudiosAndRemove(List<VerseAudioEntity>audioEntities)async{
+  Future<bool> validateVerseAudiosAndRemove(List<VerseAudioEntityOld>audioEntities)async{
     String appDocDir = await VerseAudio.appDocDirPath();
     bool anyMissing=false;
     for (var audioEntity in audioEntities) {

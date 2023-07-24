@@ -12,7 +12,7 @@ import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 
 void showManageDownloadAudio(BuildContext context){
-  final downloadBloc = context.read<DownloadAudioBloc>();
+  final downloadBloc = context.read<DownloadAudioBlocOld>();
 
   Widget getButton(DownloadEnum downloadEnum){
     if(downloadEnum == DownloadEnum.downloading){
@@ -34,7 +34,7 @@ void showManageDownloadAudio(BuildContext context){
   showDialog(
       context: context,
       builder: (context){
-        return BlocListener<DownloadAudioBloc,DownloadAudioState>(
+        return BlocListener<DownloadAudioBlocOld,DownloadAudioStateOld>(
           listener: (context,state){
             if(state.downloadFinish){
               Navigator.pop(context);
@@ -43,7 +43,7 @@ void showManageDownloadAudio(BuildContext context){
           child: Dialog(
             insetPadding: const EdgeInsets.symmetric(horizontal: 19),
             child: SingleChildScrollView(
-              child: BlocBuilder<DownloadAudioBloc,DownloadAudioState>(
+              child: BlocBuilder<DownloadAudioBlocOld,DownloadAudioStateOld>(
                 builder: (context,state){
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),

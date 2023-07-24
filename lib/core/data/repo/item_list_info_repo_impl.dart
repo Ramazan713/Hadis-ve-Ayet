@@ -5,7 +5,7 @@ import 'package:hadith/core/domain/models/item_list_info.dart';
 
 import '../../domain/repo/item_list_info_repo.dart';
 import '../local/services/hadith_info_list_dao.dart';
-import '../local/services/verse_info_list_dao.dart';
+import '../local/services/verse/verse_info_list_dao.dart';
 
 import '../local/mapper/item_list_info_mapper.dart';
 

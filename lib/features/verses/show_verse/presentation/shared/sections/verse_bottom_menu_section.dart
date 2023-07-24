@@ -13,6 +13,10 @@ import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/dialogs/show_preview_verse_image.dart';
 import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
 import 'package:hadith/core/presentation/dialogs/showShareAlertDialog.dart';
+import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_bloc.dart';
+import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_event.dart';
+import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_bloc.dart';
+import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_event.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_menu_item.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_share_menu_item.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
@@ -39,7 +43,17 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
         verseListModel: verseListModel,
         listener: (menuItem){
           switch(menuItem){
+            case VerseBottomMenuItem.download:
+              navigateBack();
+              context.read<DownloadAudioBloc>()
+                  .add(DownloadAudioEventStartDownloadingWithVerse(verse: verseListModel.verse));
+              break;
             case VerseBottomMenuItem.play:
+              navigateBack();
+              context.read<ListenVerseAudioBloc>()
+                  .add(ListenAudioEventStartListeningWithVerse(
+                verse: verseListModel.verse
+              ));
               break;
             case VerseBottomMenuItem.share:
               _handleShareDia(context,verseListModel);

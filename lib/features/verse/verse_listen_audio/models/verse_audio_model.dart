@@ -9,7 +9,7 @@ part 'verse_audio_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class VerseAudioModel extends Equatable{
-  final VerseAudioEntity? audio;
+  final VerseAudioEntityOld? audio;
   final String?error;
   final AudioEnum audioEnum;
   final Duration duration;
@@ -22,7 +22,7 @@ class VerseAudioModel extends Equatable{
   const VerseAudioModel({this.audio, required this.audioEnum,required this.duration,required this.initIndex,
     required this.position,required this.speed,required this.isLoop,this.error,required this.currentIndex});
 
-  VerseAudioModel copyWith({AudioEnum? audioEnum,VerseAudioEntity? audio,bool setModel=false,Duration?duration,
+  VerseAudioModel copyWith({AudioEnum? audioEnum,VerseAudioEntityOld? audio,bool setModel=false,Duration?duration,
   Duration?position,double? speed,bool?isLoop,String?error,bool setError=false,int?currentIndex,int?initIndex}){
     return VerseAudioModel(
         audioEnum: audioEnum??this.audioEnum,

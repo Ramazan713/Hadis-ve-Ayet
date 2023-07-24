@@ -16,12 +16,43 @@ import 'bloc/edit_save_point_event.dart';
 import 'bloc/edit_save_point_state.dart';
 
 
+void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
+  required SavePointDestination destination,
+  required int itemIndexPos,
+  required void Function(SavePoint savePoint) onSelectedSavePoint,
+  int? selectedSavePointId,
+  String? description,
+  String? title
+}){
+  showEditSavePointsDiaCustom(
+      context,
+      destination: destination,
+      itemIndexPos: itemIndexPos,
+      selectedSavePointId: selectedSavePointId,
+      description: description,
+      customTitle: title,
+      useWideScope: false,
+      customBottomButtons: (savePoint){
+        return CustomButtonPositive(
+          onTap: (){
+            if(savePoint!=null){
+              onSelectedSavePoint(savePoint);
+              Navigator.pop(context);
+            }
+          },
+          label: "Onayla",
+        );
+      }
+  );
+}
+
 void showEditSavePointsDiaBasic(BuildContext context, {
   required SavePointDestination destination,
   required int itemIndexPos,
   void Function(SavePoint savePoint)? onLoadSavePointClick,
   int? selectedSavePointId,
-  String? description
+  String? description,
+  String? title
 })async{
   showEditSavePointsDiaCustom(
     context,
@@ -32,7 +63,8 @@ void showEditSavePointsDiaBasic(BuildContext context, {
       onLoadSavePointClick?.call(savePoint);
     },
     description: description,
-    useWideScope: false
+    useWideScope: false,
+    customTitle: title
   );
 }
 
@@ -43,7 +75,8 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
   required void Function(void Function(bool)) onOverrideSavePointRequestHandler,
   required void Function(void Function(bool)) onLoadSavePointRequestHandler,
   int? selectedSavePointId,
-  String? description
+  String? description,
+  String? title
 })async{
   showEditSavePointsDiaCustom(
       context,
@@ -54,7 +87,8 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
       onOverrideSavePointRequestHandler: onOverrideSavePointRequestHandler,
       onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
       useWideScope: true,
-      description: description
+      description: description,
+      customTitle: title
   );
 }
 
@@ -67,9 +101,12 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   void Function(void Function(bool))? onLoadSavePointRequestHandler,
   int? selectedSavePointId,
   bool useWideScope = false,
-  String title = "Kayıt Noktaları",
-  String? description
+  String? customTitle,
+  String? description,
+  Widget Function(SavePoint?)? customBottomButtons
 }) async {
+
+  final title = customTitle ?? "Kayıt Noktaları";
 
   final ScrollController scrollController = ScrollController();
 
@@ -86,7 +123,10 @@ void showEditSavePointsDiaCustom(BuildContext context, {
     for (var item in LocalDestinationScope.values) {
       menuItems.add(DropdownMenuItem(
         value: item,
-        child: Text(item.getDescription()),
+        child: Text(
+            item.getDescription(),
+            style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ));
     }
     return menuItems;
@@ -98,7 +138,8 @@ void showEditSavePointsDiaCustom(BuildContext context, {
     }
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
-      child: Text(description,
+      child: Text(
+        description,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
@@ -128,8 +169,12 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   // bottom buttons
   Widget getBottomButtons(){
     return BlocSelector<EditSavePointBloc, EditSavePointState,SavePoint?>(
-        selector: (state)=>state.selectedSavePoint,
+        selector: (state) => state.selectedSavePoint,
         builder: (context,selectedSavePoint){
+          if(customBottomButtons != null){
+            return customBottomButtons.call(selectedSavePoint);
+          }
+
           return Row(
             children: [
               Expanded(
@@ -230,11 +275,14 @@ void showEditSavePointsDiaCustom(BuildContext context, {
     final items = state.savePoints;
 
     if (items.isEmpty) {
-      return Center(
-        child: Text(
-          "Herhangi bir kayıt bulunamadı",
-          style:
-          Theme.of(context).textTheme.bodyText2,
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Center(
+          child: Text(
+            "Herhangi bir kayıt bulunamadı",
+            style:
+            Theme.of(context).textTheme.bodyMedium,
+          ),
         ),
       );
     }

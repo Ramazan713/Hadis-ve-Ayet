@@ -10,22 +10,22 @@ abstract class VerseAudioStateDao{
   @Query("""select VA.mealId,VA.fileName,VA.identifier,V.surahId,V.cuzNo,V.verseNumber,S.name surahName,
     V.pageNo,E.name editionName from VerseAudio VA, Verse V,Surah S,AudioEdition E where E.identifier = VA.identifier and
     VA.mealId = V.id and S.id = V.surahId and cuzNo=:cuzNo and VA.identifier=:identifier order by mealId""")
-  Future<List<VerseAudioEntity>>getAudioStateWithCuzNo(int cuzNo,String identifier);
+  Future<List<VerseAudioEntityOld>>getAudioStateWithCuzNo(int cuzNo,String identifier);
 
   @Query("""select VA.mealId,VA.fileName,VA.identifier,V.surahId,V.cuzNo,V.verseNumber,S.name surahName,V.pageNo,
     E.name editionName from VerseAudio VA, Verse V,Surah S,AudioEdition E where E.identifier = VA.identifier and
     VA.mealId = V.id and S.id = V.surahId and surahId=:surahId and VA.identifier=:identifier order by mealId""")
-  Future<List<VerseAudioEntity>>getAudioStateWithSurahId(int surahId,String identifier);
+  Future<List<VerseAudioEntityOld>>getAudioStateWithSurahId(int surahId,String identifier);
 
   @Query("""select VA.mealId,VA.fileName,VA.identifier,V.surahId,V.cuzNo,V.verseNumber,S.name surahName,
     V.pageNo,E.name editionName from VerseAudio VA, Verse V,Surah S,AudioEdition E where E.identifier = VA.identifier and
     VA.mealId = V.id and S.id = V.surahId and pageNo=:pageNo and VA.identifier=:identifier order by mealId""")
-  Future<List<VerseAudioEntity>>getAudioStateWithPageNo(int pageNo,String identifier);
+  Future<List<VerseAudioEntityOld>>getAudioStateWithPageNo(int pageNo,String identifier);
 
   @Query("""select VA.mealId,VA.fileName,VA.identifier,V.surahId,V.cuzNo,V.verseNumber,S.name surahName,
     V.pageNo,E.name editionName from VerseAudio VA, Verse V,Surah S,AudioEdition E where E.identifier = VA.identifier and 
     VA.mealId = V.id and S.id = V.surahId and mealId=:mealId and VA.identifier=:identifier order by mealId""")
-  Future<List<VerseAudioEntity>>getAudioStateWithMealId(int mealId,String identifier);
+  Future<List<VerseAudioEntityOld>>getAudioStateWithMealId(int mealId,String identifier);
 
 
   @Query("""select count(*) from verse where surahId=:surahId and id<=:mealId""")

@@ -16,37 +16,28 @@ class VerseTopicItem extends StatelessWidget {
 
   Widget? getTrailingWidget(BuildContext context){
     final iconColor = Theme.of(context).iconTheme.color;
-    final downloadingIcon = Icon(Icons.downloading,color: iconColor,);
+    final downloadingIcon = Icon(Icons.access_time,color: iconColor,);
     final audioIcon = Icon(Icons.audiotrack,color: iconColor,);
     final savePointIcon = Icon(Icons.beenhere, color: Theme.of(context).errorColor,);
+    const double width = 10;
 
-    final isAudio = isDownloadingActive || isAudioRunning;
-    final audioIcons = [];
-    if(isDownloadingActive)audioIcons.add(downloadingIcon);
-    if(isAudioRunning)audioIcons.add(audioIcon);
-
-    if(hasSavePoint && isAudio){
-      return SizedBox(
-        width: 60,
-        height: 30,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ...audioIcons,
-            downloadingIcon
-          ],
-        ),
-      );
-    }else if(hasSavePoint){
-      return savePointIcon!;
-    }else if(isDownloadingActive){
-      return downloadingIcon;
-    }else if(isAudioRunning){
-      return audioIcon;
+    final items = <Widget>[];
+    if(isDownloadingActive){
+      items.add(downloadingIcon);
+      items.add(const SizedBox(width: width,));
     }
-    return null;
+    if(isAudioRunning){
+      items.add(audioIcon);
+      items.add(const SizedBox(width: width,));
+    }
+    if(hasSavePoint){
+      items.add(savePointIcon);
+      items.add(const SizedBox(width: width,));
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: items,
+    );
   }
 
   @override

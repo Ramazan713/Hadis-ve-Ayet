@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
@@ -5,6 +6,7 @@ import 'package:hadith/core/domain/enums/save_point/local_destination_scope.dart
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
+import 'package:collection/collection.dart';
 
 class EditSavePointState extends Equatable{
 
@@ -13,15 +15,19 @@ class EditSavePointState extends Equatable{
   final SavePointDestination destination;
   final int position;
   final List<SavePoint> savePoints;
-  final SavePoint? selectedSavePoint;
+  final int? selectedSavePointId;
 
-  const EditSavePointState({required this.selectedSavePoint,
+  const EditSavePointState({required this.selectedSavePointId,
     required this.savePoints, required this.localScope,
     this.message, required this.destination, required this.position
   });
 
+  SavePoint? get selectedSavePoint {
+    return savePoints.firstWhereOrNull((e) => e.id == selectedSavePointId);
+  }
+
   EditSavePointState copyWith({
-    SavePoint?selectedSavePoint, bool setSavePoint=false,
+    int?selectedSavePointId, bool setSelectedSavePointId = false,
     List<SavePoint>? savePoints,
     LocalDestinationScope? localScope,
     String? message, bool setMessage = false,
@@ -29,19 +35,19 @@ class EditSavePointState extends Equatable{
     int? position
   }) {
     return EditSavePointState(
-        selectedSavePoint: setSavePoint?selectedSavePoint??this.selectedSavePoint:selectedSavePoint,
-        savePoints: savePoints??this.savePoints,
-        localScope: localScope??this.localScope,
-        message: setMessage?message:this.message,
-        destination: destination??this.destination,
-        position: position??this.position
+        selectedSavePointId: setSelectedSavePointId ? selectedSavePointId : this.selectedSavePointId,
+        savePoints: savePoints ?? this.savePoints,
+        localScope: localScope ?? this.localScope,
+        message: setMessage ? message : this.message,
+        destination: destination ?? this.destination,
+        position: position ?? this.position
     );
   }
 
   static EditSavePointState init(){
     return EditSavePointState(
         savePoints: const [],
-        selectedSavePoint: null,
+        selectedSavePointId: null,
         localScope: LocalDestinationScope.restrict,
         position: 0,
         destination: DestinationAll(bookEnum: BookEnum.serlevha)
@@ -49,6 +55,7 @@ class EditSavePointState extends Equatable{
   }
 
   @override
-  List<Object?> get props => [position,destination,selectedSavePoint,message,savePoints, localScope];
+  List<Object?> get props => [
+    position,destination,selectedSavePointId,message,savePoints, localScope];
 
 }

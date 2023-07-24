@@ -7,10 +7,10 @@ import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
 import 'package:hadith/features/verse/common_services/file_audio_editor.dart';
 
 class VerseAudioEditorRepo{
-  late final VerseAudioDao _audioDao;
+  late final VerseAudioDaoOld _audioDao;
   late final FileAudioEditor _fileAudioEditor;
 
-  VerseAudioEditorRepo({required VerseAudioDao audioDao,required FileAudioEditor fileAudioEditor}){
+  VerseAudioEditorRepo({required VerseAudioDaoOld audioDao,required FileAudioEditor fileAudioEditor}){
     _audioDao = audioDao;
     _fileAudioEditor = fileAudioEditor;
   }

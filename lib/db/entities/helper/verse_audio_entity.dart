@@ -8,7 +8,7 @@ part 'verse_audio_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 @Entity(tableName: "verseAudioTemp")
-class VerseAudioEntity extends Equatable{
+class VerseAudioEntityOld extends Equatable{
   @primaryKey
   final int mealId;
 
@@ -22,14 +22,14 @@ class VerseAudioEntity extends Equatable{
   final String verseNumber;
 
 
-  const VerseAudioEntity({required this.surahName, required this.surahId, required this.identifier,
+  const VerseAudioEntityOld({required this.surahName, required this.surahId, required this.identifier,
     required this.fileName, required this.cuzNo, required this.pageNo, required this.verseNumber,
     required this.mealId,required this.editionName});
 
 
-  factory VerseAudioEntity.fromJson(Map<String, dynamic> json) => _$VerseAudioEntityFromJson(json);
+  factory VerseAudioEntityOld.fromJson(Map<String, dynamic> json) => _$VerseAudioEntityOldFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VerseAudioEntityToJson(this);
+  Map<String, dynamic> toJson() => _$VerseAudioEntityOldToJson(this);
 
   @override
   List<Object?> get props => [surahName, surahId, identifier, fileName,

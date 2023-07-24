@@ -9,6 +9,8 @@ abstract class VerseRepo{
 
   Future<bool> getExistsVerseBySurahId(int surahId, int id);
 
+  Future<int?> getSurahPosById(int id,int surahId);
+
 
 
   Future<List<Verse>> getPagingVersesByCuzNo(int cuzNo, int pageSize, int startIndex);
@@ -16,6 +18,8 @@ abstract class VerseRepo{
   Future<int> getVerseCountByCuzNo(int cuzNo);
 
   Future<bool> getExistsVerseByCuzNo(int cuzNo, int id);
+
+  Future<int?> getCuzPosById(int id,int cuzNo);
 
 
 

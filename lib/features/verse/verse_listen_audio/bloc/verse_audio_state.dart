@@ -56,7 +56,7 @@ class VerseAudioState extends Equatable{
   AudioEnum getAudioEnum(){
     return currentAudio?.audioEnum ?? AudioEnum.idle;
   }
-  VerseAudioEntity? getAudio(){
+  VerseAudioEntityOld? getAudio(){
     return currentAudio?.audio;
   }
 

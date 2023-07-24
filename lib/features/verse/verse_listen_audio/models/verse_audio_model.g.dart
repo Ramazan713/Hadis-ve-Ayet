@@ -10,7 +10,7 @@ VerseAudioModel _$VerseAudioModelFromJson(Map<String, dynamic> json) =>
     VerseAudioModel(
       audio: json['audio'] == null
           ? null
-          : VerseAudioEntity.fromJson(json['audio'] as Map<String, dynamic>),
+          : VerseAudioEntityOld.fromJson(json['audio'] as Map<String, dynamic>),
       audioEnum: $enumDecode(_$AudioEnumEnumMap, json['audioEnum']),
       duration: Duration(microseconds: json['duration'] as int),
       initIndex: json['initIndex'] as int,

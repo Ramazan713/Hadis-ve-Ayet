@@ -5,7 +5,7 @@ import 'package:hadith/db/entities/audio_edition.dart';
 import 'package:hadith/db/entities/helper/int_data.dart';
 
 @dao
-abstract class AudioEditionDao{
+abstract class AudioEditionDaoOld{
 
   @Query("""select * from audioEdition""")
   Stream<List<AudioEdition>> getStreamEditions();

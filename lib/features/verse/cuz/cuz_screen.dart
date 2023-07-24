@@ -97,7 +97,7 @@ class _CuzScreenState extends TopicSavePointPageState<CuzScreen> {
                         parentKey:_topicSavePointEnum.defaultParentKey));
                     
                     final items = state.items;
-                    return BlocBuilder<DownloadAudioBloc,DownloadAudioState>(
+                    return BlocBuilder<DownloadAudioBlocOld,DownloadAudioStateOld>(
                       buildWhen: (previousState,currentState){
                         return previousState.getVoiceModel()?.cuzNo!=currentState.getVoiceModel()?.cuzNo;
                       },

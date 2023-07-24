@@ -20,7 +20,7 @@ class VerseAudiosConnect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioBloc = context.read<VerseAudioBloc>();
-    final downloadBloc = context.read<DownloadAudioBloc>();
+    final downloadBloc = context.read<DownloadAudioBlocOld>();
     return MultiBlocListener(
         listeners: [
           BlocListener<VerseAudioBloc,VerseAudioState>(
@@ -67,7 +67,7 @@ class VerseAudiosConnect extends StatelessWidget {
               }
             },
           ),
-          BlocListener<DownloadAudioBloc,DownloadAudioState>(
+          BlocListener<DownloadAudioBlocOld,DownloadAudioStateOld>(
             listener: (context,state){
               if(state.downloadFinish){
                 audioBloc.add(AudioEventRequestListening(isAfterDownloading: true));

@@ -15,6 +15,16 @@ abstract class SavePointDao{
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateSavePoint(SavePointEntity savePoint);
 
+  @Query("""
+    select * from savePoints where id = :id
+  """)
+  Future<SavePointEntity?> getSavePointById(int id);
+
+  @Query("""
+    select * from savePoints where id = :id
+  """)
+  Stream<SavePointEntity?> getStreamSavePointById(int id);
+
   @Query("""delete from savePoints where savePointType=:savePointType and parentKey=:parentKey""")
   Future<void>deleteSavePointsWithQuery(int savePointType,String parentKey);
 

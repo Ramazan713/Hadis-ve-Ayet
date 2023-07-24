@@ -7,7 +7,6 @@ import 'package:hadith/core/domain/extensions/app_extension.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
-import 'package:hadith/core/features/save_point/edit_save_point/show_edit_save_point_dia.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/dropdown_bar_menu.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';

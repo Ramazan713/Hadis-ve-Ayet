@@ -83,4 +83,15 @@ class SavePointRepoImpl extends SavePointRepo{
     ))?.toSavePoint();
   }
 
+  @override
+  Future<SavePoint?> getSavePointById(int id) async{
+    return (await _savePointDao.getSavePointById(id))?.toSavePoint();
+  }
+
+  @override
+  Stream<SavePoint?> getStreamSavePointById(int id) {
+    return _savePointDao.getStreamSavePointById(id)
+        .map((e) => e?.toSavePoint());
+  }
+
 }

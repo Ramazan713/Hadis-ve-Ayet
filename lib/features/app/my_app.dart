@@ -4,6 +4,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
+import 'package:hadith/features/verses/shared/domain/model/service_audio/background_event.dart';
 import 'package:hadith/themes/bloc/theme_bloc.dart';
 import 'package:hadith/themes/bloc/theme_state.dart';
 
@@ -11,6 +12,7 @@ import '../../themes/dark_theme.dart';
 import '../../themes/light_theme.dart';
 import '../premium/bloc/premium_bloc.dart';
 import '../premium/bloc/premium_event.dart';
+import '../verses/shared/domain/manager/background_verse_audio_manager.dart';
 import 'routes/combine_routers.dart';
 
 class MyApp extends StatefulWidget {
@@ -61,10 +63,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async{
     super.didChangeAppLifecycleState(state);
     if(state == AppLifecycleState.resumed){
       context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
+      await BackgroundVerseAudioManager.onEvent(BackgroundEventCheckNotificationStatus());
     }
   }
 

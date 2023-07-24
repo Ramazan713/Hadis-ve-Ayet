@@ -39,4 +39,12 @@ class GetSavePoints{
     return _savePointRepo.getStreamSavePointsWithTypeIdAndParentKey(type, parentKey);
   }
 
+  Future<SavePoint?> callByIdSingle({required int id})async{
+    return _savePointRepo.getSavePointById(id);
+  }
+
+  Stream<SavePoint?> callById({required int id}){
+    return _savePointRepo.getStreamSavePointById(id);
+  }
+
 }

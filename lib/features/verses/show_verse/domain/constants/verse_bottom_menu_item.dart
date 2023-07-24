@@ -6,8 +6,12 @@ import 'package:hadith/core/domain/models/icon_info.dart';
 
 enum VerseBottomMenuItem implements IMenuItem{
   play(
-    title: "Dinle",
-    iconInfo: IconInfo(iconData: Icons.play_arrow,)
+      title: "Dinle",
+      iconInfo: IconInfo(iconData: Icons.play_arrow,)
+  ),
+  download(
+    title: "Indir",
+    iconInfo: IconInfo(iconData: Icons.download)
   ),
   share(
       title: "Paylaş",

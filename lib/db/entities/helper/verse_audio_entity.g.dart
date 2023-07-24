@@ -6,8 +6,8 @@ part of 'verse_audio_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VerseAudioEntity _$VerseAudioEntityFromJson(Map<String, dynamic> json) =>
-    VerseAudioEntity(
+VerseAudioEntityOld _$VerseAudioEntityOldFromJson(Map<String, dynamic> json) =>
+    VerseAudioEntityOld(
       surahName: json['surahName'] as String,
       surahId: json['surahId'] as int,
       identifier: json['identifier'] as String,
@@ -19,7 +19,8 @@ VerseAudioEntity _$VerseAudioEntityFromJson(Map<String, dynamic> json) =>
       editionName: json['editionName'] as String,
     );
 
-Map<String, dynamic> _$VerseAudioEntityToJson(VerseAudioEntity instance) =>
+Map<String, dynamic> _$VerseAudioEntityOldToJson(
+        VerseAudioEntityOld instance) =>
     <String, dynamic>{
       'mealId': instance.mealId,
       'surahName': instance.surahName,

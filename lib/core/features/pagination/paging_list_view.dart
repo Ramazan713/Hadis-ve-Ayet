@@ -18,11 +18,20 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
   final Function(ScrollDirection direction)? onScroll;
   final Widget Function(BuildContext, T  , int) itemBuilder;
   final PagingLoadingItem? loadingItem;
+  late final ItemPositionsListener _itemPositionsListener;
+  late final ItemScrollController _itemScrollController;
 
-  PagingListView({super.key, this.onScroll, required this.itemBuilder, this.loadingItem});
-
-  final ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
-  final ItemScrollController _itemScrollController = ItemScrollController();
+  PagingListView({
+    super.key,
+    this.onScroll,
+    required this.itemBuilder,
+    this.loadingItem,
+    ItemPositionsListener? itemPositionsListener,
+    ItemScrollController? itemScrollController
+  }){
+    _itemPositionsListener = itemPositionsListener ?? ItemPositionsListener.create();
+    _itemScrollController = itemScrollController ?? ItemScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {

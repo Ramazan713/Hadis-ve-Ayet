@@ -1,7 +1,11 @@
 
 
+
 enum QuranAudioOption{
-  cuz,surah,page,verse
+  cuz,
+  surah,
+  page,
+  verse;
 }
 
 extension QuranAudioOptionExtension on QuranAudioOption{

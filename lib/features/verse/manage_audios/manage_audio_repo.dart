@@ -19,10 +19,10 @@ class ManageAudioRepo{
   late final CuzDaoOld _cuzDao;
   late final SurahDaoOld _surahDao;
   late final FileService _fileService;
-  late final VerseAudioDao _verseAudioDao;
+  late final VerseAudioDaoOld _verseAudioDao;
 
   ManageAudioRepo({required ManageAudioDao manageAudioDao,required CuzDaoOld cuzDao,required SurahDaoOld surahDao,
-    required FileService fileService,required VerseAudioDao verseAudioDao}){
+    required FileService fileService,required VerseAudioDaoOld verseAudioDao}){
     _manageAudioDao = manageAudioDao;
     _cuzDao = cuzDao;
     _surahDao = surahDao;

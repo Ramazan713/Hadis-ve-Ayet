@@ -2,7 +2,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../entities/views/verse_info_list_view.dart';
+import '../../entities/views/verse_info_list_view.dart';
 
 @dao
 abstract class VerseInfoListDao{

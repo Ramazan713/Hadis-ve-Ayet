@@ -14,6 +14,30 @@ class InsertOrUpdateAutoSavePoint{
   }
 
 
+  Future<void> callWithId({
+    required int savePointId,
+    required SavePointDestination destination,
+    required int itemIndexPos,
+    String? title,
+    SaveAutoType? autoType,
+    DateTime? dateTime,
+  })async{
+
+    final SavePoint? savePoint = await _savePointRepo.getSavePointById(savePointId);
+    final modifiedDate = (dateTime ?? DateTime.now()).toIso8601String();
+
+    if(savePoint!=null){
+      final updatedSavePoint = savePoint.copyWith(
+          autoType: autoType,
+          itemIndexPos: itemIndexPos,
+          title: title,
+          destination: destination,
+          modifiedDate: modifiedDate
+      );
+      await _savePointRepo.updateSavePoint(updatedSavePoint);
+    }
+  }
+
   Future<void> call({
     required SavePointDestination destination,
     required int itemIndexPos,
@@ -56,11 +80,6 @@ class InsertOrUpdateAutoSavePoint{
       );
       await _savePointRepo.insertSavePoint(savePoint);
     }
-
-
   }
-
-
-
 
 }

@@ -14,11 +14,19 @@ import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/features/verse/common_components/verse_audios_connect.dart';
+import 'package:hadith/features/verses/shared/presentation/compoenents/audio_connect.dart';
+import 'package:hadith/features/verses/shared/presentation/compoenents/audio_info_body_wrapper.dart';
+import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_event.dart';
+import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_state.dart';
 import 'package:hadith/features/verses/show_verse/domain/repo/verse_pagination_repo.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/follow_audio_wrapper.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/header.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/verse_bottom_menu_section.dart';
 
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import '../../../shared/presentation/features/listen_verse_audio/bloc/verse_audio_bloc.dart';
 import 'bloc/verse_shared_bloc.dart';
 import 'bloc/verse_shared_state.dart';
 import 'components/paging_verse_connect.dart';
@@ -48,6 +56,7 @@ class VerseShowSharedPage extends StatelessWidget {
 
 
   final CustomScrollController _customScrollController = CustomScrollController();
+  final ItemScrollController _itemScrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,40 +67,61 @@ class VerseShowSharedPage extends StatelessWidget {
         config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: pos)
     ));
 
-    return ShareConnect(
-      child: PagingVerseConnect(
-        child: SaveAutoSavePointWithPaging(
-          destination: savePointDestination,
-          autoType: SaveAutoType.general,
-          child: Scaffold(
-            body: CustomNestedViewAppBar(
-              scrollController: _customScrollController,
-              title: Text(title),
-              actions: getTopBarActions(context),
-              child: BlocBuilder<VerseSharedBloc, VerseSharedState>(
-                builder: (context, state){
-                  return PagingListView<VerseListModel>(
-                    onScroll: (scrollDirection){
-                      _customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
-                    },
-                    itemBuilder: (context, item, index){
-                      return VerseItem(
-                          fontModel: state.fontModel,
-                          arabicVerseUIEnum: state.arabicVerseUIEnum,
-                          showListVerseIcons: true,
-                          onLongPress: (){
-                            handleBottomMenu(
-                                context,
-                                verseListModel: item,
-                                state: state,
-                            );
-                          },
-                          verseListModel: item,
-                          searchParam: searchParam,
-                      );
-                    },
-                  );
-                },
+    return FollowAudioWrapper(
+      itemScrollController: _itemScrollController,
+      child: VerseAudiosConnect(
+        child: AudioConnect(
+          child: ShareConnect(
+            child: PagingVerseConnect(
+              child: SaveAutoSavePointWithPaging(
+                destination: savePointDestination,
+                autoType: SaveAutoType.general,
+                child: Scaffold(
+                  body: CustomNestedViewAppBar(
+                    scrollController: _customScrollController,
+                    title: Text(title),
+                    actions: getTopBarActions(context),
+                    child: AudioInfoBodyWrapper(
+                      destination: savePointDestination,
+                      child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                        selector: (state) => state.audio?.mealId,
+                        builder: (context, currentMealId){
+                          return BlocBuilder<VerseSharedBloc, VerseSharedState>(
+                            builder: (context, state){
+                              return PagingListView<VerseListModel>(
+                                itemScrollController: _itemScrollController,
+                                onScroll: (scrollDirection){
+                                  _customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                                },
+                                itemBuilder: (context, item, index){
+                                  return VerseItem(
+                                    fontModel: state.fontModel,
+                                    isSelected: item.pagingId == currentMealId,
+                                    arabicVerseUIEnum: state.arabicVerseUIEnum,
+                                    showListVerseIcons: true,
+                                    onLongPress: (){
+                                      handleBottomMenu(
+                                        context,
+                                        verseListModel: item,
+                                        state: state,
+                                      );
+                                    },
+                                    onPress: (){
+                                      context.read<ListenVerseAudioBloc>()
+                                          .add(ListenAudioEventToggleVisibilityAudioWidget());
+                                    },
+                                    verseListModel: item,
+                                    searchParam: searchParam,
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

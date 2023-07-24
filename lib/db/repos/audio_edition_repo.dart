@@ -8,7 +8,7 @@ import 'package:hadith/models/resource.dart';
 import 'package:hadith/services/connectivity_service.dart';
 
 class AudioEditionRepo{
-  final AudioEditionDao editionDao;
+  final AudioEditionDaoOld editionDao;
   final QuranDownloadService downloadService;
 
   AudioEditionRepo({required this.editionDao,required this.downloadService});

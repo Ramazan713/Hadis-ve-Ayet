@@ -14,7 +14,7 @@ class VerseAudioStateRepo{
     _audioStateDao = audioStateDao;
   }
 
-  Future<List<VerseAudioEntity>>getStateAudioVerses(AudioParam audioParam,String identifier){
+  Future<List<VerseAudioEntityOld>>getStateAudioVerses(AudioParam audioParam,String identifier){
     switch(audioParam.option){
       case QuranAudioOption.verse:
         return _audioStateDao.getAudioStateWithMealId(audioParam.mealId,identifier);

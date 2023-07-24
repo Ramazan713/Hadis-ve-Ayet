@@ -4,15 +4,15 @@ import 'package:equatable/equatable.dart';
 import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
 
-abstract class IDownloadAudioEvent extends Equatable{
+abstract class IDownloadAudioEventOld extends Equatable{
   @override
   List<Object?> get props => [];
 }
 
 
-class DownloadAudioEventListen extends IDownloadAudioEvent{}
+class DownloadAudioEventListen extends IDownloadAudioEventOld{}
 
-class DownloadAudioEventStart extends IDownloadAudioEvent{
+class DownloadAudioEventStart extends IDownloadAudioEventOld{
   final Verse verse;
   final QuranAudioOption option;
 
@@ -21,10 +21,10 @@ class DownloadAudioEventStart extends IDownloadAudioEvent{
   List<Object?> get props => [verse,option];
 }
 
-class DownloadAudioEventResume extends IDownloadAudioEvent{}
+class DownloadAudioEventResume extends IDownloadAudioEventOld{}
 
-class DownloadAudioEventPause extends IDownloadAudioEvent{}
+class DownloadAudioEventPause extends IDownloadAudioEventOld{}
 
-class DownloadAudioEventCancel extends IDownloadAudioEvent{}
+class DownloadAudioEventCancel extends IDownloadAudioEventOld{}
 
-class DownloadAudioEventRetry extends IDownloadAudioEvent{}
+class DownloadAudioEventRetry extends IDownloadAudioEventOld{}

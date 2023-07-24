@@ -5,7 +5,6 @@ import 'package:hadith/core/domain/enums/save_point/local_destination_scope.dart
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/domain/use_cases/save_point/save_point_use_cases.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:collection/collection.dart';
 import 'edit_save_point_event.dart';
 import 'edit_save_point_state.dart';
 
@@ -37,27 +36,27 @@ class EditSavePointBloc extends Bloc<IEditSavePointEvent,EditSavePointState>{
 
   void _onLoadData(EditSavePointEventLoadData event,Emitter<EditSavePointState>emit)async{
 
-    if(state.savePoints.isNotEmpty){
+      _scopeFilter.add(state.localScope);
       emit(state.copyWith(
-          selectedSavePoint: state.savePoints.firstWhereOrNull((element) => element.id == event.selectedSavePointId),
-          setSavePoint: true
+          destination: event.destination,
+          position: event.position,
+          setSelectedSavePointId: true,
+          selectedSavePointId: event.selectedSavePointId
       ));
-    }
-    _scopeFilter.add(state.localScope);
-    emit(state.copyWith(destination: event.destination,position: event.position));
 
-    final destination = event.destination;
+      final destination = event.destination;
 
-    final streamData = _scopeFilter.stream.switchMap((localScope) {
-      if(localScope == LocalDestinationScope.wide){
-        return _savePointUseCases.getSavePoints.callType(bookScope: null, type: destination.getType());
+      final streamData = _scopeFilter.stream.switchMap((localScope) {
+        if(localScope == LocalDestinationScope.wide){
+          return _savePointUseCases.getSavePoints.callType(bookScope: null, type: destination.getType());
+        }
+        //restrict scope
+        return _savePointUseCases.getSavePoints.callParentKey(type: destination.getType(), parentKey: destination.getParentKey());
+      });
+
+      await emit.forEach<List<SavePoint>>(streamData, onData: (data){
+        return state.copyWith(savePoints: data);
       }
-      //restrict scope
-      return _savePointUseCases.getSavePoints.callParentKey(type: destination.getType(), parentKey: destination.getParentKey());
-    });
-
-    await emit.forEach<List<SavePoint>>(streamData, onData: (data) =>
-        state.copyWith(savePoints: data)
     );
   }
 
@@ -91,7 +90,10 @@ class EditSavePointBloc extends Bloc<IEditSavePointEvent,EditSavePointState>{
   }
 
   void _onSelect(EditSavePointEventSelect event,Emitter<EditSavePointState>emit)async{
-    emit(state.copyWith(selectedSavePoint: event.savePoint,setSavePoint: true));
+    emit(state.copyWith(
+      selectedSavePointId: event.savePoint?.id,
+      setSelectedSavePointId: true
+    ));
   }
 
   void _onOverride(EditSavePointEventOverride event,Emitter<EditSavePointState>emit)async{

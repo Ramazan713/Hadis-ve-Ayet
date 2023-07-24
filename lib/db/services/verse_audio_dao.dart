@@ -4,7 +4,7 @@ import 'package:hadith/db/entities/helper/int_data.dart';
 import 'package:hadith/db/entities/verse_audio.dart';
 
 @dao
-abstract class VerseAudioDao{
+abstract class VerseAudioDaoOld{
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> insertVerseAudio(VerseAudio verseAudio);

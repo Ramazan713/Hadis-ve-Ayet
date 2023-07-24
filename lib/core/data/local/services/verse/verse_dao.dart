@@ -18,6 +18,11 @@ abstract class VerseDao{
   @Query("select exists(select * from verse where surahId = :surahId and id = :id)")
   Future<bool?> getExistsVerseBySurahId(int surahId, int id);
 
+  @Query("""
+    select count(*) from verse where surahId = :surahId and id < :id 
+  """)
+  Future<int?> getSurahPosById(int id,int surahId);
+
 
   // by cuz
   @Query("""
@@ -30,6 +35,11 @@ abstract class VerseDao{
 
   @Query("select exists(select * from verse where cuzNo = :cuzNo and id = :id)")
   Future<bool?> getExistsVerseByCuzNo(int cuzNo, int id);
+
+  @Query("""
+    select count(*) from verse where cuzNo = :cuzNo and id < :id 
+  """)
+  Future<int?> getCuzPosById(int id,int cuzNo);
 
 
 
@@ -89,5 +99,10 @@ abstract class VerseDao{
     order by LV.pos desc
   """)
   Future<List<VerseEntity>> getVersesFromListId(int listId);
+
+  @Query("""
+    select * from verse where id in (:ids)
+  """)
+  Future<List<VerseEntity>> getVersesByIds(List<int> ids);
 
 }
