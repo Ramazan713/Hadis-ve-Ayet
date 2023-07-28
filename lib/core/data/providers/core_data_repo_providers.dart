@@ -2,6 +2,8 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/data/preferences/app_preferences_impl.dart';
+import 'package:hadith/core/data/remote/edition_download_service.dart';
+import 'package:hadith/core/data/repo/edition_repo_impl.dart';
 import 'package:hadith/core/data/repo/hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/item_list_info_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_hadith_repo_impl.dart';
@@ -16,6 +18,7 @@ import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/data/repo/verse/verse_arabic_repo_impl.dart';
 import 'package:hadith/core/data/repo/verse/verse_repo_impl.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_repo.dart';
@@ -66,5 +69,12 @@ List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
     )),
     RepositoryProvider<HadithRepo>(create: (context) => HadithRepoImpl(hadithAllDao: appDatabase.hadithAllDao)),
     RepositoryProvider<TitleRepo>(create: (context) => TitleRepoImpl(titleDao: appDatabase.titleDao)),
+
+    RepositoryProvider<EditionRepo>(create: (context) => EditionRepoImply(
+        editionDao: appDatabase.editionDao,
+        downloadService: EditionDownloadService(),
+        connectivityService: context.read()
+    )),
+
   ];
 }

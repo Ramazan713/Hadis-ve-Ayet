@@ -6,13 +6,13 @@ import 'package:hadith/core/domain/use_cases/save_point/save_point_use_cases.dar
 import 'package:hadith/features/verses/shared/data/mapper/param_mapper.dart';
 import 'package:hadith/features/verses/shared/domain/enums/audio_service.dart';
 import 'package:hadith/features/verses/shared/domain/manager/background_verse_audio_manager.dart';
-import 'package:hadith/features/verses/shared/domain/model/audio_edition.dart';
+import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/features/verses/shared/domain/model/service_audio/background_event.dart';
 import 'package:hadith/features/verses/shared/domain/model/listen_audio/audio_listen_event.dart';
 import 'package:hadith/features/verses/shared/domain/model/listen_audio/listen_audio_service_state.dart';
 import 'package:hadith/features/verses/shared/domain/model/select_audio_option.dart';
 import 'package:hadith/features/verses/shared/domain/notification/i_verse_listen_audio_notification.dart';
-import 'package:hadith/features/verses/shared/domain/repo/edition_repo.dart';
+import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/features/verses/shared/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/listen_audio_dialog_event.dart';
 import 'package:hadith/features/verses/shared/presentation/models/audio_param_builder.dart';

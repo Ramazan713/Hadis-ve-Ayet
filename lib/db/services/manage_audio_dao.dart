@@ -11,9 +11,9 @@ abstract class ManageAudioDao{
 
 
   @Query("""select * from surahAudioView where isDownloaded=1 and identifier=:identifier order by surahId""")
-  Stream<List<SurahAudioView>>getStreamSurahAudioViews(String identifier);
+  Stream<List<SurahAudioViewOld>>getStreamSurahAudioViews(String identifier);
 
   @Query("""select * from cuzAudioView where isDownloaded=1 and identifier=:identifier order by cuzNo""")
-  Stream<List<CuzAudioView>>getStreamCuzAudioViews(String identifier);
+  Stream<List<CuzAudioViewOld>>getStreamCuzAudioViews(String identifier);
 
 }

@@ -12,9 +12,9 @@ class DropdownManageEnumItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final manageBloc = context.read<ManageAudioBloc>();
+    final manageBloc = context.read<ManageAudioBlocOld>();
 
-    return BlocSelector<ManageAudioBloc,ManageAudioState,AudioManageEnum>(
+    return BlocSelector<ManageAudioBlocOld,ManageAudioStateOld,AudioManageEnum>(
         selector: (state)=>state.manageEnum,
         builder: (context,currentEnum){
           return DropdownButton<AudioManageEnum>(

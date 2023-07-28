@@ -21,8 +21,8 @@ class IconPlayAudio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final audioBloc = context.read<BasicAudioBloc>();
-    return BlocBuilder<BasicAudioBloc, BasicAudioState>(
+    final audioBloc = context.read<BasicAudioBlocOld>();
+    return BlocBuilder<BasicAudioBlocOld, BasicAudioState>(
         builder: (context, state) {
 
           final audioIdentifier = state.currentIdentifier;

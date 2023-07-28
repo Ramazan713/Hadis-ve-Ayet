@@ -26,7 +26,6 @@ class AudioConnect extends StatelessWidget {
   Widget build(BuildContext context) {
     final audioBloc = context.read<ListenVerseAudioBloc>();
     final downloadBloc = context.read<DownloadAudioBloc>();
-
     return DownloadAudioListenerConnect(
       sendEventToAudioPlayerAfterDownloaded: true,
       child: MultiBlocListener(
@@ -53,7 +52,6 @@ class AudioConnect extends StatelessWidget {
 
                 if(dialogEvent!=null){
                   audioBloc.add(ListenAudioEventClearDialogEvent());
-                  print("PermissionCheckStatus dialog: $dialogEvent");
                   switch(dialogEvent){
                     case ListenAudioDialogEventShowOption _:
                       showVoiceOptions(

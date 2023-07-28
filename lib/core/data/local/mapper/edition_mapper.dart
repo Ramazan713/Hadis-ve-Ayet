@@ -1,7 +1,7 @@
 
 import 'package:hadith/core/data/local/entities/audio_edition_entity.dart';
-import 'package:hadith/features/verses/shared/data/remote/dto/edition_dto.dart';
-import 'package:hadith/features/verses/shared/domain/model/audio_edition.dart';
+import 'package:hadith/core/data/remote/dto/edition_dto.dart';
+import 'package:hadith/core/domain/models/audio_edition.dart';
 
 extension EditionEntityExt on AudioEditionEntity{
 

@@ -16,7 +16,7 @@ import 'components/dropdown_manage_enum_item.dart';
 
 
 void showManageAudios(BuildContext context,{required AudioEdition edition}){
-  final manageBloc = context.read<ManageAudioBloc>();
+  final manageBloc = context.read<ManageAudioBlocOld>();
 
   manageBloc.add(ManageAudioEventSetIdentifier(edition.identifier));
 
@@ -73,7 +73,7 @@ void showManageAudios(BuildContext context,{required AudioEdition edition}){
                                         ],
                                       ),
                                     ),
-                                    BlocSelector<ManageAudioBloc,ManageAudioState,List<ManageAudioModel>>(
+                                    BlocSelector<ManageAudioBlocOld,ManageAudioStateOld,List<ManageAudioModel>>(
                                         selector: (state)=>state.manageModels,
                                         builder: (context,manageModels){
 

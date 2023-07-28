@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
+import 'package:hadith/core/presentation/handlers/duplicate_dialog_handler.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
@@ -27,26 +28,28 @@ void savePointNavigateHandler(
   required int itemIndexPos
 }
 ){
-  switch(destination){
-    case DestinationAll _:
-      _loadAndGoAll(context, destination, itemIndexPos);
-      break;
-    case DestinationTopic _:
-      _loadAndGoTopic(context, destination, itemIndexPos);
-      break;
-    case DestinationList _:
-      _loadAndGoList(context, destination, itemIndexPos);
-      break;
-    case DestinationSearch _:
-      _loadAndGoSearch(context, destination, itemIndexPos);
-      break;
-    case DestinationSurah _:
-      _loadAndGoSurah(context, destination, itemIndexPos);
-      break;
-    case DestinationCuz _:
-      _loadAndGoCuz(context, destination, itemIndexPos);
-      break;
-  }
+  duplicateDialogHandler(func: ()async{
+    switch(destination){
+      case DestinationAll _:
+        _loadAndGoAll(context, destination, itemIndexPos);
+        break;
+      case DestinationTopic _:
+        _loadAndGoTopic(context, destination, itemIndexPos);
+        break;
+      case DestinationList _:
+        _loadAndGoList(context, destination, itemIndexPos);
+        break;
+      case DestinationSearch _:
+        _loadAndGoSearch(context, destination, itemIndexPos);
+        break;
+      case DestinationSurah _:
+        _loadAndGoSurah(context, destination, itemIndexPos);
+        break;
+      case DestinationCuz _:
+        _loadAndGoCuz(context, destination, itemIndexPos);
+        break;
+    }
+  });
 }
 
 

@@ -31,6 +31,9 @@ abstract class NotificationBase<T, Y extends INotificationKey>{
 
   static const List<NotificationPermission> getDefaultNotificationPermissionList = [NotificationPermission.Badge, NotificationPermission.Light];
 
+  NotificationBase(){
+    _checkPermissionStatus();
+  }
 
   @nonVirtual
   final List<NotificationPermission> notificationPermissionList = getDefaultNotificationPermissionList;

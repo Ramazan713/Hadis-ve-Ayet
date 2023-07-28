@@ -1,11 +1,13 @@
 
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_throttle.dart';
 import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
+import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
 import 'package:hadith/features/verses/shared/domain/enums/download_enum.dart';
 import 'package:hadith/features/verses/shared/domain/model/download_verse/download_audio_param.dart';
 import 'package:hadith/features/verses/shared/domain/model/download_verse/download_audio_manager_state.dart';
@@ -15,6 +17,7 @@ import 'package:hadith/features/verses/shared/domain/repo/verse_downloaded_voice
 import 'package:hadith/features/verses/shared/domain/services/quran_download_service.dart';
 import 'package:hadith/features/verses/shared/domain/util/stream_resource.dart';
 import 'package:hadith/features/verses/shared/domain/manager/verse_audio_download_manager.dart';
+import 'package:hadith/models/resource.dart';
 import 'package:rxdart/rxdart.dart';
 
 class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
@@ -253,6 +256,28 @@ class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
   Future<void> _cancelListeners()async{
     await _quranServiceListener?.cancel();
     await _quranDownloadService.cancel();
+  }
+
+  @override
+  Future<Resource<void>> downloadSingle(DownloadAudioParam param) async{
+    if(param.op != QuranAudioOption.verse) return ResourceError("bir şeyler yanlış");
+
+    final response = await _quranDownloadService.downloadSingleAudio(
+        identifier: param.identifier,
+        verseId: param.itemIdForOption,
+        audioQuality: param.audioQualityEnum
+    );
+
+    if(response is ResourceError<Uint8List>){
+      return ResourceError(response.error);
+    }
+    final data = (response as ResourceSuccess<Uint8List>).data;
+    await _addAudioFile(param, data.toList(), [VerseDownloadedVoiceModel(
+      mealId: param.itemIdForOption,pageNo: 1,cuzNo: 1,surahName: "",
+      surahId: 1,verseNumberTr: 1,verseId: param.itemIdForOption
+    )]);
+
+    return ResourceSuccess(null);
   }
 
 

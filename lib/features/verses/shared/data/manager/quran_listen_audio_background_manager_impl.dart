@@ -28,7 +28,7 @@ class QuranListenAudioBackgroundManagerImpl extends QuranListenAudioBackgroundMa
 
   late final ServiceInstance _service;
   late final InsertOrUpdateAutoSavePoint _insertOrUpdateAutoSavePoint;
-  late final IVerseAudioService _audioService;
+  late final IVerseAudioServiceManager _audioService;
   late final IVerseListenAudioNotification _notification;
   late final VerseRepo _verseRepo;
   late final void Function() _onCancel;
@@ -56,7 +56,7 @@ class QuranListenAudioBackgroundManagerImpl extends QuranListenAudioBackgroundMa
   QuranListenAudioBackgroundManagerImpl({
     required ServiceInstance service,
     required InsertOrUpdateAutoSavePoint insertOrUpdateAutoSavePoint,
-    required IVerseAudioService audioService,
+    required IVerseAudioServiceManager audioService,
     required VerseRepo verseRepo,
     required IVerseListenAudioNotification notification,
     required void Function() onCancel,
@@ -119,7 +119,7 @@ extension SetListenersExt on QuranListenAudioBackgroundManagerImpl{
 
   void _audioServiceListener(){
 
-    _subsReceiveAudioState = _audioService.broadcastListener?.listen((event)async{
+    _subsReceiveAudioState = _audioService.broadcastListener.listen((event)async{
       _service.invoke(BackgroundSendData.sendListenAudioData,{"data": event.toJson()});
       if(event.error!=null || event.audioEnum == ListenAudioEnum.finish){
         await _saveSavePoints(event.audio);
@@ -127,7 +127,7 @@ extension SetListenersExt on QuranListenAudioBackgroundManagerImpl{
       }
     });
 
-    _subsReceiveAudioStateForNotification = _audioService.broadcastListener?.distinct((prev,next)=>next.isDistinctForNotification(prev))
+    _subsReceiveAudioStateForNotification = _audioService.broadcastListener.distinct((prev,next)=>next.isDistinctForNotification(prev))
         .listen((event) {
       _notification.showNotification(event);
     });

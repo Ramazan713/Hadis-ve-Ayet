@@ -7,7 +7,7 @@ import 'package:hadith/features/verses/shared/domain/model/listen_audio/verse_me
 import 'package:hadith/features/verses/shared/domain/services/i_verse_audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
-class VerseAudioJustService extends IVerseAudioService<VerseJustAudioPlayer>{
+class VerseAudioJustService extends IVerseAudioServiceManager<VerseJustAudioPlayer>{
 
   StreamSubscription<int?>? _subsCurrentIndex;
   StreamSubscription<PlayerState>? _subsPlayerState;

@@ -16,7 +16,7 @@ import 'package:collection/collection.dart';
 import '../../../constants/preference_constants.dart';
 
 class EditionBloc extends Bloc<IEditionEvent,EditionState>{
-  final AudioEditionRepo editionRepo;
+  final AudioEditionRepoOld editionRepo;
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
   final _audioQualityController = BehaviorSubject<AudioQualityEnum>();

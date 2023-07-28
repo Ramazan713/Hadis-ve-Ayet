@@ -6,12 +6,13 @@ import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
+import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
 import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 
 class SurahState extends Equatable{
 
   final bool searchBarVisible;
-  final List<Surah> items;
+  final List<VerseTopicModel<Surah>> items;
   final bool isLoading;
 
   const SurahState({
@@ -22,7 +23,7 @@ class SurahState extends Equatable{
 
   SurahState copyWith({
     bool? searchBarVisible,
-    List<Surah>? items,
+    List<VerseTopicModel<Surah>>? items,
     bool? isLoading
   }){
     return SurahState(

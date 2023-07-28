@@ -10,12 +10,12 @@ import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AudioSettingBloc extends Bloc<IAudioSettingEvent,AudioSettingState>{
+class AudioSettingBlocOld extends Bloc<IAudioSettingEventOld,AudioSettingStateOld>{
 
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
-  late final AudioEditionRepo _editionRepo;
+  late final AudioEditionRepoOld _editionRepo;
 
-  AudioSettingBloc({required AudioEditionRepo editionRepo}) : super(AudioSettingState.init()){
+  AudioSettingBlocOld({required AudioEditionRepoOld editionRepo}) : super(AudioSettingStateOld.init()){
 
     _editionRepo = editionRepo;
 
@@ -28,7 +28,7 @@ class AudioSettingBloc extends Bloc<IAudioSettingEvent,AudioSettingState>{
   }
 
 
-  void _emitSharedValues(Emitter<AudioSettingState>emit){
+  void _emitSharedValues(Emitter<AudioSettingStateOld>emit){
 
     final audioFollowText = _sharedPreferences.getBool(PrefConstants.audioFollowWithText.key) ??
         PrefConstants.audioFollowWithText.defaultValue;
@@ -37,25 +37,25 @@ class AudioSettingBloc extends Bloc<IAudioSettingEvent,AudioSettingState>{
     emit(state.copyWith(audioSpeed: audioSpeed,followAudioText: audioFollowText));
   }
 
-  void _onInit(AudioSettingEventInit event,Emitter<AudioSettingState>emit)async{
+  void _onInit(AudioSettingEventInit event,Emitter<AudioSettingStateOld>emit)async{
     _emitSharedValues(emit);
 
     await emit.forEach<AudioEdition?>(_editionRepo.getSelectedStreamEdition(), onData: (edition)=>
         state.copyWith(audioEdition: edition,setEdition: true));
   }
 
-  void _onGetShared(AudioSettingEventGetShared event,Emitter<AudioSettingState>emit)async{
+  void _onGetShared(AudioSettingEventGetShared event,Emitter<AudioSettingStateOld>emit)async{
     _emitSharedValues(emit);
   }
 
-  void _onSetSpeed(AudioSettingEventSetSpeed event,Emitter<AudioSettingState>emit)async{
+  void _onSetSpeed(AudioSettingEventSetSpeed event,Emitter<AudioSettingStateOld>emit)async{
     final fixedSpeed = double.parse(event.speed.toStringAsFixed(1));
     await _sharedPreferences.setDouble(PrefConstants.audioPlayerSpeed.key, fixedSpeed);
     emit(state.copyWith(audioSpeed: fixedSpeed));
 
   }
 
-  void _onSetFollowAudio(AudioSettingEventSetFollowAudio event,Emitter<AudioSettingState>emit)async{
+  void _onSetFollowAudio(AudioSettingEventSetFollowAudio event,Emitter<AudioSettingStateOld>emit)async{
     await _sharedPreferences.setBool(PrefConstants.audioFollowWithText.key, event.audioFollowText);
     emit(state.copyWith(followAudioText: event.audioFollowText));
   }

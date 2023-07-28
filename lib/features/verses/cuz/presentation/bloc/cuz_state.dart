@@ -1,18 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:hadith/features/verses/cuz/domain/models/cuz.dart';
+import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
 
 class CuzState extends Equatable{
-  final List<Cuz>items;
+  final List<VerseTopicModel<Cuz>> items;
 
   const CuzState({
     required this.items,
   });
 
   CuzState copyWith({
-    List<Cuz>?items,
+    List<VerseTopicModel<Cuz>>?items,
   }) {
     return CuzState(
-        items:items??this.items,
+        items: items ?? this.items,
     );
   }
 

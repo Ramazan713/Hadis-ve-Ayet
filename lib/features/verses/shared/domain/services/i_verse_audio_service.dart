@@ -15,7 +15,7 @@ import 'package:hadith/features/verses/shared/domain/repo/verse_audio_repo.dart'
 import 'package:hadith/features/verses/shared/domain/repo/verse_meal_voice_repo.dart';
 import 'package:rxdart/rxdart.dart';
 
-abstract class IVerseAudioService<T extends IVerseAudioPlayer>{
+abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
 
   @protected
   late final T audioPlayer;
@@ -27,7 +27,7 @@ abstract class IVerseAudioService<T extends IVerseAudioPlayer>{
 
   final BehaviorSubject<ListenAudioServiceState> _streamResource = BehaviorSubject();
 
-  late final ValueStream<ListenAudioServiceState>? broadcastListener;
+  late final ValueStream<ListenAudioServiceState> broadcastListener;
 
   StreamSubscription<Duration>? _durationSubs;
   StreamSubscription<Duration>? _positionSubs;
@@ -39,7 +39,7 @@ abstract class IVerseAudioService<T extends IVerseAudioPlayer>{
   ListenAudioServiceState get sharedState => _state;
 
 
-  IVerseAudioService({
+  IVerseAudioServiceManager({
     required T audioPlay,
     required VerseMealVoiceRepo verseVoiceRepo,
     required VerseAudioRepo verseAudioRepo,

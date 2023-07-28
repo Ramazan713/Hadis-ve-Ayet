@@ -14,12 +14,12 @@ import 'package:async/async.dart';
 import 'package:rxdart/rxdart.dart';
 
 
-class ManageAudioBloc extends Bloc<IManageAudioEvent,ManageAudioState>{
+class ManageAudioBlocOld extends Bloc<IManageAudioEventOld,ManageAudioStateOld>{
   late final ManageAudioRepo _manageAudioRepo;
   final StreamController<AudioManageEnum> _manageEnumController = StreamController();
   final BehaviorSubject<String> _identifierController = BehaviorSubject();
 
-  ManageAudioBloc({required ManageAudioRepo manageAudioRepo}) : super(ManageAudioState.init()){
+  ManageAudioBlocOld({required ManageAudioRepo manageAudioRepo}) : super(ManageAudioStateOld.init()){
     _manageAudioRepo = manageAudioRepo;
 
     _manageEnumController.add(state.manageEnum);
@@ -33,7 +33,7 @@ class ManageAudioBloc extends Bloc<IManageAudioEvent,ManageAudioState>{
 
   }
 
-  void _onInit(ManageAudioEventInit event,Emitter<ManageAudioState>emit)async{
+  void _onInit(ManageAudioEventInit event,Emitter<ManageAudioStateOld>emit)async{
     final cuzModelsStream = _identifierController.switchMap((identifier) => _manageAudioRepo.getCuzAudioManageModels(identifier));
     final surahModelsStream = _identifierController.switchMap((identifier) => _manageAudioRepo.getSurahAudioManageModels(identifier));
 
@@ -52,16 +52,16 @@ class ManageAudioBloc extends Bloc<IManageAudioEvent,ManageAudioState>{
   }
 
 
-  void _onChangeType(ManageAudioEventChangeType event,Emitter<ManageAudioState>emit)async{
+  void _onChangeType(ManageAudioEventChangeType event,Emitter<ManageAudioStateOld>emit)async{
     _manageEnumController.add(event.manageEnum);
     emit(state.copyWith(manageEnum: event.manageEnum));
   }
 
-  void _onDelete(ManageAudioEventDelete event,Emitter<ManageAudioState>emit)async{
+  void _onDelete(ManageAudioEventDelete event,Emitter<ManageAudioStateOld>emit)async{
     await _manageAudioRepo.deleteAudios(event.manageModel);
   }
 
-  void _onSetIdentifier(ManageAudioEventSetIdentifier event,Emitter<ManageAudioState>emit)async{
+  void _onSetIdentifier(ManageAudioEventSetIdentifier event,Emitter<ManageAudioStateOld>emit)async{
     _identifierController.add(event.identifier);
   }
 

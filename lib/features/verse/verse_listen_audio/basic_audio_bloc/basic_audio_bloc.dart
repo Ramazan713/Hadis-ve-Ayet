@@ -17,7 +17,7 @@ import 'package:hadith/services/connectivity_service.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
+class BasicAudioBlocOld extends Bloc<IBasicAudioEvent,BasicAudioState>{
 
   late final IVerseAudioService _audioService;
   late final QuranDownloadService _downloadService;
@@ -25,7 +25,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
 
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
-  BasicAudioBloc({required IVerseAudioService audioService,required QuranDownloadService downloadService,
+  BasicAudioBlocOld({required IVerseAudioService audioService,required QuranDownloadService downloadService,
     required VerseAudioRepo audioRepo
   }) : super(BasicAudioState.init()){
 

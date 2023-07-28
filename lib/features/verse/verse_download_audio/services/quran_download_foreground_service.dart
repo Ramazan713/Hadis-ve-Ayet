@@ -135,7 +135,7 @@ class QuranDownloadForegroundService{
     final verseAudioStateRepo = VerseAudioStateRepo(audioStateDao: database.verseAudioStateDao);
     final audioRepo = VerseAudioRepo(verseAudioDao: database.verseAudioDaoOld);
     final quranService = QuranDownloadService(audioRepo: audioRepo);
-    final editionRepo = AudioEditionRepo(editionDao: database.editionDaoOld,downloadService: quranService);
+    final editionRepo = AudioEditionRepoOld(editionDao: database.editionDaoOld,downloadService: quranService);
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final downloadManager = QuranDownloadManager(verseAudioStateRepo: verseAudioStateRepo, audioEditionRepo: editionRepo,
         quranService: quranService,sharedPreferences: sharedPreferences);

@@ -1,6 +1,8 @@
 
 
-class AudioEdition{
+import 'package:equatable/equatable.dart';
+
+class AudioEdition extends Equatable{
   final String identifier;
   final String name;
   final bool isSelected;
@@ -12,4 +14,7 @@ class AudioEdition{
     required this.isSelected,
     this.fileName
   });
+
+  @override
+  List<Object?> get props => [identifier,name,isSelected];
 }

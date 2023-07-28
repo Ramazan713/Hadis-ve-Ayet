@@ -7,11 +7,11 @@ import 'package:hadith/features/verse/verse_download_audio/services/quran_downlo
 import 'package:hadith/models/resource.dart';
 import 'package:hadith/services/connectivity_service.dart';
 
-class AudioEditionRepo{
+class AudioEditionRepoOld{
   final AudioEditionDaoOld editionDao;
   final QuranDownloadService downloadService;
 
-  AudioEditionRepo({required this.editionDao,required this.downloadService});
+  AudioEditionRepoOld({required this.editionDao,required this.downloadService});
 
   Stream<List<AudioEdition>> getStreamEditions() => editionDao.getStreamEditions();
 

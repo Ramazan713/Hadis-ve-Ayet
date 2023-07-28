@@ -22,7 +22,7 @@ class AudioSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final audioSettingBloc = context.read<AudioSettingBloc>();
+    final audioSettingBloc = context.read<AudioSettingBlocOld>();
 
     audioSettingBloc.add(AudioSettingEventGetShared());
 
@@ -45,7 +45,7 @@ class AudioSettings extends StatelessWidget {
                   tiles: [
 
                     CustomSettingsTile(
-                      child: BlocSelector<AudioSettingBloc,AudioSettingState,AudioEdition?>(
+                      child: BlocSelector<AudioSettingBlocOld,AudioSettingStateOld,AudioEdition?>(
                         selector: (state)=>state.audioEdition,
                         builder: (context,audioEdition){
                           return SettingsTile(
@@ -60,7 +60,7 @@ class AudioSettings extends StatelessWidget {
                     ),
 
                     CustomSettingsTile(
-                      child: BlocSelector<AudioSettingBloc,AudioSettingState,bool>(
+                      child: BlocSelector<AudioSettingBlocOld,AudioSettingStateOld,bool>(
                         selector: (state)=>state.followAudioText,
                         builder: (context,followAudioText){
                           return SettingsTile.switchTile(
@@ -75,7 +75,7 @@ class AudioSettings extends StatelessWidget {
                     ),
 
                     CustomSettingsTile(
-                      child: BlocSelector<AudioSettingBloc,AudioSettingState,double>(
+                      child: BlocSelector<AudioSettingBlocOld,AudioSettingStateOld,double>(
                         selector: (state)=>state.audioSpeed,
                         builder: (context,audioSpeed){
                           return SettingsTile(

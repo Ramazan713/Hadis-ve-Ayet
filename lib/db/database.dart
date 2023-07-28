@@ -15,12 +15,15 @@ import 'package:hadith/core/data/local/entities/surah_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_arabic_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_audio_entity.dart';
+import 'package:hadith/core/data/local/entities/views/cuz_audio_view.dart';
 import 'package:hadith/core/data/local/entities/views/list_hadith_view.dart';
 import 'package:hadith/core/data/local/entities/views/list_verse_view.dart';
 import 'package:hadith/core/data/local/entities/views/section_topics_view.dart';
+import 'package:hadith/core/data/local/entities/views/surah_audio_view.dart';
 import 'package:hadith/core/data/local/entities/views/topic_hadiths_view.dart';
 import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
+import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
 import 'package:hadith/core/data/local/services/history_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_dao.dart';
@@ -51,13 +54,13 @@ import 'package:hadith/db/entities/topic_savepoint_entity.dart';
 import 'package:hadith/db/entities/user_info_entity.dart';
 import 'package:hadith/db/entities/verse_arabic.dart';
 import 'package:hadith/db/entities/verse_audio.dart';
-import 'package:hadith/db/entities/views/cuz_audio_view.dart';
 import 'package:hadith/core/data/local/entities/views/hadith_info_list_view.dart';
+import 'package:hadith/db/entities/views/cuz_audio_view.dart';
 import 'package:hadith/db/entities/views/i_list_view.dart';
 import 'package:hadith/db/entities/views/list_hadith_view.dart';
 import 'package:hadith/db/entities/views/list_verse_view.dart';
-import 'package:hadith/db/entities/views/surah_audio_view.dart';
 import 'package:hadith/core/data/local/entities/views/verse_info_list_view.dart';
+import 'package:hadith/db/entities/views/surah_audio_view.dart';
 import 'package:hadith/db/services/audio_edition_dao.dart';
 import 'package:hadith/db/services/backup_dao.dart';
 import 'package:hadith/db/services/backup_meta_dao.dart';
@@ -122,6 +125,7 @@ part 'database.g.dart';
     ],
     views: [ListVerseView,ListHadithView,CuzAudioView,SurahAudioView,
       ListHadithViewOld,ListVerseViewOld,
+      // SurahAudioViewOld,CuzAudioViewOld,
       SectionTopicsView, TopicHadithsView, TopicVersesView,
       VerseInfoListView,HadithInfoListView])
 abstract class AppDatabase extends FloorDatabase{
@@ -142,7 +146,7 @@ abstract class AppDatabase extends FloorDatabase{
   VerseAudioDaoOld get verseAudioDaoOld;
   VerseArabicDaoOld get verseArabicDaoOld;
   VerseAudioStateDao get verseAudioStateDao;
-  ManageAudioDao get manageAudioDao;
+  // ManageAudioDao get manageAudioDao;
   CounterDao get counterDao;
   EsmaulHusnaDao get esmaulHusnaDao;
   PrayerDao get prayerDao;
@@ -172,5 +176,6 @@ abstract class AppDatabase extends FloorDatabase{
   HistoryDao get historyDao;
   AudioEditionDao get editionDao;
   VerseAudioDao get verseAudioDao;
+  AudioViewDao get audioViewDao;
 
 }

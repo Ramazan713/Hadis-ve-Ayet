@@ -4,15 +4,9 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/app_constants.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/domain/enums/topic_save_point.dart';
-import 'package:hadith/core/domain/models/topic_save_point.dart';
-import 'package:hadith/core/domain/repo/topic_save_point_repo.dart';
-import 'package:hadith/core/domain/use_cases/topic_save_point/topic_save_point_use_cases.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
-import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
-import 'package:hadith/features/topics/domain/repo/topic_view_repo.dart';
+import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
+import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
+import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
 import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 import 'package:hadith/features/verses/surah/domain/repo/surah_repo.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,14 +21,17 @@ class SurahBloc extends Bloc<ISurahEvent, SurahState>{
   final BehaviorSubject<String> _queryFilter = BehaviorSubject();
 
   late final SurahRepo _surahRepo;
+  late final VerseTopicGetDownloadedModelsUseCase _getItemsUseCases;
 
   Timer? _timer;
 
   SurahBloc({
     required SurahRepo surahRepo,
+    required VerseTopicGetDownloadedModelsUseCase getItemsUseCases,
   }):super(SurahState.init()){
 
     _surahRepo = surahRepo;
+    _getItemsUseCases = getItemsUseCases;
 
     on<SurahEventSetSearchBarVisibility>(_onSearchBarVisible, transformer: restartable());
     on<SurahEventSearch>(_onSearch, transformer: restartable());
@@ -61,14 +58,20 @@ class SurahBloc extends Bloc<ISurahEvent, SurahState>{
 
     emit(state.copyWith(isLoading: true, items: []));
 
-    final streamData = _queryFilter.asyncMap((query)async{
+    final surahStream = _queryFilter.asyncMap((query)async{
       if(query.trim().isEmpty){
         return await _surahRepo.getAllSurah();
       }
       return await _surahRepo.getSurahesWithQuery(query);
     });
 
-    await emit.forEach<List<Surah>>(streamData, onData: (items){
+    final streamData = _getItemsUseCases.call<Surah>(
+        dataSource: surahStream,
+        selectKey: (data) => data.id ,
+        viewEnum: DownloadedAudioViewEnum.surah
+    );
+
+    await emit.forEach<List<VerseTopicModel<Surah>>>(streamData, onData: (items){
       return state.copyWith(items: items,isLoading: false);
     });
   }

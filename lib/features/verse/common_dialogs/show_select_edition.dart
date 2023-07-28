@@ -27,7 +27,7 @@ void showSelectEdition(BuildContext context) {
       builder: (context) {
         return MultiBlocListener(
           listeners: [
-            BlocListener<BasicAudioBloc, BasicAudioState>(
+            BlocListener<BasicAudioBlocOld, BasicAudioState>(
                 listener: (context, state) {
               if (state.message != null) {
                 ToastUtils.showLongToast(state.message ?? "");
@@ -182,6 +182,6 @@ void showSelectEdition(BuildContext context) {
           ),
         );
       }).then((value) {
-    context.read<BasicAudioBloc>().add(BasicAudioEventStopListening());
+    context.read<BasicAudioBlocOld>().add(BasicAudioEventStopListening());
   });
 }

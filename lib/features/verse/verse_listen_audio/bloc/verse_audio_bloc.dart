@@ -22,11 +22,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class VerseAudioBloc extends Bloc<IVerseAudioEvent,VerseAudioState>{
 
   late final VerseAudioRepo _audioRepo;
-  late final AudioEditionRepo _editionRepo;
+  late final AudioEditionRepoOld _editionRepo;
   late final VerseAudioEditorRepo _audioEditorRepo;
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
-  VerseAudioBloc({required VerseAudioRepo audioRepo,required AudioEditionRepo editionRepo,
+  VerseAudioBloc({required VerseAudioRepo audioRepo,required AudioEditionRepoOld editionRepo,
     required VerseAudioEditorRepo audioEditorRepo}) : super(VerseAudioState.init()){
 
     _audioRepo = audioRepo;

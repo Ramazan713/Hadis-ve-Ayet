@@ -1,11 +1,11 @@
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
+import 'package:hadith/core/data/remote/dto/edition_dto.dart';
 import 'package:hadith/core/domain/extensions/app_extension.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
-import 'package:hadith/features/verses/shared/data/mapper/edition_mapper.dart';
-import 'package:hadith/features/verses/shared/data/remote/dto/edition_dto.dart';
-import 'package:hadith/features/verses/shared/data/remote/edition_download_service.dart';
-import 'package:hadith/features/verses/shared/domain/model/audio_edition.dart';
-import 'package:hadith/features/verses/shared/domain/repo/edition_repo.dart';
+import 'package:hadith/core/data/local/mapper/edition_mapper.dart';
+import 'package:hadith/core/data/remote/edition_download_service.dart';
+import 'package:hadith/core/domain/models/audio_edition.dart';
+import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/models/resource.dart';
 
 
@@ -99,6 +99,21 @@ class EditionRepoImply extends EditionRepo{
     await _editionDao.insertEditions(editionEntities);
 
     return ResourceSuccess(null);
+  }
+
+  @override
+  Future<void> setSelectedEdition(String identifier) async{
+    var editions = await _editionDao.getEditions();
+    if(editions.isEmpty) return;
+
+    final index = editions.indexWhere((element) => element.identifier == identifier);
+    if(index == -1) return;
+
+    editions = editions.map((e) => e.copyWith(isSelected: false)).toList();
+    final selectedEdition = editions[index].copyWith(isSelected: true);
+    editions[index] = selectedEdition;
+
+    await _editionDao.updateAudioEditions(editions);
   }
 
 

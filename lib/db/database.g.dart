@@ -95,8 +95,6 @@ class _$AppDatabase extends AppDatabase {
 
   VerseAudioStateDao? _verseAudioStateDaoInstance;
 
-  ManageAudioDao? _manageAudioDaoInstance;
-
   CounterDao? _counterDaoInstance;
 
   EsmaulHusnaDao? _esmaulHusnaDaoInstance;
@@ -152,6 +150,8 @@ class _$AppDatabase extends AppDatabase {
   AudioEditionDao? _editionDaoInstance;
 
   VerseAudioDao? _verseAudioDaoInstance;
+
+  AudioViewDao? _audioViewDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -272,9 +272,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `ListHadithView` AS select L.id,L.name,L.isRemovable,count(LH.hadithId)itemCounts,L.isArchive,L.sourceId,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListHadith LH on  L.id=LH.listId where L.sourceId=1 group by L.id');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `cuzAudioView` AS select E.name editionName , E.identifier, V.cuzNo,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.cuzNo=V.cuzNo) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E\n  where  A.identifier = E.identifier and A.mealId=V.id group by E.identifier,V.cuzNo');
+            'CREATE VIEW IF NOT EXISTS `cuzAudioView` AS   select E.name editionName, E.identifier,  V.cuzNo, \n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.cuzNo=V.cuzNo) then 1 else 0 end isDownloaded,\n  C.name cuzName\n  from  verse V, VerseAudio A, AudioEdition E, Cuz C\n  where  A.identifier = E.identifier and A.mealId=V.id and C.cuzNo = V.cuzNo\n  group by E.identifier, C.name, V.cuzNo\n  ');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `surahAudioView` AS select E.name editionName , E.identifier, V.surahId,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.surahId=V.surahId) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E\n  where V.id=A.mealId and A.identifier = E.identifier group by E.identifier,V.surahId');
+            'CREATE VIEW IF NOT EXISTS `surahAudioView` AS select E.name editionName , E.identifier, V.surahId, S.name surahName,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.surahId=V.surahId) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E, Surah S\n  where V.id=A.mealId and A.identifier = E.identifier and S.id = V.surahId\n  group by E.identifier,V.surahId, S.name\n  ');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `ListHadithView` AS select L.id,L.name,L.isRemovable,count(LH.hadithId)itemCounts,L.isArchive,L.sourceId,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListHadith LH on  L.id=LH.listId where L.sourceId=1 group by L.id');
         await database.execute(
@@ -385,12 +385,6 @@ class _$AppDatabase extends AppDatabase {
   VerseAudioStateDao get verseAudioStateDao {
     return _verseAudioStateDaoInstance ??=
         _$VerseAudioStateDao(database, changeListener);
-  }
-
-  @override
-  ManageAudioDao get manageAudioDao {
-    return _manageAudioDaoInstance ??=
-        _$ManageAudioDao(database, changeListener);
   }
 
   @override
@@ -543,6 +537,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   VerseAudioDao get verseAudioDao {
     return _verseAudioDaoInstance ??= _$VerseAudioDao(database, changeListener);
+  }
+
+  @override
+  AudioViewDao get audioViewDao {
+    return _audioViewDaoInstance ??= _$AudioViewDao(database, changeListener);
   }
 }
 
@@ -3326,47 +3325,6 @@ class _$VerseAudioStateDao extends VerseAudioStateDao {
   }
 }
 
-class _$ManageAudioDao extends ManageAudioDao {
-  _$ManageAudioDao(
-    this.database,
-    this.changeListener,
-  ) : _queryAdapter = QueryAdapter(database, changeListener);
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  @override
-  Stream<List<SurahAudioView>> getStreamSurahAudioViews(String identifier) {
-    return _queryAdapter.queryListStream(
-        'select * from surahAudioView where isDownloaded=1 and identifier=?1 order by surahId',
-        mapper: (Map<String, Object?> row) => SurahAudioView(
-            editionName: row['editionName'] as String,
-            identifier: row['identifier'] as String,
-            isDownloaded: (row['isDownloaded'] as int) != 0,
-            surahId: row['surahId'] as int),
-        arguments: [identifier],
-        queryableName: 'surahAudioView',
-        isView: true);
-  }
-
-  @override
-  Stream<List<CuzAudioView>> getStreamCuzAudioViews(String identifier) {
-    return _queryAdapter.queryListStream(
-        'select * from cuzAudioView where isDownloaded=1 and identifier=?1 order by cuzNo',
-        mapper: (Map<String, Object?> row) => CuzAudioView(
-            editionName: row['editionName'] as String,
-            identifier: row['identifier'] as String,
-            isDownloaded: (row['isDownloaded'] as int) != 0,
-            cuzNo: row['cuzNo'] as int),
-        arguments: [identifier],
-        queryableName: 'cuzAudioView',
-        isView: true);
-  }
-}
-
 class _$CounterDao extends CounterDao {
   _$CounterDao(
     this.database,
@@ -6104,5 +6062,78 @@ class _$VerseAudioDao extends VerseAudioDao {
   @override
   Future<void> deleteVerseAudios(List<VerseAudioEntity> verseAudios) async {
     await _verseAudioEntityDeletionAdapter.deleteList(verseAudios);
+  }
+}
+
+class _$AudioViewDao extends AudioViewDao {
+  _$AudioViewDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database, changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Stream<List<SurahAudioView>> getStreamSurahAudioViews() {
+    return _queryAdapter.queryListStream(
+        'select * from surahAudioView where isDownloaded=1 order by surahId',
+        mapper: (Map<String, Object?> row) => SurahAudioView(
+            editionName: row['editionName'] as String,
+            identifier: row['identifier'] as String,
+            isDownloaded: (row['isDownloaded'] as int) != 0,
+            surahName: row['surahName'] as String,
+            surahId: row['surahId'] as int),
+        queryableName: 'surahAudioView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<SurahAudioView>> getStreamSurahAudioViewsWithIdentifier(
+      String identifier) {
+    return _queryAdapter.queryListStream(
+        'select * from surahAudioView where isDownloaded=1 and identifier=?1 order by surahId',
+        mapper: (Map<String, Object?> row) => SurahAudioView(
+            editionName: row['editionName'] as String,
+            identifier: row['identifier'] as String,
+            isDownloaded: (row['isDownloaded'] as int) != 0,
+            surahName: row['surahName'] as String,
+            surahId: row['surahId'] as int),
+        arguments: [identifier],
+        queryableName: 'surahAudioView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<CuzAudioView>> getStreamCuzAudioViews() {
+    return _queryAdapter.queryListStream(
+        'select * from cuzAudioView where isDownloaded=1 order by cuzNo',
+        mapper: (Map<String, Object?> row) => CuzAudioView(
+            editionName: row['editionName'] as String,
+            identifier: row['identifier'] as String,
+            isDownloaded: (row['isDownloaded'] as int) != 0,
+            cuzNo: row['cuzNo'] as int,
+            cuzName: row['cuzName'] as String),
+        queryableName: 'cuzAudioView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<CuzAudioView>> getStreamCuzAudioViewsWithIdentifier(
+      String identifier) {
+    return _queryAdapter.queryListStream(
+        'select * from cuzAudioView where isDownloaded=1 and identifier=?1 order by cuzNo',
+        mapper: (Map<String, Object?> row) => CuzAudioView(
+            editionName: row['editionName'] as String,
+            identifier: row['identifier'] as String,
+            isDownloaded: (row['isDownloaded'] as int) != 0,
+            cuzNo: row['cuzNo'] as int,
+            cuzName: row['cuzName'] as String),
+        arguments: [identifier],
+        queryableName: 'cuzAudioView',
+        isView: true);
   }
 }

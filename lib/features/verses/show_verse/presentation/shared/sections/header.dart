@@ -11,7 +11,7 @@ import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.
 import 'package:hadith/core/presentation/components/dropdown_bar_menu.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
-import 'package:hadith/features/verse/common_dialogs/show_select_edition.dart';
+import 'package:hadith/features/verses/shared/presentation/dialogs/show_edit_audio_setting_dia.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_top_bar_menu_item.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';
@@ -44,7 +44,7 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
                   verseShowSelectSavePoint(context, itemIndexPos: visibleMiddleItem?.rowNumber ?? 0);
                   break;
                 case VerseTopBarMenuItem.selectEdition:
-                  showSelectEdition(context);
+                  showEditAudioSettingDia(context);
                   break;
               }
             },

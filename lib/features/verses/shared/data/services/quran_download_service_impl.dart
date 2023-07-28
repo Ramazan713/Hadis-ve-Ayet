@@ -13,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 
 class QuranDownloadServiceImpl extends QuranDownloadService{
 
-
+  Client? _singleDownloadClient;
 
   @override
   Future<Resource<Uint8List>> downloadSingleAudio({
@@ -25,7 +25,10 @@ class QuranDownloadServiceImpl extends QuranDownloadService{
     final url = "https://cdn.islamic.network/quran/audio/${audioQuality.quality}/$headerPath";
 
     try{
-      final response = await http.get(Uri.parse(url));
+      _singleDownloadClient?.close();
+      _singleDownloadClient = Client();
+      final response = await _singleDownloadClient!.get(Uri.parse(url));
+
       if(response.statusCode==200){
         return Resource.success(response.bodyBytes);
       }else{
@@ -144,6 +147,8 @@ class QuranDownloadServiceImpl extends QuranDownloadService{
 
   @override
   Future<void> cancel()async{
+    _singleDownloadClient?.close();
+    _singleDownloadClient = null;
     await _cancelListeners();
     _client?.close();
   }

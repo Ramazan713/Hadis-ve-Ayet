@@ -5,6 +5,7 @@ import 'package:hadith/core/data/providers/core_data_repo_providers.dart';
 import 'package:hadith/core/data/providers/core_data_service_providers.dart';
 import 'package:hadith/core/domain/providers/core_domain_first_provider.dart';
 import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
+import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
@@ -69,13 +70,18 @@ import 'package:hadith/features/verse/verse_download_audio/bloc/download_audio_b
 import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_audio_bloc.dart';
 import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_bloc.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_bloc.dart';
+import 'package:hadith/features/verses/providers/data/verse_data_manager_providers.dart';
 import 'package:hadith/features/verses/providers/data/verse_data_paging_providers.dart';
 import 'package:hadith/features/verses/providers/data/verse_data_repo_providers.dart';
 import 'package:hadith/features/verses/providers/data/verse_data_service_providers.dart';
+import 'package:hadith/features/verses/providers/data/verse_domain_use_case_providers.dart';
 import 'package:hadith/features/verses/shared/data/notification/verse_download_audio_notification_impl.dart';
 import 'package:hadith/features/verses/shared/data/notification/verse_listen_audio_notification.dart';
 import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_bloc.dart';
+import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_bloc.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/bloc/manage_downloaded_audio_bloc.dart';
+import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/services/auth_service.dart';
@@ -127,14 +133,16 @@ class MyAppProviders extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         ...pCoreDomainFirstProviders(appDatabase),
-        ...pCoreDataRepoProviders(appDatabase),
         ...pCoreDataServiceProviders(appDatabase),
+        ...pCoreDataRepoProviders(appDatabase),
         ...pCoreDomainRepoProviders(appDatabase),
         ...pHadithDataRepoProviders(appDatabase),
         ...pTopicDataRepoProviders(appDatabase),
         ...pVerseDataServiceProviders(appDatabase),
         ...pVerseDataRepoProviders(appDatabase),
         ...pVerseDataPagingProviders(appDatabase),
+        ...pVerseDataManagerProviders(context,appDatabase),
+        ...pVerseDomainUseCaseProviders(context),
         ...pSearchDataRepoProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
@@ -181,14 +189,14 @@ class MyAppProviders extends StatelessWidget {
         RepositoryProvider(
             create: (context) =>
                 QuranDownloadService(audioRepo: context.read<VerseAudioRepo>())),
-        RepositoryProvider(create: (context) => AudioEditionRepo(editionDao: appDatabase.editionDaoOld,downloadService: context.read<QuranDownloadService>())),
+        RepositoryProvider(create: (context) => AudioEditionRepoOld(editionDao: appDatabase.editionDaoOld,downloadService: context.read<QuranDownloadService>())),
         RepositoryProvider(create: (context)=>StorageService()),
         RepositoryProvider(create: (context)=>AuthService()),
         RepositoryProvider(create: (context)=>BackupManager(authService: context.read<AuthService>(),
           storageService: context.read<StorageService>(),backupMetaRepo: context.read<BackupMetaRepo>(),
           localBackupRepo: context.read<LocalBackupRepo>(),userInfoRepo: context.read<UserInfoRepo>())),
-        RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDaoOld,cuzDao: appDatabase.cuzDaoOld,
-          surahDao: appDatabase.surahDaoOld,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
+        // RepositoryProvider(create: (context) => ManageAudioRepo(verseAudioDao: appDatabase.verseAudioDaoOld,cuzDao: appDatabase.cuzDaoOld,
+        //   surahDao: appDatabase.surahDaoOld,fileService: FileService(),manageAudioDao: appDatabase.manageAudioDao)),
         RepositoryProvider<IVerseAudioService>(create: (context) => VerseAudioJustService(
             verseAudioRepo: context.read<VerseAudioRepo>(),verseAudioStateRepo: context.read<VerseAudioStateRepo>(),sharedPreferences: LocalStorage.sharedPreferences)),
         ...pCoreDataManagerRepoProviders(appDatabase),
@@ -196,14 +204,37 @@ class MyAppProviders extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> PaginationBloc()),
+          BlocProvider(create: (context)=> AudioSettingBloc(
+              editionRepo: context.read(),
+              appPreferences: context.read(),
+          )),
+          BlocProvider(create: (context)=> ManageAudioBloc(
+            audioViewRepo: context.read()
+          )),
+          BlocProvider(create: (context) => SelectEditionBloc(
+            appPreferences: context.read(),
+            editionRepo: context.read(),
+          )),
+          BlocProvider(create: (context)=> BasicAudioBloc(
+              verseAudioService: context.read(),
+              downloadManager: context.read(),
+              appPreferences: context.read(),
+              verseAudioRepo: context.read()
+          )),
           BlocProvider(create: (context)=> LoadSavePointBloc(savePointRepo: context.read())),
           BlocProvider(create: (context) => SearchBloc(searchRepo: context.read(), historyRepo: context.read(),
             appPreferences: context.read())),
           BlocProvider(create: (context)=> VerseSharedBloc(appPreferences: context.read(),
               selectListUseCases: context.read(), titleRepo: context.read())),
           BlocProvider(create: (context)=> SelectFontSizeBloc(appPreferences: context.read())),
-          BlocProvider(create: (context)=> SurahBloc(surahRepo: context.read())),
-          BlocProvider(create: (context)=> CuzBloc(cuzRepo: context.read())),
+          BlocProvider(create: (context)=> SurahBloc(
+              surahRepo: context.read(),
+              getItemsUseCases: context.read()
+          )),
+          BlocProvider(create: (context)=> CuzBloc(
+              cuzRepo: context.read(),
+              getItemsUseCases: context.read()
+          )),
           BlocProvider(create: (context)=> TopicSavePointBloc(topicSavePointUseCases: context.read())),
           BlocProvider(create: (context)=> ArchiveListBloc(listUseCases: context.read())),
           BlocProvider(create: (context)=> SelectListBloc(selectListUseCases: context.read(), listUseCases: context.read())),
@@ -226,7 +257,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=>CounterSettingBloc()),
           BlocProvider(create: (context)=>ManageCounterBloc(counterRepo: context.read<CounterRepo>(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>CounterShowBloc(counterRepo: context.read<CounterRepo>())),
-          BlocProvider(create: (context)=>AudioSettingBloc(editionRepo: context.read<AudioEditionRepo>())),
+          BlocProvider(create: (context)=>AudioSettingBlocOld(editionRepo: context.read<AudioEditionRepoOld>())),
           // BlocProvider(
           //     create: (context) =>
           //         TopicBloc(topicRepo: context.read<TopicRepo>())),
@@ -283,18 +314,18 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=>PremiumBloc(), lazy: false,),
           BlocProvider(create: (context)=>VisibilityBloc()),
           BlocProvider(create: (context)=>SavePointEditBookBloc(savePointRepo: context.read<SavePointRepoOld>())),
-          BlocProvider(create: (context)=>BasicAudioBloc(audioService: context.read<IVerseAudioService>(),
+          BlocProvider(create: (context)=>BasicAudioBlocOld(audioService: context.read<IVerseAudioService>(),
               downloadService: context.read<QuranDownloadService>(), audioRepo: context.read<VerseAudioRepo>())),
           BlocProvider(create: (context)=>DownloadAudioBlocOld()),
           BlocProvider(create: (context)=>AuthBloc(authService: context.read<AuthService>(),backupManager: context.read<BackupManager>())),
           BlocProvider(create: (context)=>SettingBloc(userInfoRepo: context.read<UserInfoRepo>())),
-          BlocProvider(create: (context)=>EditionBloc(editionRepo: context.read<AudioEditionRepo>())),
+          BlocProvider(create: (context)=>EditionBloc(editionRepo: context.read<AudioEditionRepoOld>())),
           BlocProvider(create: (context)=>BackupMetaBloc(backupMetaRepo: context.read<BackupMetaRepo>(),authService: context.read<AuthService>(),
             backupManager: context.read<BackupManager>())),
           // BlocProvider(create: (context)=>TopicSavePointBloc(savePointRepo: context.read<TopicSavePointRepo>())),
-          BlocProvider(create: (context)=>ManageAudioBloc(manageAudioRepo: context.read<ManageAudioRepo>())),
+          BlocProvider(create: (context)=>ManageAudioBlocOld(manageAudioRepo: context.read<ManageAudioRepo>())),
           BlocProvider(create: (context)=>VerseAudioBloc(audioRepo: context.read<VerseAudioRepo>(),
-              editionRepo: context.read<AudioEditionRepo>(), audioEditorRepo: context.read<VerseAudioEditorRepo>()))
+              editionRepo: context.read<AudioEditionRepoOld>(), audioEditorRepo: context.read<VerseAudioEditorRepo>()))
         ],
         child: const MyApp(),
       ),

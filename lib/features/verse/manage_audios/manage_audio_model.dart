@@ -22,24 +22,24 @@ class ManageAudioModel extends Equatable{
   });
 
 
-  static ManageAudioModel fromCuzAudioView(CuzAudioView cuzView,String cuzName){
+  static ManageAudioModel fromCuzAudioView(CuzAudioViewOld cuzView,String cuzName){
     return ManageAudioModel(editionName: cuzView.editionName, identifier: cuzView.identifier,
         key: cuzView.cuzNo, isDownloaded: cuzView.isDownloaded, manageEnum: AudioManageEnum.cuz,
         keyName: cuzName,title: cuzName);
   }
 
-  static ManageAudioModel fromSurahAudioView(SurahAudioView surahView,String surahName){
+  static ManageAudioModel fromSurahAudioView(SurahAudioViewOld surahView,String surahName){
     return ManageAudioModel(editionName: surahView.editionName, identifier: surahView.identifier,
         key: surahView.surahId, isDownloaded: surahView.isDownloaded,
         manageEnum: AudioManageEnum.surah, keyName: surahName,title: "${surahView.surahId} $surahName");
   }
 
-  CuzAudioView toCuzAudioView(){
-    return CuzAudioView(identifier: identifier,cuzNo: key,editionName: editionName,isDownloaded: isDownloaded);
+  CuzAudioViewOld toCuzAudioView(){
+    return CuzAudioViewOld(identifier: identifier,cuzNo: key,editionName: editionName,isDownloaded: isDownloaded);
   }
 
-  SurahAudioView toSurahAudioView(){
-    return SurahAudioView(editionName: editionName, identifier: identifier, isDownloaded: isDownloaded, surahId: key);
+  SurahAudioViewOld toSurahAudioView(){
+    return SurahAudioViewOld(editionName: editionName, identifier: identifier, isDownloaded: isDownloaded, surahId: key);
   }
 
   @override

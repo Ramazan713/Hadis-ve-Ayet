@@ -136,18 +136,14 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
     _service.invoke(BackgroundSendData.sendActiveServices,{"data": jsonEncode(_activeServices)});
   }
 
-  Future<void> _cancelListenerService({required bool hasManagerCancelled})async{
-    if(!hasManagerCancelled){
-      await _audioBackgroundManager?.cancel();
-    }
+  Future<void> _cancelListenerService()async{
+    await _audioBackgroundManager?.cancel();
     await _attachNotificationIdService.detachId(AudioServiceEnum.listenAudio);
     await _removeActiveService(AudioServiceEnum.listenAudio);
   }
 
-  Future<void> _cancelDownloadService({required bool hasManagerCancelled})async{
-    if(!hasManagerCancelled){
-      await _downloadAudioBackgroundManager?.cancel();
-    }
+  Future<void> _cancelDownloadService()async{
+    await _downloadAudioBackgroundManager?.cancel();
     await _attachNotificationIdService.detachId(AudioServiceEnum.downloadAudio);
     await _removeActiveService(AudioServiceEnum.downloadAudio);
   }
@@ -173,7 +169,7 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
     });
 
     _subsAudioDownloadCloseListener = _service.on(BackgroundEventStopDownloadAudio.key).listen((event) async{
-      await _cancelDownloadService(hasManagerCancelled: false);
+      await _cancelDownloadService();
     });
 
     _subsAudioCheckNotificationListener = _service.on(BackgroundEventCheckNotificationStatus.key).listen((event) async{
@@ -184,7 +180,7 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
 
 
   Future<void> _checkServiceShouldBeClosed()async{
-    EasyDebounce.debounce("cancel_background_service_debounce", Duration(seconds: K.service.checkServiceForCancelInMilliSeconds), () async{
+    EasyDebounce.debounce("cancel_background_service_debounce", Duration(milliseconds: K.service.checkServiceForCancelInMilliSeconds), () async{
       if(_activeServices.isNotEmpty) return;
       await dispose();
     });
@@ -237,7 +233,7 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
         notification: _listenAudioNotification,
         handleNotificationBase: _handleNotificationBase,
         onCancel: () async{
-          await _cancelListenerService(hasManagerCancelled: false);
+          await _cancelListenerService();
         }
     );
   }
@@ -272,7 +268,7 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
         audioDownloadManager: audioDownloadManager,
         handleNotificationBase: _handleNotificationBase,
         onCancel: ()async{
-          await _cancelDownloadService(hasManagerCancelled: false);
+          await _cancelDownloadService();
         }
     );
   }

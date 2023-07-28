@@ -26,7 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class QuranDownloadManager{
   late final VerseAudioStateRepo _verseAudioStateRepo;
-  late final AudioEditionRepo _audioEditionRepo;
+  late final AudioEditionRepoOld _audioEditionRepo;
   late final QuranDownloadService _quranService;
   late final SharedPreferences _sharedPreferences;
 
@@ -40,7 +40,7 @@ class QuranDownloadManager{
 
   AudioParam? prevAudioParam;
 
-  QuranDownloadManager({required AudioEditionRepo audioEditionRepo ,required SharedPreferences sharedPreferences,
+  QuranDownloadManager({required AudioEditionRepoOld audioEditionRepo ,required SharedPreferences sharedPreferences,
     required QuranDownloadService quranService,required VerseAudioStateRepo verseAudioStateRepo
   }){
     _audioEditionRepo = audioEditionRepo;

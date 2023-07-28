@@ -15,8 +15,8 @@ enum VerseTopBarMenuItem implements IMenuItem{
       iconInfo: IconInfo(iconData: Icons.save)
   ),
   selectEdition(
-    title: "Kıraat Seç",
-    iconInfo: IconInfo(iconData: Icons.record_voice_over)
+    title: "Ses Ayarları",
+    iconInfo: IconInfo(iconData: Icons.audiotrack)
   );
 
   const VerseTopBarMenuItem({required this.title, this.iconInfo});
