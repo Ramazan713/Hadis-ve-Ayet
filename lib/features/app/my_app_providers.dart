@@ -5,6 +5,7 @@ import 'package:hadith/core/data/providers/core_data_repo_providers.dart';
 import 'package:hadith/core/data/providers/core_data_service_providers.dart';
 import 'package:hadith/core/domain/providers/core_domain_first_provider.dart';
 import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
+import 'package:hadith/core/domain/providers/core_domain_usecase_provider.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
@@ -18,6 +19,10 @@ import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
 import 'package:hadith/features/app/my_app.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/providers/dhikr_prayers_data_repo_providers.dart';
 import 'package:hadith/features/extra_features/counter/data/repo/counter_repo_impl.dart';
 import 'package:hadith/features/extra_features/counter/domain/repo/counter_repo.dart';
 import 'package:hadith/features/extra_features/counter/domain/use_case/insert_counter_use_case.dart';
@@ -136,6 +141,7 @@ class MyAppProviders extends StatelessWidget {
         ...pCoreDataServiceProviders(appDatabase),
         ...pCoreDataRepoProviders(appDatabase),
         ...pCoreDomainRepoProviders(appDatabase),
+        ...pCoreDomainUseCaseProviders(appDatabase),
         ...pHadithDataRepoProviders(appDatabase),
         ...pTopicDataRepoProviders(appDatabase),
         ...pVerseDataServiceProviders(appDatabase),
@@ -143,10 +149,11 @@ class MyAppProviders extends StatelessWidget {
         ...pVerseDataPagingProviders(appDatabase),
         ...pVerseDataManagerProviders(context,appDatabase),
         ...pVerseDomainUseCaseProviders(context),
+        ...pDhikrAndPrayersDataRepoProviders(appDatabase),
         ...pSearchDataRepoProviders(appDatabase),
-        RepositoryProvider<QuranPrayerRepo>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
+        RepositoryProvider<QuranPrayerRepoOld>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
-        RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDao)),
+        RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDaoOld)),
         RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDao)),
         RepositoryProvider<CounterRepo>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDao)),
         RepositoryProvider(create: (context)=>InsertCounterUseCase(counterRepo: context.read<CounterRepo>())),
@@ -203,6 +210,19 @@ class MyAppProviders extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context)=> PrayerAndVerseListBloc(
+            prayerRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> PrayerAndVerseDetailBloc(
+              prayerRepo: context.read(),
+              appPreferences: context.read(),
+              fontModelUseCase: context.read(),
+          )),
+          BlocProvider(create: (context)=> PrayerInQuranBloc(
+            prayerRepo: context.read(),
+            appPreferences: context.read(),
+            fontModelUseCase: context.read(),
+          )),
           BlocProvider(create: (context)=> PaginationBloc()),
           BlocProvider(create: (context)=> AudioSettingBloc(
               editionRepo: context.read(),
@@ -225,7 +245,9 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context) => SearchBloc(searchRepo: context.read(), historyRepo: context.read(),
             appPreferences: context.read())),
           BlocProvider(create: (context)=> VerseSharedBloc(appPreferences: context.read(),
-              selectListUseCases: context.read(), titleRepo: context.read())),
+              selectListUseCases: context.read(), titleRepo: context.read(),
+              fontModelUseCase: context.read(),
+          )),
           BlocProvider(create: (context)=> SelectFontSizeBloc(appPreferences: context.read())),
           BlocProvider(create: (context)=> SurahBloc(
               surahRepo: context.read(),

@@ -17,7 +17,7 @@ class CustomNavigationBar extends StatelessWidget {
     _NavigationItem(icon: const Icon(Icons.home), label: "Ana Sayfa",
         navigationLocation: HomeRoute().location),
     _NavigationItem(icon: const Icon(Icons.dataset), label: "Kategoriler",
-        navigationLocation: ExtraFeaturesRoute().location),
+        navigationLocation: CategoriesRoute().location),
     _NavigationItem(icon: const Icon(Icons.view_list), label: "Liste",
         navigationLocation: ShowListRoute().location),
   ];

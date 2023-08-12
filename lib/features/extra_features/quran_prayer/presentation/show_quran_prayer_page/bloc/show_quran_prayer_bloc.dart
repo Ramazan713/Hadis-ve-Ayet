@@ -15,10 +15,10 @@ import 'show_quran_prayer_state.dart';
 
 class ShowQuranPrayerBloc extends Bloc<IShowQuranPrayerEvent,ShowQuranPrayerState>{
 
-  late final QuranPrayerRepo _prayerRepo;
+  late final QuranPrayerRepoOld _prayerRepo;
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
-  ShowQuranPrayerBloc({required QuranPrayerRepo prayerRepo}) : super(ShowQuranPrayerState.init()){
+  ShowQuranPrayerBloc({required QuranPrayerRepoOld prayerRepo}) : super(ShowQuranPrayerState.init()){
     _prayerRepo = prayerRepo;
 
     on<ShowQuranPrayerEventInit>(_onInit);

@@ -21,6 +21,9 @@ List<RouteBase> get $appRoutes => [
       $verseShowListRoute,
       $verseShowTopicRoute,
       $verseShowSearchRoute,
+      $prayerAndVerseListRoute,
+      $prayerAndVerseDetailRoute,
+      $prayerInQuranRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -387,6 +390,71 @@ extension $VerseShowSearchRouteExtension on VerseShowSearchRoute {
         queryParams: {
           if (pos != 0) 'pos': pos.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $prayerAndVerseListRoute => GoRouteData.$route(
+      path: '/prayerverse/list',
+      factory: $PrayerAndVerseListRouteExtension._fromState,
+    );
+
+extension $PrayerAndVerseListRouteExtension on PrayerAndVerseListRoute {
+  static PrayerAndVerseListRoute _fromState(GoRouterState state) =>
+      PrayerAndVerseListRoute();
+
+  String get location => GoRouteData.$location(
+        '/prayerverse/list',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $prayerAndVerseDetailRoute => GoRouteData.$route(
+      path: '/prayerverse/detail/:prayerId',
+      factory: $PrayerAndVerseDetailRouteExtension._fromState,
+    );
+
+extension $PrayerAndVerseDetailRouteExtension on PrayerAndVerseDetailRoute {
+  static PrayerAndVerseDetailRoute _fromState(GoRouterState state) =>
+      PrayerAndVerseDetailRoute(
+        prayerId: int.parse(state.pathParameters['prayerId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/prayerverse/detail/${Uri.encodeComponent(prayerId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $prayerInQuranRoute => GoRouteData.$route(
+      path: '/prayerinqurans',
+      factory: $PrayerInQuranRouteExtension._fromState,
+    );
+
+extension $PrayerInQuranRouteExtension on PrayerInQuranRoute {
+  static PrayerInQuranRoute _fromState(GoRouterState state) =>
+      PrayerInQuranRoute();
+
+  String get location => GoRouteData.$location(
+        '/prayerinqurans',
       );
 
   void go(BuildContext context) => context.go(location);

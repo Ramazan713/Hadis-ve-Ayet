@@ -22,8 +22,8 @@ RouteBase get $bottomBarRouteData => ShellRouteData.$route(
           factory: $HomeRouteExtension._fromState,
         ),
         GoRouteData.$route(
-          path: '/extra_features',
-          factory: $ExtraFeaturesRouteExtension._fromState,
+          path: '/categories',
+          factory: $CategoriesRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: '/show_list',
@@ -67,12 +67,11 @@ extension $HomeRouteExtension on HomeRoute {
       context.pushReplacement(location);
 }
 
-extension $ExtraFeaturesRouteExtension on ExtraFeaturesRoute {
-  static ExtraFeaturesRoute _fromState(GoRouterState state) =>
-      ExtraFeaturesRoute();
+extension $CategoriesRouteExtension on CategoriesRoute {
+  static CategoriesRoute _fromState(GoRouterState state) => CategoriesRoute();
 
   String get location => GoRouteData.$location(
-        '/extra_features',
+        '/categories',
       );
 
   void go(BuildContext context) => context.go(location);

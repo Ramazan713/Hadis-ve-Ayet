@@ -4,6 +4,7 @@ import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/enums/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
+import 'package:hadith/core/domain/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
 
 import '../preferences/model/pref_key.dart';
@@ -27,18 +28,26 @@ class KPref{
   static final PrefKeyEnum<ArabicVerseUI2X> verseAppearanceEnum = PrefKeyEnum(key: "arabicVerseAppearanceEnum",
       defaultPrefEnum: ArabicVerseUI2X.defaultValue, from: ArabicVerseUI2X.from);
 
+  static final PrefKeyEnum<ArabicVerseUI2X> quranPrayerVerseUi = PrefKeyEnum(key: "quranPrayerVerseUi",
+      defaultPrefEnum: ArabicVerseUI2X.onlyMeal, from: ArabicVerseUI2X.from);
+
   static final PrefKeyEnum<SearchCriteriaEnum> searchCriteriaEnum = PrefKeyEnum(key: "searchCriteriaEnum",
+      defaultPrefEnum: SearchCriteriaEnum.defaultValue, from: SearchCriteriaEnum.from);
+
+  static final PrefKeyEnum<SearchCriteriaEnum> prayerInQuranSearchCriteria = PrefKeyEnum(key: "prayerInQuranSearchCriteria",
       defaultPrefEnum: SearchCriteriaEnum.defaultValue, from: SearchCriteriaEnum.from);
 
   static final PrefKeyEnum<AudioQualityEnum> audioQualityEnum = PrefKeyEnum(key: "audioQuality",
       defaultPrefEnum: AudioQualityEnum.defaultValue, from: AudioQualityEnum.from);
-
 
   static final prefValues = <PrefKey>[
     fontSizeContent, fontSizeArabic, useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission
   ];
 
-  static final prefEnumValues = <PrefKeyEnum>[fontFamilyArabic,verseAppearanceEnum,searchCriteriaEnum,audioQualityEnum];
+  static final prefEnumValues = <PrefKeyEnum>[
+    fontFamilyArabic,verseAppearanceEnum,searchCriteriaEnum,audioQualityEnum,quranPrayerVerseUi,
+    prayerInQuranSearchCriteria
+  ];
 
 }

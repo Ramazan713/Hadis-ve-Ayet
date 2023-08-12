@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/features/category/category_page.dart';
 import 'package:hadith/features/extra_features/extra_features_page.dart';
 import 'package:hadith/features/home/home_screen.dart';
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
@@ -18,8 +19,8 @@ part 'bottom_nav_routers.g.dart';
     TypedGoRoute<HomeRoute>(
       path: "/home"
     ),
-    TypedGoRoute<ExtraFeaturesRoute>(
-        path: "/extra_features"
+    TypedGoRoute<CategoriesRoute>(
+        path: "/categories"
     ),
     TypedGoRoute<ShowListRoute>(
         path: "/show_list"
@@ -60,11 +61,11 @@ class SearchRoute extends GoRouteData{
 }
 
 
-class ExtraFeaturesRoute extends GoRouteData{
+class CategoriesRoute extends GoRouteData{
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return  const NoTransitionPage(child: ExtraFeaturesPage());
+    return const NoTransitionPage(child: CategoryPage());
   }
 }
 

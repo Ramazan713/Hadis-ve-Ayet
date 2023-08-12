@@ -97,9 +97,9 @@ class _$AppDatabase extends AppDatabase {
 
   CounterDao? _counterDaoInstance;
 
-  EsmaulHusnaDao? _esmaulHusnaDaoInstance;
+  EsmaulHusnaDaoOld? _esmaulHusnaDaoInstance;
 
-  PrayerDao? _prayerDaoInstance;
+  PrayerDaoOld? _prayerDaoOldInstance;
 
   IslamicInfoDao? _islamicInfoDaoInstance;
 
@@ -152,6 +152,8 @@ class _$AppDatabase extends AppDatabase {
   VerseAudioDao? _verseAudioDaoInstance;
 
   AudioViewDao? _audioViewDaoInstance;
+
+  PrayerDao? _prayerDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -229,13 +231,15 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `type` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `EsmaulHusna` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, PRIMARY KEY (`id`))');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Prayers` (`id` INTEGER, `name` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `arabicContent` TEXT NOT NULL, `pronunciationContent` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `EsmaulHusnaOld` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `IslamicInfoItem` (`id` INTEGER, `titleId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, FOREIGN KEY (`titleId`) REFERENCES `IslamicInfoTitle` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `IslamicInfoTitle` (`id` INTEGER, `title` TEXT NOT NULL, `description` TEXT, `type` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Prayers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `arabicContent` TEXT, `meaningContent` TEXT, `pronunciationContent` TEXT, `source` TEXT, `typeId` INTEGER NOT NULL, `orderItem` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `PrayersOld` (`id` INTEGER, `name` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `arabicContent` TEXT NOT NULL, `pronunciationContent` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `CuzEntity` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `SurahEntity` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -393,14 +397,14 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  EsmaulHusnaDao get esmaulHusnaDao {
+  EsmaulHusnaDaoOld get esmaulHusnaDao {
     return _esmaulHusnaDaoInstance ??=
-        _$EsmaulHusnaDao(database, changeListener);
+        _$EsmaulHusnaDaoOld(database, changeListener);
   }
 
   @override
-  PrayerDao get prayerDao {
-    return _prayerDaoInstance ??= _$PrayerDao(database, changeListener);
+  PrayerDaoOld get prayerDaoOld {
+    return _prayerDaoOldInstance ??= _$PrayerDaoOld(database, changeListener);
   }
 
   @override
@@ -542,6 +546,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   AudioViewDao get audioViewDao {
     return _audioViewDaoInstance ??= _$AudioViewDao(database, changeListener);
+  }
+
+  @override
+  PrayerDao get prayerDao {
+    return _prayerDaoInstance ??= _$PrayerDao(database, changeListener);
   }
 }
 
@@ -3489,8 +3498,8 @@ class _$CounterDao extends CounterDao {
   }
 }
 
-class _$EsmaulHusnaDao extends EsmaulHusnaDao {
-  _$EsmaulHusnaDao(
+class _$EsmaulHusnaDaoOld extends EsmaulHusnaDaoOld {
+  _$EsmaulHusnaDaoOld(
     this.database,
     this.changeListener,
   ) : _queryAdapter = QueryAdapter(database);
@@ -3502,9 +3511,9 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   final QueryAdapter _queryAdapter;
 
   @override
-  Future<List<EsmaulHusnaEntity>> getAllEsmaulHusna() async {
+  Future<List<EsmaulHusnaEntityOld>> getAllEsmaulHusna() async {
     return _queryAdapter.queryList('select * from esmaulHusna',
-        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntityOld(
             id: row['id'] as int?,
             orderItem: row['orderItem'] as int,
             name: row['name'] as String,
@@ -3515,9 +3524,9 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   }
 
   @override
-  Future<EsmaulHusnaEntity?> getEsmaulHusnaWithId(int id) async {
+  Future<EsmaulHusnaEntityOld?> getEsmaulHusnaWithId(int id) async {
     return _queryAdapter.query('select * from esmaulHusna where id=?1',
-        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntityOld(
             id: row['id'] as int?,
             orderItem: row['orderItem'] as int,
             name: row['name'] as String,
@@ -3529,8 +3538,8 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   }
 }
 
-class _$PrayerDao extends PrayerDao {
-  _$PrayerDao(
+class _$PrayerDaoOld extends PrayerDaoOld {
+  _$PrayerDaoOld(
     this.database,
     this.changeListener,
   ) : _queryAdapter = QueryAdapter(database);
@@ -3542,9 +3551,9 @@ class _$PrayerDao extends PrayerDao {
   final QueryAdapter _queryAdapter;
 
   @override
-  Future<List<PrayerEntity>> getPrayers() async {
+  Future<List<PrayerEntityOld>> getPrayers() async {
     return _queryAdapter.queryList('select * from prayers',
-        mapper: (Map<String, Object?> row) => PrayerEntity(
+        mapper: (Map<String, Object?> row) => PrayerEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             meaningContent: row['meaningContent'] as String,
@@ -3553,9 +3562,9 @@ class _$PrayerDao extends PrayerDao {
   }
 
   @override
-  Future<PrayerEntity?> getPrayerWithId(int id) async {
+  Future<PrayerEntityOld?> getPrayerWithId(int id) async {
     return _queryAdapter.query('select * from prayers where id=?1',
-        mapper: (Map<String, Object?> row) => PrayerEntity(
+        mapper: (Map<String, Object?> row) => PrayerEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             meaningContent: row['meaningContent'] as String,
@@ -6135,5 +6144,169 @@ class _$AudioViewDao extends AudioViewDao {
         arguments: [identifier],
         queryableName: 'cuzAudioView',
         isView: true);
+  }
+}
+
+class _$PrayerDao extends PrayerDao {
+  _$PrayerDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _prayerEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'Prayers',
+            (PrayerEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'arabicContent': item.arabicContent,
+                  'meaningContent': item.meaningContent,
+                  'pronunciationContent': item.pronunciationContent,
+                  'source': item.source,
+                  'typeId': item.typeId,
+                  'orderItem': item.orderItem,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener),
+        _prayerEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'Prayers',
+            ['id'],
+            (PrayerEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'arabicContent': item.arabicContent,
+                  'meaningContent': item.meaningContent,
+                  'pronunciationContent': item.pronunciationContent,
+                  'source': item.source,
+                  'typeId': item.typeId,
+                  'orderItem': item.orderItem,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener),
+        _prayerEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'Prayers',
+            ['id'],
+            (PrayerEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'arabicContent': item.arabicContent,
+                  'meaningContent': item.meaningContent,
+                  'pronunciationContent': item.pronunciationContent,
+                  'source': item.source,
+                  'typeId': item.typeId,
+                  'orderItem': item.orderItem,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<PrayerEntity> _prayerEntityInsertionAdapter;
+
+  final UpdateAdapter<PrayerEntity> _prayerEntityUpdateAdapter;
+
+  final DeletionAdapter<PrayerEntity> _prayerEntityDeletionAdapter;
+
+  @override
+  Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId) async {
+    return _queryAdapter.queryList('select * from prayers where typeId = ?1',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [typeId]);
+  }
+
+  @override
+  Future<List<PrayerEntity>> getPrayersWithTypeIdAndIsRemovable(
+    int typeId,
+    bool isRemovable,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from prayers where typeId = ?1 and isRemovable = ?2',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [typeId, isRemovable ? 1 : 0]);
+  }
+
+  @override
+  Future<PrayerEntity?> getPrayersWithId(int id) async {
+    return _queryAdapter.query('select * from prayers where id = ?1',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [id]);
+  }
+
+  @override
+  Future<int?> getMaxOrderWithTypeId(int typeId) async {
+    return _queryAdapter.query(
+        'select max(orderItem) from prayers where typeId = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [typeId]);
+  }
+
+  @override
+  Future<List<PrayerEntity>> getPrayersSearchedLikeWithTypeId(
+    int typeId,
+    String query,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from prayers where typeId = ?1 and lower(meaningContent) Like lower(?2)',
+        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [typeId, query]);
+  }
+
+  @override
+  Future<List<PrayerEntity>> getPrayersSearchedRegExWithTypeId(
+    int typeId,
+    String regExp,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from prayers where typeId = ?1 and lower(meaningContent) REGEXP lower(?2)',
+        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [typeId, regExp]);
+  }
+
+  @override
+  Future<void> insertPrayer(PrayerEntity prayer) async {
+    await _prayerEntityInsertionAdapter.insert(
+        prayer, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updatePrayer(PrayerEntity prayer) async {
+    await _prayerEntityUpdateAdapter.update(prayer, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deletePrayer(PrayerEntity prayer) async {
+    await _prayerEntityDeletionAdapter.delete(prayer);
   }
 }

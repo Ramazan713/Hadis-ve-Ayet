@@ -4,6 +4,10 @@ import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/features/category/category_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/prayer_and_verse_detail_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/prayer_and_verse_list_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/prayer_in_quran_page.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:flutter/material.dart';
@@ -298,6 +302,45 @@ class VerseShowSearchRoute extends GoRouteData{
 }
 
 
+@TypedGoRoute<PrayerAndVerseListRoute>(
+    path: "/prayerverse/list"
+)
+class PrayerAndVerseListRoute extends GoRouteData{
+
+  PrayerAndVerseListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const PrayerAndVerseListPage();
+  }
+}
+
+@TypedGoRoute<PrayerAndVerseDetailRoute>(
+    path: "/prayerverse/detail/:prayerId"
+)
+class PrayerAndVerseDetailRoute extends GoRouteData{
+
+  final int prayerId;
+
+  PrayerAndVerseDetailRoute({
+    required this.prayerId
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PrayerAndVerseDetailPage(prayerId: prayerId);
+  }
+}
 
 
+@TypedGoRoute<PrayerInQuranRoute>(
+    path: "/prayerinqurans"
+)
+class PrayerInQuranRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PrayerInQuranPage();
+  }
+}
 

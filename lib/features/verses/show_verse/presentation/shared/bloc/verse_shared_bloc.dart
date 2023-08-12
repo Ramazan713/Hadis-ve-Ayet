@@ -8,6 +8,7 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
 import 'package:hadith/core/domain/repo/title_repo.dart';
+import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 import 'package:hadith/core/domain/models/font_model.dart';
@@ -20,15 +21,19 @@ class VerseSharedBloc extends Bloc<IVerseSharedEvent, VerseSharedState>{
   late final AppPreferences _appPreferences;
   late final SelectListUseCases _selectListUseCases;
   late final TitleRepo _titleRepo;
+  late final FontModelUseCase _fontModelUseCase;
 
   VerseSharedBloc({
     required AppPreferences appPreferences,
     required SelectListUseCases selectListUseCases,
-    required TitleRepo titleRepo
+    required TitleRepo titleRepo,
+    required FontModelUseCase fontModelUseCase
   }): super(VerseSharedState.init()){
+
     _appPreferences = appPreferences;
     _selectListUseCases = selectListUseCases;
     _titleRepo = titleRepo;
+    _fontModelUseCase = fontModelUseCase;
 
     on<VerseSharedEventInit>(_onInit,transformer: restartable());
     on<VerseSharedEventSetTitle>(_onSetTitle,transformer: restartable());
@@ -68,7 +73,7 @@ class VerseSharedBloc extends Bloc<IVerseSharedEvent, VerseSharedState>{
     final verseUi = _appPreferences.getEnumItem(KPref.verseAppearanceEnum);
 
     emit(state.copyWith(
-      fontModel: _getFontModel(),
+      fontModel: _fontModelUseCase(),
       showListVerseIcons: showVerseListIcons,
       arabicVerseUIEnum: verseUi,
       favListId: listFav.id
@@ -80,24 +85,11 @@ class VerseSharedBloc extends Bloc<IVerseSharedEvent, VerseSharedState>{
       final verseUi = _appPreferences.getEnumItem(KPref.verseAppearanceEnum);
 
       return state.copyWith(
-          fontModel: _getFontModel(),
+          fontModel: _fontModelUseCase(),
           showListVerseIcons: showVerseListIcons,
           arabicVerseUIEnum: verseUi
       );
     });
   }
-
-  FontModel _getFontModel(){
-    final contentFontSize = _appPreferences.getItem(KPref.fontSizeContent);
-    final arabicFontSize = _appPreferences.getItem(KPref.fontSizeArabic);
-    final fontFamilyArabic = _appPreferences.getEnumItem(KPref.fontFamilyArabic);
-
-    return FontModel(
-        contentFontSize: contentFontSize,
-        arabicFontSize: arabicFontSize,
-        arabicFontFamilyEnum: fontFamilyArabic
-    );
-  }
-
 
 }

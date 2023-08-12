@@ -5,9 +5,9 @@ import 'package:hadith/features/extra_features/prayer_surah/domain/model/prayer.
 import 'package:hadith/features/extra_features/prayer_surah/domain/repo/prayer_repo.dart';
 
 class PrayerRepoImpl extends PrayerRepo{
-  late final PrayerDao _prayerDao;
+  late final PrayerDaoOld _prayerDao;
 
-  PrayerRepoImpl({required PrayerDao prayerDao}){
+  PrayerRepoImpl({required PrayerDaoOld prayerDao}){
     _prayerDao = prayerDao;
   }
 

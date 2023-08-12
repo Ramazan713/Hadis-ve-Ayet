@@ -5,7 +5,7 @@ import 'package:hadith/features/extra_features/quran_prayer/domain/model/quran_p
 import '../../domain/repo/quran_prayer_repo.dart';
 import '../quran_prayer_dao.dart';
 
-class QuranPrayerRepoImpl extends QuranPrayerRepo{
+class QuranPrayerRepoImpl extends QuranPrayerRepoOld{
   late final QuranPrayerDao _prayerDao;
   QuranPrayerRepoImpl({required QuranPrayerDao quranPrayerDao}){
     _prayerDao = quranPrayerDao;

@@ -4,12 +4,12 @@ import 'package:floor/floor.dart';
 import 'package:hadith/features/extra_features/prayer_surah/data/entity/prayer_entity.dart';
 
 @dao
-abstract class PrayerDao{
+abstract class PrayerDaoOld{
   
   @Query("select * from prayers")
-  Future<List<PrayerEntity>> getPrayers();
+  Future<List<PrayerEntityOld>> getPrayers();
 
   @Query("select * from prayers where id=:id")
-  Future<PrayerEntity?> getPrayerWithId(int id);
+  Future<PrayerEntityOld?> getPrayerWithId(int id);
   
 }
