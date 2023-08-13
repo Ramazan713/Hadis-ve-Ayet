@@ -2,6 +2,6 @@
 
 import 'package:hadith/constants/enums/font_size_enum.dart';
 
-abstract class IShowEsmaulHusnaEvent{}
+abstract class IShowEsmaulHusnaEventOld{}
 
-class ShowEsmaulHusnaEventInit extends IShowEsmaulHusnaEvent{}
+class ShowEsmaulHusnaEventInit extends IShowEsmaulHusnaEventOld{}

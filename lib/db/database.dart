@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/audio_edition_entity.dart';
 import 'package:hadith/core/data/local/entities/cuz_entity.dart';
+import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/history_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_entity.dart';
@@ -26,6 +27,7 @@ import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
+import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
 import 'package:hadith/core/data/local/services/history_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_dao.dart';
@@ -121,7 +123,7 @@ part 'database.g.dart';
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntityOld,CounterEntity,
       EsmaulHusnaEntityOld, IslamicInfoItemEntity,IslamicInfoTitleEntity,
-      PrayerEntity, PrayerEntityOld,
+      PrayerEntity, PrayerEntityOld, EsmaulHusnaEntity,
       VerseEntity, HistoryEntity, AudioEditionEntity, VerseAudioEntity,
       SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
@@ -151,7 +153,7 @@ abstract class AppDatabase extends FloorDatabase{
   VerseAudioStateDao get verseAudioStateDao;
   // ManageAudioDao get manageAudioDao;
   CounterDao get counterDao;
-  EsmaulHusnaDaoOld get esmaulHusnaDao;
+  EsmaulHusnaDaoOld get esmaulHusnaDaoOld;
   PrayerDaoOld get prayerDaoOld;
   IslamicInfoDao get islamicInfoDao;
   QuranPrayerDao get quranPrayerDao;
@@ -181,5 +183,7 @@ abstract class AppDatabase extends FloorDatabase{
   VerseAudioDao get verseAudioDao;
   AudioViewDao get audioViewDao;
   PrayerDao get prayerDao;
+  EsmaulHusnaDao get esmaulHusnaDao;
+
 
 }

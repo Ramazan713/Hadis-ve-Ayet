@@ -19,6 +19,7 @@ mixin _$EsmaulHusna {
   int? get id => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get searchName => throw _privateConstructorUsedError;
   String get arabicName => throw _privateConstructorUsedError;
   String get meaning => throw _privateConstructorUsedError;
   String get dhikr => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ abstract class $EsmaulHusnaCopyWith<$Res> {
       {int? id,
       int order,
       String name,
+      String searchName,
       String arabicName,
       String meaning,
       String dhikr,
@@ -63,6 +65,7 @@ class _$EsmaulHusnaCopyWithImpl<$Res, $Val extends EsmaulHusna>
     Object? id = freezed,
     Object? order = null,
     Object? name = null,
+    Object? searchName = null,
     Object? arabicName = null,
     Object? meaning = null,
     Object? dhikr = null,
@@ -81,6 +84,10 @@ class _$EsmaulHusnaCopyWithImpl<$Res, $Val extends EsmaulHusna>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      searchName: null == searchName
+          ? _value.searchName
+          : searchName // ignore: cast_nullable_to_non_nullable
               as String,
       arabicName: null == arabicName
           ? _value.arabicName
@@ -118,6 +125,7 @@ abstract class _$$_EsmaulHusnaCopyWith<$Res>
       {int? id,
       int order,
       String name,
+      String searchName,
       String arabicName,
       String meaning,
       String dhikr,
@@ -139,6 +147,7 @@ class __$$_EsmaulHusnaCopyWithImpl<$Res>
     Object? id = freezed,
     Object? order = null,
     Object? name = null,
+    Object? searchName = null,
     Object? arabicName = null,
     Object? meaning = null,
     Object? dhikr = null,
@@ -157,6 +166,10 @@ class __$$_EsmaulHusnaCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      searchName: null == searchName
+          ? _value.searchName
+          : searchName // ignore: cast_nullable_to_non_nullable
               as String,
       arabicName: null == arabicName
           ? _value.arabicName
@@ -189,6 +202,7 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
       {required this.id,
       required this.order,
       required this.name,
+      required this.searchName,
       required this.arabicName,
       required this.meaning,
       required this.dhikr,
@@ -202,6 +216,8 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
   @override
   final String name;
   @override
+  final String searchName;
+  @override
   final String arabicName;
   @override
   final String meaning;
@@ -214,7 +230,7 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'EsmaulHusna(id: $id, order: $order, name: $name, arabicName: $arabicName, meaning: $meaning, dhikr: $dhikr, virtue: $virtue, counterId: $counterId)';
+    return 'EsmaulHusna(id: $id, order: $order, name: $name, searchName: $searchName, arabicName: $arabicName, meaning: $meaning, dhikr: $dhikr, virtue: $virtue, counterId: $counterId)';
   }
 
   @override
@@ -225,6 +241,7 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('order', order))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('searchName', searchName))
       ..add(DiagnosticsProperty('arabicName', arabicName))
       ..add(DiagnosticsProperty('meaning', meaning))
       ..add(DiagnosticsProperty('dhikr', dhikr))
@@ -240,6 +257,8 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.order, order) || other.order == order) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.searchName, searchName) ||
+                other.searchName == searchName) &&
             (identical(other.arabicName, arabicName) ||
                 other.arabicName == arabicName) &&
             (identical(other.meaning, meaning) || other.meaning == meaning) &&
@@ -250,8 +269,8 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, order, name, arabicName,
-      meaning, dhikr, virtue, counterId);
+  int get hashCode => Object.hash(runtimeType, id, order, name, searchName,
+      arabicName, meaning, dhikr, virtue, counterId);
 
   @JsonKey(ignore: true)
   @override
@@ -265,6 +284,7 @@ abstract class _EsmaulHusna implements EsmaulHusna {
       {required final int? id,
       required final int order,
       required final String name,
+      required final String searchName,
       required final String arabicName,
       required final String meaning,
       required final String dhikr,
@@ -277,6 +297,8 @@ abstract class _EsmaulHusna implements EsmaulHusna {
   int get order;
   @override
   String get name;
+  @override
+  String get searchName;
   @override
   String get arabicName;
   @override

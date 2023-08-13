@@ -9,12 +9,32 @@ extension EsmaulHusnaEntityExt on EsmaulHusnaEntity{
     return EsmaulHusna(
       id: id,
       name: name,
+      searchName: searchName,
       arabicName: arabicName,
       counterId: counterId,
       dhikr: dhikr,
       meaning: meaning,
       order: orderItem,
       virtue: virtue
+    );
+  }
+
+}
+
+
+extension EsmaulHusnaExt on EsmaulHusna{
+
+  EsmaulHusnaEntity toEsmaulHusnaEntity(){
+    return EsmaulHusnaEntity(
+        id: id,
+        name: name,
+        arabicName: arabicName,
+        counterId: counterId,
+        dhikr: dhikr,
+        meaning: meaning,
+        orderItem: order,
+        virtue: virtue,
+        searchName: searchName
     );
   }
 

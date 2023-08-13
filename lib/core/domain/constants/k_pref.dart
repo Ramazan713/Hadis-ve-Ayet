@@ -37,6 +37,9 @@ class KPref{
   static final PrefKeyEnum<SearchCriteriaEnum> prayerInQuranSearchCriteria = PrefKeyEnum(key: "prayerInQuranSearchCriteria",
       defaultPrefEnum: SearchCriteriaEnum.defaultValue, from: SearchCriteriaEnum.from);
 
+  static final PrefKeyEnum<SearchCriteriaEnum> esmaulHusnaSearchCriteria = PrefKeyEnum(key: "esmaulHusnaSearchCriteria",
+      defaultPrefEnum: SearchCriteriaEnum.defaultValue, from: SearchCriteriaEnum.from);
+
   static final PrefKeyEnum<AudioQualityEnum> audioQualityEnum = PrefKeyEnum(key: "audioQuality",
       defaultPrefEnum: AudioQualityEnum.defaultValue, from: AudioQualityEnum.from);
 
@@ -47,7 +50,7 @@ class KPref{
 
   static final prefEnumValues = <PrefKeyEnum>[
     fontFamilyArabic,verseAppearanceEnum,searchCriteriaEnum,audioQualityEnum,quranPrayerVerseUi,
-    prayerInQuranSearchCriteria
+    prayerInQuranSearchCriteria, esmaulHusnaSearchCriteria
   ];
 
 }

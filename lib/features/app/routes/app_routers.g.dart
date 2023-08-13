@@ -24,6 +24,8 @@ List<RouteBase> get $appRoutes => [
       $prayerAndVerseListRoute,
       $prayerAndVerseDetailRoute,
       $prayerInQuranRoute,
+      $showEsmaulHusnaRoute,
+      $esmaulHusnaDetailRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -455,6 +457,55 @@ extension $PrayerInQuranRouteExtension on PrayerInQuranRoute {
 
   String get location => GoRouteData.$location(
         '/prayerinqurans',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $showEsmaulHusnaRoute => GoRouteData.$route(
+      path: '/esmaulHusna/:pos',
+      factory: $ShowEsmaulHusnaRouteExtension._fromState,
+    );
+
+extension $ShowEsmaulHusnaRouteExtension on ShowEsmaulHusnaRoute {
+  static ShowEsmaulHusnaRoute _fromState(GoRouterState state) =>
+      ShowEsmaulHusnaRoute(
+        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/esmaulHusna/${Uri.encodeComponent(pos.toString())}',
+        queryParams: {
+          if (pos != 0) 'pos': pos.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $esmaulHusnaDetailRoute => GoRouteData.$route(
+      path: '/esmaulHusna/detail/:pos',
+      factory: $EsmaulHusnaDetailRouteExtension._fromState,
+    );
+
+extension $EsmaulHusnaDetailRouteExtension on EsmaulHusnaDetailRoute {
+  static EsmaulHusnaDetailRoute _fromState(GoRouterState state) =>
+      EsmaulHusnaDetailRoute(
+        pos: int.parse(state.pathParameters['pos']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/esmaulHusna/detail/${Uri.encodeComponent(pos.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

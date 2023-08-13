@@ -11,6 +11,7 @@ class EsmaulHusna with _$EsmaulHusna{
     required int? id,
     required int order,
     required String name,
+    required String searchName,
     required String arabicName,
     required String meaning,
     required String dhikr,

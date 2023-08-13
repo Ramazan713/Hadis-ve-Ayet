@@ -51,7 +51,7 @@ class ExtraFeaturesPage extends StatelessWidget {
               title: "Esmaul Husna",
               assetPath: AssetHelper.esmaulHusna,
               onClick: () {
-                Navigator.pushNamed(context, EsmaulHusnaPage.id);
+                Navigator.pushNamed(context, EsmaulHusnaPageOld.id);
               },
             ),
             FeatureItem(

@@ -28,6 +28,7 @@ class CategoryPage extends StatelessWidget {
                 title: "Esmaul Husna",
                 assetPath: AssetHelper.esmaulHusna,
                 onClick: () {
+                  ShowEsmaulHusnaRoute(pos: 30).push(context);
                   // Navigator.pushNamed(context, EsmaulHusnaPage.id);
                 },
               ),

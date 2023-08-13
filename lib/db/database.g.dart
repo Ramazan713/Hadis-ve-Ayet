@@ -97,7 +97,7 @@ class _$AppDatabase extends AppDatabase {
 
   CounterDao? _counterDaoInstance;
 
-  EsmaulHusnaDaoOld? _esmaulHusnaDaoInstance;
+  EsmaulHusnaDaoOld? _esmaulHusnaDaoOldInstance;
 
   PrayerDaoOld? _prayerDaoOldInstance;
 
@@ -154,6 +154,8 @@ class _$AppDatabase extends AppDatabase {
   AudioViewDao? _audioViewDaoInstance;
 
   PrayerDao? _prayerDaoInstance;
+
+  EsmaulHusnaDao? _esmaulHusnaDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -240,6 +242,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `Prayers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `arabicContent` TEXT, `meaningContent` TEXT, `pronunciationContent` TEXT, `source` TEXT, `typeId` INTEGER NOT NULL, `orderItem` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `PrayersOld` (`id` INTEGER, `name` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `arabicContent` TEXT NOT NULL, `pronunciationContent` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `EsmaulHusna` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `searchName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, `counterId` INTEGER, FOREIGN KEY (`counterId`) REFERENCES `counters` (`id`) ON UPDATE NO ACTION ON DELETE SET NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `CuzEntity` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `SurahEntity` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -397,8 +401,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  EsmaulHusnaDaoOld get esmaulHusnaDao {
-    return _esmaulHusnaDaoInstance ??=
+  EsmaulHusnaDaoOld get esmaulHusnaDaoOld {
+    return _esmaulHusnaDaoOldInstance ??=
         _$EsmaulHusnaDaoOld(database, changeListener);
   }
 
@@ -551,6 +555,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   PrayerDao get prayerDao {
     return _prayerDaoInstance ??= _$PrayerDao(database, changeListener);
+  }
+
+  @override
+  EsmaulHusnaDao get esmaulHusnaDao {
+    return _esmaulHusnaDaoInstance ??=
+        _$EsmaulHusnaDao(database, changeListener);
   }
 }
 
@@ -6308,5 +6318,111 @@ class _$PrayerDao extends PrayerDao {
   @override
   Future<void> deletePrayer(PrayerEntity prayer) async {
     await _prayerEntityDeletionAdapter.delete(prayer);
+  }
+}
+
+class _$EsmaulHusnaDao extends EsmaulHusnaDao {
+  _$EsmaulHusnaDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _esmaulHusnaEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'EsmaulHusna',
+            ['id'],
+            (EsmaulHusnaEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'orderItem': item.orderItem,
+                  'name': item.name,
+                  'arabicName': item.arabicName,
+                  'searchName': item.searchName,
+                  'meaning': item.meaning,
+                  'dhikr': item.dhikr,
+                  'virtue': item.virtue,
+                  'counterId': item.counterId
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final UpdateAdapter<EsmaulHusnaEntity> _esmaulHusnaEntityUpdateAdapter;
+
+  @override
+  Future<List<EsmaulHusnaEntity>> getEsmaulHusnas() async {
+    return _queryAdapter.queryList(
+        'select * from esmaulHusna order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String));
+  }
+
+  @override
+  Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnas() {
+    return _queryAdapter.queryListStream(
+        'select * from esmaulHusna order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String),
+        queryableName: 'esmaulHusna',
+        isView: false);
+  }
+
+  @override
+  Future<EsmaulHusnaEntity?> getEsmaulHusnaWithId(int id) async {
+    return _queryAdapter.query(
+        'select * from esmaulHusna where id=?1 order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<EsmaulHusnaEntity>> getEsmaulHusnasSearchedLike(
+      String query) async {
+    return _queryAdapter.queryList(
+        'select * from esmaulHusna where      lower(name) Like lower(?1) or      lower(searchName) Like lower(?1) or      lower(meaning) Like lower(?1) or     lower(virtue) Like lower(?1)     order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(id: row['id'] as int?, orderItem: row['orderItem'] as int, name: row['name'] as String, arabicName: row['arabicName'] as String, meaning: row['meaning'] as String, dhikr: row['dhikr'] as String, virtue: row['virtue'] as String, counterId: row['counterId'] as int?, searchName: row['searchName'] as String),
+        arguments: [query]);
+  }
+
+  @override
+  Future<List<EsmaulHusnaEntity>> getEsmaulHusnasSearchedRegEx(
+      String regExp) async {
+    return _queryAdapter.queryList(
+        'select * from esmaulHusna where       lower(name) REGEXP lower(?1) or      lower(searchName) REGEXP lower(?1) or      lower(meaning) REGEXP lower(?1) or      lower(virtue) REGEXP lower(?1)      order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(id: row['id'] as int?, orderItem: row['orderItem'] as int, name: row['name'] as String, arabicName: row['arabicName'] as String, meaning: row['meaning'] as String, dhikr: row['dhikr'] as String, virtue: row['virtue'] as String, counterId: row['counterId'] as int?, searchName: row['searchName'] as String),
+        arguments: [regExp]);
+  }
+
+  @override
+  Future<void> updateEsmaulHusna(EsmaulHusnaEntity esmaulHusna) async {
+    await _esmaulHusnaEntityUpdateAdapter.update(
+        esmaulHusna, OnConflictStrategy.replace);
   }
 }

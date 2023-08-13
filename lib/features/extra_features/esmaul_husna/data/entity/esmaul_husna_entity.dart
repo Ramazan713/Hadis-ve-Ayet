@@ -3,8 +3,8 @@
 import 'package:floor/floor.dart';
 import 'package:hadith/features/extra_features/esmaul_husna/domain/model/esmaul_husna.dart';
 
-@Entity(tableName: "EsmaulHusna")
-class EsmaulHusnaEntity{
+@Entity(tableName: "EsmaulHusnaOld")
+class EsmaulHusnaEntityOld{
   @PrimaryKey(autoGenerate: false)
   final int? id;
   final int orderItem;
@@ -14,7 +14,7 @@ class EsmaulHusnaEntity{
   final String dhikr;
   final String virtue;
 
-  EsmaulHusnaEntity({this.id,required this.orderItem,required this.name,
+  EsmaulHusnaEntityOld({this.id,required this.orderItem,required this.name,
     required this.arabicName,required this.meaning, required this.dhikr,
     required this.virtue
   });

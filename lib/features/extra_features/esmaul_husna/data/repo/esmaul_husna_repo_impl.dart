@@ -5,9 +5,9 @@ import 'package:hadith/features/extra_features/esmaul_husna/domain/model/esmaul_
 import 'package:hadith/features/extra_features/esmaul_husna/domain/repo/esmaul_husna_repo.dart';
 
 class EsmaulHusnaRepoImpl extends EsmaulHusnaRepo{
-  late final EsmaulHusnaDao _esmaulHusnaDao;
+  late final EsmaulHusnaDaoOld _esmaulHusnaDao;
 
-  EsmaulHusnaRepoImpl({required EsmaulHusnaDao esmaulHusnaDao}){
+  EsmaulHusnaRepoImpl({required EsmaulHusnaDaoOld esmaulHusnaDao}){
     _esmaulHusnaDao = esmaulHusnaDao;
   }
 

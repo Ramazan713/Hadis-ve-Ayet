@@ -16,16 +16,16 @@ import 'package:hadith/widgets/menu_button.dart';
 import '../../domain/model/esmaul_husna.dart';
 import 'bloc/detail_esmaul_husna_bloc.dart';
 
-class DetailEsmaulHusnaPage extends StatelessWidget {
+class DetailEsmaulHusnaPageOld extends StatelessWidget {
   static const id = "DetailEsmaulHusnaPage";
 
-  DetailEsmaulHusnaPage({Key? key}) : super(key: key);
+  DetailEsmaulHusnaPageOld({Key? key}) : super(key: key);
 
   late final PageController controller;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<DetailEsmaulHusnaBloc>();
+    final bloc = context.read<DetailEsmaulHusnaBlocOld>();
     final esmaulHusna = (ModalRoute.of(context)?.settings.arguments as EsmaulHusna?);
     if(esmaulHusna!=null){
       bloc.add(DetailEsmaulHusnaEventSetInit(item: esmaulHusna,jumpToPage: true));
@@ -57,7 +57,7 @@ class DetailEsmaulHusnaPage extends StatelessWidget {
               )
             ];
           },
-          child: BlocListener<DetailEsmaulHusnaBloc,DetailEsmaulHusnaState>(
+          child: BlocListener<DetailEsmaulHusnaBlocOld,DetailEsmaulHusnaStateOld>(
             listener: (context,state){
               if(controller.hasClients&&state.jumpToPage){
                 controller.animateToPage((state.currentItem?.order??0),duration: const Duration(microseconds: 300),curve: Curves.easeIn);
@@ -72,7 +72,7 @@ class DetailEsmaulHusnaPage extends StatelessWidget {
                 );
               }
             },
-            child: BlocBuilder<DetailEsmaulHusnaBloc,DetailEsmaulHusnaState>(
+            child: BlocBuilder<DetailEsmaulHusnaBlocOld,DetailEsmaulHusnaStateOld>(
 
               builder: (context,state){
                 if(state.isLoading){

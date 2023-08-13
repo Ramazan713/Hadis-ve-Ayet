@@ -23,6 +23,9 @@ import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/pray
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/providers/dhikr_prayers_data_repo_providers.dart';
+import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_bloc.dart';
+import 'package:hadith/features/esmaul_husna/providers/esmaul_husna_data_repo_providers.dart';
+import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/bloc/show_esmaul_husna_bloc.dart';
 import 'package:hadith/features/extra_features/counter/data/repo/counter_repo_impl.dart';
 import 'package:hadith/features/extra_features/counter/domain/repo/counter_repo.dart';
 import 'package:hadith/features/extra_features/counter/domain/use_case/insert_counter_use_case.dart';
@@ -150,11 +153,12 @@ class MyAppProviders extends StatelessWidget {
         ...pVerseDataManagerProviders(context,appDatabase),
         ...pVerseDomainUseCaseProviders(context),
         ...pDhikrAndPrayersDataRepoProviders(appDatabase),
+        ...pEsmaulHusnaDataRepoProviders(appDatabase),
         ...pSearchDataRepoProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepoOld>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDaoOld)),
-        RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDao)),
+        RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDaoOld)),
         RepositoryProvider<CounterRepo>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDao)),
         RepositoryProvider(create: (context)=>InsertCounterUseCase(counterRepo: context.read<CounterRepo>())),
         RepositoryProvider<ListRepoOld>(
@@ -212,6 +216,16 @@ class MyAppProviders extends StatelessWidget {
         providers: [
           BlocProvider(create: (context)=> PrayerAndVerseListBloc(
             prayerRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> ShowEsmaulHusnaBloc(
+              appPreferences: context.read(),
+              fontModelUseCase: context.read(),
+              esmaulHusnaRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> DetailEsmaulHusnaBloc(
+              appPreferences: context.read(),
+              fontModelUseCase: context.read(),
+              esmaulHusnaRepo: context.read()
           )),
           BlocProvider(create: (context)=> PrayerAndVerseDetailBloc(
               prayerRepo: context.read(),
@@ -274,8 +288,8 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=>AddCounterBloc(counterRepo: context.read(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>DetailIslamicInfoBloc(infoRepo: context.read())),
           BlocProvider(create: (context)=>CounterDetailBloc(counterRepo: context.read(),insertCounterUseCase: context.read())),
-          BlocProvider(create: (context)=>DetailEsmaulHusnaBloc(esmaulHusnaRepo: context.read(),insertCounterUseCase: context.read())),
-          BlocProvider(create: (context)=>ShowEsmaulHusnaBloc(esmaulHusnaRepo: context.read<EsmaulHusnaRepo>())),
+          BlocProvider(create: (context)=>DetailEsmaulHusnaBlocOld(esmaulHusnaRepo: context.read(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>ShowEsmaulHusnaBlocOld(esmaulHusnaRepo: context.read<EsmaulHusnaRepo>())),
           BlocProvider(create: (context)=>CounterSettingBloc()),
           BlocProvider(create: (context)=>ManageCounterBloc(counterRepo: context.read<CounterRepo>(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>CounterShowBloc(counterRepo: context.read<CounterRepo>())),

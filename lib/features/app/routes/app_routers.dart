@@ -8,6 +8,8 @@ import 'package:hadith/features/category/category_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/prayer_and_verse_detail_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/prayer_and_verse_list_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/prayer_in_quran_page.dart';
+import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/detail_esmaul_husna_page.dart';
+import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/show_esmaul_husna_page.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:flutter/material.dart';
@@ -341,6 +343,39 @@ class PrayerInQuranRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return PrayerInQuranPage();
+  }
+}
+
+
+
+@TypedGoRoute<ShowEsmaulHusnaRoute>(
+    path: "/esmaulHusna/:pos"
+)
+class ShowEsmaulHusnaRoute extends GoRouteData{
+
+  final int pos;
+
+  ShowEsmaulHusnaRoute({this.pos = 0});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ShowEsmaulHusnaPage(initPos: pos,);
+  }
+}
+
+
+@TypedGoRoute<EsmaulHusnaDetailRoute>(
+    path: "/esmaulHusna/detail/:pos"
+)
+class EsmaulHusnaDetailRoute extends GoRouteData{
+
+  final int pos;
+
+  EsmaulHusnaDetailRoute({required this.pos});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailEsmaulHusnaPage(initPos: pos,);
   }
 }
 

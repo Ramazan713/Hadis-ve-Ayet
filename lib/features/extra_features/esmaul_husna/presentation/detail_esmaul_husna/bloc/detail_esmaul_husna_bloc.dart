@@ -17,14 +17,14 @@ import 'package:hadith/utils/font_size_helper.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHusnaState>{
+class DetailEsmaulHusnaBlocOld extends Bloc<IDetailEsmaulHusnaEventOld,DetailEsmaulHusnaStateOld>{
 
   late final InsertCounterUseCase _insertCounterUseCase;
   late final EsmaulHusnaRepo _esmaulHusnaRepo;
   final ExtractFirstNumberUseCase _extractFirstNumberUseCase = ExtractFirstNumberUseCase();
 
-  DetailEsmaulHusnaBloc({required EsmaulHusnaRepo esmaulHusnaRepo,required InsertCounterUseCase insertCounterUseCase}) :
-        super(DetailEsmaulHusnaState.init()){
+  DetailEsmaulHusnaBlocOld({required EsmaulHusnaRepo esmaulHusnaRepo,required InsertCounterUseCase insertCounterUseCase}) :
+        super(DetailEsmaulHusnaStateOld.init()){
     _esmaulHusnaRepo = esmaulHusnaRepo;
     _insertCounterUseCase = insertCounterUseCase;
 
@@ -38,7 +38,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
 
 
 
-  void _onInit(DetailEsmaulHusnaEventInit event,Emitter<DetailEsmaulHusnaState>emit)async{
+  void _onInit(DetailEsmaulHusnaEventInit event,Emitter<DetailEsmaulHusnaStateOld>emit)async{
     emit(state.copyWith(isLoading: true));
     final items = await _esmaulHusnaRepo.getAllEsmaulHusna();
     emit(state.copyWith(items: items,isLoading: false));
@@ -48,7 +48,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     );
   }
 
-  void _onSetInit(DetailEsmaulHusnaEventSetInit event,Emitter<DetailEsmaulHusnaState>emit)async{
+  void _onSetInit(DetailEsmaulHusnaEventSetInit event,Emitter<DetailEsmaulHusnaStateOld>emit)async{
     emit(state.copyWith(currentItem: event.item,setCurrentItem: true,jumpToPage: event.jumpToPage));
     emit(state.copyWith(jumpToPage: false));
     if(state.isLoading){
@@ -58,7 +58,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     }
   }
 
-  void _onSaveAsDhikr(DetailEsmaulHusnaEventSaveAsDhikr event,Emitter<DetailEsmaulHusnaState>emit)async{
+  void _onSaveAsDhikr(DetailEsmaulHusnaEventSaveAsDhikr event,Emitter<DetailEsmaulHusnaStateOld>emit)async{
     final item = event.item;
     final int? goal = _extractFirstNumberUseCase.operator(item.dhikr);
     
@@ -74,7 +74,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     _addMessage("Başarıyla kaydedildi", emit);
   }
 
-  void _onGotoDhikr(DetailEsmaulHusnaEventGotoDhikr event,Emitter<DetailEsmaulHusnaState>emit)async{
+  void _onGotoDhikr(DetailEsmaulHusnaEventGotoDhikr event,Emitter<DetailEsmaulHusnaStateOld>emit)async{
     final item = event.item;
     final int? goal = _extractFirstNumberUseCase.operator(item.dhikr);
     final counter = Counter(
@@ -99,7 +99,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
   }
 
 
-  void _addMessage(String message,Emitter<DetailEsmaulHusnaState>emit){
+  void _addMessage(String message,Emitter<DetailEsmaulHusnaStateOld>emit){
     emit(state.copyWith(message: message,setMessage: true));
     emit(state.copyWith(setMessage: true));
   }

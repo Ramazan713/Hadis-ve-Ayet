@@ -17,14 +17,14 @@ import 'bloc/show_esmaul_husna_event.dart';
 import 'constant/list_esmaul_husna_menu_enum.dart';
 
 
-class EsmaulHusnaPage extends StatelessWidget {
+class EsmaulHusnaPageOld extends StatelessWidget {
   static const id = "EsmaulHusnaPage";
 
-  const EsmaulHusnaPage({Key? key}) : super(key: key);
+  const EsmaulHusnaPageOld({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<ShowEsmaulHusnaBloc>();
+    final bloc = context.read<ShowEsmaulHusnaBlocOld>();
 
     return AdCheckWidget(
       child: Scaffold(
@@ -53,7 +53,7 @@ class EsmaulHusnaPage extends StatelessWidget {
                 )
               ];
             },
-            child: BlocBuilder<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState>(
+            child: BlocBuilder<ShowEsmaulHusnaBlocOld,ShowEsmaulHusnaStateOld>(
               builder: (context,state){
                 final items = state.items;
                 if(items.isEmpty){
@@ -67,7 +67,7 @@ class EsmaulHusnaPage extends StatelessWidget {
                       esmaulHusna: item,
                       fontSize: state.fontSize.size,
                       onClick: (){
-                        Navigator.pushNamed(context, DetailEsmaulHusnaPage.id,
+                        Navigator.pushNamed(context, DetailEsmaulHusnaPageOld.id,
                           arguments: item
                         );
                       },

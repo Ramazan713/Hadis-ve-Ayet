@@ -5,7 +5,7 @@ import 'package:hadith/constants/enums/font_size_enum.dart';
 import 'package:hadith/features/extra_features/esmaul_husna/domain/model/esmaul_husna.dart';
 import 'package:hadith/models/navigation_state.dart';
 
-class DetailEsmaulHusnaState extends Equatable{
+class DetailEsmaulHusnaStateOld extends Equatable{
   final List<EsmaulHusna> items;
   final EsmaulHusna? currentItem;
   final bool jumpToPage;
@@ -14,19 +14,19 @@ class DetailEsmaulHusnaState extends Equatable{
   final bool isLoading;
   final FontSize fontSize;
 
-  const DetailEsmaulHusnaState({required this.items,this.message,required this.isLoading,
+  const DetailEsmaulHusnaStateOld({required this.items,this.message,required this.isLoading,
     this.currentItem,required this.jumpToPage,this.navigationState,
     required this.fontSize
   });
 
-  DetailEsmaulHusnaState copyWith({List<EsmaulHusna>? items,
+  DetailEsmaulHusnaStateOld copyWith({List<EsmaulHusna>? items,
     NavigationState?navigationState,bool setNavigationState=false,
     EsmaulHusna?currentItem,bool setCurrentItem=false,bool?jumpToPage,
     bool?isLoading,
     String?message,bool setMessage=false,
     FontSize? fontSize
   }){
-    return DetailEsmaulHusnaState(
+    return DetailEsmaulHusnaStateOld(
         items: items??this.items,
         currentItem: setCurrentItem?currentItem:this.currentItem,
         jumpToPage: jumpToPage??this.jumpToPage,
@@ -37,8 +37,8 @@ class DetailEsmaulHusnaState extends Equatable{
     );
   }
 
-  static DetailEsmaulHusnaState init(){
-    return const DetailEsmaulHusnaState(
+  static DetailEsmaulHusnaStateOld init(){
+    return const DetailEsmaulHusnaStateOld(
         items: [],
         jumpToPage:false,
         isLoading: false,

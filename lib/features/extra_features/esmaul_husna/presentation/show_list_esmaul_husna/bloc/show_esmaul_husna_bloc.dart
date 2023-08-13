@@ -9,10 +9,10 @@ import 'package:hadith/utils/font_size_helper.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaState>{
+class ShowEsmaulHusnaBlocOld extends Bloc<IShowEsmaulHusnaEventOld,ShowEsmaulHusnaStateOld>{
 
   late final EsmaulHusnaRepo _esmaulHusnaRepo;
-  ShowEsmaulHusnaBloc({required EsmaulHusnaRepo esmaulHusnaRepo}) : super(ShowEsmaulHusnaState.init()){
+  ShowEsmaulHusnaBlocOld({required EsmaulHusnaRepo esmaulHusnaRepo}) : super(ShowEsmaulHusnaStateOld.init()){
     _esmaulHusnaRepo = esmaulHusnaRepo;
 
     on<ShowEsmaulHusnaEventInit>(_onInit);
@@ -20,7 +20,7 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
     add(ShowEsmaulHusnaEventInit());
   }
 
-  void _onInit(ShowEsmaulHusnaEventInit event,Emitter<ShowEsmaulHusnaState>emit)async{
+  void _onInit(ShowEsmaulHusnaEventInit event,Emitter<ShowEsmaulHusnaStateOld>emit)async{
     final items = await _esmaulHusnaRepo.getAllEsmaulHusna();
     emit(state.copyWith(items: items));
 

@@ -9,11 +9,13 @@ class ArabicContentItem extends StatelessWidget {
   final double fontSize;
   final int height;
   final FontFamilyArabicEnum fontFamily;
+  final TextAlign textAlign;
 
   const ArabicContentItem({
     Key? key,
     required this.content,
     required this.fontSize,
+    this.textAlign = TextAlign.start,
     this.fontFamily = FontFamilyArabicEnum.scheherazadeNew,
     this.height = 2
   }) : super(key: key);
@@ -21,6 +23,7 @@ class ArabicContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textAlign: textAlign,
       text: sharedArabicContentSpan(
           context,
           content: content,
