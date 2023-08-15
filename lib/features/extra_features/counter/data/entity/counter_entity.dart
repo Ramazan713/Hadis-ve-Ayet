@@ -6,8 +6,8 @@ import 'package:floor/floor.dart';
 import 'package:hadith/features/extra_features/counter/domain/counter_type.dart';
 import 'package:hadith/features/extra_features/counter/domain/model/counter.dart';
 
-@Entity(tableName: "counters")
-class CounterEntity{
+@Entity(tableName: "countersOld")
+class CounterEntityOld{
   @PrimaryKey(autoGenerate: true)
   final int? id;
   final String name;
@@ -20,7 +20,7 @@ class CounterEntity{
   final int type;
   final bool isRemovable;
 
-  CounterEntity({this.id,required this.name,this.content,this.arabicContent,required this.orderItem,
+  CounterEntityOld({this.id,required this.name,this.content,this.arabicContent,required this.orderItem,
     this.goal,required this.type,required this.lastCounter,required this.isRemovable,this.meaning});
 
   Counter toCounter(){
@@ -51,9 +51,9 @@ class CounterEntity{
     });
   }
 
-  static CounterEntity fromJson(String data){
+  static CounterEntityOld fromJson(String data){
     final map=json.decode(data);
-    return CounterEntity(
+    return CounterEntityOld(
       name: map["name"],
       content:map["content"],
       arabicContent:map["arabicContent"],

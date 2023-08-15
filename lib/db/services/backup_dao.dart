@@ -30,7 +30,7 @@ abstract class BackupDao{
   Future<List<TopicSavePointEntityOld>>getTopicSavePoints();
 
   @Query("""select * from counters where isRemovable=1""")
-  Future<List<CounterEntity>>getCounterEntities();
+  Future<List<CounterEntityOld>>getCounterEntities();
 
 
 
@@ -53,7 +53,7 @@ abstract class BackupDao{
   Future<void>insertTopicSavePoints(List<TopicSavePointEntityOld>topicSavePoints);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertCounterEntities(List<CounterEntity>counterEntities);
+  Future<void>insertCounterEntities(List<CounterEntityOld>counterEntities);
 
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -75,7 +75,7 @@ abstract class BackupDao{
   Future<void>insertTopicSavePoint(TopicSavePointEntityOld topicSavePointEntity);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void>insertCounterEntity(CounterEntity counterEntity);
+  Future<void>insertCounterEntity(CounterEntityOld counterEntity);
 
 
 
@@ -101,5 +101,5 @@ abstract class BackupDao{
   Future<void> deleteCounterEntitiesWithQuery();
 
   @delete
-  Future<void> deleteCounterEntities(List<CounterEntity>entities);
+  Future<void> deleteCounterEntities(List<CounterEntityOld>entities);
 }

@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/providers/core_domain_first_provider.dart';
 import 'package:hadith/core/domain/providers/core_domain_repo_provider.dart';
 import 'package:hadith/core/domain/providers/core_domain_usecase_provider.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart';
+import 'package:hadith/core/features/get_title/bloc/get_title_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
@@ -19,6 +20,10 @@ import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
 import 'package:hadith/features/app/my_app.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/bloc/counter_setting_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_bloc.dart';
@@ -103,6 +108,7 @@ import '../../core/data/providers/core_data_manager_providers.dart';
 import '../../db/repos/audio_edition_repo.dart';
 import '../../db/repos/verse_arabic_repo.dart';
 import '../../db/repos/verse_audio_state_repo.dart';
+import '../dhikr_prayers/counters/presentation/add_counter/bloc/add_counter_bloc.dart';
 import 'bottom_navbar.dart';
 import '../extra_features/counter/presentation/add_counter/bloc/add_counter_bloc.dart';
 import '../extra_features/counter/presentation/manage_counter/bloc/manage_counter_bloc.dart';
@@ -159,8 +165,8 @@ class MyAppProviders extends StatelessWidget {
         RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDaoOld)),
         RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDaoOld)),
-        RepositoryProvider<CounterRepo>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDao)),
-        RepositoryProvider(create: (context)=>InsertCounterUseCase(counterRepo: context.read<CounterRepo>())),
+        RepositoryProvider<CounterRepoOld>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDaoOld)),
+        RepositoryProvider(create: (context)=>InsertCounterUseCase(counterRepo: context.read<CounterRepoOld>())),
         RepositoryProvider<ListRepoOld>(
             create: (context) => ListRepoOld(listDao: appDatabase.listDaoOld)),
         RepositoryProvider<HadithRepoOld>(
@@ -216,6 +222,27 @@ class MyAppProviders extends StatelessWidget {
         providers: [
           BlocProvider(create: (context)=> PrayerAndVerseListBloc(
             prayerRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> GetTitleBloc(
+              titleRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> AddCounterBloc(
+              counterRepo: context.read(),
+              prayerRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> DetailCounterBloc(
+              fontModelUseCase: context.read(),
+              appPreferences: context.read(),
+              counterRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> CounterSettingBloc(
+              appPreferences: context.read(),
+          )),
+          BlocProvider(create: (context)=> CounterShowBloc(
+              counterRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> ManageCounterBloc(
+              counterRepo: context.read()
           )),
           BlocProvider(create: (context)=> ShowEsmaulHusnaBloc(
               appPreferences: context.read(),
@@ -285,14 +312,14 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=>ShowQuranPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>ShowPrayerBloc(prayerRepo: context.read())),
           BlocProvider(create: (context)=>DetailPrayerBloc(insertCounterUseCase: context.read())),
-          BlocProvider(create: (context)=>AddCounterBloc(counterRepo: context.read(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>AddCounterBlocOld(counterRepo: context.read(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>DetailIslamicInfoBloc(infoRepo: context.read())),
           BlocProvider(create: (context)=>CounterDetailBloc(counterRepo: context.read(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>DetailEsmaulHusnaBlocOld(esmaulHusnaRepo: context.read(),insertCounterUseCase: context.read())),
           BlocProvider(create: (context)=>ShowEsmaulHusnaBlocOld(esmaulHusnaRepo: context.read<EsmaulHusnaRepo>())),
-          BlocProvider(create: (context)=>CounterSettingBloc()),
-          BlocProvider(create: (context)=>ManageCounterBloc(counterRepo: context.read<CounterRepo>(),insertCounterUseCase: context.read())),
-          BlocProvider(create: (context)=>CounterShowBloc(counterRepo: context.read<CounterRepo>())),
+          BlocProvider(create: (context)=>CounterSettingBlocOld()),
+          BlocProvider(create: (context)=>ManageCounterBlocOld(counterRepo: context.read<CounterRepoOld>(),insertCounterUseCase: context.read())),
+          BlocProvider(create: (context)=>CounterShowBlocOld(counterRepo: context.read<CounterRepoOld>())),
           BlocProvider(create: (context)=>AudioSettingBlocOld(editionRepo: context.read<AudioEditionRepoOld>())),
           // BlocProvider(
           //     create: (context) =>

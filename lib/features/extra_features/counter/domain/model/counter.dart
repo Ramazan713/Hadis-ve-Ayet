@@ -41,8 +41,8 @@ class Counter extends Equatable{
     );
   }
 
-  CounterEntity toCounterEntity(){
-    return CounterEntity(
+  CounterEntityOld toCounterEntity(){
+    return CounterEntityOld(
         id: id,
         name: name,
         content: content,

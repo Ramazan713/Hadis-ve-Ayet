@@ -9,15 +9,15 @@ import 'package:settings_ui/settings_ui.dart';
 
 import 'bloc/counter_setting_bloc.dart';
 
-class CounterDetailSettingPage extends StatelessWidget {
+class CounterDetailSettingPageOld extends StatelessWidget {
   static const id = "CounterDetailSettingPage";
 
-  const CounterDetailSettingPage({Key? key}) : super(key: key);
+  const CounterDetailSettingPageOld({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final counterSettingBloc = context.read<CounterSettingBloc>();
+    final counterSettingBloc = context.read<CounterSettingBlocOld>();
     counterSettingBloc.add(CounterSettingEventSetInit());
 
     return Scaffold(
@@ -36,7 +36,7 @@ class CounterDetailSettingPage extends StatelessWidget {
               SettingsSection(
                 tiles: [
                   CustomSettingsTile(
-                    child: BlocSelector<CounterSettingBloc,CounterSettingState,bool>(
+                    child: BlocSelector<CounterSettingBlocOld,CounterSettingState,bool>(
                       selector: (state)=>state.eachDhikrVibration,
                       builder: (context,eachDhikrVibration){
                         return SettingsTile.switchTile(
@@ -51,7 +51,7 @@ class CounterDetailSettingPage extends StatelessWidget {
                     ),
                   ),
                   CustomSettingsTile(
-                    child: BlocSelector<CounterSettingBloc,CounterSettingState,bool>(
+                    child: BlocSelector<CounterSettingBlocOld,CounterSettingState,bool>(
                       selector: (state)=>state.eachEndOfTourVibration,
                       builder: (context,eachEndOfTourVibration){
                         return SettingsTile.switchTile(

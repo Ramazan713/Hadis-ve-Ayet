@@ -2,11 +2,11 @@
 
 import '../../../domain/model/counter.dart';
 
-abstract class ICounterShowEvent{}
+abstract class ICounterShowEventOld{}
 
-class CounterShowEventInit extends ICounterShowEvent{}
+class CounterShowEventInit extends ICounterShowEventOld{}
 
-class CounterShowEventDelete extends ICounterShowEvent{
+class CounterShowEventDelete extends ICounterShowEventOld{
   final Counter counter;
   CounterShowEventDelete({required this.counter});
 }

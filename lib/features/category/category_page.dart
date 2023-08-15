@@ -13,7 +13,7 @@ class CategoryPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: CustomNestedViewAppBar(
-          title: Text("Kategoriler"),
+          title: const Text("Kategoriler"),
           child: GridView.count(
             crossAxisCount: 2,
             children: [
@@ -21,6 +21,7 @@ class CategoryPage extends StatelessWidget {
                 title: "Zikirmatik",
                 assetPath: AssetHelper.dhikr,
                 onClick: () {
+                  ShowCountersRoute().push(context);
                   // Navigator.pushNamed(context, ShowCounterPage.id);
                 },
               ),

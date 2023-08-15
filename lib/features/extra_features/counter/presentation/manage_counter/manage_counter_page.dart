@@ -13,17 +13,17 @@ import 'bloc/manage_counter_state.dart';
 import 'components/input_text_item.dart';
 import 'components/select_counter.dart';
 
-class ManageCounterPage extends StatefulWidget {
+class ManageCounterPageOld extends StatefulWidget {
   static const id = "ManageCounterPage";
 
   final Counter? counter;
-  const ManageCounterPage({Key? key, this.counter}) : super(key: key);
+  const ManageCounterPageOld({Key? key, this.counter}) : super(key: key);
 
   @override
-  State<ManageCounterPage> createState() => _ManageCounterPageState();
+  State<ManageCounterPageOld> createState() => _ManageCounterPageOldState();
 }
 
-class _ManageCounterPageState extends State<ManageCounterPage> {
+class _ManageCounterPageOldState extends State<ManageCounterPageOld> {
 
   final TextEditingController nameTextController = TextEditingController();
   final TextEditingController contentTextController = TextEditingController();
@@ -32,7 +32,7 @@ class _ManageCounterPageState extends State<ManageCounterPage> {
   final TextEditingController goalTextController = TextEditingController();
 
 
-  void init(Counter? counter,ManageCounterBloc manageBloc){
+  void init(Counter? counter,ManageCounterBlocOld manageBloc){
     if(counter!=null){
       manageBloc.add(ManageCounterEventSetType(type: counter.counterType));
       nameTextController.text = counter.name;
@@ -46,11 +46,11 @@ class _ManageCounterPageState extends State<ManageCounterPage> {
   @override
   Widget build(BuildContext context) {
 
-    final manageBloc = context.read<ManageCounterBloc>();
+    final manageBloc = context.read<ManageCounterBlocOld>();
     final counter = (ModalRoute.of(context)?.settings.arguments as Counter?);
     init(counter,manageBloc);
 
-    return BlocListener<ManageCounterBloc,ManageCounterState>(
+    return BlocListener<ManageCounterBlocOld,ManageCounterState>(
       listener: (context,state){
         if(state.message!=null){
           SnackUtils.showMessage(context, SnackBar(content: Text(state.message??"")));
@@ -109,7 +109,7 @@ class _ManageCounterPageState extends State<ManageCounterPage> {
                     inputType: TextInputType.number,
                     hintText: "Belirlenmedi",
                   ),
-                  BlocSelector<ManageCounterBloc,ManageCounterState,CounterType>(
+                  BlocSelector<ManageCounterBlocOld,ManageCounterState,CounterType>(
                     selector: (state)=>state.type,
                     builder: (context,counterType){
                       return SelectCounter(

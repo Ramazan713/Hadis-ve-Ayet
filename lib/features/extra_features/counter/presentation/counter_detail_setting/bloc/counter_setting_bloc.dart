@@ -8,11 +8,11 @@ import 'package:hadith/features/extra_features/counter/presentation/counter_deta
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CounterSettingBloc extends Bloc<ICounterSettingEvent,CounterSettingState>{
+class CounterSettingBlocOld extends Bloc<ICounterSettingEvent,CounterSettingState>{
 
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
-  CounterSettingBloc() : super(CounterSettingState.init()){
+  CounterSettingBlocOld() : super(CounterSettingState.init()){
 
     on<CounterSettingEventSetInit>(_onInit,transformer: droppable());
     on<CounterSettingEventSetEachDhikrVibration>(_onSetEachDhikrVibration,transformer: droppable());

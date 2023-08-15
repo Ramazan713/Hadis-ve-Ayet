@@ -5,7 +5,7 @@ import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_appbar_searchable.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.dart';
-import 'package:hadith/core/presentation/components/search_sliver_appbar.dart';
+import 'package:hadith/core/presentation/components/app_bar/search_sliver_appbar.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_bloc.dart';

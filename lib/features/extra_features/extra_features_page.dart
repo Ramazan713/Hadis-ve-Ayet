@@ -44,7 +44,7 @@ class ExtraFeaturesPage extends StatelessWidget {
               title: "Zikirmatik",
               assetPath: AssetHelper.dhikr,
               onClick: () {
-                Navigator.pushNamed(context, ShowCounterPage.id);
+                Navigator.pushNamed(context, ShowCounterPageOld.id);
               },
             ),
             FeatureItem(

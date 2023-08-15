@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
+import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 abstract class IVerseSharedEvent{}
 
@@ -15,7 +15,7 @@ class VerseSharedEventAddFavorite extends IVerseSharedEvent{
 
 class VerseSharedEventSetTitle extends IVerseSharedEvent{
   final int itemId;
-  final PagingTitleEnum titleEnum;
+  final TitleEnum titleEnum;
 
   VerseSharedEventSetTitle({required this.itemId, required this.titleEnum});
 }

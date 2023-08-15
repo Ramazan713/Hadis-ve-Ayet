@@ -4,19 +4,19 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/model/counter.dart';
 
-class CounterShowState extends Equatable{
+class CounterShowStateOld extends Equatable{
   final List<Counter> counters;
 
-  const CounterShowState({required this.counters});
+  const CounterShowStateOld({required this.counters});
 
-  CounterShowState copyWith({List<Counter>?counters}){
-    return CounterShowState(
+  CounterShowStateOld copyWith({List<Counter>?counters}){
+    return CounterShowStateOld(
       counters: counters??this.counters
     );
   }
 
-  static CounterShowState init(){
-    return const CounterShowState(
+  static CounterShowStateOld init(){
+    return const CounterShowStateOld(
       counters: []
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
+import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
@@ -30,7 +30,7 @@ class HadithListPage extends StatelessWidget {
 
     context.read<HadithSharedBloc>().add(HadithSharedEventSetTitle(
       itemId: listId,
-      titleEnum: PagingTitleEnum.list
+      titleEnum: TitleEnum.list
     ));
 
     return BlocSelector<HadithSharedBloc, HadithSharedState, String>(

@@ -28,11 +28,11 @@ class CounterDetailBloc extends Bloc<ICounterDetailEvent,CounterDetailState>{
   final extractCounterInfoUseCase = ExtractCounterInfoUseCase();
   late final InsertCounterUseCase _insertCounterUseCase;
 
-  late final CounterRepo _counterRepo;
+  late final CounterRepoOld _counterRepo;
 
   Timer? _timer;
 
-  CounterDetailBloc({required CounterRepo counterRepo,required InsertCounterUseCase insertCounterUseCase}) : super(CounterDetailState.init()){
+  CounterDetailBloc({required CounterRepoOld counterRepo,required InsertCounterUseCase insertCounterUseCase}) : super(CounterDetailState.init()){
     _counterRepo = counterRepo;
     _insertCounterUseCase = insertCounterUseCase;
 

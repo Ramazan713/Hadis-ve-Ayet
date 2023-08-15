@@ -10,6 +10,10 @@ abstract class TitleDao{
   """)
   Future<String?> getTopicTitleById(int topicId);
 
+  @Query("""
+    select name from counters where id = :id
+  """)
+  Future<String?> getCounterTitleById(int id);
 
   @Query("""
     select name from list where id = :listId

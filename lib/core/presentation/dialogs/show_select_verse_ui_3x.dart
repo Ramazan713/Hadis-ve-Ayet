@@ -10,34 +10,33 @@ import 'package:hadith/models/item_label_model.dart';
 
 void showSelectVerseUi3X(BuildContext context, {
   void Function(ArabicVerseUI3X)? callback,
-  PrefKeyEnum<ArabicVerseUI3X>? pref
+  required PrefKeyEnum<ArabicVerseUI3X> currentKPref
 }) {
 
 
-  // final currentKPref = pref;
-  // final appPref = context.read<AppPreferences>();
-  //
-  // final criteria = appPref.getEnumItem(currentKPref);
-  //
-  // final currentSelectedItems = ArabicVerseUI3XOption.fromVerseUiEnum(criteria);
-  //
-  // final options = ArabicVerseUI3XOption.values.map((e){
-  //   return ItemLabelModel(item: e, label: e.description);
-  // }).toList();
-  //
-  // final selectedItemsParam = currentSelectedItems.map((e){
-  //   return ItemLabelModel(item: e, label: e.description);
-  // }).toList();
-  //
-  // showSelectCheckEnums<ArabicVerseUI3XOption>(context,
-  //     optionItems: options,
-  //     selectedItemsParam: selectedItemsParam,
-  //     closeListener: (lastItems)async{
-  //       final selectedCriteria = ArabicVerseUI3XOption.toVerseUiEnum(
-  //           lastItems.map((e) => e.item).toList()
-  //       );
-  //       await appPref.setEnumItem(currentKPref, selectedCriteria);
-  //       callback?.call(selectedCriteria);
-  //     }
-  // );
+  final appPref = context.read<AppPreferences>();
+
+  final criteria = appPref.getEnumItem(currentKPref);
+
+  final currentSelectedItems = ArabicVerseUI3XOption.fromVerseUiEnum(criteria);
+
+  final options = ArabicVerseUI3XOption.values.map((e){
+    return ItemLabelModel(item: e, label: e.description);
+  }).toList();
+
+  final selectedItemsParam = currentSelectedItems.map((e){
+    return ItemLabelModel(item: e, label: e.description);
+  }).toList();
+
+  showSelectCheckEnums<ArabicVerseUI3XOption>(context,
+      optionItems: options,
+      selectedItemsParam: selectedItemsParam,
+      closeListener: (lastItems)async{
+        final selectedCriteria = ArabicVerseUI3XOption.toVerseUiEnum(
+            lastItems.map((e) => e.item).toList()
+        );
+        await appPref.setEnumItem(currentKPref, selectedCriteria);
+        callback?.call(selectedCriteria);
+      }
+  );
 }

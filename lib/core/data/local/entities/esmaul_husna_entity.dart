@@ -10,7 +10,7 @@ import 'package:hadith/features/extra_features/esmaul_husna/domain/model/esmaul_
     ForeignKey(
         childColumns: ["counterId"],
         parentColumns: ["id"],
-        entity: CounterEntity,
+        entity: CounterEntityOld,
         onDelete: ForeignKeyAction.setNull
     )
   ]

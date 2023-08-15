@@ -87,8 +87,8 @@ class LocalBackupRepo{
       final topicSavePoints=topicSavePointsJsonArr.map((e) => TopicSavePointEntityOld.fromJson(e)).toList();
       final verseLists=verseListJsonArr.map((e) => ListVerseEntityOld.fromJson(e)).toList();
       final histories=historiesJsonArr.map((e) => HistoryEntityOld.fromJson(e)).toList();
-      final List<CounterEntity> counters = countersJsonArr!=null ?
-        countersJsonArr.map((e) => CounterEntity.fromJson(e)).toList():[];
+      final List<CounterEntityOld> counters = countersJsonArr!=null ?
+        countersJsonArr.map((e) => CounterEntityOld.fromJson(e)).toList():[];
 
       await _reloadSharedPreferences(sharedJsonArr);
 

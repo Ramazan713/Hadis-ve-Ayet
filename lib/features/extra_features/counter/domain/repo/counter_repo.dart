@@ -2,7 +2,7 @@
 
 import 'package:hadith/features/extra_features/counter/domain/model/counter.dart';
 
-abstract class CounterRepo{
+abstract class CounterRepoOld{
   Stream<List<Counter>> getStreamRemovableCounters();
   Future<List<Counter>> getNonRemovableCounters();
   Future<int> insertCounter(Counter counter);

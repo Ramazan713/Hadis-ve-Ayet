@@ -5,6 +5,12 @@ import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/category/category_page.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/add_counter/add_counter_page.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/counter_detail_setting.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_empty_page.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_page.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/manage_counter_page.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/prayer_and_verse_detail_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/prayer_and_verse_list_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/prayer_in_quran_page.dart';
@@ -379,3 +385,90 @@ class EsmaulHusnaDetailRoute extends GoRouteData{
   }
 }
 
+@TypedGoRoute<ShowCountersRoute>(
+    path: "/counters"
+)
+class ShowCountersRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ShowCounterPage();
+  }
+}
+
+@TypedGoRoute<DetailCounterRoute>(
+    path: "/counters/detail/:id"
+)
+class DetailCounterRoute extends GoRouteData{
+
+  final int id;
+
+  DetailCounterRoute({required this.id});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailCounterPage(counterId: id,);
+  }
+}
+
+@TypedGoRoute<DetailCounterEmptyRoute>(
+    path: "/counters/detail/empty/:counterTypeId"
+)
+class DetailCounterEmptyRoute extends GoRouteData{
+
+  final int counterTypeId;
+
+  DetailCounterEmptyRoute({required this.counterTypeId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailCounterEmptyPage(counterTypeId: counterTypeId);
+  }
+}
+
+@TypedGoRoute<AddCounterRoute>(
+    path: "/counters/addCounter"
+)
+class AddCounterRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return AddCounterPage();
+  }
+}
+
+@TypedGoRoute<CounterSettingRoute>(
+    path: "/counters/setting"
+)
+class CounterSettingRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const CounterDetailSettingPage();
+  }
+}
+
+@TypedGoRoute<AddNewCounterRoute>(
+    path: "/counters/addNewCounter"
+)
+class AddNewCounterRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ManageCounterPage(counterId: null);
+  }
+}
+
+
+@TypedGoRoute<ManageCounterRoute>(
+    path: "/counters/manageCounter/:counterId"
+)
+class ManageCounterRoute extends GoRouteData{
+  final int counterId;
+  ManageCounterRoute({required this.counterId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ManageCounterPage(counterId: counterId);
+  }
+}

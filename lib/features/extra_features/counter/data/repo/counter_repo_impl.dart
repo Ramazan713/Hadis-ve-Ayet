@@ -5,10 +5,10 @@ import '../../domain/model/counter.dart';
 import '../../domain/repo/counter_repo.dart';
 import '../counter_dao.dart';
 
-class CounterRepoImpl extends CounterRepo{
-  late final CounterDao _counterDao;
+class CounterRepoImpl extends CounterRepoOld{
+  late final CounterDaoOld _counterDao;
 
-  CounterRepoImpl({required CounterDao counterDao}){
+  CounterRepoImpl({required CounterDaoOld counterDao}){
     _counterDao = counterDao;
   }
 

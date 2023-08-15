@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
+import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 
 import '../data/repo/verse_topic_paging_repo.dart';
@@ -27,7 +27,7 @@ class VerseShowTopicPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     context.read<VerseSharedBloc>().add(VerseSharedEventSetTitle(
-        itemId: topicId, titleEnum: PagingTitleEnum.topic
+        itemId: topicId, titleEnum: TitleEnum.topic
     ));
 
     return BlocSelector<VerseSharedBloc, VerseSharedState, String>(

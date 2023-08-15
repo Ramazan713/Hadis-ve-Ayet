@@ -1,8 +1,8 @@
 
 
-import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
+import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 
 abstract class TitleRepo{
 
-  Future<String> getTitle(int itemId, PagingTitleEnum titleEnum);
+  Future<String> getTitle(int itemId, TitleEnum titleEnum);
 }

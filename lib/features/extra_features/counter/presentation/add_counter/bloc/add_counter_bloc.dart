@@ -8,11 +8,11 @@ import '../../../domain/repo/counter_repo.dart';
 import 'add_counter_event.dart';
 import 'add_counter_state.dart';
 
-class AddCounterBloc extends Bloc<IAddCounterEvent,AddCounterState>{
-  late final CounterRepo _counterRepo;
+class AddCounterBlocOld extends Bloc<IAddCounterEventOld,AddCounterStateOld>{
+  late final CounterRepoOld _counterRepo;
   late final InsertCounterUseCase _insertCounterUseCase;
 
-  AddCounterBloc({required CounterRepo counterRepo,required InsertCounterUseCase insertCounterUseCase}) : super(AddCounterState.init()){
+  AddCounterBlocOld({required CounterRepoOld counterRepo,required InsertCounterUseCase insertCounterUseCase}) : super(AddCounterStateOld.init()){
     _counterRepo = counterRepo;
     _insertCounterUseCase = insertCounterUseCase;
 
@@ -23,13 +23,13 @@ class AddCounterBloc extends Bloc<IAddCounterEvent,AddCounterState>{
 
   }
 
-  void _onInit(AddCounterEventInit event,Emitter<AddCounterState>emit)async{
+  void _onInit(AddCounterEventInit event,Emitter<AddCounterStateOld>emit)async{
     emit(state.copyWith(isLoading: true));
     final items = await _counterRepo.getNonRemovableCounters();
     emit(state.copyWith(isLoading: false,counters: items));
   }
 
-  void _onAddCounter(AddCounterEventAddCounter event,Emitter<AddCounterState>emit)async{
+  void _onAddCounter(AddCounterEventAddCounter event,Emitter<AddCounterStateOld>emit)async{
     final counter = event.counter;
     await _insertCounterUseCase.operator(
         name: counter.name,

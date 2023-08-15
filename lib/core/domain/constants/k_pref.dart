@@ -19,6 +19,9 @@ class KPref{
   static final PrefKey<bool> audioFollowWithText = PrefKey(key: "audioFollowWithText", defaultValue: true);
   static final PrefKey<bool> askListenAudioNotificationPermission = PrefKey(key: "askListenAudioNotificationPermission", defaultValue: true);
   static final PrefKey<bool> askDownloadAudioNotificationPermission = PrefKey(key: "askDownloadAudioNotificationPermission", defaultValue: true);
+  static final PrefKey<int> defaultLastCounter = PrefKey(key: "defaultLastCounter", defaultValue: 0);
+  static final PrefKey<bool> eachDhikrVibration = PrefKey(key: "eachDhikrVibration", defaultValue: false);
+  static final PrefKey<bool> eachEndOfTourVibration = PrefKey(key: "eachEndOfTourVibration", defaultValue: true);
 
 
 
@@ -43,14 +46,18 @@ class KPref{
   static final PrefKeyEnum<AudioQualityEnum> audioQualityEnum = PrefKeyEnum(key: "audioQuality",
       defaultPrefEnum: AudioQualityEnum.defaultValue, from: AudioQualityEnum.from);
 
+  static final PrefKeyEnum<ArabicVerseUI3X> counterUi = PrefKeyEnum(key: "counterUi",
+      defaultPrefEnum: ArabicVerseUI3X.defaultValue, from: ArabicVerseUI3X.from);
+
   static final prefValues = <PrefKey>[
     fontSizeContent, fontSizeArabic, useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
-    audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission
+    audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
+    defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration
   ];
 
   static final prefEnumValues = <PrefKeyEnum>[
     fontFamilyArabic,verseAppearanceEnum,searchCriteriaEnum,audioQualityEnum,quranPrayerVerseUi,
-    prayerInQuranSearchCriteria, esmaulHusnaSearchCriteria
+    prayerInQuranSearchCriteria, esmaulHusnaSearchCriteria, counterUi
   ];
 
 }

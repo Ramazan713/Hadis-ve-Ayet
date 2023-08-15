@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../search_sliver_appbar.dart';
+import 'search_sliver_appbar.dart';
 
 class CustomAppBarSearchable extends StatelessWidget {
   final void Function(String) onChanged;

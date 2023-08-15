@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
+import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/extensions/app_extension.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
@@ -31,7 +31,7 @@ class VerseShowSurahPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     context.read<VerseSharedBloc>().add(VerseSharedEventSetTitle(
-        itemId: surahId, titleEnum: PagingTitleEnum.surah
+        itemId: surahId, titleEnum: TitleEnum.surah
     ));
 
     return BlocSelector<VerseSharedBloc, VerseSharedState, String>(

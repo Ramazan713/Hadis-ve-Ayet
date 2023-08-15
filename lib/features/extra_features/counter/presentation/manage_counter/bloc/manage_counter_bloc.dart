@@ -9,12 +9,12 @@ import 'package:hadith/features/extra_features/counter/domain/use_case/insert_co
 import 'manage_counter_event.dart';
 import 'manage_counter_state.dart';
 
-class ManageCounterBloc extends Bloc<IManageCounterEvent,ManageCounterState>{
+class ManageCounterBlocOld extends Bloc<IManageCounterEvent,ManageCounterState>{
 
-  late final CounterRepo _counterRepo;
+  late final CounterRepoOld _counterRepo;
   late final InsertCounterUseCase _insertCounterUseCase;
 
-  ManageCounterBloc({required CounterRepo counterRepo,required InsertCounterUseCase insertCounterUseCase}) : super(ManageCounterState.init()){
+  ManageCounterBlocOld({required CounterRepoOld counterRepo,required InsertCounterUseCase insertCounterUseCase}) : super(ManageCounterState.init()){
     _counterRepo = counterRepo;
     _insertCounterUseCase = insertCounterUseCase;
 

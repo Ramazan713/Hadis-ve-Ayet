@@ -11,15 +11,15 @@ import 'bloc/add_counter_bloc.dart';
 import 'bloc/add_counter_event.dart';
 import 'bloc/add_counter_state.dart';
 
-class AddCounterPage extends StatelessWidget {
+class AddCounterPageOld extends StatelessWidget {
   static const id = "AddCounterPage";
 
-  AddCounterPage({Key? key}) : super(key: key);
+  AddCounterPageOld({Key? key}) : super(key: key);
   final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AddCounterBloc>();
+    final bloc = context.read<AddCounterBlocOld>();
     return Scaffold(
       body: SafeArea(
         child: CustomSliverNestedView(
@@ -34,7 +34,7 @@ class AddCounterPage extends StatelessWidget {
               )
             ];
           },
-          child: BlocListener<AddCounterBloc, AddCounterState>(
+          child: BlocListener<AddCounterBlocOld, AddCounterStateOld>(
             listener: (context, state) {
               if (state.message != null) {
                 SnackUtils.showMessage(
@@ -54,7 +54,7 @@ class AddCounterPage extends StatelessWidget {
                   children: [
                     OutlinedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, ManageCounterPage.id);
+                          Navigator.pushNamed(context, ManageCounterPageOld.id);
                         },
                         style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 13),
@@ -82,7 +82,7 @@ class AddCounterPage extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        BlocBuilder<AddCounterBloc, AddCounterState>(
+                        BlocBuilder<AddCounterBlocOld, AddCounterStateOld>(
                           builder: (context, state) {
                             final items = state.counters;
                             return ListView.builder(

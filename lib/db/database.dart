@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/audio_edition_entity.dart';
+import 'package:hadith/core/data/local/entities/counter_entity.dart';
 import 'package:hadith/core/data/local/entities/cuz_entity.dart';
 import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
@@ -26,6 +27,7 @@ import 'package:hadith/core/data/local/entities/views/topic_hadiths_view.dart';
 import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
+import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
 import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
 import 'package:hadith/core/data/local/services/history_dao.dart';
@@ -121,9 +123,9 @@ part 'database.g.dart';
     entities: [HadithEntity,Cuz,Surah,Topic,Verse,Section,IntData,SavePointEntity,SavePointTypeEntity,
       BackupMeta,TopicSavePointEntityOld,HistoryEntityOld,UserInfoEntity,IListView,VerseArabic,
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
-      ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntityOld,CounterEntity,
+      ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntityOld,CounterEntityOld,
       EsmaulHusnaEntityOld, IslamicInfoItemEntity,IslamicInfoTitleEntity,
-      PrayerEntity, PrayerEntityOld, EsmaulHusnaEntity,
+      PrayerEntity, PrayerEntityOld, EsmaulHusnaEntity, CounterEntity,
       VerseEntity, HistoryEntity, AudioEditionEntity, VerseAudioEntity,
       SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
@@ -152,7 +154,7 @@ abstract class AppDatabase extends FloorDatabase{
   VerseArabicDaoOld get verseArabicDaoOld;
   VerseAudioStateDao get verseAudioStateDao;
   // ManageAudioDao get manageAudioDao;
-  CounterDao get counterDao;
+  CounterDaoOld get counterDaoOld;
   EsmaulHusnaDaoOld get esmaulHusnaDaoOld;
   PrayerDaoOld get prayerDaoOld;
   IslamicInfoDao get islamicInfoDao;
@@ -184,6 +186,6 @@ abstract class AppDatabase extends FloorDatabase{
   AudioViewDao get audioViewDao;
   PrayerDao get prayerDao;
   EsmaulHusnaDao get esmaulHusnaDao;
-
+  CounterDao get counterDao;
 
 }

@@ -3,8 +3,8 @@ import 'package:hadith/features/extra_features/counter/domain/model/counter.dart
 import 'package:hadith/features/extra_features/counter/domain/repo/counter_repo.dart';
 
 class InsertCounterUseCase {
-  late final CounterRepo _counterRepo;
-  InsertCounterUseCase({required CounterRepo counterRepo}) {
+  late final CounterRepoOld _counterRepo;
+  InsertCounterUseCase({required CounterRepoOld counterRepo}) {
     _counterRepo = counterRepo;
   }
 

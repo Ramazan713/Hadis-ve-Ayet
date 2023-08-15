@@ -8,10 +8,10 @@ import '../../../domain/repo/counter_repo.dart';
 import 'counter_show_event.dart';
 import 'counter_show_state.dart';
 
-class CounterShowBloc extends Bloc<ICounterShowEvent,CounterShowState>{
-  late final CounterRepo _counterRepo;
+class CounterShowBlocOld extends Bloc<ICounterShowEventOld,CounterShowStateOld>{
+  late final CounterRepoOld _counterRepo;
 
-  CounterShowBloc({required CounterRepo counterRepo}) : super(CounterShowState.init()){
+  CounterShowBlocOld({required CounterRepoOld counterRepo}) : super(CounterShowStateOld.init()){
     _counterRepo = counterRepo;
 
     on<CounterShowEventInit>(_onInit);
@@ -21,13 +21,13 @@ class CounterShowBloc extends Bloc<ICounterShowEvent,CounterShowState>{
   }
 
 
-  void _onInit(CounterShowEventInit event,Emitter<CounterShowState>emit)async{
+  void _onInit(CounterShowEventInit event,Emitter<CounterShowStateOld>emit)async{
     final streamData = _counterRepo.getStreamRemovableCounters();
 
     await emit.forEach<List<Counter>>(streamData, onData: (data)=> state.copyWith(counters: data));
 
   }
-  void _onDelete(CounterShowEventDelete event,Emitter<CounterShowState>emit)async{
+  void _onDelete(CounterShowEventDelete event,Emitter<CounterShowStateOld>emit)async{
     await _counterRepo.deleteCounter(event.counter);
   }
 }

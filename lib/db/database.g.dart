@@ -95,7 +95,7 @@ class _$AppDatabase extends AppDatabase {
 
   VerseAudioStateDao? _verseAudioStateDaoInstance;
 
-  CounterDao? _counterDaoInstance;
+  CounterDaoOld? _counterDaoOldInstance;
 
   EsmaulHusnaDaoOld? _esmaulHusnaDaoOldInstance;
 
@@ -156,6 +156,8 @@ class _$AppDatabase extends AppDatabase {
   PrayerDao? _prayerDaoInstance;
 
   EsmaulHusnaDao? _esmaulHusnaDaoInstance;
+
+  CounterDao? _counterDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -231,7 +233,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verseAudioTemp` (`mealId` INTEGER NOT NULL, `surahName` TEXT NOT NULL, `surahId` INTEGER NOT NULL, `identifier` TEXT NOT NULL, `editionName` TEXT NOT NULL, `fileName` TEXT, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, PRIMARY KEY (`mealId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `type` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `countersOld` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `type` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `EsmaulHusnaOld` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -243,7 +245,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `PrayersOld` (`id` INTEGER, `name` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `arabicContent` TEXT NOT NULL, `pronunciationContent` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `EsmaulHusna` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `searchName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, `counterId` INTEGER, FOREIGN KEY (`counterId`) REFERENCES `counters` (`id`) ON UPDATE NO ACTION ON DELETE SET NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `EsmaulHusna` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `searchName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, `counterId` INTEGER, FOREIGN KEY (`counterId`) REFERENCES `countersOld` (`id`) ON UPDATE NO ACTION ON DELETE SET NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `description` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `typeId` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `CuzEntity` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `SurahEntity` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -396,8 +400,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  CounterDao get counterDao {
-    return _counterDaoInstance ??= _$CounterDao(database, changeListener);
+  CounterDaoOld get counterDaoOld {
+    return _counterDaoOldInstance ??= _$CounterDaoOld(database, changeListener);
   }
 
   @override
@@ -561,6 +565,11 @@ class _$AppDatabase extends AppDatabase {
   EsmaulHusnaDao get esmaulHusnaDao {
     return _esmaulHusnaDaoInstance ??=
         _$EsmaulHusnaDao(database, changeListener);
+  }
+
+  @override
+  CounterDao get counterDao {
+    return _counterDaoInstance ??= _$CounterDao(database, changeListener);
   }
 }
 
@@ -2507,10 +2516,10 @@ class _$BackupDao extends BackupDao {
                   'parentKey': item.parentKey
                 },
             changeListener),
-        _counterEntityInsertionAdapter = InsertionAdapter(
+        _counterEntityOldInsertionAdapter = InsertionAdapter(
             database,
-            'counters',
-            (CounterEntity item) => <String, Object?>{
+            'countersOld',
+            (CounterEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'content': item.content,
@@ -2523,11 +2532,11 @@ class _$BackupDao extends BackupDao {
                   'isRemovable': item.isRemovable ? 1 : 0
                 },
             changeListener),
-        _counterEntityDeletionAdapter = DeletionAdapter(
+        _counterEntityOldDeletionAdapter = DeletionAdapter(
             database,
-            'counters',
+            'countersOld',
             ['id'],
-            (CounterEntity item) => <String, Object?>{
+            (CounterEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'content': item.content,
@@ -2563,9 +2572,9 @@ class _$BackupDao extends BackupDao {
   final InsertionAdapter<TopicSavePointEntityOld>
       _topicSavePointEntityOldInsertionAdapter;
 
-  final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+  final InsertionAdapter<CounterEntityOld> _counterEntityOldInsertionAdapter;
 
-  final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
+  final DeletionAdapter<CounterEntityOld> _counterEntityOldDeletionAdapter;
 
   @override
   Future<List<HistoryEntityOld>> getHistories() async {
@@ -2633,9 +2642,9 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<List<CounterEntity>> getCounterEntities() async {
+  Future<List<CounterEntityOld>> getCounterEntities() async {
     return _queryAdapter.queryList('select * from counters where isRemovable=1',
-        mapper: (Map<String, Object?> row) => CounterEntity(
+        mapper: (Map<String, Object?> row) => CounterEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             content: row['content'] as String?,
@@ -2724,8 +2733,8 @@ class _$BackupDao extends BackupDao {
 
   @override
   Future<void> insertCounterEntities(
-      List<CounterEntity> counterEntities) async {
-    await _counterEntityInsertionAdapter.insertList(
+      List<CounterEntityOld> counterEntities) async {
+    await _counterEntityOldInsertionAdapter.insertList(
         counterEntities, OnConflictStrategy.replace);
   }
 
@@ -2767,14 +2776,14 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<void> insertCounterEntity(CounterEntity counterEntity) async {
-    await _counterEntityInsertionAdapter.insert(
+  Future<void> insertCounterEntity(CounterEntityOld counterEntity) async {
+    await _counterEntityOldInsertionAdapter.insert(
         counterEntity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> deleteCounterEntities(List<CounterEntity> entities) async {
-    await _counterEntityDeletionAdapter.deleteList(entities);
+  Future<void> deleteCounterEntities(List<CounterEntityOld> entities) async {
+    await _counterEntityOldDeletionAdapter.deleteList(entities);
   }
 }
 
@@ -3344,15 +3353,15 @@ class _$VerseAudioStateDao extends VerseAudioStateDao {
   }
 }
 
-class _$CounterDao extends CounterDao {
-  _$CounterDao(
+class _$CounterDaoOld extends CounterDaoOld {
+  _$CounterDaoOld(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _counterEntityInsertionAdapter = InsertionAdapter(
+        _counterEntityOldInsertionAdapter = InsertionAdapter(
             database,
-            'counters',
-            (CounterEntity item) => <String, Object?>{
+            'countersOld',
+            (CounterEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'content': item.content,
@@ -3365,11 +3374,11 @@ class _$CounterDao extends CounterDao {
                   'isRemovable': item.isRemovable ? 1 : 0
                 },
             changeListener),
-        _counterEntityUpdateAdapter = UpdateAdapter(
+        _counterEntityOldUpdateAdapter = UpdateAdapter(
             database,
-            'counters',
+            'countersOld',
             ['id'],
-            (CounterEntity item) => <String, Object?>{
+            (CounterEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'content': item.content,
@@ -3382,11 +3391,11 @@ class _$CounterDao extends CounterDao {
                   'isRemovable': item.isRemovable ? 1 : 0
                 },
             changeListener),
-        _counterEntityDeletionAdapter = DeletionAdapter(
+        _counterEntityOldDeletionAdapter = DeletionAdapter(
             database,
-            'counters',
+            'countersOld',
             ['id'],
-            (CounterEntity item) => <String, Object?>{
+            (CounterEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
                   'content': item.content,
@@ -3406,17 +3415,17 @@ class _$CounterDao extends CounterDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+  final InsertionAdapter<CounterEntityOld> _counterEntityOldInsertionAdapter;
 
-  final UpdateAdapter<CounterEntity> _counterEntityUpdateAdapter;
+  final UpdateAdapter<CounterEntityOld> _counterEntityOldUpdateAdapter;
 
-  final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
+  final DeletionAdapter<CounterEntityOld> _counterEntityOldDeletionAdapter;
 
   @override
-  Stream<List<CounterEntity>> getStreamRemovableCounters() {
+  Stream<List<CounterEntityOld>> getStreamRemovableCounters() {
     return _queryAdapter.queryListStream(
         'select * from counters where isRemovable = 1 order by orderItem desc',
-        mapper: (Map<String, Object?> row) => CounterEntity(
+        mapper: (Map<String, Object?> row) => CounterEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             content: row['content'] as String?,
@@ -3432,10 +3441,10 @@ class _$CounterDao extends CounterDao {
   }
 
   @override
-  Future<List<CounterEntity>> getNonRemovableCounters() async {
+  Future<List<CounterEntityOld>> getNonRemovableCounters() async {
     return _queryAdapter.queryList(
         'select * from counters where isRemovable = 0 order by orderItem asc',
-        mapper: (Map<String, Object?> row) => CounterEntity(
+        mapper: (Map<String, Object?> row) => CounterEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             content: row['content'] as String?,
@@ -3449,9 +3458,9 @@ class _$CounterDao extends CounterDao {
   }
 
   @override
-  Future<CounterEntity?> getCounterById(int id) async {
+  Future<CounterEntityOld?> getCounterById(int id) async {
     return _queryAdapter.query('select * from counters where id=?1',
-        mapper: (Map<String, Object?> row) => CounterEntity(
+        mapper: (Map<String, Object?> row) => CounterEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             content: row['content'] as String?,
@@ -3466,9 +3475,9 @@ class _$CounterDao extends CounterDao {
   }
 
   @override
-  Stream<CounterEntity?> getStreamCounterById(int id) {
+  Stream<CounterEntityOld?> getStreamCounterById(int id) {
     return _queryAdapter.queryStream('select * from counters where id=?1',
-        mapper: (Map<String, Object?> row) => CounterEntity(
+        mapper: (Map<String, Object?> row) => CounterEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String,
             content: row['content'] as String?,
@@ -3491,20 +3500,20 @@ class _$CounterDao extends CounterDao {
   }
 
   @override
-  Future<int> insertCounterEntity(CounterEntity counterEntity) {
-    return _counterEntityInsertionAdapter.insertAndReturnId(
+  Future<int> insertCounterEntity(CounterEntityOld counterEntity) {
+    return _counterEntityOldInsertionAdapter.insertAndReturnId(
         counterEntity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> updateCounterEntity(CounterEntity counterEntity) async {
-    await _counterEntityUpdateAdapter.update(
+  Future<void> updateCounterEntity(CounterEntityOld counterEntity) async {
+    await _counterEntityOldUpdateAdapter.update(
         counterEntity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> deleteCounterEntity(CounterEntity counterEntity) async {
-    await _counterEntityDeletionAdapter.delete(counterEntity);
+  Future<void> deleteCounterEntity(CounterEntityOld counterEntity) async {
+    await _counterEntityOldDeletionAdapter.delete(counterEntity);
   }
 }
 
@@ -5412,6 +5421,13 @@ class _$TitleDao extends TitleDao {
   }
 
   @override
+  Future<String?> getCounterTitleById(int id) async {
+    return _queryAdapter.query('select name from counters where id = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
+        arguments: [id]);
+  }
+
+  @override
   Future<String?> getListTitleById(int listId) async {
     return _queryAdapter.query('select name from list where id = ?1',
         mapper: (Map<String, Object?> row) => row.values.first as String,
@@ -6424,5 +6440,169 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   Future<void> updateEsmaulHusna(EsmaulHusnaEntity esmaulHusna) async {
     await _esmaulHusnaEntityUpdateAdapter.update(
         esmaulHusna, OnConflictStrategy.replace);
+  }
+}
+
+class _$CounterDao extends CounterDao {
+  _$CounterDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _counterEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'counters',
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'description': item.description,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'typeId': item.typeId
+                },
+            changeListener),
+        _counterEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'counters',
+            ['id'],
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'description': item.description,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'typeId': item.typeId
+                },
+            changeListener),
+        _counterEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'counters',
+            ['id'],
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'description': item.description,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'typeId': item.typeId
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+
+  final UpdateAdapter<CounterEntity> _counterEntityUpdateAdapter;
+
+  final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
+
+  @override
+  Stream<List<CounterEntity>> getStreamCounters() {
+    return _queryAdapter.queryListStream(
+        'select * from counters order by orderItem desc',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            typeId: row['typeId'] as int,
+            lastCounter: row['lastCounter'] as int,
+            orderItem: row['orderItem'] as int,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            description: row['description'] as String?,
+            goal: row['goal'] as int?,
+            meaning: row['meaning'] as String?),
+        queryableName: 'counters',
+        isView: false);
+  }
+
+  @override
+  Future<List<CounterEntity>> getCounters() async {
+    return _queryAdapter.queryList(
+        'select * from counters order by orderItem asc',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            typeId: row['typeId'] as int,
+            lastCounter: row['lastCounter'] as int,
+            orderItem: row['orderItem'] as int,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            description: row['description'] as String?,
+            goal: row['goal'] as int?,
+            meaning: row['meaning'] as String?));
+  }
+
+  @override
+  Future<CounterEntity?> getCounterById(int id) async {
+    return _queryAdapter.query('select * from counters where id=?1',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            typeId: row['typeId'] as int,
+            lastCounter: row['lastCounter'] as int,
+            orderItem: row['orderItem'] as int,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            description: row['description'] as String?,
+            goal: row['goal'] as int?,
+            meaning: row['meaning'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Stream<CounterEntity?> getStreamCounterById(int id) {
+    return _queryAdapter.queryStream('select * from counters where id=?1',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            typeId: row['typeId'] as int,
+            lastCounter: row['lastCounter'] as int,
+            orderItem: row['orderItem'] as int,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            description: row['description'] as String?,
+            goal: row['goal'] as int?,
+            meaning: row['meaning'] as String?),
+        arguments: [id],
+        queryableName: 'counters',
+        isView: false);
+  }
+
+  @override
+  Future<int?> getMaxOrder() async {
+    return _queryAdapter.query('select ifnull(max(orderItem),0) from counters',
+        mapper: (Map<String, Object?> row) => row.values.first as int);
+  }
+
+  @override
+  Future<int> insertCounterEntity(CounterEntity counterEntity) {
+    return _counterEntityInsertionAdapter.insertAndReturnId(
+        counterEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateCounterEntity(CounterEntity counterEntity) async {
+    await _counterEntityUpdateAdapter.update(
+        counterEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteCounterEntity(CounterEntity counterEntity) async {
+    await _counterEntityDeletionAdapter.delete(counterEntity);
   }
 }

@@ -20,15 +20,15 @@ import '../add_counter/add_counter_page.dart';
 import '../manage_counter/manage_counter_page.dart';
 import 'constant/counter_select_menu.dart';
 
-class ShowCounterPage extends StatelessWidget {
+class ShowCounterPageOld extends StatelessWidget {
   static const id = "ShowCounterPage";
 
-  ShowCounterPage({Key? key}) : super(key: key);
+  ShowCounterPageOld({Key? key}) : super(key: key);
   final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final counterBloc = context.read<CounterShowBloc>();
+    final counterBloc = context.read<CounterShowBlocOld>();
 
     return AdCheckWidget(
       child: Scaffold(
@@ -84,7 +84,7 @@ class ShowCounterPage extends StatelessWidget {
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    BlocSelector<CounterShowBloc, CounterShowState,
+                    BlocSelector<CounterShowBlocOld, CounterShowStateOld,
                             List<Counter>>(
                         selector: (state) => state.counters,
                         builder: (context, counters) {
@@ -124,7 +124,7 @@ class ShowCounterPage extends StatelessWidget {
                                               case CounterSelectMenuEnum.edit:
                                                 Navigator.pop(context);
                                                 Navigator.pushNamed(context,
-                                                    ManageCounterPage.id,
+                                                    ManageCounterPageOld.id,
                                                     arguments: counter);
                                                 break;
                                               case CounterSelectMenuEnum.remove:
@@ -158,7 +158,7 @@ class ShowCounterPage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, AddCounterPage.id);
+            Navigator.pushNamed(context, AddCounterPageOld.id);
           },
           child: const Icon(Icons.add),
         ),

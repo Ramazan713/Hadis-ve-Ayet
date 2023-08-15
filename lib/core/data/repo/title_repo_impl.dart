@@ -1,7 +1,7 @@
 
 
 import 'package:hadith/core/data/local/services/title_dao.dart';
-import 'package:hadith/core/domain/enums/paging/paging_title_enum.dart';
+import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/repo/title_repo.dart';
 
 class TitleRepoImpl extends TitleRepo{
@@ -13,21 +13,24 @@ class TitleRepoImpl extends TitleRepo{
   }
 
   @override
-  Future<String> getTitle(int itemId, PagingTitleEnum titleEnum) async{
+  Future<String> getTitle(int itemId, TitleEnum titleEnum) async{
     String? title;
 
     switch(titleEnum){
-      case PagingTitleEnum.topic:
+      case TitleEnum.topic:
         title = await _titleDao.getTopicTitleById(itemId);
         break;
-      case PagingTitleEnum.list:
+      case TitleEnum.list:
         title = await _titleDao.getListTitleById(itemId);
         break;
-      case PagingTitleEnum.surah:
+      case TitleEnum.surah:
         title = await _titleDao.getSurahTitleById(itemId);
         break;
-      case PagingTitleEnum.cuz:
+      case TitleEnum.cuz:
         title = await _titleDao.getCuzTitleById(itemId);
+        break;
+      case TitleEnum.counter:
+        title = await _titleDao.getCounterTitleById(itemId);
         break;
     }
     return title ?? "";

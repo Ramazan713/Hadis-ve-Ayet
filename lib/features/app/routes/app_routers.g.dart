@@ -26,6 +26,13 @@ List<RouteBase> get $appRoutes => [
       $prayerInQuranRoute,
       $showEsmaulHusnaRoute,
       $esmaulHusnaDetailRoute,
+      $showCountersRoute,
+      $detailCounterRoute,
+      $detailCounterEmptyRoute,
+      $addCounterRoute,
+      $counterSettingRoute,
+      $addNewCounterRoute,
+      $manageCounterRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -506,6 +513,158 @@ extension $EsmaulHusnaDetailRouteExtension on EsmaulHusnaDetailRoute {
 
   String get location => GoRouteData.$location(
         '/esmaulHusna/detail/${Uri.encodeComponent(pos.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $showCountersRoute => GoRouteData.$route(
+      path: '/counters',
+      factory: $ShowCountersRouteExtension._fromState,
+    );
+
+extension $ShowCountersRouteExtension on ShowCountersRoute {
+  static ShowCountersRoute _fromState(GoRouterState state) =>
+      ShowCountersRoute();
+
+  String get location => GoRouteData.$location(
+        '/counters',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $detailCounterRoute => GoRouteData.$route(
+      path: '/counters/detail/:id',
+      factory: $DetailCounterRouteExtension._fromState,
+    );
+
+extension $DetailCounterRouteExtension on DetailCounterRoute {
+  static DetailCounterRoute _fromState(GoRouterState state) =>
+      DetailCounterRoute(
+        id: int.parse(state.pathParameters['id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/counters/detail/${Uri.encodeComponent(id.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $detailCounterEmptyRoute => GoRouteData.$route(
+      path: '/counters/detail/empty/:counterTypeId',
+      factory: $DetailCounterEmptyRouteExtension._fromState,
+    );
+
+extension $DetailCounterEmptyRouteExtension on DetailCounterEmptyRoute {
+  static DetailCounterEmptyRoute _fromState(GoRouterState state) =>
+      DetailCounterEmptyRoute(
+        counterTypeId: int.parse(state.pathParameters['counterTypeId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/counters/detail/empty/${Uri.encodeComponent(counterTypeId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $addCounterRoute => GoRouteData.$route(
+      path: '/counters/addCounter',
+      factory: $AddCounterRouteExtension._fromState,
+    );
+
+extension $AddCounterRouteExtension on AddCounterRoute {
+  static AddCounterRoute _fromState(GoRouterState state) => AddCounterRoute();
+
+  String get location => GoRouteData.$location(
+        '/counters/addCounter',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $counterSettingRoute => GoRouteData.$route(
+      path: '/counters/setting',
+      factory: $CounterSettingRouteExtension._fromState,
+    );
+
+extension $CounterSettingRouteExtension on CounterSettingRoute {
+  static CounterSettingRoute _fromState(GoRouterState state) =>
+      CounterSettingRoute();
+
+  String get location => GoRouteData.$location(
+        '/counters/setting',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $addNewCounterRoute => GoRouteData.$route(
+      path: '/counters/addNewCounter',
+      factory: $AddNewCounterRouteExtension._fromState,
+    );
+
+extension $AddNewCounterRouteExtension on AddNewCounterRoute {
+  static AddNewCounterRoute _fromState(GoRouterState state) =>
+      AddNewCounterRoute();
+
+  String get location => GoRouteData.$location(
+        '/counters/addNewCounter',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $manageCounterRoute => GoRouteData.$route(
+      path: '/counters/manageCounter/:counterId',
+      factory: $ManageCounterRouteExtension._fromState,
+    );
+
+extension $ManageCounterRouteExtension on ManageCounterRoute {
+  static ManageCounterRoute _fromState(GoRouterState state) =>
+      ManageCounterRoute(
+        counterId: int.parse(state.pathParameters['counterId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/counters/manageCounter/${Uri.encodeComponent(counterId.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

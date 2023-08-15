@@ -60,13 +60,13 @@ class CounterDetailSelectMenu extends StatelessWidget{
                 showSelectFontSizeBottomDia(context);
                 break;
               case CounterMenuEnum.setting:
-                Navigator.pushNamed(context, CounterDetailSettingPage.id);
+                Navigator.pushNamed(context, CounterDetailSettingPageOld.id);
                 break;
               case CounterMenuEnum.save:
                 counterBloc.add(CounterDetailEventAddCounter());
                 break;
               case CounterMenuEnum.edit:
-                Navigator.pushNamed(context, ManageCounterPage.id,arguments: state.counter);
+                Navigator.pushNamed(context, ManageCounterPageOld.id,arguments: state.counter);
                 break;
             }
           },
