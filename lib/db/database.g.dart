@@ -101,7 +101,7 @@ class _$AppDatabase extends AppDatabase {
 
   PrayerDaoOld? _prayerDaoOldInstance;
 
-  IslamicInfoDao? _islamicInfoDaoInstance;
+  IslamicInfoDaoOld? _islamicInfoDaoOldInstance;
 
   QuranPrayerDao? _quranPrayerDaoInstance;
 
@@ -158,6 +158,8 @@ class _$AppDatabase extends AppDatabase {
   EsmaulHusnaDao? _esmaulHusnaDaoInstance;
 
   CounterDao? _counterDaoInstance;
+
+  IslamicInfoDao? _islamicInfoDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -256,6 +258,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `AudioEdition` (`identifier` TEXT NOT NULL, `name` TEXT NOT NULL, `isSelected` INTEGER NOT NULL, `fileName` TEXT, PRIMARY KEY (`identifier`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verseAudio` (`mealId` INTEGER NOT NULL, `identifier` TEXT NOT NULL, `fileName` TEXT, `hasEdited` INTEGER NOT NULL, FOREIGN KEY (`mealId`) REFERENCES `verse` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`identifier`) REFERENCES `AudioEdition` (`identifier`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`mealId`, `identifier`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `IslamicInfoTitle` (`id` INTEGER, `title` TEXT NOT NULL, `description` TEXT, `type` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `IslamicInfoItem` (`id` INTEGER, `titleId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, FOREIGN KEY (`titleId`) REFERENCES `IslamicInfoTitle` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -416,9 +422,9 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  IslamicInfoDao get islamicInfoDao {
-    return _islamicInfoDaoInstance ??=
-        _$IslamicInfoDao(database, changeListener);
+  IslamicInfoDaoOld get islamicInfoDaoOld {
+    return _islamicInfoDaoOldInstance ??=
+        _$IslamicInfoDaoOld(database, changeListener);
   }
 
   @override
@@ -570,6 +576,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   CounterDao get counterDao {
     return _counterDaoInstance ??= _$CounterDao(database, changeListener);
+  }
+
+  @override
+  IslamicInfoDao get islamicInfoDao {
+    return _islamicInfoDaoInstance ??=
+        _$IslamicInfoDao(database, changeListener);
   }
 }
 
@@ -3593,8 +3605,8 @@ class _$PrayerDaoOld extends PrayerDaoOld {
   }
 }
 
-class _$IslamicInfoDao extends IslamicInfoDao {
-  _$IslamicInfoDao(
+class _$IslamicInfoDaoOld extends IslamicInfoDaoOld {
+  _$IslamicInfoDaoOld(
     this.database,
     this.changeListener,
   ) : _queryAdapter = QueryAdapter(database);
@@ -3606,11 +3618,11 @@ class _$IslamicInfoDao extends IslamicInfoDao {
   final QueryAdapter _queryAdapter;
 
   @override
-  Future<List<IslamicInfoTitleEntity>> getIslamicInfoTitlesByTypeId(
+  Future<List<IslamicInfoTitleEntityOld>> getIslamicInfoTitlesByTypeId(
       int type) async {
     return _queryAdapter.queryList(
         'select * from islamicInfoTitle where type=?1',
-        mapper: (Map<String, Object?> row) => IslamicInfoTitleEntity(
+        mapper: (Map<String, Object?> row) => IslamicInfoTitleEntityOld(
             id: row['id'] as int?,
             title: row['title'] as String,
             type: row['type'] as int,
@@ -3619,11 +3631,11 @@ class _$IslamicInfoDao extends IslamicInfoDao {
   }
 
   @override
-  Future<List<IslamicInfoItemEntity>> getIslamicInfoItemsByTitleId(
+  Future<List<IslamicInfoItemEntityOld>> getIslamicInfoItemsByTitleId(
       int titleId) async {
     return _queryAdapter.queryList(
         'select * from islamicInfoItem where titleId=?1',
-        mapper: (Map<String, Object?> row) => IslamicInfoItemEntity(
+        mapper: (Map<String, Object?> row) => IslamicInfoItemEntityOld(
             id: row['id'] as int?,
             name: row['name'] as String?,
             titleId: row['titleId'] as int,
@@ -6604,5 +6616,44 @@ class _$CounterDao extends CounterDao {
   @override
   Future<void> deleteCounterEntity(CounterEntity counterEntity) async {
     await _counterEntityDeletionAdapter.delete(counterEntity);
+  }
+}
+
+class _$IslamicInfoDao extends IslamicInfoDao {
+  _$IslamicInfoDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<IslamicInfoTitleEntity>> getIslamicInfoTitlesByTypeId(
+      int type) async {
+    return _queryAdapter.queryList(
+        'select * from islamicInfoTitle where type=?1',
+        mapper: (Map<String, Object?> row) => IslamicInfoTitleEntity(
+            id: row['id'] as int?,
+            title: row['title'] as String,
+            type: row['type'] as int,
+            description: row['description'] as String?),
+        arguments: [type]);
+  }
+
+  @override
+  Future<List<IslamicInfoItemEntity>> getIslamicInfoItemsByTitleId(
+      int titleId) async {
+    return _queryAdapter.queryList(
+        'select * from islamicInfoItem where titleId=?1',
+        mapper: (Map<String, Object?> row) => IslamicInfoItemEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            titleId: row['titleId'] as int,
+            description: row['description'] as String?),
+        arguments: [titleId]);
   }
 }

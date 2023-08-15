@@ -8,6 +8,8 @@ import 'package:hadith/core/data/local/entities/cuz_entity.dart';
 import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/history_entity.dart';
+import 'package:hadith/core/data/local/entities/islamic_info/islamic_info_item_entity.dart';
+import 'package:hadith/core/data/local/entities/islamic_info/islamic_info_title_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_verse_entity.dart';
@@ -31,6 +33,7 @@ import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
 import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
 import 'package:hadith/core/data/local/services/history_dao.dart';
+import 'package:hadith/core/data/local/services/islamic_info_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_view_dao.dart';
@@ -124,9 +127,10 @@ part 'database.g.dart';
       BackupMeta,TopicSavePointEntityOld,HistoryEntityOld,UserInfoEntity,IListView,VerseArabic,
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntityOld,CounterEntityOld,
-      EsmaulHusnaEntityOld, IslamicInfoItemEntity,IslamicInfoTitleEntity,
+      EsmaulHusnaEntityOld, IslamicInfoItemEntityOld,IslamicInfoTitleEntityOld,
       PrayerEntity, PrayerEntityOld, EsmaulHusnaEntity, CounterEntity,
       VerseEntity, HistoryEntity, AudioEditionEntity, VerseAudioEntity,
+      IslamicInfoTitleEntity, IslamicInfoItemEntity,
       SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
     ],
@@ -157,7 +161,7 @@ abstract class AppDatabase extends FloorDatabase{
   CounterDaoOld get counterDaoOld;
   EsmaulHusnaDaoOld get esmaulHusnaDaoOld;
   PrayerDaoOld get prayerDaoOld;
-  IslamicInfoDao get islamicInfoDao;
+  IslamicInfoDaoOld get islamicInfoDaoOld;
   QuranPrayerDao get quranPrayerDao;
 
   HadithAllDao get hadithAllDao;
@@ -187,5 +191,5 @@ abstract class AppDatabase extends FloorDatabase{
   PrayerDao get prayerDao;
   EsmaulHusnaDao get esmaulHusnaDao;
   CounterDao get counterDao;
-
+  IslamicInfoDao get islamicInfoDao;
 }

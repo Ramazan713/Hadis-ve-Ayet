@@ -22,6 +22,9 @@ import 'package:flutter/material.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_list_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_search_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_topic_page.dart';
+import 'package:hadith/features/islamic_info/adjectives_of/adjectives_of_page.dart';
+import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_page.dart';
+import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
 import 'package:hadith/features/lists/presentation/archive_list/archive_list_page.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
@@ -470,5 +473,44 @@ class ManageCounterRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ManageCounterPage(counterId: counterId);
+  }
+}
+
+
+@TypedGoRoute<EfaliMukellefinRoute>(
+    path: "/islamicInfo/efaliMukellefin"
+)
+class EfaliMukellefinRoute extends GoRouteData{
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const EfaliMukellefinPage();
+  }
+}
+
+
+@TypedGoRoute<FardsInfoRoute>(
+    path: "/islamicInfo/fards/:fardsTypeId"
+)
+class FardsInfoRoute extends GoRouteData{
+
+  final int fardsTypeId;
+
+  FardsInfoRoute({required this.fardsTypeId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return FardsInfoPage(fardsTypeId: fardsTypeId);
+  }
+}
+
+
+@TypedGoRoute<AdjectiveOfAllahRoute>(
+    path: "/islamicInfo/adjectiveOfAllah"
+)
+class AdjectiveOfAllahRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdjectiveOfPage();
   }
 }

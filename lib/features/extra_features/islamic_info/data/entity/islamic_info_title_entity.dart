@@ -3,7 +3,7 @@ import 'package:hadith/features/extra_features/islamic_info/domain/constant/isla
 import 'package:hadith/features/extra_features/islamic_info/domain/model/islamic_info_title.dart';
 
 @Entity(tableName: "IslamicInfoTitle")
-class IslamicInfoTitleEntity{
+class IslamicInfoTitleEntityOld{
 
   @primaryKey
   final int?id;
@@ -11,7 +11,7 @@ class IslamicInfoTitleEntity{
   final String? description;
   final int type;
 
-  IslamicInfoTitleEntity({this.id,required this.title,required this.type,
+  IslamicInfoTitleEntityOld({this.id,required this.title,required this.type,
     this.description
   });
 

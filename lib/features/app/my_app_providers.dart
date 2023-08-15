@@ -43,6 +43,8 @@ import 'package:hadith/features/extra_features/prayer_surah/domain/repo/prayer_r
 import 'package:hadith/features/extra_features/prayer_surah/presentation/detail_prayer/bloc/detail_prayer_bloc.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/show_prayer_surah/bloc/show_prayer_bloc.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_all_paging_repo.dart';
+import 'package:hadith/features/islamic_info/providers/islamic_info_data_repo_providers.dart';
+import 'package:hadith/features/islamic_info/shared/presentation/bloc/islamic_info_shared_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_archive_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_hadith_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_verse_bloc.dart';
@@ -161,8 +163,9 @@ class MyAppProviders extends StatelessWidget {
         ...pDhikrAndPrayersDataRepoProviders(appDatabase),
         ...pEsmaulHusnaDataRepoProviders(appDatabase),
         ...pSearchDataRepoProviders(appDatabase),
+        ...pIslamicInfoDataRepoProviders(appDatabase),
         RepositoryProvider<QuranPrayerRepoOld>(create: (context)=>QuranPrayerRepoImpl(quranPrayerDao: appDatabase.quranPrayerDao)),
-        RepositoryProvider<IslamicInfoRepo>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDao)),
+        RepositoryProvider<IslamicInfoRepoOld>(create: (context)=>IslamicInfoRepoImpl(infoDao: appDatabase.islamicInfoDaoOld)),
         RepositoryProvider<PrayerRepo>(create: (context)=>PrayerRepoImpl(prayerDao: appDatabase.prayerDaoOld)),
         RepositoryProvider<EsmaulHusnaRepo>(create: (context)=>EsmaulHusnaRepoImpl(esmaulHusnaDao: appDatabase.esmaulHusnaDaoOld)),
         RepositoryProvider<CounterRepoOld>(create: (context)=>CounterRepoImpl(counterDao: appDatabase.counterDaoOld)),
@@ -222,6 +225,11 @@ class MyAppProviders extends StatelessWidget {
         providers: [
           BlocProvider(create: (context)=> PrayerAndVerseListBloc(
             prayerRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> IslamicInfoSharedBloc(
+              islamicInfoRepo: context.read(),
+              fontModelUseCase: context.read(),
+              appPreferences: context.read()
           )),
           BlocProvider(create: (context)=> GetTitleBloc(
               titleRepo: context.read()

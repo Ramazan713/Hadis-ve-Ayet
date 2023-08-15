@@ -5,10 +5,10 @@ import 'package:hadith/features/extra_features/islamic_info/domain/constant/isla
 import 'package:hadith/features/extra_features/islamic_info/domain/model/islamic_info.dart';
 import 'package:hadith/features/extra_features/islamic_info/domain/repo/islamic_info_repo.dart';
 
-class IslamicInfoRepoImpl extends IslamicInfoRepo{
+class IslamicInfoRepoImpl extends IslamicInfoRepoOld{
 
-  late final IslamicInfoDao _infoDao;
-  IslamicInfoRepoImpl({required IslamicInfoDao infoDao}){
+  late final IslamicInfoDaoOld _infoDao;
+  IslamicInfoRepoImpl({required IslamicInfoDaoOld infoDao}){
     _infoDao = infoDao;
   }
 

@@ -8,11 +8,11 @@ import 'package:hadith/features/extra_features/islamic_info/domain/model/islamic
     ForeignKey(
         childColumns: ["titleId"],
         parentColumns: ["id"],
-        entity: IslamicInfoTitleEntity
+        entity: IslamicInfoTitleEntityOld
     )
   ]
 )
-class IslamicInfoItemEntity{
+class IslamicInfoItemEntityOld{
 
   @primaryKey
   final int?id;
@@ -20,7 +20,7 @@ class IslamicInfoItemEntity{
   final String? name;
   final String? description;
 
-  IslamicInfoItemEntity({this.id,this.name,required this.titleId,
+  IslamicInfoItemEntityOld({this.id,this.name,required this.titleId,
     this.description
   });
 

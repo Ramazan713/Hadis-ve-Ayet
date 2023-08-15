@@ -7,9 +7,9 @@ import 'package:hadith/features/extra_features/islamic_info/presentation/detail_
 
 class DetailIslamicInfoBloc extends Bloc<IDetailIslamicInfoEvent,DetailIslamicInfoState>{
 
-  late final IslamicInfoRepo _infoRepo;
+  late final IslamicInfoRepoOld _infoRepo;
 
-  DetailIslamicInfoBloc({required IslamicInfoRepo infoRepo}) : super(DetailIslamicInfoState.init()){
+  DetailIslamicInfoBloc({required IslamicInfoRepoOld infoRepo}) : super(DetailIslamicInfoState.init()){
     _infoRepo = infoRepo;
 
     on<DetailIslamicInfoEventSetInit>(_onSetInit);

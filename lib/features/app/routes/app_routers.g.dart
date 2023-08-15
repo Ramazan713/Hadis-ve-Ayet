@@ -33,6 +33,9 @@ List<RouteBase> get $appRoutes => [
       $counterSettingRoute,
       $addNewCounterRoute,
       $manageCounterRoute,
+      $efaliMukellefinRoute,
+      $fardsInfoRoute,
+      $adjectiveOfAllahRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -665,6 +668,70 @@ extension $ManageCounterRouteExtension on ManageCounterRoute {
 
   String get location => GoRouteData.$location(
         '/counters/manageCounter/${Uri.encodeComponent(counterId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $efaliMukellefinRoute => GoRouteData.$route(
+      path: '/islamicInfo/efaliMukellefin',
+      factory: $EfaliMukellefinRouteExtension._fromState,
+    );
+
+extension $EfaliMukellefinRouteExtension on EfaliMukellefinRoute {
+  static EfaliMukellefinRoute _fromState(GoRouterState state) =>
+      EfaliMukellefinRoute();
+
+  String get location => GoRouteData.$location(
+        '/islamicInfo/efaliMukellefin',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $fardsInfoRoute => GoRouteData.$route(
+      path: '/islamicInfo/fards/:fardsTypeId',
+      factory: $FardsInfoRouteExtension._fromState,
+    );
+
+extension $FardsInfoRouteExtension on FardsInfoRoute {
+  static FardsInfoRoute _fromState(GoRouterState state) => FardsInfoRoute(
+        fardsTypeId: int.parse(state.pathParameters['fardsTypeId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/islamicInfo/fards/${Uri.encodeComponent(fardsTypeId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $adjectiveOfAllahRoute => GoRouteData.$route(
+      path: '/islamicInfo/adjectiveOfAllah',
+      factory: $AdjectiveOfAllahRouteExtension._fromState,
+    );
+
+extension $AdjectiveOfAllahRouteExtension on AdjectiveOfAllahRoute {
+  static AdjectiveOfAllahRoute _fromState(GoRouterState state) =>
+      AdjectiveOfAllahRoute();
+
+  String get location => GoRouteData.$location(
+        '/islamicInfo/adjectiveOfAllah',
       );
 
   void go(BuildContext context) => context.go(location);
