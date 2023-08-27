@@ -8,7 +8,7 @@ import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
 import 'package:hadith/features/verse/edition_bloc/edition_event.dart';
 import 'package:hadith/features/verse/edition_bloc/edition_state.dart';
 import 'package:hadith/features/verse/verse_listen_audio/util/edition_util.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';

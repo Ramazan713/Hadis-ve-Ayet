@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:http/http.dart' as http;
 
 
 
-class AuthService {
+class AuthServiceOld {
   final _googleSignIn = GoogleSignIn();
   final _firebaseAuth = FirebaseAuth.instance;
 
@@ -31,7 +31,7 @@ class AuthService {
         return Resource.error("Bir şeyler yanlış gitti");
       }
     } catch (e) {
-      return Resource.error("Bilinmeyen bir hata");
+      return Resource.error(e.toString());
     }
     return Resource.error("Bilinmeyen bir hata");
   }

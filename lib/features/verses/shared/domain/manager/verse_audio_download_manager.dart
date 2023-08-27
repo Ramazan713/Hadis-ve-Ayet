@@ -2,7 +2,7 @@
 
 import 'package:hadith/features/verses/shared/domain/model/download_verse/download_audio_param.dart';
 import 'package:hadith/features/verses/shared/domain/model/download_verse/download_audio_manager_state.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class VerseAudioDownloadManager{

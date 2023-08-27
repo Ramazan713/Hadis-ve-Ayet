@@ -8,7 +8,7 @@ import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/core/utils/edition_util.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'select_edition_event.dart';

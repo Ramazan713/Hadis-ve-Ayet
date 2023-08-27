@@ -3,6 +3,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/data/preferences/app_preferences_impl.dart';
 import 'package:hadith/core/data/remote/edition_download_service.dart';
+import 'package:hadith/core/data/repo/backup/backup_meta_repo_impl.dart';
+import 'package:hadith/core/data/repo/backup/local_backup_repo_impl.dart';
 import 'package:hadith/core/data/repo/edition_repo_impl.dart';
 import 'package:hadith/core/data/repo/hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/item_list_info_repo_impl.dart';
@@ -18,12 +20,14 @@ import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/data/repo/verse/verse_arabic_repo_impl.dart';
 import 'package:hadith/core/data/repo/verse/verse_repo_impl.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/domain/repo/backup/backup_meta_repo.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_view_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_repo.dart';
+import 'package:hadith/core/domain/repo/backup/local_backup_repo.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
 import 'package:hadith/core/domain/repo/search_repo.dart';
 import 'package:hadith/core/domain/repo/share/share_manager.dart';
@@ -36,12 +40,12 @@ import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
 import 'package:hadith/db/database.dart';
 import 'package:hadith/utils/localstorage.dart';
 
-import '../../domain/repo/list/list_verse_repo.dart';
-import '../../domain/repo/list/list_verse_view_repo.dart';
-import '../repo/list/list_hadith_view_repo_impl.dart';
-import '../repo/list/list_repo_impl.dart';
-import '../repo/list/list_verse_view_repo_impl.dart';
-import '../repo/save_point_repo_impl.dart';
+import '../domain/repo/list/list_verse_repo.dart';
+import '../domain/repo/list/list_verse_view_repo.dart';
+import '../data/repo/list/list_hadith_view_repo_impl.dart';
+import '../data/repo/list/list_repo_impl.dart';
+import '../data/repo/list/list_verse_view_repo_impl.dart';
+import '../data/repo/save_point_repo_impl.dart';
 
 List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
   return [
@@ -75,6 +79,12 @@ List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
         downloadService: EditionDownloadService(),
         connectivityService: context.read()
     )),
-
+    RepositoryProvider<BackupMetaRepo>(create: (context) => BackupMetaRepoImpl(
+      backupMetaDao: appDatabase.backupMetaDao
+    )),
+    RepositoryProvider<LocalBackupRepo>(create: (context) => LocalBackupRepoImpl(
+        backupDao: appDatabase.backupDao,
+        appPreferences: context.read()
+    )),
   ];
 }

@@ -19,7 +19,7 @@ import 'package:hadith/features/verse/verse_download_audio/constants/download_en
 import 'package:hadith/db/entities/helper/download_voice_entity.dart';
 import 'package:hadith/features/verse/verse_download_audio/models/download_voice_service_state.dart';
 import 'package:hadith/features/verse/verse_download_audio/services/quran_download_service.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/models/stream_resource.dart';
 import 'package:hadith/services/connectivity_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';

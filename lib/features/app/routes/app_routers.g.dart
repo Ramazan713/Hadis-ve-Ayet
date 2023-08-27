@@ -36,6 +36,8 @@ List<RouteBase> get $appRoutes => [
       $efaliMukellefinRoute,
       $fardsInfoRoute,
       $adjectiveOfAllahRoute,
+      $settingsRoute,
+      $settingsAudioRoute,
     ];
 
 RouteBase get $hadithAllRoute => GoRouteData.$route(
@@ -732,6 +734,47 @@ extension $AdjectiveOfAllahRouteExtension on AdjectiveOfAllahRoute {
 
   String get location => GoRouteData.$location(
         '/islamicInfo/adjectiveOfAllah',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $settingsRoute => GoRouteData.$route(
+      path: '/settings',
+      factory: $SettingsRouteExtension._fromState,
+    );
+
+extension $SettingsRouteExtension on SettingsRoute {
+  static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $settingsAudioRoute => GoRouteData.$route(
+      path: '/settings/audio',
+      factory: $SettingsAudioRouteExtension._fromState,
+    );
+
+extension $SettingsAudioRouteExtension on SettingsAudioRoute {
+  static SettingsAudioRoute _fromState(GoRouterState state) =>
+      SettingsAudioRoute();
+
+  String get location => GoRouteData.$location(
+        '/settings/audio',
       );
 
   void go(BuildContext context) => context.go(location);

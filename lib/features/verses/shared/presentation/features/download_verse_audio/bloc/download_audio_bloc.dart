@@ -17,7 +17,7 @@ import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/features/verses/shared/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_dialog_event.dart';
 import 'package:hadith/features/verses/shared/presentation/models/audio_param_builder.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 
 import 'download_audio_event.dart';
 import 'download_audio_state.dart';
@@ -68,7 +68,7 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
 
   void _onStartDownloadingWithParam(DownloadAudioEventStartDownloadingWithParam event,Emitter<DownloadAudioState>emit)async{
 
-    if(!await _connectivityService.hasConnected()){
+    if(!await _connectivityService.hasConnected){
       return _sendMessage("internet bağlantınızı kontrol edin", emit);
     }
     BackgroundVerseAudioManager.onEvent(BackgroundEventStartDownloadAudio(audioDownloadParam: event.downloadParam));
@@ -104,7 +104,7 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
 
   void _onDownloadBuilder(DownloadAudioEventDownloadBuilder event,Emitter<DownloadAudioState>emit)async{
 
-    if(!await _connectivityService.hasConnected()){
+    if(!await _connectivityService.hasConnected){
       return _sendMessage("internet bağlantınızı kontrol edin", emit);
     }
 

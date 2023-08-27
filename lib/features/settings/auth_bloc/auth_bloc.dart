@@ -8,19 +8,19 @@ import 'package:hadith/features/settings/auth_bloc/auth_event.dart';
 import 'package:hadith/features/settings/auth_bloc/auth_state.dart';
 import 'package:hadith/features/backup/backup_manager.dart';
 import 'package:hadith/features/settings/loading_enum.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/services/auth_service.dart';
 import 'package:hadith/services/connectivity_service.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthBloc extends Bloc<IAuthEvent,AuthState>{
+class AuthBlocOld extends Bloc<IAuthEventOld,AuthStateOld>{
 
-  late final AuthService _authService;
+  late final AuthServiceOld _authService;
   late final BackupManager _backupManager;
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
-  AuthBloc({required AuthService authService,required BackupManager backupManager}) : super(AuthState.init()){
+  AuthBlocOld({required AuthServiceOld authService,required BackupManager backupManager}) : super(AuthStateOld.init()){
     _authService = authService;
     _backupManager = backupManager;
 
@@ -38,19 +38,19 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     add(AuthEventInit());
   }
 
-  void _onInit(AuthEventInit event,Emitter<AuthState>emit)async{
+  void _onInit(AuthEventInit event,Emitter<AuthStateOld>emit)async{
 
     await emit.forEach<User?>(_authService.streamUser(), onData: (user){
       return state.copyWith(user: user,setUser: true);
     });
   }
 
-  void _addMessage(String message,Emitter<AuthState>emit){
+  void _addMessage(String message,Emitter<AuthStateOld>emit){
     emit(state.copyWith(message: message,setMessage: true));
     emit(state.copyWith(setMessage: true));
   }
 
-  void _setLoading(bool isLoading,Emitter<AuthState>emit){
+  void _setLoading(bool isLoading,Emitter<AuthStateOld>emit){
     if(isLoading){
       if(state.loadingEnum!=LoadingEnum.loading){
         emit(state.copyWith(loadingEnum: LoadingEnum.loading));
@@ -62,7 +62,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     }
   }
 
-  Future<bool>_checkConnectionWithMessage(Emitter<AuthState>emit)async{
+  Future<bool> _checkConnectionWithMessage(Emitter<AuthStateOld>emit)async{
     if(await ConnectivityService.isConnectedInternet()){
       return true;
     }
@@ -70,7 +70,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     return false;
   }
 
-  void _onSignIn(AuthEventSignIn event,Emitter<AuthState>emit)async{
+  void _onSignIn(AuthEventSignIn event,Emitter<AuthStateOld>emit)async{
 
     if(!await _checkConnectionWithMessage(emit)) return;
     _setLoading(true, emit);
@@ -102,7 +102,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     }
   }
 
-  void _onSignOut(AuthEventSignOut event,Emitter<AuthState>emit)async{
+  void _onSignOut(AuthEventSignOut event,Emitter<AuthStateOld>emit)async{
 
     _setLoading(true, emit);
     final user = state.user;
@@ -115,11 +115,11 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
 
   }
 
-  void _onDoNotShowDialog(AuthEventDoNotShowDialog event,Emitter<AuthState>emit)async{
+  void _onDoNotShowDialog(AuthEventDoNotShowDialog event,Emitter<AuthStateOld>emit)async{
     await _sharedPreferences.setBool(PrefConstants.showDownloadDiaInLogin.key, false);
   }
 
-  void _onDownloadLastBackup(AuthEventDownloadLastBackup event,Emitter<AuthState>emit)async{
+  void _onDownloadLastBackup(AuthEventDownloadLastBackup event,Emitter<AuthStateOld>emit)async{
     if(!await _checkConnectionWithMessage(emit)) return;
 
     final user = state.user;
@@ -140,7 +140,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
   }
 
 
-  void _onDeleteAllData(AuthEventDeleteAllLocalData event,Emitter<AuthState>emit)async{
+  void _onDeleteAllData(AuthEventDeleteAllLocalData event,Emitter<AuthStateOld>emit)async{
 
     _setLoading(true, emit);
     await _backupManager.deleteAllData();
@@ -152,7 +152,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
   }
 
 
-  void _onUploadAutoBackup(AuthEventUploadAutoBackup event,Emitter<AuthState>emit)async {
+  void _onUploadAutoBackup(AuthEventUploadAutoBackup event,Emitter<AuthStateOld>emit)async {
     if(!await _checkConnectionWithMessage(emit)) return;
 
     final user = state.user;
@@ -170,7 +170,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     }
   }
 
-  void _onUploadBackup(AuthEventUploadBackup event,Emitter<AuthState>emit)async {
+  void _onUploadBackup(AuthEventUploadBackup event,Emitter<AuthStateOld>emit)async {
     if(!await _checkConnectionWithMessage(emit)) return;
 
     final user = state.user;
@@ -188,7 +188,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     }
   }
 
-  void _onRefreshFiles(AuthEventRefreshFiles event,Emitter<AuthState>emit)async{
+  void _onRefreshFiles(AuthEventRefreshFiles event,Emitter<AuthStateOld>emit)async{
     if(!await _checkConnectionWithMessage(emit)) return;
 
     final user = state.user;
@@ -204,7 +204,7 @@ class AuthBloc extends Bloc<IAuthEvent,AuthState>{
     }
   }
 
-  void _onDownloadFile(AuthEventDownloadFile event,Emitter<AuthState>emit)async{
+  void _onDownloadFile(AuthEventDownloadFile event,Emitter<AuthStateOld>emit)async{
     if(!await _checkConnectionWithMessage(emit)) return;
 
     final user = state.user;

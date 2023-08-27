@@ -13,7 +13,7 @@ import 'package:hadith/features/verse/verse_listen_audio/bloc/verse_audio_state.
 import 'package:hadith/features/verse/verse_listen_audio/models/audio_attribute_state.dart';
 import 'package:hadith/features/verse/verse_listen_audio/services/quran_audio_foreground_service.dart';
 import 'package:hadith/features/verse/verse_listen_audio/models/verse_audio_model.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/services/foreground_service/foreground_service_helper.dart';
 import 'package:hadith/utils/i_notification.dart';
 import 'package:hadith/utils/localstorage.dart';

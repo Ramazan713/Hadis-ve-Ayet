@@ -16,7 +16,7 @@ import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/features/verses/shared/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/listen_audio_dialog_event.dart';
 import 'package:hadith/features/verses/shared/presentation/models/audio_param_builder.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'verse_audio_event.dart';

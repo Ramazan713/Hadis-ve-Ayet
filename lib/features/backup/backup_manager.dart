@@ -10,21 +10,21 @@ import 'package:hadith/db/entities/user_info_entity.dart';
 import 'package:hadith/db/repos/backup_meta_repo.dart';
 import 'package:hadith/db/repos/backup_repo.dart';
 import 'package:hadith/db/repos/user_info_repo.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/services/auth_service.dart';
 import 'package:hadith/services/storage_service.dart';
 import 'package:uuid/uuid.dart';
 
 class BackupManager{
-  late final StorageService _storageService;
-  late final LocalBackupRepo _backupRepo;
-  late final BackupMetaRepo _backupMetaRepo;
-  late final UserInfoRepo _userInfoRepo;
-  late final AuthService _authService;
+  late final StorageServiceOld _storageService;
+  late final LocalBackupRepoOld _backupRepo;
+  late final BackupMetaRepoOld _backupMetaRepo;
+  late final UserInfoRepoOld _userInfoRepo;
+  late final AuthServiceOld _authService;
   final Uuid _uuid=const Uuid();
 
-  BackupManager({required StorageService storageService,required LocalBackupRepo localBackupRepo,required BackupMetaRepo backupMetaRepo,
-    required UserInfoRepo userInfoRepo, required AuthService authService
+  BackupManager({required StorageServiceOld storageService,required LocalBackupRepoOld localBackupRepo,required BackupMetaRepoOld backupMetaRepo,
+    required UserInfoRepoOld userInfoRepo, required AuthServiceOld authService
   }){
     _storageService = storageService;
     _backupRepo = localBackupRepo;
@@ -36,7 +36,7 @@ class BackupManager{
 
   Future<Resource<String>> refreshFiles(User user)async{
     final filesResource=await _storageService.getFiles(user);
-    if(filesResource is ResourceSuccess<List<BackupMeta>>){
+    if(filesResource is ResourceSuccess<List<BackupMetaOld>>){
       await _backupMetaRepo.deleteBackupMetaWithQuery();
       await _backupMetaRepo.insertBackupMetas(filesResource.data);
       return Resource.success("Başarılı");
@@ -56,11 +56,11 @@ class BackupManager{
 
   Future<Resource<int>> downloadLoginFiles(User user)async{
     final resourceFiles=await _storageService.getFiles(user);
-    if(resourceFiles is ResourceSuccess<List<BackupMeta>>){
+    if(resourceFiles is ResourceSuccess<List<BackupMetaOld>>){
       final result=await _backupMetaRepo.insertBackupMetas(resourceFiles.data);
 
       final photoData=await _authService.downloadUserPhoto(user);
-      await _userInfoRepo.insertUserInfo(UserInfoEntity(
+      await _userInfoRepo.insertUserInfo(UserInfoEntityOld(
           userId: user.uid,
           img: photoData
       ));
@@ -76,7 +76,7 @@ class BackupManager{
   Future<Resource<String>>uploadBackup(User user,bool isAuto)async{
 
     final response = await _uploadDataWithMeta(user, isAuto);
-    if(response is ResourceSuccess<BackupMeta>?) {
+    if(response is ResourceSuccess<BackupMetaOld>?) {
       return ResourceSuccess("Başarılı");
     }
     return Resource.error("Bir şeyler yanlış gitti");
@@ -94,7 +94,7 @@ class BackupManager{
     return Resource.error("bir şeyler yanlış gitti");
   }
 
-  Future<Resource<String>>downloadFile(String fileName,User user,bool deleteAllData)async{
+  Future<Resource<String>> downloadFile(String fileName,User user,bool deleteAllData)async{
 
     var fileResponse=await _storageService.getFileData(user,fileName);
     var result = Resource<String>.error("bir şeyler yanlış gitti");
@@ -114,11 +114,11 @@ class BackupManager{
   }
 
 
-  Future<Resource<BackupMeta>?> _uploadDataWithMeta(User user,bool isAuto)async{
+  Future<Resource<BackupMetaOld>?> _uploadDataWithMeta(User user,bool isAuto)async{
 
-    Resource<BackupMeta>? result;
+    Resource<BackupMetaOld>? result;
     final BackupMetaControl controlBackup;
-    final BackupMeta? backupMeta;
+    final BackupMetaOld? backupMeta;
 
     if(isAuto){
       controlBackup=await _backupMetaRepo.controlAutoBackups();
@@ -135,7 +135,7 @@ class BackupManager{
         if(backupMeta!=null){
           result=await _storageService.uploadData(user,backupMeta.fileName,
               rawData,isAuto: backupMeta.isAuto);
-          if(result is ResourceSuccess<BackupMeta>){
+          if(result is ResourceSuccess<BackupMetaOld>){
             await _backupMetaRepo.updateBackupMeta(result.data.copyWith(id: backupMeta.id
                 ,keepOldId: true));
           }
@@ -145,7 +145,7 @@ class BackupManager{
         final name=_uuid.v4();
         final rawData=await _backupRepo.getUint8ListData();
         result=await _storageService.uploadData(user,name, rawData,isAuto: isAuto);
-        if(result is ResourceSuccess<BackupMeta>){
+        if(result is ResourceSuccess<BackupMetaOld>){
           await _backupMetaRepo.insertBackupMeta(result.data);
         }
         break;
@@ -170,7 +170,7 @@ class BackupManager{
   }
 
   Future<void>_deleteRedundantBackupMetas(BackupMetaControl backupMetaControl,
-      List<BackupMeta> backupMetas,int limit,User user)async{
+      List<BackupMetaOld> backupMetas,int limit,User user)async{
     if(backupMetaControl==BackupMetaControl.delete){
       if(limit>0){
         for(var backup in backupMetas){

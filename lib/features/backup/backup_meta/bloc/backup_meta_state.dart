@@ -5,17 +5,17 @@ import 'package:hadith/db/entities/backup_meta.dart';
 class BackupMetaState extends Equatable{
 
   final DataStatus status;
-  final List<BackupMeta>backupMetas;
+  final List<BackupMetaOld>backupMetas;
   final bool isDisableRefresh;
   final String counter;
-  final BackupMeta? selectedBackup;
+  final BackupMetaOld? selectedBackup;
   final String?message;
 
   const BackupMetaState({required this.status,required this.backupMetas,required this.isDisableRefresh,
     this.counter="",this.selectedBackup,this.message});
 
-  BackupMetaState copyWith({DataStatus? status,List<BackupMeta>?backupMetas,bool? isDisableRefresh,
-    String? counter,BackupMeta? selectedBackup,bool setBackupMeta=false,String?message,
+  BackupMetaState copyWith({DataStatus? status,List<BackupMetaOld>?backupMetas,bool? isDisableRefresh,
+    String? counter,BackupMetaOld? selectedBackup,bool setBackupMeta=false,String?message,
     bool setMessage=false
   }){
     return BackupMetaState(

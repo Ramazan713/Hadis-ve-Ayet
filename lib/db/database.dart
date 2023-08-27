@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/audio_edition_entity.dart';
+import 'package:hadith/core/data/local/entities/backup_meta.dart';
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
 import 'package:hadith/core/data/local/entities/cuz_entity.dart';
 import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
@@ -18,6 +19,7 @@ import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/savepoint_type_entity.dart';
 import 'package:hadith/core/data/local/entities/surah_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
+import 'package:hadith/core/data/local/entities/user_info_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_arabic_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_audio_entity.dart';
 import 'package:hadith/core/data/local/entities/views/cuz_audio_view.dart';
@@ -29,6 +31,8 @@ import 'package:hadith/core/data/local/entities/views/topic_hadiths_view.dart';
 import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
+import 'package:hadith/core/data/local/services/backup_dao.dart';
+import 'package:hadith/core/data/local/services/backup_meta_dao.dart';
 import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
 import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
@@ -48,6 +52,7 @@ import 'package:hadith/core/data/local/services/topic/section_view_dao.dart';
 import 'package:hadith/core/data/local/services/topic/topic_hadiths_view_dao.dart';
 import 'package:hadith/core/data/local/services/topic/topic_verses_view_dao.dart';
 import 'package:hadith/core/data/local/services/topic_save_point_dao.dart';
+import 'package:hadith/core/data/local/services/user_info_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_arabic_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_audio_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_dao.dart';
@@ -124,13 +129,14 @@ part 'database.g.dart';
 
 @Database(version: 4,
     entities: [HadithEntity,Cuz,Surah,Topic,Verse,Section,IntData,SavePointEntity,SavePointTypeEntity,
-      BackupMeta,TopicSavePointEntityOld,HistoryEntityOld,UserInfoEntity,IListView,VerseArabic,
+      BackupMetaOld,TopicSavePointEntityOld,HistoryEntityOld,UserInfoEntityOld,IListView,VerseArabic,
       ListEntity,SourceTypeEntity,ItemCountModel,VerseTopic,ListHadithEntity,DownloadVoiceEntity,
       ListVerseEntity,HadithTopic,Book,VerseAudio,AudioEdition,VerseAudioEntityOld,CounterEntityOld,
       EsmaulHusnaEntityOld, IslamicInfoItemEntityOld,IslamicInfoTitleEntityOld,
       PrayerEntity, PrayerEntityOld, EsmaulHusnaEntity, CounterEntity,
       VerseEntity, HistoryEntity, AudioEditionEntity, VerseAudioEntity,
-      IslamicInfoTitleEntity, IslamicInfoItemEntity,
+      IslamicInfoTitleEntity, IslamicInfoItemEntity, UserInfoEntity,
+      BackupMetaEntity,
       SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
     ],
@@ -150,9 +156,9 @@ abstract class AppDatabase extends FloorDatabase{
   SavePointDaoOld get savePointDaoOld;
   TopicSavePointDaoOld get topicSavePointDaoOld;
   HistoryDaoOld get historyDaoOld;
-  BackupMetaDao get backupMetaDao;
-  BackupDao get backupDao;
-  UserInfoDao get userInfoDao;
+  BackupMetaDaoOld get backupMetaDaoOld;
+  BackupDaoOld get backupDaoOld;
+  UserInfoDaoOld get userInfoDaoOld;
   AudioEditionDaoOld get editionDaoOld;
   VerseAudioDaoOld get verseAudioDaoOld;
   VerseArabicDaoOld get verseArabicDaoOld;
@@ -192,4 +198,7 @@ abstract class AppDatabase extends FloorDatabase{
   EsmaulHusnaDao get esmaulHusnaDao;
   CounterDao get counterDao;
   IslamicInfoDao get islamicInfoDao;
+  UserInfoDao get userInfoDao;
+  BackupMetaDao get backupMetaDao;
+  BackupDao get backupDao;
 }

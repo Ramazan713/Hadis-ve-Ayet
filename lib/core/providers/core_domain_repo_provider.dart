@@ -27,8 +27,8 @@ import 'package:hadith/core/domain/use_cases/topic_save_point/insert_topic_save_
 import 'package:hadith/core/domain/use_cases/topic_save_point/topic_save_point_use_cases.dart';
 import 'package:hadith/db/database.dart';
 
-import '../use_cases/list/copy_list.dart';
-import '../use_cases/select_list/insert_or_delete_list.dart';
+import '../domain/use_cases/list/copy_list.dart';
+import '../domain/use_cases/select_list/insert_or_delete_list.dart';
 
 List<RepositoryProvider> pCoreDomainRepoProviders(AppDatabase appDatabase){
   return [

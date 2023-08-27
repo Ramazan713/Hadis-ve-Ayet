@@ -17,7 +17,7 @@ import 'package:hadith/features/verses/shared/domain/repo/verse_downloaded_voice
 import 'package:hadith/features/verses/shared/domain/services/quran_download_service.dart';
 import 'package:hadith/features/verses/shared/domain/util/stream_resource.dart';
 import 'package:hadith/features/verses/shared/domain/manager/verse_audio_download_manager.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:rxdart/rxdart.dart';
 
 class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
@@ -57,7 +57,7 @@ class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
 
 
   void _setNetworkListener(){
-    _networkConnectionListener = _connectivityService.hasConnectionStream().listen((hasConnection) {
+    _networkConnectionListener = _connectivityService.hasConnectionStream.listen((hasConnection) {
       if(!hasConnection){
         if(_state.downloadEnum == DownloadEnum.downloading){
           pause();
@@ -174,7 +174,7 @@ class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
 
   void _startDownload(DownloadAudioParam param)async{
 
-    if(!await _connectivityService.hasConnected()){
+    if(!await _connectivityService.hasConnected){
       return _addState(_state.copyWith(setError: true,error: "internet bağlantınızı kontrol edin",downloadEnum: DownloadEnum.error));
     }
     final voiceModelsWithGroup = await _verseDownloadedVoiceRepo.getNotDownloadedAudioVersesWithGroupByMealId(

@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/core/data/local/mapper/hadith_mapper.dart';
+import 'package:hadith/core/data/mapper/hadith_mapper.dart';
 import 'package:hadith/core/data/local/services/hadith_all_dao.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/core/domain/repo/hadith_repo.dart';

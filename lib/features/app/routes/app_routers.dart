@@ -27,6 +27,8 @@ import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_p
 import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
 import 'package:hadith/features/lists/presentation/archive_list/archive_list_page.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/settings_/presentation/audio_settings_page.dart';
+import 'package:hadith/features/settings_/presentation/settings_page.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
@@ -512,5 +514,27 @@ class AdjectiveOfAllahRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AdjectiveOfPage();
+  }
+}
+
+@TypedGoRoute<SettingsRoute>(
+    path: "/settings"
+)
+class SettingsRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SettingsPage();
+  }
+}
+
+@TypedGoRoute<SettingsAudioRoute>(
+    path: "/settings/audio"
+)
+class SettingsAudioRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SettingsAudioPage();
   }
 }

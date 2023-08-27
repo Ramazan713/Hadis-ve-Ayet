@@ -7,9 +7,9 @@ import 'package:hadith/db/services/backup_meta_dao.dart';
 import '../entities/backup_meta.dart';
 import '../entities/helper/int_data.dart';
 
-class BackupMetaRepo{
-  final BackupMetaDao backupMetaDao;
-  BackupMetaRepo({required this.backupMetaDao});
+class BackupMetaRepoOld{
+  final BackupMetaDaoOld backupMetaDao;
+  BackupMetaRepoOld({required this.backupMetaDao});
 
 
   Future<BackupMetaControl>controlNonAutoBackups()async{
@@ -46,39 +46,39 @@ class BackupMetaRepo{
     return BackupMetaControl.none;
   }
 
-  Future<BackupMeta?>getLastBackupMeta()=>backupMetaDao.getLastBackupMeta();
+  Future<BackupMetaOld?>getLastBackupMeta()=>backupMetaDao.getLastBackupMeta();
 
-  Future<List<BackupMeta>>getNonAutoBackupMetaWithOffset(int limit,int offset)=>
+  Future<List<BackupMetaOld>>getNonAutoBackupMetaWithOffset(int limit,int offset)=>
       backupMetaDao.getNonAutoBackupMetaWithOffset(limit,offset);
 
-  Future<List<BackupMeta>>getAutoBackupMetaWithOffset(int limit,int offset)=>
+  Future<List<BackupMetaOld>>getAutoBackupMetaWithOffset(int limit,int offset)=>
       backupMetaDao.getAutoBackupMetaWithOffset(limit,offset);
 
   Future<IntData?>getNonAutoBackupMetaSize()=>backupMetaDao.getNonAutoBackupMetaSize();
 
   Future<IntData?>getAutoBackupMetaSize()=>backupMetaDao.getAutoBackupMetaSize();
 
-  Future<BackupMeta?>getFirstUpdatedAutoBackupMeta()=>
+  Future<BackupMetaOld?>getFirstUpdatedAutoBackupMeta()=>
       backupMetaDao.getFirstUpdatedAutoBackupMeta();
 
-  Future<BackupMeta?>getFirstUpdatedNonAutoBackupMeta()=>
+  Future<BackupMetaOld?>getFirstUpdatedNonAutoBackupMeta()=>
       backupMetaDao.getFirstUpdatedNonAutoBackupMeta();
 
-  Stream<List<BackupMeta>>getStreamBackupMetas()=>backupMetaDao.getStreamBackupMetas();
+  Stream<List<BackupMetaOld>>getStreamBackupMetas()=>backupMetaDao.getStreamBackupMetas();
 
-  Future<List<int>>insertBackupMetas(List<BackupMeta>backupMetas)=>
+  Future<List<int>>insertBackupMetas(List<BackupMetaOld>backupMetas)=>
       backupMetaDao.insertBackupMetas(backupMetas);
 
-  Future<int>insertBackupMeta(BackupMeta backupMeta)=>backupMetaDao.insertBackupMeta(backupMeta);
+  Future<int>insertBackupMeta(BackupMetaOld backupMeta)=>backupMetaDao.insertBackupMeta(backupMeta);
 
-  Future<int>updateBackupMetas(List<BackupMeta>backupMetas)=>
+  Future<int>updateBackupMetas(List<BackupMetaOld>backupMetas)=>
       backupMetaDao.updateBackupMetas(backupMetas);
 
-  Future<int>updateBackupMeta(BackupMeta backupMeta)=>backupMetaDao.updateBackupMeta(backupMeta);
+  Future<int>updateBackupMeta(BackupMetaOld backupMeta)=>backupMetaDao.updateBackupMeta(backupMeta);
 
-  Future<int>deleteBackupMeta(BackupMeta backupMeta)=>backupMetaDao.deleteBackupMeta(backupMeta);
+  Future<int>deleteBackupMeta(BackupMetaOld backupMeta)=>backupMetaDao.deleteBackupMeta(backupMeta);
 
-  Future<int>deleteBackupMetas(List<BackupMeta>backupMetas)=>
+  Future<int>deleteBackupMetas(List<BackupMetaOld>backupMetas)=>
       backupMetaDao.deleteBackupMetas(backupMetas);
 
   Future<void>deleteBackupMetaWithQuery()=>backupMetaDao.deleteBackupMetaWithQuery();

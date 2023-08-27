@@ -3,27 +3,27 @@
 import 'package:hadith/db/entities/user_info_entity.dart';
 import 'package:hadith/db/services/user_info_dao.dart';
 
-class UserInfoRepo{
-  final UserInfoDao userInfoDao;
+class UserInfoRepoOld{
+  final UserInfoDaoOld userInfoDao;
 
-  UserInfoRepo({required this.userInfoDao});
+  UserInfoRepoOld({required this.userInfoDao});
 
-  Future<int>insertUserInfo(UserInfoEntity userInfoEntity)=>
+  Future<int>insertUserInfo(UserInfoEntityOld userInfoEntity)=>
       userInfoDao.insertUserInfo(userInfoEntity);
 
-  Future<int>updateUserInfo(UserInfoEntity userInfoEntity)=>
+  Future<int>updateUserInfo(UserInfoEntityOld userInfoEntity)=>
       userInfoDao.updateUserInfo(userInfoEntity);
 
-  Stream<UserInfoEntity?>getStreamUserInfoWithId(String userId)=>
+  Stream<UserInfoEntityOld?>getStreamUserInfoWithId(String userId)=>
       userInfoDao.getStreamUserInfoWithId(userId);
 
-  Future<UserInfoEntity?>getUserInfoWithId(String userId)=>
+  Future<UserInfoEntityOld?>getUserInfoWithId(String userId)=>
       userInfoDao.getUserInfoWithId(userId);
 
   Future<void>deleteAllDataWithQuery()=>
       userInfoDao.deleteAllDataWithQuery();
 
-  Future<int>deleteUserInfo(UserInfoEntity userInfoEntity)=>
+  Future<int>deleteUserInfo(UserInfoEntityOld userInfoEntity)=>
       userInfoDao.deleteUserInfo(userInfoEntity);
 
 }

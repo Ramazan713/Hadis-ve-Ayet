@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:hadith/core/data/remote/dto/edition_dto.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:http/http.dart' as http;
 
 

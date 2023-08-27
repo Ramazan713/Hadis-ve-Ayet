@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/features/verses/shared/domain/model/download_verse/verse_downloaded_model.dart';
 import 'package:hadith/features/verses/shared/domain/util/stream_resource.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class QuranDownloadService{

@@ -22,6 +22,8 @@ class KPref{
   static final PrefKey<int> defaultLastCounter = PrefKey(key: "defaultLastCounter", defaultValue: 0);
   static final PrefKey<bool> eachDhikrVibration = PrefKey(key: "eachDhikrVibration", defaultValue: false);
   static final PrefKey<bool> eachEndOfTourVibration = PrefKey(key: "eachEndOfTourVibration", defaultValue: true);
+  static final PrefKey<bool> showDownloadDiaInLogin= PrefKey<bool>(key: "showDownloadDiaInLogin", defaultValue: true);
+  static final PrefKey<String> counterBackupDate = PrefKey<String>( key: "counterBackupDate",defaultValue: "");
 
 
 
@@ -49,10 +51,11 @@ class KPref{
   static final PrefKeyEnum<ArabicVerseUI3X> counterUi = PrefKeyEnum(key: "counterUi",
       defaultPrefEnum: ArabicVerseUI3X.defaultValue, from: ArabicVerseUI3X.from);
 
-  static final prefValues = <PrefKey>[
+  static final prefValues = <PrefKey<dynamic>>[
     fontSizeContent, fontSizeArabic, useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
-    defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration
+    defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,
+    counterBackupDate
   ];
 
   static final prefEnumValues = <PrefKeyEnum>[

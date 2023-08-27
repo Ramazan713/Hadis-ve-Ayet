@@ -4,7 +4,7 @@ import 'package:hadith/db/entities/helper/int_data.dart';
 import 'package:hadith/db/services/audio_edition_dao.dart';
 import 'package:hadith/db/remote/dto/edition_dto.dart';
 import 'package:hadith/features/verse/verse_download_audio/services/quran_download_service.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/services/connectivity_service.dart';
 
 class AudioEditionRepoOld{

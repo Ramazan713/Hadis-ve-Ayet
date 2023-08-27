@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -21,5 +23,15 @@ abstract class AppPreferences{
 
   T getEnumItem<T extends IPrefEnum>(PrefKeyEnum<T> item);
 
+  Map<String,dynamic> toJson();
+
+  Future<void> fromJson(Map<String,dynamic> map);
+
+  Future<void> fromJsonListLegacy(List sharedJsonArr);
+
+
   Future<void> clear();
+
+
 }
+

@@ -1,5 +1,5 @@
 
-import 'package:hadith/core/data/local/mapper/save_point_mapper.dart';
+import 'package:hadith/core/data/mapper/save_point_mapper.dart';
 import 'package:hadith/core/data/local/services/save_point_dao.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';

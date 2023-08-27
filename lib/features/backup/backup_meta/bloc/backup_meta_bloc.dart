@@ -10,21 +10,21 @@ import 'package:hadith/db/repos/backup_meta_repo.dart';
 import 'package:hadith/features/backup/backup_manager.dart';
 import 'package:hadith/features/backup/backup_meta/bloc/backup_meta_event.dart';
 import 'package:hadith/features/backup/backup_meta/bloc/backup_meta_state.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/services/auth_service.dart';
 import 'package:hadith/services/connectivity_service.dart';
 import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
-  late final BackupMetaRepo _backupMetaRepo;
+class BackupMetaBlocOld extends Bloc<IBackupMetaEvent,BackupMetaState>{
+  late final BackupMetaRepoOld _backupMetaRepo;
   late final BackupManager _backupManager;
-  late final AuthService _authService;
+  late final AuthServiceOld _authService;
 
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
 
-  BackupMetaBloc({required BackupMetaRepo backupMetaRepo,required BackupManager backupManager,
-    required AuthService authService}) : super(BackupMetaState.init()){
+  BackupMetaBlocOld({required BackupMetaRepoOld backupMetaRepo,required BackupManager backupManager,
+    required AuthServiceOld authService}) : super(BackupMetaState.init()){
 
     _backupManager = backupManager;
     _backupMetaRepo = backupMetaRepo;
@@ -42,7 +42,7 @@ class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
 
   void _onInit(BackupMetaEventInit event,Emitter<BackupMetaState>emit)async{
     final dataStream = _backupMetaRepo.getStreamBackupMetas();
-    await emit.forEach<List<BackupMeta>>(dataStream, onData: (data)=>
+    await emit.forEach<List<BackupMetaOld>>(dataStream, onData: (data)=>
         state.copyWith(status: DataStatus.success,backupMetas: data));
   }
   void _onRefresh(BackupMetaEventRefresh event,Emitter<BackupMetaState>emit)async{

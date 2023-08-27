@@ -39,7 +39,7 @@ dependencies:
   firebase_storage: ^11.0.10
   http: ^0.13.4
   uuid: ^3.0.6
-  flutter_phoenix: ^1.0.0
+  flutter_phoenix: ^1.1.1
   google_mobile_ads: ^2.0.0
   focus_detector: ^2.0.1
   package_info_plus: ^4.0.1

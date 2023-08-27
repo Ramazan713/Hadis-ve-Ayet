@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/core/data/local/mapper/list/list_verse_mapper.dart';
+import 'package:hadith/core/data/mapper/list/list_verse_mapper.dart';
 import 'package:hadith/core/data/local/services/list/list_verse_dao.dart';
 import 'package:hadith/core/domain/models/list/list_verse.dart';
 import 'package:hadith/core/domain/repo/list/list_verse_repo.dart';

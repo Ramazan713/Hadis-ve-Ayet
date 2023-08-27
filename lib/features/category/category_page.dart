@@ -15,6 +15,7 @@ class CategoryPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: CustomNestedViewAppBar(
+          actions: getActions(context),
           title: const Text("Kategoriler"),
           child: GridView.count(
             crossAxisCount: 2,
@@ -85,4 +86,18 @@ class CategoryPage extends StatelessWidget {
       ),
     );
   }
+  
+  
+  List<Widget> getActions(BuildContext context){
+    return [
+      IconButton(
+        onPressed: () {
+          SettingsRoute().push(context);
+        },
+        icon: const Icon(Icons.settings),
+        tooltip: "Ayarlar",
+      )
+    ];
+  }
+  
 }

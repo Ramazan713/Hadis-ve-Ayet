@@ -4,7 +4,7 @@ import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 
 import 'audio_setting_event.dart';
 import 'audio_setting_state.dart';

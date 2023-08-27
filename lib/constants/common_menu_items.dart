@@ -1,11 +1,12 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/settings/setting_screen.dart';
 
 Widget getSettingIcon(BuildContext context){
   return  IconButton(onPressed: (){
-    Navigator.pushNamed(context, SettingScreen.id);
+    SettingsRoute().push(context);
   }, icon: const Icon(Icons.settings),tooltip: "Ayarlar",);
 }
 

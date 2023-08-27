@@ -7,7 +7,7 @@ import '../../domain/repo/item_list_info_repo.dart';
 import '../local/services/hadith_info_list_dao.dart';
 import '../local/services/verse/verse_info_list_dao.dart';
 
-import '../local/mapper/item_list_info_mapper.dart';
+import '../mapper/item_list_info_mapper.dart';
 
 class ItemListInfoRepoImpl extends ItemListInfoRepo{
 

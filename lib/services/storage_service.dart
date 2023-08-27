@@ -4,27 +4,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hadith/constants/app_constants.dart';
 import 'package:hadith/db/entities/backup_meta.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 
-class StorageService{
+class StorageServiceOld{
   final _storage=FirebaseStorage.instance;
 
   Reference _getReference(User user){
     return _storage.ref("Backups/${user.uid}/");;
   }
 
-  BackupMeta _getBackupMeta(FullMetadata fullMetadata){
-    return BackupMeta(
+  BackupMetaOld _getBackupMeta(FullMetadata fullMetadata){
+    return BackupMetaOld(
         fileName: fullMetadata.name,
         updatedDate: fullMetadata.updated?.toString()??"",
         isAuto: fullMetadata.customMetadata?["isAuto"]=="true"?true:false
     );
   }
 
-  Future<Resource<List<BackupMeta>>>getFiles(User user)async{
-    return await _errorHandling<List<BackupMeta>>(()async{
+  Future<Resource<List<BackupMetaOld>>>getFiles(User user)async{
+    return await _errorHandling<List<BackupMetaOld>>(()async{
       final rootRef = _getReference(user);
-      final backupMetas = <BackupMeta>[];
+      final backupMetas = <BackupMetaOld>[];
 
       final listResult=await rootRef.listAll().timeout(const Duration(seconds: kTimeOutSeconds));
       for(var resultRef in listResult.items){
@@ -52,8 +52,8 @@ class StorageService{
 
   }
 
-  Future<Resource<BackupMeta>>uploadData(User user,String name,Uint8List rawData,{bool isAuto=false})async{
-    return await _errorHandling<BackupMeta>(()async{
+  Future<Resource<BackupMetaOld>>uploadData(User user,String name,Uint8List rawData,{bool isAuto=false})async{
+    return await _errorHandling<BackupMetaOld>(()async{
       final rootRef = _getReference(user);
       final result=await rootRef.child(name).putData(rawData,SettableMetadata(
           customMetadata: {

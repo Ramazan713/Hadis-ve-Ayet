@@ -1,8 +1,10 @@
 
 
+import 'package:rxdart/rxdart.dart';
+
 abstract class ConnectivityService{
 
-  Future<bool> hasConnected();
+  Future<bool> get hasConnected;
 
-  Stream<bool> hasConnectionStream();
+  ValueStream<bool> get hasConnectionStream;
 }

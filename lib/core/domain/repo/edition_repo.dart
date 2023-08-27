@@ -2,7 +2,7 @@
 
 import 'package:async/async.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 
 abstract class EditionRepo{
 

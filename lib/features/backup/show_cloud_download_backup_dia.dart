@@ -18,7 +18,7 @@ import 'backup_meta/bloc/backup_meta_bloc.dart';
 
 void showDownloadBackupDia(BuildContext context) {
 
-  final backupMetaBloc = context.read<BackupMetaBloc>();
+  final backupMetaBloc = context.read<BackupMetaBlocOld>();
 
   final ScrollController _scrollController=ScrollController();
 
@@ -42,7 +42,7 @@ void showDownloadBackupDia(BuildContext context) {
                   const SizedBox(
                     height: 13,
                   ),
-                  BlocBuilder<BackupMetaBloc, BackupMetaState>(
+                  BlocBuilder<BackupMetaBlocOld, BackupMetaState>(
                       buildWhen: (prevState,nextState){
                         return (prevState.backupMetas!=nextState.backupMetas) ||
                             (prevState.status!=nextState.status) ||
@@ -100,11 +100,11 @@ class _RefreshContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
-    final backupMetaBloc = context.read<BackupMetaBloc>();
+    final authBloc = context.read<AuthBlocOld>();
+    final backupMetaBloc = context.read<BackupMetaBlocOld>();
 
 
-    return BlocListener<BackupMetaBloc,BackupMetaState>(
+    return BlocListener<BackupMetaBlocOld,BackupMetaState>(
       listener: (context,state){
         if(state.message!=null){
           ToastUtils.showLongToast(state.message??"");
@@ -113,7 +113,7 @@ class _RefreshContent extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          BlocSelector<BackupMetaBloc,BackupMetaState,String?>(
+          BlocSelector<BackupMetaBlocOld,BackupMetaState,String?>(
               selector: (state)=>state.counter,
               builder: (context,counter){
                 return Text(
@@ -124,7 +124,7 @@ class _RefreshContent extends StatelessWidget {
               }
           ),
           const SizedBox(width: 7,),
-          BlocSelector<BackupMetaBloc,BackupMetaState,bool>(
+          BlocSelector<BackupMetaBlocOld,BackupMetaState,bool>(
               selector: (state)=>state.isDisableRefresh,
               builder: (context,isDisableRefresh){
                 return IconButton(
@@ -153,11 +153,11 @@ class _ContentButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
+    final authBloc = context.read<AuthBlocOld>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BlocSelector<BackupMetaBloc,BackupMetaState,BackupMeta?>(
+        BlocSelector<BackupMetaBlocOld,BackupMetaState,BackupMetaOld?>(
             selector: (state)=>state.selectedBackup,
             builder: (context,selectedBackup){
               return CustomButtonPositive(onTap: () async {
@@ -172,7 +172,7 @@ class _ContentButtons extends StatelessWidget {
                 }
               },label: "Üzerine Yaz",);
             }),
-        BlocSelector<BackupMetaBloc,BackupMetaState,BackupMeta?>(
+        BlocSelector<BackupMetaBlocOld,BackupMetaState,BackupMetaOld?>(
             selector: (state)=>state.selectedBackup,
             builder: (context,selectedBackup){
               return CustomButtonPositive(onTap: () {

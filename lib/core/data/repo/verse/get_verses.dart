@@ -1,7 +1,7 @@
 
 
 import 'package:hadith/core/data/local/entities/verse_entity.dart';
-import 'package:hadith/core/data/local/mapper/verse/verse_mapper.dart';
+import 'package:hadith/core/data/mapper/verse/verse_mapper.dart';
 import 'package:hadith/core/data/local/services/surah_dao.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 

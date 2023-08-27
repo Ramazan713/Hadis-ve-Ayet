@@ -25,7 +25,7 @@ class AuthSettingBlocsConnect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
+    final authBloc = context.read<AuthBlocOld>();
     final settingBloc = context.read<SettingBloc>();
 
     return MultiBlocListener(
@@ -39,7 +39,7 @@ class AuthSettingBlocsConnect extends StatelessWidget {
             }
           },
         ),
-        BlocListener<AuthBloc,AuthState>(
+        BlocListener<AuthBlocOld,AuthStateOld>(
           listenWhen: (prevState,nextState){
             if(prevState.user!=nextState.user){
               settingBloc.add(SettingEventRequestUserInfo(userId: nextState.user?.uid));

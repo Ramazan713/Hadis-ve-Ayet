@@ -11,7 +11,7 @@ class CurrentUserIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SettingBloc,SettingState,UserInfoEntity?>(
+    return BlocSelector<SettingBloc,SettingState,UserInfoEntityOld?>(
         selector: (state)=>state.userInfoEntity,
         builder: (context, userInfoEntity) {
           if(userInfoEntity!=null&&userInfoEntity.img!=null){

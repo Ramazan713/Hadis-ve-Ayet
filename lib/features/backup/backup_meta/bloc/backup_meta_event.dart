@@ -12,7 +12,7 @@ class BackupMetaEventInit extends IBackupMetaEvent{}
 
 
 class BackupMetaEventSelectBackupMeta extends IBackupMetaEvent{
-  final BackupMeta backupMeta;
+  final BackupMetaOld backupMeta;
   BackupMetaEventSelectBackupMeta({required this.backupMeta});
 }
 

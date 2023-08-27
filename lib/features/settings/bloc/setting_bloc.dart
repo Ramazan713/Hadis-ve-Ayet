@@ -21,11 +21,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingBloc extends Bloc<ISettingEvent,SettingState>{
   final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
-  late final UserInfoRepo _userInfoRepo;
+  late final UserInfoRepoOld _userInfoRepo;
 
   final BehaviorSubject<String?> _userIdController = BehaviorSubject();
 
-  SettingBloc({required UserInfoRepo userInfoRepo}) : super(SettingState.init()){
+  SettingBloc({required UserInfoRepoOld userInfoRepo}) : super(SettingState.init()){
     _userInfoRepo = userInfoRepo;
 
     on<SettingEventInit>(_onInit);
@@ -54,7 +54,7 @@ class SettingBloc extends Bloc<ISettingEvent,SettingState>{
     emit(state.copyWith(showSelectedListVerseIcons: showVerseListIcons,fontText: fontText,arabicVerseUI: arabicUI,
       searchCriteria: searchCriteria,useArchiveAsSelectList: useArchiveAsList));
 
-    final Stream<UserInfoEntity?> userInfoStream = _userIdController.switchMap<UserInfoEntity?>((userId){
+    final Stream<UserInfoEntityOld?> userInfoStream = _userIdController.switchMap<UserInfoEntityOld?>((userId){
       if(userId!=null){
         return _userInfoRepo.getStreamUserInfoWithId(userId);
       }
@@ -64,7 +64,7 @@ class SettingBloc extends Bloc<ISettingEvent,SettingState>{
 
     emit(state.copyWith(packageInfo: packageInfo.packageName));
 
-    await emit.forEach<UserInfoEntity?>(userInfoStream, onData: (userInfo){
+    await emit.forEach<UserInfoEntityOld?>(userInfoStream, onData: (userInfo){
       return state.copyWith(userInfoEntity: userInfo,setUserInfo: true);
     });
 

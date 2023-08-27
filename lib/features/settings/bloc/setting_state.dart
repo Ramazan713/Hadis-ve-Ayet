@@ -18,7 +18,7 @@ class SettingState extends Equatable{
   final String fontText;
   final bool showSelectedListVerseIcons;
   final bool useArchiveAsSelectList;
-  final UserInfoEntity? userInfoEntity;
+  final UserInfoEntityOld? userInfoEntity;
   final String packageInfo;
 
   const SettingState({
@@ -34,7 +34,7 @@ class SettingState extends Equatable{
 
   SettingState copyWith({SearchCriteriaEnum? searchCriteria,ArabicVerseUI2X? arabicVerseUI,
     String? fontText,bool? showSelectedListVerseIcons,bool? useArchiveAsSelectList,String?message,bool setMessage=false,
-    UserInfoEntity? userInfoEntity,bool setUserInfo=false,String?packageInfo
+    UserInfoEntityOld? userInfoEntity,bool setUserInfo=false,String?packageInfo
   }){
     return SettingState(
         arabicVerseUI: arabicVerseUI??this.arabicVerseUI,

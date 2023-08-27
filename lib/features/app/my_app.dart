@@ -4,6 +4,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
+import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 import 'package:hadith/features/verses/shared/domain/model/service_audio/background_event.dart';
 import 'package:hadith/themes/bloc/theme_bloc.dart';
 import 'package:hadith/themes/bloc/theme_state.dart';
@@ -29,15 +30,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
       builder: (context,state){
         context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
 
-        return Phoenix(
-          child: MaterialApp.router(
-            routerConfig: _buildRouter,
-            title: 'Hadis ve Ayet',
-            debugShowCheckedModeBanner: false,
-            themeMode: state.themeEnum.mode,
-            theme: getLightThemeData(),
-            darkTheme: getDarkThemeData(),
-          ),
+        return MaterialApp.router(
+          routerConfig: _buildRouter,
+          title: 'Hadis ve Ayet',
+          debugShowCheckedModeBanner: false,
+          themeMode: state.themeEnum.mode,
+          theme: getLightThemeData(),
+          darkTheme: getDarkThemeData(),
         );
 
         // return Phoenix(
@@ -81,6 +80,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
 final _buildRouter = GoRouter(
   // navigatorKey: rootNavigatorKey,
-    initialLocation: "/home",
+    initialLocation: HomeRoute().location,
     routes: $combinedAppRoutes
 );

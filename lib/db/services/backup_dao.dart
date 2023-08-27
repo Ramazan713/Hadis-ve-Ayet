@@ -9,7 +9,7 @@ import '../entities/list_hadith_entity.dart';
 import '../entities/list_verse_entity.dart';
 
 @dao
-abstract class BackupDao{
+abstract class BackupDaoOld{
 
   @Query("""select * from history""")
   Future<List<HistoryEntityOld>>getHistories();

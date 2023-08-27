@@ -12,7 +12,7 @@ import 'package:hadith/features/verses/shared/domain/model/listen_audio/listen_a
 import 'package:hadith/features/verses/shared/domain/model/listen_audio/listen_audio_service_state.dart';
 import 'package:hadith/features/verses/shared/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/features/verses/shared/domain/services/i_verse_audio_service.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:hadith/services/connectivity_service.dart';
 
 import 'basic_audio_event.dart';

@@ -49,7 +49,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
+    final authBloc = context.read<AuthBlocOld>();
     final settingBloc = context.read<SettingBloc>();
 
     return Scaffold(
@@ -145,7 +145,7 @@ class SettingScreen extends StatelessWidget {
                         },
                       )),
                       CustomSettingsSection(
-                          child: BlocSelector<AuthBloc, AuthState, User?>(
+                          child: BlocSelector<AuthBlocOld, AuthStateOld, User?>(
                               selector: (state) => state.user,
                               builder: (context, user) {
                                 return Visibility(
@@ -308,7 +308,7 @@ class _UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AuthBloc, AuthState, User?>(
+    return BlocSelector<AuthBlocOld, AuthStateOld, User?>(
         selector: (state) => state.user,
         builder: (context, user) {
           return Visibility(
@@ -335,8 +335,8 @@ class _SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
-    return BlocSelector<AuthBloc, AuthState, User?>(
+    final authBloc = context.read<AuthBlocOld>();
+    return BlocSelector<AuthBlocOld, AuthStateOld, User?>(
       selector: (state) => state.user,
       builder: (context, user) {
         return Visibility(
@@ -469,8 +469,8 @@ class _SignOut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
-    return BlocSelector<AuthBloc, AuthState, User?>(
+    final authBloc = context.read<AuthBlocOld>();
+    return BlocSelector<AuthBlocOld, AuthStateOld, User?>(
         selector: (state) => state.user,
         builder: (context, user) {
           return Visibility(

@@ -2,7 +2,7 @@
 
 import 'package:hadith/core/data/local/entities/hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_entity.dart';
-import 'package:hadith/core/data/local/mapper/hadith_mapper.dart';
+import 'package:hadith/core/data/mapper/hadith_mapper.dart';
 import 'package:hadith/core/data/local/services/search_dao.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/models/hadith.dart';

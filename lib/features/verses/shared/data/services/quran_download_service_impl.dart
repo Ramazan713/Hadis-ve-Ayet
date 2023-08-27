@@ -6,7 +6,7 @@ import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/features/verses/shared/domain/model/download_verse/verse_downloaded_model.dart';
 import 'package:hadith/features/verses/shared/domain/services/quran_download_service.dart';
 import 'package:hadith/features/verses/shared/domain/util/stream_resource.dart';
-import 'package:hadith/models/resource.dart';
+import 'package:hadith/core/utils/resource.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';

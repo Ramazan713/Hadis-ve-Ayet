@@ -81,11 +81,11 @@ class _$AppDatabase extends AppDatabase {
 
   HistoryDaoOld? _historyDaoOldInstance;
 
-  BackupMetaDao? _backupMetaDaoInstance;
+  BackupMetaDaoOld? _backupMetaDaoOldInstance;
 
-  BackupDao? _backupDaoInstance;
+  BackupDaoOld? _backupDaoOldInstance;
 
-  UserInfoDao? _userInfoDaoInstance;
+  UserInfoDaoOld? _userInfoDaoOldInstance;
 
   AudioEditionDaoOld? _editionDaoOldInstance;
 
@@ -160,6 +160,12 @@ class _$AppDatabase extends AppDatabase {
   CounterDao? _counterDaoInstance;
 
   IslamicInfoDao? _islamicInfoDaoInstance;
+
+  UserInfoDao? _userInfoDaoInstance;
+
+  BackupMetaDao? _backupMetaDaoInstance;
+
+  BackupDao? _backupDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -262,6 +268,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `IslamicInfoTitle` (`id` INTEGER, `title` TEXT NOT NULL, `description` TEXT, `type` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `IslamicInfoItem` (`id` INTEGER, `titleId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, FOREIGN KEY (`titleId`) REFERENCES `IslamicInfoTitle` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `userInfo` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `userId` TEXT NOT NULL, `img` BLOB)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `BackupMeta` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `fileName` TEXT NOT NULL, `updatedDate` TEXT NOT NULL, `isAuto` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -367,18 +377,20 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  BackupMetaDao get backupMetaDao {
-    return _backupMetaDaoInstance ??= _$BackupMetaDao(database, changeListener);
+  BackupMetaDaoOld get backupMetaDaoOld {
+    return _backupMetaDaoOldInstance ??=
+        _$BackupMetaDaoOld(database, changeListener);
   }
 
   @override
-  BackupDao get backupDao {
-    return _backupDaoInstance ??= _$BackupDao(database, changeListener);
+  BackupDaoOld get backupDaoOld {
+    return _backupDaoOldInstance ??= _$BackupDaoOld(database, changeListener);
   }
 
   @override
-  UserInfoDao get userInfoDao {
-    return _userInfoDaoInstance ??= _$UserInfoDao(database, changeListener);
+  UserInfoDaoOld get userInfoDaoOld {
+    return _userInfoDaoOldInstance ??=
+        _$UserInfoDaoOld(database, changeListener);
   }
 
   @override
@@ -582,6 +594,21 @@ class _$AppDatabase extends AppDatabase {
   IslamicInfoDao get islamicInfoDao {
     return _islamicInfoDaoInstance ??=
         _$IslamicInfoDao(database, changeListener);
+  }
+
+  @override
+  UserInfoDao get userInfoDao {
+    return _userInfoDaoInstance ??= _$UserInfoDao(database, changeListener);
+  }
+
+  @override
+  BackupMetaDao get backupMetaDao {
+    return _backupMetaDaoInstance ??= _$BackupMetaDao(database, changeListener);
+  }
+
+  @override
+  BackupDao get backupDao {
+    return _backupDaoInstance ??= _$BackupDao(database, changeListener);
   }
 }
 
@@ -2283,37 +2310,37 @@ class _$HistoryDaoOld extends HistoryDaoOld {
   }
 }
 
-class _$BackupMetaDao extends BackupMetaDao {
-  _$BackupMetaDao(
+class _$BackupMetaDaoOld extends BackupMetaDaoOld {
+  _$BackupMetaDaoOld(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _backupMetaInsertionAdapter = InsertionAdapter(
+        _backupMetaOldInsertionAdapter = InsertionAdapter(
             database,
             'BackupMeta',
-            (BackupMeta item) => <String, Object?>{
+            (BackupMetaOld item) => <String, Object?>{
                   'id': item.id,
                   'fileName': item.fileName,
                   'updatedDate': item.updatedDate,
                   'isAuto': item.isAuto ? 1 : 0
                 },
             changeListener),
-        _backupMetaUpdateAdapter = UpdateAdapter(
+        _backupMetaOldUpdateAdapter = UpdateAdapter(
             database,
             'BackupMeta',
             ['id'],
-            (BackupMeta item) => <String, Object?>{
+            (BackupMetaOld item) => <String, Object?>{
                   'id': item.id,
                   'fileName': item.fileName,
                   'updatedDate': item.updatedDate,
                   'isAuto': item.isAuto ? 1 : 0
                 },
             changeListener),
-        _backupMetaDeletionAdapter = DeletionAdapter(
+        _backupMetaOldDeletionAdapter = DeletionAdapter(
             database,
             'BackupMeta',
             ['id'],
-            (BackupMeta item) => <String, Object?>{
+            (BackupMetaOld item) => <String, Object?>{
                   'id': item.id,
                   'fileName': item.fileName,
                   'updatedDate': item.updatedDate,
@@ -2327,31 +2354,31 @@ class _$BackupMetaDao extends BackupMetaDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<BackupMeta> _backupMetaInsertionAdapter;
+  final InsertionAdapter<BackupMetaOld> _backupMetaOldInsertionAdapter;
 
-  final UpdateAdapter<BackupMeta> _backupMetaUpdateAdapter;
+  final UpdateAdapter<BackupMetaOld> _backupMetaOldUpdateAdapter;
 
-  final DeletionAdapter<BackupMeta> _backupMetaDeletionAdapter;
+  final DeletionAdapter<BackupMetaOld> _backupMetaOldDeletionAdapter;
 
   @override
-  Future<List<BackupMeta>> getNonAutoBackupMetaWithOffset(
+  Future<List<BackupMetaOld>> getNonAutoBackupMetaWithOffset(
     int limit,
     int offset,
   ) async {
     return _queryAdapter.queryList(
         'select * from backupMeta where isAuto=0 order by updatedDate desc limit ?1 offset ?2',
-        mapper: (Map<String, Object?> row) => BackupMeta(fileName: row['fileName'] as String, id: row['id'] as int?, updatedDate: row['updatedDate'] as String, isAuto: (row['isAuto'] as int) != 0),
+        mapper: (Map<String, Object?> row) => BackupMetaOld(fileName: row['fileName'] as String, id: row['id'] as int?, updatedDate: row['updatedDate'] as String, isAuto: (row['isAuto'] as int) != 0),
         arguments: [limit, offset]);
   }
 
   @override
-  Future<List<BackupMeta>> getAutoBackupMetaWithOffset(
+  Future<List<BackupMetaOld>> getAutoBackupMetaWithOffset(
     int limit,
     int offset,
   ) async {
     return _queryAdapter.queryList(
         'select * from backupMeta where isAuto=1 order by updatedDate desc limit ?1 offset ?2',
-        mapper: (Map<String, Object?> row) => BackupMeta(fileName: row['fileName'] as String, id: row['id'] as int?, updatedDate: row['updatedDate'] as String, isAuto: (row['isAuto'] as int) != 0),
+        mapper: (Map<String, Object?> row) => BackupMetaOld(fileName: row['fileName'] as String, id: row['id'] as int?, updatedDate: row['updatedDate'] as String, isAuto: (row['isAuto'] as int) != 0),
         arguments: [limit, offset]);
   }
 
@@ -2372,10 +2399,10 @@ class _$BackupMetaDao extends BackupMetaDao {
   }
 
   @override
-  Future<BackupMeta?> getFirstUpdatedAutoBackupMeta() async {
+  Future<BackupMetaOld?> getFirstUpdatedAutoBackupMeta() async {
     return _queryAdapter.query(
         'select * from backupMeta where isAuto=1 order by updatedDate limit 1',
-        mapper: (Map<String, Object?> row) => BackupMeta(
+        mapper: (Map<String, Object?> row) => BackupMetaOld(
             fileName: row['fileName'] as String,
             id: row['id'] as int?,
             updatedDate: row['updatedDate'] as String,
@@ -2383,10 +2410,10 @@ class _$BackupMetaDao extends BackupMetaDao {
   }
 
   @override
-  Future<BackupMeta?> getFirstUpdatedNonAutoBackupMeta() async {
+  Future<BackupMetaOld?> getFirstUpdatedNonAutoBackupMeta() async {
     return _queryAdapter.query(
         'select * from backupMeta where isAuto=0 order by updatedDate limit 1',
-        mapper: (Map<String, Object?> row) => BackupMeta(
+        mapper: (Map<String, Object?> row) => BackupMetaOld(
             fileName: row['fileName'] as String,
             id: row['id'] as int?,
             updatedDate: row['updatedDate'] as String,
@@ -2394,10 +2421,10 @@ class _$BackupMetaDao extends BackupMetaDao {
   }
 
   @override
-  Stream<List<BackupMeta>> getStreamBackupMetas() {
+  Stream<List<BackupMetaOld>> getStreamBackupMetas() {
     return _queryAdapter.queryListStream(
         'select * from backupMeta order by updatedDate desc',
-        mapper: (Map<String, Object?> row) => BackupMeta(
+        mapper: (Map<String, Object?> row) => BackupMetaOld(
             fileName: row['fileName'] as String,
             id: row['id'] as int?,
             updatedDate: row['updatedDate'] as String,
@@ -2407,10 +2434,10 @@ class _$BackupMetaDao extends BackupMetaDao {
   }
 
   @override
-  Future<BackupMeta?> getLastBackupMeta() async {
+  Future<BackupMetaOld?> getLastBackupMeta() async {
     return _queryAdapter.query(
         'select * from backupMeta order by updatedDate desc limit 1',
-        mapper: (Map<String, Object?> row) => BackupMeta(
+        mapper: (Map<String, Object?> row) => BackupMetaOld(
             fileName: row['fileName'] as String,
             id: row['id'] as int?,
             updatedDate: row['updatedDate'] as String,
@@ -2423,43 +2450,43 @@ class _$BackupMetaDao extends BackupMetaDao {
   }
 
   @override
-  Future<List<int>> insertBackupMetas(List<BackupMeta> backupMetas) {
-    return _backupMetaInsertionAdapter.insertListAndReturnIds(
+  Future<List<int>> insertBackupMetas(List<BackupMetaOld> backupMetas) {
+    return _backupMetaOldInsertionAdapter.insertListAndReturnIds(
         backupMetas, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> insertBackupMeta(BackupMeta backupMeta) {
-    return _backupMetaInsertionAdapter.insertAndReturnId(
+  Future<int> insertBackupMeta(BackupMetaOld backupMeta) {
+    return _backupMetaOldInsertionAdapter.insertAndReturnId(
         backupMeta, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> updateBackupMetas(List<BackupMeta> backupMetas) {
-    return _backupMetaUpdateAdapter.updateListAndReturnChangedRows(
+  Future<int> updateBackupMetas(List<BackupMetaOld> backupMetas) {
+    return _backupMetaOldUpdateAdapter.updateListAndReturnChangedRows(
         backupMetas, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> updateBackupMeta(BackupMeta backupMeta) {
-    return _backupMetaUpdateAdapter.updateAndReturnChangedRows(
+  Future<int> updateBackupMeta(BackupMetaOld backupMeta) {
+    return _backupMetaOldUpdateAdapter.updateAndReturnChangedRows(
         backupMeta, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> deleteBackupMeta(BackupMeta backupMeta) {
-    return _backupMetaDeletionAdapter.deleteAndReturnChangedRows(backupMeta);
+  Future<int> deleteBackupMeta(BackupMetaOld backupMeta) {
+    return _backupMetaOldDeletionAdapter.deleteAndReturnChangedRows(backupMeta);
   }
 
   @override
-  Future<int> deleteBackupMetas(List<BackupMeta> backupMetas) {
-    return _backupMetaDeletionAdapter
+  Future<int> deleteBackupMetas(List<BackupMetaOld> backupMetas) {
+    return _backupMetaOldDeletionAdapter
         .deleteListAndReturnChangedRows(backupMetas);
   }
 }
 
-class _$BackupDao extends BackupDao {
-  _$BackupDao(
+class _$BackupDaoOld extends BackupDaoOld {
+  _$BackupDaoOld(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
@@ -2799,35 +2826,35 @@ class _$BackupDao extends BackupDao {
   }
 }
 
-class _$UserInfoDao extends UserInfoDao {
-  _$UserInfoDao(
+class _$UserInfoDaoOld extends UserInfoDaoOld {
+  _$UserInfoDaoOld(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _userInfoEntityInsertionAdapter = InsertionAdapter(
+        _userInfoEntityOldInsertionAdapter = InsertionAdapter(
             database,
             'userInfo',
-            (UserInfoEntity item) => <String, Object?>{
+            (UserInfoEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'userId': item.userId,
                   'img': item.img
                 },
             changeListener),
-        _userInfoEntityUpdateAdapter = UpdateAdapter(
+        _userInfoEntityOldUpdateAdapter = UpdateAdapter(
             database,
             'userInfo',
             ['id'],
-            (UserInfoEntity item) => <String, Object?>{
+            (UserInfoEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'userId': item.userId,
                   'img': item.img
                 },
             changeListener),
-        _userInfoEntityDeletionAdapter = DeletionAdapter(
+        _userInfoEntityOldDeletionAdapter = DeletionAdapter(
             database,
             'userInfo',
             ['id'],
-            (UserInfoEntity item) => <String, Object?>{
+            (UserInfoEntityOld item) => <String, Object?>{
                   'id': item.id,
                   'userId': item.userId,
                   'img': item.img
@@ -2840,16 +2867,16 @@ class _$UserInfoDao extends UserInfoDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<UserInfoEntity> _userInfoEntityInsertionAdapter;
+  final InsertionAdapter<UserInfoEntityOld> _userInfoEntityOldInsertionAdapter;
 
-  final UpdateAdapter<UserInfoEntity> _userInfoEntityUpdateAdapter;
+  final UpdateAdapter<UserInfoEntityOld> _userInfoEntityOldUpdateAdapter;
 
-  final DeletionAdapter<UserInfoEntity> _userInfoEntityDeletionAdapter;
+  final DeletionAdapter<UserInfoEntityOld> _userInfoEntityOldDeletionAdapter;
 
   @override
-  Stream<UserInfoEntity?> getStreamUserInfoWithId(String userId) {
+  Stream<UserInfoEntityOld?> getStreamUserInfoWithId(String userId) {
     return _queryAdapter.queryStream('select * from userInfo where userId=?1',
-        mapper: (Map<String, Object?> row) => UserInfoEntity(
+        mapper: (Map<String, Object?> row) => UserInfoEntityOld(
             userId: row['userId'] as String,
             img: row['img'] as Uint8List?,
             id: row['id'] as int?),
@@ -2859,9 +2886,9 @@ class _$UserInfoDao extends UserInfoDao {
   }
 
   @override
-  Future<UserInfoEntity?> getUserInfoWithId(String userId) async {
+  Future<UserInfoEntityOld?> getUserInfoWithId(String userId) async {
     return _queryAdapter.query('select * from userInfo where userId=?1',
-        mapper: (Map<String, Object?> row) => UserInfoEntity(
+        mapper: (Map<String, Object?> row) => UserInfoEntityOld(
             userId: row['userId'] as String,
             img: row['img'] as Uint8List?,
             id: row['id'] as int?),
@@ -2874,20 +2901,20 @@ class _$UserInfoDao extends UserInfoDao {
   }
 
   @override
-  Future<int> insertUserInfo(UserInfoEntity userInfoEntity) {
-    return _userInfoEntityInsertionAdapter.insertAndReturnId(
+  Future<int> insertUserInfo(UserInfoEntityOld userInfoEntity) {
+    return _userInfoEntityOldInsertionAdapter.insertAndReturnId(
         userInfoEntity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> updateUserInfo(UserInfoEntity userInfoEntity) {
-    return _userInfoEntityUpdateAdapter.updateAndReturnChangedRows(
+  Future<int> updateUserInfo(UserInfoEntityOld userInfoEntity) {
+    return _userInfoEntityOldUpdateAdapter.updateAndReturnChangedRows(
         userInfoEntity, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> deleteUserInfo(UserInfoEntity userInfoEntity) {
-    return _userInfoEntityDeletionAdapter
+  Future<int> deleteUserInfo(UserInfoEntityOld userInfoEntity) {
+    return _userInfoEntityOldDeletionAdapter
         .deleteAndReturnChangedRows(userInfoEntity);
   }
 }
@@ -6655,5 +6682,598 @@ class _$IslamicInfoDao extends IslamicInfoDao {
             titleId: row['titleId'] as int,
             description: row['description'] as String?),
         arguments: [titleId]);
+  }
+}
+
+class _$UserInfoDao extends UserInfoDao {
+  _$UserInfoDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _userInfoEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'userInfo',
+            (UserInfoEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'userId': item.userId,
+                  'img': item.img
+                },
+            changeListener),
+        _userInfoEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'userInfo',
+            ['id'],
+            (UserInfoEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'userId': item.userId,
+                  'img': item.img
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<UserInfoEntity> _userInfoEntityInsertionAdapter;
+
+  final DeletionAdapter<UserInfoEntity> _userInfoEntityDeletionAdapter;
+
+  @override
+  Stream<UserInfoEntity?> getStreamUserInfoWithId(String userId) {
+    return _queryAdapter.queryStream(
+        'select * from userInfo where userId=?1 limit 1',
+        mapper: (Map<String, Object?> row) => UserInfoEntity(
+            userId: row['userId'] as String,
+            img: row['img'] as Uint8List?,
+            id: row['id'] as int?),
+        arguments: [userId],
+        queryableName: 'userInfo',
+        isView: false);
+  }
+
+  @override
+  Future<UserInfoEntity?> getUserInfoWithId(String userId) async {
+    return _queryAdapter.query('select * from userInfo where userId=?1 limit 1',
+        mapper: (Map<String, Object?> row) => UserInfoEntity(
+            userId: row['userId'] as String,
+            img: row['img'] as Uint8List?,
+            id: row['id'] as int?),
+        arguments: [userId]);
+  }
+
+  @override
+  Future<void> insertUserInfo(UserInfoEntity userInfo) async {
+    await _userInfoEntityInsertionAdapter.insert(
+        userInfo, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<int> deleteUserInfo(UserInfoEntity userInfo) {
+    return _userInfoEntityDeletionAdapter.deleteAndReturnChangedRows(userInfo);
+  }
+}
+
+class _$BackupMetaDao extends BackupMetaDao {
+  _$BackupMetaDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _backupMetaEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'BackupMeta',
+            (BackupMetaEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'fileName': item.fileName,
+                  'updatedDate': item.updatedDate,
+                  'isAuto': item.isAuto ? 1 : 0
+                },
+            changeListener),
+        _backupMetaEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'BackupMeta',
+            ['id'],
+            (BackupMetaEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'fileName': item.fileName,
+                  'updatedDate': item.updatedDate,
+                  'isAuto': item.isAuto ? 1 : 0
+                },
+            changeListener),
+        _backupMetaEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'BackupMeta',
+            ['id'],
+            (BackupMetaEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'fileName': item.fileName,
+                  'updatedDate': item.updatedDate,
+                  'isAuto': item.isAuto ? 1 : 0
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<BackupMetaEntity> _backupMetaEntityInsertionAdapter;
+
+  final UpdateAdapter<BackupMetaEntity> _backupMetaEntityUpdateAdapter;
+
+  final DeletionAdapter<BackupMetaEntity> _backupMetaEntityDeletionAdapter;
+
+  @override
+  Future<List<BackupMetaEntity>> getBackupMetaWithAutoAndOffset(
+    bool isAuto,
+    int limit,
+    int offset,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from backupMeta where isAuto = ?1 order by updatedDate desc limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => BackupMetaEntity(id: row['id'] as int?, fileName: row['fileName'] as String, updatedDate: row['updatedDate'] as String, isAuto: (row['isAuto'] as int) != 0),
+        arguments: [isAuto ? 1 : 0, limit, offset]);
+  }
+
+  @override
+  Stream<List<BackupMetaEntity>> getStreamBackupMetas() {
+    return _queryAdapter.queryListStream(
+        'select * from backupMeta order by updatedDate desc',
+        mapper: (Map<String, Object?> row) => BackupMetaEntity(
+            id: row['id'] as int?,
+            fileName: row['fileName'] as String,
+            updatedDate: row['updatedDate'] as String,
+            isAuto: (row['isAuto'] as int) != 0),
+        queryableName: 'backupMeta',
+        isView: false);
+  }
+
+  @override
+  Future<List<BackupMetaEntity>> getBackupMetas() async {
+    return _queryAdapter.queryList(
+        'select * from backupMeta order by updatedDate desc',
+        mapper: (Map<String, Object?> row) => BackupMetaEntity(
+            id: row['id'] as int?,
+            fileName: row['fileName'] as String,
+            updatedDate: row['updatedDate'] as String,
+            isAuto: (row['isAuto'] as int) != 0));
+  }
+
+  @override
+  Future<BackupMetaEntity?> getLastBackupMeta() async {
+    return _queryAdapter.query(
+        'select * from backupMeta order by updatedDate desc limit 1',
+        mapper: (Map<String, Object?> row) => BackupMetaEntity(
+            id: row['id'] as int?,
+            fileName: row['fileName'] as String,
+            updatedDate: row['updatedDate'] as String,
+            isAuto: (row['isAuto'] as int) != 0));
+  }
+
+  @override
+  Future<BackupMetaEntity?> getFirstBackupMeta(bool isAuto) async {
+    return _queryAdapter.query(
+        'select * from backupMeta where isAuto = ?1 order by updatedDate limit 1',
+        mapper: (Map<String, Object?> row) => BackupMetaEntity(id: row['id'] as int?, fileName: row['fileName'] as String, updatedDate: row['updatedDate'] as String, isAuto: (row['isAuto'] as int) != 0),
+        arguments: [isAuto ? 1 : 0]);
+  }
+
+  @override
+  Future<int?> getBackupMetaSizeWithAuto(bool isAuto) async {
+    return _queryAdapter.query(
+        'select count(*) data from backupMeta where isAuto = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [isAuto ? 1 : 0]);
+  }
+
+  @override
+  Future<void> insertBackupMetas(List<BackupMetaEntity> backupMetas) async {
+    await _backupMetaEntityInsertionAdapter.insertList(
+        backupMetas, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertBackupMeta(BackupMetaEntity backupMeta) async {
+    await _backupMetaEntityInsertionAdapter.insert(
+        backupMeta, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateBackupMeta(BackupMetaEntity backupMeta) async {
+    await _backupMetaEntityUpdateAdapter.update(
+        backupMeta, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteBackupMetas(List<BackupMetaEntity> backupMetas) async {
+    await _backupMetaEntityDeletionAdapter.deleteList(backupMetas);
+  }
+}
+
+class _$BackupDao extends BackupDao {
+  _$BackupDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _historyEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'History',
+            (HistoryEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'originType': item.originType,
+                  'modifiedDate': item.modifiedDate
+                },
+            changeListener),
+        _listEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'list',
+            (ListEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'isRemovable': item.isRemovable ? 1 : 0,
+                  'sourceId': item.sourceId,
+                  'isArchive': item.isArchive ? 1 : 0,
+                  'pos': item.pos
+                },
+            changeListener),
+        _listHadithEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'listHadith',
+            (ListHadithEntity item) => <String, Object?>{
+                  'listId': item.listId,
+                  'hadithId': item.hadithId,
+                  'pos': item.pos
+                },
+            changeListener),
+        _listVerseEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'listVerse',
+            (ListVerseEntity item) => <String, Object?>{
+                  'listId': item.listId,
+                  'verseId': item.verseId,
+                  'pos': item.pos
+                },
+            changeListener),
+        _savePointEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'savePoints',
+            (SavePointEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'itemIndexPos': item.itemIndexPos,
+                  'title': item.title,
+                  'autoType': item.autoType,
+                  'modifiedDate': item.modifiedDate,
+                  'savePointType': item.savePointType,
+                  'bookScope': item.bookScope,
+                  'parentName': item.parentName,
+                  'parentKey': item.parentKey
+                },
+            changeListener),
+        _topicSavePointEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'topicSavePoint',
+            (TopicSavePointEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'pos': item.pos,
+                  'type': item.type,
+                  'parentKey': item.parentKey
+                },
+            changeListener),
+        _counterEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'counters',
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'description': item.description,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'typeId': item.typeId
+                },
+            changeListener),
+        _prayerEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'Prayers',
+            (PrayerEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'arabicContent': item.arabicContent,
+                  'meaningContent': item.meaningContent,
+                  'pronunciationContent': item.pronunciationContent,
+                  'source': item.source,
+                  'typeId': item.typeId,
+                  'orderItem': item.orderItem,
+                  'isRemovable': item.isRemovable ? 1 : 0
+                },
+            changeListener),
+        _counterEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'counters',
+            ['id'],
+            (CounterEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'content': item.content,
+                  'arabicContent': item.arabicContent,
+                  'meaning': item.meaning,
+                  'description': item.description,
+                  'orderItem': item.orderItem,
+                  'lastCounter': item.lastCounter,
+                  'goal': item.goal,
+                  'typeId': item.typeId
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<HistoryEntity> _historyEntityInsertionAdapter;
+
+  final InsertionAdapter<ListEntity> _listEntityInsertionAdapter;
+
+  final InsertionAdapter<ListHadithEntity> _listHadithEntityInsertionAdapter;
+
+  final InsertionAdapter<ListVerseEntity> _listVerseEntityInsertionAdapter;
+
+  final InsertionAdapter<SavePointEntity> _savePointEntityInsertionAdapter;
+
+  final InsertionAdapter<TopicSavePointEntity>
+      _topicSavePointEntityInsertionAdapter;
+
+  final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+
+  final InsertionAdapter<PrayerEntity> _prayerEntityInsertionAdapter;
+
+  final DeletionAdapter<CounterEntity> _counterEntityDeletionAdapter;
+
+  @override
+  Future<List<HistoryEntity>> getHistories() async {
+    return _queryAdapter.queryList('select * from history',
+        mapper: (Map<String, Object?> row) => HistoryEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            originType: row['originType'] as int,
+            modifiedDate: row['modifiedDate'] as String));
+  }
+
+  @override
+  Future<List<ListEntity>> getLists() async {
+    return _queryAdapter.queryList('select * from list',
+        mapper: (Map<String, Object?> row) => ListEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            isArchive: (row['isArchive'] as int) != 0,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            sourceId: row['sourceId'] as int,
+            pos: row['pos'] as int));
+  }
+
+  @override
+  Future<List<ListHadithEntity>> getHadithListEntities() async {
+    return _queryAdapter.queryList('select * from ListHadith',
+        mapper: (Map<String, Object?> row) => ListHadithEntity(
+            listId: row['listId'] as int,
+            hadithId: row['hadithId'] as int,
+            pos: row['pos'] as int));
+  }
+
+  @override
+  Future<List<ListVerseEntity>> getVerseListEntities() async {
+    return _queryAdapter.queryList('select * from listVerse',
+        mapper: (Map<String, Object?> row) => ListVerseEntity(
+            listId: row['listId'] as int,
+            verseId: row['verseId'] as int,
+            pos: row['pos'] as int));
+  }
+
+  @override
+  Future<List<SavePointEntity>> getSavePoints() async {
+    return _queryAdapter.queryList('select * from savePoints',
+        mapper: (Map<String, Object?> row) => SavePointEntity(
+            id: row['id'] as int?,
+            itemIndexPos: row['itemIndexPos'] as int,
+            title: row['title'] as String,
+            autoType: row['autoType'] as int,
+            modifiedDate: row['modifiedDate'] as String,
+            savePointType: row['savePointType'] as int,
+            bookScope: row['bookScope'] as int,
+            parentKey: row['parentKey'] as String,
+            parentName: row['parentName'] as String));
+  }
+
+  @override
+  Future<List<TopicSavePointEntity>> getTopicSavePoints() async {
+    return _queryAdapter.queryList('select * from topicSavePoint',
+        mapper: (Map<String, Object?> row) => TopicSavePointEntity(
+            id: row['id'] as int?,
+            pos: row['pos'] as int,
+            type: row['type'] as int,
+            parentKey: row['parentKey'] as String));
+  }
+
+  @override
+  Future<List<CounterEntity>> getCounterEntities() async {
+    return _queryAdapter.queryList('select * from counters',
+        mapper: (Map<String, Object?> row) => CounterEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            typeId: row['typeId'] as int,
+            lastCounter: row['lastCounter'] as int,
+            orderItem: row['orderItem'] as int,
+            content: row['content'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            description: row['description'] as String?,
+            goal: row['goal'] as int?,
+            meaning: row['meaning'] as String?));
+  }
+
+  @override
+  Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId) async {
+    return _queryAdapter.queryList('select * from prayers where typeId = ?1',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0),
+        arguments: [typeId]);
+  }
+
+  @override
+  Future<void> deleteHistories() async {
+    await _queryAdapter.queryNoReturn('delete from history');
+  }
+
+  @override
+  Future<void> deleteLists() async {
+    await _queryAdapter.queryNoReturn('delete from list where isRemovable=1');
+  }
+
+  @override
+  Future<void> deleteHadithLists() async {
+    await _queryAdapter.queryNoReturn('delete from ListHadith');
+  }
+
+  @override
+  Future<void> deleteVerseLists() async {
+    await _queryAdapter.queryNoReturn('delete from listVerse');
+  }
+
+  @override
+  Future<void> deleteSavePoints() async {
+    await _queryAdapter.queryNoReturn('delete from savepoint');
+  }
+
+  @override
+  Future<void> deleteTopicSavePoints() async {
+    await _queryAdapter.queryNoReturn('delete from topicSavePoint');
+  }
+
+  @override
+  Future<void> deleteCounterEntitiesWithQuery() async {
+    await _queryAdapter.queryNoReturn('delete from counters');
+  }
+
+  @override
+  Future<void> deletePrayersWithTypeId(int typeId) async {
+    await _queryAdapter.queryNoReturn('delete from prayers where typeId = ?1',
+        arguments: [typeId]);
+  }
+
+  @override
+  Future<void> insertHistories(List<HistoryEntity> histories) async {
+    await _historyEntityInsertionAdapter.insertList(
+        histories, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertLists(List<ListEntity> lists) async {
+    await _listEntityInsertionAdapter.insertList(
+        lists, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertHadithLists(List<ListHadithEntity> hadithLists) async {
+    await _listHadithEntityInsertionAdapter.insertList(
+        hadithLists, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertVerseLists(List<ListVerseEntity> verseLists) async {
+    await _listVerseEntityInsertionAdapter.insertList(
+        verseLists, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertSavePoints(List<SavePointEntity> savePointEntities) async {
+    await _savePointEntityInsertionAdapter.insertList(
+        savePointEntities, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertTopicSavePoints(
+      List<TopicSavePointEntity> topicSavePoints) async {
+    await _topicSavePointEntityInsertionAdapter.insertList(
+        topicSavePoints, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertCounterEntities(
+      List<CounterEntity> counterEntities) async {
+    await _counterEntityInsertionAdapter.insertList(
+        counterEntities, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertPrayerEntities(List<PrayerEntity> prayers) async {
+    await _prayerEntityInsertionAdapter.insertList(
+        prayers, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertHistory(HistoryEntity history) async {
+    await _historyEntityInsertionAdapter.insert(
+        history, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertList(ListEntity list) async {
+    await _listEntityInsertionAdapter.insert(list, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertHadithList(ListHadithEntity hadithList) async {
+    await _listHadithEntityInsertionAdapter.insert(
+        hadithList, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertVerseList(ListVerseEntity verseList) async {
+    await _listVerseEntityInsertionAdapter.insert(
+        verseList, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertSavePoint(SavePointEntity savePoint) async {
+    await _savePointEntityInsertionAdapter.insert(
+        savePoint, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertTopicSavePoint(
+      TopicSavePointEntity topicSavePointEntity) async {
+    await _topicSavePointEntityInsertionAdapter.insert(
+        topicSavePointEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertCounterEntity(CounterEntity counterEntity) async {
+    await _counterEntityInsertionAdapter.insert(
+        counterEntity, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> insertPrayerEntity(PrayerEntity prayer) async {
+    await _prayerEntityInsertionAdapter.insert(
+        prayer, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteCounterEntities(List<CounterEntity> entities) async {
+    await _counterEntityDeletionAdapter.deleteList(entities);
   }
 }

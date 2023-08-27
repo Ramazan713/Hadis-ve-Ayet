@@ -7,7 +7,13 @@ class K{
     SavePointType.all, SavePointType.cuz
   ];
 
-  static const ServiceK service = ServiceK();
+  static const service = ServiceK();
+  static const backup = BackupK();
+  static const actKeys = ActionResultKeysK();
+
+  static const timeOutSeconds = 13;
+  static const waitingRefreshTimeForBackupMeta = 60;
+
 
   static const int hadithPageSize = 19;
   static const int hadithPagingPrefetchSize = 5;
@@ -16,6 +22,7 @@ class K{
   static const int versePagingPrefetchSize = 5;
 
   static const int delayForStartingServiceInMilliSeconds = 2000;
+
 
 }
 
@@ -26,3 +33,18 @@ class ServiceK{
 
   const ServiceK();
 }
+
+class BackupK{
+  final autoMaxBackups = 1;
+  final nonAutoMaxBackups = 2;
+  final waitingRefreshTime = 60;
+
+  const BackupK();
+}
+
+class ActionResultKeysK{
+  final String uploadBackupForSignOut = "uploadBackupForSignOut";
+
+  const ActionResultKeysK();
+}
+

@@ -3,7 +3,7 @@ import 'package:hadith/db/entities/backup_meta.dart';
 
 
 class BackupMetaItem extends StatelessWidget {
-  final BackupMeta item;
+  final BackupMetaOld item;
   final bool isSelected;
   final TextStyle? textStyle;
   final Function()? onTap;

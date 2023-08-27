@@ -1,26 +1,26 @@
 
-abstract class IAuthEvent {}
+abstract class IAuthEventOld {}
 
 
-class AuthEventInit extends IAuthEvent{}
+class AuthEventInit extends IAuthEventOld{}
 
-class AuthEventSignIn extends IAuthEvent{}
+class AuthEventSignIn extends IAuthEventOld{}
 
-class AuthEventSignOut extends IAuthEvent{}
+class AuthEventSignOut extends IAuthEventOld{}
 
-class AuthEventDeleteAllLocalData extends IAuthEvent{}
+class AuthEventDeleteAllLocalData extends IAuthEventOld{}
 
-class AuthEventDownloadLastBackup extends IAuthEvent{}
+class AuthEventDownloadLastBackup extends IAuthEventOld{}
 
-class AuthEventDoNotShowDialog extends IAuthEvent{}
+class AuthEventDoNotShowDialog extends IAuthEventOld{}
 
-class AuthEventUploadAutoBackup extends IAuthEvent{}
+class AuthEventUploadAutoBackup extends IAuthEventOld{}
 
-class AuthEventUploadBackup extends IAuthEvent{}
+class AuthEventUploadBackup extends IAuthEventOld{}
 
-class AuthEventRefreshFiles extends IAuthEvent{}
+class AuthEventRefreshFiles extends IAuthEventOld{}
 
-class AuthEventDownloadFile extends IAuthEvent{
+class AuthEventDownloadFile extends IAuthEventOld{
   final String fileName;
   final bool deleteAllLocalData;
   AuthEventDownloadFile({required this.fileName,required this.deleteAllLocalData});

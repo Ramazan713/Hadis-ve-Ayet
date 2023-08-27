@@ -1,19 +1,19 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ConnectivityServiceImpl extends ConnectivityService{
 
-  static final _connectivityBroadCastStream = Connectivity().onConnectivityChanged.asBroadcastStream();
-
   @override
-  Stream<bool> hasConnectionStream() => _connectivityBroadCastStream.map((event) => _isConnectInternet(event));
-
-
-  @override
-  Future<bool> hasConnected()async{
-    return _isConnectInternet(await Connectivity().checkConnectivity());
+  Future<bool> get hasConnected async{
+   return _isConnectInternet(await Connectivity().checkConnectivity());
   }
+
+  @override
+  ValueStream<bool> get hasConnectionStream => Connectivity().onConnectivityChanged
+      .map((event) => _isConnectInternet(event)).shareValue();
+
 
   bool _isConnectInternet(ConnectivityResult result){
     return [
