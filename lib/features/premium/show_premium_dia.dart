@@ -63,7 +63,7 @@ void showPremiumDia(BuildContext context){
                           BlocBuilder<PremiumBloc,PremiumState>(
                               buildWhen: (oldState,newState){
                                 if(newState.isPremium){
-                                  Navigator.popAndPushNamed(context, SettingScreen.id);
+                                  //Navigator.popAndPushNamed(context, SettingScreen.id);
                                   return false;
                                 }
                                 return true;

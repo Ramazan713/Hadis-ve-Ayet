@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ import '../premium/bloc/premium_bloc.dart';
 import '../premium/bloc/premium_event.dart';
 import '../verses/shared/domain/manager/background_verse_audio_manager.dart';
 import 'routes/combine_routers.dart';
+import 'color_schemes.g.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,6 +28,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
+
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final statusColor = isLight ? lightColorScheme.primary : darkColorScheme.primary;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: statusColor));
+
     return BlocBuilder<ThemeBloc,ThemeState>(
       builder: (context,state){
         context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
@@ -34,9 +42,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
           routerConfig: _buildRouter,
           title: 'Hadis ve Ayet',
           debugShowCheckedModeBanner: false,
-          themeMode: state.themeEnum.mode,
-          theme: getLightThemeData(),
-          darkTheme: getDarkThemeData(),
+          themeMode: ThemeMode.system,
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme
+          ),
         );
 
         // return Phoenix(

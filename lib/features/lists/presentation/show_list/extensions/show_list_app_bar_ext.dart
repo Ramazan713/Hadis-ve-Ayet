@@ -58,7 +58,7 @@ extension ShowListAppBar on ShowListPage{
         ),
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, SettingScreen.id);
+            SettingsRoute().push(context);
           },
           icon: const Icon(Icons.settings),
           tooltip: "Ayarlar",

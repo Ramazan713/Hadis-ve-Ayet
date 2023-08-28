@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 
@@ -9,6 +10,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
   final Widget child;
   final CustomScrollController? scrollController;
   final bool floatHeaderSlivers;
+  final AppBarType? appBarType;
   final PreferredSizeWidget? appBarBottom;
   final Widget? title;
   final bool pinned;
@@ -27,6 +29,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
     this.pinned = false,
     this.snap = false,
     this.floating = false,
+    this.appBarType,
     this.headerSlivers = const []
   }) : super(key: key);
 
@@ -43,6 +46,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
               floating: floating,
               pinned: pinned,
               snap: snap,
+              appBarType: appBarType,
             ),
             ...headerSlivers
           ];

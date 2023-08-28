@@ -43,7 +43,7 @@ class CustomSearchSliverAppBar {
     this.hintText = hintText ?? "Ara";
   }
 
-  SliverAppBar _getSearchAppBar(BuildContext context) {
+  Widget _getSearchAppBar(BuildContext context) {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: true,
@@ -99,7 +99,7 @@ class CustomSearchSliverAppBar {
         icon: const Icon(Icons.search),tooltip: "Ara");
   }
 
-  SliverAppBar build(BuildContext context) {
+  Widget build(BuildContext context) {
     return _isSearchBar
         ? _getSearchAppBar(context)
         : defaultSliverAppbar(context);

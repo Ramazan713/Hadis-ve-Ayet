@@ -116,7 +116,6 @@ import '../../db/repos/audio_edition_repo.dart';
 import '../../db/repos/verse_arabic_repo.dart';
 import '../../db/repos/verse_audio_state_repo.dart';
 import '../dhikr_prayers/counters/presentation/add_counter/bloc/add_counter_bloc.dart';
-import 'bottom_navbar.dart';
 import '../extra_features/counter/presentation/add_counter/bloc/add_counter_bloc.dart';
 import '../extra_features/counter/presentation/manage_counter/bloc/manage_counter_bloc.dart';
 import '../extra_features/counter/presentation/show_counters/bloc/counter_show_bloc.dart';
