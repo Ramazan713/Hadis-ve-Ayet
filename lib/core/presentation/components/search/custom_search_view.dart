@@ -6,17 +6,25 @@ class CustomSearchView extends StatelessWidget {
   final EdgeInsets? margins;
   final EdgeInsets? paddings;
   final String? hintText;
-  final TextEditingController? textEditingController;
+  late final TextEditingController? textEditingController;
   final void Function()? onBackClick;
+  final void Function(String text)? onChanged;
+  final bool autofocus;
+  final FocusNode? focusNode;
 
-  const CustomSearchView({
+  CustomSearchView({
     Key? key,
     this.hintText,
     this.margins,
     this.paddings,
-    this.textEditingController,
-    this.onBackClick
-  }) : super(key: key);
+    TextEditingController? textEditingController,
+    this.onBackClick,
+    this.onChanged,
+    this.focusNode,
+    this.autofocus = true
+  }) : super(key: key){
+    this.textEditingController = textEditingController ?? TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +38,9 @@ class CustomSearchView extends StatelessWidget {
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
         controller: textEditingController,
+        autofocus: autofocus,
+        onChanged: onChanged,
+        focusNode: focusNode,
         decoration: InputDecoration(
           hintText: hintText ?? "Ara",
           contentPadding: currentPaddings,
@@ -40,11 +51,14 @@ class CustomSearchView extends StatelessWidget {
             borderSide: BorderSide.none
           ),
           prefixIcon: IconButton(
-            onPressed: onBackClick,
+            onPressed: onBackClick ?? (){
+              Navigator.pop(context);
+            },
             icon: const Icon(Icons.arrow_back)
           ),
           suffixIcon: IconButton(
             onPressed: (){
+              onChanged?.call("");
               textEditingController?.clear();
             },
             icon: const Icon(Icons.clear)

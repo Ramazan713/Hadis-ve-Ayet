@@ -9,6 +9,7 @@ class CustomSliverAppBar extends StatelessWidget {
   final bool floating;
   final List<Widget>? actions;
   final AppBarType? appBarType;
+  final double? toolbarHeight;
 
   const CustomSliverAppBar({
     super.key,
@@ -18,7 +19,8 @@ class CustomSliverAppBar extends StatelessWidget {
     this.snap = false,
     this.floating = false,
     this.bottom,
-    this.appBarType
+    this.appBarType,
+    this.toolbarHeight
   });
 
 
@@ -37,6 +39,7 @@ class CustomSliverAppBar extends StatelessWidget {
           key: key,
           bottom: bottom,
           actions: actions,
+          toolbarHeight: toolbarHeight ?? kToolbarHeight,
         );
       case AppBarType.mediumBar:
         return SliverAppBar.medium(
@@ -47,6 +50,7 @@ class CustomSliverAppBar extends StatelessWidget {
           bottom: bottom,
           title: title,
           actions: actions,
+          toolbarHeight: toolbarHeight ?? kToolbarHeight,
         );
       case AppBarType.largeBar:
         return SliverAppBar.large(
@@ -57,8 +61,7 @@ class CustomSliverAppBar extends StatelessWidget {
           bottom: bottom,
           title: title,
           actions: actions,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          toolbarHeight: toolbarHeight ?? kToolbarHeight,
         );
     }
   }

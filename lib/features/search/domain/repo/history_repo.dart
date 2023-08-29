@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/features/search_/domain/model/history.dart';
+import 'package:hadith/features/search/domain/model/history.dart';
 
 abstract class HistoryRepo{
 

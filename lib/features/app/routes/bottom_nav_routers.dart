@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/features/category/category_page.dart';
 import 'package:hadith/features/home/home_page.dart';
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
-import 'package:hadith/features/search_/presentation/search_page.dart';
 
 import '../custom_navigation_bar.dart';
 
@@ -12,9 +11,6 @@ part 'bottom_nav_routers.g.dart';
 
 @TypedShellRoute<BottomBarRouteData>(
   routes: [
-    TypedGoRoute<SearchRoute>(
-        path: "/search"
-    ),
     TypedGoRoute<HomeRoute>(
       path: "/home"
     ),
@@ -50,15 +46,6 @@ class ShowListRoute extends GoRouteData{
     return const NoTransitionPage(child: ShowListPage());
   }
 }
-
-class SearchRoute extends GoRouteData{
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return NoTransitionPage(child: SearchPage());
-  }
-}
-
 
 class CategoriesRoute extends GoRouteData{
 

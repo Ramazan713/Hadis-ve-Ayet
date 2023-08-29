@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/db/entities/history_entity.dart';
-import 'package:hadith/features/search_/domain/model/history.dart';
+import 'package:hadith/features/search/domain/model/history.dart';
 
 class HistoryItem extends StatelessWidget {
   final History history;
@@ -16,23 +16,26 @@ class HistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final borderRadius = BorderRadius.circular(13);
+
     return Card(
-        margin: const EdgeInsets.symmetric(horizontal: 13,vertical: 3),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+        margin: const EdgeInsets.symmetric(horizontal: 1,vertical: 3),
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
         child: InkWell(
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: borderRadius,
           onTap: onClick,
           child: Row(
             children: [
               const SizedBox(width: 19,),
               Expanded(
-                  child: Text(
-                    history.name,
-                    style: Theme.of(context).textTheme.bodyText1,)
+                child: Text(
+                history.name,
+                style: Theme.of(context).textTheme.bodyMedium,)
               ),
               IconButton(
-                  onPressed: onRemoveClick,
-                  icon: const Icon(Icons.clear)
+                onPressed: onRemoveClick,
+                icon: const Icon(Icons.clear)
               ),
               const SizedBox(width: 7,)
             ],

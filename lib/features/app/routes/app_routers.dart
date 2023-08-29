@@ -27,6 +27,7 @@ import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_p
 import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
 import 'package:hadith/features/lists/presentation/archive_list/archive_list_page.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:hadith/features/settings_/presentation/audio_settings_page.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
@@ -85,6 +86,16 @@ class HadithTopicRoute extends GoRouteData{
   }
 }
 
+
+@TypedGoRoute<SearchRoute>(
+    path: "/search"
+)
+class SearchRoute extends GoRouteData{
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SearchPage();
+  }
+}
 
 @TypedGoRoute<HadithListRoute>(
     path: "/hadith/list/:sourceId/:listId/:pos"

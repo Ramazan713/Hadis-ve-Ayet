@@ -1,20 +1,23 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/search_repo.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
-import 'package:hadith/features/search_/domain/model/history.dart';
-import 'package:hadith/features/search_/domain/repo/history_repo.dart';
-import 'package:hadith/features/search_/presentation/bloc/search_event.dart';
-import 'package:hadith/features/search_/presentation/bloc/search_state.dart';
-import 'package:hadith/features/search_/presentation/model/query_criteria_model.dart';
-import 'package:hadith/features/search_/presentation/model/search_result.dart';
+import 'package:hadith/features/search/domain/model/history.dart';
+import 'package:hadith/features/search/domain/repo/history_repo.dart';
+import 'package:hadith/features/search/presentation/bloc/search_event.dart';
+import 'package:hadith/features/search/presentation/bloc/search_state.dart';
+import 'package:hadith/features/search/presentation/model/query_criteria_model.dart';
+import 'package:hadith/features/search/presentation/model/search_content.dart';
+import 'package:hadith/features/search/presentation/model/search_result.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SearchBloc extends Bloc<ISearchEvent,SearchState>{
@@ -38,9 +41,8 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
     on<SearchEventListenHistories>(_onListenHistories, transformer: restartable());
     on<SearchEventListenSearchResult>(_onListenSearchResult, transformer: restartable());
     on<SearchEventSearch>(_onSearch, transformer: restartable());
-    on<SearchEventClearHistories>(_onClearHistories, transformer: restartable());
+    on<SearchEventSetQuery>(_onSetQuery, transformer: restartable());
     on<SearchEventDeleteHistory>(_onDeleteHistory, transformer: restartable());
-    on<SearchEventSetInit>(_onSetInit, transformer: restartable());
 
     add(SearchEventListenHistories());
     add(SearchEventListenSearchResult());
@@ -49,26 +51,17 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
   
 
   void _onSearch(SearchEventSearch event, Emitter<SearchState> emit)async{
-    final query = event.searchKey.trim();
+    EasyDebounce.debounce("Searching", const Duration(milliseconds: 700), () async{
+      add(SearchEventSetQuery(query: event.searchKey));
+    });
+  }
 
-    final status = query.isEmpty ? DataStatus.success : DataStatus.loading;
-    emit(state.copyWith(searchStatus: status));
-
+  void _onSetQuery(SearchEventSetQuery event, Emitter<SearchState> emit)async{
+    final query = event.query.trim();
     _queryFilter.value = query;
-
     if(query.isNotEmpty){
       await _historyRepo.insertOrUpdateHistory(query);
     }
-  }
-
-  void _onSetInit(SearchEventSetInit event, Emitter<SearchState> emit)async{
-    final isSearchActive = state.isSearchActive;
-    emit(state.copyWith(isSearchActive: false));
-    emit(state.copyWith(isSearchActive: isSearchActive));
-  }
-
-  void _onClearHistories(SearchEventClearHistories event, Emitter<SearchState> emit)async{
-    await _historyRepo.deleteHistories(state.histories);
   }
   
   void _onDeleteHistory(SearchEventDeleteHistory event, Emitter<SearchState> emit)async{
@@ -89,9 +82,7 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
 
     final Stream<List<SearchResult>> streamData = Rx.combineLatest2(appPrefStream, _queryFilter, (key, query){
       final criteria = _appPreferences.getEnumItem(KPref.searchCriteriaEnum);
-
-      emit(state.copyWith(searchStatus: DataStatus.loading,searchCriteriaEnum: criteria));
-
+      emit(state.copyWith(isLoading: true,searchCriteria: criteria));
       return QueryCriteriaModel(criteria: criteria, query: query);
     }).asyncMap((queryCriteria)async{
       if(queryCriteria.query.isEmpty) return <SearchResult>[];
@@ -101,9 +92,8 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
     await emit.forEach<List<SearchResult>>(streamData, onData: (searchResult){
       return state.copyWith(
         searchResults: searchResult,
-        searchedKey: _queryFilter.value,
-        searchStatus: DataStatus.success,
-        isSearchActive: _queryFilter.value.isNotEmpty,
+        searchQuery: _queryFilter.value,
+        isLoading: false,
       );
     });
   }
@@ -112,50 +102,78 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
   Future<List<SearchResult>> _getSearchResult(String searchedQuery, SearchCriteriaEnum criteria)async{
 
     final searchResults = <SearchResult>[];
+    const pageSize = K.searchResultCollectionSize;
 
     final verseCount = await _searchRepo.getCountVerse(searchedQuery, criteria);
     if(verseCount!=0){
+      final verseSamples = await _searchRepo.getVerses(searchedQuery, criteria, pageSize, 0);
+
+      final searchContents = verseSamples.map((e) => SearchContent(
+          content: e.content,
+          source: "${e.surahName} - ${e.verseNumber}"
+      )).toList();
+
       searchResults.add(
-          SearchResult(
-              title: "Ayetler",
-              resultCount: verseCount,
-              bookScope: BookScopeEnum.diyanetMeal
-          )
+        SearchResult(
+            title: "Ayetler",
+            resultCount: verseCount,
+            searchContent: searchContents,
+            bookScope: BookScopeEnum.diyanetMeal
+        )
       );
     }
 
 
     final allHadithCount = await _searchRepo.getCountAllHadith(searchedQuery, criteria);
     if(allHadithCount!=0){
+      final hadithSamples = await _searchRepo.getAllHadiths(searchedQuery, criteria, pageSize, 0);
+      final searchContents = hadithSamples.map((e) => SearchContent(
+          content: e.content,
+          source: e.source
+      )).toList();
+
       searchResults.add(
-          SearchResult(
-              title: "Tüm Hadisler",
-              resultCount: allHadithCount,
-              bookScope: BookScopeEnum.serlevhaSitte
-          )
+        SearchResult(
+            title: "Tüm Hadisler",
+            resultCount: allHadithCount,
+            searchContent: searchContents,
+            bookScope: BookScopeEnum.serlevhaSitte
+        )
       );
     }
 
     final serlevhaCount = await _searchRepo.getCountHadithByBookId(searchedQuery, criteria, BookEnum.serlevha.bookId);
     if(serlevhaCount!=0){
+      final hadithSamples = await _searchRepo.getHadithsByBookId(searchedQuery, criteria,BookEnum.serlevha.bookId, pageSize, 0);
+      final searchContents = hadithSamples.map((e) => SearchContent(
+          content: e.content,
+          source: e.source
+      )).toList();
       searchResults.add(
-          SearchResult(
-              title: "Serlevha Hadis",
-              resultCount: serlevhaCount,
-              bookScope: BookScopeEnum.serlevha
-          )
+        SearchResult(
+            title: "Serlevha Hadis",
+            searchContent: searchContents,
+            resultCount: serlevhaCount,
+            bookScope: BookScopeEnum.serlevha
+        )
       );
     }
 
     final sitteCount = await _searchRepo.getCountHadithByBookId(searchedQuery, criteria, BookEnum.sitte.bookId);
 
     if(sitteCount!=0){
+      final hadithSamples = await _searchRepo.getHadithsByBookId(searchedQuery, criteria,BookEnum.sitte.bookId, pageSize, 0);
+      final searchContents = hadithSamples.map((e) => SearchContent(
+          content: e.content,
+          source: e.source
+      )).toList();
       searchResults.add(
-          SearchResult(
-              title: "Kütübi Sitte Hadis",
-              resultCount: sitteCount,
-              bookScope: BookScopeEnum.sitte
-          )
+        SearchResult(
+            title: "Kütübi Sitte Hadis",
+            resultCount: sitteCount,
+            searchContent: searchContents,
+            bookScope: BookScopeEnum.sitte
+        )
       );
     }
 

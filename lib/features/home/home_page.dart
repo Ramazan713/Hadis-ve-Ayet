@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:hadith/core/presentation/components/search/custom_search_bar_empty.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 import 'package:hadith/features/home/sections/hadith_serlevha_content_section.dart';
 import 'package:hadith/features/home/sections/hadith_sitte_content_section.dart';

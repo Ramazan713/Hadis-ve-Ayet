@@ -12,12 +12,10 @@ class CustomNavigationBar extends StatelessWidget {
   CustomNavigationBar({Key? key, required this.child}) : super(key: key);
 
   final _navigationItems = [
-    _NavigationItem(icon: const Icon(Icons.search), label: "Arama",
-        navigationLocation: SearchRoute().location),
-    _NavigationItem(icon: const Icon(Icons.home), label: "Ana Sayfa",
-        navigationLocation: HomeRoute().location),
     _NavigationItem(icon: const Icon(Icons.dataset), label: "Kategoriler",
         navigationLocation: CategoriesRoute().location),
+    _NavigationItem(icon: const Icon(Icons.home), label: "Ana Sayfa",
+        navigationLocation: HomeRoute().location),
     _NavigationItem(icon: const Icon(Icons.view_list), label: "Liste",
         navigationLocation: ShowListRoute().location),
   ];

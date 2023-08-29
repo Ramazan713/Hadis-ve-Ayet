@@ -39,6 +39,7 @@ class CustomSearchBarEmpty extends StatelessWidget {
           child: TextField(
             readOnly: true,
             showCursor: false,
+            onTap: onTap,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               hintText: hintText ?? "Ara",

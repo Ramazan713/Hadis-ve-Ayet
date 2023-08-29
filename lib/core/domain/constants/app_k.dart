@@ -14,6 +14,8 @@ class K{
   static const timeOutSeconds = 13;
   static const waitingRefreshTimeForBackupMeta = 60;
 
+  static const double searchBarHeight = 80;
+  static const int searchResultCollectionSize = 7;
 
   static const int hadithPageSize = 19;
   static const int hadithPagingPrefetchSize = 5;

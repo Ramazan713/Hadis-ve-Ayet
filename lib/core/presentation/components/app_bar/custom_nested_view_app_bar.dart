@@ -18,6 +18,8 @@ class CustomNestedViewAppBar extends StatelessWidget {
   final bool floating;
   final List<Widget>? actions;
   final List<Widget> headerSlivers;
+  final double? toolbarHeight;
+
   const CustomNestedViewAppBar({
     Key? key,
     required this.child,
@@ -30,6 +32,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
     this.snap = false,
     this.floating = false,
     this.appBarType,
+    this.toolbarHeight,
     this.headerSlivers = const []
   }) : super(key: key);
 
@@ -47,6 +50,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
               pinned: pinned,
               snap: snap,
               appBarType: appBarType,
+              toolbarHeight: toolbarHeight,
             ),
             ...headerSlivers
           ];

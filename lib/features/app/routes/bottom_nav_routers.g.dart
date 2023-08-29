@@ -14,10 +14,6 @@ RouteBase get $bottomBarRouteData => ShellRouteData.$route(
       factory: $BottomBarRouteDataExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: '/search',
-          factory: $SearchRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
           path: '/home',
           factory: $HomeRouteExtension._fromState,
         ),
@@ -35,21 +31,6 @@ RouteBase get $bottomBarRouteData => ShellRouteData.$route(
 extension $BottomBarRouteDataExtension on BottomBarRouteData {
   static BottomBarRouteData _fromState(GoRouterState state) =>
       BottomBarRouteData();
-}
-
-extension $SearchRouteExtension on SearchRoute {
-  static SearchRoute _fromState(GoRouterState state) => SearchRoute();
-
-  String get location => GoRouteData.$location(
-        '/search',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
 }
 
 extension $HomeRouteExtension on HomeRoute {

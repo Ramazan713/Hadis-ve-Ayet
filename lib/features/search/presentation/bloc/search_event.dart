@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/features/search_/domain/model/history.dart';
+import 'package:hadith/features/search/domain/model/history.dart';
 
 abstract class ISearchEvent{}
 
@@ -8,14 +8,15 @@ class SearchEventListenHistories extends ISearchEvent{}
 
 class SearchEventListenSearchResult extends ISearchEvent{}
 
-class SearchEventSetInit extends ISearchEvent{}
-
 class SearchEventSearch extends ISearchEvent{
   final String searchKey;
   SearchEventSearch({required this.searchKey});
 }
 
-class SearchEventClearHistories extends ISearchEvent{}
+class SearchEventSetQuery extends ISearchEvent{
+  final String query;
+  SearchEventSetQuery({required this.query});
+}
 
 class SearchEventDeleteHistory extends ISearchEvent{
   final History history;

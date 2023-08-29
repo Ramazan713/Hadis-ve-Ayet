@@ -9,6 +9,7 @@ part of 'app_routers.dart';
 List<RouteBase> get $appRoutes => [
       $hadithAllRoute,
       $hadithTopicRoute,
+      $searchRoute,
       $hadithListRoute,
       $hadithSearchRoute,
       $archiveListRoute,
@@ -92,6 +93,26 @@ extension $HadithTopicRouteExtension on HadithTopicRoute {
         queryParams: {
           if (pos != 0) 'pos': pos.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+}
+
+RouteBase get $searchRoute => GoRouteData.$route(
+      path: '/search',
+      factory: $SearchRouteExtension._fromState,
+    );
+
+extension $SearchRouteExtension on SearchRoute {
+  static SearchRoute _fromState(GoRouterState state) => SearchRoute();
+
+  String get location => GoRouteData.$location(
+        '/search',
       );
 
   void go(BuildContext context) => context.go(location);
