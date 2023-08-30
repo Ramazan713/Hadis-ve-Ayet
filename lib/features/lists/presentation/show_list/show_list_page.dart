@@ -4,7 +4,7 @@ import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
-import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
+import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/lists/presentation/components/list_item.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
@@ -132,7 +132,7 @@ class ShowListPage extends StatelessWidget {
             child: FloatingActionButton(
               child: const Icon(Icons.add),
               onPressed: (){
-                showEditTextBottomDia(context, (text) {
+                showEditTextDia(context, (text) {
                   context.read<ShowListBloc>()
                       .add(ShowListEventAddNewList(listName: text));
                 },title: "Başlık Girin");

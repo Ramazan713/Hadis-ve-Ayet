@@ -6,10 +6,10 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showEditTextBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
+import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
-import 'package:hadith/core/presentation/dialogs/showShareAlertDialog.dart';
+import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/lists/domain/list_share_menu_item.dart';
 import 'package:hadith/features/lists/domain/show_list_menu_enum.dart';
 import 'package:hadith/features/lists/presentation/shared/export_list_view.dart';
@@ -55,14 +55,14 @@ extension ManageBottomMenuItems on ShowListPage{
   }
 
   void _rename(BuildContext context, ListViewModel item){
-    showEditTextBottomDia(context, (newText) {
+    showEditTextDia(context, (newText) {
       context.read<ShowListBloc>()
           .add(ShowListEventRename(listViewModel: item, newTitle: newText));
     }, title: "Yeniden İsimlendir", content: item.name,useRootNavigator: true);
   }
 
   void _remove(BuildContext context, ListViewModel item){
-    showCustomAlertBottomDia(
+    showCustomAlertDia(
         context,
         useRootNavigator: true,
         title: "Silmek istediğinize emin misiniz?",
@@ -74,7 +74,7 @@ extension ManageBottomMenuItems on ShowListPage{
   }
 
   void _archive(BuildContext context, ListViewModel item){
-    showCustomAlertBottomDia(
+    showCustomAlertDia(
         context,
         title: "Arşivlemek istediğinize emin misiniz?",
         useRootNavigator: true,
@@ -88,7 +88,7 @@ extension ManageBottomMenuItems on ShowListPage{
   void _removeItems(BuildContext context, ListViewModel item, SourceTypeEnum sourceType){
     final key= sourceType==SourceTypeEnum.hadith?"hadisleri":"ayetleri";
 
-    showCustomAlertBottomDia(
+    showCustomAlertDia(
         context,
         title: "Listedeki $key silmek istediğinize emin misiniz?",
         content: "Bu işlem geri alınamaz",
@@ -100,7 +100,7 @@ extension ManageBottomMenuItems on ShowListPage{
   }
 
   void _copy(BuildContext context, ListViewModel item){
-    showCustomAlertBottomDia(context,useRootNavigator: true,
+    showCustomAlertDia(context,useRootNavigator: true,
         title: "Yeni bir kopya oluştumak istediğinize emin misiniz",
         btnApproved: () {
           context.read<ShowListBloc>()

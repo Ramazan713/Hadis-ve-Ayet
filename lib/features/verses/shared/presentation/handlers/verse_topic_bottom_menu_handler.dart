@@ -9,7 +9,7 @@ import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_p
 import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
@@ -71,7 +71,7 @@ void verseTopicBottomMenuSharedHandler(BuildContext context,
             break;
           case VerseTopicBottomMenuItem.deleteAudios:
             if(downloadedView!=null){
-              showCustomAlertBottomDia(context,
+              showCustomAlertDia(context,
                   title: "Silmek istediğinize emin misiniz?",
                   content: "Silinen ses dosyaları geri alınamaz",
                   btnApproved: (){

@@ -19,7 +19,7 @@ import 'package:hadith/core/features/topic_save_point/components/topic_save_poin
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_appbar_searchable.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.dart';
-import 'package:hadith/core/presentation/components/dropdown_bar_menu.dart';
+import 'package:hadith/core/presentation/components/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_edition.dart';
@@ -234,9 +234,9 @@ extension TopicPageTopBarExt on SurahPage{
   }
 
   Widget _getDropdownMenu(BuildContext context){
-    return CustomDropdownBarMenu(
+    return CustomDropdownIconMenu(
       items: SurahTopBarMenuItem.values,
-      selectedFunc: (menuItem){
+      onSelected: (menuItem){
         switch(menuItem){
           case SurahTopBarMenuItem.selectEdition:
             showSelectEdition(context);

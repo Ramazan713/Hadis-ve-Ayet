@@ -9,7 +9,6 @@ import 'package:hadith/features/search/presentation/components/search_result_col
 import 'package:hadith/features/search/presentation/model/search_result.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hadith/features/search/presentation/sections/functions_section.dart';
 
 extension SearchPageSearchResultExt on SearchPage{
 

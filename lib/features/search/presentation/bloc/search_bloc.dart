@@ -117,7 +117,7 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
         SearchResult(
             title: "Ayetler",
             resultCount: verseCount,
-            searchContent: searchContents,
+            searchContents: searchContents,
             bookScope: BookScopeEnum.diyanetMeal
         )
       );
@@ -136,7 +136,7 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
         SearchResult(
             title: "Tüm Hadisler",
             resultCount: allHadithCount,
-            searchContent: searchContents,
+            searchContents: searchContents,
             bookScope: BookScopeEnum.serlevhaSitte
         )
       );
@@ -152,7 +152,7 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
       searchResults.add(
         SearchResult(
             title: "Serlevha Hadis",
-            searchContent: searchContents,
+            searchContents: searchContents,
             resultCount: serlevhaCount,
             bookScope: BookScopeEnum.serlevha
         )
@@ -171,7 +171,7 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
         SearchResult(
             title: "Kütübi Sitte Hadis",
             resultCount: sitteCount,
-            searchContent: searchContents,
+            searchContents: searchContents,
             bookScope: BookScopeEnum.sitte
         )
       );

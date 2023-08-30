@@ -1,7 +1,8 @@
 
 import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/models/i_menu_item.dart';
 
-enum SavePointType{
+enum SavePointType with IMenuItem{
 
   list(
       typeId: 1,
@@ -32,7 +33,12 @@ enum SavePointType{
   const SavePointType({required this.typeId,required this.title});
 
   final int typeId;
+
+  @override
   final String title;
+
+  @override
+  get iconInfo => null;
 
 
   static SavePointType from(int typeId){

@@ -7,7 +7,7 @@ import 'package:hadith/core/domain/models/auth_user/auth_user.dart';
 import 'package:hadith/core/features/auth/bloc/auth_bloc.dart';
 import 'package:hadith/core/features/auth/bloc/auth_event.dart';
 import 'package:hadith/core/features/auth/bloc/auth_state.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/settings_/presentation/components/user_info_icon.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
@@ -110,12 +110,12 @@ class _SignOut extends StatelessWidget {
                     style: TextStyle(color: Colors.redAccent),
                   )),
               onPressed: (context) {
-                showCustomAlertBottomDia(context,
+                showCustomAlertDia(context,
                     title: "Çıkış yapmak istediğinize emin misiniz?",
                     btnApproved: () async {
-                      showCustomAlertBottomDia(context,
-                          negativeLabel: "Devam Et",
-                          positiveLabel: "Oluştur",
+                      showCustomAlertDia(context,
+                          cancelLabel: "Devam Et",
+                          approveLabel: "Oluştur",
                           title: "Yedekleme yapmak ister misiniz?",
                           content: "Kaydedilmeyen verileriniz kaybolabilir",
                           btnApproved: () async {

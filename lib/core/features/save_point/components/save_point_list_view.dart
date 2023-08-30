@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/components/save_point_item.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showEditTextBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
+import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 
 class SavePointListView extends StatelessWidget {
   final ScrollController scrollController;
@@ -39,12 +39,12 @@ class SavePointListView extends StatelessWidget {
             },
             editTitleListener: (){
               if(onEditSavePoint == null) return;
-              showEditTextBottomDia(context, (newText){
+              showEditTextDia(context, (newText){
                 onEditSavePoint?.call(item,newText);
               },title: "Yeniden Adlandır",content: item.title);
             },removeItemListener: (){
               if(onDeleteSavePoint == null) return;
-              showCustomAlertBottomDia(context,title: "Silmek İstediğinize emin misiniz?",
+              showCustomAlertDia(context,title: "Silmek İstediğinize emin misiniz?",
                   btnApproved: (){
                     if(item.id == selectedSavePoint?.id){
                       onSelectSavePoint(null);

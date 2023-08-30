@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
-import 'package:hadith/core/presentation/components/dropdown_bar_menu.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
+import 'package:hadith/core/presentation/components/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_3x.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_detail_top_bar_menu_item.dart';
@@ -49,9 +49,9 @@ extension DetailCounterSharedContentPageTopBarExt on DetailCounterSharedContentP
     return BlocSelector<DetailCounterBloc,DetailCounterState, Counter?>(
       selector: (state) => state.currentCounter,
       builder: (context, currentCounter){
-        return CustomDropdownBarMenu(
+        return CustomDropdownIconMenu(
           items: CounterDetailTopBarMenuItems.getItems(hasCounter: hasCounter),
-          selectedFunc: (menuItem){
+          onSelected: (menuItem){
             _handleDropdownMenu(context,
               menuItem: menuItem,
               currentCounter: currentCounter
@@ -68,7 +68,7 @@ extension DetailCounterSharedContentPageTopBarExt on DetailCounterSharedContentP
   }){
     switch(menuItem){
       case CounterDetailTopBarMenuItems.reset:
-        showCustomAlertBottomDia(context,
+        showCustomAlertDia(context,
             title: "Sıfırlamak istediğinize emin misiniz?",
             btnApproved: (){
               context.read<DetailCounterBloc>().add(DetailCounterEventReset());

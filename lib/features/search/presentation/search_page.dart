@@ -7,7 +7,6 @@ import 'package:hadith/core/presentation/components/custom_animated_switcher.dar
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
 import 'package:hadith/features/search/presentation/sections/component_section.dart';
-import 'package:hadith/features/search/presentation/sections/functions_section.dart';
 import 'package:hadith/features/search/presentation/sections/history_result_section.dart';
 import 'package:hadith/features/search/presentation/sections/search_result_section.dart';
 
@@ -106,6 +105,9 @@ class SearchPage extends StatelessWidget {
   }
 
 
+  void unFocusBar(BuildContext context){
+    FocusScope.of(context).unfocus(disposition: UnfocusDisposition.scope);
+  }
 
 }
 

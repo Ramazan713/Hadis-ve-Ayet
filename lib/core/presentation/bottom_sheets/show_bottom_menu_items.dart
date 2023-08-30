@@ -12,42 +12,78 @@ void showBottomMenuItems<T extends IMenuItem>(BuildContext context, {
   bool useRootNavigator = false
 }){
 
-  List<Widget>getChildren(){
-    final widgets=<Widget>[];
-    if(title!=null){
-      widgets.add(const SizedBox(height: 13,));
-      widgets.add(Text(title,style: Theme.of(context).textTheme.headline6,
-        textAlign: TextAlign.center,));
-    }
-    widgets.add(const SizedBox(height: 5,));
-    widgets.addAll(items.map((e){
-      return IconTextMenuItem(
-          title: e.title,
-          iconInfo: e.iconInfo,
-          onTap: (){
-            onItemClick(e);
-          },
-      );
-    }));
-    widgets.add(const SizedBox(height: 7,));
-    return widgets;
-  }
-
   showModalBottomSheet(
       useRootNavigator: useRootNavigator,
       isScrollControlled: true,
+      useSafeArea: true,
       context: context,
       builder: (context){
-        return SingleChildScrollView(
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: getChildren(),
-            ),
-          ),
+        return _DialogContent(
+          items: items,
+          onItemClick: onItemClick,
+          title: title,
         );
       }
   );
+}
+
+class _DialogContent<T extends IMenuItem> extends StatelessWidget {
+  final List<T> items;
+  final Function(T) onItemClick;
+  final String? title;
+
+  const _DialogContent({
+    Key? key,
+    required this.items,
+    required this.onItemClick,
+    this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            getTitle(context),
+            ...getMenuItems(),
+            const SizedBox(height: 4,)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getTitle(BuildContext context){
+    if(title == null) return const SizedBox();
+    return Padding(
+      padding: const EdgeInsets.only(top: 2,bottom: 8),
+      child: Text(
+        title ?? "",
+        style: Theme.of(context).textTheme.titleMedium,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  List<Widget> getMenuItems(){
+    return items.map((e){
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 1),
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(13)
+          ),
+          title: Text(e.title),
+          leading: e.iconInfo?.toIcon(),
+          onTap: (){
+            onItemClick(e);
+          },
+        ),
+      );
+    }).toList();
+  }
 }

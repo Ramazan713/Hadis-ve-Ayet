@@ -1,6 +1,8 @@
 
 
-enum DownloadedAudioViewEnum{
+import 'package:hadith/core/domain/models/i_menu_item.dart';
+
+enum DownloadedAudioViewEnum with IMenuItem{
   cuz,
   surah;
 
@@ -12,4 +14,10 @@ enum DownloadedAudioViewEnum{
         return "Cuz";
     }
   }
+
+  @override
+  get title => description;
+
+  @override
+  get iconInfo => null;
 }

@@ -24,11 +24,15 @@ class DownloadedAudioViewItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: ListTile(
         title: Text(content,style: Theme.of(context).textTheme.bodyLarge,),
-        tileColor: Theme.of(context).cardColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(13),
+        ),
         trailing: IconButton(
-            onPressed: onDeletePressed,
-            icon: Icon(Icons.delete_forever,color: Theme.of(context).errorColor,)
+          onPressed: onDeletePressed,
+          icon: Icon(
+            Icons.delete_forever,
+            color: Theme.of(context).colorScheme.error,
+          )
         ),
       ),
     );

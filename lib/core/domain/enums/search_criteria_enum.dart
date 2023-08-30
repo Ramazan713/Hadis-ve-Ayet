@@ -1,13 +1,15 @@
 
 
+import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
 
-enum SearchCriteriaEnum with IPrefEnum{
+enum SearchCriteriaEnum with IPrefEnum, IMenuItem{
 
   inMultipleKeys(
     enumValue: 0,
     isRegex: true,
     description: "Anahtar kelimeleri içinde ara",
+
   ),
   multipleKeys(
       enumValue: 1,
@@ -37,6 +39,12 @@ enum SearchCriteriaEnum with IPrefEnum{
   final String description;
 
   final bool isRegex;
+
+  @override
+  get title => description;
+
+  @override
+  get iconInfo => null;
 
   String getQuery(String query){
     switch(this){

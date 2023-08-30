@@ -3,7 +3,7 @@ import 'package:hadith/core/domain/models/icon_info.dart';
 
 
 class ShareItem extends StatelessWidget {
-  final Function()onTap;
+  final Function() onTap;
   final String title;
   final IconInfo? iconInfo;
 
@@ -12,15 +12,17 @@ class ShareItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyText1Style=Theme.of(context).textTheme.bodyText1;
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: ListTile(
         onTap: onTap,
-        tileColor: Theme.of(context).colorScheme.secondary,
+        tileColor: Theme.of(context).colorScheme.secondaryContainer,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19)),
-        leading: iconInfo?.toIcon(color: bodyText1Style?.color,useDefaultOrSet: true),
-        title: Text(title,style: bodyText1Style,),
+        leading: iconInfo?.toIcon(),
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
     );
   }

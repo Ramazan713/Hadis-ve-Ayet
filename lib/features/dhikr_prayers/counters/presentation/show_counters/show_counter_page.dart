@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/features/app/ads/ad_check_widget.dart';
@@ -121,7 +121,7 @@ class ShowCounterPage extends StatelessWidget {
           Navigator.pop(context);
           switch(menuItem){
             case ShowCounterSelectMenuEnum.remove:
-              showCustomAlertBottomDia(
+              showCustomAlertDia(
                   context,
                   title: "Silmek istediğinize emin misiniz",
                   content: "'${counter.name}' silindiğinde geri alınamaz",

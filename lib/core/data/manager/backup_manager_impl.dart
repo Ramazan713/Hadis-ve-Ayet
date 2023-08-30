@@ -1,6 +1,6 @@
 import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/backup_meta_control_enum.dart';
-import 'package:hadith/core/domain/extensions/resource_extension.dart';
+import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/domain/manager/backup_manager.dart';
 import 'package:hadith/core/domain/models/auth_user/auth_user.dart';
 import 'package:hadith/core/domain/models/backup_meta_model/backup_meta_model.dart';

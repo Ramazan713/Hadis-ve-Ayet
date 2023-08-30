@@ -11,8 +11,8 @@ import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dar
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/dialogs/show_preview_verse_image.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
-import 'package:hadith/core/presentation/dialogs/showShareAlertDialog.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
+import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_event.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_bloc.dart';
@@ -96,7 +96,7 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
   void _handleShareDia(BuildContext context, VerseListModel verseListModel){
     final shareBloc = context.read<ShareBloc>();
 
-    showShareAlertDialog(context,
+    showShareAlertDia(context,
         menuItems: VerseShareMenuItem.values,
         onClick: (menuItem){
           switch(menuItem){
@@ -123,7 +123,7 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
     final listFavAffected = favListId == listIdControlForSelectList;
 
     if(listFavAffected && deleteFavorite){
-      showCustomAlertBottomDia(
+      showCustomAlertDia(
           context,
           title: "Favori listesinden kaldırmak istediğinize emin misiniz?",
           content: "Bulunduğunuz listeyi etkileyecektir",

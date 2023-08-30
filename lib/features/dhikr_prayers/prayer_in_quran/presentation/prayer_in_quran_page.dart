@@ -7,8 +7,8 @@ import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/core/presentation/components/dropdown_bar_menu.dart';
-import 'package:hadith/core/presentation/components/navigation_icon.dart';
+import 'package:hadith/core/presentation/components/dropdown_icon_menu.dart';
+import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
@@ -93,7 +93,7 @@ class PrayerInQuranPage extends StatelessWidget {
 
   List<Widget> getActions(BuildContext context){
     return [
-      NavigationIcon(
+      NavigateToIcon(
         positionController: _positionController,
         onPosChanged: (selectedIndex){
           _itemScrollController.jumpTo(index: selectedIndex);
@@ -104,9 +104,9 @@ class PrayerInQuranPage extends StatelessWidget {
   }
 
   Widget _topBarDropDownMenu(BuildContext context){
-    return CustomDropdownBarMenu(
+    return CustomDropdownIconMenu(
       items: PrayerInQuranTopBarMenuItem.values,
-      selectedFunc: (menuItem){
+      onSelected: (menuItem){
         switch(menuItem){
           case PrayerInQuranTopBarMenuItem.fontSize:
             showSelectFontSizeDia(context);

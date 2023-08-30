@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
-import 'package:hadith/core/presentation/dialogs/show_custom_alert_dialog.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/verses/shared/domain/enums/audio_service.dart';
 import 'package:hadith/features/verses/shared/domain/notification/i_verse_listen_audio_notification.dart';
 import 'package:hadith/features/verses/shared/presentation/compoenents/download_audio_listener_connect.dart';
@@ -64,7 +63,7 @@ class AudioConnect extends StatelessWidget {
                       );
                       break;
                     case ListenAudioDialogEventAskDownload _:
-                      showCustomAlertBottomDia(context,
+                      showCustomAlertDia(context,
                           title: "veri bulunamadı",
                           content: "Dinlemek istediğniz ayetler bulunamadı. Indirmek ister misiniz?",
                           btnApproved: (){
@@ -73,18 +72,18 @@ class AudioConnect extends StatelessWidget {
                       );
                       break;
                     case ListenAudioDialogEventRequestPermission _:
-                      showCustomAlertDialog(
+                      showCustomAlertDia(
                         context,
                         title: "Bildirim için izin gerekli",
                         content: "ses oynatıcısını yönetmek ve durum bilgisini görmek için gerekebilir",
-                        positiveLabel: "Ayarlara Git",
+                        approveLabel: "Ayarlara Git",
                         btnApproved: ()async{
                           await IVerseListenAudioNotification.requestNotificationPermission();
                         }
                       );
                       break;
                     case ListenAudioDialogEventInterruptAndReDownload _:
-                      showCustomAlertBottomDia(
+                      showCustomAlertDia(
                           context,
                           title: "Şuanda ses oynatıcısı zaten çalıyor",
                           content: "ses oynatıcısını yarıda kesip, indirme yapmak istiyor musunuz?",

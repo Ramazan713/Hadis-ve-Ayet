@@ -5,7 +5,7 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/select_list/bloc/select_list_bloc.dart';
 import 'package:hadith/core/features/select_list/bloc/select_list_event.dart';
 import 'package:hadith/core/features/select_list/select_list_item.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
@@ -134,7 +134,7 @@ void showSelectListBottomDia(
                                       onClicked: (){
                                         final listAffected = item.listViewModel.id == state.listIdControl;
                                         if(item.isSelected && item.listViewModel.id == state.listIdControl){
-                                          showCustomAlertBottomDia(context,
+                                          showCustomAlertDia(context,
                                               title: "Listeden kaldırmak istediğinize emin misiniz?",
                                               content: "Bulunduğunuz listeyi etkileyecektir",
                                               btnApproved: () {

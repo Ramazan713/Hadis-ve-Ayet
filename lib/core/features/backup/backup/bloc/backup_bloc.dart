@@ -4,7 +4,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/loading_enum.dart';
-import 'package:hadith/core/domain/extensions/resource_extension.dart';
+import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/domain/manager/backup_manager.dart';
 import 'package:hadith/core/domain/models/action_result/action_result.dart';
 import 'package:hadith/core/domain/services/auth_service.dart';

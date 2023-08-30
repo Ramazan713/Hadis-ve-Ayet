@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
+import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/utils/edition_util.dart';
 import 'package:hadith/core/utils/resource.dart';
 import 'package:rxdart/rxdart.dart';
@@ -47,43 +48,47 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
 
     await emit.forEach<AudioEdition?>(streamData, onData: (data){
       return state.copyWith(
-        setSelectedEdition: true,
         selectedEdition: data
       );
     });
   }
 
   void _onLoadInit(EditionEventLoadInit event,Emitter<SelectEditionState>emit)async {
-
     emit(state.copyWith(isLoading: true));
     final quality = _appPreferences.getEnumItem(KPref.audioQualityEnum);
     _audioQualityController.value = quality;
 
     final selectedEditionResult = await _editionRepo.getSelectedEdition();
-    AudioEdition? selectedEdition;
-    if(selectedEditionResult is ResourceSuccess<AudioEdition?>){
-      selectedEdition = selectedEditionResult.data;
-    }
 
-    emit(state.copyWith(
-      isLoading: false,
-      setSelectedEdition: true,
-      selectedEdition: selectedEdition,
-      selectedQuality: quality,
-      resetButtonEnabled: false,
-      saveButtonEnabled: false
-    ));
+    selectedEditionResult.handle(
+      onSuccess: (selectedEdition){
+        emit(state.copyWith(
+          isLoading: false,
+          selectedEdition: selectedEdition,
+          lastSavedEdition: selectedEdition,
+          selectedQuality: quality,
+          lastSavedQuality: quality,
+        ));
+      },
+      onError: (error){
+        emit(state.copyWith(message: error, isLoading: false));
+      }
+    );
   }
 
   void _onInitListener(EditionEventInitListener event,Emitter<SelectEditionState>emit)async{
 
     emit(state.copyWith(isLoading: true));
     final editionResult = await _editionRepo.getEditions();
-    if(editionResult is ResourceError<List<AudioEdition>>){
-      _showMessage(editionResult.error, emit);
-    }
 
-    emit(state.copyWith(isLoading: false));
+    editionResult.handle(
+      onSuccess: (selectedEdition){
+        emit(state.copyWith(isLoading: false,));
+      },
+      onError: (error){
+        emit(state.copyWith(message: error, isLoading: false));
+      }
+    );
 
     final streamData = Rx.combineLatest2(_editionRepo.getStreamEditions(), _audioQualityController,
             (editions, quality){
@@ -99,9 +104,6 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
   void _onSetEdition(EditionEventSetEdition event,Emitter<SelectEditionState>emit) async{
     emit(state.copyWith(
         selectedEdition: event.edition,
-        setSelectedEdition: true,
-        saveButtonEnabled: true,
-        resetButtonEnabled: true
     ));
   }
 
@@ -109,8 +111,6 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     _audioQualityController.value = event.audioQuality;
     emit(state.copyWith(
       selectedQuality: event.audioQuality,
-      saveButtonEnabled: true,
-      resetButtonEnabled: true
     ));
   }
 
@@ -118,53 +118,52 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     final quality = _appPreferences.getEnumItem(KPref.audioQualityEnum);
     final selectedEditionResult = await _editionRepo.getSelectedEdition();
 
-    if(selectedEditionResult is ResourceError<AudioEdition?>){
-      return _showMessage(selectedEditionResult.error, emit);
-    }
-    final selectedEdition = (selectedEditionResult as ResourceSuccess<AudioEdition?>).data;
-    if(selectedEdition == null) return _showMessage("Bilinmeyen bir hata oluştu", emit);
+    selectedEditionResult.handle(
+      onSuccess: (selectedEdition){
+        _audioQualityController.value = quality;
 
-    _audioQualityController.value = quality;
-
-    emit(state.copyWith(
-     resetButtonEnabled: false,
-     saveButtonEnabled: false,
-     selectedEdition: selectedEdition, setSelectedEdition: true,
-     selectedQuality: quality
-    ));
+        emit(state.copyWith(
+          lastSavedQuality: quality,
+          lastSavedEdition: selectedEdition,
+          selectedEdition: selectedEdition,
+          selectedQuality: quality,
+        ));
+      },
+      onError: (error){
+        emit(state.copyWith(
+          message: error
+        ));
+      }
+    );
   }
 
   void _onSave(EditionEventSave event,Emitter<SelectEditionState>emit)async{
     final selectedEdition = state.selectedEdition;
     final lastQuality = state.selectedQuality;
     if(selectedEdition == null){
-      _showMessage("bir şeyler yanlış gitti", emit);
+      emit(state.copyWith(message: "bir şeyler yanlış gitti"));
       return;
     }
     final isEditionInQuality = EditionUtil.isEditionInQuality(selectedEdition, lastQuality);
     if(!isEditionInQuality){
-      _showMessage("seçilmiş herhangi bir kıraat bulunamadı", emit);
+      emit(state.copyWith(message: "seçilmiş herhangi bir kıraat bulunamadı"));
       return;
     }
 
     await _appPreferences.setEnumItem(KPref.audioQualityEnum, lastQuality);
     await _editionRepo.setSelectedEdition(selectedEdition.identifier);
-
+    
     emit(state.copyWith(
-      saveButtonEnabled: false,
-      resetButtonEnabled: false,
-      setMessage: true,
       message: "Başarıyla Kaydedildi",
+      lastSavedEdition: selectedEdition,
+      lastSavedQuality: lastQuality,
     ));
   }
 
   void _onClearMessage(EditionEventClearMessage event,Emitter<SelectEditionState>emit){
-    emit(state.copyWith(setMessage: true));
+    emit(state.copyWith(message: null));
   }
 
-  void _showMessage(String message,Emitter<SelectEditionState>emit){
-    emit(state.copyWith(message: message,setMessage: true));
-  }
 
   @override
   Future<void> close() async{

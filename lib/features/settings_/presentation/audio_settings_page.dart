@@ -93,7 +93,7 @@ class SettingsAudioPage extends StatelessWidget {
                   min: 0.5,
                   max: 2.0,
                   value: audioSpeed,
-                  onClose: (newValue){
+                  onApprove: (newValue){
                     context.read<AudioSettingBloc>()
                         .add(AudioSettingEventSetSpeed(speed: newValue));
                   }

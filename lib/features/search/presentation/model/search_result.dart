@@ -13,7 +13,7 @@ part 'search_result.freezed.dart';
 class SearchResult with _$SearchResult{
   const factory SearchResult({
     required String title,
-    required List<SearchContent> searchContent,
+    required List<SearchContent> searchContents,
     required int resultCount,
     required BookScopeEnum bookScope,
   }) = _SearchResult;

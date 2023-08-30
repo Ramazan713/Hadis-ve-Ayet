@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_event.dart';
@@ -63,7 +63,7 @@ extension SettingsPageAdvancedExt on SettingsPage{
         SettingsTile(
           title: const Text("Varsayılan ayarlara dön"),
           onPressed: (context) {
-            showCustomAlertBottomDia(context,
+            showCustomAlertDia(context,
                 title: "Varsayılan ayarlara dönmek istediğinize emin misiniz?",
                 btnApproved: () async {
                   bloc.add(SettingsEventResetSettings());
@@ -76,7 +76,7 @@ extension SettingsPageAdvancedExt on SettingsPage{
         SettingsTile(
           title: const Text("Tüm verileri Sil"),
           onPressed: (context) {
-            showCustomAlertBottomDia(context,
+            showCustomAlertDia(context,
                 title: "Devam etmek istiyor musunuz?",
                 content:
                 "Tüm verileriniz silinecektir. Bu işlem geri alınamaz",

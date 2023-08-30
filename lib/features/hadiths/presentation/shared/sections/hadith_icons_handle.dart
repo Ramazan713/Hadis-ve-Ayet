@@ -10,8 +10,8 @@ import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dar
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/dialogs/show_preview_hadith_image.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
-import 'package:hadith/core/presentation/dialogs/showShareAlertDialog.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
+import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_share_menu_item.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_bloc.dart';
@@ -32,7 +32,7 @@ extension HadithSharedPageHadithIconsExt on HadithSharedPage{
     final shareBloc = context.read<ShareBloc>();
     final hadith = hadithListModel.hadith;
 
-    showShareAlertDialog(context,
+    showShareAlertDia(context,
         menuItems: HadithShareMenuItem.values,
         onClick: (menuItem){
           switch(menuItem){
@@ -65,7 +65,7 @@ extension HadithSharedPageHadithIconsExt on HadithSharedPage{
     final listFavAffected = state.favListId == listIdControlForSelectList;
 
     if(listFavAffected && hadithListModel.isInFavorite){
-      showCustomAlertBottomDia(
+      showCustomAlertDia(
           context,
           title: "Favori listesinden kaldırmak istediğinize emin misiniz?",
           content: "Bulunduğunuz listeyi etkileyecektir",

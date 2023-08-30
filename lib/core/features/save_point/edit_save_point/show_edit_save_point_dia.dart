@@ -8,7 +8,7 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/components/save_point_list_view.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showEditTextBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
@@ -259,7 +259,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
         final title = SavePoint.getAutoSavePointTitle(destination, date: date.toString(),
             useLocalWideScope: useWideScope);
 
-        showEditTextBottomDia(context, (newTitle) {
+        showEditTextDia(context, (newTitle) {
           editPointBloc.add(EditSavePointEventInsert(
             title: newTitle,
             dateTime: date,

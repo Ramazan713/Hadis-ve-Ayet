@@ -8,7 +8,7 @@ import 'package:hadith/core/features/backup/backup_meta/bloc/backup_meta_bloc.da
 import 'package:hadith/core/features/backup/backup_meta/bloc/backup_meta_event.dart';
 import 'package:hadith/core/features/backup/backup_meta/bloc/backup_meta_state.dart';
 import 'package:hadith/core/features/backup/components/backup_meta_item.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/backup/components/icon_text_item.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/buttons/custom_button_negative.dart';
@@ -160,7 +160,7 @@ class _ContentButtons extends StatelessWidget {
             builder: (context,selectedBackup){
               return CustomButtonPositive(onTap: () async {
                 if (selectedBackup != null) {
-                  showCustomAlertBottomDia(context,
+                  showCustomAlertDia(context,
                       title: "Devam etmek istiyor musunuz? (Üzerine Yaz)",
                       content:
                       """Yerelde bulunan verileriniz silinip buluttaki verileriniz yüklenecektir.(Yerelde kaydedilmemiş verileriniz varsa veri kaybına neden olabilir)""",
@@ -178,7 +178,7 @@ class _ContentButtons extends StatelessWidget {
             builder: (context,selectedBackup){
               return CustomButtonPositive(onTap: () {
                 if (selectedBackup != null) {
-                  showCustomAlertBottomDia(context,
+                  showCustomAlertDia(context,
                       title: "Devam etmek istiyor musunuz? (Üzerine Ekle)",
                       content:
                       """Yerelde bulunan verileriniz silinmeyecektir ama üzerine ekleneceği için veri değişikliğine, gereksiz veri fazlalığına veya veri kaybına neden olabilir""",

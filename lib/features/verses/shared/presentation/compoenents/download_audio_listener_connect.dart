@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/dialogs/show_custom_alert_dialog.dart';
+import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/verses/shared/data/mapper/param_mapper.dart';
 import 'package:hadith/features/verses/shared/domain/enums/audio_service.dart';
 import 'package:hadith/features/verses/shared/domain/notification/i_verse_download_audio_notification.dart';
@@ -73,7 +73,7 @@ class DownloadAudioListenerConnect extends StatelessWidget {
                       );
                       break;
                     case DownloadAudioDialogEventRequestPermission _:
-                      showCustomAlertDialog(
+                      showCustomAlertBottomDia(
                           context,
                           title: "Bildirim için izin gerekli",
                           content: "indirmeyi yönetme ve durum bilgisini görmek için gerekebilir",

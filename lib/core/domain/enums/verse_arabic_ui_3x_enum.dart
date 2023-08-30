@@ -1,5 +1,6 @@
 
 
+import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
 
 enum ArabicVerseUI3X with IPrefEnum{
@@ -95,7 +96,7 @@ enum ArabicVerseUI3X with IPrefEnum{
 
 }
 
-enum ArabicVerseUI3XOption {
+enum ArabicVerseUI3XOption with IMenuItem{
   arabic,
   pronunciation,
   meal;
@@ -111,6 +112,12 @@ enum ArabicVerseUI3XOption {
         return "Okunuşunu göster";
     }
   }
+
+  @override
+  get title => description;
+
+  @override
+  get iconInfo => null;
 
   static List<ArabicVerseUI3XOption> fromVerseUiEnum(ArabicVerseUI3X verseUi){
     final result = <ArabicVerseUI3XOption>[];

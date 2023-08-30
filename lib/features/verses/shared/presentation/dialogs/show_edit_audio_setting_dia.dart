@@ -99,7 +99,7 @@ void showEditAudioSettingDia(BuildContext context){
                 min: 0.5,
                 max: 2.0,
                 value: audioSpeed,
-                onClose: (newValue){
+                onApprove: (newValue){
                   audioBloc.add(AudioSettingEventSetSpeed(speed: newValue));
                 }
             );

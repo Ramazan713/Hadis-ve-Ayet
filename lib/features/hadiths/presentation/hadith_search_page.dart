@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
-import 'package:hadith/core/domain/extensions/app_extension.dart';
+import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_search_paging_repo.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
@@ -74,17 +74,18 @@ class HadithSearchPage extends StatelessWidget {
           }
         },
         onLoadSavePointRequestHandler: (requestHandler){
-          showCustomAlertBottomDia(context,
-              content:
-              "Farklı bir arama sonuç sayfasına geçmek istediğinize emin misiniz",
+          showCustomAlertDia(context,
+              title: "İçerikler değişecek",
+              content: "Farklı bir arama sonuç sayfasına geçmek istediğinize emin misiniz?",
               btnApproved: () {
                 requestHandler.call(true);
               });
         },
         onOverrideSavePointRequestHandler: (requestHandler){
-          showCustomAlertBottomDia(
+          showCustomAlertDia(
               context,
-              title: "Farklı bir arama kayıt noktasının üzerine yazmak istediğinize emin misiniz",
+              title: "Kayıt noktası değişecek",
+              content: "Farklı bir arama kayıt noktasının üzerine yazmak istediğinize emin misiniz?",
               btnApproved: (){
                 requestHandler(true);
               }

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/extensions/app_extension.dart';
+import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
 import 'package:hadith/core/presentation/components/icon_text_menu_item.dart';

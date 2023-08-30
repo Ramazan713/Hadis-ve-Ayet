@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
-import 'package:hadith/core/domain/extensions/app_extension.dart';
+import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';

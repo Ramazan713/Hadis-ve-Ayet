@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
-import 'package:hadith/core/domain/extensions/app_extension.dart';
+import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key.dart';

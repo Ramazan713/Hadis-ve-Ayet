@@ -2,6 +2,7 @@
 
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/features/search/presentation/bloc/search_bloc.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
@@ -9,8 +10,6 @@ import 'package:hadith/features/search/presentation/bloc/search_state.dart';
 import 'package:hadith/features/search/presentation/components/history_item.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hadith/features/search/presentation/sections/component_section.dart';
-import 'package:hadith/features/search/presentation/sections/functions_section.dart';
 
 extension SearchPageHistoryResultExt on SearchPage{
 
@@ -38,7 +37,7 @@ extension SearchPageHistoryResultExt on SearchPage{
           return HistoryItem(
             history: history,
             onClick: (){
-              setTextBar(history.name);
+              textEditingController.setTextWithCursor(history.name);
               unFocusBar(context);
               searchBloc.add(SearchEventSetQuery(query: history.name));
             },

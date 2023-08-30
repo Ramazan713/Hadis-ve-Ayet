@@ -12,7 +12,7 @@ import 'package:hadith/core/features/backup/backup/bloc/backup_bloc.dart';
 import 'package:hadith/core/features/backup/backup/bloc/backup_event.dart';
 import 'package:hadith/core/features/backup/backup/bloc/backup_state.dart';
 import 'package:hadith/core/features/backup/backup_meta/show_select_download_backup_dia.dart';
-import 'package:hadith/core/presentation/bottom_sheets/showCustomAlertBottomDia.dart';
+import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_full_loading_dia.dart';
 import 'package:hadith/dialogs/show_alert_bottom_dia_multiple_button.dart';
 import 'package:hadith/utils/toast_utils.dart';
@@ -117,7 +117,7 @@ class AuthAndBackupListenConnect extends StatelessWidget {
                   if(actionResult.isSuccess){
                     bloc.add(AuthEventSignOut());
                   }else{
-                    showCustomAlertBottomDia(context,title: "Devam etmek istiyor musunuz",
+                    showCustomAlertDia(context,title: "Devam etmek istiyor musunuz",
                         content: "Yedekleme işlemi başarısız oldu. Çıkış yaparsanız verileriniz kaybolabilir",
                         btnApproved: ()async{
                           bloc.add(AuthEventSignOut());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
-import 'package:hadith/core/domain/extensions/app_extension.dart';
+import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 

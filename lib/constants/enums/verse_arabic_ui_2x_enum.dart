@@ -1,8 +1,9 @@
 
 
+import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
 
-enum ArabicVerseUI2X with IPrefEnum{
+enum ArabicVerseUI2X with IPrefEnum, IMenuItem{
   both(
     enumValue: 0
   ),
@@ -17,6 +18,12 @@ enum ArabicVerseUI2X with IPrefEnum{
 
   @override
   final int enumValue;
+
+  @override
+  get title => description;
+
+  @override
+  get iconInfo => null;
 
   bool get arabicVisible{
     return [ArabicVerseUI2X.onlyArabic,ArabicVerseUI2X.both].contains(this);

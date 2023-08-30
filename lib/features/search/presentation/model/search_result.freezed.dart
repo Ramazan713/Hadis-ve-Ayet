@@ -34,7 +34,7 @@ abstract class $SearchResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String title,
-      List<SearchContent> searchContent,
+      List<SearchContent> searchContents,
       int resultCount,
       BookScopeEnum bookScope});
 }
@@ -53,7 +53,7 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
   @override
   $Res call({
     Object? title = null,
-    Object? searchContent = null,
+    Object? searchContents = null,
     Object? resultCount = null,
     Object? bookScope = null,
   }) {
@@ -62,9 +62,9 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      searchContent: null == searchContent
+      searchContents: null == searchContents
           ? _value.searchContents
-          : searchContent // ignore: cast_nullable_to_non_nullable
+          : searchContents // ignore: cast_nullable_to_non_nullable
               as List<SearchContent>,
       resultCount: null == resultCount
           ? _value.resultCount
@@ -88,7 +88,7 @@ abstract class _$$_SearchResultCopyWith<$Res>
   @useResult
   $Res call(
       {String title,
-      List<SearchContent> searchContent,
+      List<SearchContent> searchContents,
       int resultCount,
       BookScopeEnum bookScope});
 }
@@ -105,7 +105,7 @@ class __$$_SearchResultCopyWithImpl<$Res>
   @override
   $Res call({
     Object? title = null,
-    Object? searchContent = null,
+    Object? searchContents = null,
     Object? resultCount = null,
     Object? bookScope = null,
   }) {
@@ -114,9 +114,9 @@ class __$$_SearchResultCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      searchContent: null == searchContent
-          ? _value._searchContent
-          : searchContent // ignore: cast_nullable_to_non_nullable
+      searchContents: null == searchContents
+          ? _value._searchContents
+          : searchContents // ignore: cast_nullable_to_non_nullable
               as List<SearchContent>,
       resultCount: null == resultCount
           ? _value.resultCount
@@ -135,19 +135,19 @@ class __$$_SearchResultCopyWithImpl<$Res>
 class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
   const _$_SearchResult(
       {required this.title,
-      required final List<SearchContent> searchContent,
+      required final List<SearchContent> searchContents,
       required this.resultCount,
       required this.bookScope})
-      : _searchContent = searchContent;
+      : _searchContents = searchContents;
 
   @override
   final String title;
-  final List<SearchContent> _searchContent;
+  final List<SearchContent> _searchContents;
   @override
   List<SearchContent> get searchContents {
-    if (_searchContent is EqualUnmodifiableListView) return _searchContent;
+    if (_searchContents is EqualUnmodifiableListView) return _searchContents;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_searchContent);
+    return EqualUnmodifiableListView(_searchContents);
   }
 
   @override
@@ -157,7 +157,7 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SearchResult(title: $title, searchContent: $searchContents, resultCount: $resultCount, bookScope: $bookScope)';
+    return 'SearchResult(title: $title, searchContents: $searchContents, resultCount: $resultCount, bookScope: $bookScope)';
   }
 
   @override
@@ -166,7 +166,7 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
     properties
       ..add(DiagnosticsProperty('type', 'SearchResult'))
       ..add(DiagnosticsProperty('title', title))
-      ..add(DiagnosticsProperty('searchContent', searchContents))
+      ..add(DiagnosticsProperty('searchContents', searchContents))
       ..add(DiagnosticsProperty('resultCount', resultCount))
       ..add(DiagnosticsProperty('bookScope', bookScope));
   }
@@ -178,7 +178,7 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
             other is _$_SearchResult &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
-                .equals(other._searchContent, _searchContent) &&
+                .equals(other._searchContents, _searchContents) &&
             (identical(other.resultCount, resultCount) ||
                 other.resultCount == resultCount) &&
             (identical(other.bookScope, bookScope) ||
@@ -189,7 +189,7 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
   int get hashCode => Object.hash(
       runtimeType,
       title,
-      const DeepCollectionEquality().hash(_searchContent),
+      const DeepCollectionEquality().hash(_searchContents),
       resultCount,
       bookScope);
 
@@ -203,7 +203,7 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
 abstract class _SearchResult implements SearchResult {
   const factory _SearchResult(
       {required final String title,
-      required final List<SearchContent> searchContent,
+      required final List<SearchContent> searchContents,
       required final int resultCount,
       required final BookScopeEnum bookScope}) = _$_SearchResult;
 

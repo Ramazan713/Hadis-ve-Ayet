@@ -1,8 +1,10 @@
 
+import 'package:hadith/core/domain/models/i_menu_item.dart';
+import 'package:hadith/core/domain/models/icon_info.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-enum AudioQualityEnum with IPrefEnum{
+enum AudioQualityEnum with IPrefEnum, IMenuItem{
   q32(
     enumValue: 32
   ),
@@ -25,6 +27,12 @@ enum AudioQualityEnum with IPrefEnum{
   final int enumValue;
 
   int get quality => enumValue;
+
+  @override
+  String get title => "Bitrate: $quality";
+
+  @override
+  IconInfo? get iconInfo => null;
 
   static AudioQualityEnum get defaultValue => AudioQualityEnum.q64;
 

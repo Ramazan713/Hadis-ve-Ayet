@@ -3,11 +3,11 @@ import 'package:hadith/core/presentation/controllers/custom_position_controller.
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 
 
-class NavigationIcon extends StatelessWidget {
+class NavigateToIcon extends StatelessWidget {
 
   final CustomPositionController positionController;
   final void Function(int pos) onPosChanged;
-  const NavigationIcon({Key? key,required this.positionController, required this.onPosChanged}) : super(key: key);
+  const NavigateToIcon({Key? key,required this.positionController, required this.onPosChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -8,6 +8,7 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/components/save_point_list_view.dart';
 import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_point_event.dart';
+import 'package:hadith/core/presentation/components/dropdown_text_menu.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/utils/toast_utils.dart';
@@ -89,12 +90,14 @@ void _showSelectSavePoints(
       child: BlocSelector<ShowSavePointBloc,ShowSavePointState,SavePointType?>(
         selector: (state)=>state.selectedMenuItem,
         builder: (context,selectedOriginTag){
-          return DropdownButton<SavePointType>(
-            items:getDropDownItems(),
-            value: selectedOriginTag,
-            onChanged: (selected){
+          return CustomDropdownTextMenu(
+            selectedItem: selectedOriginTag,
+            items: menuItems,
+            addEmptyItem: true,
+            onSelected: (selected){
               bloc.add(ShowSavePointEventChangeMenuItem(savePointType: selected));
-            },);
+            },
+          );
         },
       ),
     );
