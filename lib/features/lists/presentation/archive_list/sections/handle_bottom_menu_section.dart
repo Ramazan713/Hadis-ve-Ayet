@@ -41,30 +41,30 @@ extension HandleBottomMenuExt on ArchiveListPage{
   }
 
   void _rename(BuildContext context, ListViewModel item){
+    final bloc = context.read<ArchiveListBloc>();
     showEditTextDia(context, (newText) {
-      context.read<ArchiveListBloc>()
-          .add(ArchiveListEventRename(listViewModel: item, newTitle: newText));
+      bloc.add(ArchiveListEventRename(listViewModel: item, newTitle: newText));
     }, title: "Yeniden İsimlendir", content: item.name);
   }
 
   void _remove(BuildContext context, ListViewModel item){
+    final bloc = context.read<ArchiveListBloc>();
     showCustomAlertDia(
         context,
         title: "Silmek istediğinize emin misiniz?",
         content: "Bu işlem geri alınamaz",
         btnApproved: () {
-          context.read<ArchiveListBloc>()
-              .add(ArchiveListEventRemove(listViewModel: item));
+          bloc.add(ArchiveListEventRemove(listViewModel: item));
         });
   }
 
   void _unArchive(BuildContext context, ListViewModel item){
+    final bloc = context.read<ArchiveListBloc>();
     showCustomAlertDia(
         context,
         title: "Arşivden çıkarmak istediğinize emin misiniz?",
         btnApproved: () {
-          context.read<ArchiveListBloc>()
-              .add(ArchiveListEventUnArchive(listViewModel: item));
+          bloc.add(ArchiveListEventUnArchive(listViewModel: item));
         });
   }
 

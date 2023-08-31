@@ -37,7 +37,7 @@ class GetLists {
       items.addAll(b);
 
       items.sort((a,b){
-        return a.listPos.compareTo(b.listPos);
+        return b.listPos.compareTo(a.listPos);
       });
       return items;
     });

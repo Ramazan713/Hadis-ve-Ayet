@@ -200,6 +200,7 @@ extension TopicPageTopBarExt on SurahPage{
       selector: (state)=>state.searchBarVisible,
       builder: (context, searchBarVisible){
         return CustomAppBarSearchable(
+          textEditingController: TextEditingController(),
           searchBarVisible: searchBarVisible,
           onChanged: (text){
             context.read<SurahBloc>().add(SurahEventSearch(query: text));

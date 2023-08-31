@@ -37,7 +37,6 @@ class TopicSavePointFloatingActionButton extends StatelessWidget {
                 return CustomAnimatedWidget(
                   isVisible: isFabVisible,
                   child: FloatingActionButton(
-                    backgroundColor:  Theme.of(context).errorColor,
                     onPressed: (){
                       final topicSavePoint = currentTopicSavePoint;
                       if(topicSavePoint!=null){

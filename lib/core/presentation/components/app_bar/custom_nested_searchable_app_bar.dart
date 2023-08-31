@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/presentation/components/app_bar/search_sliver_appbar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/widgets/app_bar/custom_search_sliver_appbar.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
@@ -6,7 +8,7 @@ import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 import 'custom_appbar_searchable.dart';
 import 'custom_nested_view.dart';
 
-class CustomNestedSearchableAppBar extends StatelessWidget {
+class CustomNestedSearchableAppBar extends StatefulWidget {
 
   final Widget child;
   final bool searchBarVisible;
@@ -22,9 +24,11 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
   final bool floating;
   final List<Widget>? actions;
   final List<Widget> headerSlivers;
+  final AppBarType? appBarType;
+  final bool? showNavigateBack;
 
   const CustomNestedSearchableAppBar({
-    Key? key,
+    required Key? key,
     required this.child,
     required this.onTextChanged,
     required this.onSearchVisibilityChanged,
@@ -37,62 +41,81 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
     this.pinned = false,
     this.snap = false,
     this.floating = false,
+    this.appBarType,
     this.useWillPopScope = true,
+    this.showNavigateBack,
     this.headerSlivers = const []
   }) : super(key: key);
+
+  @override
+  State<CustomNestedSearchableAppBar> createState() => _CustomNestedSearchableAppBarState();
+}
+
+class _CustomNestedSearchableAppBarState extends State<CustomNestedSearchableAppBar>{
+  final textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: (){
-        if(searchBarVisible && useWillPopScope){
-          onSearchVisibilityChanged(false);
+        if(widget.searchBarVisible && widget.useWillPopScope){
+          widget.onTextChanged("");
+          textEditingController.text = "";
+          widget.onSearchVisibilityChanged(false);
           return Future.value(false);
         }
         return Future.value(true);
       },
       child: CustomNestedView(
-        scrollController: scrollController,
+        scrollController: widget.scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
           return [
             _getSearchableAppBar(),
-            ...headerSlivers
+            ...widget.headerSlivers
           ];
         },
-        child: child
+        child: widget.child
       ),
     );
   }
 
   CustomAppBarSearchable _getSearchableAppBar(){
     return CustomAppBarSearchable(
-      searchBarVisible: searchBarVisible,
-      onChanged: onTextChanged,
+      searchBarVisible: widget.searchBarVisible,
+      onChanged: widget.onTextChanged,
       onClosed: (){
-        onSearchVisibilityChanged(false);
+        widget.onSearchVisibilityChanged(false);
       },
       sliverAppBar: _getAppBar(),
+      textEditingController: textEditingController,
     );
   }
 
   CustomSliverAppBar _getAppBar(){
     return CustomSliverAppBar(
-      title: title,
+      title: widget.title,
       actions: [
         IconButton(
           onPressed: () {
-            onSearchVisibilityChanged(true);
+            widget.onSearchVisibilityChanged(true);
           },
           icon: const Icon(Icons.search),
           tooltip: "Ara",
         ),
-        ...?actions,
+        ...?widget.actions,
       ],
-      bottom: appBarBottom,
-      floating: floating,
-      pinned: pinned,
-      snap: snap,
+      bottom: widget.appBarBottom,
+      floating: widget.floating,
+      pinned: widget.pinned,
+      snap: widget.snap,
+      appBarType: widget.appBarType,
+      showNavigateBack: widget.showNavigateBack,
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+  }
 }

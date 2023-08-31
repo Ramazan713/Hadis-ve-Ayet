@@ -15,6 +15,8 @@ import 'package:hadith/features/lists/presentation/show_list/sections/components
 import 'package:hadith/features/lists/presentation/show_list/sections/handle_bottom_menu_section.dart';
 import 'package:hadith/features/lists/presentation/show_list/sections/top_bar_section.dart';
 
+final _searchKey = GlobalKey();
+
 class ShowListPage extends StatelessWidget {
   const ShowListPage({Key? key}) : super(key: key);
 
@@ -46,9 +48,8 @@ class ShowListPage extends StatelessWidget {
 
   Widget getContent(BuildContext context,int gridCount){
     final listBloc = context.read<ShowListBloc>();
-
     return BlocSelector<ShowListBloc, ShowListState,bool>(
-      selector: (state)=>state.searchBarVisible,
+      selector: (state)=> state.searchBarVisible,
       builder: (context, searchBarVisible) {
         return DefaultTabController(
           length: 2,
@@ -56,6 +57,7 @@ class ShowListPage extends StatelessWidget {
             floatingActionButton: getFab(context),
             body: SafeArea(
               child: CustomNestedSearchableAppBar(
+                key: _searchKey,
                 pinned: true,
                 snap: true,
                 floating: true,
@@ -74,13 +76,22 @@ class ShowListPage extends StatelessWidget {
                     BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
                       selector: (state)=>state.listHadiths,
                       builder: (context,listHadiths){
-                        return getListItems(listHadiths, SourceTypeEnum.hadith, gridCount);
+                        return getListItems(
+                            items: listHadiths,
+                            gridCount: gridCount,
+                            sourceType: SourceTypeEnum.hadith,
+                            useSecondary: true
+                        );
                       },
                     ),
                     BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
                       selector: (state)=>state.listVerses,
                       builder: (context,listVerses){
-                        return getListItems(listVerses, SourceTypeEnum.verse,gridCount);
+                        return getListItems(
+                            items: listVerses,
+                            gridCount: gridCount,
+                            sourceType: SourceTypeEnum.verse,
+                        );
                       },
                     ),
                   ],
@@ -94,7 +105,12 @@ class ShowListPage extends StatelessWidget {
   }
 
 
-  Widget getListItems(List<ListViewModel>items, SourceTypeEnum sourceType, int gridCount){
+  Widget getListItems({
+    required List<ListViewModel>items,
+    required SourceTypeEnum sourceType,
+    required int gridCount,
+    bool useSecondary = false
+  }){
 
     return AlignedGridView.count(
       crossAxisCount: gridCount,
@@ -105,6 +121,7 @@ class ShowListPage extends StatelessWidget {
         return SharedListItem(
           subTitleTag: sourceType.shortName,
           listViewModel: item,
+          useSecondary: useSecondary,
           icon: sourceType.getListIcon(context, item.isRemovable),
           onClick: (){
             switch(sourceType){

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
@@ -28,55 +30,83 @@ class ArchiveListPage extends StatelessWidget {
             listBloc.add(ArchiveListEventClearMessage());
           }
         },
-        child: Scaffold(
-          body: SafeArea(
-            child: CustomNestedViewAppBar(
-                title: const Text("Arşiv"),
-                child: BlocBuilder<ArchiveListBloc, ArchiveListState>(
-                  builder: (context, state) {
-                    final items = state.listModels;
-
-                    if(items.isEmpty){
-                      return getEmptyWidget(context);
-                    }
-
-                    return ListView.builder(
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final item = items[index];
-                        final sourceType = item.sourceType;
-
-                        return SharedListItem(
-                          subTitleTag: sourceType.shortName,
-                          listViewModel: item,
-                          icon: sourceType.getListIcon(context, item.isRemovable),
-                          onClick: () {
-                            switch (sourceType) {
-                              case SourceTypeEnum.hadith:
-                                HadithListRoute(
-                                        listId: item.id,
-                                        sourceId: item.sourceType.sourceId
-                                ).push(context);
-                                break;
-                              case SourceTypeEnum.verse:
-                                VerseShowListRoute(
-                                    listId: item.id,
-                                    sourceId: item.sourceType.sourceId
-                                ).push(context);
-                                break;
-                            }
-                          },
-                          onMenuClick: () {
-                            showAndManageBottomMenu(context, item, sourceType);
-                          },
-                        );
-                      },
-                    );
-                  },
-                )),
+        child: AdaptiveLayout(
+          body: SlotLayout(
+            config: <Breakpoint, SlotLayoutConfig>{
+              Breakpoints.small: SlotLayout.from(
+                key: const Key('Archive List Body Small'),
+                builder: (_){
+                  return getContent(context,1);
+                },
+              ),
+              Breakpoints.mediumAndUp: SlotLayout.from(
+                  key: const Key('Archive List Body Medium'),
+                  builder: (_){
+                    return getContent(context, 2);
+                  }
+              )
+            },
           ),
         ),
+      )
+    );
+  }
+
+
+  Widget getContent(BuildContext context, int gridCount){
+    return Scaffold(
+      body: SafeArea(
+        child: CustomNestedViewAppBar(
+          title: const Text("Arşiv"),
+          child: getListItemsContent(gridCount),
+        ),
       ),
+    );
+  }
+
+  Widget getListItemsContent(int gridCount){
+    return BlocBuilder<ArchiveListBloc, ArchiveListState>(
+      builder: (context, state) {
+        final items = state.listModels;
+
+        if(items.isEmpty){
+          return getEmptyWidget(context);
+        }
+        return AlignedGridView.count(
+          crossAxisCount: gridCount,
+          crossAxisSpacing: 10,
+          itemCount: items.length,
+          itemBuilder: (context, index){
+            final item = items[index];
+            final sourceType = item.sourceType;
+
+            return SharedListItem(
+              subTitleTag: sourceType.shortName,
+              listViewModel: item,
+              icon: sourceType.getListIcon(context, item.isRemovable),
+              onClick: () {
+                switch (sourceType) {
+                  case SourceTypeEnum.hadith:
+                    HadithListRoute(
+                        listId: item.id,
+                        sourceId: item.sourceType.sourceId
+                    ).push(context);
+                    break;
+                  case SourceTypeEnum.verse:
+                    VerseShowListRoute(
+                        listId: item.id,
+                        sourceId: item.sourceType.sourceId
+                    ).push(context);
+                    break;
+                }
+              },
+              onMenuClick: () {
+                showAndManageBottomMenu(context, item, sourceType);
+              },
+            );
+          },
+        );
+      },
     );
   }
 

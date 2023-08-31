@@ -55,56 +55,56 @@ extension HandleBottomMenuExt on ShowListPage{
   }
 
   void _rename(BuildContext context, ListViewModel item){
+    final bloc = context.read<ShowListBloc>();
     showEditTextDia(context, (newText) {
-      context.read<ShowListBloc>()
-          .add(ShowListEventRename(listViewModel: item, newTitle: newText));
+      bloc.add(ShowListEventRename(listViewModel: item, newTitle: newText));
     }, title: "Yeniden İsimlendir", content: item.name,useRootNavigator: true);
   }
 
   void _remove(BuildContext context, ListViewModel item){
+    final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(
         context,
         useRootNavigator: true,
         title: "Silmek istediğinize emin misiniz?",
         content: "Bu işlem geri alınamaz",
         btnApproved: () {
-          context.read<ShowListBloc>()
-              .add(ShowListEventRemove(listViewModel: item));
-        });
+          bloc.add(ShowListEventRemove(listViewModel: item));
+        }
+    );
   }
 
   void _archive(BuildContext context, ListViewModel item){
+    final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(
         context,
         title: "Arşivlemek istediğinize emin misiniz?",
         useRootNavigator: true,
         content: "Arşivlenen listeler yalnızca arşiv kısmında kullanılabilir",
         btnApproved: () {
-          context.read<ShowListBloc>()
-              .add(ShowListEventArchive(listViewModel: item));
+          bloc.add(ShowListEventArchive(listViewModel: item));
         });
   }
 
   void _removeItems(BuildContext context, ListViewModel item, SourceTypeEnum sourceType){
     final key= sourceType==SourceTypeEnum.hadith?"hadisleri":"ayetleri";
-
+    final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(
         context,
         title: "Listedeki $key silmek istediğinize emin misiniz?",
         content: "Bu işlem geri alınamaz",
         useRootNavigator: true,
         btnApproved: (){
-          context.read<ShowListBloc>()
-              .add(ShowListEventRemoveItems(listViewModel: item));
+          bloc.add(ShowListEventRemoveItems(listViewModel: item));
         });
   }
 
   void _copy(BuildContext context, ListViewModel item){
+    final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(context,useRootNavigator: true,
         title: "Yeni bir kopya oluştumak istediğinize emin misiniz",
         btnApproved: () {
-          context.read<ShowListBloc>()
-              .add(ShowListEventCopy(listViewModel: item));
+          bloc.add(ShowListEventCopy(listViewModel: item));
         });
   }
 }

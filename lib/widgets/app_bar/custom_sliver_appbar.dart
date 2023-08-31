@@ -10,6 +10,7 @@ class CustomSliverAppBar extends StatelessWidget {
   final List<Widget>? actions;
   final AppBarType? appBarType;
   final double? toolbarHeight;
+  final bool? showNavigateBack;
 
   const CustomSliverAppBar({
     super.key,
@@ -20,7 +21,8 @@ class CustomSliverAppBar extends StatelessWidget {
     this.floating = false,
     this.bottom,
     this.appBarType,
-    this.toolbarHeight
+    this.toolbarHeight,
+    this.showNavigateBack
   });
 
 
@@ -34,6 +36,7 @@ class CustomSliverAppBar extends StatelessWidget {
       case AppBarType.defaultBar:
         return SliverAppBar(
           title: title,
+          leading: getNavigateBackIcon(context),
           pinned: pinned,
           snap: snap,
           floating: floating,
@@ -45,6 +48,7 @@ class CustomSliverAppBar extends StatelessWidget {
       case AppBarType.mediumBar:
         return SliverAppBar.medium(
           title: title,
+          leading: getNavigateBackIcon(context),
           pinned: pinned,
           snap: snap,
           floating: floating,
@@ -56,6 +60,7 @@ class CustomSliverAppBar extends StatelessWidget {
       case AppBarType.largeBar:
         return SliverAppBar.large(
           title: title,
+          leading: getNavigateBackIcon(context),
           pinned: pinned,
           snap: snap,
           floating: floating,
@@ -65,6 +70,17 @@ class CustomSliverAppBar extends StatelessWidget {
           toolbarHeight: toolbarHeight ?? kToolbarHeight,
         );
     }
+  }
+
+  Widget? getNavigateBackIcon(BuildContext context){
+    if(showNavigateBack == false) return null;
+    if(showNavigateBack == null && !Navigator.canPop(context)) return null;
+    return IconButton(
+      onPressed: (){
+        Navigator.pop(context);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
   }
 
 }

@@ -9,10 +9,16 @@ class CustomAppBarSearchable extends StatelessWidget {
   final void Function() onClosed;
   final CustomSliverAppBar sliverAppBar;
   final bool searchBarVisible;
+  final TextEditingController textEditingController;
+
 
   const CustomAppBarSearchable({
-    Key? key,required this.searchBarVisible, required this.onChanged, required this.onClosed,
+    Key? key,
+    required this.searchBarVisible,
+    required this.onChanged,
+    required this.onClosed,
     required this.sliverAppBar,
+    required this.textEditingController
   }) : super(key: key);
 
   @override
@@ -22,16 +28,16 @@ class CustomAppBarSearchable extends StatelessWidget {
         : sliverAppBar;
 
     return SliverAnimatedSwitcher(
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 300),
       child: appBar,
     );
-    return const Placeholder();
   }
 
   Widget _getSearchBar(BuildContext context){
     return SearchSliverAppBar(
       onChanged: onChanged,
       onClosed: onClosed,
+      textEditingController: textEditingController,
     );
   }
 }

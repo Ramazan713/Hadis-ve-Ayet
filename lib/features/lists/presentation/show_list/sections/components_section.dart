@@ -8,7 +8,6 @@ import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_even
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/custom_animated_widget.dart';
 
 extension ShowListComponentsSectionExt on ShowListPage{
 
@@ -28,12 +27,12 @@ extension ShowListComponentsSectionExt on ShowListPage{
   }
 
   Widget getFab(BuildContext context){
+    final bloc = context.read<ShowListBloc>();
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: (){
         showEditTextDia(context, (text) {
-          context.read<ShowListBloc>()
-              .add(ShowListEventAddNewList(listName: text));
+          bloc.add(ShowListEventAddNewList(listName: text));
         },title: "Başlık Girin");
       },
     );

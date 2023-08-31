@@ -21,6 +21,8 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'bloc/prayer_in_quran_bloc.dart';
 import 'bloc/prayer_in_quran_state.dart';
 
+final _searchKey = GlobalKey();
+
 class PrayerInQuranPage extends StatelessWidget {
   PrayerInQuranPage({Key? key}) : super(key: key);
 
@@ -28,10 +30,8 @@ class PrayerInQuranPage extends StatelessWidget {
   final ItemScrollController _itemScrollController = ItemScrollController();
   final CustomScrollController _scrollController = CustomScrollController();
 
-
   @override
   Widget build(BuildContext context) {
-
     final bloc = context.read<PrayerInQuranBloc>();
 
     return Scaffold(
@@ -41,6 +41,7 @@ class PrayerInQuranPage extends StatelessWidget {
           builder: (context, isSearchBarVisible){
 
             return CustomNestedSearchableAppBar(
+              key: _searchKey,
               scrollController: _scrollController,
               onTextChanged: (text){
                 bloc.add(PrayerInQuranEventSetQuery(query: text));

@@ -16,6 +16,8 @@ import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/components/esmaul_husna_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+final _searchKey = GlobalKey();
+
 class ShowEsmaulHusnaPage extends StatelessWidget {
 
   final int initPos;
@@ -40,6 +42,7 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
           selector: (state) => state.isSearchBarVisible,
           builder: (context, isSearchBarVisible){
             return CustomNestedSearchableAppBar(
+              key: _searchKey,
               onSearchVisibilityChanged: (isSearchVisible){
                 bloc.add(ShowEsmaulHusnaEventSetSearchBarVisibility(isVisible: isSearchVisible));
               },

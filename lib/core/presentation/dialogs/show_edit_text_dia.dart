@@ -4,15 +4,17 @@ import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/widgets/buttons/custom_button_negative.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
+final _formKey = GlobalKey<FormState>();
+
+
 void showEditTextDia(BuildContext context, Function(String) listener, {
   String title = "Başlık",
   String content = "",
-  bool useRootNavigator = false
+  bool useRootNavigator = true
 }) async{
 
-  var controller = TextEditingController(text: content);
+  final controller = TextEditingController(text: content);
   String? errorText;
-  final formKey = GlobalKey<FormState>();
 
   showDialog(
     context: context,
@@ -35,7 +37,7 @@ void showEditTextDia(BuildContext context, Function(String) listener, {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
                   child: Form(
-                    key: formKey,
+                    key: _formKey,
                     child: TextFormField(
                       style: Theme.of(context).textTheme.bodyMedium,
                       autofocus: true,
@@ -63,7 +65,7 @@ void showEditTextDia(BuildContext context, Function(String) listener, {
                     Navigator.of(context,rootNavigator: useRootNavigator).pop();
                   },
                   onApprove: (){
-                    if (formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       var text = controller.text;
                       listener.call(text);
                       Navigator.of(context,rootNavigator: useRootNavigator).pop();
