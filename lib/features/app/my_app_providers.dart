@@ -342,7 +342,11 @@ class MyAppProviders extends StatelessWidget {
           )),
           BlocProvider(create: (context)=> TopicSavePointBloc(topicSavePointUseCases: context.read())),
           BlocProvider(create: (context)=> ArchiveListBloc(listUseCases: context.read())),
-          BlocProvider(create: (context)=> SelectListBloc(selectListUseCases: context.read(), listUseCases: context.read())),
+          BlocProvider(create: (context)=> SelectListBloc(
+              selectListUseCases: context.read(),
+              listUseCases: context.read(),
+              appPreferences: context.read(),
+          )),
           BlocProvider(create: (context)=> SectionBloc(sectionViewRepo: context.read())),
           BlocProvider(create: (context)=> TopicBloc(topicViewRepo: context.read())),
           BlocProvider(create: (context)=> ShareBloc(shareManager: context.read(),sharePdfRepo: context.read())),

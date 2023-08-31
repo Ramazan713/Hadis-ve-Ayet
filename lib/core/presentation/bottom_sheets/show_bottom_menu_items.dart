@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
-import 'package:hadith/core/presentation/components/icon_text_menu_item.dart';
 
 void showBottomMenuItems<T extends IMenuItem>(BuildContext context, {
   required List<T> items,

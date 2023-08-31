@@ -15,6 +15,7 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
   final CustomScrollController? scrollController;
   final bool floatHeaderSlivers;
   final PreferredSizeWidget? appBarBottom;
+  final bool useWillPopScope;
   final Widget? title;
   final bool pinned;
   final bool snap;
@@ -36,12 +37,21 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
     this.pinned = false,
     this.snap = false,
     this.floating = false,
+    this.useWillPopScope = true,
     this.headerSlivers = const []
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CustomNestedView(
+    return WillPopScope(
+      onWillPop: (){
+        if(searchBarVisible && useWillPopScope){
+          onSearchVisibilityChanged(false);
+          return Future.value(false);
+        }
+        return Future.value(true);
+      },
+      child: CustomNestedView(
         scrollController: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
           return [
@@ -50,6 +60,7 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
           ];
         },
         child: child
+      ),
     );
   }
 
@@ -65,7 +76,7 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
   }
 
   CustomSliverAppBar _getAppBar(){
-    return  CustomSliverAppBar(
+    return CustomSliverAppBar(
       title: title,
       actions: [
         IconButton(

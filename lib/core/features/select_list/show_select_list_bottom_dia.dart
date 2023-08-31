@@ -1,31 +1,149 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/select_list/bloc/select_list_bloc.dart';
 import 'package:hadith/core/features/select_list/bloc/select_list_event.dart';
 import 'package:hadith/core/features/select_list/select_list_item.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
-import 'package:hadith/dialogs/edit_text_bottom_dia.dart';
+import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/buttons/custom_button_positive.dart';
-import 'package:hadith/widgets/icon_text_button_side.dart';
 import 'bloc/select_list_state.dart';
 
 
-void showSelectListBottomDia(
-    BuildContext context,
-{
+void showSelectListBottomDia(BuildContext context,{
   required int itemId,
   required SourceTypeEnum sourceType,
   int? listIdControl,
-  void Function()? onClosed,
   void Function(bool currentListAffected)? onDataChanged
-}) async {
-
-  final ScrollController scrollController = ScrollController();
+}) {
 
   final bloc = context.read<SelectListBloc>();
+  bloc.add(SelectListEventLoadData(
+      itemId: itemId,
+      sourceType: sourceType,
+      listIdControl: listIdControl
+  ));
+
+  Widget getListeners({required Widget child}){
+    return BlocListener<SelectListBloc, SelectListState>(
+      listener: (context, state){
+        final message = state.message;
+        final listAffected = state.listAffected;
+        if(message!=null){
+          ToastUtils.showLongToast(message);
+          bloc.add(SelectListEventClearMessage());
+        }
+        if(listAffected!=null){
+          onDataChanged?.call(listAffected);
+          bloc.add(SelectListEventClearListAffected());
+        }
+      },
+      child: child,
+    );
+  }
+
+  showModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    useSafeArea: true,
+    builder: (context) {
+      return getListeners(
+        child: DraggableScrollableSheet(
+          minChildSize: 0.4,
+          expand: false,
+          builder: (context, scrollControllerDraggable) {
+            return _DialogContent(
+              controller: scrollControllerDraggable,
+              onClosed: (){
+                Navigator.of(context,rootNavigator: false).pop();
+              },
+            );
+          },
+        ),
+      );
+    }
+  );
+}
+
+
+class _DialogContent extends StatelessWidget {
+
+  final ScrollController controller;
+  final void Function() onClosed;
+
+  const _DialogContent({
+    Key? key,
+    required this.controller,
+    required this.onClosed
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 7),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          getHeader(context),
+          const SizedBox(height: 8,),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: controller,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  getAddButton(context),
+                  getContent()
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getContent(){
+    return BlocBuilder<SelectListBloc, SelectListState>(
+      builder: (context, state) {
+        if (state.items.isEmpty) {
+          return Center(
+              child: getEmptyWidget(context)
+          );
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          controller: ScrollController(),
+          itemBuilder: (context, index) {
+            var item = state.items[index];
+
+            return SelectListItem(
+              isParentList: item.listViewModel.id == state.listIdControl,
+              item: item,
+              onClicked: (){
+                final listAffected = item.listViewModel.id == state.listIdControl;
+                if(item.isSelected && item.listViewModel.id == state.listIdControl){
+                  showCustomAlertDia(context,
+                      title: "Listeden kaldırmak istediğinize emin misiniz?",
+                      content: "Bulunduğunuz listeyi etkileyecektir",
+                      btnApproved: () {
+                        context.read<SelectListBloc>()
+                            .add(SelectListEventInsertOrDelete(item: item,listAffected: listAffected));
+                      });
+                }else{
+                  context.read<SelectListBloc>()
+                      .add(SelectListEventInsertOrDelete(item: item,listAffected: listAffected));
+                }
+              },
+
+            );
+          },
+          itemCount: state.items.length,
+        );
+      },
+    );
+  }
 
   Widget getEmptyWidget(BuildContext context) {
 
@@ -47,129 +165,44 @@ void showSelectListBottomDia(
     );
   }
 
-  Widget getHeader(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(
-          height: 7,
-        ),
-        Text(
-          "Liste Seçin",
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        const SizedBox(
-          height: 13,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 13, vertical: 7),
-            child: IconTextButtonSide(
-              iconData: Icons.add,
-              title: "Liste Ekle",
-              onPress: () {
-                showEditTextBottomDia(context, (label) {
-                  bloc.add(SelectListEventInsertNewList(listName: label));
-                }, title: "Liste ismi giriniz");
-              },
-            )),
-      ],
+  Widget getAddButton(BuildContext context){
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 7),
+        child: FilledButton.tonal(
+            onPressed: (){
+              showEditTextDia(
+                context, (label) {
+                  context.read<SelectListBloc>()
+                    .add(SelectListEventInsertNewList(listName: label));
+                },
+                title: "Liste ismi giriniz"
+              );
+            },
+            child: const Text("Liste Ekle"),
+        )
     );
   }
 
-  await showModalBottomSheet<void>(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-
-        bloc.add(SelectListEventLoadData(itemId: itemId, sourceType: sourceType,
-            listIdControl: listIdControl));
-
-        return BlocListener<SelectListBloc, SelectListState>(
-          listener: (context, state){
-            final message = state.message;
-            final listAffected = state.onListAffected;
-            if(message!=null){
-              ToastUtils.showLongToast(message);
-              bloc.add(SelectListEventClearMessage());
-            }
-            if(listAffected!=null){
-              onDataChanged?.call(listAffected);
-              bloc.add(SelectListEventClearListAffected());
-            }
-          },
-          child: DraggableScrollableSheet(
-            minChildSize: 0.2,
-            expand: false,
-            builder: (context, scrollControllerDraggable) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: CustomScrollView(
-                      shrinkWrap: true,
-                      controller: scrollControllerDraggable,
-                      slivers: [
-                        SliverList(
-                          delegate: SliverChildListDelegate([
-                            getHeader(),
-
-                            BlocBuilder<SelectListBloc, SelectListState>(
-                              builder: (context, state) {
-
-                                if (state.items.isEmpty) {
-                                  return Center(
-                                      child: getEmptyWidget(context));
-                                }
-
-                                return ListView.builder(
-                                  controller: scrollController,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    var item = state.items[index];
-
-                                    return SelectListItem(
-                                      onClicked: (){
-                                        final listAffected = item.listViewModel.id == state.listIdControl;
-                                        if(item.isSelected && item.listViewModel.id == state.listIdControl){
-                                          showCustomAlertDia(context,
-                                              title: "Listeden kaldırmak istediğinize emin misiniz?",
-                                              content: "Bulunduğunuz listeyi etkileyecektir",
-                                              btnApproved: () {
-                                                bloc.add(SelectListEventInsertOrDelete(item: item,listAffected: listAffected));
-                                              });
-                                        }else{
-                                          bloc.add(SelectListEventInsertOrDelete(item: item,listAffected: listAffected));
-                                        }
-                                      },
-                                      isParentList: item.listViewModel.id == state.listIdControl,
-                                      item: item,
-                                    );
-                                  },
-                                  itemCount: state.items.length,
-                                );
-                              },
-                            ),
-                          ]),
-                        )
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    height: 1,
-                    color: Colors.black,
-                  ),
-                  CustomButtonPositive(onTap: () {
-                   context.pop();
-                  }),
-                ],
-              );
-            },
+  Widget getHeader(BuildContext context){
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 48),
+          child: Text(
+            "Liste Seçin",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-        );
-      }).whenComplete((){
-    onClosed?.call();
-  });
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            onPressed: onClosed,
+            icon: const Icon(Icons.close),
+          ),
+        )
+      ],
+    );
+  }
 }

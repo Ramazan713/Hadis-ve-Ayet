@@ -18,7 +18,7 @@ import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_even
 
 import '../show_list_page.dart';
 
-extension ManageBottomMenuItems on ShowListPage{
+extension HandleBottomMenuExt on ShowListPage{
 
   void showAndManageBottomMenu(BuildContext context,ListViewModel item, SourceTypeEnum sourceType){
     final listMenuEnums = ShowListMenuEnum.getMenuItems(item.isRemovable);

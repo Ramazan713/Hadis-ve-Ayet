@@ -17,11 +17,6 @@ class ShowListEventSetVisibilitySearchBar extends IShowListEvent{
     ShowListEventSetVisibilitySearchBar({required this.searchBarVisible});
 }
 
-class ShowListEventSetVisibilityFab extends IShowListEvent{
-    final bool isVisible;
-    ShowListEventSetVisibilityFab({required this.isVisible});
-}
-
 class ShowListEventSearch extends IShowListEvent{
     final String query;
     ShowListEventSearch({required this.query});

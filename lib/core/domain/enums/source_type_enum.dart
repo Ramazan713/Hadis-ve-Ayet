@@ -28,20 +28,18 @@ extension SourceTypeEnumExt on SourceTypeEnum{
 
   Icon getListIcon(BuildContext context, bool isRemovable){
     if(!isRemovable){
-      return const Icon(Icons.favorite, size: 30, color: Colors.red,);
+      return Icon(Icons.favorite, size: 30, color: Theme.of(context).colorScheme.error,);
     }
     switch(this){
       case SourceTypeEnum.hadith:
-        return Icon(
+        return const Icon(
             Icons.my_library_books,
             size: 30,
-            color: Theme.of(context).iconTheme.color
         );
       case SourceTypeEnum.verse:
-        return Icon(
+        return const Icon(
             FontAwesomeIcons.bookQuran,
             size: 30,
-            color: Theme.of(context).iconTheme.color
         );
     }
   }

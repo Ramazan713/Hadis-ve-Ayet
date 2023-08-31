@@ -19,23 +19,29 @@ class SelectListItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final listModel = item.listViewModel;
+    final tileColor = isParentList ? Theme.of(context).colorScheme.secondaryContainer : null;
 
-    return Card(
-      color: isParentList==true?Theme.of(context).selectedRowColor:Theme.of(context).cardColor,
-      child: ListTile(
-        leading: Checkbox(
-          value: item.isSelected,
-          onChanged: (isChecked) {
-            onClicked();
-          },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 1),
+      child: CheckboxListTile(
+        value: item.isSelected,
+        selected: item.isSelected,
+        tileColor: tileColor,
+        selectedTileColor: tileColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(13),
         ),
-        title: Text(listModel.name,style: Theme.of(context).textTheme.bodyLarge,),
-        onTap: () {
-          onClicked();
+        onChanged: (selected){
+          onClicked.call();
         },
-        subtitle: Text("${listModel.itemCounts} ${listModel.sourceType.shortName}",
-          style: Theme.of(context).textTheme.bodyMedium,
+        title: Text(
+          listModel.name,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
+        subtitle: Text(
+          "${listModel.itemCounts} ${listModel.sourceType.shortName}",
+          style: Theme.of(context).textTheme.bodyMedium,
+        ) ,
       ),
     );
   }

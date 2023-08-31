@@ -7,6 +7,9 @@ class K{
     SavePointType.all, SavePointType.cuz
   ];
 
+  static const searchDelaySearchMilliSecond = 300;
+
+
   static const service = ServiceK();
   static const backup = BackupK();
   static const actKeys = ActionResultKeysK();

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
-import 'package:hadith/features/lists/presentation/show_list/models/list_tab_enum.dart';
+import 'package:hadith/features/lists/domain/list_tab_enum.dart';
 
 class ArchiveListState extends Equatable{
 

@@ -1,145 +1,132 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
-import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
+import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/lists/presentation/components/list_item.dart';
+import 'package:hadith/features/lists/presentation/shared/components/list_item.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
-import 'package:hadith/features/lists/presentation/show_list/extensions/manage_bottom_menu_item.dart';
-import 'package:hadith/features/lists/presentation/show_list/extensions/show_list_app_bar_ext.dart';
-import 'package:hadith/features/lists/presentation/show_list/models/list_tab_enum.dart';
-import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/custom_animated_widget.dart';
-
+import 'package:hadith/features/lists/presentation/show_list/sections/components_section.dart';
+import 'package:hadith/features/lists/presentation/show_list/sections/handle_bottom_menu_section.dart';
+import 'package:hadith/features/lists/presentation/show_list/sections/top_bar_section.dart';
 
 class ShowListPage extends StatelessWidget {
-  static String id = "ShowListPage";
   const ShowListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final listBloc = context.read<ShowListBloc>();
-
-    return ShareConnect(
-      child: BlocListener<ShowListBloc, ShowListState>(
-        listener: (context,state){
-          if(state.message!=null){
-            ToastUtils.showLongToast(state.message??"");
-            listBloc.add(ShowListEventClearMessage());
-          }
-        },
-        child: BlocSelector<ShowListBloc, ShowListState,bool>(
-          selector: (state)=>state.searchBarVisible,
-          builder: (context, searchBarVisible) {
-            return WillPopScope(
-              onWillPop: (){
-                if(searchBarVisible){
-                  listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: false));
-                  return Future.value(false);
-                }
-                return Future.value(true);
-              },
-              child: DefaultTabController(
-                length: 2,
-                initialIndex: ListTabEnumExt.defaultTab.index,
-                child: Scaffold(
-                  body: SafeArea(
-                    child: NestedScrollView(
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-
-                          listBloc.add(ShowListEventSetVisibilityFab(isVisible: !innerBoxIsScrolled));
-                          return [
-                            getSelectedAppBar()
-                          ];
-                        },
-                        body: TabBarView(
-                          children: [
-                            BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                                selector: (state)=>state.listHadiths,
-                                builder: (context,listHadiths){
-                                  return getListItems(listHadiths, SourceTypeEnum.hadith);
-                                },
-                            ),
-                            BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                              selector: (state)=>state.listVerses,
-                              builder: (context,listVerses){
-                                return getListItems(listVerses, SourceTypeEnum.verse);
-                              },
-                            ),
-                          ],
-                        )),
-                  ),
-                  floatingActionButton: getFab(),
+    return getListeners(
+      child: ShareConnect(
+          child: AdaptiveLayout(
+            body: SlotLayout(
+              config: <Breakpoint, SlotLayoutConfig>{
+                Breakpoints.small: SlotLayout.from(
+                  key: const Key('List Body Small'),
+                  builder: (_){
+                    return getContent(context,1);
+                  },
                 ),
-
-              ),
-            );
-          },
+                Breakpoints.mediumAndUp: SlotLayout.from(
+                  key: const Key('List Body Medium'),
+                  builder: (_){
+                    return getContent(context, 2);
+                  }
+                )
+              },
+            ),
+          )
         ),
-      ),
     );
   }
 
+  Widget getContent(BuildContext context,int gridCount){
+    final listBloc = context.read<ShowListBloc>();
 
-  Widget getListItems(List<ListViewModel>items,SourceTypeEnum sourceType){
-
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context,index){
-        var item = items[index];
-        return ListItem(
-            subTitleTag: sourceType.shortName,
-            listViewModel: item,
-            icon: sourceType.getListIcon(context, item.isRemovable),
-            onClick: (){
-              switch(sourceType){
-                case SourceTypeEnum.hadith:
-                  HadithListRoute(
-                    listId: item.id,
-                    sourceId: item.sourceType.sourceId,
-                  ).push(context);
-                  break;
-                case SourceTypeEnum.verse:
-                  VerseShowListRoute(
-                    listId: item.id,
-                    sourceId: item.sourceType.sourceId
-                  ).push(context);
-                  break;
-              }
-            },
-            onMenuClick: (){
-              showAndManageBottomMenu(context,item,sourceType);
-            },
+    return BlocSelector<ShowListBloc, ShowListState,bool>(
+      selector: (state)=>state.searchBarVisible,
+      builder: (context, searchBarVisible) {
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            floatingActionButton: getFab(context),
+            body: SafeArea(
+              child: CustomNestedSearchableAppBar(
+                pinned: true,
+                snap: true,
+                floating: true,
+                searchBarVisible: searchBarVisible,
+                onTextChanged: (newText){
+                  listBloc.add(ShowListEventSearch(query: newText));
+                },
+                onSearchVisibilityChanged: (newSearchBarVisible){
+                  listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
+                },
+                actions: getActions(context),
+                title: const Text("Listeler"),
+                appBarBottom: getTopTabBar(context),
+                child: TabBarView(
+                  children: [
+                    BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
+                      selector: (state)=>state.listHadiths,
+                      builder: (context,listHadiths){
+                        return getListItems(listHadiths, SourceTypeEnum.hadith, gridCount);
+                      },
+                    ),
+                    BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
+                      selector: (state)=>state.listVerses,
+                      builder: (context,listVerses){
+                        return getListItems(listVerses, SourceTypeEnum.verse,gridCount);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         );
       },
     );
-
   }
 
 
-  Widget getFab(){
-    return BlocSelector<ShowListBloc,ShowListState,bool>(
-        selector: (state)=>state.fabVisible,
-        builder: (context,isVisible){
-          return CustomAnimatedWidget(
-            isVisible: isVisible,
-            child: FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: (){
-                showEditTextDia(context, (text) {
-                  context.read<ShowListBloc>()
-                      .add(ShowListEventAddNewList(listName: text));
-                },title: "Başlık Girin");
-              },
-            ),
-          );
-        });
-  }
+  Widget getListItems(List<ListViewModel>items, SourceTypeEnum sourceType, int gridCount){
 
+    return AlignedGridView.count(
+      crossAxisCount: gridCount,
+      crossAxisSpacing: 10,
+      itemCount: items.length,
+      itemBuilder: (BuildContext context, int index) {
+        var item = items[index];
+        return SharedListItem(
+          subTitleTag: sourceType.shortName,
+          listViewModel: item,
+          icon: sourceType.getListIcon(context, item.isRemovable),
+          onClick: (){
+            switch(sourceType){
+              case SourceTypeEnum.hadith:
+                HadithListRoute(
+                  listId: item.id,
+                  sourceId: item.sourceType.sourceId,
+                ).push(context);
+                break;
+              case SourceTypeEnum.verse:
+                VerseShowListRoute(
+                    listId: item.id,
+                    sourceId: item.sourceType.sourceId
+                ).push(context);
+                break;
+            }
+          },
+          onMenuClick: (){
+            showAndManageBottomMenu(context,item,sourceType);
+          },
+        );
+      },
+    );
+  }
 }

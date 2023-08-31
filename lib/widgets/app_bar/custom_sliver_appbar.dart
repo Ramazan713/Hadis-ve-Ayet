@@ -33,6 +33,7 @@ class CustomSliverAppBar extends StatelessWidget {
     switch(appBarType ?? AppBarType.defaultBar){
       case AppBarType.defaultBar:
         return SliverAppBar(
+          title: title,
           pinned: pinned,
           snap: snap,
           floating: floating,
@@ -43,23 +44,23 @@ class CustomSliverAppBar extends StatelessWidget {
         );
       case AppBarType.mediumBar:
         return SliverAppBar.medium(
+          title: title,
           pinned: pinned,
           snap: snap,
           floating: floating,
           key: key,
           bottom: bottom,
-          title: title,
           actions: actions,
           toolbarHeight: toolbarHeight ?? kToolbarHeight,
         );
       case AppBarType.largeBar:
         return SliverAppBar.large(
+          title: title,
           pinned: pinned,
           snap: snap,
           floating: floating,
           key: key,
           bottom: bottom,
-          title: title,
           actions: actions,
           toolbarHeight: toolbarHeight ?? kToolbarHeight,
         );

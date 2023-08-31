@@ -2,14 +2,16 @@
 
 import 'dart:async';
 
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/app_constants.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/domain/use_cases/list/list_use_cases.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
-import 'package:hadith/features/lists/presentation/show_list/models/list_tab_enum.dart';
+import 'package:hadith/features/lists/domain/list_tab_enum.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
@@ -17,14 +19,12 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
   late final ListUseCases _listUseCases;
 
   final BehaviorSubject<String> _queryFilter = BehaviorSubject();
-  Timer? _timer;
   
   ShowListBloc({required ListUseCases listUseCases}): super(ShowListState.init()){
     _listUseCases = listUseCases;
     
     on<ShowListEventChangeTab>(_onShowListEventChangeTab);
     on<ShowListEventSetVisibilitySearchBar>(_onShowListEventSetVisibilitySearchBar);
-    on<ShowListEventSetVisibilityFab>(_onShowListEventSetVisibilityFab);
     on<ShowListEventListenListHadiths>(_onListenListHadiths);
     on<ShowListEventListenListVerses>(_onListenListVerses);
     on<ShowListEventSearch>(_onShowListEventSearch);
@@ -42,24 +42,18 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
   }
 
   void _onShowListEventChangeTab(ShowListEventChangeTab event, Emitter<ShowListState>emit){
-    emit(state.copyWith(listTab: ListTabEnumExt.fromIndex(event.index)));
+    emit(state.copyWith(currentTab: ListTabEnumExt.fromIndex(event.index)));
   }
 
   void _onShowListEventSearch(ShowListEventSearch event, Emitter<ShowListState>emit){
-    _timer?.cancel();
-    _timer = Timer(const Duration(milliseconds: kTimerDelaySearchMilliSecond), () {
+    EasyDebounce.debounce("list_search", const Duration(milliseconds: K.searchDelaySearchMilliSecond), () {
       _queryFilter.add(event.query);
     });
-
   }
 
 
   void _onShowListEventSetVisibilitySearchBar(ShowListEventSetVisibilitySearchBar event, Emitter<ShowListState>emit){
     emit(state.copyWith(searchBarVisible: event.searchBarVisible));
-  }
-
-  void _onShowListEventSetVisibilityFab(ShowListEventSetVisibilityFab event, Emitter<ShowListState>emit){
-    emit(state.copyWith(fabVisible: event.isVisible));
   }
 
   void _onAddNewList(ShowListEventAddNewList event, Emitter<ShowListState>emit)async{
@@ -101,11 +95,11 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
   }
 
   void _onClearMessage(ShowListEventClearMessage event, Emitter<ShowListState>emit)async{
-    emit(state.copyWith(setMessage: true));
+    emit(state.copyWith(message: null));
   }
 
   void _sendMessage(String message,Emitter<ShowListState>emit){
-    emit(state.copyWith(message: message,setMessage: true));
+    emit(state.copyWith(message: message));
   }
 
   void _onListenListHadiths(ShowListEventListenListHadiths event, Emitter<ShowListState>emit)async{

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/lists/presentation/archive_list/extensions/manage_bottom_menu_item.dart';
+import 'package:hadith/features/lists/presentation/archive_list/sections/handle_bottom_menu_section.dart';
 import 'package:hadith/features/paging/my_extractor_glow_behavior.dart';
 import 'package:hadith/utils/toast_utils.dart';
 
-import '../components/list_item.dart';
+import '../shared/components/list_item.dart';
 import 'bloc/archive_list_bloc.dart';
 import 'bloc/archive_list_event.dart';
 import 'bloc/archive_list_state.dart';
@@ -47,7 +46,7 @@ class ArchiveListPage extends StatelessWidget {
                         final item = items[index];
                         final sourceType = item.sourceType;
 
-                        return ListItem(
+                        return SharedListItem(
                           subTitleTag: sourceType.shortName,
                           listViewModel: item,
                           icon: sourceType.getListIcon(context, item.isRemovable),
@@ -93,14 +92,14 @@ class ArchiveListPage extends StatelessWidget {
             children: [
               const Icon(
                 Icons.library_add_check_outlined,
-                size: 150,
+                size: 100,
               ),
               const SizedBox(
                 height: 30,
               ),
               Text(
                 "Arşiv'e listeler ekleyebilirsiniz",
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               )
             ],
