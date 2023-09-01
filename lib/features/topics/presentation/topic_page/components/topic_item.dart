@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/db/entities/helper/item_count_model.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 
 class TopicItem extends StatelessWidget {
@@ -25,46 +24,56 @@ class TopicItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyText2Style = Theme.of(context).textTheme.bodyText2;
 
-    return Card(
-        color: Theme.of(context).colorScheme.secondary,
-        child: ListTile(
-          title: Text(
-            topicViewModel.name,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          leading: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                FontAwesomeIcons.bookOpenReader,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              rowNumber == null
-                  ? const SizedBox()
-                  : Text(
-                "${rowNumber}",
-                style: bodyText2Style?.copyWith(
-                    fontSize: (bodyText2Style.fontSize ?? 3) - 3),
-              )
-            ],
-          ),
-          subtitle: Text(
-            "${topicViewModel.itemsCount} ${sourceType.shortName}",
-            style: bodyText2Style,
-          ),
-          onTap: onTap,
-          onLongPress: onLongPress,
-          trailing: hasSavePoint
-              ? Icon(
-            Icons.beenhere,
-            color: Theme.of(context).errorColor,
-          )
-              : null,
-        ));
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(13)
+        ),
+        tileColor: Theme.of(context).colorScheme.secondaryContainer,
+        title: Text(
+          topicViewModel.name,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        leading: getLeading(context),
+        subtitle: Text(
+          "${topicViewModel.itemsCount} ${sourceType.shortName}",
+        ),
+        onTap: onTap,
+        onLongPress: onLongPress,
+        trailing: getTrailing(context),
+      ),
+    );
   }
+
+  Widget? getTrailing(BuildContext context){
+    if(!hasSavePoint) return null;
+    return Icon(
+      Icons.beenhere,
+      color: Theme.of(context).colorScheme.error
+    );
+  }
+
+  Widget getLeading(BuildContext context){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(FontAwesomeIcons.bookOpenReader),
+        const SizedBox(
+          height: 7,
+        ),
+        getRowNumberWidget(context)
+      ],
+    );
+  }
+
+  Widget getRowNumberWidget(BuildContext context){
+    if(rowNumber == null) return const SizedBox();
+    return Text(
+        "$rowNumber",
+        style: Theme.of(context).textTheme.bodySmall
+    );
+  }
+
 }

@@ -2,8 +2,10 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/app_constants.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
 import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
@@ -17,13 +19,10 @@ import 'surah_state.dart';
 
 class SurahBloc extends Bloc<ISurahEvent, SurahState>{
 
-
   final BehaviorSubject<String> _queryFilter = BehaviorSubject();
 
   late final SurahRepo _surahRepo;
   late final VerseTopicGetDownloadedModelsUseCase _getItemsUseCases;
-
-  Timer? _timer;
 
   SurahBloc({
     required SurahRepo surahRepo,
@@ -45,12 +44,10 @@ class SurahBloc extends Bloc<ISurahEvent, SurahState>{
   }
 
   void _onSearch(SurahEventSearch event, Emitter<SurahState> emit){
-    _timer?.cancel();
-    _timer = Timer(const Duration(milliseconds: kTimerDelaySearchMilliSecond), () async{
+    EasyDebounce.debounce("surah_search", const Duration(milliseconds: K.searchDelaySearchMilliSecond), () {
       _queryFilter.add(event.query);
     });
   }
-
 
   void _onLoadData(SurahEventLoadData event, Emitter<SurahState> emit) async{
 
@@ -58,7 +55,7 @@ class SurahBloc extends Bloc<ISurahEvent, SurahState>{
 
     emit(state.copyWith(isLoading: true, items: []));
 
-    final surahStream = _queryFilter.asyncMap((query)async{
+    final surahStream = _queryFilter.distinct().asyncMap((query)async{
       if(query.trim().isEmpty){
         return await _surahRepo.getAllSurah();
       }

@@ -104,7 +104,7 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
 
   void _onListenListHadiths(ShowListEventListenListHadiths event, Emitter<ShowListState>emit)async{
     
-    final streamData = _queryFilter.switchMap((query){
+    final streamData = _queryFilter.distinct().switchMap((query){
       if(query.trim().isNotEmpty){
         return _listUseCases.searchLists(query, SourceTypeEnum.hadith, false);
       }

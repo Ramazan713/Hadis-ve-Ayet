@@ -8,8 +8,8 @@ class VerseTopicItem extends StatelessWidget {
   final String label;
   final int itemId;
   final IconData iconData;
-  final void Function()?onTap;
-  final void Function()?onLongPress;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
   final bool hasSavePoint;
   final AudioInfoResultModel infoResult;
   final DownloadedAudioViewModel? downloadedAudioView;
@@ -75,15 +75,19 @@ class VerseTopicItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle=Theme.of(context).textTheme.bodyText1;
-    return Card(
-        color: Theme.of(context).colorScheme.secondary,
-        child: ListTile(
-          title: Text(label,style: textStyle,),
-          leading: Icon(iconData,color: textStyle?.color,),
-          onTap: onTap,
-          onLongPress: onLongPress,
-          trailing: getTrailingWidget(context),
-        ));
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(13)
+        ),
+        tileColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Text(label,),
+        leading: Icon(iconData),
+        onTap: onTap,
+        onLongPress: onLongPress,
+        trailing: getTrailingWidget(context),
+      ),
+    );
   }
 }

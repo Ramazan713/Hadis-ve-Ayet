@@ -2,9 +2,11 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/app_constants.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/enums/topic_save_point.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
@@ -21,12 +23,8 @@ import 'topic_state.dart';
 
 class TopicBloc extends Bloc<ITopicEvent, TopicState>{
 
-
   final BehaviorSubject<String> _queryFilter = BehaviorSubject();
-
   late final TopicViewRepo _topicViewRepo;
-
-  Timer? _timer;
 
   TopicBloc({
     required TopicViewRepo topicViewRepo,
@@ -37,7 +35,6 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
     on<TopicEventSetSearchBarVisibility>(_onSearchBarVisible, transformer: restartable());
     on<TopicEventSearch>(_onSearch, transformer: restartable());
     on<TopicEventLoadData>(_onLoadData, transformer: restartable());
-
   }
 
   void _onSearchBarVisible(TopicEventSetSearchBarVisibility event, Emitter<TopicState> emit){
@@ -45,12 +42,10 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
   }
 
   void _onSearch(TopicEventSearch event, Emitter<TopicState> emit){
-    _timer?.cancel();
-    _timer = Timer(const Duration(milliseconds: kTimerDelaySearchMilliSecond), () async{
+    EasyDebounce.debounce("topic_search", const Duration(milliseconds: K.searchDelaySearchMilliSecond), () {
       _queryFilter.add(event.query);
     });
   }
-
 
   void _onLoadData(TopicEventLoadData event, Emitter<TopicState> emit) async{
 
@@ -59,7 +54,7 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
 
     emit(state.copyWith(isLoading: true, items: []));
 
-    final streamData = _queryFilter.switchMap((query){
+    final streamData = _queryFilter.distinct().switchMap((query){
       if(event.useBookAllSections) {
         return _getAllBookSectionTopics(event.book, query, sourceType);
       }
