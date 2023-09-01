@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/features/select_edition/components/select_edition_item.dart';
-import 'package:hadith/core/presentation/components/dropdown_text_menu.dart';
+import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/dialogs/show_manage_edition_audios.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';

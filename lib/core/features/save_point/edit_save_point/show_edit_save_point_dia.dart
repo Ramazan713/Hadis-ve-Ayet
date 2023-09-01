@@ -8,6 +8,10 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/components/save_point_list_view.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
+import 'package:hadith/core/presentation/components/selections/custom_choice_chips.dart';
+import 'package:hadith/core/presentation/components/selections/custom_segmented_button.dart';
+import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
@@ -108,8 +112,6 @@ void showEditSavePointsDiaCustom(BuildContext context, {
 
   final title = customTitle ?? "Kayıt Noktaları";
 
-  final ScrollController scrollController = ScrollController();
-
   final editPointBloc = context.read<EditSavePointBloc>();
 
   editPointBloc.add(EditSavePointEventLoadData(
@@ -118,70 +120,255 @@ void showEditSavePointsDiaCustom(BuildContext context, {
       position: itemIndexPos
   ));
 
-  List<DropdownMenuItem<LocalDestinationScope>> getDropDownItems() {
-    List<DropdownMenuItem<LocalDestinationScope>> menuItems = [];
-    for (var item in LocalDestinationScope.values) {
-      menuItems.add(DropdownMenuItem(
-        value: item,
-        child: Text(
-            item.getDescription(),
-            style: Theme.of(context).textTheme.bodyLarge,
+
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) {
+
+        return DraggableScrollableSheet(
+          minChildSize: 0.4,
+          initialChildSize: 0.5,
+          maxChildSize: 0.99,
+          expand: false,
+          builder: (context, scrollControllerDraggable) {
+            return _DialogContent(
+              controller: scrollControllerDraggable,
+              title: title,
+              destination: destination,
+              itemIndexPos: itemIndexPos,
+              customBottomButtons: customBottomButtons,
+              description: description,
+              onLoadSavePointClick: onLoadSavePointClick,
+              onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
+              onOverrideSavePointRequestHandler: onLoadSavePointRequestHandler,
+              selectedSavePointId: selectedSavePointId,
+              useWideScope: useWideScope,
+            );
+          },
+        );
+      });
+}
+
+
+class _DialogContent extends StatelessWidget {
+
+  final ScrollController controller;
+  final SavePointDestination destination;
+  final int itemIndexPos;
+  final void Function(SavePoint savePoint, bool differentLocation)? onLoadSavePointClick;
+  final void Function(void Function(bool))? onOverrideSavePointRequestHandler;
+  final void Function(void Function(bool))? onLoadSavePointRequestHandler;
+  final int? selectedSavePointId;
+  final bool useWideScope;
+  final String? description;
+  final Widget Function(SavePoint?)? customBottomButtons;
+  final String title;
+
+  const _DialogContent({
+    Key? key,
+    required this.destination,
+    required this.itemIndexPos,
+    required this.controller,
+    required this.title,
+    this.onLoadSavePointClick,
+    this.onOverrideSavePointRequestHandler,
+    this.onLoadSavePointRequestHandler,
+    this.selectedSavePointId,
+    this.useWideScope = false,
+    this.description,
+    this.customBottomButtons
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return getListeners(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            getHeader(context),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: controller,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    getDescriptionWidget(context),
+                    const SizedBox(height: 8,),
+                    getHeaderButtons(context),
+                    getContent()
+                  ],
+                ),
+              ),
+            ),
+            getBottomButtons(context)
+          ],
         ),
-      ));
-    }
-    return menuItems;
+      ),
+    );
   }
 
-  Widget getDescriptionWidget(BuildContext context, String? description){
+  Widget getHeaderButtons(BuildContext context){
+    final menuWidget = getFilterMenu(context);
+    if(menuWidget == null) return getAddSavePointWidget(context);
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 1),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            menuWidget,
+            const SizedBox(width: 8,),
+            getAddSavePointWidget(context)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget? getFilterMenu(BuildContext context) {
+    if(!useWideScope) return null;
+    final bloc = context.read<EditSavePointBloc>();
+    return BlocSelector<EditSavePointBloc, EditSavePointState, LocalDestinationScope>(
+      selector: (state) => state.localScope,
+      builder: (context, selectedFilter) {
+        return SingleSelectSegmentedButton<LocalDestinationScope>(
+          items: LocalDestinationScope.values,
+          selectedItem: selectedFilter,
+          onSelected: (selectedItem){
+            bloc.add(EditSavePointEventChangeDestinationScope(scope: selectedItem));
+          },
+        );
+      },
+    );
+  }
+
+
+  //header contains close, dropdownButton,
+  Widget getHeader(BuildContext context){
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 48),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.close,
+            )
+          ),
+        )
+      ],
+    );
+  }
+
+
+  Widget getDescriptionWidget(BuildContext context){
     if(description == null){
       return const SizedBox();
     }
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
       child: Text(
-        description,
+        description ?? "",
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
 
-  Widget getDropdownButton() {
-    if(!useWideScope) return const SizedBox();
+  // button for adding new savePoints
+  Widget getAddSavePointWidget(BuildContext context){
+    final bloc = context.read<EditSavePointBloc>();
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 13),
-      child: BlocSelector<EditSavePointBloc, EditSavePointState, LocalDestinationScope>(
-        selector: (state) => state.localScope,
-        builder: (context, selectedFilter) {
-          return DropdownButton<LocalDestinationScope>(
-              items: getDropDownItems(),
-              value: selectedFilter,
-              onChanged: (scope) {
-                if (scope != null) {
-                  editPointBloc.add(EditSavePointEventChangeDestinationScope(scope: scope));
-                }
-              });
-        },
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: FilledButton.tonal(
+          onPressed: (){
+            final date = DateTime.now();
+            final title = SavePoint.getAutoSavePointTitle(
+                destination,
+                date: date.toString(),
+                useLocalWideScope: useWideScope
+            );
+            showEditTextDia(
+              context, (newTitle) {
+                bloc.add(EditSavePointEventInsert(
+                  title: newTitle,
+                  dateTime: date,
+                ));
+              },
+              title: "Başlık Girin",
+              content: title
+            );
+          },
+          child: const Text("Yeni kayıt oluştur")
       ),
     );
   }
 
+  // get content of savePoint items
+  Widget getContent(){
+    return BlocBuilder<EditSavePointBloc, EditSavePointState>(
+      builder: (context, state) {
+        final items = state.savePoints;
+        if (items.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            child: SharedEmptyResult(
+              content: "Herhangi bir kayıt bulunamadı",
+            ),
+          );
+        }
+        final bloc = context.read<EditSavePointBloc>();
+        return SavePointListView(
+          items: state.savePoints,
+          scrollController: ScrollController(),
+          selectedSavePoint: state.selectedSavePoint,
+          onSelectSavePoint: (savePoint) {
+            bloc.add(EditSavePointEventSelect(savePoint: savePoint));
+          },
+          onEditSavePoint: (savePoint,title){
+            bloc.add(EditSavePointEventRename(savePoint: savePoint,newTitle: title));
+          },
+          onDeleteSavePoint: (savePoint){
+            bloc.add(EditSavePointEventDelete(savePoint: savePoint));
+          },
+        );
+      },
+    );
+  }
+
   // bottom buttons
-  Widget getBottomButtons(){
+  Widget getBottomButtons(BuildContext context){
+    final bloc = context.read<EditSavePointBloc>();
     return BlocSelector<EditSavePointBloc, EditSavePointState,SavePoint?>(
         selector: (state) => state.selectedSavePoint,
         builder: (context,selectedSavePoint){
           if(customBottomButtons != null){
-            return customBottomButtons.call(selectedSavePoint);
+            return customBottomButtons!.call(selectedSavePoint);
           }
-
           return Row(
             children: [
+              const SizedBox(width: 8,),
               Expanded(
-                child: CustomButtonPositive(
-                  label: "Yükle",
-                  onTap: (){
-                    if(selectedSavePoint == null) return;
+                child: FilledButton(
+                  onPressed: selectedSavePoint == null ? null : (){
                     if(useWideScope && selectedSavePoint.destination.getParentKey()!=destination.getParentKey()){
                       onLoadSavePointRequestHandler?.call((result){
                         if(result){
@@ -192,25 +379,27 @@ void showEditSavePointsDiaCustom(BuildContext context, {
                       onLoadSavePointClick?.call(selectedSavePoint,false);
                     }
                   },
+                  child: const Text("Yükle"),
                 ),
               ),
+              const SizedBox(width: 8,),
               Expanded(
-                child: CustomButtonPositive(
-                  label: "Üzerine Yaz",
-                  onTap: (){
-                    if(selectedSavePoint == null) return;
+                child: FilledButton(
+                  onPressed: selectedSavePoint == null ? null : (){
                     if(useWideScope && selectedSavePoint.destination.getParentKey()!=destination.getParentKey()){
                       onOverrideSavePointRequestHandler?.call((result){
                         if(result){
-                          editPointBloc.add(EditSavePointEventOverride(selectedSavePoint: selectedSavePoint));
+                          bloc.add(EditSavePointEventOverride(selectedSavePoint: selectedSavePoint));
                         }
                       });
                     }else{
-                      editPointBloc.add(EditSavePointEventOverride(selectedSavePoint: selectedSavePoint));
+                      bloc.add(EditSavePointEventOverride(selectedSavePoint: selectedSavePoint));
                     }
                   },
+                  child: const Text("Üzerine Yaz"),
                 ),
-              )
+              ),
+              const SizedBox(width: 8,),
             ],
           );
         }
@@ -218,138 +407,19 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   }
 
 
-  //header contains close, dropdownButton,
-  Widget getTopHeader(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        getDropdownButton(),
-        IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.close,
-              size: 27,
-            ))
-      ],
+  Widget getListeners({required Widget child}){
+    return BlocListener<EditSavePointBloc, EditSavePointState>(
+      listener: (context, state) {
+        final message = state.message;
+        if (message != null) {
+          ToastUtils.showLongToast(message);
+          context.read<EditSavePointBloc>()
+              .add(EditSavePointEventClearMessage());
+        }
+      },
+      child: child,
     );
   }
 
-  //header contains title and description
-  Widget getHeaderDescription(){
-    return Column(
-      children: [
-        Text(title,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline6),
-        const SizedBox(
-          height: 13,
-        ),
-        getDescriptionWidget(context, description),
-      ],
-    );
-  }
-
-  // button for adding new savePoints
-  Widget getAddSavePointWidget(){
-    return CustomButtonPositive(
-      onTap: () {
-        final date = DateTime.now();
-        final title = SavePoint.getAutoSavePointTitle(destination, date: date.toString(),
-            useLocalWideScope: useWideScope);
-
-        showEditTextDia(context, (newTitle) {
-          editPointBloc.add(EditSavePointEventInsert(
-            title: newTitle,
-            dateTime: date,
-          ));
-        }, title: "Başlık Girin", content: title);
-      },
-      label: "Yeni kayıt oluştur",
-    );
-  }
-
-  // get content of savePoint items
-  Widget getContent(EditSavePointState state){
-    final items = state.savePoints;
-
-    if (items.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        child: Center(
-          child: Text(
-            "Herhangi bir kayıt bulunamadı",
-            style:
-            Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      );
-    }
-    return SavePointListView(
-      items: state.savePoints,
-      scrollController: scrollController,
-      selectedSavePoint: state.selectedSavePoint,
-      onSelectSavePoint: (savePoint) {
-        editPointBloc.add(EditSavePointEventSelect(savePoint: savePoint));
-      },
-      onEditSavePoint: (savePoint,title){
-        editPointBloc.add(EditSavePointEventRename(savePoint: savePoint,newTitle: title));
-      },
-      onDeleteSavePoint: (savePoint){
-        editPointBloc.add(EditSavePointEventDelete(savePoint: savePoint));
-      },
-    );
-  }
-
-
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (context) {
-
-        return BlocListener<EditSavePointBloc, EditSavePointState>(
-          listener: (context, state) {
-            if (state.message != null) {
-              ToastUtils.showLongToast(state.message ?? "");
-              editPointBloc.add(EditSavePointEventClearMessage());
-            }
-          },
-          child: DraggableScrollableSheet(
-            minChildSize: 0.4,
-            initialChildSize: 0.5,
-            maxChildSize: 0.99,
-            expand: false,
-            builder: (context, scrollControllerDraggable) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  getTopHeader(),
-
-                  Expanded(
-                    child: SingleChildScrollView(
-                      controller: scrollControllerDraggable,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          getHeaderDescription(),
-                          getAddSavePointWidget(),
-                          BlocBuilder<EditSavePointBloc, EditSavePointState>(
-                            builder: (context, state) {
-                              return getContent(state);
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  getBottomButtons()
-                ],
-              );
-            },
-          ),
-        );
-      });
 }
+

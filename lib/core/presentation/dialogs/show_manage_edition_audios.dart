@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/components/dropdown_text_menu.dart';
+import 'package:hadith/core/presentation/components/selections/custom_choice_chips.dart';
+import 'package:hadith/core/presentation/components/selections/custom_segmented_button.dart';
+import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
@@ -77,7 +79,7 @@ class _DialogContent extends StatelessWidget {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 13),
-                      child: getDropdownMenu()
+                      child: getFilterMenu()
                   ),
                   getContent()
                 ],
@@ -130,14 +132,15 @@ class _DialogContent extends StatelessWidget {
     );
   }
 
-  Widget getDropdownMenu(){
-    return BlocSelector<ManageAudioBloc,ManageAudioState,DownloadedAudioViewEnum?>(
-        selector: (state)=>state.selectedEnum,
+  Widget getFilterMenu(){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 7),
+      child: BlocSelector<ManageAudioBloc,ManageAudioState,DownloadedAudioViewEnum>(
+        selector: (state)=> state.selectedEnum ?? DownloadedAudioViewEnum.surah,
         builder: (context,currentEnum){
-          return CustomDropdownTextMenu(
+          return CustomChoiceChips<DownloadedAudioViewEnum>(
             items: DownloadedAudioViewEnum.values,
             selectedItem: currentEnum,
-            label: "Tür",
             onSelected: (DownloadedAudioViewEnum? newViewEnum){
               if(newViewEnum!=null){
                 context.read<ManageAudioBloc>()
@@ -145,7 +148,9 @@ class _DialogContent extends StatelessWidget {
               }
             }
           );
-        });
+        }
+      ),
+    );
   }
 
   Widget getHeader(BuildContext context){

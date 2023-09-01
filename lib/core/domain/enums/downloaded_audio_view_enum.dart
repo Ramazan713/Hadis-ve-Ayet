@@ -3,8 +3,8 @@
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 
 enum DownloadedAudioViewEnum with IMenuItem{
-  cuz,
-  surah;
+  surah,
+  cuz;
 
   String get description{
     switch(this){

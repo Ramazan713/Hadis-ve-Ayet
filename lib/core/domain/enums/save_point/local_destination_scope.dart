@@ -1,10 +1,9 @@
 
+import 'package:hadith/core/domain/models/i_menu_item.dart';
 
-enum LocalDestinationScope{
-  wide,restrict
-}
+enum LocalDestinationScope with IMenuItem{
+  wide,restrict;
 
-extension LocalDestinationScopeExt on LocalDestinationScope{
   String getDescription(){
     switch(this){
       case LocalDestinationScope.wide:
@@ -13,4 +12,11 @@ extension LocalDestinationScopeExt on LocalDestinationScope{
         return "Geçerli Alan";
     }
   }
+
+  @override
+  get title => getDescription();
+
+  @override
+  get iconInfo => null;
+
 }

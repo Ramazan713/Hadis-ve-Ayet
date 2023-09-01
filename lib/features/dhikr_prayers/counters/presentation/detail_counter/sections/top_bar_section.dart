@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
-import 'package:hadith/core/presentation/components/dropdown_icon_menu.dart';
+import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_3x.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_detail_top_bar_menu_item.dart';

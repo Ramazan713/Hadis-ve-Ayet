@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/components/dropdown_text_menu.dart';
+import 'package:hadith/core/presentation/components/selections/custom_choice_chips.dart';
+import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
@@ -73,7 +74,7 @@ class _DialogContent extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 7),
                     child: Align(
                         alignment: Alignment.centerLeft,
-                        child: getDropdownMenu()
+                        child: getFilterMenu()
                     ),
                   ),
                   getContent()
@@ -126,22 +127,22 @@ class _DialogContent extends StatelessWidget {
         });
   }
 
-  Widget getDropdownMenu(){
-    return BlocSelector<ManageAudioBloc,ManageAudioState,DownloadedAudioViewEnum?>(
-      selector: (state)=>state.selectedEnum,
-      builder: (context,currentEnum){
-        return CustomDropdownTextMenu(
-          items: DownloadedAudioViewEnum.values,
-          selectedItem: currentEnum,
-          label: "Tür",
-          onSelected: (selected){
-            if(selected!=null){
-              context.read<ManageAudioBloc>().
-                  add(ManageAudioEventChangeAudioViewType(selected));
-            }
-          },
-        );
-      }
+  Widget getFilterMenu(){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 7),
+      child: BlocSelector<ManageAudioBloc,ManageAudioState,DownloadedAudioViewEnum>(
+        selector: (state)=> state.selectedEnum ?? DownloadedAudioViewEnum.surah,
+        builder: (context,currentEnum){
+          return CustomChoiceChips(
+            items: DownloadedAudioViewEnum.values,
+            selectedItem: currentEnum,
+            onSelected: (selected){
+              context.read<ManageAudioBloc>()
+                  .add(ManageAudioEventChangeAudioViewType(selected));
+            },
+          );
+        }
+      ),
     );
   }
 

@@ -13,9 +13,13 @@ class SavePointListView extends StatelessWidget {
   final Function(SavePoint)? onDeleteSavePoint;
 
   const SavePointListView({
-    Key? key, required this.scrollController, required this.items,
-    required this.onSelectSavePoint, this.selectedSavePoint,
-    this.onEditSavePoint, this.onDeleteSavePoint
+    Key? key,
+    required this.scrollController,
+    required this.items,
+    required this.onSelectSavePoint,
+    this.selectedSavePoint,
+    this.onEditSavePoint,
+    this.onDeleteSavePoint
   }) : super(key: key);
 
 
@@ -28,31 +32,26 @@ class SavePointListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = items[index];
 
-        return GestureDetector(
-          onTap: (){
+        return SavePointItem(item: item,
+          isSelected: selectedSavePoint==item,
+          onClick: (){
             onSelectSavePoint(item);
           },
-          child: SavePointItem(item: item,
-            isSelected: selectedSavePoint==item,
-            onClick: (){
-              onSelectSavePoint(item);
-            },
-            editTitleListener: (){
-              if(onEditSavePoint == null) return;
-              showEditTextDia(context, (newText){
-                onEditSavePoint?.call(item,newText);
-              },title: "Yeniden Adlandır",content: item.title);
-            },removeItemListener: (){
-              if(onDeleteSavePoint == null) return;
-              showCustomAlertDia(context,title: "Silmek İstediğinize emin misiniz?",
-                  btnApproved: (){
-                    if(item.id == selectedSavePoint?.id){
-                      onSelectSavePoint(null);
-                    }
-                    onDeleteSavePoint?.call(item);
-                  });
-            },),
-        );
+          editTitleListener: (){
+            if(onEditSavePoint == null) return;
+            showEditTextDia(context, (newText){
+              onEditSavePoint?.call(item,newText);
+            },title: "Yeniden Adlandır",content: item.title);
+          },removeItemListener: (){
+            if(onDeleteSavePoint == null) return;
+            showCustomAlertDia(context,title: "Silmek İstediğinize emin misiniz?",
+              btnApproved: (){
+                if(item.id == selectedSavePoint?.id){
+                  onSelectSavePoint(null);
+                }
+                onDeleteSavePoint?.call(item);
+              });
+          },);
       },
       itemCount: items.length,
     );
