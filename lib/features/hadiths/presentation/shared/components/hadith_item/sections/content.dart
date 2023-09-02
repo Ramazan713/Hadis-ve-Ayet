@@ -1,8 +1,6 @@
 
-
-import 'package:hadith/constants/app_constants.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/utils/search_utils.dart';
-import 'package:hadith/utils/text_utils.dart';
 
 import '../hadith_item.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +12,12 @@ extension HadithItemContentExt on HadithItemState{
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _getContentWidget(context),
-
         const SizedBox(
           height: 13,
         ),
-
         Text("- ${hadithList.hadith.source}",
             textAlign: TextAlign.center,
-            style: getTextStyle(context)?.copyWith(fontSize: widget.fontSize - 4)
+            style: getSmallTextStyle(context)?.copyWith(fontSize: widget.fontSize - 4)
         ),
       ],
     );
@@ -29,7 +25,6 @@ extension HadithItemContentExt on HadithItemState{
 
 
   Widget _getContentWidget(BuildContext context){
-
     return ValueListenableBuilder<bool>(
         valueListenable: showContinue,
         builder: (context,showContinue,child){
@@ -45,14 +40,14 @@ extension HadithItemContentExt on HadithItemState{
 
   List<TextSpan> _getContentChildren(BuildContext context, bool showContinue){
     final content = !showContinue && isContentLarge
-        ? hadith.content.substring(0, kMaxContentSize)
+        ? hadith.content.substring(0, K.hadithMaxContentLengthSize)
         : hadith.content;
 
     final widgets = SearchUtils.getSelectedText(
         context,
         content: content,
         searchParam: widget.searchParam,
-        textStyle: getTextStyle(context),
+        textStyle: getSmallTextStyle(context),
     );
 
     if (!showContinue && isContentLarge) {
@@ -64,16 +59,17 @@ extension HadithItemContentExt on HadithItemState{
   TextSpan _getContinueWidget(BuildContext context){
     return TextSpan(children: [
       WidgetSpan(
-          child: InkWell(
-            child: Text(
-              "  ... devamını göster",
-              style: getTextStyle(context)?.copyWith(
-                  fontWeight: FontWeight.w500, fontSize: widget.fontSize - 2),
-            ),
-            onTap: () {
-              showContinue.value = true;
-            },
-          )),
+        child: InkWell(
+          child: Text(
+            "  ... devamını göster",
+            style: getSmallTextStyle(context)?.copyWith(
+                fontWeight: FontWeight.w500, fontSize: widget.fontSize - 2),
+          ),
+          onTap: () {
+            showContinue.value = true;
+          },
+        )
+      ),
     ]);
   }
 

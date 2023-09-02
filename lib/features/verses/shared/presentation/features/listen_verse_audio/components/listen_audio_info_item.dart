@@ -12,11 +12,10 @@ class ListenAudioInfoItem extends StatelessWidget {
 
     return BlocBuilder<ListenVerseAudioBloc, ListenVerseAudioState>(
       builder: (context, state) {
-
         return CustomAnimatedSwitcher(
-            firstChild: getContent(context, state.currentAudioInfo),
-            secondChild: const SizedBox(),
-            showFirstChild: state.showAudioPlayerWidget
+          firstChild: getContent(context, state.currentAudioInfo),
+          secondChild: const SizedBox(),
+          showFirstChild: state.showAudioPlayerWidget
         );
       },
     );
@@ -28,10 +27,11 @@ class ListenAudioInfoItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Card(
-          color: Theme.of(context).cardColor,
+          color: Theme.of(context).colorScheme.primaryContainer,
           margin: const EdgeInsets.symmetric(horizontal: 3,vertical: 3),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(13)),
+              borderRadius: BorderRadius.circular(13)
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 13),
             child: Text(

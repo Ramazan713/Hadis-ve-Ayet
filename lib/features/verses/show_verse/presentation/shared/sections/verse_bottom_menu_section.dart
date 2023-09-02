@@ -41,7 +41,7 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
 
     showVerseBottomMenu(context,
         verseListModel: verseListModel,
-        listener: (menuItem){
+        onListener: (menuItem){
           switch(menuItem){
             case VerseBottomMenuItem.download:
               navigateBack();

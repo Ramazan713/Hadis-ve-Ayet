@@ -23,12 +23,9 @@ import '../hadith_shared_page.dart';
 extension HadithSharedPageHadithIconsExt on HadithSharedPage{
 
 
-  void handleShareMenus(
-      BuildContext context,
-    {
-      required HadithListModel hadithListModel,
-    }
-  ){
+  void handleShareMenus(BuildContext context, {
+    required HadithListModel hadithListModel,
+  }){
     final shareBloc = context.read<ShareBloc>();
     final hadith = hadithListModel.hadith;
 
@@ -54,36 +51,30 @@ extension HadithSharedPageHadithIconsExt on HadithSharedPage{
     );
   }
 
-  void handleFavoriteClick(
-      BuildContext context,
-  {
+  void handleFavoriteClick(BuildContext context, {
     required HadithListModel hadithListModel,
     required HadithSharedState state
-  }
-  ){
+  }){
     final hadithSharedBloc = context.read<HadithSharedBloc>();
     final listFavAffected = state.favListId == listIdControlForSelectList;
 
     if(listFavAffected && hadithListModel.isInFavorite){
       showCustomAlertDia(
-          context,
-          title: "Favori listesinden kaldırmak istediğinize emin misiniz?",
-          content: "Bulunduğunuz listeyi etkileyecektir",
-          btnApproved: (){
-            hadithSharedBloc.add(HadithSharedEventFavorite(item: hadithListModel, listFavAffected: listFavAffected));
-          }
+        context,
+        title: "Favori listesinden kaldırmak istediğinize emin misiniz?",
+        content: "Bulunduğunuz listeyi etkileyecektir",
+        btnApproved: (){
+          hadithSharedBloc.add(HadithSharedEventFavorite(item: hadithListModel, listFavAffected: listFavAffected));
+        }
       );
     }else{
       hadithSharedBloc.add(HadithSharedEventFavorite(item: hadithListModel, listFavAffected: listFavAffected));
     }
   }
 
-  void selectListMenu(
-      BuildContext context,
-  {
+  void selectListMenu(BuildContext context, {
     required HadithListModel hadithListModel
-  }
-  ){
+  }){
     final pagingBloc = context.read<PaginationBloc>();
 
     showSelectListBottomDia(

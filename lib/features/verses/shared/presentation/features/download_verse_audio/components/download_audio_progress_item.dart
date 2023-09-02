@@ -16,8 +16,10 @@ class DownloadAudioProgressItem extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        LinearProgressIndicator(value: voiceState?.getProgressPercentage,
-            minHeight: 20),
+        LinearProgressIndicator(
+          value: voiceState?.getProgressPercentage,
+          minHeight: 20,
+        ),
         Text("%${voiceState?.getProgress100} (${voiceState?.downloadEnum.description})",
           textAlign: TextAlign.center,style: Theme.of(context).textTheme.bodyMedium,)
       ],

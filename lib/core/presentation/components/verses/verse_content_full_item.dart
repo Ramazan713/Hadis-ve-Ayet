@@ -79,11 +79,11 @@ class VerseContentFullItem extends StatelessWidget {
     if(arabicVerseUIEnum.mealVisible){
       items.add(
           RichText(
-              text: TextSpan(
-                  text: "${verse.verseNumber} - ",
-                  children: contents,
-                  style: sharedTextStyle
-              )
+            text: TextSpan(
+                text: "${verse.verseNumber} - ",
+                children: contents,
+                style: sharedTextStyle
+            )
           )
       );
     }

@@ -12,7 +12,7 @@ extension HadithItemHeaderExt on HadithItemState{
         Text(
           "${hadithList.rowNumber}",
           textAlign: TextAlign.start,
-          style: getTextStyle(context)?.copyWith(fontSize: widget.fontSize - 2),
+          style: getSmallTextStyle(context)?.copyWith(fontSize: widget.fontSize - 2),
         ),
         const SizedBox(
           width: 7,
@@ -21,7 +21,7 @@ extension HadithItemHeaderExt on HadithItemState{
           child: Text("- ${hadithList.topicNames}",
               textAlign: TextAlign.center,
               style:
-              getTextStyle(context)?.copyWith(fontSize: widget.fontSize - 4)),
+              getSmallTextStyle(context)?.copyWith(fontSize: widget.fontSize - 4)),
         ),
         const SizedBox(
           width: 33,

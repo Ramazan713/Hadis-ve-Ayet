@@ -10,12 +10,9 @@ import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_page.d
 extension HadithSharedPageSelectSavePointExt on HadithSharedPage{
 
 
-  void hadithShowSelectSavePoint(
-      BuildContext context,
-  {
+  void hadithShowSelectSavePoint(BuildContext context, {
     required int itemIndexPos,
-  }
-  ){
+  }){
     final pagingBloc = context.read<PaginationBloc>();
 
     if(editSavePointHandler!=null){

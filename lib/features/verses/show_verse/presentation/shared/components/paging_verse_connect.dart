@@ -14,7 +14,7 @@ class PagingVerseConnect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hadithBloc = context.read<VerseSharedBloc>();
+    final verseBloc = context.read<VerseSharedBloc>();
     final pagingBloc = context.read<PaginationBloc>();
 
     return MultiBlocListener(
@@ -24,7 +24,7 @@ class PagingVerseConnect extends StatelessWidget {
               final invalidateEvent = state.invalidateEvent;
               if(invalidateEvent!=null){
                 pagingBloc.add(PaginationEventInValidate(item: invalidateEvent.item, op: invalidateEvent.op));
-                hadithBloc.add(VerseSharedEventClearInvalidateEvent());
+                verseBloc.add(VerseSharedEventClearInvalidateEvent());
               }
             },
           )

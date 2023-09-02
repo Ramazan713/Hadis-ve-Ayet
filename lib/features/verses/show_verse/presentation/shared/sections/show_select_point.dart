@@ -9,12 +9,9 @@ import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show
 
 extension VerseShowSharedPageSelectSavePointExt on VerseShowSharedPage{
 
-  void verseShowSelectSavePoint(
-      BuildContext context,
-      {
-        required int itemIndexPos,
-      }
-      ){
+  void verseShowSelectSavePoint(BuildContext context, {
+    required int itemIndexPos,
+  }){
     final pagingBloc = context.read<PaginationBloc>();
 
     if(editSavePointHandler!=null){

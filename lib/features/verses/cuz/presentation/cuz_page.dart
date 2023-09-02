@@ -69,6 +69,7 @@ class CuzPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const DownloadAudioInfoItem(),
+                    const SizedBox(height: 4,),
                     Expanded(
                       child: BlocBuilder<CuzBloc, CuzState>(
                         builder: (context, state){

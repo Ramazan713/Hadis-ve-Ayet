@@ -9,6 +9,7 @@ import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
+import 'package:hadith/core/presentation/dialogs/show_get_number_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/features/verses/shared/presentation/dialogs/show_edit_audio_setting_dia.dart';
@@ -74,16 +75,16 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
 
         return IconButton(
             onPressed: () async {
-
               final visibleMiddleItem = state.visibleMiddleItem.castOrNull<VerseListModel>();
               if(visibleMiddleItem==null)return;
 
-              showGetNumberBottomDia(
-                  context, (selected) {
-                    pagingBloc.add(PaginationEventJumpToPos(pos: selected));
-                  },
-                  currentIndex: visibleMiddleItem.rowNumber,
-                  limitIndex: state.totalItems - 1
+              showGetNumberDia(
+                context,
+                listener: (selected) {
+                  pagingBloc.add(PaginationEventJumpToPos(pos: selected));
+                },
+                currentIndex: visibleMiddleItem.rowNumber,
+                limitIndex: state.totalItems - 1
               );
             },
             icon: const Icon(Icons.map)

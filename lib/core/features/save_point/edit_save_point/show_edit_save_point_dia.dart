@@ -8,13 +8,10 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/components/save_point_list_view.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_point_bloc.dart';
-import 'package:hadith/core/presentation/components/selections/custom_choice_chips.dart';
 import 'package:hadith/core/presentation/components/selections/custom_segmented_button.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 import 'bloc/edit_save_point_event.dart';
 import 'bloc/edit_save_point_state.dart';
@@ -37,14 +34,12 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
       customTitle: title,
       useWideScope: false,
       customBottomButtons: (savePoint){
-        return CustomButtonPositive(
-          onTap: (){
-            if(savePoint!=null){
-              onSelectedSavePoint(savePoint);
-              Navigator.pop(context);
-            }
+        return FilledButton(
+          onPressed: savePoint == null ? null : (){
+            onSelectedSavePoint(savePoint);
+            Navigator.pop(context);
           },
-          label: "Onayla",
+          child: const Text("Onayla")
         );
       }
   );

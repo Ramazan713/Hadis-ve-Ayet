@@ -79,6 +79,7 @@ class SurahPage extends StatelessWidget {
                     child: Column(
                       children: [
                         const DownloadAudioInfoItem(),
+                        const SizedBox(height: 4,),
                         Expanded(
                           child: getContent()
                         )

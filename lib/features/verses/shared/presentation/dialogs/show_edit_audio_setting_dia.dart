@@ -17,14 +17,63 @@ void showEditAudioSettingDia(BuildContext context){
   audioBloc.add(AudioSettingEventLoadData());
 
   void onNavigateBack(){
-    Navigator.pop(context);
+    Navigator.of(context,rootNavigator: true).pop();
   }
 
-  Widget getDivider(){
-    return const Divider(
-      height: 2,
+  showDialog(
+      context: context,
+      useSafeArea: true,
+      builder: (context){
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 13,vertical: 13),
+          child: _DialogContent(
+            onNavigateBack: onNavigateBack,
+          ),
+        );
+      }
+  );
+
+}
+
+class _DialogContent extends StatelessWidget {
+
+  final void Function() onNavigateBack;
+
+  const _DialogContent({
+    Key? key,
+    required this.onNavigateBack
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 13,horizontal: 5),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            getHeader(context),
+            getDivider(),
+            getBodyContent(context)
+          ],
+        )
     );
   }
+
+
+  Widget getBodyContent(BuildContext context){
+    return Column(
+      children: [
+        getAudioEditionSection(),
+        getDivider(),
+        getEditDownloadedAudioSection(context),
+        getDivider(),
+        getFollowAudioSection(context),
+        getDivider(),
+        getSpeedSection(context)
+      ],
+    );
+  }
+
 
   Widget getHeader(BuildContext context){
     return Row(
@@ -60,7 +109,8 @@ void showEditAudioSettingDia(BuildContext context){
     );
   }
 
-  Widget getFollowAudioSection(){
+  Widget getFollowAudioSection(BuildContext context){
+    final audioBloc = context.read<AudioSettingBloc>();
     return BlocSelector<AudioSettingBloc,AudioSettingState,bool>(
       selector: (state)=>state.followAudioText,
       builder: (context,followAudioText){
@@ -76,7 +126,7 @@ void showEditAudioSettingDia(BuildContext context){
     );
   }
 
-  Widget getEditDownloadedAudioSection(){
+  Widget getEditDownloadedAudioSection(BuildContext context){
     return CustomListTile(
       title: "İndirilen ses dosyalarını yönet",
       onTap: (){
@@ -85,7 +135,8 @@ void showEditAudioSettingDia(BuildContext context){
     );
   }
 
-  Widget getSpeedSection(){
+  Widget getSpeedSection(BuildContext context){
+    final audioBloc = context.read<AudioSettingBloc>();
     return BlocSelector<AudioSettingBloc,AudioSettingState,double>(
       selector: (state)=>state.audioSpeed,
       builder: (context,audioSpeed){
@@ -109,41 +160,12 @@ void showEditAudioSettingDia(BuildContext context){
     );
   }
 
-  Widget getBodyContent(){
-    return Column(
-      children: [
-        getAudioEditionSection(),
-        getDivider(),
-        getEditDownloadedAudioSection(),
-        getDivider(),
-        getFollowAudioSection(),
-        getDivider(),
-        getSpeedSection()
-      ],
+  Widget getDivider(){
+    return const Divider(
+      height: 2,
     );
   }
 
-  showDialog(
-      context: context,
-      useSafeArea: true,
-      builder: (context){
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 13,vertical: 13),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 13,horizontal: 5),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  getHeader(context),
-                  getDivider(),
-                  getBodyContent()
-                ],
-              )
-            ),
-          ),
-        );
-      }
-  );
-
 }
+
+

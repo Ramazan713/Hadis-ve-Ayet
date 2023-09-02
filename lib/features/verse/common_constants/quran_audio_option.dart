@@ -1,14 +1,14 @@
 
 
 
-enum QuranAudioOption{
+import 'package:hadith/core/domain/models/i_menu_item.dart';
+
+enum QuranAudioOption with IMenuItem{
   cuz,
   surah,
   page,
   verse;
-}
 
-extension QuranAudioOptionExtension on QuranAudioOption{
   String get description{
     switch(this){
       case QuranAudioOption.cuz:
@@ -21,4 +21,11 @@ extension QuranAudioOptionExtension on QuranAudioOption{
         return "Ayet";
     }
   }
+
+  @override
+  get title => description;
+
+  @override
+  get iconInfo => null;
+
 }

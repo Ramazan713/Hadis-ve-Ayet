@@ -22,6 +22,7 @@ class K{
 
   static const int hadithPageSize = 19;
   static const int hadithPagingPrefetchSize = 5;
+  static const int hadithMaxContentLengthSize = 700;
 
   static const int versePageSize = 19;
   static const int versePagingPrefetchSize = 5;

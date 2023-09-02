@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/app_constants.dart';
-import 'package:hadith/constants/enums/font_size_enum.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/extensions/content.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/extensions/hadith_buttons.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/extensions/header.dart';
-import 'package:hadith/utils/text_utils.dart';
+import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/sections/content.dart';
+import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/sections/hadith_buttons.dart';
+import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/sections/header.dart';
 
 
 class HadithItem extends StatefulWidget {
@@ -32,39 +30,39 @@ class HadithItemState extends State<HadithItem> {
   HadithListModel get hadithList => widget.hadithList;
   Hadith get hadith => hadithList.hadith;
 
-  bool get isContentLarge => hadith.contentSize > kMaxContentSize;
+  bool get isContentLarge => hadith.contentSize > K.hadithMaxContentLengthSize;
 
 
   final ValueNotifier<bool> showContinue = ValueNotifier(false);
 
-  TextStyle? getTextStyle(BuildContext context){
-    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+  TextStyle? getSmallTextStyle(BuildContext context){
+    return Theme.of(context).textTheme.bodySmall?.copyWith(
         fontSize: widget.fontSize, fontWeight: FontWeight.w400, inherit: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: InkWell(
-        onLongPress: widget.onLongClick,
-        child: Ink(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                getHeader(context),
-                const SizedBox(
-                  height: 7,
-                ),
-                getContentBody(context),
-                const SizedBox(
-                  height: 5,
-                ),
-                getButtons(context)
-              ],
-            ),
+    final borderRadius = BorderRadius.circular(20);
+    return InkWell(
+      onLongPress: widget.onLongClick,
+      borderRadius: borderRadius,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              getHeader(context),
+              const SizedBox(
+                height: 7,
+              ),
+              getContentBody(context),
+              const SizedBox(
+                height: 5,
+              ),
+              getButtons(context)
+            ],
           ),
         ),
       ),

@@ -30,7 +30,7 @@ class AudioPlayerContentWidget extends StatelessWidget {
             overlayShape: RoundSliderOverlayShape(overlayRadius: 12),
           ),
           child: Container(
-            color: Theme.of(context).bottomAppBarColor,
+            color: Theme.of(context).colorScheme.surface,
             child: Wrap(
               children: [
                 Column(
@@ -154,7 +154,7 @@ extension AudioPlayerContentBodyExt on AudioPlayerContentWidget{
         onPressed: (){
           audioBloc.add(ListenAudioEventStop());
         },
-        icon: Icon(Icons.close,color: Theme.of(context).errorColor,)
+        icon: Icon(Icons.close,color: Theme.of(context).colorScheme.error,)
     );
   }
 

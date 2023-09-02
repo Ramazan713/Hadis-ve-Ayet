@@ -28,8 +28,9 @@ class AudioInfoBodyWrapper extends StatelessWidget {
       },
       child: Column(
         children: [
-          const DownloadAudioInfoItem(),
           const ListenAudioInfoItem(),
+          const SizedBox(height: 4,),
+          const DownloadAudioInfoItem(),
           Expanded(child: child),
           ListenAudioPlayerWidget(
             destination: destination,

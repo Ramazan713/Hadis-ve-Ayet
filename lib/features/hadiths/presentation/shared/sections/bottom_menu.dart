@@ -11,12 +11,9 @@ import '../hadith_shared_page.dart';
 
 extension HadithSharedPageBottomMenuExt on HadithSharedPage{
 
-  void handleBottomMenu(
-      BuildContext context,
-      {
-        required HadithListModel hadithListModel
-      }
-  ){
+  void handleBottomMenu(BuildContext context,{
+    required HadithListModel hadithListModel
+  }){
     showBottomMenuItems(context,
       items: HadithBottomMenuItem.values,
       onItemClick: (menuItem){

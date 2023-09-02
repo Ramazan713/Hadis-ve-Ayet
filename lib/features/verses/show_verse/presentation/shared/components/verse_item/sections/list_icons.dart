@@ -9,17 +9,14 @@ extension VerseItemListIconsExt on VerseItem{
   Widget getListIcons(BuildContext context) {
 
     if(!showListVerseIcons) return const SizedBox();
-
     final items = <Widget>[];
-    final IThemeModel themeModel = ThemeUtil.getThemeModel(context);
-    const opacity = 0.7;
     final iconSize = smallFontValue;
 
     if (verseListModel.isInAnyList) {
       items.add(Icon(
         Icons.library_add_check,
         size: iconSize,
-        color: Theme.of(context).iconTheme.color?.withOpacity(opacity),
+        color: Theme.of(context).colorScheme.primary,
       ));
       items.add(const SizedBox(
         width: 5,
@@ -29,7 +26,7 @@ extension VerseItemListIconsExt on VerseItem{
     if (verseListModel.isInFavorite) {
       items.add(Icon(
         Icons.favorite,
-        color: Theme.of(context).errorColor.withOpacity(opacity),
+        color: Theme.of(context).colorScheme.error,
         size: iconSize,
       ));
       items.add(const SizedBox(
@@ -41,7 +38,7 @@ extension VerseItemListIconsExt on VerseItem{
       items.add(Icon(
         Icons.library_add_check,
         size: iconSize,
-        color: themeModel.getBlueShadeColor().withOpacity(opacity),
+        color: Theme.of(context).colorScheme.tertiary,
       ));
     }
 
