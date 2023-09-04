@@ -19,7 +19,6 @@ class CounterContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).cardColor,
       margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 3),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
       child: Padding(
@@ -27,9 +26,12 @@ class CounterContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(title,
-              style: Theme.of(context).textTheme.titleMedium?.
-                  copyWith(fontWeight: FontWeight.w500, fontSize: fontModel.contentFontSize),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.bodyLarge?.
+                copyWith(fontWeight: FontWeight.w500,
+                fontSize: fontModel.contentFontSize - 1
+              ),
               textAlign: TextAlign.start,
             ),
             const SizedBox(height: 3,),
@@ -49,7 +51,7 @@ class CounterContent extends StatelessWidget {
       );
     }
     return Text(content,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
         fontSize: fontModel.contentFontSize
       )
     );

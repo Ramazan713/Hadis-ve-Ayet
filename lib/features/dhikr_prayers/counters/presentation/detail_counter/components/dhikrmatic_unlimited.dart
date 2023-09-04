@@ -12,18 +12,19 @@ class DhikrmaticUnLimited extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: radius*2,
-      width: radius*2,
+      height: radius * 2,
+      width: radius * 2,
       child: Card(
         elevation: 7,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: InkWell(
           onTap: onClick,
           borderRadius: BorderRadius.circular(radius),
           child: Center(
-            child: Text(counter.toString(),
-              style: Theme.of(context).textTheme.headline3),
+            child: Text(
+              counter.toString(),
+              style: Theme.of(context).textTheme.displaySmall),
           ),
         ),
       ),

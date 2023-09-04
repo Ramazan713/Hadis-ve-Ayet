@@ -23,7 +23,9 @@ class KPref{
   static final PrefKey<bool> eachDhikrVibration = PrefKey(key: "eachDhikrVibration", defaultValue: false);
   static final PrefKey<bool> eachEndOfTourVibration = PrefKey(key: "eachEndOfTourVibration", defaultValue: true);
   static final PrefKey<bool> showDownloadDiaInLogin= PrefKey<bool>(key: "showDownloadDiaInLogin", defaultValue: true);
+  static final PrefKey<bool> showCounterDetailContents = PrefKey<bool>(key: "showCounterDetailContents", defaultValue: true);
   static final PrefKey<String> counterBackupDate = PrefKey<String>( key: "counterBackupDate",defaultValue: "");
+  static final PrefKey<bool> addCounterShowDetails = PrefKey<bool>( key: "addCounterShowDetails",defaultValue: false);
 
 
 
@@ -55,7 +57,7 @@ class KPref{
     fontSizeContent, fontSizeArabic, useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
     defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,
-    counterBackupDate
+    counterBackupDate, showCounterDetailContents, addCounterShowDetails
   ];
 
   static final prefEnumValues = <PrefKeyEnum>[

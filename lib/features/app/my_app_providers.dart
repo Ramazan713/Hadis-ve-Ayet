@@ -22,7 +22,7 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc
 import 'package:hadith/db/repos/verse_audio_editor_repo.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/app/bloc/bottom_nav_bloc.dart';
-import 'package:hadith/features/app/my_app.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/bloc/counter_setting_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_bloc.dart';
@@ -45,7 +45,6 @@ import 'package:hadith/features/extra_features/prayer_surah/data/repo/prayer_rep
 import 'package:hadith/features/extra_features/prayer_surah/domain/repo/prayer_repo.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/detail_prayer/bloc/detail_prayer_bloc.dart';
 import 'package:hadith/features/extra_features/prayer_surah/presentation/show_prayer_surah/bloc/show_prayer_bloc.dart';
-import 'package:hadith/features/hadiths/data/repo/hadith_all_paging_repo.dart';
 import 'package:hadith/features/islamic_info/providers/islamic_info_data_repo_providers.dart';
 import 'package:hadith/features/islamic_info/shared/presentation/bloc/islamic_info_shared_bloc.dart';
 import 'package:hadith/features/list/bloc/blocs/list_archive_bloc.dart';
@@ -55,7 +54,6 @@ import 'package:hadith/features/lists/presentation/archive_list/bloc/archive_lis
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/bloc/visibility_bloc/visibility_bloc.dart';
-import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/db/repos/backup_meta_repo.dart';
 import 'package:hadith/db/repos/backup_repo.dart';
 import 'package:hadith/db/repos/save_point_repo.dart';
@@ -107,15 +105,11 @@ import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/services/auth_service.dart';
 import 'package:hadith/services/storage_service.dart';
 import 'package:hadith/themes/bloc/theme_bloc.dart';
-import 'package:hadith/themes/bloc/theme_state.dart';
-import 'package:hadith/themes/dark_theme.dart';
-import 'package:hadith/themes/light_theme.dart';
 import 'package:hadith/utils/localstorage.dart';
 import '../../core/providers/core_data_manager_providers.dart';
 import '../../db/repos/audio_edition_repo.dart';
 import '../../db/repos/verse_arabic_repo.dart';
 import '../../db/repos/verse_audio_state_repo.dart';
-import '../dhikr_prayers/counters/presentation/add_counter/bloc/add_counter_bloc.dart';
 import '../extra_features/counter/presentation/add_counter/bloc/add_counter_bloc.dart';
 import '../extra_features/counter/presentation/manage_counter/bloc/manage_counter_bloc.dart';
 import '../extra_features/counter/presentation/show_counters/bloc/counter_show_bloc.dart';
@@ -129,14 +123,9 @@ import '../extra_features/quran_prayer/domain/repo/quran_prayer_repo.dart';
 import '../extra_features/quran_prayer/presentation/show_quran_prayer_page/bloc/show_quran_prayer_bloc.dart';
 import '../hadiths/data/providers/hadith_data_repo_providers.dart';
 import '../hadiths/presentation/shared/bloc/hadith_shared_bloc.dart';
-import '../premium/bloc/premium_event.dart';
 import '../settings/audio_setting/bloc/audio_setting_bloc.dart';
 import '../verse/common_services/file_audio_editor.dart';
-import '../verse/common_services/file_service.dart';
-// import '../verse/cuz/bloc/cuz_bloc.dart';
-// import '../verse/surah/bloc/surah_bloc.dart';
 import '../save_point/bloc/save_point_edit_bloc.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import '../verse/verse_download_audio/services/quran_download_service.dart';
 import '../verse/verse_listen_audio/services/i_verse_audio_service.dart';
 
@@ -268,9 +257,10 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> GetTitleBloc(
               titleRepo: context.read()
           )),
-          BlocProvider(create: (context)=> AddCounterBloc(
+          BlocProvider(create: (context)=> AddReadyCounterBloc(
               counterRepo: context.read(),
-              prayerRepo: context.read()
+              prayerRepo: context.read(),
+              appPreferences:  context.read()
           )),
           BlocProvider(create: (context)=> DetailCounterBloc(
               fontModelUseCase: context.read(),
@@ -281,7 +271,8 @@ class MyAppProviders extends StatelessWidget {
               appPreferences: context.read(),
           )),
           BlocProvider(create: (context)=> CounterShowBloc(
-              counterRepo: context.read()
+              counterRepo: context.read(),
+              appPreferences: context.read()
           )),
           BlocProvider(create: (context)=> ManageCounterBloc(
               counterRepo: context.read()

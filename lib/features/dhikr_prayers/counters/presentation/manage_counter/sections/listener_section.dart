@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_state.dart';
@@ -47,12 +48,12 @@ extension ManageCounterPageListenerExt on ManageCounterPage{
           listener: (context, state){
             final c = state.currentCounter;
             if(c != null){
-              arabicContentController.text = c.arabicContent ?? "";
-              meaningTextController.text = c.meaning ?? "";
-              contentTextController.text = c.content ?? "";
-              nameTextController.text = c.name;
-              goalTextController.text = c.goal?.toString() ?? "";
-              descriptionTextController.text = c.description ?? "";
+              arabicContentController.setTextWithCursor(c.arabicContent ?? "");
+              meaningTextController.setTextWithCursor(c.meaning ?? "");
+              contentTextController.setTextWithCursor(c.content ?? "");
+              nameTextController.setTextWithCursor(c.name);
+              goalTextController.setTextWithCursor(c.goal?.toString() ?? "");
+              descriptionTextController.setTextWithCursor(c.description ?? "");
             }
           },
         )

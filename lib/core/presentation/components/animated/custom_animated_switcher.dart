@@ -6,16 +6,16 @@ class CustomAnimatedSwitcher extends StatelessWidget {
   final Widget secondChild;
   final bool showFirstChild;
   late final Duration duration;
-  final Curve switchInCurve;
-  final Curve switchOutCurve;
+  final Curve? switchInCurve;
+  final Curve? switchOutCurve;
 
   CustomAnimatedSwitcher({
     Key? key,
     required this.firstChild,
     required this.secondChild,
     required this.showFirstChild,
-    this.switchInCurve = Curves.easeIn,
-    this.switchOutCurve = Curves.easeOut,
+    this.switchInCurve,
+    this.switchOutCurve,
     Duration? duration,
   }) : super(key: key){
     this.duration = duration ?? const Duration(milliseconds: 300);
@@ -27,8 +27,8 @@ class CustomAnimatedSwitcher extends StatelessWidget {
     return AnimatedSwitcher(
       duration: duration,
       key: key,
-      switchInCurve: switchInCurve,
-      switchOutCurve: switchOutCurve,
+      switchInCurve: switchInCurve ?? Curves.easeIn,
+      switchOutCurve: switchOutCurve ?? Curves.easeOut,
       child: showFirstChild ? firstChild : secondChild,
     );
   }

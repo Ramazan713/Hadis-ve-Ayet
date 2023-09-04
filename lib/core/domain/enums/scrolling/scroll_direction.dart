@@ -1,3 +1,3 @@
 
 
-enum ScrollDirection { up, down }
+enum CustomScrollDirection { up, down }

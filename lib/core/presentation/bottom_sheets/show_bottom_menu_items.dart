@@ -1,6 +1,4 @@
 
-
-
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 
@@ -23,7 +21,6 @@ void showCustomExtendBottomMenuItems<T extends IMenuItem>(BuildContext context, 
               items: newItems,
               onItemClick: onItemClick,
               title: title,
-              controller: ScrollController(),
             );
           },
         );
@@ -37,7 +34,7 @@ void showBottomMenuItems<T extends IMenuItem>(BuildContext context, {
   required List<T> items,
   required void Function(T) onItemClick,
   String? title,
-  bool useRootNavigator = true,
+  bool useRootNavigator = false,
 }){
 
   showModalBottomSheet(
@@ -50,7 +47,6 @@ void showBottomMenuItems<T extends IMenuItem>(BuildContext context, {
           items: items,
           onItemClick: onItemClick,
           title: title,
-          controller: ScrollController(),
         );
       }
   );
@@ -60,13 +56,11 @@ class _DialogContent<T extends IMenuItem> extends StatelessWidget {
   final List<T> items;
   final Function(T) onItemClick;
   final String? title;
-  final ScrollController controller;
 
   const _DialogContent({
     Key? key,
     required this.items,
     required this.onItemClick,
-    required this.controller,
     this.title,
   }) : super(key: key);
 
@@ -97,9 +91,14 @@ class _DialogContent<T extends IMenuItem> extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Text(
-          title ?? "",
-          style: Theme.of(context).textTheme.titleMedium,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 48),
+          child: Text(
+            title ?? "",
+            style: Theme.of(context).textTheme.titleMedium,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         Align(
           alignment: Alignment.centerRight,

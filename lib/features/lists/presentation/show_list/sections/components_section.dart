@@ -26,16 +26,5 @@ extension ShowListComponentsSectionExt on ShowListPage{
     );
   }
 
-  Widget getFab(BuildContext context){
-    final bloc = context.read<ShowListBloc>();
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: (){
-        showEditTextDia(context, (text) {
-          bloc.add(ShowListEventAddNewList(listName: text));
-        },title: "Başlık Girin");
-      },
-    );
-  }
 
 }

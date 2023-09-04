@@ -2,37 +2,105 @@ import 'package:flutter/material.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 
 class CounterItem extends StatelessWidget {
-  final Counter counter;
+  final Counter item;
   final Function() onMenuClick;
   final Function() onClick;
-  const CounterItem({Key? key,required this.counter,required this.onMenuClick,
+  final bool showDetail;
+  final EdgeInsets? paddingsDetails;
+  final EdgeInsets? paddingsNormal;
+  final EdgeInsets? margins;
+
+
+  const CounterItem({
+    Key? key,
+    required this.item,
+    required this.onMenuClick,
     required this.onClick,
+    this.showDetail = true,
+    this.paddingsDetails,
+    this.paddingsNormal,
+    this.margins
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),
-      child: ListTile(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-        tileColor: Theme.of(context).cardColor,
-        title: Text(counter.name,
-          style: Theme.of(context).textTheme.bodyMedium,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: IconButton(
-          onPressed: onMenuClick,
-          icon: Icon(
-            Icons.more_vert,
-            size: 30,
-            color: Theme.of(context).iconTheme.color,
+    final borderRadius = BorderRadius.circular(13);
+    return Card(
+      margin: margins,
+      shape: RoundedRectangleBorder(
+          borderRadius: borderRadius
+      ),
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: onClick,
+        child: Padding(
+          padding: getAdaptiveDefaultPaddings(),
+          child: Row(
+            children: [
+              Expanded(
+                child: getAdaptiveContent(context),
+              ),
+              IconButton(
+                onPressed: onMenuClick,
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              )
+            ],
           ),
         ),
-        onTap: onClick,
-        contentPadding: const EdgeInsets.symmetric(vertical: 0,horizontal: 13),
-        dense: true,
       ),
     );
   }
+
+  EdgeInsets getAdaptiveDefaultPaddings(){
+    if(showDetail){
+      return paddingsDetails ?? const EdgeInsets.symmetric(horizontal: 5,vertical: 13);
+    }
+    return paddingsNormal ?? const EdgeInsets.symmetric(horizontal: 5,vertical: 1);
+  }
+
+  Widget getAdaptiveContent(BuildContext context){
+    if(showDetail){
+      return getContentLarge(context);
+    }
+    return getContentSmall(context);
+  }
+
+  Widget getContentSmall(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 7),
+      child: Text(
+        item.name,
+        style: Theme.of(context).textTheme.bodyLarge,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget getContentLarge(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.only(left: 3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            item.name,
+            style: Theme.of(context).textTheme.titleMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            item.content??"",
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      ),
+    );
+  }
+
 }

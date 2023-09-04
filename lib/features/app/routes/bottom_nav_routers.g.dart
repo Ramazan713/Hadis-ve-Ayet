@@ -46,6 +46,8 @@ extension $HomeRouteExtension on HomeRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 extension $CategoriesRouteExtension on CategoriesRoute {
@@ -61,6 +63,8 @@ extension $CategoriesRouteExtension on CategoriesRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 extension $ShowListRouteExtension on ShowListRoute {
@@ -76,4 +80,6 @@ extension $ShowListRouteExtension on ShowListRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }

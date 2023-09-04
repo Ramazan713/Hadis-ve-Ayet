@@ -6,3 +6,7 @@ mixin IMenuItem{
   String get title;
   IconInfo? get iconInfo;
 }
+
+mixin IDetailItem implements IMenuItem{
+  String get details;
+}

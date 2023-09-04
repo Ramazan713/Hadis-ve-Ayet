@@ -1,6 +1,5 @@
 
-
-import 'package:equatable/equatable.dart';
+import 'package:hadith/core/domain/constants/k_pref.dart';
 
 import '../../../domain/model/counter.dart';
 
@@ -12,12 +11,14 @@ part 'counter_show_state.freezed.dart';
 @freezed
 class CounterShowState with _$CounterShowState{
   const factory CounterShowState({
-    required List<Counter> counters
+    required List<Counter> counters,
+    required bool showDetailContents
   }) = _CounterShowState;
 
   static CounterShowState init(){
-    return const CounterShowState(
-        counters: []
+    return CounterShowState(
+      counters: [],
+      showDetailContents: KPref.showCounterDetailContents.defaultValue
     );
   }
 }

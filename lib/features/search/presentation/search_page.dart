@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
-import 'package:hadith/core/presentation/components/custom_animated_switcher.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
 import 'package:hadith/features/search/presentation/sections/component_section.dart';
@@ -25,7 +26,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final bloc = context.read<SearchBloc>();
-    textEditingController.text = bloc.state.searchQuery;
+    textEditingController.setTextWithCursor(bloc.state.searchQuery);
 
     return WillPopScope(
       onWillPop: (){

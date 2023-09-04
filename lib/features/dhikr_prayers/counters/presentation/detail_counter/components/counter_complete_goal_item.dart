@@ -14,7 +14,7 @@ class CounterCompleteGoalItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(13);
     return Card(
-      color: Theme.of(context).primaryColorLight,
+      color: Theme.of(context).colorScheme.secondaryContainer,
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
       child: InkWell(
         onTap: onClick,

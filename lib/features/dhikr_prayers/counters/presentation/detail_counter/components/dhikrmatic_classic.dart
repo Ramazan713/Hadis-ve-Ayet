@@ -15,7 +15,7 @@ class DhikrmaticClassic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.secondary,
+      color: Theme.of(context).colorScheme.primaryContainer,
       elevation: 7,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
       child: InkWell(
@@ -26,20 +26,26 @@ class DhikrmaticClassic extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             SizedBox(
-              height: radius*2,
-              width: radius*2,
+              height: radius * 2,
+              width: radius * 2,
               child: CircularProgressIndicator(
-                value: counter/99,
+                value: counter / 99,
                 strokeWidth: 13,
-                color: Theme.of(context).colorScheme.primary.withBlue(170),
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            Text(counter.toString(),style: Theme.of(context).textTheme.headline3,),
+            Text(
+              counter.toString(),
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
             Positioned(
               bottom: radius/2,
-              child: Text(subCounter.toString(),style: Theme.of(context).textTheme.headline5?.copyWith(
+              child: Text(
+                subCounter.toString(),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.normal
-              )),
+                )
+              ),
             )
           ],
         ),

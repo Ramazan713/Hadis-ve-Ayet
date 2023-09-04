@@ -15,7 +15,7 @@ import 'bloc/pagination_state.dart';
 
 class PagingListView<T extends IPagingItem> extends StatelessWidget {
 
-  final Function(ScrollDirection direction)? onScroll;
+  final Function(CustomScrollDirection direction)? onScroll;
   final Widget Function(BuildContext, T  , int) itemBuilder;
   final PagingLoadingItem? loadingItem;
   late final ItemPositionsListener _itemPositionsListener;

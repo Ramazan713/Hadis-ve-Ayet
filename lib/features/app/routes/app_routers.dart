@@ -4,8 +4,6 @@ import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/features/category/category_page.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_counter/add_counter_page.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/counter_detail_setting.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_empty_page.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_page.dart';
@@ -442,16 +440,6 @@ class DetailCounterEmptyRoute extends GoRouteData{
   }
 }
 
-@TypedGoRoute<AddCounterRoute>(
-    path: "/counters/addCounter"
-)
-class AddCounterRoute extends GoRouteData{
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return AddCounterPage();
-  }
-}
 
 @TypedGoRoute<CounterSettingRoute>(
     path: "/counters/setting"

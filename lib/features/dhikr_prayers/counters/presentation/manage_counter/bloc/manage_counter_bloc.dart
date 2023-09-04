@@ -53,6 +53,8 @@ class ManageCounterBloc extends Bloc<IManageCounterEvent,ManageCounterState>{
     }
     if(goalStr!=null && goalStr != "" && goal==null){
       return emit(state.copyWith(message: "lütfen hedef alanı için geçerli bir değer giriniz"));
+    }else if(goal != null && goal <= 0){
+      return emit(state.copyWith(message: "hedef değeri 1 dan küçük olamaz"));
     }
 
     final newCounter = Counter(

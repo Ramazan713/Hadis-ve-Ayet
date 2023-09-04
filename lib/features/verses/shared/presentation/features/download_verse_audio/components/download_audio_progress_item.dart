@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/presentation/components/progress_content.dart';
 import 'package:hadith/features/verses/shared/domain/enums/download_enum.dart';
 import 'package:hadith/features/verses/shared/domain/model/download_verse/download_audio_manager_state.dart';
 
@@ -13,16 +14,9 @@ class DownloadAudioProgressItem extends StatelessWidget {
     if(voiceState == null) {
       return const SizedBox();
     }
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        LinearProgressIndicator(
-          value: voiceState?.getProgressPercentage,
-          minHeight: 20,
-        ),
-        Text("%${voiceState?.getProgress100} (${voiceState?.downloadEnum.description})",
-          textAlign: TextAlign.center,style: Theme.of(context).textTheme.bodyMedium,)
-      ],
+    return ProgressRateContent(
+      rate: voiceState?.getProgressPercentage,
+      description: voiceState?.downloadEnum.description
     );
   }
 }

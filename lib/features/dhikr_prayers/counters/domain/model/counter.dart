@@ -3,6 +3,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hadith/core/domain/models/i_menu_item.dart';
+import 'package:hadith/core/domain/models/icon_info.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 part 'counter.freezed.dart';
 

@@ -5,7 +5,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
+import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
+import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/lists/presentation/shared/components/list_item.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
@@ -17,12 +20,20 @@ import 'package:hadith/features/lists/presentation/show_list/sections/top_bar_se
 
 final _searchKey = GlobalKey();
 
-class ShowListPage extends StatelessWidget {
+class ShowListPage extends StatefulWidget {
   const ShowListPage({Key? key}) : super(key: key);
 
   @override
+  State<ShowListPage> createState() => _ShowListPageState();
+}
+
+class _ShowListPageState extends State<ShowListPage> {
+
+  final scrollController = ScrollController();
+
+  @override
   Widget build(BuildContext context) {
-    return getListeners(
+    return widget.getListeners(
       child: ShareConnect(
           child: AdaptiveLayout(
             body: SlotLayout(
@@ -62,15 +73,18 @@ class ShowListPage extends StatelessWidget {
                 snap: true,
                 floating: true,
                 searchBarVisible: searchBarVisible,
+                scrollController: CustomScrollController(
+                    controller: scrollController
+                ),
                 onTextChanged: (newText){
                   listBloc.add(ShowListEventSearch(query: newText));
                 },
                 onSearchVisibilityChanged: (newSearchBarVisible){
                   listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
                 },
-                actions: getActions(context),
+                actions: widget.getActions(context),
                 title: const Text("Listeler"),
-                appBarBottom: getTopTabBar(context),
+                appBarBottom: widget.getTopTabBar(context),
                 child: TabBarView(
                   children: [
                     BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
@@ -103,7 +117,6 @@ class ShowListPage extends StatelessWidget {
       },
     );
   }
-
 
   Widget getListItems({
     required List<ListViewModel>items,
@@ -140,10 +153,32 @@ class ShowListPage extends StatelessWidget {
             }
           },
           onMenuClick: (){
-            showAndManageBottomMenu(context,item,sourceType);
+            widget.showAndManageBottomMenu(context,item,sourceType);
           },
         );
       },
     );
+  }
+
+
+  Widget getFab(BuildContext context){
+    final bloc = context.read<ShowListBloc>();
+    return CustomVisibilityWithScrolling(
+      controller: scrollController,
+      child: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: (){
+          showEditTextDia(context, (text) {
+            bloc.add(ShowListEventAddNewList(listName: text));
+          },title: "Başlık Girin");
+        },
+      )
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
   }
 }

@@ -1,5 +1,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hadith/core/domain/models/i_menu_item.dart';
+import 'package:hadith/core/domain/models/icon_info.dart';
 
 part 'prayer_dhikr.freezed.dart';
 

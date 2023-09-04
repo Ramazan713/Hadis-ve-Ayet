@@ -8,7 +8,7 @@ import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CustomScrollablePositionedList extends StatefulWidget {
-  final void Function(ScrollDirection direction)? onScroll;
+  final void Function(CustomScrollDirection direction)? onScroll;
   final Widget Function(BuildContext context, int index) itemBuilder;
 
   final ItemScrollController? itemScrollController;
@@ -45,7 +45,7 @@ class CustomScrollablePositionedList extends StatefulWidget {
 class _CustomScrollablePositionedListState extends State<CustomScrollablePositionedList> {
 
   double _previousScrollPosition = 0;
-  late ScrollDirection _previousScrollDirection;
+  late CustomScrollDirection _previousScrollDirection;
 
   late final ItemPositionsListener _itemPositionsListener;
 
@@ -56,7 +56,7 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
     super.initState();
 
     _itemPositionsListener = widget.itemPositionsListener ?? ItemPositionsListener.create();
-    _previousScrollDirection = ScrollDirection.up;
+    _previousScrollDirection = CustomScrollDirection.up;
     _addListeners();
 
   }
@@ -133,24 +133,24 @@ extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositioned
 
   void _detectScrollPosition(int firstVisiblePos, int lastVisiblePos) {
 
-    ScrollDirection? scrollDirection;
+    CustomScrollDirection? scrollDirection;
 
 
     if(firstVisiblePos <= 1){
-      scrollDirection = ScrollDirection.up;
+      scrollDirection = CustomScrollDirection.up;
     }
     else if(widget.pageSize!=null && firstVisiblePos - _previousScrollPosition >= (widget.pageSize!)-1){
       scrollDirection= _previousScrollDirection;
     }
     else if(lastVisiblePos >= widget.itemCount - 1){
-      scrollDirection = ScrollDirection.down;
+      scrollDirection = CustomScrollDirection.down;
     }
     else if (firstVisiblePos < _previousScrollPosition) {
-      scrollDirection = ScrollDirection.up;
+      scrollDirection = CustomScrollDirection.up;
     }
 
     else if (firstVisiblePos > _previousScrollPosition) {
-      scrollDirection = ScrollDirection.down;
+      scrollDirection = CustomScrollDirection.down;
     }
 
     if(scrollDirection!=null && scrollDirection != _previousScrollDirection){

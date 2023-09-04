@@ -30,7 +30,7 @@ class TopicSavePointFloatingActionButton extends StatelessWidget {
               builder: (context, child){
 
                 final isFabVisible = currentTopicSavePoint != null &&
-                    controller.scrollDirection == ScrollDirection.up &&
+                    controller.scrollDirection == CustomScrollDirection.up &&
                     controller.isTopBarVisible &&
                     showFab;
 

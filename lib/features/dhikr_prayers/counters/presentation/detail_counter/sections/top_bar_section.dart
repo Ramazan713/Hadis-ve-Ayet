@@ -32,10 +32,10 @@ extension DetailCounterSharedContentPageTopBarExt on DetailCounterSharedContentP
         return IconButton(
           onPressed: () async{
             showSelectVerseUi3X(context,
-                currentKPref: KPref.counterUi,
-                callback: (selected){
-                  context.read<DetailCounterBloc>().add(CounterDetailEventSetCounterUi(counterUi: selected));
-                }
+              currentKPref: KPref.counterUi,
+              callback: (selected){
+                context.read<DetailCounterBloc>().add(CounterDetailEventSetCounterUi(counterUi: selected));
+              }
             );
           },
           icon: const Icon(Icons.view_agenda),
@@ -69,10 +69,10 @@ extension DetailCounterSharedContentPageTopBarExt on DetailCounterSharedContentP
     switch(menuItem){
       case CounterDetailTopBarMenuItems.reset:
         showCustomAlertDia(context,
-            title: "Sıfırlamak istediğinize emin misiniz?",
-            btnApproved: (){
-              context.read<DetailCounterBloc>().add(DetailCounterEventReset());
-            }
+          title: "Sıfırlamak istediğinize emin misiniz?",
+          btnApproved: (){
+            context.read<DetailCounterBloc>().add(DetailCounterEventReset());
+          }
         );
         break;
       case CounterDetailTopBarMenuItems.selectFontSize:

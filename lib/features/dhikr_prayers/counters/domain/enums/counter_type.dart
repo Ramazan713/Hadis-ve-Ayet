@@ -1,6 +1,8 @@
 
 
-enum CounterType {
+import 'package:hadith/core/domain/models/i_menu_item.dart';
+
+enum CounterType implements IMenuItem{
   classic(
     typeId: 1,
     title: "Klasik (99 lu)"
@@ -16,8 +18,12 @@ enum CounterType {
   });
 
   final int typeId;
+
+  @override
   final String title;
 
+  @override
+  get iconInfo => null;
 
   static CounterType from(int typeId){
     if(CounterType.unlimited.typeId == typeId){

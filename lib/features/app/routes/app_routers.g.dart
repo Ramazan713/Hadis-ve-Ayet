@@ -30,7 +30,6 @@ List<RouteBase> get $appRoutes => [
       $showCountersRoute,
       $detailCounterRoute,
       $detailCounterEmptyRoute,
-      $addCounterRoute,
       $counterSettingRoute,
       $addNewCounterRoute,
       $manageCounterRoute,
@@ -49,14 +48,11 @@ RouteBase get $hadithAllRoute => GoRouteData.$route(
 extension $HadithAllRouteExtension on HadithAllRoute {
   static HadithAllRoute _fromState(GoRouterState state) => HadithAllRoute(
         hadithBookId: int.parse(state.pathParameters['hadithBookId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/hadith/all/${Uri.encodeComponent(hadithBookId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -65,15 +61,8 @@ extension $HadithAllRouteExtension on HadithAllRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
-}
 
-T? _$convertMapValue<T>(
-  String key,
-  Map<String, String> map,
-  T Function(String) converter,
-) {
-  final value = map[key];
-  return value == null ? null : converter(value);
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $hadithTopicRoute => GoRouteData.$route(
@@ -85,14 +74,11 @@ extension $HadithTopicRouteExtension on HadithTopicRoute {
   static HadithTopicRoute _fromState(GoRouterState state) => HadithTopicRoute(
         bookId: int.parse(state.pathParameters['bookId']!),
         topicId: int.parse(state.pathParameters['topicId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/hadith/topic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -101,6 +87,8 @@ extension $HadithTopicRouteExtension on HadithTopicRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $searchRoute => GoRouteData.$route(
@@ -121,6 +109,8 @@ extension $SearchRouteExtension on SearchRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $hadithListRoute => GoRouteData.$route(
@@ -132,14 +122,11 @@ extension $HadithListRouteExtension on HadithListRoute {
   static HadithListRoute _fromState(GoRouterState state) => HadithListRoute(
         sourceId: int.parse(state.pathParameters['sourceId']!),
         listId: int.parse(state.pathParameters['listId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/hadith/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -148,6 +135,8 @@ extension $HadithListRouteExtension on HadithListRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $hadithSearchRoute => GoRouteData.$route(
@@ -160,14 +149,11 @@ extension $HadithSearchRouteExtension on HadithSearchRoute {
         query: state.pathParameters['query']!,
         bookScopeId: int.parse(state.pathParameters['bookScopeId']!),
         criteriaId: int.parse(state.pathParameters['criteriaId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/hadith/search/${Uri.encodeComponent(query)}/${Uri.encodeComponent(bookScopeId.toString())}/${Uri.encodeComponent(criteriaId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -176,6 +162,8 @@ extension $HadithSearchRouteExtension on HadithSearchRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $archiveListRoute => GoRouteData.$route(
@@ -196,6 +184,8 @@ extension $ArchiveListRouteExtension on ArchiveListRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $sectionRoute => GoRouteData.$route(
@@ -218,6 +208,8 @@ extension $SectionRouteExtension on SectionRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $topicRoute => GoRouteData.$route(
@@ -244,6 +236,8 @@ extension $TopicRouteExtension on TopicRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 bool _$boolConverter(String value) {
@@ -275,6 +269,8 @@ extension $CuzRouteExtension on CuzRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $surahRoute => GoRouteData.$route(
@@ -295,6 +291,8 @@ extension $SurahRouteExtension on SurahRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $verseShowCuzRoute => GoRouteData.$route(
@@ -305,14 +303,11 @@ RouteBase get $verseShowCuzRoute => GoRouteData.$route(
 extension $VerseShowCuzRouteExtension on VerseShowCuzRoute {
   static VerseShowCuzRoute _fromState(GoRouterState state) => VerseShowCuzRoute(
         cuzNo: int.parse(state.pathParameters['cuzNo']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/cuz/${Uri.encodeComponent(cuzNo.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -321,6 +316,8 @@ extension $VerseShowCuzRouteExtension on VerseShowCuzRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $verseShowSurahRoute => GoRouteData.$route(
@@ -332,14 +329,11 @@ extension $VerseShowSurahRouteExtension on VerseShowSurahRoute {
   static VerseShowSurahRoute _fromState(GoRouterState state) =>
       VerseShowSurahRoute(
         surahId: int.parse(state.pathParameters['surahId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/surah/${Uri.encodeComponent(surahId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -348,6 +342,8 @@ extension $VerseShowSurahRouteExtension on VerseShowSurahRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $verseShowListRoute => GoRouteData.$route(
@@ -360,14 +356,11 @@ extension $VerseShowListRouteExtension on VerseShowListRoute {
       VerseShowListRoute(
         listId: int.parse(state.pathParameters['listId']!),
         sourceId: int.parse(state.pathParameters['sourceId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/verse/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -376,6 +369,8 @@ extension $VerseShowListRouteExtension on VerseShowListRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $verseShowTopicRoute => GoRouteData.$route(
@@ -388,14 +383,11 @@ extension $VerseShowTopicRouteExtension on VerseShowTopicRoute {
       VerseShowTopicRoute(
         topicId: int.parse(state.pathParameters['topicId']!),
         bookId: int.parse(state.pathParameters['bookId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/verse/topic/${Uri.encodeComponent(bookId.toString())}/${Uri.encodeComponent(topicId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -404,6 +396,8 @@ extension $VerseShowTopicRouteExtension on VerseShowTopicRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $verseShowSearchRoute => GoRouteData.$route(
@@ -417,14 +411,11 @@ extension $VerseShowSearchRouteExtension on VerseShowSearchRoute {
         query: state.pathParameters['query']!,
         bookScopeId: int.parse(state.pathParameters['bookScopeId']!),
         criteriaId: int.parse(state.pathParameters['criteriaId']!),
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/verse/search/${Uri.encodeComponent(query)}/${Uri.encodeComponent(bookScopeId.toString())}/${Uri.encodeComponent(criteriaId.toString())}/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -433,6 +424,8 @@ extension $VerseShowSearchRouteExtension on VerseShowSearchRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $prayerAndVerseListRoute => GoRouteData.$route(
@@ -454,6 +447,8 @@ extension $PrayerAndVerseListRouteExtension on PrayerAndVerseListRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $prayerAndVerseDetailRoute => GoRouteData.$route(
@@ -477,6 +472,8 @@ extension $PrayerAndVerseDetailRouteExtension on PrayerAndVerseDetailRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $prayerInQuranRoute => GoRouteData.$route(
@@ -498,6 +495,8 @@ extension $PrayerInQuranRouteExtension on PrayerInQuranRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $showEsmaulHusnaRoute => GoRouteData.$route(
@@ -508,14 +507,11 @@ RouteBase get $showEsmaulHusnaRoute => GoRouteData.$route(
 extension $ShowEsmaulHusnaRouteExtension on ShowEsmaulHusnaRoute {
   static ShowEsmaulHusnaRoute _fromState(GoRouterState state) =>
       ShowEsmaulHusnaRoute(
-        pos: _$convertMapValue('pos', state.queryParameters, int.parse) ?? 0,
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
       );
 
   String get location => GoRouteData.$location(
         '/esmaulHusna/${Uri.encodeComponent(pos.toString())}',
-        queryParams: {
-          if (pos != 0) 'pos': pos.toString(),
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -524,6 +520,8 @@ extension $ShowEsmaulHusnaRouteExtension on ShowEsmaulHusnaRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $esmaulHusnaDetailRoute => GoRouteData.$route(
@@ -547,6 +545,8 @@ extension $EsmaulHusnaDetailRouteExtension on EsmaulHusnaDetailRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $showCountersRoute => GoRouteData.$route(
@@ -568,6 +568,8 @@ extension $ShowCountersRouteExtension on ShowCountersRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $detailCounterRoute => GoRouteData.$route(
@@ -591,6 +593,8 @@ extension $DetailCounterRouteExtension on DetailCounterRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $detailCounterEmptyRoute => GoRouteData.$route(
@@ -614,26 +618,8 @@ extension $DetailCounterEmptyRouteExtension on DetailCounterEmptyRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
-}
 
-RouteBase get $addCounterRoute => GoRouteData.$route(
-      path: '/counters/addCounter',
-      factory: $AddCounterRouteExtension._fromState,
-    );
-
-extension $AddCounterRouteExtension on AddCounterRoute {
-  static AddCounterRoute _fromState(GoRouterState state) => AddCounterRoute();
-
-  String get location => GoRouteData.$location(
-        '/counters/addCounter',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $counterSettingRoute => GoRouteData.$route(
@@ -655,6 +641,8 @@ extension $CounterSettingRouteExtension on CounterSettingRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $addNewCounterRoute => GoRouteData.$route(
@@ -676,6 +664,8 @@ extension $AddNewCounterRouteExtension on AddNewCounterRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $manageCounterRoute => GoRouteData.$route(
@@ -699,6 +689,8 @@ extension $ManageCounterRouteExtension on ManageCounterRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $efaliMukellefinRoute => GoRouteData.$route(
@@ -720,6 +712,8 @@ extension $EfaliMukellefinRouteExtension on EfaliMukellefinRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $fardsInfoRoute => GoRouteData.$route(
@@ -742,6 +736,8 @@ extension $FardsInfoRouteExtension on FardsInfoRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $adjectiveOfAllahRoute => GoRouteData.$route(
@@ -763,6 +759,8 @@ extension $AdjectiveOfAllahRouteExtension on AdjectiveOfAllahRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $settingsRoute => GoRouteData.$route(
@@ -783,6 +781,8 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $settingsAudioRoute => GoRouteData.$route(
@@ -804,4 +804,6 @@ extension $SettingsAudioRouteExtension on SettingsAudioRoute {
 
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }

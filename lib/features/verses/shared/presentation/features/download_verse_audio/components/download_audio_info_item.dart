@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith/core/presentation/components/custom_animated_switcher.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
 import 'package:hadith/features/verses/shared/domain/enums/download_enum.dart';
 import 'package:hadith/features/verses/shared/presentation/dialogs/show_manage_download_audio.dart';
 import 'package:hadith/features/verses/shared/presentation/features/download_verse_audio/bloc/download_audio_bloc.dart';
