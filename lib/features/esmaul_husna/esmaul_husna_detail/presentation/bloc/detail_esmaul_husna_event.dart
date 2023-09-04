@@ -18,9 +18,3 @@ class DetailEsmaulHusnaEventSaveAsDhikr extends IDetailEsmaulHusnaEvent{
   final EsmaulHusna item;
   DetailEsmaulHusnaEventSaveAsDhikr({required this.item});
 }
-
-class DetailEsmaulHusnaEventGotoDhikr extends IDetailEsmaulHusnaEvent{
-  final EsmaulHusna item;
-  DetailEsmaulHusnaEventGotoDhikr({required this.item});
-}
-

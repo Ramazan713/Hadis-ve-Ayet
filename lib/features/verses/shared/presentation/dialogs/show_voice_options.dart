@@ -28,7 +28,7 @@ void showVoiceOptions(BuildContext context, {
       items: items,
       title: title,
       onItemClick: (selected){
-        Navigator.of(context,rootNavigator: true).pop();
+        Navigator.of(context,rootNavigator: false).pop();
         onTap(selected);
       }
     );

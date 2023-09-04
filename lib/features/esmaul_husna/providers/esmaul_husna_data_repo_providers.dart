@@ -30,7 +30,8 @@ import 'package:hadith/features/verses/surah/domain/repo/surah_repo.dart';
 List<RepositoryProvider> pEsmaulHusnaDataRepoProviders(AppDatabase appDatabase){
   return [
     RepositoryProvider<EsmaulHusnaRepo>(create: (context) => EsmaulHusnaRepoImpl(
-      esmaulHusnaDao: appDatabase.esmaulHusnaDao
+      esmaulHusnaDao: appDatabase.esmaulHusnaDao,
+      counterDao: appDatabase.counterDao
     )),
   ];
 }

@@ -6,6 +6,8 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_search
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
@@ -33,7 +35,6 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final bloc = context.read<ShowEsmaulHusnaBloc>();
 
     return Scaffold(
@@ -59,15 +60,13 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
                     child: BlocBuilder<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState>(
                       builder: (context, state){
                         if(state.isLoading){
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return const SharedLoadingIndicator();
                         }
                         final items = state.items;
 
                         if(items.isEmpty){
-                          return const Center(
-                            child: Text("Empty"),
+                          return const SharedEmptyResult(
+                            content: "herhangi bir sonuç bulunamadı",
                           );
                         }
                         return CustomScrollablePositionedList(

@@ -21,20 +21,17 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     required EsmaulHusnaRepo esmaulHusnaRepo,
     required AppPreferences appPreferences,
     required FontModelUseCase fontModelUseCase
-    // required InsertCounterUseCase insertCounterUseCase
   }) :super(DetailEsmaulHusnaState.init()){
 
     _esmaulHusnaRepo = esmaulHusnaRepo;
     _appPreferences = appPreferences;
     _fontModelUseCase = fontModelUseCase;
-    // _insertCounterUseCase = insertCounterUseCase;
 
     on<DetailEsmaulHusnaEventListenInit>(_onListenInit);
     on<DetailEsmaulHusnaEventListenAppPref>(_onListenAppPref,transformer: restartable());
 
     on<DetailEsmaulHusnaEventLoadData>(_onLoadData,transformer: droppable());
     on<DetailEsmaulHusnaEventSaveAsDhikr>(_onSaveAsDhikr,transformer: droppable());
-    on<DetailEsmaulHusnaEventGotoDhikr>(_onGotoDhikr,transformer: droppable());
 
     on<DetailEsmaulHusnaEventClearMessage>(_onClearMessage,transformer: restartable());
 
@@ -52,47 +49,17 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
   }
 
   void _onLoadData(DetailEsmaulHusnaEventLoadData event,Emitter<DetailEsmaulHusnaState>emit) async{
-
+    emit(state.copyWith(isLoading: true));
+    final items = await _esmaulHusnaRepo.getEsmaulHusnas();
+    emit(state.copyWith(
+      items: items,
+      isLoading: false
+    ));
   }
 
   void _onSaveAsDhikr(DetailEsmaulHusnaEventSaveAsDhikr event,Emitter<DetailEsmaulHusnaState>emit)async{
-    // final item = event.item;
-    // final int? goal = _extractFirstNumberUseCase.operator(item.dhikr);
-    //
-    // await _insertCounterUseCase.operator(
-    //     name: item.name,
-    //     arabicContent: item.arabicName,
-    //     content: item.name,
-    //     meaning: item.meaning,
-    //     counterType: CounterType.unlimited,
-    //     goal: goal,
-    //     lastCounter: 0
-    // );
-    // _addMessage("Başarıyla kaydedildi", emit);
-  }
-
-  void _onGotoDhikr(DetailEsmaulHusnaEventGotoDhikr event,Emitter<DetailEsmaulHusnaState>emit)async{
-    // final item = event.item;
-    // final int? goal = _extractFirstNumberUseCase.operator(item.dhikr);
-    // final counter = Counter(
-    //   name: item.name,
-    //   content: item.name,
-    //   arabicContent: item.arabicName,
-    //   meaning: item.meaning,
-    //   order: 0,
-    //   goal: goal,
-    //   counterType: CounterType.unlimited,
-    //   lastCounter: 0
-    // );
-    //
-    // emit(state.copyWith(
-    //     navigationState: NavigationState(
-    //       destination: CounterDetailPage.id,
-    //       parameters: CounterDetailParam(type: CounterType.unlimited,counter: counter)
-    //     ),
-    //     setNavigationState: true)
-    // );
-    // emit(state.copyWith(setNavigationState: true));
+    await _esmaulHusnaRepo.addCounterFromEsmaulHusna(event.item);
+    emit(state.copyWith(message: "Başarıyla kaydedildi"));
   }
 
   void _onListenAppPref(DetailEsmaulHusnaEventListenAppPref event,Emitter<DetailEsmaulHusnaState>emit)async{

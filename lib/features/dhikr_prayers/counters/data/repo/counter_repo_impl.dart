@@ -50,6 +50,6 @@ class CounterRepoImpl extends CounterRepo{
 
   @override
   Future<void> deleteCounter(Counter counter) async{
-    _counterDao.deleteCounterEntity(counter.toCounterEntity());
+    await _counterDao.deleteCounterEntity(counter.toCounterEntity());
   }
 }

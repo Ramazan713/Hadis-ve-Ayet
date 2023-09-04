@@ -21,9 +21,9 @@ class EsmaulHusnaItem extends StatelessWidget {
     final contentStyle = Theme.of(context).textTheme.bodyLarge;
 
     return Card(
-      color: Theme.of(context).cardColor,
       margin: const EdgeInsets.symmetric(vertical: 7,horizontal: 5),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+      elevation: 2,
       child: InkWell(
         borderRadius: BorderRadius.circular(7),
         onTap: onClick,

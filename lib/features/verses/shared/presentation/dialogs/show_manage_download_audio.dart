@@ -142,7 +142,7 @@ class _DialogContent extends StatelessWidget {
       },
       listener: (context,state){
         if(state.downloadFinish){
-          Navigator.of(context).pop();
+          Navigator.of(context,rootNavigator: true).pop();
         }
       },
       child: child,

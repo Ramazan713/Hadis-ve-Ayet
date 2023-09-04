@@ -39,7 +39,7 @@ extension CategoryContentExt on CategoryPage{
           expandContent: expandContent,
           assetPath: AssetHelper.esmaulHusna,
           onClick: () {
-            ShowEsmaulHusnaRoute(pos: 30).push(context);
+            ShowEsmaulHusnaRoute().push(context);
             // Navigator.pushNamed(context, EsmaulHusnaPage.id);
           },
         ),

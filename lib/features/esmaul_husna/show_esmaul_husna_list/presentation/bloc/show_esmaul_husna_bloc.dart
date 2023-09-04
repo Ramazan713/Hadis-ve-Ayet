@@ -59,6 +59,7 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
   void _onListenData(ShowEsmaulHusnaEventListenData event,Emitter<ShowEsmaulHusnaState>emit)async{
 
     final streamData = Rx.combineLatest2(_filterQuery, _filterCriteria, (query, criteria){
+      emit(state.copyWith(isLoading: true));
       return _QueryCriteria(query: query,criteriaEnum: criteria);
     }).asyncMap((queryCriteria)async{
       if(queryCriteria.query.trim().isEmpty) return _esmaulHusnaRepo.getEsmaulHusnas();
@@ -66,7 +67,7 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
     });
 
     await emit.forEach<List<EsmaulHusna>>(streamData, onData: (data){
-      return state.copyWith(items: data);
+      return state.copyWith(items: data,isLoading: false);
     });
 
   }
