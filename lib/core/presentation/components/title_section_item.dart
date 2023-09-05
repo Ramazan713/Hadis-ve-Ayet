@@ -15,6 +15,7 @@ class TitleSectionItem extends StatelessWidget {
   final double? contentFontSize;
   final bool useDefaultColor;
   final double? elevation;
+  final bool useCard;
 
   const TitleSectionItem({
     super.key,
@@ -26,6 +27,7 @@ class TitleSectionItem extends StatelessWidget {
     this.margins,
     this.contentFontSize,
     this.elevation,
+    this.useCard = true,
     this.expandable = false,
     this.initExpand = false,
     this.useDefaultColor = false
@@ -44,11 +46,13 @@ class TitleSectionItem extends StatelessWidget {
       contentFontSize: contentFontSize,
       useDefaultColor: useDefaultColor,
       elevation: elevation,
+      useCard: useCard,
       content: Text(
         content,
         style: contentStyle ?? Theme.of(context).textTheme.bodyLarge?.copyWith(
           fontSize: contentFontSize
         ),
+        textAlign: TextAlign.start,
       ),
     );
   }
@@ -68,6 +72,7 @@ class TitleSectionChild extends StatelessWidget {
   final double? contentFontSize;
   final bool useDefaultColor;
   final double? elevation;
+  final bool useCard;
 
 
   TitleSectionChild({
@@ -79,6 +84,7 @@ class TitleSectionChild extends StatelessWidget {
     this.margins,
     this.contentFontSize,
     this.elevation,
+    this.useCard = true,
     this.expandable = false,
     this.initExpand = false,
     this.useDefaultColor = false
@@ -91,24 +97,35 @@ class TitleSectionChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     expandNotifier.value = initExpand || !expandable;
-
-    final colorSchema = Theme.of(context).colorScheme;
-    final cardColor = useDefaultColor ? colorSchema.surface : colorSchema.secondaryContainer;
-
-    return Card(
-      margin: margins ?? const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
-      elevation: elevation,
-      color: cardColor,
+    
+    return getWrapper(
+      context: context,
       child: Padding(
         padding: paddings ?? const EdgeInsets.symmetric(horizontal: 4,vertical: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             getHeader(context),
-            getContent(context),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: getContent(context)
+            ),
           ],
         ),
       ),
+    );
+  }
+  
+  Widget getWrapper({required BuildContext context,required Widget child}){
+    if(!useCard) return child;
+    
+    final colorSchema = Theme.of(context).colorScheme;
+    final cardColor = useDefaultColor ? colorSchema.surface : colorSchema.secondaryContainer;
+    return Card(
+      margin: margins ?? const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
+      elevation: elevation,
+      color: cardColor,
+      child: child,
     );
   }
 
@@ -123,7 +140,9 @@ class TitleSectionChild extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            getTitle(context),
+            Expanded(
+                child: getTitle(context)
+            ),
             getExpandableIcon(),
           ],
         ),
@@ -163,6 +182,7 @@ class TitleSectionChild extends StatelessWidget {
       style: titleStyle ?? Theme.of(context).textTheme.titleMedium?.copyWith(
         fontSize: contentFontSize
       ),
+      textAlign: TextAlign.start,
     );
   }
 }
