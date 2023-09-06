@@ -249,7 +249,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `IslamicInfoTitle` (`id` INTEGER, `title` TEXT NOT NULL, `description` TEXT, `type` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Prayers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `arabicContent` TEXT, `meaningContent` TEXT, `pronunciationContent` TEXT, `source` TEXT, `typeId` INTEGER NOT NULL, `orderItem` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Prayers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `arabicContent` TEXT, `meaningContent` TEXT, `pronunciationContent` TEXT, `source` TEXT, `typeId` INTEGER NOT NULL, `orderItem` INTEGER NOT NULL, `isRemovable` INTEGER NOT NULL, `counterId` INTEGER, `updateCounter` INTEGER NOT NULL, FOREIGN KEY (`counterId`) REFERENCES `counters` (`id`) ON UPDATE CASCADE ON DELETE SET NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `PrayersOld` (`id` INTEGER, `name` TEXT NOT NULL, `meaningContent` TEXT NOT NULL, `arabicContent` TEXT NOT NULL, `pronunciationContent` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
@@ -6216,7 +6216,7 @@ class _$PrayerDao extends PrayerDao {
   _$PrayerDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _prayerEntityInsertionAdapter = InsertionAdapter(
             database,
             'Prayers',
@@ -6229,7 +6229,9 @@ class _$PrayerDao extends PrayerDao {
                   'source': item.source,
                   'typeId': item.typeId,
                   'orderItem': item.orderItem,
-                  'isRemovable': item.isRemovable ? 1 : 0
+                  'isRemovable': item.isRemovable ? 1 : 0,
+                  'counterId': item.counterId,
+                  'updateCounter': item.updateCounter ? 1 : 0
                 },
             changeListener),
         _prayerEntityUpdateAdapter = UpdateAdapter(
@@ -6245,7 +6247,9 @@ class _$PrayerDao extends PrayerDao {
                   'source': item.source,
                   'typeId': item.typeId,
                   'orderItem': item.orderItem,
-                  'isRemovable': item.isRemovable ? 1 : 0
+                  'isRemovable': item.isRemovable ? 1 : 0,
+                  'counterId': item.counterId,
+                  'updateCounter': item.updateCounter ? 1 : 0
                 },
             changeListener),
         _prayerEntityDeletionAdapter = DeletionAdapter(
@@ -6261,7 +6265,9 @@ class _$PrayerDao extends PrayerDao {
                   'source': item.source,
                   'typeId': item.typeId,
                   'orderItem': item.orderItem,
-                  'isRemovable': item.isRemovable ? 1 : 0
+                  'isRemovable': item.isRemovable ? 1 : 0,
+                  'counterId': item.counterId,
+                  'updateCounter': item.updateCounter ? 1 : 0
                 },
             changeListener);
 
@@ -6279,7 +6285,8 @@ class _$PrayerDao extends PrayerDao {
 
   @override
   Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId) async {
-    return _queryAdapter.queryList('select * from prayers where typeId = ?1',
+    return _queryAdapter.queryList(
+        'select * from prayers where typeId = ?1 order by orderItem desc',
         mapper: (Map<String, Object?> row) => PrayerEntity(
             id: row['id'] as int?,
             name: row['name'] as String?,
@@ -6289,8 +6296,31 @@ class _$PrayerDao extends PrayerDao {
             source: row['source'] as String?,
             typeId: row['typeId'] as int,
             orderItem: row['orderItem'] as int,
-            isRemovable: (row['isRemovable'] as int) != 0),
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0),
         arguments: [typeId]);
+  }
+
+  @override
+  Stream<List<PrayerEntity>> getStreamPrayersWithTypeId(int typeId) {
+    return _queryAdapter.queryListStream(
+        'select * from prayers where typeId = ?1 order by orderItem desc',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0),
+        arguments: [typeId],
+        queryableName: 'prayers',
+        isView: false);
   }
 
   @override
@@ -6299,17 +6329,8 @@ class _$PrayerDao extends PrayerDao {
     bool isRemovable,
   ) async {
     return _queryAdapter.queryList(
-        'select * from prayers where typeId = ?1 and isRemovable = ?2',
-        mapper: (Map<String, Object?> row) => PrayerEntity(
-            id: row['id'] as int?,
-            name: row['name'] as String?,
-            arabicContent: row['arabicContent'] as String?,
-            meaningContent: row['meaningContent'] as String?,
-            pronunciationContent: row['pronunciationContent'] as String?,
-            source: row['source'] as String?,
-            typeId: row['typeId'] as int,
-            orderItem: row['orderItem'] as int,
-            isRemovable: (row['isRemovable'] as int) != 0),
+        'select * from prayers where typeId = ?1 and isRemovable = ?2 order by orderItem desc',
+        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0, counterId: row['counterId'] as int?, updateCounter: (row['updateCounter'] as int) != 0),
         arguments: [typeId, isRemovable ? 1 : 0]);
   }
 
@@ -6325,14 +6346,36 @@ class _$PrayerDao extends PrayerDao {
             source: row['source'] as String?,
             typeId: row['typeId'] as int,
             orderItem: row['orderItem'] as int,
-            isRemovable: (row['isRemovable'] as int) != 0),
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0),
         arguments: [id]);
+  }
+
+  @override
+  Stream<PrayerEntity?> getStreamPrayersWithId(int id) {
+    return _queryAdapter.queryStream('select * from prayers where id = ?1',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0),
+        arguments: [id],
+        queryableName: 'prayers',
+        isView: false);
   }
 
   @override
   Future<int?> getMaxOrderWithTypeId(int typeId) async {
     return _queryAdapter.query(
-        'select max(orderItem) from prayers where typeId = ?1',
+        'select ifnull(max(orderItem),0) from prayers where typeId = ?1',
         mapper: (Map<String, Object?> row) => row.values.first as int,
         arguments: [typeId]);
   }
@@ -6343,8 +6386,8 @@ class _$PrayerDao extends PrayerDao {
     String query,
   ) async {
     return _queryAdapter.queryList(
-        'select * from prayers where typeId = ?1 and lower(meaningContent) Like lower(?2)',
-        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0),
+        'select * from prayers where typeId = ?1 and lower(meaningContent) Like lower(?2)     order by orderItem desc',
+        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0, counterId: row['counterId'] as int?, updateCounter: (row['updateCounter'] as int) != 0),
         arguments: [typeId, query]);
   }
 
@@ -6354,9 +6397,35 @@ class _$PrayerDao extends PrayerDao {
     String regExp,
   ) async {
     return _queryAdapter.queryList(
-        'select * from prayers where typeId = ?1 and lower(meaningContent) REGEXP lower(?2)',
-        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0),
+        'select * from prayers where typeId = ?1 and lower(meaningContent) REGEXP lower(?2)      order by orderItem desc',
+        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0, counterId: row['counterId'] as int?, updateCounter: (row['updateCounter'] as int) != 0),
         arguments: [typeId, regExp]);
+  }
+
+  @override
+  Stream<List<PrayerEntity>> getPrayersSearchedWithTypeIdAndTitle(
+    int typeId,
+    String querySearchFull,
+    String queryOrderForLike,
+    String queryRaw,
+  ) {
+    return _queryAdapter.queryListStream(
+        'select * from prayers where typeId = ?1 and      lower(meaningContent) Like lower(?2) or lower(name) Like lower(?2)     or lower(pronunciationContent) Like lower(?2)     order by (case when lower(name)=?4 then 1 when name like ?3 then 2 else 3 end),     (case when lower(pronunciationContent)=?4 then 1 when pronunciationContent like ?3 then 2 else 3 end),     orderItem desc',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0),
+        arguments: [typeId, querySearchFull, queryOrderForLike, queryRaw],
+        queryableName: 'prayers',
+        isView: false);
   }
 
   @override
@@ -6990,7 +7059,9 @@ class _$BackupDao extends BackupDao {
                   'source': item.source,
                   'typeId': item.typeId,
                   'orderItem': item.orderItem,
-                  'isRemovable': item.isRemovable ? 1 : 0
+                  'isRemovable': item.isRemovable ? 1 : 0,
+                  'counterId': item.counterId,
+                  'updateCounter': item.updateCounter ? 1 : 0
                 },
             changeListener),
         _counterEntityDeletionAdapter = DeletionAdapter(
@@ -7129,7 +7200,9 @@ class _$BackupDao extends BackupDao {
             source: row['source'] as String?,
             typeId: row['typeId'] as int,
             orderItem: row['orderItem'] as int,
-            isRemovable: (row['isRemovable'] as int) != 0),
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0),
         arguments: [typeId]);
   }
 

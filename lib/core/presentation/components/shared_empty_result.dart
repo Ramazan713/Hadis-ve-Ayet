@@ -15,7 +15,8 @@ class SharedEmptyResult extends StatelessWidget {
     return Center(
       child: Text(
         content,
-        style: Theme.of(context).textTheme.bodyLarge,),
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 }

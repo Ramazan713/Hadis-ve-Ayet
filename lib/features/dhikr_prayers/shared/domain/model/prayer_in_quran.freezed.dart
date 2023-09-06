@@ -21,6 +21,7 @@ mixin _$PrayerInQuran {
   String get meaningContent => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
+  int? get counterId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerInQuranCopyWith<PrayerInQuran> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $PrayerInQuranCopyWith<$Res> {
       String arabicContent,
       String meaningContent,
       String source,
-      int orderItem});
+      int orderItem,
+      int? counterId});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$PrayerInQuranCopyWithImpl<$Res, $Val extends PrayerInQuran>
     Object? meaningContent = null,
     Object? source = null,
     Object? orderItem = null,
+    Object? counterId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -81,6 +84,10 @@ class _$PrayerInQuranCopyWithImpl<$Res, $Val extends PrayerInQuran>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$_PrayerInQuranCopyWith<$Res>
       String arabicContent,
       String meaningContent,
       String source,
-      int orderItem});
+      int orderItem,
+      int? counterId});
 }
 
 /// @nodoc
@@ -117,6 +125,7 @@ class __$$_PrayerInQuranCopyWithImpl<$Res>
     Object? meaningContent = null,
     Object? source = null,
     Object? orderItem = null,
+    Object? counterId = freezed,
   }) {
     return _then(_$_PrayerInQuran(
       id: null == id
@@ -139,6 +148,10 @@ class __$$_PrayerInQuranCopyWithImpl<$Res>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -151,7 +164,8 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
       required this.arabicContent,
       required this.meaningContent,
       required this.source,
-      required this.orderItem});
+      required this.orderItem,
+      this.counterId});
 
   @override
   final int id;
@@ -163,10 +177,12 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
   final String source;
   @override
   final int orderItem;
+  @override
+  final int? counterId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerInQuran(id: $id, arabicContent: $arabicContent, meaningContent: $meaningContent, source: $source, orderItem: $orderItem)';
+    return 'PrayerInQuran(id: $id, arabicContent: $arabicContent, meaningContent: $meaningContent, source: $source, orderItem: $orderItem, counterId: $counterId)';
   }
 
   @override
@@ -178,7 +194,8 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
       ..add(DiagnosticsProperty('arabicContent', arabicContent))
       ..add(DiagnosticsProperty('meaningContent', meaningContent))
       ..add(DiagnosticsProperty('source', source))
-      ..add(DiagnosticsProperty('orderItem', orderItem));
+      ..add(DiagnosticsProperty('orderItem', orderItem))
+      ..add(DiagnosticsProperty('counterId', counterId));
   }
 
   @override
@@ -193,12 +210,14 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
                 other.meaningContent == meaningContent) &&
             (identical(other.source, source) || other.source == source) &&
             (identical(other.orderItem, orderItem) ||
-                other.orderItem == orderItem));
+                other.orderItem == orderItem) &&
+            (identical(other.counterId, counterId) ||
+                other.counterId == counterId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, arabicContent, meaningContent, source, orderItem);
+  int get hashCode => Object.hash(runtimeType, id, arabicContent,
+      meaningContent, source, orderItem, counterId);
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +232,8 @@ abstract class _PrayerInQuran implements PrayerInQuran {
       required final String arabicContent,
       required final String meaningContent,
       required final String source,
-      required final int orderItem}) = _$_PrayerInQuran;
+      required final int orderItem,
+      final int? counterId}) = _$_PrayerInQuran;
 
   @override
   int get id;
@@ -225,6 +245,8 @@ abstract class _PrayerInQuran implements PrayerInQuran {
   String get source;
   @override
   int get orderItem;
+  @override
+  int? get counterId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerInQuranCopyWith<_$_PrayerInQuran> get copyWith =>

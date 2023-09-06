@@ -26,6 +26,7 @@ class KPref{
   static final PrefKey<bool> showCounterDetailContents = PrefKey<bool>(key: "showCounterDetailContents", defaultValue: true);
   static final PrefKey<String> counterBackupDate = PrefKey<String>( key: "counterBackupDate",defaultValue: "");
   static final PrefKey<bool> addCounterShowDetails = PrefKey<bool>( key: "addCounterShowDetails",defaultValue: false);
+  static final PrefKey<bool> showCustomPrayersShowDetailContents = PrefKey<bool>(key: "showCustomPrayersShowDetailContents", defaultValue: true);
 
 
 
@@ -57,7 +58,7 @@ class KPref{
     fontSizeContent, fontSizeArabic, useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
     defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,
-    counterBackupDate, showCounterDetailContents, addCounterShowDetails
+    counterBackupDate, showCounterDetailContents, addCounterShowDetails, showCustomPrayersShowDetailContents
   ];
 
   static final prefEnumValues = <PrefKeyEnum>[

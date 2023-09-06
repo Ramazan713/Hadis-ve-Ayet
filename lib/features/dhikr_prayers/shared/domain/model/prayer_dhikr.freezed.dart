@@ -22,6 +22,7 @@ mixin _$PrayerDhikr {
   String get meaningContent => throw _privateConstructorUsedError;
   String get pronunciationContent => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
+  int? get counterId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerDhikrCopyWith<PrayerDhikr> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $PrayerDhikrCopyWith<$Res> {
       String arabicContent,
       String meaningContent,
       String pronunciationContent,
-      int orderItem});
+      int orderItem,
+      int? counterId});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$PrayerDhikrCopyWithImpl<$Res, $Val extends PrayerDhikr>
     Object? meaningContent = null,
     Object? pronunciationContent = null,
     Object? orderItem = null,
+    Object? counterId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -88,6 +91,10 @@ class _$PrayerDhikrCopyWithImpl<$Res, $Val extends PrayerDhikr>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -106,7 +113,8 @@ abstract class _$$_PrayerDhikrCopyWith<$Res>
       String arabicContent,
       String meaningContent,
       String pronunciationContent,
-      int orderItem});
+      int orderItem,
+      int? counterId});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$_PrayerDhikrCopyWithImpl<$Res>
     Object? meaningContent = null,
     Object? pronunciationContent = null,
     Object? orderItem = null,
+    Object? counterId = freezed,
   }) {
     return _then(_$_PrayerDhikr(
       id: null == id
@@ -152,6 +161,10 @@ class __$$_PrayerDhikrCopyWithImpl<$Res>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -165,7 +178,8 @@ class _$_PrayerDhikr implements _PrayerDhikr {
       required this.arabicContent,
       required this.meaningContent,
       required this.pronunciationContent,
-      required this.orderItem});
+      required this.orderItem,
+      this.counterId});
 
   @override
   final int id;
@@ -179,10 +193,12 @@ class _$_PrayerDhikr implements _PrayerDhikr {
   final String pronunciationContent;
   @override
   final int orderItem;
+  @override
+  final int? counterId;
 
   @override
   String toString() {
-    return 'PrayerDhikr(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, orderItem: $orderItem)';
+    return 'PrayerDhikr(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, orderItem: $orderItem, counterId: $counterId)';
   }
 
   @override
@@ -199,12 +215,14 @@ class _$_PrayerDhikr implements _PrayerDhikr {
             (identical(other.pronunciationContent, pronunciationContent) ||
                 other.pronunciationContent == pronunciationContent) &&
             (identical(other.orderItem, orderItem) ||
-                other.orderItem == orderItem));
+                other.orderItem == orderItem) &&
+            (identical(other.counterId, counterId) ||
+                other.counterId == counterId));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, name, arabicContent,
-      meaningContent, pronunciationContent, orderItem);
+      meaningContent, pronunciationContent, orderItem, counterId);
 
   @JsonKey(ignore: true)
   @override
@@ -220,7 +238,8 @@ abstract class _PrayerDhikr implements PrayerDhikr {
       required final String arabicContent,
       required final String meaningContent,
       required final String pronunciationContent,
-      required final int orderItem}) = _$_PrayerDhikr;
+      required final int orderItem,
+      final int? counterId}) = _$_PrayerDhikr;
 
   @override
   int get id;
@@ -234,6 +253,8 @@ abstract class _PrayerDhikr implements PrayerDhikr {
   String get pronunciationContent;
   @override
   int get orderItem;
+  @override
+  int? get counterId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerDhikrCopyWith<_$_PrayerDhikr> get copyWith =>

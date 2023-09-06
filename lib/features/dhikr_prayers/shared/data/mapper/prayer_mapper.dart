@@ -1,5 +1,7 @@
 
+import 'package:hadith/core/data/local/entities/counter_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
+import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
@@ -7,6 +9,27 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr.d
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
 
 extension PrayerEntityExt on PrayerEntity{
+
+  CounterEntity toCounterEntity({
+    required int orderItem,
+    int? id,
+    int lastCounter = 0,
+    int? typeId,
+    int? goal
+  }){
+    return CounterEntity(
+      id: id,
+      name: name ?? "",
+      orderItem: orderItem,
+      lastCounter: lastCounter,
+      typeId: typeId ?? CounterType.classic.typeId,
+      meaning: meaningContent,
+      content: pronunciationContent,
+      arabicContent: arabicContent,
+      description: source,
+      goal: goal
+    );
+  }
 
   PrayerCustom? tryToPrayerCustom(){
     if(typeId != PrayerTypeEnum.custom.typeId) return null;
@@ -19,6 +42,8 @@ extension PrayerEntityExt on PrayerEntity{
       arabicContent: arabicContent,
       name: name  ?? "",
       pronunciationContent: pronunciationContent,
+      counterId: counterId,
+      updateCounter: updateCounter
     );
   }
 
@@ -30,7 +55,8 @@ extension PrayerEntityExt on PrayerEntity{
       source: source ?? "",
       orderItem: orderItem,
       meaningContent: meaningContent ?? "",
-      arabicContent: arabicContent ?? ""
+      arabicContent: arabicContent ?? "",
+      counterId: counterId
     );
   }
 
@@ -43,7 +69,8 @@ extension PrayerEntityExt on PrayerEntity{
         meaningContent: meaningContent ?? "",
         arabicContent: arabicContent ?? "",
         name: name ?? "",
-        pronunciationContent: pronunciationContent
+        pronunciationContent: pronunciationContent,
+        counterId: counterId
     );
   }
 
@@ -56,7 +83,8 @@ extension PrayerEntityExt on PrayerEntity{
         pronunciationContent: pronunciationContent ?? "",
         orderItem: orderItem,
         meaningContent: meaningContent ?? "",
-        arabicContent: arabicContent ?? ""
+        arabicContent: arabicContent ?? "",
+        counterId: counterId
     );
   }
 }
@@ -74,7 +102,9 @@ extension PrayerCustomExt on PrayerCustom{
       orderItem: orderItem,
       source: source,
       isRemovable: true,
-      typeId: PrayerTypeEnum.custom.typeId
+      typeId: PrayerTypeEnum.custom.typeId,
+      counterId: counterId,
+      updateCounter: updateCounter
     );
   }
 

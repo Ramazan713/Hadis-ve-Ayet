@@ -13,6 +13,7 @@ class PrayerDhikr with _$PrayerDhikr{
     required String arabicContent,
     required String meaningContent,
     required String pronunciationContent,
-    required int orderItem
+    required int orderItem,
+    int? counterId
   }) = _PrayerDhikr;
 }

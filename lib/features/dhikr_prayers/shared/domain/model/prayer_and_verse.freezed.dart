@@ -22,6 +22,7 @@ mixin _$PrayerAndVerse {
   String get meaningContent => throw _privateConstructorUsedError;
   String? get pronunciationContent => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
+  int? get counterId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerAndVerseCopyWith<PrayerAndVerse> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $PrayerAndVerseCopyWith<$Res> {
       String arabicContent,
       String meaningContent,
       String? pronunciationContent,
-      int orderItem});
+      int orderItem,
+      int? counterId});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$PrayerAndVerseCopyWithImpl<$Res, $Val extends PrayerAndVerse>
     Object? meaningContent = null,
     Object? pronunciationContent = freezed,
     Object? orderItem = null,
+    Object? counterId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -88,6 +91,10 @@ class _$PrayerAndVerseCopyWithImpl<$Res, $Val extends PrayerAndVerse>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -106,7 +113,8 @@ abstract class _$$_PrayerAndVerseCopyWith<$Res>
       String arabicContent,
       String meaningContent,
       String? pronunciationContent,
-      int orderItem});
+      int orderItem,
+      int? counterId});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$_PrayerAndVerseCopyWithImpl<$Res>
     Object? meaningContent = null,
     Object? pronunciationContent = freezed,
     Object? orderItem = null,
+    Object? counterId = freezed,
   }) {
     return _then(_$_PrayerAndVerse(
       id: null == id
@@ -152,6 +161,10 @@ class __$$_PrayerAndVerseCopyWithImpl<$Res>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -165,7 +178,8 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
       required this.arabicContent,
       required this.meaningContent,
       this.pronunciationContent,
-      required this.orderItem});
+      required this.orderItem,
+      this.counterId});
 
   @override
   final int id;
@@ -179,10 +193,12 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
   final String? pronunciationContent;
   @override
   final int orderItem;
+  @override
+  final int? counterId;
 
   @override
   String toString() {
-    return 'PrayerAndVerse(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, orderItem: $orderItem)';
+    return 'PrayerAndVerse(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, orderItem: $orderItem, counterId: $counterId)';
   }
 
   @override
@@ -199,12 +215,14 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
             (identical(other.pronunciationContent, pronunciationContent) ||
                 other.pronunciationContent == pronunciationContent) &&
             (identical(other.orderItem, orderItem) ||
-                other.orderItem == orderItem));
+                other.orderItem == orderItem) &&
+            (identical(other.counterId, counterId) ||
+                other.counterId == counterId));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, name, arabicContent,
-      meaningContent, pronunciationContent, orderItem);
+      meaningContent, pronunciationContent, orderItem, counterId);
 
   @JsonKey(ignore: true)
   @override
@@ -220,7 +238,8 @@ abstract class _PrayerAndVerse implements PrayerAndVerse {
       required final String arabicContent,
       required final String meaningContent,
       final String? pronunciationContent,
-      required final int orderItem}) = _$_PrayerAndVerse;
+      required final int orderItem,
+      final int? counterId}) = _$_PrayerAndVerse;
 
   @override
   int get id;
@@ -234,6 +253,8 @@ abstract class _PrayerAndVerse implements PrayerAndVerse {
   String? get pronunciationContent;
   @override
   int get orderItem;
+  @override
+  int? get counterId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerAndVerseCopyWith<_$_PrayerAndVerse> get copyWith =>

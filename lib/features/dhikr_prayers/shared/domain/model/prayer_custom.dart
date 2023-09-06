@@ -15,5 +15,7 @@ class PrayerCustom with _$PrayerCustom{
     String? pronunciationContent,
     String? source,
     @Default(0) int orderItem,
+    @Default(false) updateCounter,
+    int? counterId,
   }) = _PrayerCustom;
 }

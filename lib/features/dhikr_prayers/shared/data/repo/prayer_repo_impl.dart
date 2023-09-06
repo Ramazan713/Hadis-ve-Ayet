@@ -6,7 +6,6 @@ import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_repo.dart';
@@ -16,11 +15,10 @@ class PrayerRepoImpl extends PrayerRepo{
   late final PrayerDao _prayerDao;
 
   PrayerRepoImpl({
-    required PrayerDao prayerDao
+    required PrayerDao prayerDao,
   }){
     _prayerDao = prayerDao;
   }
-
 
   @override
   Future<List<PrayerAndVerse>> getPrayerAndVerses() async{
@@ -54,36 +52,6 @@ class PrayerRepoImpl extends PrayerRepo{
         .map((e) => e.tryToPrayInQuran()).whereNotNull().toList();
   }
 
-
-
-  @override
-  Future<List<PrayerCustom>> getPrayerCustoms() async{
-    return (await _prayerDao.getPrayersWithTypeId(PrayerTypeEnum.custom.typeId))
-        .map((e) => e.tryToPrayerCustom()).whereNotNull().toList();
-  }
-
-  @override
-  Future<PrayerCustom?> getPrayerCustomById(int id) async{
-    return (await _prayerDao.getPrayersWithId(id))?.tryToPrayerCustom();
-  }
-
-  @override
-  Future<void> insertPrayerCustom(PrayerCustom prayer) async{
-    final orderItem = await _prayerDao.getMaxOrderWithTypeId(PrayerTypeEnum.custom.typeId);
-    final entity = prayer.copyWith(orderItem: orderItem ?? 1).toPrayerEntity();
-    await _prayerDao.insertPrayer(entity);
-  }
-
-  @override
-  Future<void> updatePrayerCustom(PrayerCustom prayer) async{
-    await _prayerDao.updatePrayer(prayer.toPrayerEntity());
-  }
-
-  @override
-  Future<void> deletePrayerCustom(PrayerCustom prayer) async{
-    await _prayerDao.deletePrayer(prayer.toPrayerEntity());
-  }
-
   @override
   Future<List<PrayerInQuran>> getSearchedPrayersInQuran(String query, SearchCriteriaEnum criteria) async{
     final queryExp = criteria.getQuery(query);
@@ -95,5 +63,4 @@ class PrayerRepoImpl extends PrayerRepo{
     }
     return entities.map((e) => e.tryToPrayInQuran()).whereNotNull().toList();
   }
-
 }

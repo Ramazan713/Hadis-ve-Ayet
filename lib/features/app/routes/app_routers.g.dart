@@ -25,6 +25,10 @@ List<RouteBase> get $appRoutes => [
       $prayerAndVerseListRoute,
       $prayerAndVerseDetailRoute,
       $prayerInQuranRoute,
+      $customPrayersRoute,
+      $customPrayerDetailRoute,
+      $addCustomPrayerRoute,
+      $updateCustomPrayerRoute,
       $showEsmaulHusnaRoute,
       $esmaulHusnaDetailRoute,
       $showCountersRoute,
@@ -487,6 +491,102 @@ extension $PrayerInQuranRouteExtension on PrayerInQuranRoute {
 
   String get location => GoRouteData.$location(
         '/prayerinqurans',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $customPrayersRoute => GoRouteData.$route(
+      path: '/prayers/custom',
+      factory: $CustomPrayersRouteExtension._fromState,
+    );
+
+extension $CustomPrayersRouteExtension on CustomPrayersRoute {
+  static CustomPrayersRoute _fromState(GoRouterState state) =>
+      CustomPrayersRoute();
+
+  String get location => GoRouteData.$location(
+        '/prayers/custom',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $customPrayerDetailRoute => GoRouteData.$route(
+      path: '/prayers/custom/detail/:prayerId',
+      factory: $CustomPrayerDetailRouteExtension._fromState,
+    );
+
+extension $CustomPrayerDetailRouteExtension on CustomPrayerDetailRoute {
+  static CustomPrayerDetailRoute _fromState(GoRouterState state) =>
+      CustomPrayerDetailRoute(
+        prayerId: int.parse(state.pathParameters['prayerId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/prayers/custom/detail/${Uri.encodeComponent(prayerId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $addCustomPrayerRoute => GoRouteData.$route(
+      path: '/prayers/custom/add',
+      factory: $AddCustomPrayerRouteExtension._fromState,
+    );
+
+extension $AddCustomPrayerRouteExtension on AddCustomPrayerRoute {
+  static AddCustomPrayerRoute _fromState(GoRouterState state) =>
+      AddCustomPrayerRoute();
+
+  String get location => GoRouteData.$location(
+        '/prayers/custom/add',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $updateCustomPrayerRoute => GoRouteData.$route(
+      path: '/prayers/custom/update/:prayerId',
+      factory: $UpdateCustomPrayerRouteExtension._fromState,
+    );
+
+extension $UpdateCustomPrayerRouteExtension on UpdateCustomPrayerRoute {
+  static UpdateCustomPrayerRoute _fromState(GoRouterState state) =>
+      UpdateCustomPrayerRoute(
+        prayerId: int.parse(state.pathParameters['prayerId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/prayers/custom/update/${Uri.encodeComponent(prayerId.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

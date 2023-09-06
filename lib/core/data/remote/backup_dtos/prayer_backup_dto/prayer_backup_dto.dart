@@ -13,6 +13,7 @@ class PrayerBackupDto with _$PrayerBackupDto{
     String? meaningContent,
     String? pronunciationContent,
     String? source,
+    int? counterId,
     required int typeId,
     required int orderItem,
     required bool isRemovable

@@ -11,6 +11,7 @@ class PrayerAndVerse with _$PrayerAndVerse{
     required String arabicContent,
     required String meaningContent,
     String? pronunciationContent,
-    required int orderItem
+    required int orderItem,
+    int? counterId
   }) = _PrayerAndVerse;
 }

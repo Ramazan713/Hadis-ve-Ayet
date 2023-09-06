@@ -11,6 +11,9 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_count
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/prayer_and_verse_detail_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/prayer_and_verse_list_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/custom_prayer_detail_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/custom_prayer_manage_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/show_custom_prayers_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/prayer_in_quran_page.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/detail_esmaul_husna_page.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/show_esmaul_husna_page.dart';
@@ -366,7 +369,55 @@ class PrayerInQuranRoute extends GoRouteData{
   }
 }
 
+@TypedGoRoute<CustomPrayersRoute>(
+    path: "/prayers/custom"
+)
+class CustomPrayersRoute extends GoRouteData{
 
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ShowCustomPrayersPage();
+  }
+}
+
+@TypedGoRoute<CustomPrayerDetailRoute>(
+    path: "/prayers/custom/detail/:prayerId"
+)
+class CustomPrayerDetailRoute extends GoRouteData{
+
+  final int prayerId;
+  CustomPrayerDetailRoute({required this.prayerId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return CustomPrayerDetailPage(prayerId: prayerId,);
+  }
+}
+
+@TypedGoRoute<AddCustomPrayerRoute>(
+    path: "/prayers/custom/add"
+)
+class AddCustomPrayerRoute extends GoRouteData{
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return CustomPrayerManagePage(prayerId: null);
+  }
+}
+
+@TypedGoRoute<UpdateCustomPrayerRoute>(
+    path: "/prayers/custom/update/:prayerId"
+)
+class UpdateCustomPrayerRoute extends GoRouteData{
+
+  final int prayerId;
+  UpdateCustomPrayerRoute({required this.prayerId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return CustomPrayerManagePage(prayerId: prayerId);
+  }
+}
 
 @TypedGoRoute<ShowEsmaulHusnaRoute>(
     path: "/esmaulHusna/:pos"

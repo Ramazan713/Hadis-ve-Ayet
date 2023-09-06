@@ -29,6 +29,9 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_count
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/bloc/custom_prayer_manage_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/providers/dhikr_prayers_data_repo_providers.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_bloc.dart';
@@ -242,6 +245,18 @@ class MyAppProviders extends StatelessWidget {
           )),
           BlocProvider(create: (context)=> PrayerAndVerseListBloc(
             prayerRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> ShowCustomPrayersBloc(
+              prayerRepo: context.read(),
+            appPreferences:  context.read()
+          )),
+          BlocProvider(create: (context)=> CustomPrayerManageBloc(
+              prayerRepo: context.read(),
+          )),
+          BlocProvider(create: (context)=> CustomPrayerDetailBloc(
+            prayerRepo: context.read(),
+              appPreferences:  context.read(),
+            fontModelUseCase: context.read()
           )),
           BlocProvider(create: (context)=> IslamicInfoSharedBloc(
               islamicInfoRepo: context.read(),

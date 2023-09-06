@@ -14,7 +14,8 @@ extension PrayerEntityExt on PrayerEntity{
       arabicContent: arabicContent,
       isRemovable: isRemovable,
       pronunciationContent: pronunciationContent,
-      meaningContent: meaningContent
+      meaningContent: meaningContent,
+      counterId: counterId
     );
   }
 }
@@ -31,7 +32,9 @@ extension PrayerBackupDtoExt on PrayerBackupDto{
       arabicContent: arabicContent,
       isRemovable: isRemovable,
       pronunciationContent: pronunciationContent,
-      meaningContent: meaningContent
+      meaningContent: meaningContent,
+      counterId: counterId,
+      updateCounter: false
     );
   }
 }

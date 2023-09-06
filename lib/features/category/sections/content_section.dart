@@ -62,19 +62,19 @@ extension CategoryContentExt on CategoryPage{
       expandContent: expandContent,
       items: [
         CategoryItem(
+          title: "Eklediğim Dua ve Ayetler",
+          expandContent: expandContent,
+          assetPath: AssetHelper.prayer,
+          onClick: () {
+            CustomPrayersRoute().push(context);
+          },
+        ),
+        CategoryItem(
           title: "Namaz Duaları ve Ayetleri",
           expandContent: expandContent,
           assetPath: AssetHelper.prayer,
           onClick: () {
             PrayerAndVerseListRoute().push(context);
-          },
-        ),
-        CategoryItem(
-          title: "Kuranda geçen dua ayetleri",
-          expandContent: expandContent,
-          assetPath: AssetHelper.prayer,
-          onClick: () {
-            PrayerInQuranRoute().push(context);
           },
         ),
         CategoryItem(

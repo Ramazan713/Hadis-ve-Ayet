@@ -23,6 +23,8 @@ mixin _$PrayerCustom {
   String? get pronunciationContent => throw _privateConstructorUsedError;
   String? get source => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
+  dynamic get updateCounter => throw _privateConstructorUsedError;
+  int? get counterId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerCustomCopyWith<PrayerCustom> get copyWith =>
@@ -42,7 +44,9 @@ abstract class $PrayerCustomCopyWith<$Res> {
       String? meaningContent,
       String? pronunciationContent,
       String? source,
-      int orderItem});
+      int orderItem,
+      dynamic updateCounter,
+      int? counterId});
 }
 
 /// @nodoc
@@ -65,6 +69,8 @@ class _$PrayerCustomCopyWithImpl<$Res, $Val extends PrayerCustom>
     Object? pronunciationContent = freezed,
     Object? source = freezed,
     Object? orderItem = null,
+    Object? updateCounter = freezed,
+    Object? counterId = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -95,6 +101,14 @@ class _$PrayerCustomCopyWithImpl<$Res, $Val extends PrayerCustom>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      updateCounter: freezed == updateCounter
+          ? _value.updateCounter
+          : updateCounter // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -114,7 +128,9 @@ abstract class _$$_PrayerCustomCopyWith<$Res>
       String? meaningContent,
       String? pronunciationContent,
       String? source,
-      int orderItem});
+      int orderItem,
+      dynamic updateCounter,
+      int? counterId});
 }
 
 /// @nodoc
@@ -135,6 +151,8 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
     Object? pronunciationContent = freezed,
     Object? source = freezed,
     Object? orderItem = null,
+    Object? updateCounter = freezed,
+    Object? counterId = freezed,
   }) {
     return _then(_$_PrayerCustom(
       id: freezed == id
@@ -165,6 +183,12 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
               as int,
+      updateCounter:
+          freezed == updateCounter ? _value.updateCounter! : updateCounter,
+      counterId: freezed == counterId
+          ? _value.counterId
+          : counterId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -179,7 +203,9 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       this.meaningContent,
       this.pronunciationContent,
       this.source,
-      this.orderItem = 0});
+      this.orderItem = 0,
+      this.updateCounter = false,
+      this.counterId});
 
   @override
   final int? id;
@@ -196,10 +222,15 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
   @override
   @JsonKey()
   final int orderItem;
+  @override
+  @JsonKey()
+  final dynamic updateCounter;
+  @override
+  final int? counterId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerCustom(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, orderItem: $orderItem)';
+    return 'PrayerCustom(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, orderItem: $orderItem, updateCounter: $updateCounter, counterId: $counterId)';
   }
 
   @override
@@ -213,7 +244,9 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       ..add(DiagnosticsProperty('meaningContent', meaningContent))
       ..add(DiagnosticsProperty('pronunciationContent', pronunciationContent))
       ..add(DiagnosticsProperty('source', source))
-      ..add(DiagnosticsProperty('orderItem', orderItem));
+      ..add(DiagnosticsProperty('orderItem', orderItem))
+      ..add(DiagnosticsProperty('updateCounter', updateCounter))
+      ..add(DiagnosticsProperty('counterId', counterId));
   }
 
   @override
@@ -231,12 +264,25 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
                 other.pronunciationContent == pronunciationContent) &&
             (identical(other.source, source) || other.source == source) &&
             (identical(other.orderItem, orderItem) ||
-                other.orderItem == orderItem));
+                other.orderItem == orderItem) &&
+            const DeepCollectionEquality()
+                .equals(other.updateCounter, updateCounter) &&
+            (identical(other.counterId, counterId) ||
+                other.counterId == counterId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, arabicContent,
-      meaningContent, pronunciationContent, source, orderItem);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      arabicContent,
+      meaningContent,
+      pronunciationContent,
+      source,
+      orderItem,
+      const DeepCollectionEquality().hash(updateCounter),
+      counterId);
 
   @JsonKey(ignore: true)
   @override
@@ -253,7 +299,9 @@ abstract class _PrayerCustom implements PrayerCustom {
       final String? meaningContent,
       final String? pronunciationContent,
       final String? source,
-      final int orderItem}) = _$_PrayerCustom;
+      final int orderItem,
+      final dynamic updateCounter,
+      final int? counterId}) = _$_PrayerCustom;
 
   @override
   int? get id;
@@ -269,6 +317,10 @@ abstract class _PrayerCustom implements PrayerCustom {
   String? get source;
   @override
   int get orderItem;
+  @override
+  dynamic get updateCounter;
+  @override
+  int? get counterId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerCustomCopyWith<_$_PrayerCustom> get copyWith =>
