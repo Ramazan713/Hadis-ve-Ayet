@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CounterShowState {
   List<Counter> get counters => throw _privateConstructorUsedError;
   bool get showDetailContents => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CounterShowStateCopyWith<CounterShowState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $CounterShowStateCopyWith<$Res> {
           CounterShowState value, $Res Function(CounterShowState) then) =
       _$CounterShowStateCopyWithImpl<$Res, CounterShowState>;
   @useResult
-  $Res call({List<Counter> counters, bool showDetailContents});
+  $Res call({List<Counter> counters, bool showDetailContents, String? message});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$CounterShowStateCopyWithImpl<$Res, $Val extends CounterShowState>
   $Res call({
     Object? counters = null,
     Object? showDetailContents = null,
+    Object? message = freezed,
   }) {
     return _then(_value.copyWith(
       counters: null == counters
@@ -58,6 +60,10 @@ class _$CounterShowStateCopyWithImpl<$Res, $Val extends CounterShowState>
           ? _value.showDetailContents
           : showDetailContents // ignore: cast_nullable_to_non_nullable
               as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$_CounterShowStateCopyWith<$Res>
       __$$_CounterShowStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Counter> counters, bool showDetailContents});
+  $Res call({List<Counter> counters, bool showDetailContents, String? message});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$_CounterShowStateCopyWithImpl<$Res>
   $Res call({
     Object? counters = null,
     Object? showDetailContents = null,
+    Object? message = freezed,
   }) {
     return _then(_$_CounterShowState(
       counters: null == counters
@@ -96,6 +103,10 @@ class __$$_CounterShowStateCopyWithImpl<$Res>
           ? _value.showDetailContents
           : showDetailContents // ignore: cast_nullable_to_non_nullable
               as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -106,7 +117,9 @@ class _$_CounterShowState
     with DiagnosticableTreeMixin
     implements _CounterShowState {
   const _$_CounterShowState(
-      {required final List<Counter> counters, required this.showDetailContents})
+      {required final List<Counter> counters,
+      required this.showDetailContents,
+      this.message})
       : _counters = counters;
 
   final List<Counter> _counters;
@@ -119,10 +132,12 @@ class _$_CounterShowState
 
   @override
   final bool showDetailContents;
+  @override
+  final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CounterShowState(counters: $counters, showDetailContents: $showDetailContents)';
+    return 'CounterShowState(counters: $counters, showDetailContents: $showDetailContents, message: $message)';
   }
 
   @override
@@ -131,7 +146,8 @@ class _$_CounterShowState
     properties
       ..add(DiagnosticsProperty('type', 'CounterShowState'))
       ..add(DiagnosticsProperty('counters', counters))
-      ..add(DiagnosticsProperty('showDetailContents', showDetailContents));
+      ..add(DiagnosticsProperty('showDetailContents', showDetailContents))
+      ..add(DiagnosticsProperty('message', message));
   }
 
   @override
@@ -141,12 +157,16 @@ class _$_CounterShowState
             other is _$_CounterShowState &&
             const DeepCollectionEquality().equals(other._counters, _counters) &&
             (identical(other.showDetailContents, showDetailContents) ||
-                other.showDetailContents == showDetailContents));
+                other.showDetailContents == showDetailContents) &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_counters), showDetailContents);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_counters),
+      showDetailContents,
+      message);
 
   @JsonKey(ignore: true)
   @override
@@ -158,12 +178,15 @@ class _$_CounterShowState
 abstract class _CounterShowState implements CounterShowState {
   const factory _CounterShowState(
       {required final List<Counter> counters,
-      required final bool showDetailContents}) = _$_CounterShowState;
+      required final bool showDetailContents,
+      final String? message}) = _$_CounterShowState;
 
   @override
   List<Counter> get counters;
   @override
   bool get showDetailContents;
+  @override
+  String? get message;
   @override
   @JsonKey(ignore: true)
   _$$_CounterShowStateCopyWith<_$_CounterShowState> get copyWith =>

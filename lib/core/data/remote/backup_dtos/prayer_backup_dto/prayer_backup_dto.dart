@@ -14,6 +14,7 @@ class PrayerBackupDto with _$PrayerBackupDto{
     String? pronunciationContent,
     String? source,
     int? counterId,
+    int? parentPrayerId,
     required int typeId,
     required int orderItem,
     required bool isRemovable

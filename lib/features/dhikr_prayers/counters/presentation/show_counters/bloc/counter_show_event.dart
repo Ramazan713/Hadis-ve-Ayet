@@ -14,8 +14,15 @@ class CounterShowEventSetDetailView extends ICounterShowEvent{
   CounterShowEventSetDetailView({required this.showDetail});
 }
 
+class CounterShowEventAddToCustomPrayer extends ICounterShowEvent{
+  final Counter counter;
+  CounterShowEventAddToCustomPrayer({required this.counter});
+}
+
 class CounterShowEventDelete extends ICounterShowEvent{
   final Counter counter;
   CounterShowEventDelete({required this.counter});
 }
+
+class CounterShowEventClearMessage extends ICounterShowEvent{}
 

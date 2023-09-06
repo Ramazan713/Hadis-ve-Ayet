@@ -5,7 +5,7 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_en
 part 'prayer.freezed.dart';
 
 @freezed
-class Prayer with _$Prayer{
+abstract class Prayer with _$Prayer{
   const factory Prayer({
     int? id,
     String? name,

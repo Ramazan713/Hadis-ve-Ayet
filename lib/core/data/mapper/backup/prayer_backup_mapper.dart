@@ -34,6 +34,7 @@ extension PrayerBackupDtoExt on PrayerBackupDto{
       pronunciationContent: pronunciationContent,
       meaningContent: meaningContent,
       counterId: counterId,
+      parentPrayerId: parentPrayerId,
       updateCounter: false
     );
   }

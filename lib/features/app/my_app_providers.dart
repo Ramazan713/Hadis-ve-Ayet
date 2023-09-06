@@ -287,7 +287,8 @@ class MyAppProviders extends StatelessWidget {
           )),
           BlocProvider(create: (context)=> CounterShowBloc(
               counterRepo: context.read(),
-              appPreferences: context.read()
+              appPreferences: context.read(),
+              prayerDao: appDatabase.prayerDao
           )),
           BlocProvider(create: (context)=> ManageCounterBloc(
               counterRepo: context.read()
@@ -303,9 +304,10 @@ class MyAppProviders extends StatelessWidget {
               esmaulHusnaRepo: context.read()
           )),
           BlocProvider(create: (context)=> PrayerAndVerseDetailBloc(
-              prayerRepo: context.read(),
-              appPreferences: context.read(),
-              fontModelUseCase: context.read(),
+            prayerRepo: context.read(),
+            appPreferences: context.read(),
+            fontModelUseCase: context.read(),
+            prayerCustomRepo: context.read(),
           )),
           BlocProvider(create: (context)=> PrayerInQuranBloc(
             prayerRepo: context.read(),

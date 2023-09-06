@@ -23,6 +23,7 @@ mixin _$PrayerAndVerse {
   String? get pronunciationContent => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
   int? get counterId => throw _privateConstructorUsedError;
+  int? get parentPrayerId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerAndVerseCopyWith<PrayerAndVerse> get copyWith =>
@@ -42,7 +43,8 @@ abstract class $PrayerAndVerseCopyWith<$Res> {
       String meaningContent,
       String? pronunciationContent,
       int orderItem,
-      int? counterId});
+      int? counterId,
+      int? parentPrayerId});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$PrayerAndVerseCopyWithImpl<$Res, $Val extends PrayerAndVerse>
     Object? pronunciationContent = freezed,
     Object? orderItem = null,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -95,6 +98,10 @@ class _$PrayerAndVerseCopyWithImpl<$Res, $Val extends PrayerAndVerse>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -114,7 +121,8 @@ abstract class _$$_PrayerAndVerseCopyWith<$Res>
       String meaningContent,
       String? pronunciationContent,
       int orderItem,
-      int? counterId});
+      int? counterId,
+      int? parentPrayerId});
 }
 
 /// @nodoc
@@ -135,6 +143,7 @@ class __$$_PrayerAndVerseCopyWithImpl<$Res>
     Object? pronunciationContent = freezed,
     Object? orderItem = null,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
   }) {
     return _then(_$_PrayerAndVerse(
       id: null == id
@@ -165,13 +174,17 @@ class __$$_PrayerAndVerseCopyWithImpl<$Res>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_PrayerAndVerse implements _PrayerAndVerse {
+class _$_PrayerAndVerse extends _PrayerAndVerse {
   const _$_PrayerAndVerse(
       {required this.id,
       required this.name,
@@ -179,7 +192,9 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
       required this.meaningContent,
       this.pronunciationContent,
       required this.orderItem,
-      this.counterId});
+      this.counterId,
+      this.parentPrayerId})
+      : super._();
 
   @override
   final int id;
@@ -195,10 +210,12 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
   final int orderItem;
   @override
   final int? counterId;
+  @override
+  final int? parentPrayerId;
 
   @override
   String toString() {
-    return 'PrayerAndVerse(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, orderItem: $orderItem, counterId: $counterId)';
+    return 'PrayerAndVerse(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, orderItem: $orderItem, counterId: $counterId, parentPrayerId: $parentPrayerId)';
   }
 
   @override
@@ -217,12 +234,22 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
             (identical(other.counterId, counterId) ||
-                other.counterId == counterId));
+                other.counterId == counterId) &&
+            (identical(other.parentPrayerId, parentPrayerId) ||
+                other.parentPrayerId == parentPrayerId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, arabicContent,
-      meaningContent, pronunciationContent, orderItem, counterId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      arabicContent,
+      meaningContent,
+      pronunciationContent,
+      orderItem,
+      counterId,
+      parentPrayerId);
 
   @JsonKey(ignore: true)
   @override
@@ -231,7 +258,7 @@ class _$_PrayerAndVerse implements _PrayerAndVerse {
       __$$_PrayerAndVerseCopyWithImpl<_$_PrayerAndVerse>(this, _$identity);
 }
 
-abstract class _PrayerAndVerse implements PrayerAndVerse {
+abstract class _PrayerAndVerse extends PrayerAndVerse {
   const factory _PrayerAndVerse(
       {required final int id,
       required final String name,
@@ -239,7 +266,9 @@ abstract class _PrayerAndVerse implements PrayerAndVerse {
       required final String meaningContent,
       final String? pronunciationContent,
       required final int orderItem,
-      final int? counterId}) = _$_PrayerAndVerse;
+      final int? counterId,
+      final int? parentPrayerId}) = _$_PrayerAndVerse;
+  const _PrayerAndVerse._() : super._();
 
   @override
   int get id;
@@ -255,6 +284,8 @@ abstract class _PrayerAndVerse implements PrayerAndVerse {
   int get orderItem;
   @override
   int? get counterId;
+  @override
+  int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerAndVerseCopyWith<_$_PrayerAndVerse> get copyWith =>

@@ -43,7 +43,8 @@ extension PrayerEntityExt on PrayerEntity{
       name: name  ?? "",
       pronunciationContent: pronunciationContent,
       counterId: counterId,
-      updateCounter: updateCounter
+      updateCounter: updateCounter,
+      parentPrayerId: parentPrayerId
     );
   }
 
@@ -56,7 +57,8 @@ extension PrayerEntityExt on PrayerEntity{
       orderItem: orderItem,
       meaningContent: meaningContent ?? "",
       arabicContent: arabicContent ?? "",
-      counterId: counterId
+      counterId: counterId,
+      parentPrayerId: parentPrayerId
     );
   }
 
@@ -70,7 +72,8 @@ extension PrayerEntityExt on PrayerEntity{
         arabicContent: arabicContent ?? "",
         name: name ?? "",
         pronunciationContent: pronunciationContent,
-        counterId: counterId
+        counterId: counterId,
+        parentPrayerId: parentPrayerId
     );
   }
 
@@ -84,7 +87,7 @@ extension PrayerEntityExt on PrayerEntity{
         orderItem: orderItem,
         meaningContent: meaningContent ?? "",
         arabicContent: arabicContent ?? "",
-        counterId: counterId
+        counterId: counterId,
     );
   }
 }
@@ -104,9 +107,44 @@ extension PrayerCustomExt on PrayerCustom{
       isRemovable: true,
       typeId: PrayerTypeEnum.custom.typeId,
       counterId: counterId,
-      updateCounter: updateCounter
+      updateCounter: updateCounter,
+      parentPrayerId: parentPrayerId
+    );
+  }
+}
+
+extension PrayerAndVerseExt on PrayerAndVerse{
+
+  PrayerCustom toPrayerCustom(){
+    return PrayerCustom(
+      id: id,
+      name: name,
+      arabicContent: arabicContent,
+      meaningContent: meaningContent,
+      pronunciationContent: pronunciationContent,
+      orderItem: orderItem,
+      counterId: counterId,
+      updateCounter: false,
+      parentPrayerId: parentPrayerId
     );
   }
 
+  PrayerEntity toPrayerEntity(){
+    return PrayerEntity(
+        id: id,
+        name: name,
+        arabicContent: arabicContent,
+        meaningContent: meaningContent,
+        pronunciationContent: pronunciationContent,
+        orderItem: orderItem,
+        isRemovable: false,
+        typeId: PrayerTypeEnum.prayerAndVerses.typeId,
+        counterId: counterId,
+        parentPrayerId: parentPrayerId,
+        source: null,
+        updateCounter: false
+    );
+  }
 }
+
 

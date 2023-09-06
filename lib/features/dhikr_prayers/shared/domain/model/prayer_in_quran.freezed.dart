@@ -22,6 +22,7 @@ mixin _$PrayerInQuran {
   String get source => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
   int? get counterId => throw _privateConstructorUsedError;
+  int? get parentPrayerId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerInQuranCopyWith<PrayerInQuran> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $PrayerInQuranCopyWith<$Res> {
       String meaningContent,
       String source,
       int orderItem,
-      int? counterId});
+      int? counterId,
+      int? parentPrayerId});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$PrayerInQuranCopyWithImpl<$Res, $Val extends PrayerInQuran>
     Object? source = null,
     Object? orderItem = null,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -88,6 +91,10 @@ class _$PrayerInQuranCopyWithImpl<$Res, $Val extends PrayerInQuran>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -106,7 +113,8 @@ abstract class _$$_PrayerInQuranCopyWith<$Res>
       String meaningContent,
       String source,
       int orderItem,
-      int? counterId});
+      int? counterId,
+      int? parentPrayerId});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$_PrayerInQuranCopyWithImpl<$Res>
     Object? source = null,
     Object? orderItem = null,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
   }) {
     return _then(_$_PrayerInQuran(
       id: null == id
@@ -152,6 +161,10 @@ class __$$_PrayerInQuranCopyWithImpl<$Res>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -165,7 +178,8 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
       required this.meaningContent,
       required this.source,
       required this.orderItem,
-      this.counterId});
+      this.counterId,
+      this.parentPrayerId});
 
   @override
   final int id;
@@ -179,10 +193,12 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
   final int orderItem;
   @override
   final int? counterId;
+  @override
+  final int? parentPrayerId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerInQuran(id: $id, arabicContent: $arabicContent, meaningContent: $meaningContent, source: $source, orderItem: $orderItem, counterId: $counterId)';
+    return 'PrayerInQuran(id: $id, arabicContent: $arabicContent, meaningContent: $meaningContent, source: $source, orderItem: $orderItem, counterId: $counterId, parentPrayerId: $parentPrayerId)';
   }
 
   @override
@@ -195,7 +211,8 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
       ..add(DiagnosticsProperty('meaningContent', meaningContent))
       ..add(DiagnosticsProperty('source', source))
       ..add(DiagnosticsProperty('orderItem', orderItem))
-      ..add(DiagnosticsProperty('counterId', counterId));
+      ..add(DiagnosticsProperty('counterId', counterId))
+      ..add(DiagnosticsProperty('parentPrayerId', parentPrayerId));
   }
 
   @override
@@ -212,12 +229,14 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
             (identical(other.counterId, counterId) ||
-                other.counterId == counterId));
+                other.counterId == counterId) &&
+            (identical(other.parentPrayerId, parentPrayerId) ||
+                other.parentPrayerId == parentPrayerId));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, arabicContent,
-      meaningContent, source, orderItem, counterId);
+      meaningContent, source, orderItem, counterId, parentPrayerId);
 
   @JsonKey(ignore: true)
   @override
@@ -233,7 +252,8 @@ abstract class _PrayerInQuran implements PrayerInQuran {
       required final String meaningContent,
       required final String source,
       required final int orderItem,
-      final int? counterId}) = _$_PrayerInQuran;
+      final int? counterId,
+      final int? parentPrayerId}) = _$_PrayerInQuran;
 
   @override
   int get id;
@@ -247,6 +267,8 @@ abstract class _PrayerInQuran implements PrayerInQuran {
   int get orderItem;
   @override
   int? get counterId;
+  @override
+  int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerInQuranCopyWith<_$_PrayerInQuran> get copyWith =>

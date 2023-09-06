@@ -17,5 +17,6 @@ class PrayerCustom with _$PrayerCustom{
     @Default(0) int orderItem,
     @Default(false) updateCounter,
     int? counterId,
+    int? parentPrayerId
   }) = _PrayerCustom;
 }

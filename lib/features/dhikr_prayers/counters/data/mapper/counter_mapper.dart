@@ -1,8 +1,11 @@
 
 
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
+import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
 
 extension CounterEntityExt on CounterEntity{
 
@@ -38,4 +41,18 @@ extension CounterExt on Counter{
       orderItem: order
     );
   }
+
+  PrayerCustom toPrayer(){
+    return PrayerCustom(
+        id: null,
+        name: name,
+        meaningContent: meaning,
+        arabicContent: arabicContent,
+        pronunciationContent: content,
+        updateCounter: false,
+        counterId: id,
+        source: null
+    );
+  }
+
 }

@@ -25,6 +25,7 @@ mixin _$PrayerCustom {
   int get orderItem => throw _privateConstructorUsedError;
   dynamic get updateCounter => throw _privateConstructorUsedError;
   int? get counterId => throw _privateConstructorUsedError;
+  int? get parentPrayerId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerCustomCopyWith<PrayerCustom> get copyWith =>
@@ -46,7 +47,8 @@ abstract class $PrayerCustomCopyWith<$Res> {
       String? source,
       int orderItem,
       dynamic updateCounter,
-      int? counterId});
+      int? counterId,
+      int? parentPrayerId});
 }
 
 /// @nodoc
@@ -71,6 +73,7 @@ class _$PrayerCustomCopyWithImpl<$Res, $Val extends PrayerCustom>
     Object? orderItem = null,
     Object? updateCounter = freezed,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -109,6 +112,10 @@ class _$PrayerCustomCopyWithImpl<$Res, $Val extends PrayerCustom>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -130,7 +137,8 @@ abstract class _$$_PrayerCustomCopyWith<$Res>
       String? source,
       int orderItem,
       dynamic updateCounter,
-      int? counterId});
+      int? counterId,
+      int? parentPrayerId});
 }
 
 /// @nodoc
@@ -153,6 +161,7 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
     Object? orderItem = null,
     Object? updateCounter = freezed,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
   }) {
     return _then(_$_PrayerCustom(
       id: freezed == id
@@ -189,6 +198,10 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -205,7 +218,8 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       this.source,
       this.orderItem = 0,
       this.updateCounter = false,
-      this.counterId});
+      this.counterId,
+      this.parentPrayerId});
 
   @override
   final int? id;
@@ -227,10 +241,12 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
   final dynamic updateCounter;
   @override
   final int? counterId;
+  @override
+  final int? parentPrayerId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerCustom(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, orderItem: $orderItem, updateCounter: $updateCounter, counterId: $counterId)';
+    return 'PrayerCustom(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, orderItem: $orderItem, updateCounter: $updateCounter, counterId: $counterId, parentPrayerId: $parentPrayerId)';
   }
 
   @override
@@ -246,7 +262,8 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       ..add(DiagnosticsProperty('source', source))
       ..add(DiagnosticsProperty('orderItem', orderItem))
       ..add(DiagnosticsProperty('updateCounter', updateCounter))
-      ..add(DiagnosticsProperty('counterId', counterId));
+      ..add(DiagnosticsProperty('counterId', counterId))
+      ..add(DiagnosticsProperty('parentPrayerId', parentPrayerId));
   }
 
   @override
@@ -268,7 +285,9 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
             const DeepCollectionEquality()
                 .equals(other.updateCounter, updateCounter) &&
             (identical(other.counterId, counterId) ||
-                other.counterId == counterId));
+                other.counterId == counterId) &&
+            (identical(other.parentPrayerId, parentPrayerId) ||
+                other.parentPrayerId == parentPrayerId));
   }
 
   @override
@@ -282,7 +301,8 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       source,
       orderItem,
       const DeepCollectionEquality().hash(updateCounter),
-      counterId);
+      counterId,
+      parentPrayerId);
 
   @JsonKey(ignore: true)
   @override
@@ -301,7 +321,8 @@ abstract class _PrayerCustom implements PrayerCustom {
       final String? source,
       final int orderItem,
       final dynamic updateCounter,
-      final int? counterId}) = _$_PrayerCustom;
+      final int? counterId,
+      final int? parentPrayerId}) = _$_PrayerCustom;
 
   @override
   int? get id;
@@ -321,6 +342,8 @@ abstract class _PrayerCustom implements PrayerCustom {
   dynamic get updateCounter;
   @override
   int? get counterId;
+  @override
+  int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerCustomCopyWith<_$_PrayerCustom> get copyWith =>

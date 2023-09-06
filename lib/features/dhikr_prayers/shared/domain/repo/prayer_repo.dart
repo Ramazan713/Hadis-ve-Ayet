@@ -19,5 +19,7 @@ abstract class PrayerRepo{
 
   Future<List<PrayerAndVerse>> getPrayerAndVerses();
 
-  Future<PrayerAndVerse?> getPrayerAndVerseById(int id);
+  Stream<PrayerAndVerse?> getStreamPrayerAndVerseById(int id);
+
+  Future<void> insertCustomPrayerWithRelation(PrayerAndVerse prayer);
 }

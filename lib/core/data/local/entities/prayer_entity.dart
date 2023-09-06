@@ -12,7 +12,14 @@ import 'package:hadith/core/data/local/entities/counter_entity.dart';
       entity: CounterEntity,
       onDelete: ForeignKeyAction.setNull,
       onUpdate: ForeignKeyAction.cascade
-    )
+    ),
+    ForeignKey(
+        childColumns: ["parentPrayerId"],
+        parentColumns: ["id"],
+        entity: PrayerEntity,
+        onDelete: ForeignKeyAction.setNull,
+        onUpdate: ForeignKeyAction.cascade
+    ),
   ]
 )
 class PrayerEntity {
@@ -27,6 +34,7 @@ class PrayerEntity {
   final int orderItem;
   final bool isRemovable;
   final int? counterId;
+  final int? parentPrayerId;
   final bool updateCounter;
 
   const PrayerEntity({
@@ -40,6 +48,24 @@ class PrayerEntity {
     required this.orderItem,
     required this.isRemovable,
     required this.counterId,
-    required this.updateCounter
+    required this.updateCounter,
+    required this.parentPrayerId
   });
+
+  PrayerEntity copyWith({int? orderItem, int? parentPrayerId}){
+    return PrayerEntity(
+      id: id,
+      name: name,
+      source: source,
+      counterId: counterId,
+      orderItem: orderItem ?? this.orderItem,
+      isRemovable: isRemovable,
+      typeId: typeId,
+      updateCounter: updateCounter,
+      arabicContent: arabicContent,
+      pronunciationContent: pronunciationContent,
+      meaningContent: meaningContent,
+      parentPrayerId: parentPrayerId ?? this.parentPrayerId
+    );
+  }
 }

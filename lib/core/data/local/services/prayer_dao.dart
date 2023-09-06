@@ -6,7 +6,21 @@ import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 abstract class PrayerDao{
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertPrayer(PrayerEntity prayer);
+  Future<int> insertPrayer(PrayerEntity prayer);
+
+  @transaction
+  Future<int> insertPrayerWithOrder(PrayerEntity prayer)async{
+    final maxPos = (await getMaxOrderWithTypeId(prayer.typeId)) ?? 0;
+    final updatedPrayer = prayer.copyWith(orderItem: maxPos + 1);
+    return insertPrayer(updatedPrayer);
+  }
+
+  @transaction
+  Future<void> insertPrayerWithRelation(PrayerEntity childPrayer, PrayerEntity unAddedParentPrayer)async{
+    final parentId = await insertPrayerWithOrder(unAddedParentPrayer);
+    final updatedPrayer = childPrayer.copyWith(parentPrayerId: parentId);
+    await updatePrayer(updatedPrayer);
+  }
 
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updatePrayer(PrayerEntity prayer);
@@ -20,8 +34,12 @@ abstract class PrayerDao{
   @Query("select * from prayers where typeId = :typeId order by orderItem desc")
   Stream<List<PrayerEntity>> getStreamPrayersWithTypeId(int typeId);
 
-  @Query("select * from prayers where typeId = :typeId and isRemovable = :isRemovable order by orderItem desc")
-  Future<List<PrayerEntity>> getPrayersWithTypeIdAndIsRemovable(int typeId, bool isRemovable);
+  @Query("select * from prayers where typeId = :typeId order by orderItem asc")
+  Future<List<PrayerEntity>> getPrayersWithTypeIdOrderByAsc(int typeId);
+
+  @Query("select * from prayers where typeId = :typeId order by orderItem asc")
+  Stream<List<PrayerEntity>> getStreamPrayersWithTypeIdOrderByAsc(int typeId);
+
 
   @Query("select * from prayers where id = :id")
   Future<PrayerEntity?> getPrayersWithId(int id);

@@ -5,6 +5,10 @@ import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
 
 enum ShowCounterSelectMenuEnum implements IMenuItem{
+  addToCustomPrayer(
+    title: "Dualarıma Ekle",
+    iconInfo: IconInfo(iconData: Icons.add)
+  ),
   edit(
     title: "Düzenle",
     iconInfo: IconInfo(iconData: Icons.edit)

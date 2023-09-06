@@ -13,7 +13,8 @@ class PrayerInQuran with _$PrayerInQuran{
     required String meaningContent,
     required String source,
     required int orderItem,
-    int? counterId
+    int? counterId,
+    int? parentPrayerId
   }) = _PrayerInQuran;
 
 }

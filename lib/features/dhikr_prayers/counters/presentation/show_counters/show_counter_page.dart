@@ -54,30 +54,32 @@ class _ShowCounterPageState extends State<ShowCounterPage> {
   }
 
   Widget getPageContent(BuildContext context, int gridCount){
-    return Scaffold(
-      body: SafeArea(
-        child: CustomNestedViewAppBar(
-          floating: true,
-          snap: true,
-          actions: widget.getActions(context),
-          scrollController: CustomScrollController(
-            controller: scrollController
-          ),
-          title: const Text("Sayaç"),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-              child: Column(
-                children: [
-                  widget.getDhikrmaticContent(context, gridCount),
-                  widget.getDhikrListContent(context, gridCount)
-                ],
+    return widget.getListeners(
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomNestedViewAppBar(
+            floating: true,
+            snap: true,
+            actions: widget.getActions(context),
+            scrollController: CustomScrollController(
+              controller: scrollController
+            ),
+            title: const Text("Sayaç"),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                child: Column(
+                  children: [
+                    widget.getDhikrmaticContent(context, gridCount),
+                    widget.getDhikrListContent(context, gridCount)
+                  ],
+                ),
               ),
             ),
-          ),
-        )
+          )
+        ),
+        floatingActionButton: getFab(context)
       ),
-      floatingActionButton: getFab(context)
     );
   }
 

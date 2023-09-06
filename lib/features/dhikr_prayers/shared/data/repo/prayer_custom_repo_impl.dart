@@ -25,9 +25,7 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
 
   @override
   Future<void> insertPrayerCustom(PrayerCustom prayer) async{
-    final orderItem = await _prayerDao.getMaxOrderWithTypeId(PrayerTypeEnum.custom.typeId);
-    final entity = prayer.copyWith(orderItem: (orderItem ?? 0) + 1).toPrayerEntity();
-    await _prayerDao.insertPrayer(entity);
+    await _prayerDao.insertPrayerWithOrder(prayer.toPrayerEntity());
   }
 
   @override

@@ -5,6 +5,9 @@ part 'prayer_and_verse.freezed.dart';
 
 @freezed
 class PrayerAndVerse with _$PrayerAndVerse{
+
+  const PrayerAndVerse._();
+
   const factory PrayerAndVerse({
     required int id,
     required String name,
@@ -12,6 +15,7 @@ class PrayerAndVerse with _$PrayerAndVerse{
     required String meaningContent,
     String? pronunciationContent,
     required int orderItem,
-    int? counterId
+    int? counterId,
+    int? parentPrayerId
   }) = _PrayerAndVerse;
 }

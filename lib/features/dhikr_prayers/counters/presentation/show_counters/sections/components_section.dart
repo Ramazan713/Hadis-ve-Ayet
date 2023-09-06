@@ -10,6 +10,7 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counter
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
+import 'package:hadith/utils/toast_utils.dart';
 
 extension ShowCounterComponentsExt on ShowCounterPage{
 
@@ -57,7 +58,7 @@ extension ShowCounterComponentsExt on ShowCounterPage{
 
 
   void handleBottomMenu(BuildContext context,Counter counter){
-
+    final bloc = context.read<CounterShowBloc>();
     showBottomMenuItems(
         context,
         title: "'${counter.name}' adlı zikri için",
@@ -71,15 +72,34 @@ extension ShowCounterComponentsExt on ShowCounterPage{
                 title: "Silmek istediğinize emin misiniz",
                 content: "'${counter.name}' silindiğinde geri alınamaz",
                 btnApproved: () {
-                  context.read<CounterShowBloc>()
-                      .add(CounterShowEventDelete(counter: counter));
+                  bloc.add(CounterShowEventDelete(counter: counter));
                 });
               break;
             case ShowCounterSelectMenuEnum.edit:
               ManageCounterRoute(counterId: counter.id ?? 0).push(context);
               break;
+            case ShowCounterSelectMenuEnum.addToCustomPrayer:
+              bloc.add(CounterShowEventAddToCustomPrayer(counter: counter));
+              break;
           }
         }
+    );
+  }
+
+  Widget getListeners({required Widget child}){
+    return BlocListener<CounterShowBloc,CounterShowState>(
+      listenWhen: (prevState, nextState){
+        return prevState.message != nextState.message;
+      },
+      listener: (context, state){
+        final message = state.message;
+        if(message!=null){
+          ToastUtils.showLongToast(message);
+          context.read<CounterShowBloc>()
+              .add(CounterShowEventClearMessage());
+        }
+      },
+      child: child,
     );
   }
 

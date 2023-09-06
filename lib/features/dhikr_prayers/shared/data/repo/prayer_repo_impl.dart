@@ -22,20 +22,21 @@ class PrayerRepoImpl extends PrayerRepo{
 
   @override
   Future<List<PrayerAndVerse>> getPrayerAndVerses() async{
-    return (await _prayerDao.getPrayersWithTypeId(PrayerTypeEnum.prayerAndVerses.typeId))
+    return (await _prayerDao.getPrayersWithTypeIdOrderByAsc(PrayerTypeEnum.prayerAndVerses.typeId))
         .map((e) => e.tryToPrayerAndVerse()).whereNotNull().toList();
   }
 
   @override
-  Future<PrayerAndVerse?> getPrayerAndVerseById(int id) async{
-    return (await _prayerDao.getPrayersWithId(id))?.tryToPrayerAndVerse();
+  Stream<PrayerAndVerse?> getStreamPrayerAndVerseById(int id){
+    return _prayerDao.getStreamPrayersWithId(id)
+        .map((e) => e?.tryToPrayerAndVerse());
   }
 
 
 
   @override
   Future<List<PrayerDhikr>> getPrayerDhikrs() async{
-    return (await _prayerDao.getPrayersWithTypeId(PrayerTypeEnum.dhikr.typeId))
+    return (await _prayerDao.getPrayersWithTypeIdOrderByAsc(PrayerTypeEnum.dhikr.typeId))
         .map((e) => e.tryToPrayerDhikr()).whereNotNull().toList();
   }
 
@@ -48,7 +49,7 @@ class PrayerRepoImpl extends PrayerRepo{
 
   @override
   Future<List<PrayerInQuran>> getPrayerInQurans() async{
-    return (await _prayerDao.getPrayersWithTypeId(PrayerTypeEnum.prayerInQuran.typeId))
+    return (await _prayerDao.getPrayersWithTypeIdOrderByAsc(PrayerTypeEnum.prayerInQuran.typeId))
         .map((e) => e.tryToPrayInQuran()).whereNotNull().toList();
   }
 
@@ -62,5 +63,12 @@ class PrayerRepoImpl extends PrayerRepo{
       entities = await _prayerDao.getPrayersSearchedLikeWithTypeId(PrayerTypeEnum.prayerInQuran.typeId, queryExp);
     }
     return entities.map((e) => e.tryToPrayInQuran()).whereNotNull().toList();
+  }
+
+  @override
+  Future<void> insertCustomPrayerWithRelation(PrayerAndVerse prayer) async{
+    final parentPrayer = prayer.toPrayerCustom().copyWith(id: null).toPrayerEntity();
+    final childPrayer = prayer.toPrayerEntity();
+    await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer);
   }
 }

@@ -12,7 +12,8 @@ part 'counter_show_state.freezed.dart';
 class CounterShowState with _$CounterShowState{
   const factory CounterShowState({
     required List<Counter> counters,
-    required bool showDetailContents
+    required bool showDetailContents,
+    String? message
   }) = _CounterShowState;
 
   static CounterShowState init(){

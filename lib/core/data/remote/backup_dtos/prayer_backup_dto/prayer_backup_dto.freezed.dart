@@ -27,6 +27,7 @@ mixin _$PrayerBackupDto {
   String? get pronunciationContent => throw _privateConstructorUsedError;
   String? get source => throw _privateConstructorUsedError;
   int? get counterId => throw _privateConstructorUsedError;
+  int? get parentPrayerId => throw _privateConstructorUsedError;
   int get typeId => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
   bool get isRemovable => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $PrayerBackupDtoCopyWith<$Res> {
       String? pronunciationContent,
       String? source,
       int? counterId,
+      int? parentPrayerId,
       int typeId,
       int orderItem,
       bool isRemovable});
@@ -76,6 +78,7 @@ class _$PrayerBackupDtoCopyWithImpl<$Res, $Val extends PrayerBackupDto>
     Object? pronunciationContent = freezed,
     Object? source = freezed,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
     Object? typeId = null,
     Object? orderItem = null,
     Object? isRemovable = null,
@@ -109,6 +112,10 @@ class _$PrayerBackupDtoCopyWithImpl<$Res, $Val extends PrayerBackupDto>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       typeId: null == typeId
           ? _value.typeId
           : typeId // ignore: cast_nullable_to_non_nullable
@@ -141,6 +148,7 @@ abstract class _$$_PrayerBackupDtoCopyWith<$Res>
       String? pronunciationContent,
       String? source,
       int? counterId,
+      int? parentPrayerId,
       int typeId,
       int orderItem,
       bool isRemovable});
@@ -164,6 +172,7 @@ class __$$_PrayerBackupDtoCopyWithImpl<$Res>
     Object? pronunciationContent = freezed,
     Object? source = freezed,
     Object? counterId = freezed,
+    Object? parentPrayerId = freezed,
     Object? typeId = null,
     Object? orderItem = null,
     Object? isRemovable = null,
@@ -197,6 +206,10 @@ class __$$_PrayerBackupDtoCopyWithImpl<$Res>
           ? _value.counterId
           : counterId // ignore: cast_nullable_to_non_nullable
               as int?,
+      parentPrayerId: freezed == parentPrayerId
+          ? _value.parentPrayerId
+          : parentPrayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       typeId: null == typeId
           ? _value.typeId
           : typeId // ignore: cast_nullable_to_non_nullable
@@ -226,6 +239,7 @@ class _$_PrayerBackupDto
       this.pronunciationContent,
       this.source,
       this.counterId,
+      this.parentPrayerId,
       required this.typeId,
       required this.orderItem,
       required this.isRemovable});
@@ -248,6 +262,8 @@ class _$_PrayerBackupDto
   @override
   final int? counterId;
   @override
+  final int? parentPrayerId;
+  @override
   final int typeId;
   @override
   final int orderItem;
@@ -256,7 +272,7 @@ class _$_PrayerBackupDto
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerBackupDto(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, counterId: $counterId, typeId: $typeId, orderItem: $orderItem, isRemovable: $isRemovable)';
+    return 'PrayerBackupDto(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, counterId: $counterId, parentPrayerId: $parentPrayerId, typeId: $typeId, orderItem: $orderItem, isRemovable: $isRemovable)';
   }
 
   @override
@@ -271,6 +287,7 @@ class _$_PrayerBackupDto
       ..add(DiagnosticsProperty('pronunciationContent', pronunciationContent))
       ..add(DiagnosticsProperty('source', source))
       ..add(DiagnosticsProperty('counterId', counterId))
+      ..add(DiagnosticsProperty('parentPrayerId', parentPrayerId))
       ..add(DiagnosticsProperty('typeId', typeId))
       ..add(DiagnosticsProperty('orderItem', orderItem))
       ..add(DiagnosticsProperty('isRemovable', isRemovable));
@@ -292,6 +309,8 @@ class _$_PrayerBackupDto
             (identical(other.source, source) || other.source == source) &&
             (identical(other.counterId, counterId) ||
                 other.counterId == counterId) &&
+            (identical(other.parentPrayerId, parentPrayerId) ||
+                other.parentPrayerId == parentPrayerId) &&
             (identical(other.typeId, typeId) || other.typeId == typeId) &&
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
@@ -310,6 +329,7 @@ class _$_PrayerBackupDto
       pronunciationContent,
       source,
       counterId,
+      parentPrayerId,
       typeId,
       orderItem,
       isRemovable);
@@ -337,6 +357,7 @@ abstract class _PrayerBackupDto implements PrayerBackupDto {
       final String? pronunciationContent,
       final String? source,
       final int? counterId,
+      final int? parentPrayerId,
       required final int typeId,
       required final int orderItem,
       required final bool isRemovable}) = _$_PrayerBackupDto;
@@ -358,6 +379,8 @@ abstract class _PrayerBackupDto implements PrayerBackupDto {
   String? get source;
   @override
   int? get counterId;
+  @override
+  int? get parentPrayerId;
   @override
   int get typeId;
   @override
