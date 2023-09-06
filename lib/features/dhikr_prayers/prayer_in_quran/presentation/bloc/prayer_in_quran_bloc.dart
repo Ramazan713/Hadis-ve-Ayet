@@ -37,12 +37,13 @@ class PrayerInQuranBloc extends Bloc<IPrayerInQuranEvent,PrayerInQuranState>{
 
     _filterQuery.value = "";
     _filterCriteria.value = _appPreferences.getEnumItem(KPref.prayerInQuranSearchCriteria);
-    
+
     on<PrayerInQuranEventListenAppPref>(_onListenAppPref,transformer: restartable());
     on<PrayerInQuranEventListenData>(_onListenData,transformer: restartable());
     on<PrayerInQuranEventSetQuery>(_onSetQuery,transformer: restartable());
     on<PrayerInQuranEventSetSearchBarVisibility>(_onSetSearchBarVisibility,transformer: restartable());
     on<PrayerInQuranEventClearMessage>(_onClearMessage,transformer: restartable());
+    on<PrayerInQuranEventAddCustomPrayer>(_onAddCustomPrayer,transformer: restartable());
 
     add(PrayerInQuranEventListenAppPref());
     add(PrayerInQuranEventListenData());
@@ -52,15 +53,14 @@ class PrayerInQuranBloc extends Bloc<IPrayerInQuranEvent,PrayerInQuranState>{
 
     final streamData = Rx.combineLatest2(_filterQuery, _filterCriteria, (query, criteria){
       return _QueryCriteria(query: query,criteriaEnum: criteria);
-    }).asyncMap((queryCriteria)async{
-      if(queryCriteria.query.trim().isEmpty) return _prayerRepo.getPrayerInQurans();
+    }).switchMap((queryCriteria){
+      if(queryCriteria.query.trim().isEmpty) return _prayerRepo.getStreamPrayerInQurans();
       return _prayerRepo.getSearchedPrayersInQuran(queryCriteria.query.trim(), queryCriteria.criteriaEnum);
     });
 
     await emit.forEach<List<PrayerInQuran>>(streamData, onData: (data){
       return state.copyWith(items: data);
     });
-
   }
 
   void _onSetQuery(PrayerInQuranEventSetQuery event,Emitter<PrayerInQuranState>emit)async{
@@ -75,12 +75,13 @@ class PrayerInQuranBloc extends Bloc<IPrayerInQuranEvent,PrayerInQuranState>{
   }
 
   void _onClearMessage(PrayerInQuranEventClearMessage event,Emitter<PrayerInQuranState>emit)async{
-    emit(state.copyWith());
+    emit(state.copyWith(message: null));
   }
 
-  // void _on( event,Emitter<PrayerInQuranState>emit)async{
-  //
-  // }
+  void _onAddCustomPrayer(PrayerInQuranEventAddCustomPrayer event,Emitter<PrayerInQuranState>emit)async{
+    _prayerRepo.insertCustomPrayerWithRelationForPrayerQuran(event.prayer);
+    emit(state.copyWith(message: "Başarıyla Eklendi"));
+  }
 
   void _onListenAppPref(PrayerInQuranEventListenAppPref event,Emitter<PrayerInQuranState>emit)async{
     final streamData = _appPreferences.listenerFiltered([

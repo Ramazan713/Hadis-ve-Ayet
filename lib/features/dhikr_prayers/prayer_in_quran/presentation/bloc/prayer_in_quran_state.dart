@@ -24,7 +24,8 @@ class PrayerInQuranState with _$PrayerInQuranState{
     required FontModel fontModel,
     required String searchQuery,
     required SearchCriteriaEnum searchCriteria,
-    required bool isSearchBarVisible
+    required bool isSearchBarVisible,
+    String? message
   }) = _PrayerInQuranState;
   
   static PrayerInQuranState init(){
@@ -40,8 +41,8 @@ class PrayerInQuranState with _$PrayerInQuranState{
   }
 
   SearchParam get searchParam => SearchParam(
-      searchCriteria: searchCriteria,
-      searchQuery: searchQuery
+    searchCriteria: searchCriteria,
+    searchQuery: searchQuery
   );
 
 }

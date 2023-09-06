@@ -49,9 +49,9 @@ class PrayerAndVerseDetailBloc extends Bloc<IPrayerDetailEvent,PrayerAndVerseDet
   }
 
   void _onAddToCustomPrayer(PrayerAndVerseDetailEventAddToCustomPrayer event,Emitter<PrayerAndVerseDetailState>emit)async{
-    final customPrayer = state.prayer?.toPrayerCustom();
-    if(customPrayer == null) return;
-    _prayerRepo.insertCustomPrayerWithRelation(state.prayer!);
+    final prayer = state.prayer;
+    if(prayer == null) return;
+    _prayerRepo.insertCustomPrayerWithRelationForPrayerVerse(prayer);
     emit(state.copyWith(message: "Başarıyla Eklendi"));
   }
 

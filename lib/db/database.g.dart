@@ -6371,17 +6371,6 @@ class _$PrayerDao extends PrayerDao {
   }
 
   @override
-  Future<List<PrayerEntity>> getPrayersWithTypeIdAndIsRemovable(
-    int typeId,
-    bool isRemovable,
-  ) async {
-    return _queryAdapter.queryList(
-        'select * from prayers where typeId = ?1 and isRemovable = ?2 order by orderItem desc',
-        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0, counterId: row['counterId'] as int?, updateCounter: (row['updateCounter'] as int) != 0, parentPrayerId: row['parentPrayerId'] as int?),
-        arguments: [typeId, isRemovable ? 1 : 0]);
-  }
-
-  @override
   Future<PrayerEntity?> getPrayersWithId(int id) async {
     return _queryAdapter.query('select * from prayers where id = ?1',
         mapper: (Map<String, Object?> row) => PrayerEntity(
@@ -6430,25 +6419,53 @@ class _$PrayerDao extends PrayerDao {
   }
 
   @override
-  Future<List<PrayerEntity>> getPrayersSearchedLikeWithTypeId(
+  Stream<List<PrayerEntity>> getStreamPrayersSearchedLikeWithTypeId(
     int typeId,
     String query,
-  ) async {
-    return _queryAdapter.queryList(
+  ) {
+    return _queryAdapter.queryListStream(
         'select * from prayers where typeId = ?1 and lower(meaningContent) Like lower(?2)     order by orderItem desc',
-        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0, counterId: row['counterId'] as int?, updateCounter: (row['updateCounter'] as int) != 0, parentPrayerId: row['parentPrayerId'] as int?),
-        arguments: [typeId, query]);
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0,
+            parentPrayerId: row['parentPrayerId'] as int?),
+        arguments: [typeId, query],
+        queryableName: 'prayers',
+        isView: false);
   }
 
   @override
-  Future<List<PrayerEntity>> getPrayersSearchedRegExWithTypeId(
+  Stream<List<PrayerEntity>> getStreamPrayersSearchedRegExWithTypeId(
     int typeId,
     String regExp,
-  ) async {
-    return _queryAdapter.queryList(
+  ) {
+    return _queryAdapter.queryListStream(
         'select * from prayers where typeId = ?1 and lower(meaningContent) REGEXP lower(?2)      order by orderItem desc',
-        mapper: (Map<String, Object?> row) => PrayerEntity(id: row['id'] as int?, name: row['name'] as String?, arabicContent: row['arabicContent'] as String?, meaningContent: row['meaningContent'] as String?, pronunciationContent: row['pronunciationContent'] as String?, source: row['source'] as String?, typeId: row['typeId'] as int, orderItem: row['orderItem'] as int, isRemovable: (row['isRemovable'] as int) != 0, counterId: row['counterId'] as int?, updateCounter: (row['updateCounter'] as int) != 0, parentPrayerId: row['parentPrayerId'] as int?),
-        arguments: [typeId, regExp]);
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0,
+            parentPrayerId: row['parentPrayerId'] as int?),
+        arguments: [typeId, regExp],
+        queryableName: 'prayers',
+        isView: false);
   }
 
   @override

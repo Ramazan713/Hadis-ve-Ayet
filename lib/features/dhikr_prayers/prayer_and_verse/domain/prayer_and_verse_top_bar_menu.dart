@@ -11,6 +11,10 @@ enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
       title: "Dualarıma Ekle",
       iconInfo: IconInfo(iconData: Icons.add)
   ),
+  goToCustomPrayer(
+      title: "Dualarıma Git",
+      iconInfo: IconInfo(iconData: Icons.open_in_new)
+  ),
   selectFontSize(
       title: "Yazı Boyutu",
       iconInfo: IconInfo(iconData: Icons.text_format)
@@ -28,9 +32,13 @@ enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
   final IconInfo iconInfo;
 
   static List<PrayerAndVerseTopBarMenuItems> getItems(PrayerAndVerse? prayer){
-    if(prayer == null || prayer.parentPrayerId != null) {
-      return [PrayerAndVerseTopBarMenuItems.selectFontSize];
+    final items = [PrayerAndVerseTopBarMenuItems.selectFontSize];
+
+    if(prayer == null || prayer.parentPrayerId == null) {
+      items.insert(0,PrayerAndVerseTopBarMenuItems.addToCustomPrayer);
+    }else{
+      items.insert(0,PrayerAndVerseTopBarMenuItems.goToCustomPrayer);
     }
-    return PrayerAndVerseTopBarMenuItems.values;
+    return items;
   }
 }

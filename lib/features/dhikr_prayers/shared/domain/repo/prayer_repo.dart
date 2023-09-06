@@ -7,9 +7,9 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_qura
 
 abstract class PrayerRepo{
 
-  Future<List<PrayerInQuran>> getPrayerInQurans();
+  Stream<List<PrayerInQuran>> getStreamPrayerInQurans();
 
-  Future<List<PrayerInQuran>> getSearchedPrayersInQuran(String query, SearchCriteriaEnum criteria);
+  Stream<List<PrayerInQuran>> getSearchedPrayersInQuran(String query, SearchCriteriaEnum criteria);
 
 
   Future<List<PrayerDhikr>> getPrayerDhikrs();
@@ -21,5 +21,7 @@ abstract class PrayerRepo{
 
   Stream<PrayerAndVerse?> getStreamPrayerAndVerseById(int id);
 
-  Future<void> insertCustomPrayerWithRelation(PrayerAndVerse prayer);
+  Future<void> insertCustomPrayerWithRelationForPrayerVerse(PrayerAndVerse prayer);
+
+  Future<void> insertCustomPrayerWithRelationForPrayerQuran(PrayerInQuran prayer);
 }

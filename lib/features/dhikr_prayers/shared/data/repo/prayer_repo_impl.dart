@@ -48,25 +48,32 @@ class PrayerRepoImpl extends PrayerRepo{
 
 
   @override
-  Future<List<PrayerInQuran>> getPrayerInQurans() async{
-    return (await _prayerDao.getPrayersWithTypeIdOrderByAsc(PrayerTypeEnum.prayerInQuran.typeId))
-        .map((e) => e.tryToPrayInQuran()).whereNotNull().toList();
+  Stream<List<PrayerInQuran>> getStreamPrayerInQurans(){
+    return (_prayerDao.getStreamPrayersWithTypeIdOrderByAsc(PrayerTypeEnum.prayerInQuran.typeId))
+        .map((items) => items.map((e) => e.tryToPrayInQuran()).whereNotNull().toList());
   }
 
   @override
-  Future<List<PrayerInQuran>> getSearchedPrayersInQuran(String query, SearchCriteriaEnum criteria) async{
+  Stream<List<PrayerInQuran>> getSearchedPrayersInQuran(String query, SearchCriteriaEnum criteria){
     final queryExp = criteria.getQuery(query);
-    final List<PrayerEntity> entities;
+    final Stream<List<PrayerEntity>> streamEntities;
     if(criteria.isRegex){
-      entities = await _prayerDao.getPrayersSearchedRegExWithTypeId(PrayerTypeEnum.prayerInQuran.typeId, queryExp);
+      streamEntities = _prayerDao.getStreamPrayersSearchedRegExWithTypeId(PrayerTypeEnum.prayerInQuran.typeId, queryExp);
     }else{
-      entities = await _prayerDao.getPrayersSearchedLikeWithTypeId(PrayerTypeEnum.prayerInQuran.typeId, queryExp);
+      streamEntities = _prayerDao.getStreamPrayersSearchedLikeWithTypeId(PrayerTypeEnum.prayerInQuran.typeId, queryExp);
     }
-    return entities.map((e) => e.tryToPrayInQuran()).whereNotNull().toList();
+    return streamEntities.map((items) => items.map((e) => e.tryToPrayInQuran()).whereNotNull().toList());
   }
 
   @override
-  Future<void> insertCustomPrayerWithRelation(PrayerAndVerse prayer) async{
+  Future<void> insertCustomPrayerWithRelationForPrayerVerse(PrayerAndVerse prayer) async{
+    final parentPrayer = prayer.toPrayerCustom().copyWith(id: null).toPrayerEntity();
+    final childPrayer = prayer.toPrayerEntity();
+    await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer);
+  }
+
+  @override
+  Future<void> insertCustomPrayerWithRelationForPrayerQuran(PrayerInQuran prayer) async{
     final parentPrayer = prayer.toPrayerCustom().copyWith(id: null).toPrayerEntity();
     final childPrayer = prayer.toPrayerEntity();
     await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer);

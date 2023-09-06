@@ -23,6 +23,7 @@ mixin _$PrayerInQuranState {
   String get searchQuery => throw _privateConstructorUsedError;
   SearchCriteriaEnum get searchCriteria => throw _privateConstructorUsedError;
   bool get isSearchBarVisible => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PrayerInQuranStateCopyWith<PrayerInQuranState> get copyWith =>
@@ -42,7 +43,8 @@ abstract class $PrayerInQuranStateCopyWith<$Res> {
       FontModel fontModel,
       String searchQuery,
       SearchCriteriaEnum searchCriteria,
-      bool isSearchBarVisible});
+      bool isSearchBarVisible,
+      String? message});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$PrayerInQuranStateCopyWithImpl<$Res, $Val extends PrayerInQuranState>
     Object? searchQuery = null,
     Object? searchCriteria = null,
     Object? isSearchBarVisible = null,
+    Object? message = freezed,
   }) {
     return _then(_value.copyWith(
       items: null == items
@@ -95,6 +98,10 @@ class _$PrayerInQuranStateCopyWithImpl<$Res, $Val extends PrayerInQuranState>
           ? _value.isSearchBarVisible
           : isSearchBarVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -114,7 +121,8 @@ abstract class _$$_PrayerInQuranStateCopyWith<$Res>
       FontModel fontModel,
       String searchQuery,
       SearchCriteriaEnum searchCriteria,
-      bool isSearchBarVisible});
+      bool isSearchBarVisible,
+      String? message});
 }
 
 /// @nodoc
@@ -135,6 +143,7 @@ class __$$_PrayerInQuranStateCopyWithImpl<$Res>
     Object? searchQuery = null,
     Object? searchCriteria = null,
     Object? isSearchBarVisible = null,
+    Object? message = freezed,
   }) {
     return _then(_$_PrayerInQuranState(
       items: null == items
@@ -165,6 +174,10 @@ class __$$_PrayerInQuranStateCopyWithImpl<$Res>
           ? _value.isSearchBarVisible
           : isSearchBarVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -180,7 +193,8 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
       required this.fontModel,
       required this.searchQuery,
       required this.searchCriteria,
-      required this.isSearchBarVisible})
+      required this.isSearchBarVisible,
+      this.message})
       : _items = items,
         super._();
 
@@ -204,10 +218,12 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
   final SearchCriteriaEnum searchCriteria;
   @override
   final bool isSearchBarVisible;
+  @override
+  final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerInQuranState(items: $items, isLoading: $isLoading, arabicVerseUI2X: $arabicVerseUI2X, fontModel: $fontModel, searchQuery: $searchQuery, searchCriteria: $searchCriteria, isSearchBarVisible: $isSearchBarVisible)';
+    return 'PrayerInQuranState(items: $items, isLoading: $isLoading, arabicVerseUI2X: $arabicVerseUI2X, fontModel: $fontModel, searchQuery: $searchQuery, searchCriteria: $searchCriteria, isSearchBarVisible: $isSearchBarVisible, message: $message)';
   }
 
   @override
@@ -221,7 +237,8 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
       ..add(DiagnosticsProperty('fontModel', fontModel))
       ..add(DiagnosticsProperty('searchQuery', searchQuery))
       ..add(DiagnosticsProperty('searchCriteria', searchCriteria))
-      ..add(DiagnosticsProperty('isSearchBarVisible', isSearchBarVisible));
+      ..add(DiagnosticsProperty('isSearchBarVisible', isSearchBarVisible))
+      ..add(DiagnosticsProperty('message', message));
   }
 
   @override
@@ -241,7 +258,8 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
             (identical(other.searchCriteria, searchCriteria) ||
                 other.searchCriteria == searchCriteria) &&
             (identical(other.isSearchBarVisible, isSearchBarVisible) ||
-                other.isSearchBarVisible == isSearchBarVisible));
+                other.isSearchBarVisible == isSearchBarVisible) &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
@@ -253,7 +271,8 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
       fontModel,
       searchQuery,
       searchCriteria,
-      isSearchBarVisible);
+      isSearchBarVisible,
+      message);
 
   @JsonKey(ignore: true)
   @override
@@ -271,7 +290,8 @@ abstract class _PrayerInQuranState extends PrayerInQuranState {
       required final FontModel fontModel,
       required final String searchQuery,
       required final SearchCriteriaEnum searchCriteria,
-      required final bool isSearchBarVisible}) = _$_PrayerInQuranState;
+      required final bool isSearchBarVisible,
+      final String? message}) = _$_PrayerInQuranState;
   const _PrayerInQuranState._() : super._();
 
   @override
@@ -288,6 +308,8 @@ abstract class _PrayerInQuranState extends PrayerInQuranState {
   SearchCriteriaEnum get searchCriteria;
   @override
   bool get isSearchBarVisible;
+  @override
+  String? get message;
   @override
   @JsonKey(ignore: true)
   _$$_PrayerInQuranStateCopyWith<_$_PrayerInQuranState> get copyWith =>

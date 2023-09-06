@@ -64,7 +64,7 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
   @override
   Widget build(BuildContext context) {
     return ScrollablePositionedList.builder(
-        shrinkWrap: false,
+        shrinkWrap: widget.shrinkWrap,
         addSemanticIndexes: true,
         addRepaintBoundaries: true,
         itemCount: widget.itemCount,

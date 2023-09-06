@@ -10,6 +10,7 @@ import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/domain/prayer_and_verse_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_event.dart';
@@ -162,6 +163,12 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
                 break;
               case PrayerAndVerseTopBarMenuItems.addToCustomPrayer:
                 bloc.add(PrayerAndVerseDetailEventAddToCustomPrayer());
+                break;
+              case PrayerAndVerseTopBarMenuItems.goToCustomPrayer:
+                final parentId = currentPrayer?.parentPrayerId;
+                if(parentId!=null){
+                  CustomPrayerDetailRoute(prayerId: parentId).push(context);
+                }
                 break;
             }
           }

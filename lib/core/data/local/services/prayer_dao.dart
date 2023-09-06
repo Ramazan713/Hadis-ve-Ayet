@@ -54,13 +54,13 @@ abstract class PrayerDao{
     select * from prayers where typeId = :typeId and lower(meaningContent) Like lower(:query)
     order by orderItem desc
   """)
-  Future<List<PrayerEntity>> getPrayersSearchedLikeWithTypeId(int typeId, String query);
+  Stream<List<PrayerEntity>> getStreamPrayersSearchedLikeWithTypeId(int typeId, String query);
 
   @Query("""
      select * from prayers where typeId = :typeId and lower(meaningContent) REGEXP lower(:regExp)
      order by orderItem desc
   """)
-  Future<List<PrayerEntity>> getPrayersSearchedRegExWithTypeId(int typeId, String regExp);
+  Stream<List<PrayerEntity>> getStreamPrayersSearchedRegExWithTypeId(int typeId, String regExp);
 
 
   @Query("""

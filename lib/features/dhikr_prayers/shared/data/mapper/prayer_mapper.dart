@@ -148,3 +148,38 @@ extension PrayerAndVerseExt on PrayerAndVerse{
 }
 
 
+extension PrayerInQuranExt on PrayerInQuran{
+
+  PrayerCustom toPrayerCustom(){
+    return PrayerCustom(
+      id: id,
+      name: "$source - Kuran'da geçen dua ayetleri",
+      arabicContent: arabicContent,
+      meaningContent: meaningContent,
+      orderItem: orderItem,
+      counterId: counterId,
+      updateCounter: false,
+      parentPrayerId: parentPrayerId,
+      source: source,
+    );
+  }
+
+  PrayerEntity toPrayerEntity(){
+    return PrayerEntity(
+      id: id,
+      name: null,
+      arabicContent: arabicContent,
+      meaningContent: meaningContent,
+      pronunciationContent: null,
+      orderItem: orderItem,
+      isRemovable: false,
+      typeId: PrayerTypeEnum.prayerInQuran.typeId,
+      counterId: counterId,
+      parentPrayerId: parentPrayerId,
+      source: source,
+      updateCounter: false
+    );
+  }
+}
+
+
