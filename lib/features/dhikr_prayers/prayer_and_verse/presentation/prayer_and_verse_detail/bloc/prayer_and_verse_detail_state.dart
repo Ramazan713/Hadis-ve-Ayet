@@ -9,20 +9,16 @@ part 'prayer_and_verse_detail_state.freezed.dart';
 @freezed
 class PrayerAndVerseDetailState with _$PrayerAndVerseDetailState{
   const factory PrayerAndVerseDetailState({
-    PrayerAndVerse? prayer,
-    required bool isExpandedArabic,
-    required bool isExpandedPronunciation,
-    required bool isExpandedMeaning,
     required FontModel fontModel,
+    required bool isLoading,
+    PrayerAndVerse? prayer,
     String? message
   }) = _PrayerAndVerseDetailState;
 
   static PrayerAndVerseDetailState init(){
     return PrayerAndVerseDetailState(
-      isExpandedArabic: true,
-      isExpandedMeaning: true,
-      isExpandedPronunciation: true,
-      fontModel: FontModel.init()
+      fontModel: FontModel.init(),
+      isLoading: false
     );
   }
 

@@ -16,11 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PrayerAndVerseDetailState {
-  PrayerAndVerse? get prayer => throw _privateConstructorUsedError;
-  bool get isExpandedArabic => throw _privateConstructorUsedError;
-  bool get isExpandedPronunciation => throw _privateConstructorUsedError;
-  bool get isExpandedMeaning => throw _privateConstructorUsedError;
   FontModel get fontModel => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  PrayerAndVerse? get prayer => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,11 +33,9 @@ abstract class $PrayerAndVerseDetailStateCopyWith<$Res> {
       _$PrayerAndVerseDetailStateCopyWithImpl<$Res, PrayerAndVerseDetailState>;
   @useResult
   $Res call(
-      {PrayerAndVerse? prayer,
-      bool isExpandedArabic,
-      bool isExpandedPronunciation,
-      bool isExpandedMeaning,
-      FontModel fontModel,
+      {FontModel fontModel,
+      bool isLoading,
+      PrayerAndVerse? prayer,
       String? message});
 
   $PrayerAndVerseCopyWith<$Res>? get prayer;
@@ -59,34 +55,24 @@ class _$PrayerAndVerseDetailStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prayer = freezed,
-    Object? isExpandedArabic = null,
-    Object? isExpandedPronunciation = null,
-    Object? isExpandedMeaning = null,
     Object? fontModel = null,
+    Object? isLoading = null,
+    Object? prayer = freezed,
     Object? message = freezed,
   }) {
     return _then(_value.copyWith(
-      prayer: freezed == prayer
-          ? _value.prayer
-          : prayer // ignore: cast_nullable_to_non_nullable
-              as PrayerAndVerse?,
-      isExpandedArabic: null == isExpandedArabic
-          ? _value.isExpandedArabic
-          : isExpandedArabic // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExpandedPronunciation: null == isExpandedPronunciation
-          ? _value.isExpandedPronunciation
-          : isExpandedPronunciation // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExpandedMeaning: null == isExpandedMeaning
-          ? _value.isExpandedMeaning
-          : isExpandedMeaning // ignore: cast_nullable_to_non_nullable
-              as bool,
       fontModel: null == fontModel
           ? _value.fontModel
           : fontModel // ignore: cast_nullable_to_non_nullable
               as FontModel,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      prayer: freezed == prayer
+          ? _value.prayer
+          : prayer // ignore: cast_nullable_to_non_nullable
+              as PrayerAndVerse?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -117,11 +103,9 @@ abstract class _$$_PrayerAndVerseDetailStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {PrayerAndVerse? prayer,
-      bool isExpandedArabic,
-      bool isExpandedPronunciation,
-      bool isExpandedMeaning,
-      FontModel fontModel,
+      {FontModel fontModel,
+      bool isLoading,
+      PrayerAndVerse? prayer,
       String? message});
 
   @override
@@ -141,34 +125,24 @@ class __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prayer = freezed,
-    Object? isExpandedArabic = null,
-    Object? isExpandedPronunciation = null,
-    Object? isExpandedMeaning = null,
     Object? fontModel = null,
+    Object? isLoading = null,
+    Object? prayer = freezed,
     Object? message = freezed,
   }) {
     return _then(_$_PrayerAndVerseDetailState(
-      prayer: freezed == prayer
-          ? _value.prayer
-          : prayer // ignore: cast_nullable_to_non_nullable
-              as PrayerAndVerse?,
-      isExpandedArabic: null == isExpandedArabic
-          ? _value.isExpandedArabic
-          : isExpandedArabic // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExpandedPronunciation: null == isExpandedPronunciation
-          ? _value.isExpandedPronunciation
-          : isExpandedPronunciation // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExpandedMeaning: null == isExpandedMeaning
-          ? _value.isExpandedMeaning
-          : isExpandedMeaning // ignore: cast_nullable_to_non_nullable
-              as bool,
       fontModel: null == fontModel
           ? _value.fontModel
           : fontModel // ignore: cast_nullable_to_non_nullable
               as FontModel,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      prayer: freezed == prayer
+          ? _value.prayer
+          : prayer // ignore: cast_nullable_to_non_nullable
+              as PrayerAndVerse?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -183,29 +157,23 @@ class _$_PrayerAndVerseDetailState
     with DiagnosticableTreeMixin
     implements _PrayerAndVerseDetailState {
   const _$_PrayerAndVerseDetailState(
-      {this.prayer,
-      required this.isExpandedArabic,
-      required this.isExpandedPronunciation,
-      required this.isExpandedMeaning,
-      required this.fontModel,
+      {required this.fontModel,
+      required this.isLoading,
+      this.prayer,
       this.message});
 
   @override
-  final PrayerAndVerse? prayer;
-  @override
-  final bool isExpandedArabic;
-  @override
-  final bool isExpandedPronunciation;
-  @override
-  final bool isExpandedMeaning;
-  @override
   final FontModel fontModel;
+  @override
+  final bool isLoading;
+  @override
+  final PrayerAndVerse? prayer;
   @override
   final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerAndVerseDetailState(prayer: $prayer, isExpandedArabic: $isExpandedArabic, isExpandedPronunciation: $isExpandedPronunciation, isExpandedMeaning: $isExpandedMeaning, fontModel: $fontModel, message: $message)';
+    return 'PrayerAndVerseDetailState(fontModel: $fontModel, isLoading: $isLoading, prayer: $prayer, message: $message)';
   }
 
   @override
@@ -213,12 +181,9 @@ class _$_PrayerAndVerseDetailState
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'PrayerAndVerseDetailState'))
-      ..add(DiagnosticsProperty('prayer', prayer))
-      ..add(DiagnosticsProperty('isExpandedArabic', isExpandedArabic))
-      ..add(DiagnosticsProperty(
-          'isExpandedPronunciation', isExpandedPronunciation))
-      ..add(DiagnosticsProperty('isExpandedMeaning', isExpandedMeaning))
       ..add(DiagnosticsProperty('fontModel', fontModel))
+      ..add(DiagnosticsProperty('isLoading', isLoading))
+      ..add(DiagnosticsProperty('prayer', prayer))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -227,22 +192,17 @@ class _$_PrayerAndVerseDetailState
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PrayerAndVerseDetailState &&
-            (identical(other.prayer, prayer) || other.prayer == prayer) &&
-            (identical(other.isExpandedArabic, isExpandedArabic) ||
-                other.isExpandedArabic == isExpandedArabic) &&
-            (identical(
-                    other.isExpandedPronunciation, isExpandedPronunciation) ||
-                other.isExpandedPronunciation == isExpandedPronunciation) &&
-            (identical(other.isExpandedMeaning, isExpandedMeaning) ||
-                other.isExpandedMeaning == isExpandedMeaning) &&
             (identical(other.fontModel, fontModel) ||
                 other.fontModel == fontModel) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.prayer, prayer) || other.prayer == prayer) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, prayer, isExpandedArabic,
-      isExpandedPronunciation, isExpandedMeaning, fontModel, message);
+  int get hashCode =>
+      Object.hash(runtimeType, fontModel, isLoading, prayer, message);
 
   @JsonKey(ignore: true)
   @override
@@ -254,23 +214,17 @@ class _$_PrayerAndVerseDetailState
 
 abstract class _PrayerAndVerseDetailState implements PrayerAndVerseDetailState {
   const factory _PrayerAndVerseDetailState(
-      {final PrayerAndVerse? prayer,
-      required final bool isExpandedArabic,
-      required final bool isExpandedPronunciation,
-      required final bool isExpandedMeaning,
-      required final FontModel fontModel,
+      {required final FontModel fontModel,
+      required final bool isLoading,
+      final PrayerAndVerse? prayer,
       final String? message}) = _$_PrayerAndVerseDetailState;
 
   @override
-  PrayerAndVerse? get prayer;
-  @override
-  bool get isExpandedArabic;
-  @override
-  bool get isExpandedPronunciation;
-  @override
-  bool get isExpandedMeaning;
-  @override
   FontModel get fontModel;
+  @override
+  bool get isLoading;
+  @override
+  PrayerAndVerse? get prayer;
   @override
   String? get message;
   @override

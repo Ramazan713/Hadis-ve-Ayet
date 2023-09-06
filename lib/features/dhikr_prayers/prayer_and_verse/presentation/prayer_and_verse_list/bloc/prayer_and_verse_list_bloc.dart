@@ -7,7 +7,6 @@ import 'prayer_and_verse_list_state.dart';
 
 class PrayerAndVerseListBloc extends Bloc<IPrayerAndVerseListEvent,PrayerAndVerseListState>{
 
-
   late final PrayerRepo _prayerRepo;
 
   PrayerAndVerseListBloc({
@@ -29,9 +28,4 @@ class PrayerAndVerseListBloc extends Bloc<IPrayerAndVerseListEvent,PrayerAndVers
       items: items
     ));
   }
-
-  // void _on(,Emitter<PrayerAndVerseListState>emit)async{
-  //
-  // }
-
 }

@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_state.dart';
@@ -15,9 +17,9 @@ class PrayerAndVerseListPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: CustomNestedViewAppBar(
-          title: Text("Namaz Duaları ve Ayetleri"),
-          snap: true,
-          floating: true,
+          title: const Text("Namaz Duaları ve Ayetler"),
+          pinned: true,
+          appBarType: AppBarType.mediumBar,
           child: Column(
             children: [
              Expanded(
@@ -26,9 +28,7 @@ class PrayerAndVerseListPage extends StatelessWidget {
                    final items = state.items;
 
                    if(state.isLoading){
-                     return const Center(
-                       child: CircularProgressIndicator(),
-                     );
+                     return const SharedLoadingIndicator();
                    }
                    return ListView.builder(
                     itemCount: items.length,

@@ -26,40 +26,26 @@ class PrayerAndVerseDetailBloc extends Bloc<IPrayerDetailEvent,PrayerAndVerseDet
     _appPreferences = appPreferences;
     _fontModelUseCase = fontModelUseCase;
 
-    on<PrayerDetailEventListenFontSize>(_onListenFontSize,transformer: restartable());
-    on<PrayerDetailEventLoadData>(_onLoadData,transformer: restartable());
-    on<PrayerDetailEventSetVisibilityArabic>(_onSetVisibilityArabic,transformer: restartable());
-    on<PrayerDetailEventSetVisibilityMeaning>(_onSetVisibilityMeaning,transformer: restartable());
-    on<PrayerDetailEventSetVisibilityPronunciation>(_onSetVisibilityPronunciation,transformer: restartable());
-    on<PrayerDetailEventClearMessage>(_onClearMessage,transformer: restartable());
+    on<PrayerAndVerseDetailEventListenFontSize>(_onListenFontSize,transformer: restartable());
+    on<PrayerAndVerseDetailEventLoadData>(_onLoadData,transformer: restartable());
+    on<PrayerAndVerseDetailEventClearMessage>(_onClearMessage,transformer: restartable());
 
-    add(PrayerDetailEventListenFontSize());
+    add(PrayerAndVerseDetailEventListenFontSize());
   }
 
-
-  void _onLoadData(PrayerDetailEventLoadData event,Emitter<PrayerAndVerseDetailState>emit)async{
+  void _onLoadData(PrayerAndVerseDetailEventLoadData event,Emitter<PrayerAndVerseDetailState>emit)async{
+    emit(PrayerAndVerseDetailState.init().copyWith(
+      isLoading: true
+    ));
     final prayer = await _prayerRepo.getPrayerAndVerseById(event.prayerId);
-    emit(PrayerAndVerseDetailState.init().copyWith(prayer: prayer));
+    emit(state.copyWith(prayer: prayer, isLoading: false));
   }
 
-  void _onSetVisibilityArabic(PrayerDetailEventSetVisibilityArabic event,Emitter<PrayerAndVerseDetailState>emit){
-    emit(state.copyWith(isExpandedArabic: event.isVisible));
-  }
-
-  void _onSetVisibilityMeaning(PrayerDetailEventSetVisibilityMeaning event,Emitter<PrayerAndVerseDetailState>emit){
-    emit(state.copyWith(isExpandedMeaning: event.isVisible));
-  }
-
-  void _onSetVisibilityPronunciation(PrayerDetailEventSetVisibilityPronunciation event,Emitter<PrayerAndVerseDetailState>emit){
-    emit(state.copyWith(isExpandedPronunciation: event.isVisible));
-
-  }
-
-  void _onClearMessage(PrayerDetailEventClearMessage event,Emitter<PrayerAndVerseDetailState>emit){
+  void _onClearMessage(PrayerAndVerseDetailEventClearMessage event,Emitter<PrayerAndVerseDetailState>emit){
     emit(state.copyWith(message: null));
   }
 
-  void _onListenFontSize(PrayerDetailEventListenFontSize event,Emitter<PrayerAndVerseDetailState>emit)async{
+  void _onListenFontSize(PrayerAndVerseDetailEventListenFontSize event,Emitter<PrayerAndVerseDetailState>emit)async{
     final streamData = _appPreferences.listenerFiltered(
         [KPref.fontSizeContent,KPref.fontFamilyArabic, KPref.fontSizeArabic],
         initValue: null);
