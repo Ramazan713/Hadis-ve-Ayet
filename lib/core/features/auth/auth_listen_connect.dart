@@ -12,9 +12,11 @@ import 'package:hadith/core/features/backup/backup/bloc/backup_bloc.dart';
 import 'package:hadith/core/features/backup/backup/bloc/backup_event.dart';
 import 'package:hadith/core/features/backup/backup/bloc/backup_state.dart';
 import 'package:hadith/core/features/backup/backup_meta/show_select_download_backup_dia.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_full_loading_dia.dart';
 import 'package:hadith/dialogs/show_alert_bottom_dia_multiple_button.dart';
+import 'package:hadith/features/settings_/domain/enums/backup_load_selection_menu.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:hadith/widgets/buttons/custom_button_negative.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
@@ -73,27 +75,25 @@ class AuthAndBackupListenConnect extends StatelessWidget {
                 bloc.add(AuthEventClearDialogEvent());
                 switch(dialogEvent){
                   case AuthDialogEventShowDiaForDownloadBackup _:
-                    showAlertDiaWithMultipleButton(context,
-                        title: "Buluttaki yedeğinizi yüklemek ister misiniz?",
-                        buttons: [
-                          CustomButtonPositive(onTap: (){
-                            Navigator.pop(context);
+                    showBottomMenuItems(
+                      context,
+                      items: BackupLoadSectionMenu.values,
+                      title: "Buluttaki yedeklerle alakalı işlemler",
+                      onItemClick: (menuItem){
+                        Navigator.pop(context);
+                        switch(menuItem){
+                          case BackupLoadSectionMenu.loadLastBackup:
                             backupBloc.add(BackupEventDownloadLastBackup());
-                          },label: "En son Yedeği Yükle",),
-                          CustomButtonPositive(onTap: (){
-                            Navigator.pop(context);
+                            break;
+                          case BackupLoadSectionMenu.showBackupFiles:
                             showDownloadBackupDia(context);
-                          },label: "Yedek dosyalarını göster",),
-
-                          CustomButtonNegative(onTap: (){
+                            break;
+                          case BackupLoadSectionMenu.notShowAgain:
                             bloc.add(AuthEventHideDownloadBackupDia());
-                            Navigator.pop(context);
-                          },label: "Bir daha bu uyarıyı gösterme",),
-                          CustomButtonNegative(onTap: () {
-                            Navigator.pop(context);
-                          },),
-                        ]);
-
+                            break;
+                        }
+                      }
+                    );
                     break;
                   case AuthDialogEventRequestAutoBackup _:
                     backupBloc.add(BackupEventUploadBackup(

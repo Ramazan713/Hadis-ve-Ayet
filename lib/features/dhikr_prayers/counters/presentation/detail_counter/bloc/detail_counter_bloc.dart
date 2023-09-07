@@ -46,9 +46,6 @@ class DetailCounterBloc extends Bloc<IDetailCounterEvent,DetailCounterState>{
     on<DetailCounterEventLoadDataWithCounterType>(_onLoadDataWithCounterType,transformer: restartable());
     on<DetailCounterEventLoadDataWithCounterId>(_onLoadDataWithCounterId,transformer: restartable());
 
-    // on<CounterDetailEventAddCounter>(_onAddCounter,transformer: restartable());
-
-
     add(DetailCounterEventListenAppPref());
   }
 
@@ -66,6 +63,8 @@ class DetailCounterBloc extends Bloc<IDetailCounterEvent,DetailCounterState>{
     final verseUi = _appPreferences.getEnumItem(KPref.counterUi);
     final hasVibrator = await Vibration.hasVibrator() == true;
     final counterInfo = _getInitCounterInfo(event.counter);
+    final eachDhikrVibration = _appPreferences.getItem(KPref.eachDhikrVibration);
+    final eachEndOfTourVibration = _appPreferences.getItem(KPref.eachEndOfTourVibration);
 
     final counter = event.counter;
     if(counter!=null&&counter.id!=null){
@@ -73,15 +72,17 @@ class DetailCounterBloc extends Bloc<IDetailCounterEvent,DetailCounterState>{
     }
 
     emit(state.copyWith(
-        currentCounter: counter,
-        hasCompletedGoal: false,
-        fontModel: fontModel,
-        hasVibrate: hasVibrator,
-        counterSubClassic: counterInfo.subCounterBase,
-        counterUnLimited: counterInfo.counter,
-        counterClassic: counterInfo.counterBase,
-        counterType: event.counterType,
-        verseUi: verseUi
+      currentCounter: counter,
+      hasCompletedGoal: false,
+      fontModel: fontModel,
+      hasVibrate: hasVibrator,
+      counterSubClassic: counterInfo.subCounterBase,
+      counterUnLimited: counterInfo.counter,
+      counterClassic: counterInfo.counterBase,
+      counterType: event.counterType,
+      verseUi: verseUi,
+      enabledEachDhikrVibration: eachDhikrVibration,
+      enabledEachEndOfTourVibration: eachEndOfTourVibration
     ));
   }
 
@@ -123,26 +124,6 @@ class DetailCounterBloc extends Bloc<IDetailCounterEvent,DetailCounterState>{
     ));
     await _updateLastCounter();
   }
-
-
-  // void _onAddCounter(CounterDetailEventAddCounter event,Emitter<DetailCounterState>emit)async{
-  //   final counter = state.counter;
-  //   if(state.hasNotSavedCounter() && counter!=null){
-  //     final id = await _insertCounterUseCase.operator(
-  //         name: counter.name,
-  //         counterType: counter.counterType,
-  //         lastCounter: state.counterUnLimited,
-  //         content: counter.content,
-  //         goal: counter.goal,
-  //         arabicContent: counter.arabicContent,
-  //         meaning: counter.meaning
-  //     );
-  //     final updatedCounter = (await _counterRepo.getCounterById(id))??counter;
-  //     add(CounterDetailEventListenCounter(counter: updatedCounter));
-  //     emit(state.copyWith(counter: updatedCounter,setCounter: true));
-  //     _addMessage("Başarıyla eklendi", emit);
-  //   }
-  // }
 
   void _onListenCounter(CounterDetailEventListenCounter event,Emitter<DetailCounterState>emit)async{
     final streamData = _counterRepo.getStreamCounterById(event.counter.id ?? 0);

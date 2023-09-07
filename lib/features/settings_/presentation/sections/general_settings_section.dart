@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
@@ -15,7 +14,6 @@ import 'package:hadith/core/features/theme/bloc/theme_state.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_radio_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_search_criteria.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
-import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_state.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';
@@ -23,13 +21,12 @@ import 'package:settings_ui/settings_ui.dart';
 
 extension SettingsPageGeneralExt on SettingsPage{
 
-
-  SettingsSection getGeneralSection(){
+  SettingsSection getGeneralSection(BuildContext context){
     return SettingsSection(
       title: const Text('Genel Ayarlar'),
       tiles: [
-        const CustomSettingsTile(
-          child: _SelectTheme(),
+        CustomSettingsTile(
+          child: _getSelectTheme(context),
         ),
         CustomSettingsTile(
             child: _getSearchCriteria()
@@ -79,48 +76,44 @@ extension SettingsPageGeneralExt on SettingsPage{
 
   Widget _getSelectVerseUi(){
     return BlocSelector<SettingsBloc, SettingsState, ArabicVerseUI2X>(
-        selector: (state) => state.verseUI,
-        builder: (context, verseArabicUI) {
-          return SettingsTile(
-            title: const Text("Ayetler Görünüm"),
-            onPressed: (context) {
-              showSelectVerseUi2X(context,pref: KPref.verseAppearanceEnum);
-            },
-            leading: const Icon(FontAwesomeIcons.bookQuran),
-            value: Text(verseArabicUI.description),
-          );
-        });
+      selector: (state) => state.verseUI,
+      builder: (context, verseArabicUI) {
+        return SettingsTile(
+          title: const Text("Ayetler Görünüm"),
+          onPressed: (context) {
+            showSelectVerseUi2X(context,pref: KPref.verseAppearanceEnum);
+          },
+          leading: const Icon(FontAwesomeIcons.bookQuran),
+          value: Text(verseArabicUI.description),
+        );
+      }
+    );
   }
 
-}
-
-
-class _SelectTheme extends StatelessWidget {
-  const _SelectTheme({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _getSelectTheme(BuildContext context){
     final themeBloc = context.read<ThemeBloc>();
     return BlocSelector<ThemeBloc, ThemeState, ThemeTypeEnum>(
-        selector: (state) => state.themeType,
-        builder: (context, currentThemeType) {
-          return SettingsTile(
-            title: const Text("Tema Modu"),
-            onPressed: (context) async {
-              showSelectRadioDia(
-                context,
-                title: "Tema Seç",
-                iconData: Icons.palette,
-                items: ThemeTypeEnum.values,
-                currentItem: currentThemeType,
-                onSelected: (selected){
-                  themeBloc.add(ThemeEventSetThemeType(themeTypeEnum: selected));
-                }
-              );
-            },
-            value: Text(currentThemeType.description),
-            leading: const Icon(Icons.palette),
-          );
-        });
+      selector: (state) => state.themeType,
+      builder: (context, currentThemeType) {
+        return SettingsTile(
+          title: const Text("Tema Modu"),
+          onPressed: (context) async {
+            showSelectRadioDia(
+              context,
+              title: "Tema Seç",
+              iconData: Icons.palette,
+              items: ThemeTypeEnum.values,
+              currentItem: currentThemeType,
+              onSelected: (selected){
+                themeBloc.add(ThemeEventSetThemeType(themeTypeEnum: selected));
+              }
+            );
+          },
+          value: Text(currentThemeType.description),
+          leading: const Icon(Icons.palette),
+        );
+      }
+    );
   }
+
 }

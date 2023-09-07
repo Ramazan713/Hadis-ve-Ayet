@@ -100,7 +100,7 @@ abstract class BackupDao{
   @Query("""delete from listVerse""")
   Future<void> deleteVerseLists();
 
-  @Query("""delete from savepoint""")
+  @Query("""delete from savepoints""")
   Future<void> deleteSavePoints();
 
   @Query("""delete from topicSavePoint""")

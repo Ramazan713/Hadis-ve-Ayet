@@ -7329,7 +7329,7 @@ class _$BackupDao extends BackupDao {
 
   @override
   Future<void> deleteSavePoints() async {
-    await _queryAdapter.queryNoReturn('delete from savepoint');
+    await _queryAdapter.queryNoReturn('delete from savepoints');
   }
 
   @override

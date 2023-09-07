@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/models/auth_user/auth_user.dart';
 import 'package:hadith/core/features/auth/bloc/auth_bloc.dart';
 import 'package:hadith/core/features/auth/bloc/auth_event.dart';
 import 'package:hadith/core/features/auth/bloc/auth_state.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/settings_/presentation/components/user_info_icon.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';
@@ -15,118 +16,111 @@ import 'package:settings_ui/settings_ui.dart';
 
 extension SettingsPageAuthExt on SettingsPage{
 
-  CustomSettingsSection getSignOutSection(){
-    return const CustomSettingsSection(
+  CustomSettingsSection getSignOutSection(BuildContext context){
+    return CustomSettingsSection(
       child: CustomSettingsTile(
-        child: _SignOut(),
+        child: _getSignOut(context),
       ),
     );
   }
 
-  Widget getUserProfile(){
-    return const Column(
+  Widget getUserProfile(BuildContext context){
+    return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 19,
         ),
-        CurrentUserIcon(),
-        SizedBox(
-          height: 7,
-        ),
-        _SignIn(),
-        _UserInfo()
+        const CurrentUserIcon(),
+        _getSignIn(context),
+        _getUserInfo(context)
       ],
     );
   }
 
 
-}
-
-
-class _UserInfo extends StatelessWidget {
-  const _UserInfo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _getUserInfo(BuildContext context){
     return BlocSelector<AuthBloc, AuthState, AuthUser?>(
-        selector: (state) => state.currentUser,
-        builder: (context, user) {
-          return Visibility(
-            visible: user != null,
-            child: Column(
-              children: [
-                Text(user?.displayName ?? "Boş"),
-                const SizedBox(
-                  height: 7,
-                ),
-                Text(user?.email ?? "Boş"),
-                const SizedBox(
-                  height: 13,
-                )
-              ],
-            ),
-          );
-        });
+      selector: (state) => state.currentUser,
+      builder: (context, user) {
+        return CustomAnimatedVisibility(
+          visible: user != null,
+          child: Column(
+            children: [
+              const SizedBox(height: 4),
+              Text(
+                user?.displayName ?? "Boş",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                user?.email ?? "Boş",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 8)
+            ],
+          ),
+        );
+      }
+    );
   }
-}
 
-class _SignIn extends StatelessWidget {
-  const _SignIn({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _getSignIn(BuildContext context){
     final authBloc = context.read<AuthBloc>();
     return BlocSelector<AuthBloc, AuthState, AuthUser?>(
       selector: (state) => state.currentUser,
       builder: (context, user) {
-        return Visibility(
-            visible: (user == null),
-            child: CustomButtonPositive(
-              onTap: () async {
+        return CustomAnimatedVisibility(
+          visible: user == null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: FilledButton(
+              onPressed: (){
                 authBloc.add(AuthEventSignIn());
               },
-              label: "Giriş Yap",
-            ));
+              child: const Text("Giriş Yap"),
+            ),
+          ),
+        );
       },
     );
   }
-}
 
-class _SignOut extends StatelessWidget {
-  const _SignOut({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _getSignOut(BuildContext context){
     final authBloc = context.read<AuthBloc>();
     return BlocSelector<AuthBloc, AuthState, AuthUser?>(
-        selector: (state) => state.currentUser,
-        builder: (context, user) {
-          return Visibility(
-            visible: user != null,
-            child: SettingsTile(
-              title: const Center(
-                  child: Text(
-                    "Çıkış Yap",
-                    style: TextStyle(color: Colors.redAccent),
-                  )),
-              onPressed: (context) {
-                showCustomAlertDia(context,
-                    title: "Çıkış yapmak istediğinize emin misiniz?",
-                    btnApproved: () async {
-                      showCustomAlertDia(context,
-                          cancelLabel: "Devam Et",
-                          approveLabel: "Oluştur",
-                          title: "Yedekleme yapmak ister misiniz?",
-                          content: "Kaydedilmeyen verileriniz kaybolabilir",
-                          btnApproved: () async {
-                            authBloc.add(AuthEventSignOutWithBackup());
-                          }, btnCancelled: () async {
-                            authBloc.add(AuthEventSignOut());
-                          });
-                    });
-              },
+      selector: (state) => state.currentUser,
+      builder: (context, user) {
+        return CustomAnimatedVisibility(
+          visible: user != null,
+          child: SettingsTile(
+            title: Center(
+              child: Text(
+                "Çıkış Yap",
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.error
+                ),
+              )
             ),
-          );
-        });
+            onPressed: (context) {
+              showCustomAlertDia(context,
+                title: "Çıkış yapmak istediğinize emin misiniz?",
+                btnApproved: () async {
+                  showCustomAlertDia(context,
+                    cancelLabel: "Devam Et",
+                    approveLabel: "Oluştur",
+                    title: "Yedekleme yapmak ister misiniz?",
+                    content: "Kaydedilmeyen verileriniz kaybolabilir",
+                    btnApproved: () async {
+                      authBloc.add(AuthEventSignOutWithBackup());
+                    }, btnCancelled: () async {
+                      authBloc.add(AuthEventSignOut());
+                    });
+                });
+            },
+          ),
+        );
+      }
+    );
   }
 }

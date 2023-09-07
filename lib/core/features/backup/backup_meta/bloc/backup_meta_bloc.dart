@@ -41,12 +41,18 @@ class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
     on<BackupMetaEventSelectBackupMeta>(_onSelectBackup,transformer: restartable());
     on<BackupMetaEventRefresh>(_onRefresh,transformer: restartable());
     on<BackupMetaEventListenData>(_onListenData,transformer: restartable());
+    on<BackupMetaEventLoadData>(_onLoadData,transformer: restartable());
     on<BackupMetaEventSetCounter>(_onSetCounter,transformer: restartable());
     on<BackupMetaEventClearMessage>(_onClearMessage,transformer: restartable());
 
     add(BackupMetaEventListenData());
   }
 
+  void _onLoadData(BackupMetaEventLoadData event,Emitter<BackupMetaState>emit){
+    emit(state.copyWith(
+      selectedItem: null,
+    ));
+  }
 
   void _onListenData(BackupMetaEventListenData event,Emitter<BackupMetaState>emit)async{
     final dataStream = _backupMetaRepo.getStreamBackupModels();
@@ -61,7 +67,10 @@ class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
 
     final user = _authService.currentUser;
     if(user!=null){
-      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(
+        isLoading: true,
+        selectedItem: null
+      ));
 
       await _appPreferences.setItem(KPref.counterBackupDate, DateTime.now().toIso8601String());
       _callTimer();
@@ -69,13 +78,13 @@ class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
       final response = await _backupManager.refreshBackupFiles(user);
       emit(state.copyWith(
           isRefreshDisabled: true,
-          isLoading: false
+          isLoading: false,
       ));
 
       response.handle(
         onSuccess: (data){
           emit(state.copyWith(
-            message: data
+            message: data,
           ));
         },
         onError: (error){
@@ -97,8 +106,8 @@ class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
 
   void _onSetCounter(BackupMetaEventSetCounter event,Emitter<BackupMetaState>emit)async{
     emit(state.copyWith(
-        counter: event.counter??"",
-        isRefreshDisabled: event.isDisableRefresh
+      counter: event.counter??"",
+      isRefreshDisabled: event.isDisableRefresh
     ));
   }
 
@@ -111,8 +120,8 @@ class BackupMetaBloc extends Bloc<IBackupMetaEvent,BackupMetaState>{
       final DateTime? prevDate = DateTime.tryParse(dateText);
       if (prevDate != null) {
         final diffSeconds = DateTime.now().difference(prevDate).inSeconds;
-        if (diffSeconds <= K.waitingRefreshTimeForBackupMeta) {
-          final longSeconds = K.waitingRefreshTimeForBackupMeta - diffSeconds;
+        if (diffSeconds <= K.backup.waitingRefreshTime) {
+          final longSeconds = K.backup.waitingRefreshTime - diffSeconds;
           add(BackupMetaEventSetCounter(counter: longSeconds.toString(),isDisableRefresh: true));
 
           Timer.periodic(const Duration(seconds: 1), (timer) {

@@ -18,12 +18,9 @@ import 'package:hadith/features/settings_/presentation/sections/premium_section.
 import 'package:hadith/themes/custom/get_setting_theme.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-
-
 class SettingsPage extends StatelessWidget {
-  SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({Key? key}) : super(key: key);
 
-  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,25 +30,29 @@ class SettingsPage extends StatelessWidget {
 
     return AuthAndBackupListenConnect(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: SafeArea(
           child: CustomNestedViewAppBar(
             snap: true,
             floating: true,
             title: const Text("Ayarlar"),
             child: SingleChildScrollView(
-              controller: scrollController,
+              controller: ScrollController(),
               child: Column(
                 children: [
-                  getUserProfile(),
+                  getUserProfile(context),
                   SettingsList(
                     shrinkWrap: true,
+                    lightTheme: SettingsThemeData(
+                      settingsListBackground: Theme.of(context).colorScheme.surface,
+                    ),
                     sections: [
-                      getGeneralSection(),
+                      getGeneralSection(context),
                       getPremiumSection(),
                       getBackupSection(),
                       getAdvancedSection(context),
                       getAppSection(),
-                      getSignOutSection()
+                      getSignOutSection(context)
                     ],
                   ),
                 ],

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_state.dart';
 import 'package:hadith/features/premium/show_premium_dia.dart';
@@ -23,7 +24,7 @@ extension SettingsPagePremiumExt on SettingsPage{
               title: const Text("Premium Ayarları"),
               tiles: [
                 CustomSettingsTile(
-                  child: Visibility(
+                  child: CustomAnimatedVisibility(
                     visible: !state.isPremium,
                     child: SettingsTile.navigation(
                       title: const Text("Premium"),
@@ -39,7 +40,7 @@ extension SettingsPagePremiumExt on SettingsPage{
                   child: BlocSelector<SettingsBloc,SettingsState,String>(
                       selector: (state)=>state.packageInfo,
                       builder: (context,packageInfo){
-                        return Visibility(
+                        return CustomAnimatedVisibility(
                           visible: state.isPremium,
                           child: SettingsTile(
                             title: const Text("Abonelik Yönet"),

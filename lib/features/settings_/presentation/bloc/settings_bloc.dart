@@ -49,16 +49,13 @@ class SettingsBloc extends Bloc<ISettingsEvent,SettingsState>{
   }
 
   void _onLoadData(SettingsEventLoadData event,Emitter<SettingsState>emit)async{
-    _userIdController.value = _authService.currentUser?.uid;
-
     final prefUpdatedState = _getUpdatedPrefState(state: state);
     final packageInfo = await PackageInfo.fromPlatform();
     emit(prefUpdatedState.copyWith(
       packageInfo: packageInfo.packageName
     ));
+    _userIdController.value = _authService.currentUser?.uid;
   }
-  
- 
 
   void _onRequestUserInfo(SettingsEventRequestUserInfo event,Emitter<SettingsState>emit)async{
     _userIdController.value = event.userId;
@@ -80,8 +77,7 @@ class SettingsBloc extends Bloc<ISettingsEvent,SettingsState>{
   }
 
   void _onListenUserInfo(SettingsEventListenUserInfo event,Emitter<SettingsState>emit)async{
-    final streamData = _userIdController.switchMap((userId){
-      if(userId == null) Stream.value(null);
+    final streamData = _userIdController.distinct().switchMap((userId){
       return _userInfoRepo.getStreamUserInfoWithId(userId??"");
     });
     await emit.forEach(streamData, onData: (userInfo){

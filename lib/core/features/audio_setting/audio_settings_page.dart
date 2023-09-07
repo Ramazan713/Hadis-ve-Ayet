@@ -26,7 +26,9 @@ class SettingsAudioPage extends StatelessWidget {
         child: CustomNestedViewAppBar(
           title: const Text("Ses Ayarları"),
           child: SettingsList(
-            lightTheme: getSettingThemeData(context),
+            lightTheme: SettingsThemeData(
+              settingsListBackground: Theme.of(context).colorScheme.surface,
+            ),
             sections: [
               SettingsSection(
                 tiles: [
@@ -88,15 +90,15 @@ class SettingsAudioPage extends StatelessWidget {
             description: Text(audioSpeed.toStringAsFixed(1)),
             onPressed: (context){
               showSelectSlider(
-                  context,
-                  title: "Audio ses hızını belirle",
-                  min: 0.5,
-                  max: 2.0,
-                  value: audioSpeed,
-                  onApprove: (newValue){
-                    context.read<AudioSettingBloc>()
-                        .add(AudioSettingEventSetSpeed(speed: newValue));
-                  }
+                context,
+                title: "Audio ses hızını belirle",
+                min: 0.5,
+                max: 2.0,
+                value: audioSpeed,
+                onApprove: (newValue){
+                  context.read<AudioSettingBloc>()
+                      .add(AudioSettingEventSetSpeed(speed: newValue));
+                }
               );
             },
           );

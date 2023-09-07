@@ -6,6 +6,7 @@ class BackupMetaEventRefresh extends IBackupMetaEvent{}
 
 class BackupMetaEventListenData extends IBackupMetaEvent{}
 
+class BackupMetaEventLoadData extends IBackupMetaEvent{}
 
 class BackupMetaEventSelectBackupMeta extends IBackupMetaEvent{
   final BackupMetaModel backupMeta;

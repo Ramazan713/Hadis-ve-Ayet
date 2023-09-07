@@ -133,6 +133,7 @@ class AppPreferencesImpl extends AppPreferences{
   @override
   Future<void> clear()async{
     await _preferences.clear();
+    _listener.value = KPref.themeTypeEnum;
   }
 
   @override

@@ -15,7 +15,6 @@ class K{
   static const actKeys = ActionResultKeysK();
 
   static const timeOutSeconds = 13;
-  static const waitingRefreshTimeForBackupMeta = 60;
 
   static const double searchBarHeight = 80;
   static const int searchResultCollectionSize = 7;
