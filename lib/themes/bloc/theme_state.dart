@@ -7,11 +7,11 @@ import 'package:hadith/constants/enums/theme_enum.dart';
 class ThemeState extends Equatable{
 
   final DataStatus status;
-  final ThemeTypesEnum themeEnum;
+  final ThemeTypesEnumOld themeEnum;
 
   const ThemeState({required this.status,required this.themeEnum});
 
-  ThemeState copyWith({DataStatus? status,ThemeTypesEnum? themeEnum}){
+  ThemeState copyWith({DataStatus? status,ThemeTypesEnumOld? themeEnum}){
     return ThemeState(status: status??this.status, themeEnum: themeEnum??this.themeEnum);
   }
 

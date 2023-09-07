@@ -16,7 +16,7 @@ class PrefConstants{
   static KeyTypeModel fontSize=KeyTypeModel<int>( key: "fontSize",defaultValue: FontSize.medium.index);
   static KeyTypeModel searchCriteriaEnum=KeyTypeModel<int>( key: "searchCriteriaEnum",defaultValue: SearchCriteriaEnum.multipleKeys.index);
   static KeyTypeModel scopeFilterEnum=KeyTypeModel<int>(key: "scopeFilterEnum",defaultValue: ScopeFilterEnum.scope.index);
-  static KeyTypeModel themeTypeEnum=KeyTypeModel<int>( key: "themeTypeEnum",defaultValue: ThemeTypesEnum.system.index);
+  static KeyTypeModel themeTypeEnum=KeyTypeModel<int>( key: "themeTypeEnum",defaultValue: ThemeTypesEnumOld.system.index);
   static KeyTypeModel counterBackupDate=const KeyTypeModel<String>( key: "counterBackupDate",defaultValue: "");
   static KeyTypeModel useArchiveListFeatures=const KeyTypeModel<bool>(key: "useArchiveListFeatures",defaultValue: false);
   static KeyTypeModel showVerseListIcons=const KeyTypeModel<bool>(key: "showVerseListIcons",defaultValue: false);

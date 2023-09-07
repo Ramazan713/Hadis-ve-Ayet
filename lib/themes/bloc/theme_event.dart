@@ -8,7 +8,7 @@ abstract class IThemeEvent extends Equatable{
 }
 
 class ThemeEventChangeTheme extends IThemeEvent{
-  final ThemeTypesEnum themeEnum;
+  final ThemeTypesEnumOld themeEnum;
 
   ThemeEventChangeTheme({required this.themeEnum});
 

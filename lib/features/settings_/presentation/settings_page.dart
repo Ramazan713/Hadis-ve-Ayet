@@ -45,7 +45,6 @@ class SettingsPage extends StatelessWidget {
                   getUserProfile(),
                   SettingsList(
                     shrinkWrap: true,
-                    lightTheme: getSettingThemeData(context),
                     sections: [
                       getGeneralSection(),
                       getPremiumSection(),

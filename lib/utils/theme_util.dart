@@ -11,24 +11,24 @@ import 'package:hadith/utils/localstorage.dart';
 
 class ThemeUtil{
 
-  static ThemeTypesEnum getThemeEnum(){
+  static ThemeTypesEnumOld getThemeEnum(){
     final sharedPreferences=LocalStorage.sharedPreferences;
-    return ThemeTypesEnum.values[(sharedPreferences.getInt(PrefConstants.themeTypeEnum.key)??0)];
+    return ThemeTypesEnumOld.values[(sharedPreferences.getInt(PrefConstants.themeTypeEnum.key)??0)];
   }
 
-  static ThemeTypesEnum getDefaultTheme(){
-    return ThemeTypesEnum.values[PrefConstants.themeTypeEnum.defaultValue];
+  static ThemeTypesEnumOld getDefaultTheme(){
+    return ThemeTypesEnumOld.values[PrefConstants.themeTypeEnum.defaultValue];
   }
 
   static ThemeMode getThemeMode(){
-    ThemeTypesEnum themeTypesEnum=getThemeEnum();
+    ThemeTypesEnumOld themeTypesEnum=getThemeEnum();
 
     switch(themeTypesEnum){
-      case ThemeTypesEnum.light:
+      case ThemeTypesEnumOld.light:
         return ThemeMode.light;
-      case ThemeTypesEnum.dark:
+      case ThemeTypesEnumOld.dark:
         return ThemeMode.dark;
-      case ThemeTypesEnum.system:
+      case ThemeTypesEnumOld.system:
         final brightness=SchedulerBinding.instance.window.platformBrightness;
         return brightness==Brightness.light?ThemeMode.light:ThemeMode.dark;
     }

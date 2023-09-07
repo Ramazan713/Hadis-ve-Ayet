@@ -67,8 +67,8 @@ extension SettingsPageAdvancedExt on SettingsPage{
                 title: "Varsayılan ayarlara dönmek istediğinize emin misiniz?",
                 btnApproved: () async {
                   bloc.add(SettingsEventResetSettings());
-                  context.read<ThemeBloc>().add(
-                      ThemeEventChangeTheme(themeEnum: ThemeUtil.getDefaultTheme()));
+                  // context.read<ThemeBlocOld>().add(
+                  //     ThemeEventChangeTheme(themeEnum: ThemeUtil.getDefaultTheme()));
                 });
           },
           leading: const Icon(Icons.settings_backup_restore),

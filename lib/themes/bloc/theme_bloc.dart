@@ -8,8 +8,8 @@ import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:hadith/utils/theme_util.dart';
 import 'package:hadith/utils/localstorage.dart';
 
-class ThemeBloc extends Bloc<IThemeEvent,ThemeState>{
-  ThemeBloc() :
+class ThemeBlocOld extends Bloc<IThemeEvent,ThemeState>{
+  ThemeBlocOld() :
         super(ThemeState(status: DataStatus.initial,
           themeEnum: ThemeUtil.getThemeEnum())){
     on<ThemeEventChangeTheme>(_onSetTheme,transformer: restartable());
@@ -17,14 +17,14 @@ class ThemeBloc extends Bloc<IThemeEvent,ThemeState>{
   }
 
   void _onRequestTheme(ThemeEventRequest event,Emitter<ThemeState>emit)async{
-    final ThemeTypesEnum themeEnum = ThemeUtil.getThemeEnum();
-    emit(state.copyWith(status: DataStatus.success,themeEnum: themeEnum));
+    // final ThemeTypesEnumOld themeEnum = ThemeUtil.getThemeEnum();
+    // emit(state.copyWith(status: DataStatus.success,themeEnum: themeEnum));
   }
 
   void _onSetTheme(ThemeEventChangeTheme event,Emitter<ThemeState>emit)async{
-    final sharedPreferences=LocalStorage.sharedPreferences;
-    sharedPreferences.setInt(PrefConstants.themeTypeEnum.key, event.themeEnum.index);
-    emit(state.copyWith(status: DataStatus.success,themeEnum: event.themeEnum));
+    // final sharedPreferences=LocalStorage.sharedPreferences;
+    // sharedPreferences.setInt(PrefConstants.themeTypeEnum.key, event.themeEnum.index);
+    // emit(state.copyWith(status: DataStatus.success,themeEnum: event.themeEnum));
   }
 
 }

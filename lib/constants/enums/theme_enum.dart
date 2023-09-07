@@ -2,29 +2,29 @@
 
 import 'package:flutter/material.dart';
 
-enum ThemeTypesEnum{
+enum ThemeTypesEnumOld{
   system,dark,light
 }
 
-extension ThemeEnumExtension on ThemeTypesEnum{
+extension ThemeEnumExtension on ThemeTypesEnumOld{
   ThemeMode get mode{
     switch(this){
-      case ThemeTypesEnum.system:
+      case ThemeTypesEnumOld.system:
         return ThemeMode.system;
-      case ThemeTypesEnum.dark:
+      case ThemeTypesEnumOld.dark:
         return ThemeMode.dark;
-      case ThemeTypesEnum.light:
+      case ThemeTypesEnumOld.light:
         return ThemeMode.light;
     }
   }
 
   String getDescription(){
     switch(this){
-      case ThemeTypesEnum.system:
+      case ThemeTypesEnumOld.system:
         return "Sistem";
-      case ThemeTypesEnum.dark:
+      case ThemeTypesEnumOld.dark:
         return "Karanlık";
-      case ThemeTypesEnum.light:
+      case ThemeTypesEnumOld.light:
         return "Aydınlık";
     }
   }

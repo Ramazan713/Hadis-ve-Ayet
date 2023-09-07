@@ -6,18 +6,19 @@ import 'package:hadith/constants/enums/theme_enum.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
+import 'package:hadith/core/domain/enums/theme_type_enum.dart';
 import 'package:hadith/core/domain/models/font_model.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
+import 'package:hadith/core/features/theme/bloc/theme_bloc.dart';
+import 'package:hadith/core/features/theme/bloc/theme_event.dart';
+import 'package:hadith/core/features/theme/bloc/theme_state.dart';
+import 'package:hadith/core/presentation/dialogs/show_select_radio_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_search_criteria.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/dialogs/show_select_radio_enums.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_state.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';
-import 'package:hadith/models/item_label_model.dart';
-import 'package:hadith/themes/bloc/theme_bloc.dart';
-import 'package:hadith/themes/bloc/theme_event.dart';
-import 'package:hadith/themes/bloc/theme_state.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 extension SettingsPageGeneralExt on SettingsPage{
@@ -99,29 +100,25 @@ class _SelectTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ThemeBloc, ThemeState, ThemeTypesEnum>(
-        selector: (state) => state.themeEnum,
-        builder: (context, themeType) {
+    final themeBloc = context.read<ThemeBloc>();
+    return BlocSelector<ThemeBloc, ThemeState, ThemeTypeEnum>(
+        selector: (state) => state.themeType,
+        builder: (context, currentThemeType) {
           return SettingsTile(
             title: const Text("Tema Modu"),
             onPressed: (context) async {
-              final currentValue = ItemLabelModel(
-                  item: themeType, label: themeType.getDescription());
-              final List<ItemLabelModel<ThemeTypesEnum>> radioItems =
-              ThemeTypesEnum
-                  .values
-                  .map((e) =>
-                  ItemLabelModel(item: e, label: e.getDescription()))
-                  .toList();
-              showSelectRadioEnums<ThemeTypesEnum>(context,
-                  currentValue: currentValue,
-                  radioItems: radioItems, closeListener: (lastSelected) async {
-                    if (lastSelected.item != themeType) {
-                      context.read<ThemeBloc>().add(ThemeEventChangeTheme(themeEnum: lastSelected.item));
-                    }
-                  });
+              showSelectRadioDia(
+                context,
+                title: "Tema Seç",
+                iconData: Icons.palette,
+                items: ThemeTypeEnum.values,
+                currentItem: currentThemeType,
+                onSelected: (selected){
+                  themeBloc.add(ThemeEventSetThemeType(themeTypeEnum: selected));
+                }
+              );
             },
-            value: Text(themeType.getDescription()),
+            value: Text(currentThemeType.description),
             leading: const Icon(Icons.palette),
           );
         });

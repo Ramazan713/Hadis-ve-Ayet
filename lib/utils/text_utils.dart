@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/utils/search_helper.dart';
-import 'package:hadith/utils/theme_util.dart';
 
 
 import '../constants/enums/search_criteria_enum.dart';
@@ -27,7 +26,7 @@ class TextUtils{
     List<TextSpan>spans=[];
 
     TextStyle searchStyle=TextStyle(
-        backgroundColor: ThemeUtil.getThemeModel(context).selectedTextColor()
+
     );
 
     final RegExp reg = SearchHelper.findWordsPattern(searchKey, caseSensitive);

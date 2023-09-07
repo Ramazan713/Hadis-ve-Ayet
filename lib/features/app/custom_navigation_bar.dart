@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith/core/features/save_point/load_save_point/components/navigate_auto_save_point_wrapper.dart';
 import 'package:hadith/features/app/my_app_top_listeners.dart';
 import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 
@@ -12,12 +11,24 @@ class CustomNavigationBar extends StatelessWidget {
   CustomNavigationBar({Key? key, required this.child}) : super(key: key);
 
   final _navigationItems = [
-    _NavigationItem(icon: const Icon(Icons.dataset), label: "Kategoriler",
-        navigationLocation: CategoriesRoute().location),
-    _NavigationItem(icon: const Icon(Icons.home), label: "Ana Sayfa",
-        navigationLocation: HomeRoute().location),
-    _NavigationItem(icon: const Icon(Icons.view_list), label: "Liste",
-        navigationLocation: ShowListRoute().location),
+    _NavigationItem(
+      icon: const Icon(Icons.category_outlined),
+      activeIcon: const Icon(Icons.category),
+      label: "Kategoriler",
+      navigationLocation: CategoriesRoute().location
+    ),
+    _NavigationItem(
+      icon: const Icon(Icons.home_outlined),
+      activeIcon: const Icon(Icons.home),
+      label: "Ana Sayfa",
+      navigationLocation: HomeRoute().location
+    ),
+    _NavigationItem(
+      icon: const Icon(Icons.view_list_outlined),
+      activeIcon: const Icon(Icons.view_list),
+      label: "Liste",
+      navigationLocation: ShowListRoute().location
+    ),
   ];
 
   List<String> get _navigationLocations  => _navigationItems.map((e) => e.navigationLocation).toList();
@@ -26,8 +37,7 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    
+
     return MyAppTopListeners(
       child: Scaffold(
         body: SafeArea(
@@ -35,12 +45,12 @@ class CustomNavigationBar extends StatelessWidget {
         ),
         bottomNavigationBar: isBottomNavDestination(context) == false ? null :
         BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _calculateIndex(context),
-            onTap: (i){
-              _onClicked(context,i);
-            },
-            items: _navigationItems
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _calculateIndex(context),
+          onTap: (i){
+            _onClicked(context,i);
+          },
+          items: _navigationItems
         ),
       ),
     );
@@ -70,8 +80,12 @@ class CustomNavigationBar extends StatelessWidget {
 class _NavigationItem extends BottomNavigationBarItem{
   final String navigationLocation;
 
-  _NavigationItem({required this.navigationLocation,required Icon icon,required String label}) :
-        super(icon: icon,label: label);
+  _NavigationItem({
+    required this.navigationLocation,
+    required Icon icon,
+    required Icon activeIcon,
+    required String label
+  }) :super(icon: icon,label: label,activeIcon: activeIcon);
 
 }
 
