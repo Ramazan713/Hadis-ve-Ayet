@@ -36,7 +36,7 @@ class HadithSharedState extends Equatable{
 
   static HadithSharedState init(){
     return HadithSharedState(
-        contentFontSize: KPref.fontSizeContent.defaultValue,
+        contentFontSize: KPref.fontSizeContent.defaultPrefEnum.size,
         favListId: 0,
         title: ""
     );

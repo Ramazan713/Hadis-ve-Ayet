@@ -54,6 +54,7 @@ abstract class $DetailCounterStateCopyWith<$Res> {
       Counter? currentCounter,
       String? message});
 
+  $FontModelCopyWith<$Res> get fontModel;
   $CounterCopyWith<$Res>? get currentCounter;
 }
 
@@ -137,6 +138,14 @@ class _$DetailCounterStateCopyWithImpl<$Res, $Val extends DetailCounterState>
 
   @override
   @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $CounterCopyWith<$Res>? get currentCounter {
     if (_value.currentCounter == null) {
       return null;
@@ -170,6 +179,8 @@ abstract class _$$_DetailCounterStateCopyWith<$Res>
       Counter? currentCounter,
       String? message});
 
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
   @override
   $CounterCopyWith<$Res>? get currentCounter;
 }

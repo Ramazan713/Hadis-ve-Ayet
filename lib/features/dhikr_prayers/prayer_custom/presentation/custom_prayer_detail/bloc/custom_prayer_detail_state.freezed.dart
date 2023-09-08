@@ -38,6 +38,7 @@ abstract class $CustomPrayerDetailStateCopyWith<$Res> {
       PrayerCustom? prayer,
       String? message});
 
+  $FontModelCopyWith<$Res> get fontModel;
   $PrayerCustomCopyWith<$Res>? get prayer;
 }
 
@@ -82,6 +83,14 @@ class _$CustomPrayerDetailStateCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $PrayerCustomCopyWith<$Res>? get prayer {
     if (_value.prayer == null) {
       return null;
@@ -107,6 +116,8 @@ abstract class _$$_CustomPrayerDetailStateCopyWith<$Res>
       PrayerCustom? prayer,
       String? message});
 
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
   @override
   $PrayerCustomCopyWith<$Res>? get prayer;
 }

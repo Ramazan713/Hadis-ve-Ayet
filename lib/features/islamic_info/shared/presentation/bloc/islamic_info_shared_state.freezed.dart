@@ -37,6 +37,8 @@ abstract class $IslamicInfoSharedStateCopyWith<$Res> {
       IslamicInfoType infoType,
       bool isLoading,
       FontModel fontModel});
+
+  $FontModelCopyWith<$Res> get fontModel;
 }
 
 /// @nodoc
@@ -77,6 +79,14 @@ class _$IslamicInfoSharedStateCopyWithImpl<$Res,
               as FontModel,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -92,6 +102,9 @@ abstract class _$$_IslamicInfoSharedStateCopyWith<$Res>
       IslamicInfoType infoType,
       bool isLoading,
       FontModel fontModel});
+
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
 }
 
 /// @nodoc

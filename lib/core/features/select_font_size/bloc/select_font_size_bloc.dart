@@ -26,53 +26,61 @@ class SelectFontSizeBloc extends Bloc<ISelectFontSizeEvent, SelectFontSizeState>
 
 
   void _onInit(SelectFontSizeEventInit event,Emitter<SelectFontSizeState> emit){
-    final contentFontSize = _appPreferences.getItem(KPref.fontSizeContent);
-    final arabicFontSize = _appPreferences.getItem(KPref.fontSizeArabic);
-    final arabicFontFamily = _appPreferences.getEnumItem(KPref.fontFamilyArabic);
-
-    emit(state.copyWith(
-      fontFamilyArabic: arabicFontFamily,
-      arabicFontSize: arabicFontSize,
-      contentFontSize: contentFontSize
-    ));
-
+    emit(_getFirstState(state: state));
   }
+
   void _onSetContentSize(SelectFontSizeEventSetContentSize event,Emitter<SelectFontSizeState> emit){
-    emit(state.copyWith(contentFontSize: event.size));
+    emit(state.copyWith(selectedContentFontSize: event.fontSize));
   }
 
   void _onSetArabicSize(SelectFontSizeEventSetArabicSize event,Emitter<SelectFontSizeState> emit){
-    emit(state.copyWith(arabicFontSize: event.size));
+    emit(state.copyWith(selectedArabicFontSize: event.fontSize));
   }
 
   void _onSetArabicFamily(SelectFontSizeEventSetArabicFamily event,Emitter<SelectFontSizeState> emit){
-    emit(state.copyWith(fontFamilyArabic: event.fontFamilyArabic));
+    emit(state.copyWith(selectedFontFamilyArabic: event.fontFamilyArabic));
   }
 
   void _onSave(SelectFontSizeEventSave event,Emitter<SelectFontSizeState> emit)async{
-    await _appPreferences.setItem(KPref.fontSizeArabic, state.arabicFontSize);
-    await _appPreferences.setItem(KPref.fontSizeContent, state.contentFontSize);
-    await _appPreferences.setEnumItem(KPref.fontFamilyArabic, state.fontFamilyArabic);
+
+    final fontSizeArabic = state.selectedArabicFontSize;
+    final fontSizeContent = state.selectedContentFontSize;
+    final fontFamilyArabic = state.selectedFontFamilyArabic;
+
+    await _appPreferences.setEnumItem(KPref.fontSizeArabic, fontSizeArabic);
+    await _appPreferences.setEnumItem(KPref.fontSizeContent, fontSizeContent);
+    await _appPreferences.setEnumItem(KPref.fontFamilyArabic, fontFamilyArabic);
 
     emit(state.copyWith(
-      setMessage: true,
-      message: "Kaydedildi"
+      message: "Kaydedildi",
+      lastSavedSelectedFontFamilyArabic: fontFamilyArabic,
+      lastSavedContentFontSize: fontSizeContent,
+      lastSavedArabicFontSize: fontSizeArabic
     ));
   }
 
   void _onReset(SelectFontSizeEventReset event,Emitter<SelectFontSizeState> emit){
-    final contentFontSize = KPref.fontSizeContent.defaultValue;
-    final arabicFontSize = KPref.fontSizeArabic.defaultValue;
-    final arabicFontFamily = KPref.fontFamilyArabic.defaultPrefEnum;
-
-    emit(state.copyWith(
-        fontFamilyArabic: arabicFontFamily,
-        arabicFontSize: arabicFontSize,
-        contentFontSize: contentFontSize
-    ));
+    emit(_getFirstState(state: state));
   }
 
   void _onClearMessage(SelectFontSizeEventClearMessage event,Emitter<SelectFontSizeState> emit){
-    emit(state.copyWith(setMessage: true));
+    emit(state.copyWith(message: null));
   }
+
+
+  SelectFontSizeState _getFirstState({required SelectFontSizeState state}){
+    final contentFontSize = _appPreferences.getEnumItem(KPref.fontSizeContent);
+    final arabicFontSize = _appPreferences.getEnumItem(KPref.fontSizeArabic);
+    final arabicFontFamily = _appPreferences.getEnumItem(KPref.fontFamilyArabic);
+
+    return state.copyWith(
+      lastSavedSelectedFontFamilyArabic: arabicFontFamily,
+      selectedFontFamilyArabic: arabicFontFamily,
+      lastSavedArabicFontSize: arabicFontSize,
+      selectedArabicFontSize: arabicFontSize,
+      lastSavedContentFontSize: contentFontSize,
+      selectedContentFontSize: contentFontSize,
+    );
+  }
+
 }

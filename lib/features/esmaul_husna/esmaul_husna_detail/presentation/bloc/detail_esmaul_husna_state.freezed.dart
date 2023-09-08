@@ -40,6 +40,7 @@ abstract class $DetailEsmaulHusnaStateCopyWith<$Res> {
       EsmaulHusna? currentItem,
       String? message});
 
+  $FontModelCopyWith<$Res> get fontModel;
   $EsmaulHusnaCopyWith<$Res>? get currentItem;
 }
 
@@ -89,6 +90,14 @@ class _$DetailEsmaulHusnaStateCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $EsmaulHusnaCopyWith<$Res>? get currentItem {
     if (_value.currentItem == null) {
       return null;
@@ -115,6 +124,8 @@ abstract class _$$_DetailEsmaulHusnaStateCopyWith<$Res>
       EsmaulHusna? currentItem,
       String? message});
 
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
   @override
   $EsmaulHusnaCopyWith<$Res>? get currentItem;
 }

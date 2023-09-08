@@ -1,12 +1,13 @@
 
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/app_constants.dart';
+import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 
 class FontSliderItem extends StatelessWidget {
   final String title;
-  final double currentValue;
-  final void Function(double) onChanged;
+  final FontSizeEnum currentValue;
+  final void Function(FontSizeEnum) onChanged;
 
   const FontSliderItem({
     Key? key,
@@ -26,16 +27,30 @@ class FontSliderItem extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Slider(
-                  value: currentValue,
-                  onChanged: (newValue){
-                    onChanged(newValue);
-                  },
-                  min: kFontSizeMin,
-                  max: kFontSizeMax,
+                flex: 4,
+                child: SliderTheme(
+                  data: const SliderThemeData(
+                    showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+                  ),
+                  child: Slider(
+                    value: currentValue.enumValue.toDouble(),
+                    onChanged: (newValue){
+                      onChanged(FontSizeEnum.from(newValue.toInt()));
+                    },
+                    min: FontSizeEnum.values.map((e) => e.enumValue).min.toDouble(),
+                    max:  FontSizeEnum.values.map((e) => e.enumValue).max.toDouble(),
+                    label: currentValue.description,
+                    divisions: FontSizeEnum.values.length - 1,
+                  ),
                 ),
               ),
-              Text(currentValue.toStringAsFixed(0),style: Theme.of(context).textTheme.bodyMedium,)
+              Expanded(
+                child: Text(
+                  currentValue.description,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+              )
             ],
           )
         ],

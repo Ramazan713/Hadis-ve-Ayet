@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_3x_enum.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 part 'detail_counter_state.freezed.dart';

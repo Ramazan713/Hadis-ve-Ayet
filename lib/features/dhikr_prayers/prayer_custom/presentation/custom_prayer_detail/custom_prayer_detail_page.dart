@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';

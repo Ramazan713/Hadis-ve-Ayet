@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/enums/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 
 
 

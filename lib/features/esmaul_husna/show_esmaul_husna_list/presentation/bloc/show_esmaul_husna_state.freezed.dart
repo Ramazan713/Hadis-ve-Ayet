@@ -43,6 +43,8 @@ abstract class $ShowEsmaulHusnaStateCopyWith<$Res> {
       SearchCriteriaEnum searchCriteria,
       bool isSearchBarVisible,
       int? jumpToPos});
+
+  $FontModelCopyWith<$Res> get fontModel;
 }
 
 /// @nodoc
@@ -98,6 +100,14 @@ class _$ShowEsmaulHusnaStateCopyWithImpl<$Res,
               as int?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -116,6 +126,9 @@ abstract class _$$_ShowEsmaulHusnaStateCopyWith<$Res>
       SearchCriteriaEnum searchCriteria,
       bool isSearchBarVisible,
       int? jumpToPos});
+
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
 }
 
 /// @nodoc

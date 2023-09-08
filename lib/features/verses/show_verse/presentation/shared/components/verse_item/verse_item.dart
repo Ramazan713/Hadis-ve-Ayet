@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/sections/content.dart';
@@ -31,7 +31,7 @@ class VerseItem extends StatelessWidget {
   }) : super(key: key);
 
   Verse get verse  => verseListModel.verse;
-  double get smallFontValue => fontModel.contentFontSize - 7;
+  double get smallFontValue => fontModel.contentFontSize - 5.5;
   
   final double _borderRadius = 13;
 

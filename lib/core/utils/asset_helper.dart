@@ -11,4 +11,6 @@ class AssetHelper{
   static String islamicInfo2 = "assets/images/islamic_info_2.png";
 
   static String dhikr2 = "assets/images/dhikr2.png";
+  static String verseStop = "assets/images/verse_stop.png";
+
 }

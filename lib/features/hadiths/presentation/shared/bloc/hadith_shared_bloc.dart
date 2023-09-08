@@ -61,7 +61,7 @@ class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
 
   void _onListenFontSize(HadithSharedEventListenFontSize event, Emitter<HadithSharedState>emit )async{
 
-    final fontSize = _appPreferences.getItem(KPref.fontSizeContent);
+    final fontSize = _appPreferences.getEnumItem(KPref.fontSizeContent).size;
     final listFav = await _selectListUseCases.getFavoriteList.call(sourceType: SourceTypeEnum.hadith);
 
     emit(state.copyWith(favListId: listFav.id,contentFontSize: fontSize));
@@ -69,7 +69,7 @@ class HadithSharedBloc extends Bloc<IHadithSharedEvent,HadithSharedState>{
     final streamData = _appPreferences.listenerFiltered([KPref.fontSizeContent]);
 
     await emit.forEach<IKey>(streamData, onData: (data){
-      final fontSize = _appPreferences.getItem(KPref.fontSizeContent);
+      final fontSize = _appPreferences.getEnumItem(KPref.fontSizeContent).size;
       return state.copyWith(contentFontSize: fontSize);
     });
   }

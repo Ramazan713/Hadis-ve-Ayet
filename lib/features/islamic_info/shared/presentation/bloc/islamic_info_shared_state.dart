@@ -3,7 +3,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/enums/islamic_info_type.dart';
 import 'package:hadith/features/islamic_info/shared/domain/model/islamic_info_collection.dart';
 part 'islamic_info_shared_state.freezed.dart';

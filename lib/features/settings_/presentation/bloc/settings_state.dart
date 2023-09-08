@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/features/settings_/domain/models/user_info_model.dart';
 part 'settings_state.freezed.dart';
 

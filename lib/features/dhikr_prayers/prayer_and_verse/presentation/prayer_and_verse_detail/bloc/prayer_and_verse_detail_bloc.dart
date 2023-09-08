@@ -2,7 +2,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_mapper.dart';
@@ -41,7 +41,10 @@ class PrayerAndVerseDetailBloc extends Bloc<IPrayerDetailEvent,PrayerAndVerseDet
   }
 
   void _onLoadData(PrayerAndVerseDetailEventLoadData event,Emitter<PrayerAndVerseDetailState>emit)async{
-    emit(PrayerAndVerseDetailState.init().copyWith(isLoading: true));
+    emit(PrayerAndVerseDetailState.init().copyWith(
+      isLoading: true,
+      fontModel: _fontModelUseCase.call()
+    ));
     final prayerStream = _prayerRepo.getStreamPrayerAndVerseById(event.prayerId);
     await emit.forEach(prayerStream, onData: (data){
       return state.copyWith(prayer: data,isLoading: false);

@@ -2,101 +2,146 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/constants/k_verse.dart';
-import 'package:hadith/core/domain/enums/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_bloc.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_event.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_state.dart';
+import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
+import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'package:hadith/widgets/buttons/custom_button1.dart';
-import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 import 'components/font_slider_item.dart';
 
-void showSelectFontSizeDia(
-    BuildContext context,
-    ){
+void showSelectFontSizeDia(BuildContext context){
+
+  final selectFontBloc = context.read<SelectFontSizeBloc>();
+  selectFontBloc.add(SelectFontSizeEventInit());
 
   showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context){
-
-        final selectFontBloc = context.read<SelectFontSizeBloc>();
-        selectFontBloc.add(SelectFontSizeEventInit());
-
-        return BlocListener<SelectFontSizeBloc,SelectFontSizeState>(
-          listener: (context, state){
-            final message = state.message;
-            if(message!=null){
-              ToastUtils.showLongToast(message);
-              selectFontBloc.add(SelectFontSizeEventClearMessage());
-            }
+    isScrollControlled: true,
+    useSafeArea: true,
+    context: context,
+    builder: (context){
+      return BlocListener<SelectFontSizeBloc,SelectFontSizeState>(
+        listener: (context, state){
+          final message = state.message;
+          if(message!=null){
+            ToastUtils.showLongToast(message);
+            selectFontBloc.add(SelectFontSizeEventClearMessage());
+          }
+        },
+        child: DraggableScrollableSheet(
+          expand: false,
+          minChildSize: 0.5,
+          initialChildSize: 0.7,
+          maxChildSize: 0.99,
+          builder: (context, scrollController){
+            return _DialogContent(
+              controller: scrollController,
+              onClose: (){
+                context.pop();
+              },
+            );
           },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 13,left: 13,top: 5,bottom: 3),
+        ),
+      );
+    }
+  );
+}
+
+
+class _DialogContent extends StatelessWidget {
+  final void Function() onClose;
+  final ScrollController controller;
+
+  const _DialogContent({
+    super.key,
+    required this.onClose,
+    required this.controller
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 13,left: 13,top: 5,bottom: 3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          getCloseIcon(context),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: controller,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                        onPressed: (){
-                          context.pop();
-                        },
-                        icon: const Icon(Icons.close)
+                  Container(
+                    constraints: const BoxConstraints(
+                      minHeight: 150
                     ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: getContent(context)
+                    )
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 17),
-                    child: Column(
-                      children: [
-                        _getArabicContent(context),
-                        const SizedBox(height: 17,),
-                        _getTextContent(context),
-                      ],
-                    ),
+                    padding: const EdgeInsets.only(top: 24,bottom: 16),
+                    child: _getDropdownArabicFont(context)
                   ),
-
-                  _getDropdownArabicFont(context),
                   _getContentSlider(),
                   _getArabicSlider(),
-                  _getButtons(context)
                 ],
               ),
             ),
           ),
-        );
-      }
-  );
+          _getButtons(context)
+        ],
+      ),
+    );
+  }
+
+
+  Widget getCloseIcon(BuildContext context){
+    return Align(
+      alignment: Alignment.centerRight,
+      child: IconButton(
+        onPressed: onClose,
+        icon: const Icon(Icons.close)
+      ),
+    );
+  }
+
+  Widget getContent(BuildContext context){
+    return Column(
+      children: [
+        _getArabicContent(context),
+        const SizedBox(height: 17,),
+        _getTextContent(context),
+      ],
+    );
+  }
 }
+
+
 
 Widget _getButtons(BuildContext context){
   final selectFontBloc = context.read<SelectFontSizeBloc>();
-
-  return Padding(
-    padding: const EdgeInsets.only(top: 5),
-    child: Row(
-      children: [
-        Expanded(
-          child: CustomButton1(
-            onTap: (){
-              selectFontBloc.add(SelectFontSizeEventReset());
-            },
-            label: "Varsayılan",
-          ),
-        ),
-        Expanded(
-          child: CustomButtonPositive(
-            onTap: (){
-              selectFontBloc.add(SelectFontSizeEventSave());
-            },
-            label: "Kaydet",
-          ),
-        )
-      ],
-    ),
+  return BlocBuilder<SelectFontSizeBloc,SelectFontSizeState>(
+    builder: (context, state){
+      return SharedDiaButtons(
+        enabledCancel: state.resetButtonEnabled,
+        enabledApprove: state.saveButtonEnabled,
+        approveLabel: "Kaydet",
+        cancelLabel: "Değişikleri geri al",
+        onApprove: (){
+          selectFontBloc.add(SelectFontSizeEventSave());
+        },
+        onCancel: (){
+          selectFontBloc.add(SelectFontSizeEventReset());
+        },
+      );
+    },
   );
 }
 
@@ -104,16 +149,16 @@ Widget _getButtons(BuildContext context){
 Widget _getArabicContent(BuildContext context){
   return BlocBuilder<SelectFontSizeBloc,SelectFontSizeState>(
     buildWhen: (prevState,nextState){
-      return prevState.arabicFontSize != nextState.arabicFontSize ||
-            prevState.fontFamilyArabic != nextState.fontFamilyArabic;
+      return prevState.selectedArabicFontSize != nextState.selectedArabicFontSize ||
+            prevState.selectedFontFamilyArabic != nextState.selectedFontFamilyArabic;
     },
     builder: (context, state){
-      return AnimatedContainer(
+      return AnimatedSize(
         duration: const Duration(milliseconds: 500),
         child: ArabicContentItem(
           content: KVerse.mentionTextArabic,
-          fontSize: state.arabicFontSize,
-          fontFamily: state.fontFamilyArabic,
+          fontSize: state.selectedArabicFontSize.size,
+          fontFamily: state.selectedFontFamilyArabic,
         ),
       );
     },
@@ -123,87 +168,68 @@ Widget _getArabicContent(BuildContext context){
 
 Widget _getTextContent(BuildContext context){
   return BlocSelector<SelectFontSizeBloc,SelectFontSizeState,double>(
-      selector: (state) => state.contentFontSize,
-      builder: (context, contentFontSize){
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          child: Text(
-              KVerse.mentionText,
-              style: Theme.of(context).textTheme.bodyMedium
-                  ?.copyWith(fontSize: contentFontSize)
-          ),
-        );
-      }
+    selector: (state) => state.selectedContentFontSize.size,
+    builder: (context, contentFontSize){
+      return AnimatedSize(
+        duration: const Duration(milliseconds: 500),
+        child: Text(
+            KVerse.mentionText,
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(fontSize: contentFontSize)
+        ),
+      );
+    }
   );
 }
 
 
 Widget _getDropdownArabicFont(BuildContext context){
+  final selectFontBloc = context.read<SelectFontSizeBloc>();
   return BlocSelector<SelectFontSizeBloc,SelectFontSizeState,FontFamilyArabicEnum>(
-      selector: (state) => state.fontFamilyArabic,
-      builder: (context, currentFontFamilyArabic){
-
-        final selectFontBloc = context.read<SelectFontSizeBloc>();
-
-        return Row(
-          children: [
-            Text(
-              "Arapça Font: ",
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(width: 13,),
-            DropdownButton<FontFamilyArabicEnum>(
-              value: currentFontFamilyArabic,
-
-              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 3),
-              items: FontFamilyArabicEnum.values.map((e){
-                return DropdownMenuItem(
-                  value: e,
-                  child: Text(
-                    e.title,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if(value==null) return;
-                selectFontBloc.add(SelectFontSizeEventSetArabicFamily(fontFamilyArabic: value));
-              },
-            ),
-          ],
-        );
-      }
+    selector: (state) => state.selectedFontFamilyArabic,
+    builder: (context, currentFontFamilyArabic){
+      return CustomDropdownTextMenu(
+        items: FontFamilyArabicEnum.values,
+        selectedItem: currentFontFamilyArabic,
+        label: "Arapça Font",
+        onSelected: (selected){
+          if(selected != null){
+            selectFontBloc.add(SelectFontSizeEventSetArabicFamily(fontFamilyArabic: selected));
+          }
+        },
+      );
+    }
   );
 }
 
 Widget _getContentSlider(){
-  return BlocSelector<SelectFontSizeBloc,SelectFontSizeState,double>(
-      selector: (state) => state.arabicFontSize,
-      builder: (context, arabicFontSize){
-        final selectFontBloc = context.read<SelectFontSizeBloc>();
-        return FontSliderItem(
-            title: "Arapça Yazı Boyutu",
-            onChanged: (newValue){
-              selectFontBloc.add(SelectFontSizeEventSetArabicSize(size: newValue));
-            },
-            currentValue: arabicFontSize
-        );
-      }
+  return BlocSelector<SelectFontSizeBloc,SelectFontSizeState,FontSizeEnum>(
+    selector: (state) => state.selectedArabicFontSize,
+    builder: (context, arabicFontSize){
+      final selectFontBloc = context.read<SelectFontSizeBloc>();
+      return FontSliderItem(
+          title: "Arapça Yazı Boyutu",
+          onChanged: (newValue){
+            selectFontBloc.add(SelectFontSizeEventSetArabicSize(fontSize: newValue));
+          },
+          currentValue: arabicFontSize,
+      );
+    }
   );
 }
 
 Widget _getArabicSlider(){
-  return BlocSelector<SelectFontSizeBloc,SelectFontSizeState,double>(
-      selector: (state) => state.contentFontSize,
-      builder: (context, contentFontSize){
-        final selectFontBloc = context.read<SelectFontSizeBloc>();
-        return FontSliderItem(
-            title: "Yazı Boyutu",
-            onChanged: (newValue){
-              selectFontBloc.add(SelectFontSizeEventSetContentSize(size: newValue));
-            },
-            currentValue: contentFontSize
-        );
-      }
+  return BlocSelector<SelectFontSizeBloc,SelectFontSizeState,FontSizeEnum>(
+    selector: (state) => state.selectedContentFontSize,
+    builder: (context, contentFontSize){
+      final selectFontBloc = context.read<SelectFontSizeBloc>();
+      return FontSliderItem(
+        title: "Yazı Boyutu",
+        onChanged: (newValue){
+          selectFontBloc.add(SelectFontSizeEventSetContentSize(fontSize: newValue));
+        },
+        currentValue: contentFontSize,
+      );
+    }
   );
 }

@@ -46,6 +46,7 @@ abstract class $SettingsStateCopyWith<$Res> {
       UserInfoModel? currentUserInfo,
       String? message});
 
+  $FontModelCopyWith<$Res> get fontModel;
   $UserInfoModelCopyWith<$Res>? get currentUserInfo;
 }
 
@@ -109,6 +110,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
 
   @override
   @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $UserInfoModelCopyWith<$Res>? get currentUserInfo {
     if (_value.currentUserInfo == null) {
       return null;
@@ -138,6 +147,8 @@ abstract class _$$_SettingsStateCopyWith<$Res>
       UserInfoModel? currentUserInfo,
       String? message});
 
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
   @override
   $UserInfoModelCopyWith<$Res>? get currentUserInfo;
 }

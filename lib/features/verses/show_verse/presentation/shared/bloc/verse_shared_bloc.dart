@@ -11,7 +11,7 @@ import 'package:hadith/core/domain/repo/title_repo.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 
 import 'verse_shared_event.dart';
 import 'verse_shared_state.dart';

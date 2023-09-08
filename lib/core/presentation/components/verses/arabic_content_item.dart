@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/enums/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/presentation/components/verses/s_arabic_content_span.dart';
 
 class ArabicContentItem extends StatelessWidget {
@@ -23,6 +23,7 @@ class ArabicContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textScaleFactor: fontFamily.textScaleFactor,
       textAlign: textAlign,
       text: sharedArabicContentSpan(
           context,

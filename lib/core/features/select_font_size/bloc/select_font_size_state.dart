@@ -1,45 +1,50 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
-import 'package:hadith/core/domain/enums/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 
-class SelectFontSizeState extends Equatable{
 
-  final double contentFontSize;
-  final double arabicFontSize;
-  final FontFamilyArabicEnum fontFamilyArabic;
-  final String? message;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hadith/core/domain/enums/font_size/font_size.dart';
+part 'select_font_size_state.freezed.dart';
 
-  const SelectFontSizeState({
-    required this.fontFamilyArabic,
-    required this.arabicFontSize,
-    required this.contentFontSize,
-    this.message
-  });
+@freezed
+class SelectFontSizeState with _$SelectFontSizeState{
 
-  SelectFontSizeState copyWith({
-    double? contentFontSize,
-    double? arabicFontSize,
-    FontFamilyArabicEnum? fontFamilyArabic,
-    String? message, bool setMessage = false
-  }) {
-    return SelectFontSizeState(
-        contentFontSize: contentFontSize ?? this.contentFontSize,
-        arabicFontSize: arabicFontSize ?? this.arabicFontSize,
-        fontFamilyArabic: fontFamilyArabic ?? this.fontFamilyArabic,
-        message: setMessage ? message : this.message
-    );
-  }
+  const SelectFontSizeState._();
+
+  const factory SelectFontSizeState({
+    required FontSizeEnum selectedContentFontSize,
+    required FontSizeEnum lastSavedContentFontSize,
+    required FontSizeEnum selectedArabicFontSize,
+    required FontSizeEnum lastSavedArabicFontSize,
+    required FontFamilyArabicEnum selectedFontFamilyArabic,
+    required FontFamilyArabicEnum lastSavedSelectedFontFamilyArabic,
+    String? message
+  }) = _SelectFontSizeState;
 
   static SelectFontSizeState init(){
     return SelectFontSizeState(
-        contentFontSize: KPref.fontSizeContent.defaultValue,
-        arabicFontSize: KPref.fontSizeArabic.defaultValue,
-        fontFamilyArabic: KPref.fontFamilyArabic.defaultPrefEnum
+      lastSavedArabicFontSize: KPref.fontSizeArabic.defaultPrefEnum,
+      selectedArabicFontSize: KPref.fontSizeArabic.defaultPrefEnum,
+      lastSavedContentFontSize: KPref.fontSizeContent.defaultPrefEnum,
+      selectedContentFontSize: KPref.fontSizeContent.defaultPrefEnum,
+      lastSavedSelectedFontFamilyArabic: KPref.fontFamilyArabic.defaultPrefEnum,
+      selectedFontFamilyArabic: KPref.fontFamilyArabic.defaultPrefEnum,
     );
   }
 
-  @override
-  List<Object?> get props => [contentFontSize, arabicFontSize, fontFamilyArabic, message];
 
+  bool get contentSizeChanged => selectedContentFontSize != lastSavedContentFontSize;
+
+  bool get arabicSizeChanged => lastSavedArabicFontSize != selectedArabicFontSize;
+
+  bool get arabicFamilyChanged => lastSavedSelectedFontFamilyArabic != selectedFontFamilyArabic;
+
+  bool get anyChanged => contentSizeChanged || arabicSizeChanged || arabicFamilyChanged;
+
+  bool get saveButtonEnabled => anyChanged;
+
+  bool get resetButtonEnabled => anyChanged;
 }

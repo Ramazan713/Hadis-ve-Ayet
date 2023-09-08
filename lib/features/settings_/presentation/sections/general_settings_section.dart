@@ -6,7 +6,7 @@ import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/theme_type_enum.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
 import 'package:hadith/core/features/theme/bloc/theme_bloc.dart';
 import 'package:hadith/core/features/theme/bloc/theme_event.dart';
@@ -65,7 +65,7 @@ extension SettingsPageGeneralExt on SettingsPage{
         return SettingsTile(
           leading: const Icon(Icons.font_download),
           title: const Text("Yazı Boyutu"),
-          value: Text(fontModel.contentFontSize.toString()),
+          value: Text(fontModel.contentFontSizeEnum.description),
           onPressed: (context) {
             showSelectFontSizeDia(context);
           }

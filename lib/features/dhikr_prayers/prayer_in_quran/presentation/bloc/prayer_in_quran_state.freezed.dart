@@ -45,6 +45,8 @@ abstract class $PrayerInQuranStateCopyWith<$Res> {
       SearchCriteriaEnum searchCriteria,
       bool isSearchBarVisible,
       String? message});
+
+  $FontModelCopyWith<$Res> get fontModel;
 }
 
 /// @nodoc
@@ -104,6 +106,14 @@ class _$PrayerInQuranStateCopyWithImpl<$Res, $Val extends PrayerInQuranState>
               as String?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FontModelCopyWith<$Res> get fontModel {
+    return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
+      return _then(_value.copyWith(fontModel: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -123,6 +133,9 @@ abstract class _$$_PrayerInQuranStateCopyWith<$Res>
       SearchCriteriaEnum searchCriteria,
       bool isSearchBarVisible,
       String? message});
+
+  @override
+  $FontModelCopyWith<$Res> get fontModel;
 }
 
 /// @nodoc

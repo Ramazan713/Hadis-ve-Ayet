@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/models/font_model.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 
 class CounterContent extends StatelessWidget {

@@ -1,18 +1,19 @@
 
-import 'package:hadith/core/domain/enums/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
+import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 
 abstract class ISelectFontSizeEvent{}
 
 class SelectFontSizeEventInit extends ISelectFontSizeEvent{}
 
 class SelectFontSizeEventSetContentSize extends ISelectFontSizeEvent{
-  final double size;
-  SelectFontSizeEventSetContentSize({required this.size});
+  final FontSizeEnum fontSize;
+  SelectFontSizeEventSetContentSize({required this.fontSize});
 }
 
 class SelectFontSizeEventSetArabicSize extends ISelectFontSizeEvent{
-  final double size;
-  SelectFontSizeEventSetArabicSize({required this.size});
+  final FontSizeEnum fontSize;
+  SelectFontSizeEventSetArabicSize({required this.fontSize});
 }
 
 class SelectFontSizeEventSetArabicFamily extends ISelectFontSizeEvent{
