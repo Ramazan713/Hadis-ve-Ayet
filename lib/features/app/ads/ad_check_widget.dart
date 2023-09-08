@@ -25,7 +25,7 @@ class _AdCheckWidgetState extends State<AdCheckWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PremiumBloc, PremiumState>(
+    return BlocBuilder<PremiumBlocOld, PremiumState>(
       builder: (context, state) {
         if (!state.isPremium) {
           _checkAdOpeningCounter();

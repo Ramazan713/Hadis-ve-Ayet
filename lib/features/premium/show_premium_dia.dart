@@ -16,7 +16,7 @@ void showPremiumDia(BuildContext context){
 
 
 
-  final premiumBloc=context.read<PremiumBloc>();
+  final premiumBloc=context.read<PremiumBlocOld>();
   premiumBloc.add(PremiumEventLoadProducts());
 
   showModalBottomSheet(context: context,
@@ -60,7 +60,7 @@ void showPremiumDia(BuildContext context){
                           },itemCount: kPremiumFeatureItems.length,shrinkWrap: true,),
                           const SizedBox(height: 29,),
 
-                          BlocBuilder<PremiumBloc,PremiumState>(
+                          BlocBuilder<PremiumBlocOld,PremiumState>(
                               buildWhen: (oldState,newState){
                                 if(newState.isPremium){
                                   //Navigator.popAndPushNamed(context, SettingScreen.id);

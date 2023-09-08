@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
+import 'package:hadith/core/features/premium/bloc/premium_state.dart';
+import 'package:hadith/core/features/premium/show_premium_dia.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
-import 'package:hadith/features/premium/bloc/premium_bloc.dart';
-import 'package:hadith/features/premium/bloc/premium_state.dart';
-import 'package:hadith/features/premium/show_premium_dia.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_state.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';

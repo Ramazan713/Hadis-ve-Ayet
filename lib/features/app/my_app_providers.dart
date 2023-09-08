@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/auth/bloc/auth_bloc.dart';
 import 'package:hadith/core/features/backup/backup/bloc/backup_bloc.dart';
 import 'package:hadith/core/features/backup/backup_meta/bloc/backup_meta_bloc.dart';
+import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/core/features/theme/bloc/theme_bloc.dart';
 import 'package:hadith/core/providers/core_data_repo_providers.dart';
 import 'package:hadith/core/providers/core_data_service_providers.dart';
@@ -152,6 +153,7 @@ class MyAppProviders extends StatelessWidget {
       providers: [
         ...pCoreDomainFirstProviders(appDatabase),
         ...pCoreDataServiceProviders(appDatabase),
+        ...pCoreDomainUseCaseForReposProviders(appDatabase),
         ...pCoreDataRepoProviders(appDatabase),
         ...pCoreDomainRepoProviders(appDatabase),
         ...pCoreDomainUseCaseProviders(appDatabase),
@@ -227,6 +229,7 @@ class MyAppProviders extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=> ThemeBloc(appPreferences: context.read())),
+          BlocProvider(create: (context)=> PremiumBloc(premiumRepo: context.read()),lazy: false,),
           BlocProvider(create: (context)=> BackupBloc(
             authService: context.read(),
             connectivityService: context.read(),
@@ -430,7 +433,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context) => BottomNavBloc()),
           BlocProvider(create: (context)=>ListArchiveBloc(listRepo: context.read<ListRepoOld>(),savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(create: (context)=>ThemeBlocOld()),
-          BlocProvider(create: (context)=>PremiumBloc(), lazy: false,),
+          BlocProvider(create: (context)=>PremiumBlocOld(), lazy: false,),
           BlocProvider(create: (context)=>VisibilityBloc()),
           BlocProvider(create: (context)=>SavePointEditBookBloc(savePointRepo: context.read<SavePointRepoOld>())),
           BlocProvider(create: (context)=>BasicAudioBlocOld(audioService: context.read<IVerseAudioService>(),

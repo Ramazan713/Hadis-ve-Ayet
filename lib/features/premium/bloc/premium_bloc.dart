@@ -8,8 +8,8 @@ import 'package:hadith/features/premium/bloc/premium_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
-class PremiumBloc extends Bloc<IPremiumEvent, PremiumState> {
-  PremiumBloc() :
+class PremiumBlocOld extends Bloc<IPremiumEvent, PremiumState> {
+  PremiumBlocOld() :
         super(const PremiumState(status: DataStatusExtended.initial,
           isPremium: false, subscriptionItems: [])) {
 

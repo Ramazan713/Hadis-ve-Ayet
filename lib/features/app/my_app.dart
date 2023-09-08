@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
+import 'package:hadith/core/features/premium/bloc/premium_event.dart';
 import 'package:hadith/core/features/theme/bloc/theme_bloc.dart';
 import 'package:hadith/core/features/theme/bloc/theme_state.dart';
 import 'package:hadith/core/utils/theme_util.dart';
 import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 import 'package:hadith/features/verses/shared/domain/model/service_audio/background_event.dart';
-import '../premium/bloc/premium_bloc.dart';
-import '../premium/bloc/premium_event.dart';
 import '../verses/shared/domain/manager/background_verse_audio_manager.dart';
 import 'routes/combine_routers.dart';
 import 'color_schemes.g.dart';
@@ -49,17 +48,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
             colorScheme: darkColorScheme
           ),
         );
-
-        // return Phoenix(
-        //   child: MaterialApp(
-        //     title: 'Hadis ve Ayet',
-        //     debugShowCheckedModeBanner: false,
-        //     themeMode: state.themeEnum.mode,
-        //     theme: getLightThemeData(),
-        //     darkTheme: getDarkThemeData(),
-        //     home: const BottomNavBar(),
-        //   ),
-        // );
       },
     );
   }
