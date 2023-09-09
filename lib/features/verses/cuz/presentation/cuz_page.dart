@@ -16,6 +16,8 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_stat
 import 'package:hadith/core/features/topic_save_point/components/topic_save_point_floating_action_button.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
+import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
+import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
@@ -71,12 +73,18 @@ class CuzPage extends StatelessWidget {
                     const DownloadAudioInfoItem(),
                     const SizedBox(height: 4,),
                     Expanded(
-                      child: BlocBuilder<CuzBloc, CuzState>(
-                        builder: (context, state){
-                          final items = state.items;
-                          return BlocSelector<TopicSavePointBloc,TopicSavePointState,TopicSavePoint?>(
-                            selector: (state) => state.topicSavePoint,
-                            builder: (context,currentTopicSavePoint){
+                      child: BlocSelector<TopicSavePointBloc,TopicSavePointState,TopicSavePoint?>(
+                        selector: (state) => state.topicSavePoint,
+                        builder: (context,currentTopicSavePoint){
+                          return BlocBuilder<CuzBloc, CuzState>(
+                            builder: (context, state){
+                              if(state.isLoading){
+                                return const GetShimmerItems(
+                                  itemCount: 19,
+                                  shimmerItem: ShimmerTopicItem()
+                                );
+                              }
+                              final items = state.items;
                               return VerseTopicAudioInfo(
                                 selectDownloadState: (state)=>state?.cuzNo,
                                 selectListenState: (state)=>state?.cuzNo,
@@ -90,9 +98,9 @@ class CuzPage extends StatelessWidget {
                               );
                             }
                           );
-                        },
+                        }
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

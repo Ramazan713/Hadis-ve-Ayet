@@ -27,6 +27,8 @@ class CuzBloc extends Bloc<ICuzEvent,CuzState>{
   }
 
   void _onLoadData(CuzEventLoadData event,Emitter<CuzState>emit)async{
+    emit(state.copyWith(isLoading: true));
+
     final cuzData = await _cuzRepo.getAllCuz();
 
     final streamData = _getItemsUseCases.call<Cuz>(
@@ -37,7 +39,8 @@ class CuzBloc extends Bloc<ICuzEvent,CuzState>{
 
     await emit.forEach(streamData, onData: (data){
       return state.copyWith(
-        items: data
+        items: data,
+        isLoading: false
       );
     });
   }

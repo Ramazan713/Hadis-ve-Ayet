@@ -37,7 +37,6 @@ import 'package:hadith/utils/share_utils.dart';
 import 'package:hadith/features/share/show_preview_share_image_dia.dart';
 import 'package:hadith/features/share/show_share_alert_dialog.dart';
 import 'package:hadith/features/share/widget/list_tile_share_item.dart';
-import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_nested_scrollview.dart';
 import 'package:hadith/widgets/buttons/custom_button_positive.dart';
@@ -383,7 +382,7 @@ class _VerseScreenState extends DisplayPageState<VerseScreen> with TickerProvide
                                 appBarVisibility(isScrollUp, state);
                               },
                               isItemLoadingWidgetPlaceHolder: true,
-                              placeHolderWidget: getVerseShimmer(context)),
+                              ),
                         )
                       ],
                     ),

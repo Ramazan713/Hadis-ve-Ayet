@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/models/shimmer/shimmer_skeleton.dart';
+import 'package:hadith/core/presentation/components/shimmer/i_shimmer_item.dart';
+import 'package:hadith/core/presentation/components/shimmer/shimmer_skeleton.dart';
 
-class ShimmerVerseItem extends StatelessWidget {
+class ShimmerVerseItem extends IShimmerItem {
   const ShimmerVerseItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.green.withOpacity(0.7),
+      color: Theme.of(context).colorScheme.surface.withOpacity(0.3),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-            border: Border.all(color:Colors.black,width: 2)
+            border: Border.all(color: Theme.of(context).colorScheme.outline,width: 2)
         ,
         ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: const [
+              children: [
                 ShimmerSkeleton(height: 20,width: 20,),
                 SizedBox(height: 17,),
                 ShimmerSkeleton(height: 20,width: 20,),

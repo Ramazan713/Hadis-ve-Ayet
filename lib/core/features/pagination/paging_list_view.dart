@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
+import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../domain/enums/paging/paging_status.dart';
 import '../../domain/enums/scrolling/scroll_direction.dart';
 import '../../domain/models/paging/i_paging_item.dart';
-import 'paging_loading_item.dart';
 import 'bloc/pagination_bloc.dart';
 import 'bloc/pagination_event.dart';
 import 'bloc/pagination_state.dart';
@@ -17,7 +17,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
 
   final Function(CustomScrollDirection direction)? onScroll;
   final Widget Function(BuildContext, T  , int) itemBuilder;
-  final PagingLoadingItem? loadingItem;
+  final GetShimmerItems? loadingItem;
   late final ItemPositionsListener _itemPositionsListener;
   late final ItemScrollController _itemScrollController;
 
@@ -136,15 +136,7 @@ extension _PagingListViewLoadingExt on PagingListView{
   );
 
   Widget _getLoadingWidget() {
-    if (loadingItem == null) {
-      return defaultLoading;
-    }
-
-    return ListView.builder(
-        itemBuilder: (context, index) {
-          return loadingItem?.loadingWidget;
-        },
-        itemCount: loadingItem?.childCount);
+    return loadingItem ?? defaultLoading;
   }
 }
 

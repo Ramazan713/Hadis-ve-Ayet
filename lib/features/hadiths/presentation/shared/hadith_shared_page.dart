@@ -8,12 +8,11 @@ import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/paging_list_view.dart';
-import 'package:hadith/core/features/pagination/paging_loading_item.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_with_paging.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
-import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_widget.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/domain/repo/hadith_pagination_repo.dart';
@@ -23,12 +22,12 @@ import 'package:hadith/features/hadiths/presentation/shared/sections/bottom_menu
 import 'package:hadith/features/hadiths/presentation/shared/sections/hadith_icons_handle.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/header.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
-import 'package:hadith/models/shimmer/shimmer_widgets.dart';
+import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
 
 import 'components/hadith_item/hadith_item.dart';
 import 'paging_hadith_connect.dart';
 
- class HadithSharedPage extends StatelessWidget {
+class HadithSharedPage extends StatelessWidget {
 
   final SavePointDestination savePointDestination;
   final HadithPaginationRepo paginationRepo;
@@ -104,9 +103,9 @@ import 'paging_hadith_connect.dart';
                           },
                         );
                       },
-                      loadingItem: PagingLoadingItem(
-                          loadingWidget: getHadithShimmer(context),
-                          childCount: 13
+                      loadingItem: const GetShimmerItems(
+                        itemCount: 19,
+                        shimmerItem: ShimmerHadithItem()
                       ),
                     );
                   },

@@ -12,6 +12,8 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
+import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
@@ -26,7 +28,6 @@ import 'package:hadith/features/verses/shared/presentation/features/download_ver
 import 'package:hadith/features/verses/shared/presentation/handlers/verse_topic_bottom_menu_handler.dart';
 import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 import 'package:hadith/features/verses/surah/presentation/sections/surah_ext.dart';
-import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'bloc/surah_bloc.dart';
@@ -96,20 +97,18 @@ class SurahPage extends StatelessWidget {
   }
 
   Widget getContent(){
-    return BlocBuilder<SurahBloc, SurahState>(
-      buildWhen: (prevState, nextState){
-        return prevState.items != nextState.items ||
-            prevState.searchBarVisible != nextState.searchBarVisible;
-      },
-      builder: (context, state){
-        final items = state.items;
-        return BlocSelector<TopicSavePointBloc,TopicSavePointState, TopicSavePoint?>(
-          selector: (state)=>state.topicSavePoint,
-          builder: (context, currentTopicSavePoint){
+
+    return BlocSelector<TopicSavePointBloc,TopicSavePointState, TopicSavePoint?>(
+      selector: (state)=>state.topicSavePoint,
+      builder: (context, currentTopicSavePoint){
+        return BlocBuilder<SurahBloc, SurahState>(
+          builder: (context, state){
+            final items = state.items;
             if(state.isLoading){
-              return ListView.builder(itemBuilder: (context, index) {
-                return getTopicShimmer(context);
-              },itemCount: 19,);
+              return const GetShimmerItems(
+                  itemCount: 19,
+                  shimmerItem: ShimmerTopicItem()
+              );
             }
             return VerseTopicAudioInfo(
               selectListenState: (state) => state?.surahId,
@@ -125,7 +124,7 @@ class SurahPage extends StatelessWidget {
             );
           }
         );
-      },
+      }
     );
   }
 

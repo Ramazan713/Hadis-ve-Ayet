@@ -23,7 +23,7 @@ dependencies:
   shared_preferences: ^2.0.13
   bloc_concurrency: ^0.2.0
   scrollable_positioned_list: 0.3.5
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   visibility_detector: ^0.2.2
   intl: ^0.17.0
   pdf: ^3.8.0

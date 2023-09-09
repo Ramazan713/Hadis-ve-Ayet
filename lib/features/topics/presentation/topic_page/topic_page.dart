@@ -8,6 +8,9 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
+import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
+import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
@@ -15,7 +18,6 @@ import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.d
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_event.dart';
 import 'package:hadith/features/topics/presentation/topic_page/components/topic_item.dart';
 import 'package:hadith/features/topics/presentation/topic_page/sections/topic_ext.dart';
-import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -103,9 +105,10 @@ class TopicPage extends StatelessWidget {
           builder: (context, currentTopicSavePoint){
 
             if(state.isLoading){
-              return ListView.builder(itemBuilder: (context, index) {
-                return getTopicShimmer(context);
-              },itemCount: 19,);
+              return const GetShimmerItems(
+                itemCount: 19,
+                shimmerItem: ShimmerTopicItem()
+              );
             }
             return CustomScrollablePositionedList(
               itemCount: items.length,

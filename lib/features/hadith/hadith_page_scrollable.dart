@@ -16,7 +16,6 @@ import 'package:hadith/features/paging/bloc/paging_bloc.dart';
 import 'package:hadith/features/paging/bloc/paging_state.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
-import 'package:hadith/models/shimmer/shimmer_widgets.dart';
 import 'package:hadith/dialogs/show_get_number_bottom_dia.dart';
 import 'package:hadith/dialogs/show_select_font_size_bottom_dia.dart';
 import 'package:hadith/features/add_to_list/model/edit_select_list_model.dart';
@@ -244,7 +243,6 @@ class _HadithPageScrollableState extends DisplayPageState<HadithPageScrollable> 
                 isPlaceHolderActive: true,
                 prevLoadingPlaceHolderCount: 1,
                 isItemLoadingWidgetPlaceHolder: false,
-                placeHolderWidget: getHadithShimmer(context),
               ),
             ),
           ),
