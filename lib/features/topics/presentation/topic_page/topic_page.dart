@@ -8,6 +8,7 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
@@ -110,6 +111,10 @@ class TopicPage extends StatelessWidget {
                 shimmerItem: ShimmerTopicItem()
               );
             }
+            if(items.isEmpty){
+              return const SharedEmptyResult();
+            }
+
             return CustomScrollablePositionedList(
               itemCount: items.length,
               delayMilliSeconds: 50,
@@ -125,21 +130,21 @@ class TopicPage extends StatelessWidget {
                 final hasSavePoint = currentTopicSavePoint?.pos == index;
 
                 return TopicItem(
-                    topicViewModel: item,
-                    hasSavePoint: !state.searchBarVisible && hasSavePoint,
-                    sourceType: sourceType,
-                    onTap: (){
-                      handleNavigation(context, item);
-                    },
-                    onLongPress: state.searchBarVisible ? null : (){
-                      handleBottomMenu(
-                        context,
-                        index: index,
-                        hasSavePoint: hasSavePoint,
-                        topic: item
-                      );
-                    },
-                    rowNumber: index + 1
+                  topicViewModel: item,
+                  hasSavePoint: !state.searchBarVisible && hasSavePoint,
+                  sourceType: sourceType,
+                  onTap: (){
+                    handleNavigation(context, item);
+                  },
+                  onLongPress: state.searchBarVisible ? null : (){
+                    handleBottomMenu(
+                      context,
+                      index: index,
+                      hasSavePoint: hasSavePoint,
+                      topic: item
+                    );
+                  },
+                  rowNumber: index + 1
                 );
               },
             );

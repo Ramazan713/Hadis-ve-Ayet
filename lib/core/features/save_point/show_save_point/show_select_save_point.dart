@@ -9,6 +9,7 @@ import 'package:hadith/core/features/save_point/show_save_point/bloc/show_save_p
 import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/utils/toast_utils.dart';
 
@@ -104,48 +105,37 @@ class _DialogContent extends StatelessWidget {
             children: [
               getHeader(context),
               Expanded(
-                child: SingleChildScrollView(
-                  controller: controller,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      getDropdownMenu(context),
-                      BlocBuilder<ShowSavePointBloc,ShowSavePointState>(
-                        builder: (context,state){
-                          if(state.status == DataStatus.loading){
-                            return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 19),
-                              child: SharedLoadingIndicator()
-                            );
-                          }
-                          final items = state.savePoints;
-
-                          if(items.isEmpty){
-                            return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 19),
-                              child: SharedEmptyResult(
-                                content: "Herhangi bir kayıt bulunamadı",
-                              ),
-                            );
-                          }
-                          return SavePointListView(
-                            items: state.savePoints,
-                            scrollController: ScrollController(),
-                            selectedSavePoint: state.selectedSavePoint,
-                            onDeleteSavePoint: (item){
-                              bloc.add(ShowSavePointEventDelete(savePoint: item));
-                            },
-                            onEditSavePoint: (item,newTitle){
-                              bloc.add(ShowSavePointEventRename(savePoint: item,newTitle: newTitle));
-                            },
-                            onSelectSavePoint: (item){
-                              bloc.add(ShowSavePointEventSelect(savePoint: item));
-                            },
-                          );
-                        },
-                      )
-                    ],
-                  ),
+                child: BlocBuilder<ShowSavePointBloc,ShowSavePointState>(
+                  builder: (context,state){
+                    return StackSecondContent(
+                      getSecondChild: (){
+                        return getLoadingOrEmptyResultWidget(context, state);
+                      },
+                      child: SingleChildScrollView(
+                        controller: controller,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            getDropdownMenu(context),
+                            SavePointListView(
+                              items: state.savePoints,
+                              scrollController: ScrollController(),
+                              selectedSavePoint: state.selectedSavePoint,
+                              onDeleteSavePoint: (item){
+                                bloc.add(ShowSavePointEventDelete(savePoint: item));
+                              },
+                              onEditSavePoint: (item,newTitle){
+                                bloc.add(ShowSavePointEventRename(savePoint: item,newTitle: newTitle));
+                              },
+                              onSelectSavePoint: (item){
+                                bloc.add(ShowSavePointEventSelect(savePoint: item));
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               getBottomButton(context)
@@ -153,6 +143,24 @@ class _DialogContent extends StatelessWidget {
           ),
       ),
     );
+  }
+
+  Widget? getLoadingOrEmptyResultWidget(BuildContext context, ShowSavePointState state){
+    if(state.status == DataStatus.loading){
+      return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 19),
+          child: SharedLoadingIndicator()
+      );
+    }
+    if(state.savePoints.isEmpty){
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 19),
+        child: SharedEmptyResult(
+          content: "Herhangi bir kayıt bulunamadı",
+        ),
+      );
+    }
+    return null;
   }
 
 

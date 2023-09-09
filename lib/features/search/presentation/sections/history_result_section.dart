@@ -15,37 +15,27 @@ extension SearchPageHistoryResultExt on SearchPage{
 
 
   Widget getHistoryContent(BuildContext context, SearchState state){
-
     final searchBloc = context.read<SearchBloc>();
     final histories = state.histories;
 
-    if(histories.isEmpty){
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: SharedEmptyResult(
-          content: "geçmiş bulunmamaktadır",
-        ),
-      );
-    }
-
     return ListView.builder(
-        itemCount: histories.length,
-        shrinkWrap: true,
-        controller: scrollController,
-        itemBuilder: (context, index){
-          final history = histories[index];
-          return HistoryItem(
-            history: history,
-            onClick: (){
-              textEditingController.setTextWithCursor(history.name);
-              unFocusBar(context);
-              searchBloc.add(SearchEventSetQuery(query: history.name));
-            },
-            onRemoveClick: (){
-              searchBloc.add(SearchEventDeleteHistory(history: history));
-            },
-          );
-        }
+      itemCount: histories.length,
+      shrinkWrap: true,
+      controller: scrollController,
+      itemBuilder: (context, index){
+        final history = histories[index];
+        return HistoryItem(
+          history: history,
+          onClick: (){
+            textEditingController.setTextWithCursor(history.name);
+            unFocusBar(context);
+            searchBloc.add(SearchEventSetQuery(query: history.name));
+          },
+          onRemoveClick: (){
+            searchBloc.add(SearchEventDeleteHistory(history: history));
+          },
+        );
+      }
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:hadith/core/features/save_point/edit_save_point/components/save_
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
@@ -106,6 +107,9 @@ class HadithSharedPage extends StatelessWidget {
                       loadingItem: const GetShimmerItems(
                         itemCount: 19,
                         shimmerItem: ShimmerHadithItem()
+                      ),
+                      emptyResultChild: const SharedEmptyResult(
+                        content: "Herhangi bir hadis bulunamadı",
                       ),
                     );
                   },

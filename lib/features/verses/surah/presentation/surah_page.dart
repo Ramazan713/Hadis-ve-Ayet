@@ -12,6 +12,7 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
@@ -106,10 +107,14 @@ class SurahPage extends StatelessWidget {
             final items = state.items;
             if(state.isLoading){
               return const GetShimmerItems(
-                  itemCount: 19,
-                  shimmerItem: ShimmerTopicItem()
+                itemCount: 19,
+                shimmerItem: ShimmerTopicItem()
               );
             }
+            if(items.isEmpty){
+              return const SharedEmptyResult();
+            }
+
             return VerseTopicAudioInfo(
               selectListenState: (state) => state?.surahId,
               selectDownloadState: (state) => state?.surahId,

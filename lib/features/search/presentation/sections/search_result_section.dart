@@ -13,12 +13,7 @@ import 'package:flutter/material.dart';
 extension SearchPageSearchResultExt on SearchPage{
 
   Widget getSearchResultContent(BuildContext context, SearchState state){
-
     final searchResults = state.searchResults;
-
-    if(searchResults.isEmpty){
-      return const SharedEmptyResult();
-    }
 
     return ListView.builder(
         itemCount: searchResults.length,

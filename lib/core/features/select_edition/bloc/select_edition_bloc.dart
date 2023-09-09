@@ -30,17 +30,40 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     _editionRepo = editionRepo;
     _appPreferences = appPreferences;
 
-    on<EditionEventInitListener>(_onInitListener);
+    on<EditionEventDataListener>(_onDataListener);
     on<EditionEventSelectedEditionListener>(_onSelectedEditionListener);
-    on<EditionEventLoadInit>(_onLoadInit,transformer: restartable());
+    on<EditionEventLoadData>(_onLoadData,transformer: restartable());
     on<EditionEventSetEdition>(_onSetEdition,transformer: restartable());
     on<EditionEventSetQuality>(_onSetQuality,transformer: restartable());
     on<EditionEventSave>(_onSave,transformer: restartable());
     on<EditionEventResetChanges>(_onResetChanges,transformer: restartable());
     on<EditionEventClearMessage>(_onClearMessage,transformer: restartable());
 
-    add(EditionEventInitListener());
+    add(EditionEventDataListener());
     add(EditionEventSelectedEditionListener());
+  }
+
+  void _onDataListener(EditionEventDataListener event,Emitter<SelectEditionState>emit)async{
+
+    emit(state.copyWith(isLoading: true));
+    final editionResult = await _editionRepo.getEditions();
+
+    editionResult.handle(
+      onSuccess: (editions){
+        emit(state.copyWith(isLoading: false,));
+      },
+      onError: (error){
+        emit(state.copyWith(message: error, isLoading: false));
+      }
+    );
+
+    final streamData = Rx.combineLatest2(_editionRepo.getStreamEditions(), _audioQualityController, (editions, quality){
+          return EditionUtil.filterEditions(editions, quality);
+    });
+
+    await emit.forEach<List<AudioEdition>>(streamData,onData: (data){
+      return state.copyWith(items: data, isLoading: false);
+    });
   }
 
   void _onSelectedEditionListener(EditionEventSelectedEditionListener event,Emitter<SelectEditionState>emit)async{
@@ -48,12 +71,13 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
 
     await emit.forEach<AudioEdition?>(streamData, onData: (data){
       return state.copyWith(
-        selectedEdition: data
+          selectedEdition: data
       );
     });
   }
 
-  void _onLoadInit(EditionEventLoadInit event,Emitter<SelectEditionState>emit)async {
+
+  void _onLoadData(EditionEventLoadData event,Emitter<SelectEditionState>emit)async {
     emit(state.copyWith(isLoading: true));
     final quality = _appPreferences.getEnumItem(KPref.audioQualityEnum);
     _audioQualityController.value = quality;
@@ -76,29 +100,6 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     );
   }
 
-  void _onInitListener(EditionEventInitListener event,Emitter<SelectEditionState>emit)async{
-
-    emit(state.copyWith(isLoading: true));
-    final editionResult = await _editionRepo.getEditions();
-
-    editionResult.handle(
-      onSuccess: (selectedEdition){
-        emit(state.copyWith(isLoading: false,));
-      },
-      onError: (error){
-        emit(state.copyWith(message: error, isLoading: false));
-      }
-    );
-
-    final streamData = Rx.combineLatest2(_editionRepo.getStreamEditions(), _audioQualityController,
-            (editions, quality){
-      return EditionUtil.filterEditions(editions, quality);
-    });
-
-    await emit.forEach<List<AudioEdition>>(streamData,onData: (data){
-      return state.copyWith(items: data);
-    });
-  }
 
 
   void _onSetEdition(EditionEventSetEdition event,Emitter<SelectEditionState>emit) async{

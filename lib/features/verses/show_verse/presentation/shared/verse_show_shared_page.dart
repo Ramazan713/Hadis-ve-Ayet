@@ -12,6 +12,7 @@ import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_
 import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_widget.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_verse_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
@@ -118,6 +119,9 @@ class VerseShowSharedPage extends StatelessWidget {
                               loadingItem: const GetShimmerItems(
                                 itemCount: 13,
                                 shimmerItem: ShimmerVerseItem()
+                              ),
+                              emptyResultChild: const SharedEmptyResult(
+                                content: "Herhangi bir ayet bulunamadı",
                               ),
                             );
                           },

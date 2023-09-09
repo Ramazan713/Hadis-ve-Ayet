@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_event.dart';
@@ -70,11 +71,9 @@ class ShowCustomPrayersPage extends StatelessWidget {
                 onSearchVisibilityChanged: (changedSearchBarVisible){
                   bloc.add(ShowCustomPrayersEventSetSearchBarVisibility(isVisible: changedSearchBarVisible));
                 },
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                    child: getListContent(context,gridCount),
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                  child: getListContent(context,gridCount),
                 ),
               );
             },
@@ -88,32 +87,32 @@ class ShowCustomPrayersPage extends StatelessWidget {
     return BlocBuilder<ShowCustomPrayersBloc, ShowCustomPrayersState>(
       builder: (context, state) {
         final items = state.items;
-        if (items.isEmpty) {
-          return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: SharedEmptyResult(
-                content: "herhangi bir sonuc bulunamadı",
-              )
-          );
+        if(state.isLoading){
+          return const SharedLoadingIndicator();
         }
-        return AlignedGridView.count(
-          crossAxisCount: gridCount,
-          shrinkWrap: true,
-          controller: ScrollController(),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final item = items[index];
-            return CustomPrayerItem(
-              item: item,
-              showDetail: state.showDetailContents,
-              onClick: () {
-                CustomPrayerDetailRoute(prayerId: item.id ?? 0).push(context);
-              },
-              onMenuClick: () {
-                handleBottomMenu(context,item);
-              },
-            );
-          },
+        if (items.isEmpty) {
+          return const SharedEmptyResult();
+        }
+        return SingleChildScrollView(
+          child: AlignedGridView.count(
+            crossAxisCount: gridCount,
+            shrinkWrap: true,
+            controller: ScrollController(),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return CustomPrayerItem(
+                item: item,
+                showDetail: state.showDetailContents,
+                onClick: () {
+                  CustomPrayerDetailRoute(prayerId: item.id ?? 0).push(context);
+                },
+                onMenuClick: () {
+                  handleBottomMenu(context,item);
+                },
+              );
+            },
+          ),
         );
       }
     );

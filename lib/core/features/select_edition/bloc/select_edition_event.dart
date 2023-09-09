@@ -7,9 +7,9 @@ abstract class ISelectEditionEvent{}
 
 class EditionEventSelectedEditionListener extends ISelectEditionEvent{}
 
-class EditionEventInitListener extends ISelectEditionEvent{}
+class EditionEventDataListener extends ISelectEditionEvent{}
 
-class EditionEventLoadInit extends ISelectEditionEvent{}
+class EditionEventLoadData extends ISelectEditionEvent{}
 
 class EditionEventResetChanges extends ISelectEditionEvent{}
 

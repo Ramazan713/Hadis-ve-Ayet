@@ -4,6 +4,9 @@ import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/features/select_edition/components/select_edition_item.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/dialogs/show_manage_edition_audios.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_event.dart';
@@ -15,10 +18,14 @@ import 'package:hadith/utils/toast_utils.dart';
 
 void showSelectEdition(BuildContext context) {
 
+  context.read<SelectEditionBloc>()
+      .add(EditionEventLoadData());
+
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
+      enableDrag: false,
       builder: (context) {
         return DraggableScrollableSheet(
           minChildSize: 0.5,
@@ -49,9 +56,6 @@ class _DialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    context.read<SelectEditionBloc>()
-        .add(EditionEventLoadInit());
-
     return getListeners(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),
@@ -61,16 +65,25 @@ class _DialogContent extends StatelessWidget {
             getHeader(context),
             
             Expanded(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    getDropdown(context),
-                    const SizedBox(height: 8,),
-                    getBody()
-                  ],
-                ),
+              child: BlocBuilder<SelectEditionBloc, SelectEditionState>(
+                builder: (context, state){
+                  return StackSecondContent(
+                    getSecondChild: (){
+                      return getEmptyOrLoadingWidget(context, state);
+                    },
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          getDropdown(context),
+                          const SizedBox(height: 8,),
+                          getBody(context, state)
+                        ],
+                      ),
+                    ),
+                  );
+                }
               ),
             ),
             getBottomButtons(context)
@@ -122,40 +135,41 @@ class _DialogContent extends StatelessWidget {
     );
   }
 
-  Widget getBody(){
-    return BlocBuilder<SelectEditionBloc, SelectEditionState>(
-        builder: (context, state) {
-          final items = state.items;
-          if (state.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+  Widget? getEmptyOrLoadingWidget(BuildContext context, SelectEditionState state){
+    if(state.isLoading) {
+      return const SharedLoadingIndicator();
+    }
+    final items = state.items;
+
+    if (items.isEmpty) {
+      return const SharedEmptyResult();
+    }
+    return null;
+  }
+
+  Widget getBody(BuildContext context, SelectEditionState state){
+    final items = state.items;
+    return ListView.builder(
+      shrinkWrap: true,
+      controller: ScrollController(),
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return SelectEditionItem(
+          edition: item,
+          audioQuality: state.selectedQuality,
+          selectedEdition: state.selectedEdition,
+          onNextClick: (){
+            showManageEditionAudios(context, audioEdition: item);
+          },
+          onSelectClick: (){
+            context.read<SelectEditionBloc>()
+                .add(EditionEventSetEdition(edition: item)
             );
-          }
-          if (items.isEmpty) {
-            return const Text("Boş");
-          }
-          return ListView.builder(
-            shrinkWrap: true,
-            controller: ScrollController(),
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return SelectEditionItem(
-                edition: item,
-                audioQuality: state.selectedQuality,
-                selectedEdition: state.selectedEdition,
-                onNextClick: (){
-                  showManageEditionAudios(context, audioEdition: item);
-                },
-                onSelectClick: (){
-                  context.read<SelectEditionBloc>()
-                      .add(EditionEventSetEdition(edition: item)
-                  );
-                },
-              );
-            },
-            itemCount: state.items.length,
-          );
-        });
+          },
+        );
+      },
+      itemCount: state.items.length,
+    );
   }
 
   Widget getBottomButtons(BuildContext context){

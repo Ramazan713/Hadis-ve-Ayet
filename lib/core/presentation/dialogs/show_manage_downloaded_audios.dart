@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/presentation/components/selections/custom_choice_chips.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/bloc/manage_downloaded_audio_bloc.dart';
@@ -65,21 +67,34 @@ class _DialogContent extends StatelessWidget {
         children: [
           getHeader(context),
           Expanded(
-            child: SingleChildScrollView(
-              controller: controller,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 7),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: getFilterMenu()
+            child: BlocBuilder<ManageAudioBloc,ManageAudioState>(
+              buildWhen: (prevState, nextState){
+                return prevState.models != nextState.models;
+              },
+              builder: (context,state){
+                return StackSecondContent(
+                  getSecondChild: (){
+                    return getEmptyOrLoadingWidget(context, state);
+                  },
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 7),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: getFilterMenu()
+                          ),
+                        ),
+                        getContent(context, state)
+                      ],
                     ),
                   ),
-                  getContent()
-                ],
-              ),
+                );
+              }
+
             )
           )
         ],
@@ -87,44 +102,44 @@ class _DialogContent extends StatelessWidget {
     );
   }
 
-  Widget getContent(){
-    return BlocBuilder<ManageAudioBloc,ManageAudioState>(
-        buildWhen: (prevState, nextState){
-          return prevState.models != nextState.models;
-        },
-        builder: (context,state){
-          final models = state.models;
-
-          if(models.isEmpty){
-            return const SharedEmptyResult(
-              content: "İndirilmiş herhangi bir ses dosyası bulunamadı",
+  Widget getContent(BuildContext context, ManageAudioState state){
+    final models = state.models;
+    return ListView.builder(
+      controller: ScrollController(),
+      shrinkWrap: true,
+      itemBuilder: (context,index){
+        final item = models[index];
+        return DownloadedAudioViewItem(
+          model: item,
+          showEditionName: true,
+          onDeletePressed: (){
+            showCustomAlertDia(
+              context,
+              title: "Silmek istediğinize emin misiniz?",
+              content: "Bu işlem geri alınamaz",
+              btnApproved: (){
+                context.read<ManageAudioBloc>()
+                    .add(ManageAudioEventDelete(item));
+              }
             );
-          }
+          },
+        );
+      },
+      itemCount: models.length,
+    );
+  }
 
-          return ListView.builder(
-            controller: ScrollController(),
-            shrinkWrap: true,
-            itemBuilder: (context,index){
-              final item = models[index];
-              return DownloadedAudioViewItem(
-                model: item,
-                showEditionName: true,
-                onDeletePressed: (){
-                  showCustomAlertDia(
-                      context,
-                      title: "Silmek istediğinize emin misiniz?",
-                      content: "Bu işlem geri alınamaz",
-                      btnApproved: (){
-                        context.read<ManageAudioBloc>()
-                            .add(ManageAudioEventDelete(item));
-                      }
-                  );
-                },
-              );
-            },
-            itemCount: models.length,
-          );
-        });
+  Widget? getEmptyOrLoadingWidget(BuildContext context, ManageAudioState state){
+    final models = state.models;
+    if(state.isLoading){
+      return const SharedLoadingIndicator();
+    }
+    if(models.isEmpty){
+      return const SharedEmptyResult(
+        content: "İndirilmiş herhangi bir ses dosyası bulunamadı",
+      );
+    }
+    return null;
   }
 
   Widget getFilterMenu(){

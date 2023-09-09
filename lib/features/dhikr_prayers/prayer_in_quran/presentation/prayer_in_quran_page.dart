@@ -9,6 +9,8 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_search
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
@@ -73,6 +75,13 @@ class PrayerInQuranPage extends StatelessWidget {
     return BlocBuilder<PrayerInQuranBloc,PrayerInQuranState>(
       builder: (context, state){
         final items = state.items;
+
+        if(state.isLoading){
+          return const SharedLoadingIndicator();
+        }
+        if(items.isEmpty){
+          return const SharedEmptyResult();
+        }
 
         return CustomScrollablePositionedList(
           itemCount: items.length,

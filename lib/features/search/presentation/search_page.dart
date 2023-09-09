@@ -5,7 +5,9 @@ import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
 import 'package:hadith/features/search/presentation/sections/component_section.dart';
 import 'package:hadith/features/search/presentation/sections/history_result_section.dart';
@@ -65,18 +67,31 @@ class SearchPage extends StatelessWidget {
       children: [
         const Divider(),
         Expanded(
-          child: BlocSelector<SearchBloc,SearchState,bool>(
-            selector: (state) => state.isLoading,
-            builder: (context, isLoading){
-              if(isLoading){
+          child: BlocBuilder<SearchBloc,SearchState>(
+            builder: (context, state){
+              if(state.isLoading){
                 return const SharedLoadingIndicator();
               }
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    getChipActions(context),
-                    getContentSwitcher()
-                  ],
+              return StackSecondContent(
+                showStackChild: true,
+                getSecondChild: (){
+                  if(!state.isSearchActive && state.histories.isEmpty){
+                    return const SharedEmptyResult(
+                      content: "geçmiş bulunmamaktadır",
+                    );
+                  }
+                  if(state.isSearchActive && state.searchResults.isEmpty){
+                    return const SharedEmptyResult();
+                  }
+                  return null;
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      getChipActions(context),
+                      getContentSwitcher(context, state)
+                    ],
+                  ),
                 ),
               );
             },
@@ -86,22 +101,15 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-
-
-
-  Widget getContentSwitcher(){
-    return BlocBuilder<SearchBloc,SearchState>(
-      builder: (context, state){
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: CustomAnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            firstChild: getSearchResultContent(context,state),
-            secondChild: getHistoryContent(context,state),
-            showFirstChild: state.isSearchActive,
-          ),
-        );
-      }
+  Widget getContentSwitcher(BuildContext context, SearchState state){
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: CustomAnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        firstChild: getSearchResultContent(context,state),
+        secondChild: getHistoryContent(context,state),
+        showFirstChild: state.isSearchActive,
+      ),
     );
   }
 

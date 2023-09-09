@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -20,6 +21,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
   final GetShimmerItems? loadingItem;
   late final ItemPositionsListener _itemPositionsListener;
   late final ItemScrollController _itemScrollController;
+  final Widget? emptyResultChild;
 
   PagingListView({
     super.key,
@@ -27,7 +29,8 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
     required this.itemBuilder,
     this.loadingItem,
     ItemPositionsListener? itemPositionsListener,
-    ItemScrollController? itemScrollController
+    ItemScrollController? itemScrollController,
+    this.emptyResultChild
   }){
     _itemPositionsListener = itemPositionsListener ?? ItemPositionsListener.create();
     _itemScrollController = itemScrollController ?? ItemScrollController();
@@ -63,13 +66,16 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
           return _getLoadingWidget();
         }
 
+        if(emptyResultChild != null && items.isEmpty){
+          return emptyResultChild!;
+        }
+
         /*
           when _itemScrollController is not attached and bloc event is jumpToPage,
           _itemScrollController.scrollPos not work properly, so initialScrollIndex solve that problem
         */
         var initialScrollIndex =  !_itemScrollController.isAttached &&
             status.isSuccess ? (state.jumpToPos??0):0;
-
         return CustomScrollablePositionedList(
           shrinkWrap: false,
           itemCount: itemCount,

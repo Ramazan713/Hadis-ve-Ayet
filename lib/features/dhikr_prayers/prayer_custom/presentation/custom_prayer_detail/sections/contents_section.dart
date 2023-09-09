@@ -9,14 +9,7 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_
 extension CustomPrayerDetailPageContentsExt on CustomPrayerDetailPage{
 
   Widget getContentItems({ required CustomPrayerDetailState state,}){
-    if(!state.hasAnyData){
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 30,horizontal: 10),
-        child: SharedEmptyResult(
-          content: "Eklenmiş herhangi bir veri yok. Veri eklemeyi deneyin.",
-        ),
-      );
-    }
+
     return Column(
       children: [
         getArabicContentItem(state: state),

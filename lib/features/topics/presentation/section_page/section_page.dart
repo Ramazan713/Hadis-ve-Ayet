@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
@@ -88,6 +89,11 @@ class SectionPage extends StatelessWidget {
                       );
                     }
                     final items = state.items;
+
+                    if(items.isEmpty){
+                      return const SharedEmptyResult();
+                    }
+
                     return getItemsContent(items,gridCount);
                   },
                 ),

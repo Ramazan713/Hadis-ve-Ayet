@@ -8,6 +8,7 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_a
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
@@ -44,36 +45,52 @@ class CustomPrayerDetailPage extends StatelessWidget {
             snap: true,
             floating: true,
             actions: getActions(context),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    getPrayerName(),
-                    BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
-                      builder: (context,state){
-                        if(state.isLoading){
-                          return const SharedLoadingIndicator();
-                        }
-                        final prayer = state.prayer;
-                        if(prayer == null){
-                          return const SharedEmptyResult(
-                            content: "herhangi bir sonuç bulunamadı",
-                          );
-                        }
-                        return getContentItems(state: state);
-                      }
-                    )
-                  ],
-                )
-              ),
+            child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
+              builder: (context,state){
+                return StackSecondContent(
+                  getSecondChild: (){
+                    return getLoadingOrEmptyResult(context, state);
+                  },
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          getPrayerName(),
+                          getContentItems(state: state)
+                        ],
+                      )
+                    ),
+                  ),
+                );
+              }
             ),
           ),
         ),
       ),
     );
   }
+
+  Widget? getLoadingOrEmptyResult(BuildContext context, CustomPrayerDetailState state){
+    final prayer = state.prayer;
+    if(state.isLoading){
+      return const SharedLoadingIndicator();
+    }
+    if(prayer == null){
+      return const SharedEmptyResult(
+        content: "herhangi bir sonuç bulunamadı",
+      );
+    }
+    if(!state.hasAnyData){
+      return const SharedEmptyResult(
+        paddings: EdgeInsets.symmetric(horizontal: 10),
+        content: "Eklenmiş herhangi bir veri yok. Veri eklemeyi deneyin.",
+      );
+    }
+    return null;
+  }
+
 
   Widget getListeners({required Widget child}){
     return BlocListener<CustomPrayerDetailBloc,CustomPrayerDetailState>(
@@ -91,8 +108,6 @@ class CustomPrayerDetailPage extends StatelessWidget {
       child: child,
     );
   }
-
-
 
   Widget getPrayerName(){
     return BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(

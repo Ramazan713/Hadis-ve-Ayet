@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
@@ -124,6 +125,10 @@ class _ShowListPageState extends State<ShowListPage> {
     required int gridCount,
     bool useSecondary = false
   }){
+
+    if(items.isEmpty){
+      return const SharedEmptyResult();
+    }
 
     return AlignedGridView.count(
       crossAxisCount: gridCount,
