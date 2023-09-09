@@ -10,20 +10,18 @@ import 'package:hadith/core/features/select_font_size/bloc/select_font_size_stat
 import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/utils/toast_utils.dart';
-import 'components/font_slider_item.dart';
+import '../../features/select_font_size/components/font_slider_item.dart';
 
 void showSelectFontSizeDia(BuildContext context){
 
   final selectFontBloc = context.read<SelectFontSizeBloc>();
   selectFontBloc.add(SelectFontSizeEventInit());
 
-  showModalBottomSheet(
-    isScrollControlled: true,
-    useSafeArea: true,
+  showBottomSheetHandler(
     context: context,
-    builder: (context){
-      return BlocListener<SelectFontSizeBloc,SelectFontSizeState>(
+    child: BlocListener<SelectFontSizeBloc,SelectFontSizeState>(
         listener: (context, state){
           final message = state.message;
           if(message!=null){
@@ -45,9 +43,9 @@ void showSelectFontSizeDia(BuildContext context){
             );
           },
         ),
-      );
-    }
+      )
   );
+
 }
 
 

@@ -7,7 +7,7 @@ import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/theme_type_enum.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
-import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/features/theme/bloc/theme_bloc.dart';
 import 'package:hadith/core/features/theme/bloc/theme_event.dart';
 import 'package:hadith/core/features/theme/bloc/theme_state.dart';

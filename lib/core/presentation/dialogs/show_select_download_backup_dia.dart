@@ -16,6 +16,7 @@ import 'package:hadith/utils/toast_utils.dart';
 
 void showDownloadBackupDia(BuildContext context) {
 
+  context.read<BackupMetaBloc>().add(BackupMetaEventLoadData());
 
   showDialog(
     context: context,
@@ -33,7 +34,6 @@ class _DialogContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<BackupMetaBloc>().add(BackupMetaEventLoadData());
 
     return getListeners(
       child: Padding(

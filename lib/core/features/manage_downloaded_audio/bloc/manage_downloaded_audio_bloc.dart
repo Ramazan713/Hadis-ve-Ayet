@@ -44,7 +44,6 @@ class ManageAudioBloc extends Bloc<IManageAudioEvent,ManageAudioState>{
     const audioView = DownloadedAudioViewEnum.surah;
     _audioViewEnumController.value = audioView;
     _identifierController.value = event.identifier;
-    print("_onLoadData");
 
     emit(state.copyWith(
       setSelectedEnum: true,
@@ -69,7 +68,6 @@ class ManageAudioBloc extends Bloc<IManageAudioEvent,ManageAudioState>{
 
   void _onChangeAudioViewType(ManageAudioEventChangeAudioViewType event,Emitter<ManageAudioState>emit)async{
     _audioViewEnumController.value = event.audioViewEnum;
-    print("_onChangeAudioViewType");
     emit(state.copyWith(
       setSelectedEnum: true,
       selectedEnum: event.audioViewEnum

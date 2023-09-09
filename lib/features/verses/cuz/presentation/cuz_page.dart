@@ -21,7 +21,7 @@ import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topi
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_edition.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';

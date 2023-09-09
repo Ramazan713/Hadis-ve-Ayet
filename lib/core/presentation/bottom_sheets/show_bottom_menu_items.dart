@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 
 void showCustomExtendBottomMenuItems<T extends IMenuItem>(BuildContext context, {
   required Function(T) onItemClick,
@@ -9,24 +10,19 @@ void showCustomExtendBottomMenuItems<T extends IMenuItem>(BuildContext context, 
   required Widget Function({required Widget Function(List<T> newItems) updateItems}) wrapper
 }){
 
-  showModalBottomSheet(
-      useRootNavigator: useRootNavigator,
-      isScrollControlled: true,
-      useSafeArea: true,
-      context: context,
-      builder: (context){
-        return wrapper(
-          updateItems: (newItems){
-            return _DialogContent(
-              items: newItems,
-              onItemClick: onItemClick,
-              title: title,
-            );
-          },
+  showBottomSheetHandler(
+    context: context,
+    useRootNavigator: useRootNavigator,
+    child: wrapper(
+      updateItems: (newItems){
+        return _DialogContent(
+          items: newItems,
+          onItemClick: onItemClick,
+          title: title,
         );
-      }
+      },
+    )
   );
-
 }
 
 
@@ -37,19 +33,16 @@ void showBottomMenuItems<T extends IMenuItem>(BuildContext context, {
   bool useRootNavigator = false,
 }){
 
-  showModalBottomSheet(
-      useRootNavigator: useRootNavigator,
-      isScrollControlled: true,
-      useSafeArea: true,
-      context: context,
-      builder: (context){
-        return _DialogContent(
-          items: items,
-          onItemClick: onItemClick,
-          title: title,
-        );
-      }
+  showBottomSheetHandler(
+    context: context,
+    useRootNavigator: useRootNavigator,
+    child: _DialogContent(
+      items: items,
+      onItemClick: onItemClick,
+      title: title,
+    )
   );
+
 }
 
 class _DialogContent<T extends IMenuItem> extends StatelessWidget {

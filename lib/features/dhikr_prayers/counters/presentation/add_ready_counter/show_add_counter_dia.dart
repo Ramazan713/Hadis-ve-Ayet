@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_state.dart';
@@ -13,30 +14,28 @@ import 'package:hadith/utils/toast_utils.dart';
 
 void showAddCounterDia<T extends IDetailItem>(BuildContext context){
 
-  showModalBottomSheet(
-      context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      builder: (context){
-        return DraggableScrollableSheet(
-          minChildSize: 0.4,
-          initialChildSize: 0.7,
-          maxChildSize: 0.99,
-          snap: true,
-          snapSizes: const [
-            0.5,0.75,0.99
-          ],
-          expand: false,
-          builder: (context, controller){
-            return  _DialogContent(
-              controller: controller,
-              onCancel: (){
-                Navigator.of(context,rootNavigator: false).pop();
-              },
-            );
-          }
-        );
-      }
+  context.read<AddReadyCounterBloc>().add(AddReadyCounterEventLoadData());
+
+  showBottomSheetHandler(
+    context: context,
+    child: DraggableScrollableSheet(
+        minChildSize: 0.4,
+        initialChildSize: 0.7,
+        maxChildSize: 0.99,
+        snap: true,
+        snapSizes: const [
+          0.5,0.75,0.99
+        ],
+        expand: false,
+        builder: (context, controller){
+          return  _DialogContent(
+            controller: controller,
+            onCancel: (){
+              Navigator.of(context,rootNavigator: false).pop();
+            },
+          );
+        }
+      )
   );
 
 }
@@ -64,7 +63,6 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
 
   @override
   Widget build(BuildContext context) {
-    context.read<AddReadyCounterBloc>().add(AddReadyCounterEventLoadData());
 
     return getListeners(
       context: context,

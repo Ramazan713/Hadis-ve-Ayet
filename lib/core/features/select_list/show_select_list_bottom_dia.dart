@@ -6,6 +6,7 @@ import 'package:hadith/core/features/select_list/bloc/select_list_event.dart';
 import 'package:hadith/core/features/select_list/select_list_item.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'bloc/select_list_state.dart';
 
@@ -42,27 +43,24 @@ void showSelectListBottomDia(BuildContext context,{
     );
   }
 
-  showModalBottomSheet(
-    isScrollControlled: true,
+  showBottomSheetHandler(
     context: context,
-    useSafeArea: true,
-    builder: (context) {
-      return getListeners(
-        child: DraggableScrollableSheet(
-          minChildSize: 0.4,
-          expand: false,
-          builder: (context, scrollControllerDraggable) {
-            return _DialogContent(
-              controller: scrollControllerDraggable,
-              onClosed: (){
-                Navigator.of(context,rootNavigator: false).pop();
-              },
-            );
-          },
-        ),
-      );
-    }
+    child: getListeners(
+      child: DraggableScrollableSheet(
+        minChildSize: 0.4,
+        expand: false,
+        builder: (context, scrollControllerDraggable) {
+          return _DialogContent(
+            controller: scrollControllerDraggable,
+            onClosed: (){
+              Navigator.of(context,rootNavigator: false).pop();
+            },
+          );
+        },
+      ),
+    )
   );
+
 }
 
 

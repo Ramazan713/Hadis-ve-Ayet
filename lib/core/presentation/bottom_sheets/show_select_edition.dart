@@ -7,7 +7,8 @@ import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
-import 'package:hadith/core/presentation/dialogs/show_manage_edition_audios.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_manage_edition_audios.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/features/verses/shared/presentation/features/listen_basic_verse_audio/bloc/basic_audio_state.dart';
@@ -18,29 +19,25 @@ import 'package:hadith/utils/toast_utils.dart';
 
 void showSelectEdition(BuildContext context) {
 
-  context.read<SelectEditionBloc>()
-      .add(EditionEventLoadData());
+  context.read<SelectEditionBloc>().add(EditionEventLoadData());
 
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      enableDrag: false,
-      builder: (context) {
-        return DraggableScrollableSheet(
-          minChildSize: 0.5,
-          initialChildSize: 0.7,
-          maxChildSize: 1.0,
-          expand: false,
-          builder: (context, scrollControllerDraggable) {
-            return _DialogContent(
-              scrollController: scrollControllerDraggable,
-            );
-          },
+  showBottomSheetHandler(
+    context: context,
+    child: DraggableScrollableSheet(
+      minChildSize: 0.5,
+      initialChildSize: 0.7,
+      maxChildSize: 1.0,
+      expand: false,
+      builder: (context, scrollControllerDraggable) {
+        return _DialogContent(
+          scrollController: scrollControllerDraggable,
         );
-      }).then((value) {
-    context.read<BasicAudioBloc>().add(BasicAudioEventStopListening());
-  });
+      },
+    ),
+    onClosed: (){
+      context.read<BasicAudioBloc>().add(BasicAudioEventStopListening());
+    }
+  );
 }
 
 

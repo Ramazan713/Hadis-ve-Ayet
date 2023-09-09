@@ -10,6 +10,7 @@ import 'package:hadith/core/presentation/components/selections/dropdown_text_men
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/utils/toast_utils.dart';
 
@@ -55,13 +56,10 @@ void _showSelectSavePoints(BuildContext context, {
   required List<SavePointType> menuItems,
 }){
 
-  showModalBottomSheet(
-    context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
-    useSafeArea: true,
-    builder: (context) {
-      return DraggableScrollableSheet(
+  showBottomSheetHandler(
+      context: context,
+      useRootNavigator: true,
+      child: DraggableScrollableSheet(
         minChildSize: 0.5,
         initialChildSize: 0.7,
         maxChildSize: 0.99,
@@ -73,9 +71,9 @@ void _showSelectSavePoints(BuildContext context, {
             shortTitle: shortTitle,
           );
         },
-      );
-    }
+      )
   );
+
 }
 
 

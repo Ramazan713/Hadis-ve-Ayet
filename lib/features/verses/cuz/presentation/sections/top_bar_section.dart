@@ -2,7 +2,7 @@
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_edition.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/verses/cuz/domain/enums/cuz_top_bar_menu_item.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';

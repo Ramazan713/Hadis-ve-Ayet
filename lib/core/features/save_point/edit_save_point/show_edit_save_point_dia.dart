@@ -11,6 +11,7 @@ import 'package:hadith/core/features/save_point/edit_save_point/bloc/edit_save_p
 import 'package:hadith/core/presentation/components/selections/custom_segmented_button.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/utils/toast_utils.dart';
 
 import 'bloc/edit_save_point_event.dart';
@@ -115,35 +116,30 @@ void showEditSavePointsDiaCustom(BuildContext context, {
       position: itemIndexPos
   ));
 
-
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (context) {
-
-        return DraggableScrollableSheet(
-          minChildSize: 0.4,
-          initialChildSize: 0.5,
-          maxChildSize: 0.99,
-          expand: false,
-          builder: (context, scrollControllerDraggable) {
-            return _DialogContent(
-              controller: scrollControllerDraggable,
-              title: title,
-              destination: destination,
-              itemIndexPos: itemIndexPos,
-              customBottomButtons: customBottomButtons,
-              description: description,
-              onLoadSavePointClick: onLoadSavePointClick,
-              onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
-              onOverrideSavePointRequestHandler: onLoadSavePointRequestHandler,
-              selectedSavePointId: selectedSavePointId,
-              useWideScope: useWideScope,
-            );
-          },
+  showBottomSheetHandler(
+    context: context,
+    child: DraggableScrollableSheet(
+      minChildSize: 0.4,
+      initialChildSize: 0.5,
+      maxChildSize: 0.99,
+      expand: false,
+      builder: (context, scrollControllerDraggable) {
+        return _DialogContent(
+          controller: scrollControllerDraggable,
+          title: title,
+          destination: destination,
+          itemIndexPos: itemIndexPos,
+          customBottomButtons: customBottomButtons,
+          description: description,
+          onLoadSavePointClick: onLoadSavePointClick,
+          onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
+          onOverrideSavePointRequestHandler: onLoadSavePointRequestHandler,
+          selectedSavePointId: selectedSavePointId,
+          useWideScope: useWideScope,
         );
-      });
+      },
+    )
+  );
 }
 
 

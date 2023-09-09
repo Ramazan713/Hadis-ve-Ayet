@@ -4,7 +4,7 @@ import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/components/topic_save_point_floating_action_button.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_edition.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/verses/surah/domain/enums/surah_top_bar_menu_item.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';

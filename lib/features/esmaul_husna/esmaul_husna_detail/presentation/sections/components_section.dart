@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_state.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/detail_esmaul_husna_page.dart';
-import 'package:hadith/core/features/select_font_size/show_select_font_size_dia.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/domain/enums/detail_esmaul_husna_top_bar_menu_item.dart';

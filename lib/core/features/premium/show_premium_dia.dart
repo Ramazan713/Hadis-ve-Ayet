@@ -3,6 +3,7 @@ import 'package:hadith/core/features/premium/widgets/premium_feature_item.dart';
 import 'package:hadith/core/features/premium/widgets/premium_subscription_item.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 
 import 'bloc/premium_bloc.dart';
 import 'bloc/premium_event.dart';
@@ -13,24 +14,20 @@ void showPremiumDia(BuildContext context){
   final premiumBloc=context.read<PremiumBloc>();
   premiumBloc.add(PremiumEventLoadProducts());
 
-  showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (context){
-        return DraggableScrollableSheet(
-          minChildSize: 0.5,
-          initialChildSize: 0.7,
-          expand: false,
-          builder: (context, scrollControllerDraggable) {
-            return _DialogContent(
-              scrollController: scrollControllerDraggable,
-              onClosed: (){
-                Navigator.pop(context);
-              },
-            );
-        });
-      }
+  showBottomSheetHandler(
+    context: context,
+    child: DraggableScrollableSheet(
+      minChildSize: 0.5,
+      initialChildSize: 0.7,
+      expand: false,
+      builder: (context, scrollControllerDraggable) {
+        return _DialogContent(
+          scrollController: scrollControllerDraggable,
+          onClosed: (){
+            Navigator.pop(context);
+          },
+        );
+      })
   );
 }
 

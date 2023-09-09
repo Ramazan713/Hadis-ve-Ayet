@@ -7,9 +7,9 @@ import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart'
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_event.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_state.dart';
 import 'package:hadith/core/presentation/components/custom_list_tile.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_edition.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_slider.dart';
-import 'package:hadith/core/presentation/dialogs/show_manage_downloaded_audios.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_manage_downloaded_audios.dart';
 
 void showEditAudioSettingDia(BuildContext context){
 
