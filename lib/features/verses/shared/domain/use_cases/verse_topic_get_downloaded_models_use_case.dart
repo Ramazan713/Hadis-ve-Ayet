@@ -4,8 +4,8 @@ import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
 import 'package:hadith/core/domain/repo/downloaded_audio_view_repo.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
-import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
 import 'package:collection/collection.dart';
+import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class VerseTopicGetDownloadedModelsUseCase{

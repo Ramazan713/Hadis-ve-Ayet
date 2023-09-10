@@ -1,12 +1,10 @@
-import 'package:collection/collection.dart';
-import 'package:equatable/equatable.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
-import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_bloc.dart';
-import 'package:hadith/features/verses/shared/presentation/features/listen_verse_audio/bloc/verse_audio_state.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_state.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:collection/collection.dart';
 
 class FollowAudioWrapper extends StatelessWidget {
   final Widget child;

@@ -1,7 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verse/common_models/verse_model.dart';
 
 abstract class IVerseAudioEvent extends Equatable{

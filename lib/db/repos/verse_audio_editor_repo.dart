@@ -3,7 +3,7 @@
 import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_audio.dart';
 import 'package:hadith/db/services/verse_audio_dao.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verse/common_services/file_audio_editor.dart';
 
 class VerseAudioEditorRepo{

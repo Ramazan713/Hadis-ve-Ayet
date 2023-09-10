@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verse/common_models/verse_model.dart';
 import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
 import 'package:hadith/db/entities/helper/verse_audio_entity.dart';

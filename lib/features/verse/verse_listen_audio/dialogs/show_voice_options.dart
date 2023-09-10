@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 
 void showVoiceOptions(BuildContext context,{Function(QuranAudioOption option)?onTap,Function()?onClose,OriginTag?originTag}){
   final List<QuranAudioOption> options = [];

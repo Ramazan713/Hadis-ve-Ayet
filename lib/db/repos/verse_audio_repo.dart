@@ -3,7 +3,7 @@ import 'package:hadith/db/entities/helper/int_data.dart';
 import 'package:hadith/db/entities/verse.dart';
 import 'package:hadith/db/entities/verse_audio.dart';
 import 'package:hadith/db/services/verse_audio_dao.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verse/verse_download_audio/models/audio_param.dart';
 import 'package:hadith/db/entities/helper/verse_audio_entity.dart';
 import 'package:hadith/features/verse/verse_listen_audio/models/verse_audio_model.dart';

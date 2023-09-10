@@ -7,10 +7,10 @@ import 'package:hadith/core/data/local/entities/views/surah_audio_view.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_audio_dao.dart';
 import 'package:hadith/core/domain/services/file_service.dart';
-import 'package:hadith/features/verses/shared/data/mapper/download_audio_view_mapper.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
 import 'package:hadith/core/domain/repo/downloaded_audio_view_repo.dart';
+import 'package:hadith/core/features/verse_audio/data/mapper/download_audio_view_mapper.dart';
 
 class DownloadedAudioViewRepoImpl extends DownloadedAudioViewRepo{
 

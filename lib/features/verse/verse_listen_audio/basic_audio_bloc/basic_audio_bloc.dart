@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/preference_constants.dart';
 import 'package:hadith/db/repos/verse_audio_repo.dart';
 import 'package:hadith/features/verse/common_constants/audio_quality_enum.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verse/verse_download_audio/models/audio_param.dart';
 import 'package:hadith/features/verse/verse_download_audio/services/quran_download_service.dart';
 import 'package:hadith/features/verse/verse_listen_audio/basic_audio_bloc/basic_audio_event.dart';

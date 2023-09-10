@@ -1,13 +1,10 @@
 
-import 'dart:async';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/app_constants.dart';
 import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
-import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
+import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
 import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
 import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 import 'package:hadith/features/verses/surah/domain/repo/surah_repo.dart';

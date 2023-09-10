@@ -1,12 +1,7 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
-import 'package:hadith/core/domain/enums/topic_save_point.dart';
-import 'package:hadith/core/domain/models/topic_save_point.dart';
-import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
-import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
+import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
 import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 
 class SurahState extends Equatable{

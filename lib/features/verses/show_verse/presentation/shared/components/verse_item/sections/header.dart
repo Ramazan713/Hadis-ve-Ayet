@@ -1,9 +1,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hadith/dialogs/show_info_bottom_dia.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
-import 'package:hadith/features/verses/shared/presentation/dialogs/show_verse_info_dia.dart';import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/verse_item.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_info_dia.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/verse_item.dart';
 
 extension VerseItemHeaderExt on VerseItem{
 

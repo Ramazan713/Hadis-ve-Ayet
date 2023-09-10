@@ -3,9 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
-import 'package:hadith/features/verses/shared/domain/model/audio_info_result_model.dart';
-import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
-import 'package:hadith/features/verses/surah/domain/models/surah.dart';
+import 'package:hadith/features/verses/shared/domain/models/audio_info_result_model.dart';
+import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
 
 
 enum VerseTopicBottomMenuItem implements IMenuItem{

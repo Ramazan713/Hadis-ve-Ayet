@@ -17,7 +17,7 @@ import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
-import 'package:hadith/features/verse/common_constants/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verse/verse_download_audio/models/audio_param.dart';
 import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
 import 'package:hadith/features/verse/verse_listen_audio/models/audio_attribute_state.dart';

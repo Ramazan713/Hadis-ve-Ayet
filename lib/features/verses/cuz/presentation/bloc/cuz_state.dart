@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
 import 'package:hadith/features/verses/cuz/domain/models/cuz.dart';
-import 'package:hadith/features/verses/shared/domain/model/verse_topic_model.dart';
 
 class CuzState extends Equatable{
   final List<VerseTopicModel<Cuz>> items;
