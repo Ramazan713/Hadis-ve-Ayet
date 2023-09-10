@@ -6,7 +6,7 @@ import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_3x.dart';
+import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_4x.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_detail_top_bar_menu_item.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
@@ -31,11 +31,8 @@ extension DetailCounterSharedContentPageTopBarExt on DetailCounterSharedContentP
         if(!hasAnyContent) return const SizedBox();
         return IconButton(
           onPressed: () async{
-            showSelectVerseUi3X(context,
+            showSelectVerseUi4X(context,
               currentKPref: KPref.counterUi,
-              callback: (selected){
-                context.read<DetailCounterBloc>().add(CounterDetailEventSetCounterUi(counterUi: selected));
-              }
             );
           },
           icon: const Icon(Icons.view_agenda),

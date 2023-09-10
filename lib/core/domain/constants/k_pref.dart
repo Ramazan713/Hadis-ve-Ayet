@@ -7,6 +7,7 @@ import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/theme_type_enum.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_3x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_ui_4x_enum.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
 
 import '../preferences/model/pref_key.dart';
@@ -57,11 +58,11 @@ class KPref{
   static final PrefKeyEnum<AudioQualityEnum> audioQualityEnum = PrefKeyEnum(key: "audioQuality",
       defaultPrefEnum: AudioQualityEnum.defaultValue, from: AudioQualityEnum.from);
 
-  static final PrefKeyEnum<ArabicVerseUI3X> counterUi = PrefKeyEnum(key: "counterUi",
-      defaultPrefEnum: ArabicVerseUI3X.defaultValue, from: ArabicVerseUI3X.from);
-
   static final PrefKeyEnum<ThemeTypeEnum> themeTypeEnum = PrefKeyEnum(key: "themeTypeEnum",
       defaultPrefEnum: ThemeTypeEnum.defaultValue, from: ThemeTypeEnum.from);
+
+  static final PrefKeyEnum<VerseUi4XEnum> counterUi = PrefKeyEnum(key: "counterUi",
+      defaultPrefEnum: VerseUi4XEnum.defaultValue, from: VerseUi4XEnum.from);
 
   static final prefValues = <PrefKey<dynamic>>[
     useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
@@ -72,8 +73,8 @@ class KPref{
 
   static final prefEnumValues = <PrefKeyEnum>[
     fontFamilyArabic,verseAppearanceEnum,searchCriteriaEnum,audioQualityEnum,quranPrayerVerseUi,
-    prayerInQuranSearchCriteria, esmaulHusnaSearchCriteria, counterUi, themeTypeEnum,
-    fontSizeContent, fontSizeArabic
+    prayerInQuranSearchCriteria, esmaulHusnaSearchCriteria, themeTypeEnum,
+    fontSizeContent, fontSizeArabic, counterUi
   ];
 
 }

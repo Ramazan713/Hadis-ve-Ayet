@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_3x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_ui_4x_enum.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
@@ -19,7 +20,7 @@ class DetailCounterState with _$DetailCounterState{
     required bool hasCompletedGoal,
     required bool hasVibrate,
     required FontModel fontModel,
-    required ArabicVerseUI3X verseUi,
+    required VerseUi4XEnum verseUi,
     required CounterType counterType,
     required bool enabledEachDhikrVibration,
     required bool enabledEachEndOfTourVibration,
@@ -47,7 +48,8 @@ class DetailCounterState with _$DetailCounterState{
   bool get hasNotSavedCounter => currentCounter!=null && currentCounter?.id == null;
   bool get hasSavedCounter => currentCounter!=null && currentCounter?.id != null;
   bool get hasAnyContent => (currentCounter?.arabicContent?.isNotEmpty??false) ||
-      (currentCounter?.content?.isNotEmpty??false) || (currentCounter?.meaning?.isNotEmpty??false);
+      (currentCounter?.content?.isNotEmpty??false) || (currentCounter?.meaning?.isNotEmpty??false) ||
+      (currentCounter?.description?.isNotEmpty??false);
 
   bool get eachDhikrVibration => enabledEachDhikrVibration && hasVibrate;
   bool get eachEndOfTourVibration => enabledEachEndOfTourVibration && hasVibrate;
@@ -55,5 +57,7 @@ class DetailCounterState with _$DetailCounterState{
   bool get hasArabicContent => verseUi.arabicVisible && currentCounter?.arabicContent != null &&currentCounter?.arabicContent!="";
   bool get hasPronunciation => verseUi.pronunciationVisible && currentCounter?.content != null &&currentCounter?.content!="";
   bool get hasMeaning => verseUi.mealVisible && currentCounter?.meaning != null &&currentCounter?.meaning!="";
+  bool get hasDescription => verseUi.commentVisible && currentCounter?.description != null &&currentCounter?.description!="";
+
 
 }

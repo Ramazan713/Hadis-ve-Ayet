@@ -22,7 +22,7 @@ mixin _$DetailCounterState {
   bool get hasCompletedGoal => throw _privateConstructorUsedError;
   bool get hasVibrate => throw _privateConstructorUsedError;
   FontModel get fontModel => throw _privateConstructorUsedError;
-  ArabicVerseUI3X get verseUi => throw _privateConstructorUsedError;
+  VerseUi4XEnum get verseUi => throw _privateConstructorUsedError;
   CounterType get counterType => throw _privateConstructorUsedError;
   bool get enabledEachDhikrVibration => throw _privateConstructorUsedError;
   bool get enabledEachEndOfTourVibration => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $DetailCounterStateCopyWith<$Res> {
       bool hasCompletedGoal,
       bool hasVibrate,
       FontModel fontModel,
-      ArabicVerseUI3X verseUi,
+      VerseUi4XEnum verseUi,
       CounterType counterType,
       bool enabledEachDhikrVibration,
       bool enabledEachEndOfTourVibration,
@@ -112,7 +112,7 @@ class _$DetailCounterStateCopyWithImpl<$Res, $Val extends DetailCounterState>
       verseUi: null == verseUi
           ? _value.verseUi
           : verseUi // ignore: cast_nullable_to_non_nullable
-              as ArabicVerseUI3X,
+              as VerseUi4XEnum,
       counterType: null == counterType
           ? _value.counterType
           : counterType // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ abstract class _$$_DetailCounterStateCopyWith<$Res>
       bool hasCompletedGoal,
       bool hasVibrate,
       FontModel fontModel,
-      ArabicVerseUI3X verseUi,
+      VerseUi4XEnum verseUi,
       CounterType counterType,
       bool enabledEachDhikrVibration,
       bool enabledEachEndOfTourVibration,
@@ -237,7 +237,7 @@ class __$$_DetailCounterStateCopyWithImpl<$Res>
       verseUi: null == verseUi
           ? _value.verseUi
           : verseUi // ignore: cast_nullable_to_non_nullable
-              as ArabicVerseUI3X,
+              as VerseUi4XEnum,
       counterType: null == counterType
           ? _value.counterType
           : counterType // ignore: cast_nullable_to_non_nullable
@@ -294,7 +294,7 @@ class _$_DetailCounterState extends _DetailCounterState
   @override
   final FontModel fontModel;
   @override
-  final ArabicVerseUI3X verseUi;
+  final VerseUi4XEnum verseUi;
   @override
   final CounterType counterType;
   @override
@@ -396,7 +396,7 @@ abstract class _DetailCounterState extends DetailCounterState {
       required final bool hasCompletedGoal,
       required final bool hasVibrate,
       required final FontModel fontModel,
-      required final ArabicVerseUI3X verseUi,
+      required final VerseUi4XEnum verseUi,
       required final CounterType counterType,
       required final bool enabledEachDhikrVibration,
       required final bool enabledEachEndOfTourVibration,
@@ -417,7 +417,7 @@ abstract class _DetailCounterState extends DetailCounterState {
   @override
   FontModel get fontModel;
   @override
-  ArabicVerseUI3X get verseUi;
+  VerseUi4XEnum get verseUi;
   @override
   CounterType get counterType;
   @override

@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/presentation/components/title_section_item.dart';
+import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/components/counter_content.dart';
@@ -34,6 +36,7 @@ extension DetailCounterSharedContentCounterExt on DetailCounterSharedContentPage
     if(counter.goal!=null ){
       items.add(CounterGoalProgress(goal: counter.goal??1,));
     }
+
     if(state.hasArabicContent){
       items.add(CounterContent(
         title: "Arapça İçerik",
@@ -55,6 +58,13 @@ extension DetailCounterSharedContentCounterExt on DetailCounterSharedContentPage
           title: "Anlamı",
           fontModel: state.fontModel,
           content: counter.meaning??""
+      ));
+    }
+    if(state.hasDescription){
+      items.add(CounterContent(
+          title: "Açıklaması",
+          fontModel: state.fontModel,
+          content: counter.description??""
       ));
     }
     return items;

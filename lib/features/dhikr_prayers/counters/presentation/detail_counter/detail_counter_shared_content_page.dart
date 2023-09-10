@@ -25,28 +25,31 @@ class DetailCounterSharedContentPage extends StatelessWidget {
         child: CustomNestedViewAppBar(
           actions: getActions(context),
           title: Text(title),
-          child: CustomScrollView(
-            slivers: [
-              SliverList.list(
-                children: [
-                  getCounterContent()
-                ],
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: CustomScrollView(
+              slivers: [
+                SliverList.list(
                   children: [
-                    const SizedBox(height: 13,),
-                    const Spacer(flex: 3,),
-                    getDhikr(),
-                    const SizedBox(height: 8,),
-                    getCompletedWidget(),
-                    const Spacer(),
+                    getCounterContent()
                   ],
                 ),
-              )
-            ],
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const SizedBox(height: 13,),
+                      const Spacer(flex: 3,),
+                      getDhikr(),
+                      const SizedBox(height: 8,),
+                      getCompletedWidget(),
+                      const Spacer(),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

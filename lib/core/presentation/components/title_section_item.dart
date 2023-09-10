@@ -130,13 +130,14 @@ class TitleSectionChild extends StatelessWidget {
   }
 
   Widget getHeader(BuildContext context){
+    final double verticalPadding = expandable ? 12 : 6;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: expandable == false ? null : (){
         expandNotifier.value = !expandNotifier.value;
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 8),
+        padding: EdgeInsets.symmetric(vertical: verticalPadding,horizontal: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -168,7 +169,7 @@ class TitleSectionChild extends StatelessWidget {
           return CustomAnimatedVisibility(
             visible: isExpanded,
             child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 12),
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 12),
               child: content,
             ),
           );
