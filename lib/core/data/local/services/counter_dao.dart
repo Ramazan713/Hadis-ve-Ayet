@@ -9,7 +9,7 @@ abstract class CounterDao{
   @Query("""select * from counters order by orderItem desc""")
   Stream<List<CounterEntity>> getStreamCounters();
 
-  @Query("""select * from counters order by orderItem asc""")
+  @Query("""select * from counters order by orderItem desc""")
   Future<List<CounterEntity>> getCounters();
 
   @Query("""select * from counters where id=:id""")

@@ -20,7 +20,8 @@ extension CounterEntityExt on CounterEntity{
       lastCounter: lastCounter,
       goal: goal,
       order: orderItem,
-      counterType: CounterType.from(typeId)
+      counterType: CounterType.from(typeId),
+      prayerId: prayerId
     );
   }
 }
@@ -38,7 +39,8 @@ extension CounterExt on Counter{
       lastCounter: lastCounter,
       goal: goal,
       typeId: counterType.typeId,
-      orderItem: order
+      orderItem: order,
+      prayerId: prayerId
     );
   }
 
@@ -51,7 +53,7 @@ extension CounterExt on Counter{
         pronunciationContent: content,
         updateCounter: false,
         counterId: id,
-        source: null
+        source: null,
     );
   }
 

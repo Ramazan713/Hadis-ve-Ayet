@@ -38,20 +38,28 @@ class CounterShowBloc extends Bloc<ICounterShowEvent,CounterShowState>{
     add(CounterShowEventInit());
   }
 
-  void _onLoadData(CounterShowEventLoadData event,Emitter<CounterShowState>emit){
+  void _onLoadData(CounterShowEventLoadData event,Emitter<CounterShowState>emit)async{
     final showDetail = _appPreferences.getItem(KPref.showCounterDetailContents);
-    emit(state.copyWith(showDetailContents: showDetail));
+    final counters = await _counterRepo.getCounters();
+    emit(state.copyWith(
+      showDetailContents: showDetail,
+      counters: counters
+    ));
   }
 
   void _onAddToCustomPrayer(CounterShowEventAddToCustomPrayer event,Emitter<CounterShowState>emit)async{
     final prayer = event.counter.toPrayer();
-    await _prayerDao.insertPrayerWithOrder(prayer.toPrayerEntity());
+    final prayerId = await _prayerDao.insertPrayerWithOrder(prayer.toPrayerEntity());
+    final updatedCounter = event.counter.copyWith(prayerId: prayerId);
+    await _counterRepo.updateCounter(updatedCounter);
     emit(state.copyWith(message: "Başarıyla Eklendi"));
   }
 
   void _onInit(CounterShowEventInit event,Emitter<CounterShowState>emit)async{
     final streamData = _counterRepo.getStreamCounters();
-    await emit.forEach<List<Counter>>(streamData, onData: (data)=> state.copyWith(counters: data));
+    await emit.forEach<List<Counter>>(streamData, onData: (data){
+      return state.copyWith(counters: data);
+    });
 
   }
   void _onDelete(CounterShowEventDelete event,Emitter<CounterShowState>emit)async{

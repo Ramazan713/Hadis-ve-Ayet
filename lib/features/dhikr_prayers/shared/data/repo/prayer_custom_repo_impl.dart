@@ -42,7 +42,7 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
   @override
   Future<void> addToCounter(PrayerCustom prayer) async{
     final maxPos = (await _counterDao.getMaxOrder() ?? 0) + 1;
-    final counterEntity = prayer.toPrayerEntity().toCounterEntity(orderItem: maxPos + 1);
+    final counterEntity = prayer.toCounterEntity(orderItem: maxPos + 1);
     final counterId = await _counterDao.insertCounterEntity(counterEntity);
     final updatedPrayer = prayer.copyWith(counterId: counterId).toPrayerEntity();
     _prayerDao.updatePrayer(updatedPrayer);
@@ -56,11 +56,11 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
     final counterEntity = await _counterDao.getCounterById(counterId);
     if(counterEntity == null) return;
 
-    final updatedCounterEntity = prayer.toPrayerEntity().toCounterEntity(
+    final updatedCounterEntity = prayer.toCounterEntity(
         orderItem: counterEntity.orderItem,
         typeId: counterEntity.typeId,
         lastCounter: counterEntity.lastCounter,
-        id: counterEntity.id,
+        counterId: counterEntity.id,
         goal: counterEntity.goal
     );
 

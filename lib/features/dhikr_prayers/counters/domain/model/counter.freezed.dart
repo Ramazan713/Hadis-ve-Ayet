@@ -26,6 +26,7 @@ mixin _$Counter {
   String? get meaning => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   int? get goal => throw _privateConstructorUsedError;
+  int? get prayerId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CounterCopyWith<Counter> get copyWith => throw _privateConstructorUsedError;
@@ -46,7 +47,8 @@ abstract class $CounterCopyWith<$Res> {
       String? arabicContent,
       String? meaning,
       String? description,
-      int? goal});
+      int? goal,
+      int? prayerId});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$CounterCopyWithImpl<$Res, $Val extends Counter>
     Object? meaning = freezed,
     Object? description = freezed,
     Object? goal = freezed,
+    Object? prayerId = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -114,6 +117,10 @@ class _$CounterCopyWithImpl<$Res, $Val extends Counter>
           ? _value.goal
           : goal // ignore: cast_nullable_to_non_nullable
               as int?,
+      prayerId: freezed == prayerId
+          ? _value.prayerId
+          : prayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -135,7 +142,8 @@ abstract class _$$_CounterCopyWith<$Res> implements $CounterCopyWith<$Res> {
       String? arabicContent,
       String? meaning,
       String? description,
-      int? goal});
+      int? goal,
+      int? prayerId});
 }
 
 /// @nodoc
@@ -158,6 +166,7 @@ class __$$_CounterCopyWithImpl<$Res>
     Object? meaning = freezed,
     Object? description = freezed,
     Object? goal = freezed,
+    Object? prayerId = freezed,
   }) {
     return _then(_$_Counter(
       id: freezed == id
@@ -200,6 +209,10 @@ class __$$_CounterCopyWithImpl<$Res>
           ? _value.goal
           : goal // ignore: cast_nullable_to_non_nullable
               as int?,
+      prayerId: freezed == prayerId
+          ? _value.prayerId
+          : prayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -217,7 +230,8 @@ class _$_Counter with DiagnosticableTreeMixin implements _Counter {
       this.arabicContent,
       this.meaning,
       this.description,
-      this.goal});
+      this.goal,
+      this.prayerId});
 
   @override
   final int? id;
@@ -240,10 +254,12 @@ class _$_Counter with DiagnosticableTreeMixin implements _Counter {
   final String? description;
   @override
   final int? goal;
+  @override
+  final int? prayerId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Counter(id: $id, name: $name, counterType: $counterType, lastCounter: $lastCounter, order: $order, content: $content, arabicContent: $arabicContent, meaning: $meaning, description: $description, goal: $goal)';
+    return 'Counter(id: $id, name: $name, counterType: $counterType, lastCounter: $lastCounter, order: $order, content: $content, arabicContent: $arabicContent, meaning: $meaning, description: $description, goal: $goal, prayerId: $prayerId)';
   }
 
   @override
@@ -260,7 +276,8 @@ class _$_Counter with DiagnosticableTreeMixin implements _Counter {
       ..add(DiagnosticsProperty('arabicContent', arabicContent))
       ..add(DiagnosticsProperty('meaning', meaning))
       ..add(DiagnosticsProperty('description', description))
-      ..add(DiagnosticsProperty('goal', goal));
+      ..add(DiagnosticsProperty('goal', goal))
+      ..add(DiagnosticsProperty('prayerId', prayerId));
   }
 
   @override
@@ -281,12 +298,25 @@ class _$_Counter with DiagnosticableTreeMixin implements _Counter {
             (identical(other.meaning, meaning) || other.meaning == meaning) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.goal, goal) || other.goal == goal));
+            (identical(other.goal, goal) || other.goal == goal) &&
+            (identical(other.prayerId, prayerId) ||
+                other.prayerId == prayerId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, counterType,
-      lastCounter, order, content, arabicContent, meaning, description, goal);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      counterType,
+      lastCounter,
+      order,
+      content,
+      arabicContent,
+      meaning,
+      description,
+      goal,
+      prayerId);
 
   @JsonKey(ignore: true)
   @override
@@ -306,7 +336,8 @@ abstract class _Counter implements Counter {
       final String? arabicContent,
       final String? meaning,
       final String? description,
-      final int? goal}) = _$_Counter;
+      final int? goal,
+      final int? prayerId}) = _$_Counter;
 
   @override
   int? get id;
@@ -328,6 +359,8 @@ abstract class _Counter implements Counter {
   String? get description;
   @override
   int? get goal;
+  @override
+  int? get prayerId;
   @override
   @JsonKey(ignore: true)
   _$$_CounterCopyWith<_$_Counter> get copyWith =>

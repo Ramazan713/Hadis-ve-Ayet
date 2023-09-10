@@ -67,7 +67,8 @@ class ManageCounterBloc extends Bloc<IManageCounterEvent,ManageCounterState>{
       goal: goal,
       content: content,
       description: description,
-      meaning: meaning
+      meaning: meaning,
+      prayerId: currentCounter?.prayerId
     );
 
     if(currentCounter != null){

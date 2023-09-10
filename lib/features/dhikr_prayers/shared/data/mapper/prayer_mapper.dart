@@ -10,27 +10,6 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_qura
 
 extension PrayerEntityExt on PrayerEntity{
 
-  CounterEntity toCounterEntity({
-    required int orderItem,
-    int? id,
-    int lastCounter = 0,
-    int? typeId,
-    int? goal
-  }){
-    return CounterEntity(
-      id: id,
-      name: name ?? "",
-      orderItem: orderItem,
-      lastCounter: lastCounter,
-      typeId: typeId ?? CounterType.classic.typeId,
-      meaning: meaningContent,
-      content: pronunciationContent,
-      arabicContent: arabicContent,
-      description: source,
-      goal: goal
-    );
-  }
-
   PrayerCustom? tryToPrayerCustom(){
     if(typeId != PrayerTypeEnum.custom.typeId) return null;
     if( name == null) return null;
@@ -109,6 +88,28 @@ extension PrayerCustomExt on PrayerCustom{
       counterId: counterId,
       updateCounter: updateCounter,
       parentPrayerId: parentPrayerId
+    );
+  }
+
+  CounterEntity toCounterEntity({
+    required int orderItem,
+    int? counterId,
+    int lastCounter = 0,
+    int? typeId,
+    int? goal
+  }){
+    return CounterEntity(
+        id: counterId,
+        name: name ?? "",
+        orderItem: orderItem,
+        lastCounter: lastCounter,
+        typeId: typeId ?? CounterType.classic.typeId,
+        meaning: meaningContent,
+        content: pronunciationContent,
+        arabicContent: arabicContent,
+        description: source,
+        goal: goal,
+        prayerId: id
     );
   }
 }

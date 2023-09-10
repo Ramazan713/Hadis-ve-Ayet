@@ -20,6 +20,7 @@ class Counter with _$Counter{
     String? arabicContent,
     String? meaning,
     String? description,
-    int? goal
+    int? goal,
+    int? prayerId
   }) = _Counter;
 }

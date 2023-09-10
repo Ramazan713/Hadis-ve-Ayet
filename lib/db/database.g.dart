@@ -255,7 +255,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `EsmaulHusna` (`id` INTEGER, `orderItem` INTEGER NOT NULL, `name` TEXT NOT NULL, `arabicName` TEXT NOT NULL, `searchName` TEXT NOT NULL, `meaning` TEXT NOT NULL, `dhikr` TEXT NOT NULL, `virtue` TEXT NOT NULL, `counterId` INTEGER, FOREIGN KEY (`counterId`) REFERENCES `counters` (`id`) ON UPDATE NO ACTION ON DELETE SET NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `description` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `typeId` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `description` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `typeId` INTEGER NOT NULL, `prayerId` INTEGER, FOREIGN KEY (`prayerId`) REFERENCES `Prayers` (`id`) ON UPDATE CASCADE ON DELETE SET NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `CuzEntity` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `SurahEntity` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -6668,7 +6668,8 @@ class _$CounterDao extends CounterDao {
                   'orderItem': item.orderItem,
                   'lastCounter': item.lastCounter,
                   'goal': item.goal,
-                  'typeId': item.typeId
+                  'typeId': item.typeId,
+                  'prayerId': item.prayerId
                 },
             changeListener),
         _counterEntityUpdateAdapter = UpdateAdapter(
@@ -6685,7 +6686,8 @@ class _$CounterDao extends CounterDao {
                   'orderItem': item.orderItem,
                   'lastCounter': item.lastCounter,
                   'goal': item.goal,
-                  'typeId': item.typeId
+                  'typeId': item.typeId,
+                  'prayerId': item.prayerId
                 },
             changeListener),
         _counterEntityDeletionAdapter = DeletionAdapter(
@@ -6702,7 +6704,8 @@ class _$CounterDao extends CounterDao {
                   'orderItem': item.orderItem,
                   'lastCounter': item.lastCounter,
                   'goal': item.goal,
-                  'typeId': item.typeId
+                  'typeId': item.typeId,
+                  'prayerId': item.prayerId
                 },
             changeListener);
 
@@ -6732,7 +6735,8 @@ class _$CounterDao extends CounterDao {
             arabicContent: row['arabicContent'] as String?,
             description: row['description'] as String?,
             goal: row['goal'] as int?,
-            meaning: row['meaning'] as String?),
+            meaning: row['meaning'] as String?,
+            prayerId: row['prayerId'] as int?),
         queryableName: 'counters',
         isView: false);
   }
@@ -6740,7 +6744,7 @@ class _$CounterDao extends CounterDao {
   @override
   Future<List<CounterEntity>> getCounters() async {
     return _queryAdapter.queryList(
-        'select * from counters order by orderItem asc',
+        'select * from counters order by orderItem desc',
         mapper: (Map<String, Object?> row) => CounterEntity(
             id: row['id'] as int?,
             name: row['name'] as String,
@@ -6751,7 +6755,8 @@ class _$CounterDao extends CounterDao {
             arabicContent: row['arabicContent'] as String?,
             description: row['description'] as String?,
             goal: row['goal'] as int?,
-            meaning: row['meaning'] as String?));
+            meaning: row['meaning'] as String?,
+            prayerId: row['prayerId'] as int?));
   }
 
   @override
@@ -6767,7 +6772,8 @@ class _$CounterDao extends CounterDao {
             arabicContent: row['arabicContent'] as String?,
             description: row['description'] as String?,
             goal: row['goal'] as int?,
-            meaning: row['meaning'] as String?),
+            meaning: row['meaning'] as String?,
+            prayerId: row['prayerId'] as int?),
         arguments: [id]);
   }
 
@@ -6784,7 +6790,8 @@ class _$CounterDao extends CounterDao {
             arabicContent: row['arabicContent'] as String?,
             description: row['description'] as String?,
             goal: row['goal'] as int?,
-            meaning: row['meaning'] as String?),
+            meaning: row['meaning'] as String?,
+            prayerId: row['prayerId'] as int?),
         arguments: [id],
         queryableName: 'counters',
         isView: false);
@@ -7143,7 +7150,8 @@ class _$BackupDao extends BackupDao {
                   'orderItem': item.orderItem,
                   'lastCounter': item.lastCounter,
                   'goal': item.goal,
-                  'typeId': item.typeId
+                  'typeId': item.typeId,
+                  'prayerId': item.prayerId
                 },
             changeListener),
         _prayerEntityInsertionAdapter = InsertionAdapter(
@@ -7178,7 +7186,8 @@ class _$BackupDao extends BackupDao {
                   'orderItem': item.orderItem,
                   'lastCounter': item.lastCounter,
                   'goal': item.goal,
-                  'typeId': item.typeId
+                  'typeId': item.typeId,
+                  'prayerId': item.prayerId
                 },
             changeListener);
 
@@ -7285,7 +7294,8 @@ class _$BackupDao extends BackupDao {
             arabicContent: row['arabicContent'] as String?,
             description: row['description'] as String?,
             goal: row['goal'] as int?,
-            meaning: row['meaning'] as String?));
+            meaning: row['meaning'] as String?,
+            prayerId: row['prayerId'] as int?));
   }
 
   @override

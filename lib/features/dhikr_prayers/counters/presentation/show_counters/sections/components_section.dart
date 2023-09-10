@@ -62,7 +62,7 @@ extension ShowCounterComponentsExt on ShowCounterPage{
     showBottomMenuItems(
         context,
         title: "'${counter.name}' adlı zikri için",
-        items: ShowCounterSelectMenuEnum.values,
+        items: ShowCounterSelectMenuEnum.getItems(counter),
         onItemClick: (menuItem){
           Navigator.pop(context);
           switch(menuItem){
@@ -80,6 +80,12 @@ extension ShowCounterComponentsExt on ShowCounterPage{
               break;
             case ShowCounterSelectMenuEnum.addToCustomPrayer:
               bloc.add(CounterShowEventAddToCustomPrayer(counter: counter));
+              break;
+            case ShowCounterSelectMenuEnum.goToCustomPrayer:
+              final prayerId = counter.prayerId;
+              if(prayerId != null){
+                CustomPrayerDetailRoute(prayerId: prayerId).push(context); 
+              }
               break;
           }
         }

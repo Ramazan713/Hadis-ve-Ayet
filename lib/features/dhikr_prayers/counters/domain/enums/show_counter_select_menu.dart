@@ -3,11 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
+import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 
 enum ShowCounterSelectMenuEnum implements IMenuItem{
   addToCustomPrayer(
     title: "Dualarıma Ekle",
     iconInfo: IconInfo(iconData: Icons.add)
+  ),
+  goToCustomPrayer(
+    title: "Dualarıma Git",
+    iconInfo: IconInfo(iconData: Icons.open_in_new)
   ),
   edit(
     title: "Düzenle",
@@ -25,4 +30,15 @@ enum ShowCounterSelectMenuEnum implements IMenuItem{
 
   @override
   final IconInfo iconInfo;
+
+  static List<ShowCounterSelectMenuEnum> getItems(Counter counter){
+    final items = ShowCounterSelectMenuEnum.values.toList();
+    if(counter.prayerId == null){
+      items.remove(ShowCounterSelectMenuEnum.goToCustomPrayer);
+    }else{
+      items.remove(ShowCounterSelectMenuEnum.addToCustomPrayer);
+    }
+    return items;
+  }
+
 }
