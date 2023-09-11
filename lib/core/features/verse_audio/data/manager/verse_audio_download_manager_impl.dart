@@ -6,7 +6,9 @@ import 'dart:typed_data';
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_throttle.dart';
 import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
+import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/download_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/verse_audio_download_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/download_audio_manager_state.dart';
@@ -277,6 +279,43 @@ class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
       surahId: 1,verseNumberTr: 1,verseId: param.itemIdForOption
     )]);
 
+    return ResourceSuccess(null);
+  }
+
+  Future<Resource<void>> downloadMultiVerse({
+    required List<int> verseIds,
+    required String identifier,
+    required AudioQualityEnum quality
+  })async{
+    final groupModels = await _verseDownloadedVoiceRepo.getNotDownloadedAudioVersesWithGroupByMealIds(
+        verseIds: verseIds, identifier: identifier);
+
+    String? errorResponse;
+
+    for(final groupModel in groupModels){
+      final response = await _quranDownloadService.downloadMultiAudio(
+        identifier: identifier,
+        audioQuality: quality,
+        arabicVerseIds: groupModel.map((e) => e.verseId).toList()
+      );
+      await response.handleAsync(
+        onSuccess: (bytes)async{
+          final param = DownloadAudioParam(
+              identifier: identifier,
+              itemIdForOption: groupModel.first.mealId,
+              op: QuranAudioOption.verse,
+              audioQualityEnum: quality
+          );
+          await _addAudioFile(param, bytes, groupModel);
+        },
+        onError: (error)async{
+          errorResponse = error;
+        }
+      );
+    }
+    if(errorResponse != null){
+      return ResourceError(errorResponse ?? "Bir şeyler yanlış gitti");
+    }
     return ResourceSuccess(null);
   }
 

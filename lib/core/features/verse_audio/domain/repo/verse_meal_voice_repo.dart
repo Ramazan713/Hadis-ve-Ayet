@@ -6,4 +6,6 @@ import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/verse
 abstract class VerseMealVoiceRepo{
 
   Future<List<VerseMealVoiceModel>> getVerseVoiceModels(ListenAudioParam listenAudioParam);
+
+  Future<List<VerseMealVoiceModel>> getVerseVoiceModelsWithCustom({required String identifier, required List<int> verseIds});
 }

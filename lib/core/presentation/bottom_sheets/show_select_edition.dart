@@ -35,7 +35,7 @@ void showSelectEdition(BuildContext context) {
       },
     ),
     onClosed: (){
-      context.read<BasicAudioBloc>().add(BasicAudioEventStopListening());
+      context.read<BasicAudioBloc>().add(BasicAudioEventCancel());
     }
   );
 }

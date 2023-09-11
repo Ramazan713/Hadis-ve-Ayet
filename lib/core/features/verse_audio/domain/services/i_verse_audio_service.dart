@@ -77,35 +77,41 @@ abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
   }
 
 
+  Future<void> playAudiosWithCustom({required String identifier, required List<int> verseIds})async{
+    var verseAudioModels = await _verseVoiceRepo.getVerseVoiceModelsWithCustom(identifier: identifier,verseIds: verseIds);
+    await _playAudios(verseAudioModels);
+  }
 
   Future<void> playAudios(ListenAudioParam param)async{
     var verseAudioModels = await _verseVoiceRepo.getVerseVoiceModels(param);
+    await _playAudios(verseAudioModels);
+  }
 
+  Future<void> _playAudios(List<VerseMealVoiceModel> verseAudioModels)async{
     final isValid = await _verseAudioRepo.validateVerseAudios(verseAudios: verseAudioModels);
-
     if(!isValid){
       return addState(_state.copyWith(audio: null, setAudio: true, error: "audio file not found",setError: true));
     }
-
     await _initPlayer();
     await play(verseAudioModels);
   }
+
 
   @protected
   Future<void> play(List<VerseMealVoiceModel> items);
 
   Future<void> resume()async{
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.running));
     await audioPlayer.resume();
+    addState(_state.copyWith(audioEnum: ListenAudioEnum.running));
   }
   Future<void> pause()async{
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.pause));
     await audioPlayer.pause();
+    addState(_state.copyWith(audioEnum: ListenAudioEnum.pause));
   }
 
   Future<void> stop()async{
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.idle));
     await audioPlayer.stop();
+    addState(_state.copyWith(audioEnum: ListenAudioEnum.idle));
   }
 
   Future<void> changeSpeed(double speed)async{
@@ -116,13 +122,13 @@ abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
     await audioPlayer.changeSpeed(fixedSpeed);
   }
   Future<void> changePosition(Duration position)async{
-    addState(_state.copyWith(position: position));
     await audioPlayer.changePosition(position);
+    addState(_state.copyWith(position: position));
   }
 
   Future<void> setLoop(bool isLoop)async{
-    addState(_state.copyWith(isLoop: isLoop));
     await audioPlayer.setLoop(isLoop);
+    addState(_state.copyWith(isLoop: isLoop));
   }
 
   Future<void> setFinish()async{

@@ -47,7 +47,7 @@ class VerseAudioJustService extends IVerseAudioServiceManager<VerseJustAudioPlay
       }
     });
 
-    _subsPlayerState = audioPlayer.playerState.listen((event) {
+    _subsPlayerState = audioPlayer.playerState.distinct().listen((event) {
       if(event.processingState == ProcessingState.completed){
         addState(sharedState.copyWith(audioEnum: ListenAudioEnum.finish));
       }else if(event.processingState == ProcessingState.ready){

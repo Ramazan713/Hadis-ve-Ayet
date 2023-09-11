@@ -23,6 +23,10 @@ abstract class VerseAudioRepo{
     required List<VerseAudio> verseAudios
   });
 
+  Future<bool> hasVerseAudiosWithIds({
+    required List<int> verseIds,
+    required String identifier
+  });
 
   Future<bool> hasVerseAudios(ListenAudioParam listenAudioParam);
 

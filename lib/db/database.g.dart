@@ -5148,6 +5148,25 @@ class _$VerseArabicDao extends VerseArabicDao {
   }
 
   @override
+  Future<List<VerseArabicEntity>> getAllNotDownloadedVerseArabicsWithMealIdList(
+    List<int> mealIds,
+    String identifier,
+  ) async {
+    const offset = 2;
+    final _sqliteVariablesForMealIds =
+        Iterable<String>.generate(mealIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryList(
+        'select VA.* from VerseArabic VA, Verse V      where VA.mealId = V.id and V.id in (' +
+            _sqliteVariablesForMealIds +
+            ') and VA.mealId not in      (select A.mealId from Verse V, VerseAudio A where V.id=A.mealId and V.id in (' +
+            _sqliteVariablesForMealIds +
+            ') and A.identifier = ?1)     order by mealId',
+        mapper: (Map<String, Object?> row) => VerseArabicEntity(id: row['id'] as int?, mealId: row['mealId'] as int, verse: row['verse'] as String, verseNumber: row['verseNumber'] as String, verseNumberTr: row['verseNumberTr'] as int),
+        arguments: [identifier, ...mealIds]);
+  }
+
+  @override
   Future<List<VerseArabicEntity>> getAllNotDownloadedVerseArabicsWithSurahId(
     int surahId,
     String identifier,
@@ -5992,6 +6011,25 @@ class _$VerseAudioDao extends VerseAudioDao {
   }
 
   @override
+  Future<bool?> hasVerseAudiosWithMealIdList(
+    List<int> mealIds,
+    String identifier,
+  ) async {
+    const offset = 2;
+    final _sqliteVariablesForMealIds =
+        Iterable<String>.generate(mealIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.query(
+        'select exists(select 1 from VerseAudio     where identifier = ?1 and mealId in (' +
+            _sqliteVariablesForMealIds +
+            ')     group by identifier      having count(*) = (select count(*)from Verse where id in (' +
+            _sqliteVariablesForMealIds +
+            ')))',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [identifier, ...mealIds]);
+  }
+
+  @override
   Future<List<VerseAudioEntity>> getUnEditedVerseAudiosWithCuzNo(
     int cuzNo,
     String identifier,
@@ -6033,6 +6071,23 @@ class _$VerseAudioDao extends VerseAudioDao {
         'select VA.* from VerseAudio VA, Verse V      where V.id = VA.mealId and VA.identifier=?2 and VA.hasEdited=0 and V.id=?1',
         mapper: (Map<String, Object?> row) => VerseAudioEntity(mealId: row['mealId'] as int, identifier: row['identifier'] as String, fileName: row['fileName'] as String?, hasEdited: (row['hasEdited'] as int) != 0),
         arguments: [mealId, identifier]);
+  }
+
+  @override
+  Future<List<VerseAudioEntity>> getUnEditedVerseAudiosWithMealIdList(
+    List<int> mealIds,
+    String identifier,
+  ) async {
+    const offset = 2;
+    final _sqliteVariablesForMealIds =
+        Iterable<String>.generate(mealIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryList(
+        'select VA.* from VerseAudio VA, Verse V      where V.id = VA.mealId and VA.identifier=?1 and VA.hasEdited=0 and V.id in (' +
+            _sqliteVariablesForMealIds +
+            ')',
+        mapper: (Map<String, Object?> row) => VerseAudioEntity(mealId: row['mealId'] as int, identifier: row['identifier'] as String, fileName: row['fileName'] as String?, hasEdited: (row['hasEdited'] as int) != 0),
+        arguments: [identifier, ...mealIds]);
   }
 
   @override
@@ -6113,6 +6168,23 @@ class _$VerseAudioDao extends VerseAudioDao {
         'select VA.* from VerseAudio VA, Verse V     where VA.mealId = V.id and VA.mealId=?1 and VA.identifier=?2     order by mealId',
         mapper: (Map<String, Object?> row) => VerseAudioEntity(mealId: row['mealId'] as int, identifier: row['identifier'] as String, fileName: row['fileName'] as String?, hasEdited: (row['hasEdited'] as int) != 0),
         arguments: [mealId, identifier]);
+  }
+
+  @override
+  Future<List<VerseAudioEntity>> getAllVerseAudioWithMealIdList(
+    List<int> mealIds,
+    String identifier,
+  ) async {
+    const offset = 2;
+    final _sqliteVariablesForMealIds =
+        Iterable<String>.generate(mealIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryList(
+        'select VA.* from VerseAudio VA, Verse V     where VA.mealId = V.id and VA.mealId in (' +
+            _sqliteVariablesForMealIds +
+            ') and VA.identifier=?1     order by mealId',
+        mapper: (Map<String, Object?> row) => VerseAudioEntity(mealId: row['mealId'] as int, identifier: row['identifier'] as String, fileName: row['fileName'] as String?, hasEdited: (row['hasEdited'] as int) != 0),
+        arguments: [identifier, ...mealIds]);
   }
 
   @override

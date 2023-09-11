@@ -25,6 +25,25 @@ class VerseDownloadedVoiceRepoImpl extends VerseDownloadedVoiceRepo{
     _getVerses = getVerses;
   }
 
+  Future<List<VerseDownloadedVoiceModel>> getNotDownloadedAudioVersesWithIds({
+    required List<int> verseIds,
+    required String identifier,
+  })async{
+    final verseArabicEntities = await _verseArabicDao.getAllNotDownloadedVerseArabicsWithMealIdList(verseIds, identifier);
+    return _getModels(verseArabicEntities);
+  }
+
+  Future<List<List<VerseDownloadedVoiceModel>>> getNotDownloadedAudioVersesWithGroupByMealIds({
+    required List<int> verseIds,
+    required String identifier,
+    bool addMention = true
+  })async{
+    final models = await getNotDownloadedAudioVersesWithIds(verseIds: verseIds, identifier: identifier);
+    return _groupByModels(models, addMention: addMention);
+  }
+
+
+
   @override
   Future<List<VerseDownloadedVoiceModel>> getNotDownloadedAudioVerses({
     required int itemId,
@@ -42,9 +61,54 @@ class VerseDownloadedVoiceRepoImpl extends VerseDownloadedVoiceRepo{
         verseArabicEntities = verseArabicEntities.sublist(currentIndex,verseArabicEntities.length);
       }
     }
+    return _getModels(verseArabicEntities);
+  }
 
+
+
+
+
+
+  @override
+  Future<List<List<VerseDownloadedVoiceModel>>> getNotDownloadedAudioVersesWithGroupByMealId({
+    required int itemId,
+    required QuranAudioOption op,
+    required String identifier,
+    int? startVerseId,
+    bool addMention = true
+  }) async{
+    final models = await getNotDownloadedAudioVerses(itemId: itemId, op: op, identifier: identifier,startVerseId: startVerseId);
+    return _groupByModels(models, addMention: addMention);
+  }
+
+  List<List<VerseDownloadedVoiceModel>> _groupByModels(List<VerseDownloadedVoiceModel> models,{required bool addMention}){
+    List<List<VerseDownloadedVoiceModel>> results = [];
+    List<VerseDownloadedVoiceModel> tempArr = [];
+
+    if(models.isEmpty){
+      return results;
+    }
+    int mealId = models[0].mealId;
+    for (var model in models){
+      if(mealId!=model.mealId){
+        results.add(tempArr);
+        tempArr = [];
+        mealId = model.mealId;
+      }
+      if(model.verseNumberTr == 1 && addMention && !KVerse.mentionExclusiveIds.contains(model.surahId)){
+        final newModel = model.copyWith(verseNumberTr: 0,surahId: 1,verseId: 1);
+        tempArr.add(newModel);
+      }
+      tempArr.add(model);
+    }
+    if(tempArr.isNotEmpty){
+      results.add(tempArr);
+    }
+    return results;
+  }
+
+  Future<List<VerseDownloadedVoiceModel>> _getModels(List<VerseArabicEntity> verseArabicEntities)async{
     final verses = await _getVersesByEntities(verseArabicEntities);
-
     final items = <VerseDownloadedVoiceModel>[];
 
     for(final vae in verseArabicEntities){
@@ -52,17 +116,16 @@ class VerseDownloadedVoiceRepoImpl extends VerseDownloadedVoiceRepo{
       if(verse == null) continue;
 
       final item = VerseDownloadedVoiceModel(
-          verseId: vae.id ?? 0,
-          surahId: verse.surahId,
-          surahName: verse.surahName,
-          mealId: vae.mealId,
-          verseNumberTr: vae.verseNumberTr,
-          cuzNo: verse.cuzNo,
-          pageNo: verse.pageNo,
+        verseId: vae.id ?? 0,
+        surahId: verse.surahId,
+        surahName: verse.surahName,
+        mealId: vae.mealId,
+        verseNumberTr: vae.verseNumberTr,
+        cuzNo: verse.cuzNo,
+        pageNo: verse.pageNo,
       );
       items.add(item);
     }
-
     return items;
   }
 
@@ -71,6 +134,7 @@ class VerseDownloadedVoiceRepoImpl extends VerseDownloadedVoiceRepo{
     final verseEntities = await _verseDao.getVersesByIds(mealIds);
     return await _getVerses.call(verseEntities);
   }
+
 
   Future<List<VerseArabicEntity>> _getEntities({
     required int itemId,
@@ -108,40 +172,5 @@ class VerseDownloadedVoiceRepoImpl extends VerseDownloadedVoiceRepo{
     }
 
     return verseArabicEntities;
-  }
-
-  @override
-  Future<List<List<VerseDownloadedVoiceModel>>> getNotDownloadedAudioVersesWithGroupByMealId({
-    required int itemId,
-    required QuranAudioOption op,
-    required String identifier,
-    int? startVerseId,
-    bool addMention = true
-  }) async{
-    final models = await getNotDownloadedAudioVerses(itemId: itemId, op: op, identifier: identifier,startVerseId: startVerseId);
-
-    List<List<VerseDownloadedVoiceModel>> results = [];
-    List<VerseDownloadedVoiceModel> tempArr = [];
-
-    if(models.isEmpty){
-      return results;
-    }
-    int mealId = models[0].mealId;
-    for (var model in models){
-      if(mealId!=model.mealId){
-        results.add(tempArr);
-        tempArr = [];
-        mealId = model.mealId;
-      }
-      if(model.verseNumberTr == 1 && addMention && !KVerse.mentionExclusiveIds.contains(model.surahId)){
-        final newModel = model.copyWith(verseNumberTr: 0,surahId: 1,verseId: 1);
-        tempArr.add(newModel);
-      }
-      tempArr.add(model);
-    }
-    if(tempArr.isNotEmpty){
-      results.add(tempArr);
-    }
-    return results;
   }
 }

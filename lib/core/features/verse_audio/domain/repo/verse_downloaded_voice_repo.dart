@@ -4,6 +4,19 @@ import 'package:hadith/core/features/verse_audio/domain/model/download_verse/ver
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 
 abstract class VerseDownloadedVoiceRepo{
+
+  Future<List<VerseDownloadedVoiceModel>> getNotDownloadedAudioVersesWithIds({
+    required List<int> verseIds,
+    required String identifier,
+  });
+
+  Future<List<List<VerseDownloadedVoiceModel>>> getNotDownloadedAudioVersesWithGroupByMealIds({
+    required List<int> verseIds,
+    required String identifier,
+    bool addMention = true
+  });
+
+
   Future<List<VerseDownloadedVoiceModel>> getNotDownloadedAudioVerses(
     {
       required int itemId,

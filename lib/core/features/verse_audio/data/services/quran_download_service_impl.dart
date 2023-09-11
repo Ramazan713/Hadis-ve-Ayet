@@ -37,8 +37,38 @@ class QuranDownloadServiceImpl extends QuranDownloadService{
     }catch(e){
       return Resource.error(e.toString());
     }
+  }
+
+  @override
+  Future<Resource<Uint8List>> downloadMultiAudio({
+    required String identifier,
+    required List<int> arabicVerseIds,
+    AudioQualityEnum audioQuality = AudioQualityEnum.q64
+  })async{
+    final List<int> bytes = [];
+    _singleDownloadClient?.close();
+    _singleDownloadClient = Client();
+
+    try{
+      for(final verseId in arabicVerseIds){
+        final headerPath = _getHeaderAudio(identifier, verseId);
+        final url = "https://cdn.islamic.network/quran/audio/${audioQuality.quality}/$headerPath";
+        final response = await _singleDownloadClient!.get(Uri.parse(url));
+        if(response.statusCode==200){
+          bytes.addAll(response.bodyBytes);
+        }else{
+          return Resource.error("error");
+        }
+      }
+      return ResourceSuccess(Uint8List.fromList(bytes));
+    }catch(e){
+      return Resource.error(e.toString());
+    }
 
   }
+
+
+
 
   final BehaviorSubject<StreamResource<VerseDownloadedVoiceModel>> _progressController = BehaviorSubject();
 

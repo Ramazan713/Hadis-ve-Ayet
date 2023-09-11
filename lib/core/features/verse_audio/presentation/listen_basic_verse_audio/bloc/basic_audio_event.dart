@@ -17,6 +17,20 @@ class BasicAudioEventStartWithIdentifier extends IBasicAudioEvent{
   });
 }
 
+class BasicAudioEventStartWithCustomVerseIds extends IBasicAudioEvent{
+  final String? identifier;
+  final List<int> verseIds;
+  final AudioQualityEnum? audioQuality;
+  final String? audioTag;
+
+  BasicAudioEventStartWithCustomVerseIds({
+    required this.verseIds,
+    this.identifier,
+    this.audioQuality,
+    this.audioTag
+  });
+}
+
 class BasicAudioEventClearMessage extends IBasicAudioEvent{}
 
 class BasicAudioEventInit extends IBasicAudioEvent{}
@@ -25,7 +39,25 @@ class BasicAudioEventPause extends IBasicAudioEvent{}
 
 class BasicAudioEventResume extends IBasicAudioEvent{}
 
-class BasicAudioEventStopListening extends IBasicAudioEvent{}
+class BasicAudioEventCancel extends IBasicAudioEvent{}
+
+
+class BasicAudioEventChangeSpeed extends IBasicAudioEvent{
+  final double newSpeed;
+  BasicAudioEventChangeSpeed({required this.newSpeed});
+}
+
+class BasicAudioEventChangePosition extends IBasicAudioEvent{
+  final Duration duration;
+  BasicAudioEventChangePosition({required this.duration});
+}
+
+class BasicAudioEventSetLoop extends IBasicAudioEvent{
+  final bool isLoop;
+  BasicAudioEventSetLoop({required this.isLoop});
+}
+
+class BasicAudioEventToggleVisibilityAudioWidget extends IBasicAudioEvent{}
 
 
 

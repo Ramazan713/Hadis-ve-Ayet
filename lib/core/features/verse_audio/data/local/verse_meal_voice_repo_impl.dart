@@ -35,6 +35,12 @@ class VerseMealVoiceRepoImpl extends VerseMealVoiceRepo{
   }
 
   @override
+  Future<List<VerseMealVoiceModel>> getVerseVoiceModelsWithCustom({required String identifier, required List<int> verseIds})async{
+    final verseAudioEntities = await _verseAudioDao.getAllVerseAudioWithMealIdList(verseIds, identifier);
+    return _getResult(verseAudioEntities, identifier);
+  }
+
+  @override
   Future<List<VerseMealVoiceModel>> getVerseVoiceModels(ListenAudioParam listenAudioParam) async{
 
     List<VerseAudioEntity> verseAudioEntities = await _getEntities(listenAudioParam);
@@ -46,10 +52,13 @@ class VerseMealVoiceRepoImpl extends VerseMealVoiceRepo{
         verseAudioEntities = verseAudioEntities.sublist(initialIndex, verseAudioEntities.length);
       }
     }
+    return _getResult(verseAudioEntities, listenAudioParam.identifier);
+  }
 
+  Future<List<VerseMealVoiceModel>> _getResult(List<VerseAudioEntity> verseAudioEntities, String identifier)async{
     final verses = await _getVersesByEntities(verseAudioEntities);
 
-    final editionName = await _editionDao.getEditionNameByIdentifier(listenAudioParam.identifier);
+    final editionName = await _editionDao.getEditionNameByIdentifier(identifier);
 
     if(editionName == null) return [];
 
@@ -62,16 +71,16 @@ class VerseMealVoiceRepoImpl extends VerseMealVoiceRepo{
       if(verse == null) continue;
 
       final item = VerseMealVoiceModel(
-        identifier: listenAudioParam.identifier,
-        fileName: vae.fileName,
-        surahId: verse.surahId,
-        surahName: verse.surahName,
-        cuzNo: verse.cuzNo,
-        cuzName: cuzs.firstWhereOrNull((e) => e.cuzNo == verse.cuzNo)?.name ?? "",
-        mealId: vae.mealId,
-        pageNo: verse.pageNo,
-        editionName: editionName,
-        verseNumbers: verse.verseNumber
+          identifier: identifier,
+          fileName: vae.fileName,
+          surahId: verse.surahId,
+          surahName: verse.surahName,
+          cuzNo: verse.cuzNo,
+          cuzName: cuzs.firstWhereOrNull((e) => e.cuzNo == verse.cuzNo)?.name ?? "",
+          mealId: vae.mealId,
+          pageNo: verse.pageNo,
+          editionName: editionName,
+          verseNumbers: verse.verseNumber
       );
 
       items.add(item);

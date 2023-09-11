@@ -17,6 +17,13 @@ abstract class QuranDownloadService{
     AudioQualityEnum audioQuality = AudioQualityEnum.q64,
   });
 
+  Future<Resource<Uint8List>> downloadMultiAudio({
+    required String identifier,
+    required List<int> arabicVerseIds,
+    AudioQualityEnum audioQuality = AudioQualityEnum.q64
+  });
+
+
 
   Future<void> initStream(int itemCount);
 

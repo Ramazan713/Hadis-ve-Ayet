@@ -19,6 +19,14 @@ abstract class VerseArabicDao{
   """)
   Future<List<VerseArabicEntity>> getAllNotDownloadedVerseArabicsWithMealId(int mealId, String identifier);
 
+  @Query("""
+    select VA.* from VerseArabic VA, Verse V 
+    where VA.mealId = V.id and V.id in (:mealIds) and VA.mealId not in 
+    (select A.mealId from Verse V, VerseAudio A where V.id=A.mealId and V.id in (:mealIds) and A.identifier = :identifier)
+    order by mealId
+  """)
+  Future<List<VerseArabicEntity>> getAllNotDownloadedVerseArabicsWithMealIdList(List<int> mealIds, String identifier);
+
 
   @Query("""
     select VA.* from VerseArabic VA, Verse V 

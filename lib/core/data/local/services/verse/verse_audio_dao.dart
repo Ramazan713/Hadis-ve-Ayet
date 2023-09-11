@@ -75,6 +75,15 @@ abstract class VerseAudioDao{
   Future<bool?> hasVerseAudiosWithMealId(int mealId,String identifier);
 
 
+  @Query("""
+   select exists(select 1 from VerseAudio
+    where identifier = :identifier and mealId in (:mealIds)
+    group by identifier 
+    having count(*) = (select count(*)from Verse where id in (:mealIds)))
+   """)
+  Future<bool?> hasVerseAudiosWithMealIdList(List<int> mealIds,String identifier);
+
+
 
   @Query("""
     select VA.* from VerseAudio VA, Verse V 
@@ -99,6 +108,13 @@ abstract class VerseAudioDao{
     where V.id = VA.mealId and VA.identifier=:identifier and VA.hasEdited=0 and V.id=:mealId
   """)
   Future<List<VerseAudioEntity>> getUnEditedVerseAudiosWithMealId(int mealId,String identifier);
+
+  @Query("""
+    select VA.* from VerseAudio VA, Verse V 
+    where V.id = VA.mealId and VA.identifier=:identifier and VA.hasEdited=0 and V.id in (:mealIds)
+  """)
+  Future<List<VerseAudioEntity>> getUnEditedVerseAudiosWithMealIdList(List<int> mealIds,String identifier);
+
 
 
   @Query("""
@@ -154,6 +170,14 @@ abstract class VerseAudioDao{
     order by mealId
   """)
   Future<List<VerseAudioEntity>> getAllVerseAudioWithMealId(int mealId, String identifier);
+
+
+  @Query("""
+    select VA.* from VerseAudio VA, Verse V
+    where VA.mealId = V.id and VA.mealId in (:mealIds) and VA.identifier=:identifier
+    order by mealId
+  """)
+  Future<List<VerseAudioEntity>> getAllVerseAudioWithMealIdList(List<int> mealIds, String identifier);
 
 
 }

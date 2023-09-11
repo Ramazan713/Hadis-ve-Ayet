@@ -34,6 +34,14 @@ class VerseAudioRepoImpl extends VerseAudioRepo{
   }
 
   @override
+  Future<bool> hasVerseAudiosWithIds({
+    required List<int> verseIds,
+    required String identifier
+  })async{
+    return (await _verseAudioDao.hasVerseAudiosWithMealIdList(verseIds, identifier)) ?? false;
+  }
+
+  @override
   Future<bool> hasVerseAudios(ListenAudioParam listenAudioParam) async{
 
     final itemId = listenAudioParam.itemId;
