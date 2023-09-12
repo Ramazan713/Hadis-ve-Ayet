@@ -1,7 +1,7 @@
 
 
 
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 
 abstract class IShowCustomPrayersEvent{}
 

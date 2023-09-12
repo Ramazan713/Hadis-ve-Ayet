@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 
 class PrayerAndVerseItem extends StatelessWidget {
   final PrayerAndVerse prayer;

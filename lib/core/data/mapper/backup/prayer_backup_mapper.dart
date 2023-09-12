@@ -2,11 +2,13 @@
 
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
+import 'package:hadith/core/data/remote/backup_dtos/prayer_verse_backup_dto/prayer_verse_backup_dto.dart';
 
 extension PrayerEntityExt on PrayerEntity{
-  PrayerBackupDto toPrayerBackupDto(){
+  PrayerBackupDto toPrayerBackupDto({
+    required List<PrayerVerseBackupDto> prayerVerseBackups
+  }){
     return PrayerBackupDto(
-      id: id,
       name: name,
       orderItem: orderItem,
       typeId: typeId,
@@ -15,7 +17,8 @@ extension PrayerEntityExt on PrayerEntity{
       isRemovable: isRemovable,
       pronunciationContent: pronunciationContent,
       meaningContent: meaningContent,
-      counterId: counterId
+      counterId: counterId,
+      prayerVerseBackups: prayerVerseBackups
     );
   }
 }
@@ -24,7 +27,6 @@ extension PrayerEntityExt on PrayerEntity{
 extension PrayerBackupDtoExt on PrayerBackupDto{
   PrayerEntity toPrayerEntity(){
     return PrayerEntity(
-      id: id,
       name: name,
       orderItem: orderItem,
       typeId: typeId,
@@ -35,7 +37,7 @@ extension PrayerBackupDtoExt on PrayerBackupDto{
       meaningContent: meaningContent,
       counterId: counterId,
       parentPrayerId: parentPrayerId,
-      updateCounter: false
+      updateCounter: false,
     );
   }
 }

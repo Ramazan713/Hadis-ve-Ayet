@@ -273,6 +273,8 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `BackupMeta` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `fileName` TEXT NOT NULL, `updatedDate` TEXT NOT NULL, `isAuto` INTEGER NOT NULL)');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `PrayerVerses` (`id` INTEGER, `verseId` INTEGER NOT NULL, `prayerId` INTEGER NOT NULL, `orderItem` INTEGER NOT NULL, FOREIGN KEY (`verseId`) REFERENCES `verse` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`prayerId`) REFERENCES `Prayers` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, PRIMARY KEY (`id`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `topicSavePoint` (`id` INTEGER, `pos` INTEGER NOT NULL, `type` INTEGER NOT NULL, `parentKey` TEXT NOT NULL, PRIMARY KEY (`id`))');
@@ -6307,6 +6309,16 @@ class _$PrayerDao extends PrayerDao {
                   'updateCounter': item.updateCounter ? 1 : 0
                 },
             changeListener),
+        _prayerVerseEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'PrayerVerses',
+            (PrayerVerseEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'verseId': item.verseId,
+                  'prayerId': item.prayerId,
+                  'orderItem': item.orderItem
+                },
+            changeListener),
         _prayerEntityUpdateAdapter = UpdateAdapter(
             database,
             'Prayers',
@@ -6354,9 +6366,23 @@ class _$PrayerDao extends PrayerDao {
 
   final InsertionAdapter<PrayerEntity> _prayerEntityInsertionAdapter;
 
+  final InsertionAdapter<PrayerVerseEntity> _prayerVerseEntityInsertionAdapter;
+
   final UpdateAdapter<PrayerEntity> _prayerEntityUpdateAdapter;
 
   final DeletionAdapter<PrayerEntity> _prayerEntityDeletionAdapter;
+
+  @override
+  Future<List<PrayerVerseEntity>> getPrayerVerseByPrayerId(int prayerId) async {
+    return _queryAdapter.queryList(
+        'select * from prayerVerses where prayerId = ?1 order by orderItem asc',
+        mapper: (Map<String, Object?> row) => PrayerVerseEntity(
+            id: row['id'] as int?,
+            verseId: row['verseId'] as int,
+            prayerId: row['prayerId'] as int,
+            orderItem: row['orderItem'] as int),
+        arguments: [prayerId]);
+  }
 
   @override
   Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId) async {
@@ -6574,6 +6600,13 @@ class _$PrayerDao extends PrayerDao {
   }
 
   @override
+  Future<void> insertPrayerVerses(
+      List<PrayerVerseEntity> prayerVerseEntities) async {
+    await _prayerVerseEntityInsertionAdapter.insertList(
+        prayerVerseEntities, OnConflictStrategy.replace);
+  }
+
+  @override
   Future<void> updatePrayer(PrayerEntity prayer) async {
     await _prayerEntityUpdateAdapter.update(prayer, OnConflictStrategy.replace);
   }
@@ -6601,16 +6634,18 @@ class _$PrayerDao extends PrayerDao {
   Future<void> insertPrayerWithRelation(
     PrayerEntity childPrayer,
     PrayerEntity unAddedParentPrayer,
+    List<int> prayerVerseIds,
   ) async {
     if (database is sqflite.Transaction) {
-      await super.insertPrayerWithRelation(childPrayer, unAddedParentPrayer);
+      await super.insertPrayerWithRelation(
+          childPrayer, unAddedParentPrayer, prayerVerseIds);
     } else {
       await (database as sqflite.Database)
           .transaction<void>((transaction) async {
         final transactionDatabase = _$AppDatabase(changeListener)
           ..database = transaction;
-        await transactionDatabase.prayerDao
-            .insertPrayerWithRelation(childPrayer, unAddedParentPrayer);
+        await transactionDatabase.prayerDao.insertPrayerWithRelation(
+            childPrayer, unAddedParentPrayer, prayerVerseIds);
       });
     }
   }
@@ -7226,6 +7261,16 @@ class _$BackupDao extends BackupDao {
                   'prayerId': item.prayerId
                 },
             changeListener),
+        _prayerVerseEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'PrayerVerses',
+            (PrayerVerseEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'verseId': item.verseId,
+                  'prayerId': item.prayerId,
+                  'orderItem': item.orderItem
+                },
+            changeListener),
         _prayerEntityInsertionAdapter = InsertionAdapter(
             database,
             'Prayers',
@@ -7283,6 +7328,8 @@ class _$BackupDao extends BackupDao {
       _topicSavePointEntityInsertionAdapter;
 
   final InsertionAdapter<CounterEntity> _counterEntityInsertionAdapter;
+
+  final InsertionAdapter<PrayerVerseEntity> _prayerVerseEntityInsertionAdapter;
 
   final InsertionAdapter<PrayerEntity> _prayerEntityInsertionAdapter;
 
@@ -7390,6 +7437,19 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
+  Future<List<PrayerVerseEntity>> getPrayerVersesByPrayerId(
+      int prayerId) async {
+    return _queryAdapter.queryList(
+        'select * from prayerVerses where prayerId = ?1',
+        mapper: (Map<String, Object?> row) => PrayerVerseEntity(
+            id: row['id'] as int?,
+            verseId: row['verseId'] as int,
+            prayerId: row['prayerId'] as int,
+            orderItem: row['orderItem'] as int),
+        arguments: [prayerId]);
+  }
+
+  @override
   Future<void> deleteHistories() async {
     await _queryAdapter.queryNoReturn('delete from history');
   }
@@ -7475,9 +7535,10 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<void> insertPrayerEntities(List<PrayerEntity> prayers) async {
-    await _prayerEntityInsertionAdapter.insertList(
-        prayers, OnConflictStrategy.replace);
+  Future<void> insertPrayerVerseEntities(
+      List<PrayerVerseEntity> prayerVerseEntities) async {
+    await _prayerVerseEntityInsertionAdapter.insertList(
+        prayerVerseEntities, OnConflictStrategy.replace);
   }
 
   @override
@@ -7523,13 +7584,55 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<void> insertPrayerEntity(PrayerEntity prayer) async {
-    await _prayerEntityInsertionAdapter.insert(
+  Future<int> insertPrayerEntity(PrayerEntity prayer) {
+    return _prayerEntityInsertionAdapter.insertAndReturnId(
         prayer, OnConflictStrategy.replace);
   }
 
   @override
   Future<void> deleteCounterEntities(List<CounterEntity> entities) async {
     await _counterEntityDeletionAdapter.deleteList(entities);
+  }
+
+  @override
+  Future<List<PrayerBackupDto>> getPrayersBackupDto() async {
+    if (database is sqflite.Transaction) {
+      return super.getPrayersBackupDto();
+    } else {
+      return (database as sqflite.Database)
+          .transaction<List<PrayerBackupDto>>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
+        return transactionDatabase.backupDao.getPrayersBackupDto();
+      });
+    }
+  }
+
+  @override
+  Future<void> insertPrayerBackups(List<PrayerBackupDto> prayerBackups) async {
+    if (database is sqflite.Transaction) {
+      await super.insertPrayerBackups(prayerBackups);
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.backupDao.insertPrayerBackups(prayerBackups);
+      });
+    }
+  }
+
+  @override
+  Future<void> deletePrayers() async {
+    if (database is sqflite.Transaction) {
+      await super.deletePrayers();
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.backupDao.deletePrayers();
+      });
+    }
   }
 }

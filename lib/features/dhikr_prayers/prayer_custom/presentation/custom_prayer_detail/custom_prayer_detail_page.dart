@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
@@ -15,7 +18,8 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/custom_prayer_detail_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/sections/contents_section.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/sections/header_section.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 import 'package:hadith/utils/toast_utils.dart';
 
 import 'bloc/custom_prayer_detail_bloc.dart';
@@ -45,26 +49,29 @@ class CustomPrayerDetailPage extends StatelessWidget {
             snap: true,
             floating: true,
             actions: getActions(context),
-            child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
-              builder: (context,state){
-                return StackSecondContent(
-                  getSecondChild: (){
-                    return getLoadingOrEmptyResult(context, state);
-                  },
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          getPrayerName(),
-                          getContentItems(state: state)
-                        ],
-                      )
+            child: BasicAudioInfoBodyWrapper(
+              child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
+                builder: (context,state){
+                  return StackSecondContent(
+                    getSecondChild: (){
+                      return getLoadingOrEmptyResult(context, state);
+                    },
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            getPrayerName(),
+                            getListenItem(context, state.prayerUnit),
+                            getContentItems(state: state)
+                          ],
+                        )
+                      ),
                     ),
-                  ),
-                );
-              }
+                  );
+                }
+              ),
             ),
           ),
         ),
@@ -89,6 +96,24 @@ class CustomPrayerDetailPage extends StatelessWidget {
       );
     }
     return null;
+  }
+
+  Widget getListenItem(BuildContext context, PrayerUnit<PrayerCustom>? prayerUnit){
+    final verseIds = prayerUnit?.getVerseIds;
+    if(verseIds == null || verseIds.isEmpty) return const SizedBox.shrink();
+    final audioBloc = context.read<BasicAudioBloc>();
+    return Padding(
+      padding: const EdgeInsets.only(right: 4,bottom: 8),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: FilledButton(
+          onPressed: (){
+            audioBloc.add(BasicAudioEventStartWithCustomVerseIds(verseIds: verseIds));
+          },
+          child: const Text("Dinle"),
+        ),
+      ),
+    );
   }
 
 
@@ -116,9 +141,9 @@ class CustomPrayerDetailPage extends StatelessWidget {
       },
       builder: (context,state){
         return Padding(
-          padding: const EdgeInsets.only(bottom: 12,top: 4,left: 8),
+          padding: const EdgeInsets.only(bottom: 8,top: 16,left: 8),
           child: Text(
-            "${state.prayer?.name}",
+            state.prayer?.name ?? '',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         );

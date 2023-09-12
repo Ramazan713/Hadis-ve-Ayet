@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 
 
 class AddCounterItem extends StatelessWidget {
@@ -18,22 +18,27 @@ class AddCounterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final colorSchema = Theme.of(context).colorScheme;
+    final color = selected ? colorSchema.secondaryContainer: colorSchema.surface;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
-      child: ListTile(
-        selected: selected,
-        selectedTileColor: Theme.of(context).colorScheme.secondaryContainer,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-        title: Text(
-          item.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontWeight: getTitleFontWeight()
+      child: Material(
+        color: color,
+        borderRadius: BorderRadius.circular(13),
+        child: ListTile(
+          title: Text(
+            item.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontWeight: getTitleFontWeight()
+            ),
           ),
+          subtitle: getSubTitle(context),
+          onTap: onClick,
         ),
-        subtitle: getSubTitle(context),
-        onTap: onClick,
       ),
     );
   }

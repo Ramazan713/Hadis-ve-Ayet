@@ -5,8 +5,13 @@ import 'package:hadith/core/data/local/entities/list/list_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
+import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
+import 'package:hadith/core/data/mapper/backup/prayer_backup_mapper.dart';
+import 'package:hadith/core/data/mapper/backup/prayer_verse_backup_mapper.dart';
+import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
 
 @dao
 abstract class BackupDao{
@@ -35,6 +40,34 @@ abstract class BackupDao{
   @Query("""select * from prayers where typeId = :typeId""")
   Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId);
 
+  @Query("""select * from prayerVerses where prayerId = :prayerId""")
+  Future<List<PrayerVerseEntity>> getPrayerVersesByPrayerId(int prayerId);
+
+
+  @transaction
+  Future<List<PrayerBackupDto>> getPrayersBackupDto()async{
+    final result = <PrayerBackupDto>[];
+    final prayerEntities = await getPrayersWithTypeId(PrayerTypeEnum.custom.typeId);
+    for(final prayer in prayerEntities){
+      final prayerVerseEntities = await getPrayerVersesByPrayerId(prayer.id ?? 0);
+      final prayerVerseDtos = prayerVerseEntities.map((e) => e.toPrayerVerseBackupDto()).toList();
+      final prayerDto = prayer.toPrayerBackupDto(prayerVerseBackups: prayerVerseDtos);
+      result.add(prayerDto);
+    }
+    return result;
+  }
+
+  @transaction
+  Future<void> insertPrayerBackups(List<PrayerBackupDto> prayerBackups)async{
+    for(final prayer in prayerBackups){
+      final prayerVerseDtos = prayer.prayerVerseBackups;
+      final prayerId = await insertPrayerEntity(prayer.toPrayerEntity());
+      final prayerVerseEntities = prayerVerseDtos.map((e){
+        return e.copyWith(prayerId: prayerId).toPrayerVerseEntity();
+      }).toList();
+      await insertPrayerVerseEntities(prayerVerseEntities);
+    }
+  }
 
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -59,7 +92,7 @@ abstract class BackupDao{
   Future<void> insertCounterEntities(List<CounterEntity> counterEntities);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertPrayerEntities(List<PrayerEntity> prayers);
+  Future<void> insertPrayerVerseEntities(List<PrayerVerseEntity> prayerVerseEntities);
 
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -84,7 +117,7 @@ abstract class BackupDao{
   Future<void> insertCounterEntity(CounterEntity counterEntity);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertPrayerEntity(PrayerEntity prayer);
+  Future<int> insertPrayerEntity(PrayerEntity prayer);
 
 
 
@@ -109,9 +142,15 @@ abstract class BackupDao{
   @Query("""delete from counters""")
   Future<void> deleteCounterEntitiesWithQuery();
 
+  @delete
+  Future<void> deleteCounterEntities(List<CounterEntity>entities);
+
   @Query("""delete from prayers where typeId = :typeId""")
   Future<void> deletePrayersWithTypeId(int typeId);
 
-  @delete
-  Future<void> deleteCounterEntities(List<CounterEntity>entities);
+  @transaction
+  Future<void> deletePrayers()async{
+    await deletePrayersWithTypeId(PrayerTypeEnum.custom.typeId);
+  }
+
 }

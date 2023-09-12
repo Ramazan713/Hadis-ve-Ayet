@@ -1,11 +1,14 @@
 
 import 'package:collection/collection.dart';
+import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/prayer_dao.dart';
 import 'package:hadith/core/domain/use_cases/query_ext_use_case.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_verse_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 
 class PrayerCustomRepoImpl extends PrayerCustomRepo{
@@ -84,9 +87,9 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
   }
 
   @override
-  Stream<PrayerCustom?> getStreamPrayerCustomById(int id) {
-    return _prayerDao.getStreamPrayersWithId(id).map((e){
-      return e?.tryToPrayerCustom();
+  Stream<PrayerUnit<PrayerCustom>?> getStreamPrayerCustomUnitById(int id) {
+    return _prayerDao.getStreamPrayersWithId(id).asyncMap((e){
+      return _getPrayerUnit(entity: e, onTransform: (e)=> e.tryToPrayerCustom());
     });
   }
 
@@ -106,5 +109,17 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
     );
     return entities
         .map((items) => items.map((e) => e.tryToPrayerCustom()).whereNotNull().toList());
+  }
+
+  Future<PrayerUnit<T>?> _getPrayerUnit<T>({
+    required PrayerEntity? entity,
+    required T? Function(PrayerEntity) onTransform
+  })async{
+    if(entity == null) return null;
+    final prayer = onTransform(entity);
+    if(prayer == null) return null;
+    final prayerVerseEntities = await _prayerDao.getPrayerVerseByPrayerId(entity.id ?? 0);
+    final prayerVerses = prayerVerseEntities.map((e) => e.toPrayerVerseCrossRef()).toList();
+    return PrayerUnit(item: prayer, prayerVerses: prayerVerses);
   }
 }

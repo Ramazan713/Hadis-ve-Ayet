@@ -1,5 +1,6 @@
 
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 abstract class PrayerCustomRepo{
 
   Future<void> insertPrayerCustom(PrayerCustom prayer);
@@ -18,7 +19,7 @@ abstract class PrayerCustomRepo{
 
   Future<PrayerCustom?> getPrayerCustomById(int id);
 
-  Stream<PrayerCustom?> getStreamPrayerCustomById(int id);
+  Stream<PrayerUnit<PrayerCustom>?> getStreamPrayerCustomUnitById(int id);
 
   Stream<List<PrayerCustom>> getStreamSearchedCustomPrayers(String query);
 }

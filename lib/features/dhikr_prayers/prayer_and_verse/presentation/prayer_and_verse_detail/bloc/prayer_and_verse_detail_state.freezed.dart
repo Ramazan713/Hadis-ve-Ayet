@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PrayerAndVerseDetailState {
   FontModel get fontModel => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  PrayerAndVerse? get prayer => throw _privateConstructorUsedError;
+  PrayerUnit<PrayerAndVerse>? get prayerUnit =>
+      throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,11 +36,10 @@ abstract class $PrayerAndVerseDetailStateCopyWith<$Res> {
   $Res call(
       {FontModel fontModel,
       bool isLoading,
-      PrayerAndVerse? prayer,
+      PrayerUnit<PrayerAndVerse>? prayerUnit,
       String? message});
 
   $FontModelCopyWith<$Res> get fontModel;
-  $PrayerAndVerseCopyWith<$Res>? get prayer;
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$PrayerAndVerseDetailStateCopyWithImpl<$Res,
   $Res call({
     Object? fontModel = null,
     Object? isLoading = null,
-    Object? prayer = freezed,
+    Object? prayerUnit = freezed,
     Object? message = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,10 +70,10 @@ class _$PrayerAndVerseDetailStateCopyWithImpl<$Res,
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      prayer: freezed == prayer
-          ? _value.prayer
-          : prayer // ignore: cast_nullable_to_non_nullable
-              as PrayerAndVerse?,
+      prayerUnit: freezed == prayerUnit
+          ? _value.prayerUnit
+          : prayerUnit // ignore: cast_nullable_to_non_nullable
+              as PrayerUnit<PrayerAndVerse>?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -86,18 +86,6 @@ class _$PrayerAndVerseDetailStateCopyWithImpl<$Res,
   $FontModelCopyWith<$Res> get fontModel {
     return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
       return _then(_value.copyWith(fontModel: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PrayerAndVerseCopyWith<$Res>? get prayer {
-    if (_value.prayer == null) {
-      return null;
-    }
-
-    return $PrayerAndVerseCopyWith<$Res>(_value.prayer!, (value) {
-      return _then(_value.copyWith(prayer: value) as $Val);
     });
   }
 }
@@ -114,13 +102,11 @@ abstract class _$$_PrayerAndVerseDetailStateCopyWith<$Res>
   $Res call(
       {FontModel fontModel,
       bool isLoading,
-      PrayerAndVerse? prayer,
+      PrayerUnit<PrayerAndVerse>? prayerUnit,
       String? message});
 
   @override
   $FontModelCopyWith<$Res> get fontModel;
-  @override
-  $PrayerAndVerseCopyWith<$Res>? get prayer;
 }
 
 /// @nodoc
@@ -138,7 +124,7 @@ class __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>
   $Res call({
     Object? fontModel = null,
     Object? isLoading = null,
-    Object? prayer = freezed,
+    Object? prayerUnit = freezed,
     Object? message = freezed,
   }) {
     return _then(_$_PrayerAndVerseDetailState(
@@ -150,10 +136,10 @@ class __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      prayer: freezed == prayer
-          ? _value.prayer
-          : prayer // ignore: cast_nullable_to_non_nullable
-              as PrayerAndVerse?,
+      prayerUnit: freezed == prayerUnit
+          ? _value.prayerUnit
+          : prayerUnit // ignore: cast_nullable_to_non_nullable
+              as PrayerUnit<PrayerAndVerse>?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -170,7 +156,7 @@ class _$_PrayerAndVerseDetailState
   const _$_PrayerAndVerseDetailState(
       {required this.fontModel,
       required this.isLoading,
-      this.prayer,
+      this.prayerUnit,
       this.message});
 
   @override
@@ -178,13 +164,13 @@ class _$_PrayerAndVerseDetailState
   @override
   final bool isLoading;
   @override
-  final PrayerAndVerse? prayer;
+  final PrayerUnit<PrayerAndVerse>? prayerUnit;
   @override
   final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerAndVerseDetailState(fontModel: $fontModel, isLoading: $isLoading, prayer: $prayer, message: $message)';
+    return 'PrayerAndVerseDetailState(fontModel: $fontModel, isLoading: $isLoading, prayerUnit: $prayerUnit, message: $message)';
   }
 
   @override
@@ -194,7 +180,7 @@ class _$_PrayerAndVerseDetailState
       ..add(DiagnosticsProperty('type', 'PrayerAndVerseDetailState'))
       ..add(DiagnosticsProperty('fontModel', fontModel))
       ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('prayer', prayer))
+      ..add(DiagnosticsProperty('prayerUnit', prayerUnit))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -207,13 +193,14 @@ class _$_PrayerAndVerseDetailState
                 other.fontModel == fontModel) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.prayer, prayer) || other.prayer == prayer) &&
+            (identical(other.prayerUnit, prayerUnit) ||
+                other.prayerUnit == prayerUnit) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, fontModel, isLoading, prayer, message);
+      Object.hash(runtimeType, fontModel, isLoading, prayerUnit, message);
 
   @JsonKey(ignore: true)
   @override
@@ -227,7 +214,7 @@ abstract class _PrayerAndVerseDetailState implements PrayerAndVerseDetailState {
   const factory _PrayerAndVerseDetailState(
       {required final FontModel fontModel,
       required final bool isLoading,
-      final PrayerAndVerse? prayer,
+      final PrayerUnit<PrayerAndVerse>? prayerUnit,
       final String? message}) = _$_PrayerAndVerseDetailState;
 
   @override
@@ -235,7 +222,7 @@ abstract class _PrayerAndVerseDetailState implements PrayerAndVerseDetailState {
   @override
   bool get isLoading;
   @override
-  PrayerAndVerse? get prayer;
+  PrayerUnit<PrayerAndVerse>? get prayerUnit;
   @override
   String? get message;
   @override

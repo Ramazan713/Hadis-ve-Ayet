@@ -6,12 +6,13 @@ import 'package:hadith/core/presentation/components/selections/dropdown_icon_men
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/core/utils/search_utils.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/domain/enums/prayer_in_quran_bottom_menu_item.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 import 'package:hadith/features/extra_features/quran_prayer/domain/model/quran_prayer.dart';
 import 'package:hadith/features/verse/verse_helper_funcs.dart';
 
 class PrayerInQuranItem extends StatelessWidget {
-  final PrayerInQuran prayer;
+  final PrayerUnit<PrayerInQuran> prayerUnit;
   final int order;
   final ArabicVerseUI2X verseUIEnum;
   final FontModel fontModel;
@@ -19,24 +20,30 @@ class PrayerInQuranItem extends StatelessWidget {
   final void Function(PrayerInQuranBottomMenuItem menuItem)? onMenuSelect;
   final EdgeInsets? paddings;
   final EdgeInsets? margins;
+  final bool isSelected;
 
   const PrayerInQuranItem({
     Key? key,
-    required this.prayer,
+    required this.prayerUnit,
     required this.order,
     required this.verseUIEnum,
     required this.fontModel,
     required this.searchParam,
+    required this.isSelected,
     this.onMenuSelect,
     this.margins,
     this.paddings
   }) : super(key: key);
 
-
+  PrayerInQuran get prayer => prayerUnit.item;
 
   @override
   Widget build(BuildContext context) {
+    final colorSchema = Theme.of(context).colorScheme;
+    final cardColor = isSelected ? colorSchema.secondaryContainer :colorSchema.surface;
+
     return Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(13),
       ),
@@ -70,7 +77,7 @@ class PrayerInQuranItem extends StatelessWidget {
         if(onMenuSelect!=null)
           CustomDropdownIconMenu(
             iconData: Icons.more_horiz,
-            items: PrayerInQuranBottomMenuItem.getItems(prayer),
+            items: PrayerInQuranBottomMenuItem.getItems(prayerUnit),
             onSelected: (selected){
               onMenuSelect?.call(selected);
             }

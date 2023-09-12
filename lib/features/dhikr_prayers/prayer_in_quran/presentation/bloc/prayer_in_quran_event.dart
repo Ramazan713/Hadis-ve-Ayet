@@ -1,7 +1,8 @@
 
 
 
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 
 abstract class IPrayerInQuranEvent{}
 
@@ -18,8 +19,8 @@ class PrayerInQuranEventSetSearchBarVisibility extends IPrayerInQuranEvent{
 }
 
 class PrayerInQuranEventAddCustomPrayer extends IPrayerInQuranEvent{
-  final PrayerInQuran prayer;
-  PrayerInQuranEventAddCustomPrayer({required this.prayer});
+  final PrayerUnit<PrayerInQuran> prayerUnit;
+  PrayerInQuranEventAddCustomPrayer({required this.prayerUnit});
 }
 
 class PrayerInQuranEventListenData extends IPrayerInQuranEvent{}

@@ -8,7 +8,7 @@ import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran/prayer_in_quran.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_repo.dart';
 
 import 'prayer_in_quran_event.dart';
@@ -50,16 +50,16 @@ class PrayerInQuranBloc extends Bloc<IPrayerInQuranEvent,PrayerInQuranState>{
   }
 
   void _onListenData(PrayerInQuranEventListenData event,Emitter<PrayerInQuranState>emit)async{
-
+    emit(state.copyWith(isLoading: true));
     final streamData = Rx.combineLatest2(_filterQuery, _filterCriteria, (query, criteria){
       return _QueryCriteria(query: query,criteriaEnum: criteria);
     }).switchMap((queryCriteria){
-      if(queryCriteria.query.trim().isEmpty) return _prayerRepo.getStreamPrayerInQurans();
-      return _prayerRepo.getSearchedPrayersInQuran(queryCriteria.query.trim(), queryCriteria.criteriaEnum);
+      if(queryCriteria.query.trim().isEmpty) return _prayerRepo.getStreamPrayerInQuranUnits();
+      return _prayerRepo.getSearchedPrayerInQuranUnits(queryCriteria.query.trim(), queryCriteria.criteriaEnum);
     });
 
-    await emit.forEach<List<PrayerInQuran>>(streamData, onData: (data){
-      return state.copyWith(items: data);
+    await emit.forEach(streamData, onData: (data){
+      return state.copyWith(items: data,isLoading: false);
     });
   }
 
@@ -79,7 +79,7 @@ class PrayerInQuranBloc extends Bloc<IPrayerInQuranEvent,PrayerInQuranState>{
   }
 
   void _onAddCustomPrayer(PrayerInQuranEventAddCustomPrayer event,Emitter<PrayerInQuranState>emit)async{
-    _prayerRepo.insertCustomPrayerWithRelationForPrayerQuran(event.prayer);
+    _prayerRepo.insertCustomPrayerWithRelationForPrayerQuran(event.prayerUnit);
     emit(state.copyWith(message: "Başarıyla Eklendi"));
   }
 

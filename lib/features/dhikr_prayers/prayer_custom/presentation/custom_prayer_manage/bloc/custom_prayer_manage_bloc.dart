@@ -2,7 +2,7 @@
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 import 'custom_prayer_manage_event.dart';
 import 'custom_prayer_manage_state.dart';

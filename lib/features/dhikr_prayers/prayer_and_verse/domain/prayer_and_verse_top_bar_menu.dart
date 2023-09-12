@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 
 enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
   addToCustomPrayer(
@@ -18,6 +18,10 @@ enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
   selectFontSize(
       title: "Yazı Boyutu",
       iconInfo: IconInfo(iconData: Icons.text_format)
+  ),
+  selectEdition(
+      title: "Kıraat Seç",
+      iconInfo: IconInfo(iconData: Icons.record_voice_over)
   );
 
   const PrayerAndVerseTopBarMenuItems({
@@ -32,7 +36,10 @@ enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
   final IconInfo iconInfo;
 
   static List<PrayerAndVerseTopBarMenuItems> getItems(PrayerAndVerse? prayer){
-    final items = [PrayerAndVerseTopBarMenuItems.selectFontSize];
+    final items = [
+      PrayerAndVerseTopBarMenuItems.selectFontSize,
+      PrayerAndVerseTopBarMenuItems.selectEdition
+    ];
 
     if(prayer == null || prayer.parentPrayerId == null) {
       items.insert(0,PrayerAndVerseTopBarMenuItems.addToCustomPrayer);

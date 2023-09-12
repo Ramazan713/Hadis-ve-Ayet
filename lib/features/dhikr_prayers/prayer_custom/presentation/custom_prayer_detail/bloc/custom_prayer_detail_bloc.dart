@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 
 import 'custom_prayer_detail_event.dart';
@@ -44,10 +44,10 @@ class CustomPrayerDetailBloc extends Bloc<ICustomPrayerDetailEvent,CustomPrayerD
 
   void _onLoadData(CustomPrayerDetailLoadData event,Emitter<CustomPrayerDetailState>emit)async{
     emit(CustomPrayerDetailState.init().copyWith(isLoading: true));
-    final prayerStream = _prayerRepo.getStreamPrayerCustomById(event.prayerId);
+    final prayerStream = _prayerRepo.getStreamPrayerCustomUnitById(event.prayerId);
 
-    await emit.forEach<PrayerCustom?>(prayerStream, onData: (data){
-      return state.copyWith(prayer: data,isLoading: false);
+    await emit.forEach(prayerStream, onData: (data){
+      return state.copyWith(prayerUnit: data,isLoading: false);
     });
   }
 

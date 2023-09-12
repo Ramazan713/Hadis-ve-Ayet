@@ -65,7 +65,7 @@ class LocalBackupRepoImpl extends LocalBackupRepo{
     await _backupDao.deleteVerseLists();
     await _backupDao.deleteHistories();
     await _backupDao.deleteCounterEntities(await _backupDao.getCounterEntities());
-    await _backupDao.deletePrayersWithTypeId(PrayerTypeEnum.custom.typeId);
+    await _backupDao.deletePrayers();
   }
 
 
@@ -77,7 +77,7 @@ class LocalBackupRepoImpl extends LocalBackupRepo{
     final verseLists = await _backupDao.getVerseListEntities();
     final histories = await _backupDao.getHistories();
     final counterEntities = await _backupDao.getCounterEntities();
-    final prayers = await _backupDao.getPrayersWithTypeId(PrayerTypeEnum.custom.typeId);
+    final prayers = await _backupDao.getPrayersBackupDto();
 
     final hadithListJsonArr = hadithLists.map((e) => e.toListHadithBackupDto().toJson()).toList();
     final listsJsonArr = lists.map((e) => e.toListBackupDto().toJson()).toList();
@@ -86,7 +86,7 @@ class LocalBackupRepoImpl extends LocalBackupRepo{
     final verseListJsonArr = verseLists.map((e) => e.toListVerseBackupDto().toJson()).toList();
     final historiesJsonArr = histories.map((e) => e.toHistoryBackupDto().toJson()).toList();
     final countersJsonArr = counterEntities.map((e) => e.toCounterBackupDto().toJson()).toList();
-    final prayersJsonArr = prayers.map((e) => e.toPrayerBackupDto().toJson()).toList();
+    final prayersJsonArr = prayers.map((e) => e.toJson()).toList();
 
     final sharedJson = _appPreferences.toJson();
 
@@ -157,7 +157,7 @@ class LocalBackupRepoImpl extends LocalBackupRepo{
       await _backupDao.insertHadithLists(hadithLists.map((e) => e.toListHadithEntity()).toList());
       await _backupDao.insertVerseLists(verseLists.map((e) => e.toListVerseEntity()).toList());
       await _backupDao.insertCounterEntities(counters.map((e) => e.toCounterEntity()).toList());
-      await _backupDao.insertPrayerEntities(prayers.map((e) => e.toPrayerEntity()).toList());
+      await _backupDao.insertPrayerBackups(prayers);
 
       return ResourceSuccess(null);
     }catch(e){

@@ -15,6 +15,7 @@ import 'package:hadith/core/data/local/entities/list/list_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_hadith_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
+import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/savepoint_type_entity.dart';
 import 'package:hadith/core/data/local/entities/surah_entity.dart';
@@ -56,6 +57,7 @@ import 'package:hadith/core/data/local/services/user_info_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_arabic_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_audio_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_dao.dart';
+import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
 import 'package:hadith/db/entities/audio_edition.dart';
 import 'package:hadith/db/entities/backup_meta.dart';
 import 'package:hadith/db/entities/helper/int_data.dart';
@@ -136,7 +138,7 @@ part 'database.g.dart';
       PrayerEntity, PrayerEntityOld, EsmaulHusnaEntity, CounterEntity,
       VerseEntity, HistoryEntity, AudioEditionEntity, VerseAudioEntity,
       IslamicInfoTitleEntity, IslamicInfoItemEntity, UserInfoEntity,
-      BackupMetaEntity,
+      BackupMetaEntity, PrayerVerseEntity,
       SavePointEntityOld, TopicSavePointEntity, CuzEntity, SurahEntity, VerseArabicEntity,
       QuranPrayerEntity, Hadith, SavePointEntity, ListEntityOld, ListHadithEntityOld,ListVerseEntityOld
     ],

@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PrayerInQuranState {
-  List<PrayerInQuran> get items => throw _privateConstructorUsedError;
+  List<PrayerUnit<PrayerInQuran>> get items =>
+      throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   ArabicVerseUI2X get arabicVerseUI2X => throw _privateConstructorUsedError;
   FontModel get fontModel => throw _privateConstructorUsedError;
@@ -37,7 +38,7 @@ abstract class $PrayerInQuranStateCopyWith<$Res> {
       _$PrayerInQuranStateCopyWithImpl<$Res, PrayerInQuranState>;
   @useResult
   $Res call(
-      {List<PrayerInQuran> items,
+      {List<PrayerUnit<PrayerInQuran>> items,
       bool isLoading,
       ArabicVerseUI2X arabicVerseUI2X,
       FontModel fontModel,
@@ -75,7 +76,7 @@ class _$PrayerInQuranStateCopyWithImpl<$Res, $Val extends PrayerInQuranState>
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<PrayerInQuran>,
+              as List<PrayerUnit<PrayerInQuran>>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -125,7 +126,7 @@ abstract class _$$_PrayerInQuranStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<PrayerInQuran> items,
+      {List<PrayerUnit<PrayerInQuran>> items,
       bool isLoading,
       ArabicVerseUI2X arabicVerseUI2X,
       FontModel fontModel,
@@ -162,7 +163,7 @@ class __$$_PrayerInQuranStateCopyWithImpl<$Res>
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<PrayerInQuran>,
+              as List<PrayerUnit<PrayerInQuran>>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -200,7 +201,7 @@ class __$$_PrayerInQuranStateCopyWithImpl<$Res>
 class _$_PrayerInQuranState extends _PrayerInQuranState
     with DiagnosticableTreeMixin {
   const _$_PrayerInQuranState(
-      {required final List<PrayerInQuran> items,
+      {required final List<PrayerUnit<PrayerInQuran>> items,
       required this.isLoading,
       required this.arabicVerseUI2X,
       required this.fontModel,
@@ -211,9 +212,9 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
       : _items = items,
         super._();
 
-  final List<PrayerInQuran> _items;
+  final List<PrayerUnit<PrayerInQuran>> _items;
   @override
-  List<PrayerInQuran> get items {
+  List<PrayerUnit<PrayerInQuran>> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_items);
@@ -297,7 +298,7 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
 
 abstract class _PrayerInQuranState extends PrayerInQuranState {
   const factory _PrayerInQuranState(
-      {required final List<PrayerInQuran> items,
+      {required final List<PrayerUnit<PrayerInQuran>> items,
       required final bool isLoading,
       required final ArabicVerseUI2X arabicVerseUI2X,
       required final FontModel fontModel,
@@ -308,7 +309,7 @@ abstract class _PrayerInQuranState extends PrayerInQuranState {
   const _PrayerInQuranState._() : super._();
 
   @override
-  List<PrayerInQuran> get items;
+  List<PrayerUnit<PrayerInQuran>> get items;
   @override
   bool get isLoading;
   @override

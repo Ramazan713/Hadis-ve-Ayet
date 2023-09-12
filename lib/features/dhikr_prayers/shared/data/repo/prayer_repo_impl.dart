@@ -4,10 +4,12 @@ import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/core/data/local/services/prayer_dao.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_verse_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_repo.dart';
 
 class PrayerRepoImpl extends PrayerRepo{
@@ -27,9 +29,9 @@ class PrayerRepoImpl extends PrayerRepo{
   }
 
   @override
-  Stream<PrayerAndVerse?> getStreamPrayerAndVerseById(int id){
+  Stream<PrayerUnit<PrayerAndVerse>?> getStreamPrayerAndVerseUnitById(int id){
     return _prayerDao.getStreamPrayersWithId(id)
-        .map((e) => e?.tryToPrayerAndVerse());
+        .asyncMap((e) => _getPrayerUnit(entity: e,onTransform: (e)=>e.tryToPrayerAndVerse()));
   }
 
 
@@ -48,13 +50,13 @@ class PrayerRepoImpl extends PrayerRepo{
 
 
   @override
-  Stream<List<PrayerInQuran>> getStreamPrayerInQurans(){
+  Stream<List<PrayerUnit<PrayerInQuran>>> getStreamPrayerInQuranUnits(){
     return (_prayerDao.getStreamPrayersWithTypeIdOrderByAsc(PrayerTypeEnum.prayerInQuran.typeId))
-        .map((items) => items.map((e) => e.tryToPrayInQuran()).whereNotNull().toList());
+        .asyncMap((items) => _getPrayerUnits(prayerEntities: items, onTransform: (e) => e.tryToPrayInQuran()));
   }
 
   @override
-  Stream<List<PrayerInQuran>> getSearchedPrayersInQuran(String query, SearchCriteriaEnum criteria){
+  Stream<List<PrayerUnit<PrayerInQuran>>> getSearchedPrayerInQuranUnits(String query, SearchCriteriaEnum criteria){
     final queryExp = criteria.getQuery(query);
     final Stream<List<PrayerEntity>> streamEntities;
     if(criteria.isRegex){
@@ -62,20 +64,49 @@ class PrayerRepoImpl extends PrayerRepo{
     }else{
       streamEntities = _prayerDao.getStreamPrayersSearchedLikeWithTypeId(PrayerTypeEnum.prayerInQuran.typeId, queryExp);
     }
-    return streamEntities.map((items) => items.map((e) => e.tryToPrayInQuran()).whereNotNull().toList());
+    return streamEntities.asyncMap((items) => _getPrayerUnits(prayerEntities: items, onTransform: (e)=> e.tryToPrayInQuran()));
   }
 
   @override
-  Future<void> insertCustomPrayerWithRelationForPrayerVerse(PrayerAndVerse prayer) async{
+  Future<void> insertCustomPrayerWithRelationForPrayerVerse(PrayerUnit<PrayerAndVerse> prayerUnit) async{
+    final prayer = prayerUnit.item;
     final parentPrayer = prayer.toPrayerCustom().copyWith(id: null).toPrayerEntity();
     final childPrayer = prayer.toPrayerEntity();
-    await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer);
+    await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer, prayerUnit.getVerseIds);
   }
 
   @override
-  Future<void> insertCustomPrayerWithRelationForPrayerQuran(PrayerInQuran prayer) async{
+  Future<void> insertCustomPrayerWithRelationForPrayerQuran(PrayerUnit<PrayerInQuran> prayerUnit) async{
+    final prayer = prayerUnit.item;
     final parentPrayer = prayer.toPrayerCustom().copyWith(id: null).toPrayerEntity();
     final childPrayer = prayer.toPrayerEntity();
-    await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer);
+    await _prayerDao.insertPrayerWithRelation(childPrayer, parentPrayer,prayerUnit.getVerseIds);
   }
+
+  Future<List<PrayerUnit<T>>> _getPrayerUnits<T>({
+    required List<PrayerEntity> prayerEntities,
+    required T? Function(PrayerEntity) onTransform
+  })async{
+    final items = <PrayerUnit<T>>[];
+
+    for(final entity in prayerEntities){
+      final item = await _getPrayerUnit(entity: entity, onTransform: onTransform);
+      if(item == null) continue;
+      items.add(item);
+    }
+    return items;
+  }
+
+  Future<PrayerUnit<T>?> _getPrayerUnit<T>({
+    required PrayerEntity? entity,
+    required T? Function(PrayerEntity) onTransform
+  })async{
+    if(entity == null) return null;
+    final prayer = onTransform(entity);
+    if(prayer == null) return null;
+    final prayerVerseEntities = await _prayerDao.getPrayerVerseByPrayerId(entity.id ?? 0);
+    final prayerVerses = prayerVerseEntities.map((e) => e.toPrayerVerseCrossRef()).toList();
+    return PrayerUnit(item: prayer, prayerVerses: prayerVerses);
+  }
+
 }

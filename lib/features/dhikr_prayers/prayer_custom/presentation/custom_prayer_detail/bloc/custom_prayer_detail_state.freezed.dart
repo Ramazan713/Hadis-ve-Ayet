@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CustomPrayerDetailState {
   FontModel get fontModel => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  PrayerCustom? get prayer => throw _privateConstructorUsedError;
+  PrayerUnit<PrayerCustom>? get prayerUnit =>
+      throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,11 +36,10 @@ abstract class $CustomPrayerDetailStateCopyWith<$Res> {
   $Res call(
       {FontModel fontModel,
       bool isLoading,
-      PrayerCustom? prayer,
+      PrayerUnit<PrayerCustom>? prayerUnit,
       String? message});
 
   $FontModelCopyWith<$Res> get fontModel;
-  $PrayerCustomCopyWith<$Res>? get prayer;
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$CustomPrayerDetailStateCopyWithImpl<$Res,
   $Res call({
     Object? fontModel = null,
     Object? isLoading = null,
-    Object? prayer = freezed,
+    Object? prayerUnit = freezed,
     Object? message = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,10 +70,10 @@ class _$CustomPrayerDetailStateCopyWithImpl<$Res,
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      prayer: freezed == prayer
-          ? _value.prayer
-          : prayer // ignore: cast_nullable_to_non_nullable
-              as PrayerCustom?,
+      prayerUnit: freezed == prayerUnit
+          ? _value.prayerUnit
+          : prayerUnit // ignore: cast_nullable_to_non_nullable
+              as PrayerUnit<PrayerCustom>?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -86,18 +86,6 @@ class _$CustomPrayerDetailStateCopyWithImpl<$Res,
   $FontModelCopyWith<$Res> get fontModel {
     return $FontModelCopyWith<$Res>(_value.fontModel, (value) {
       return _then(_value.copyWith(fontModel: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PrayerCustomCopyWith<$Res>? get prayer {
-    if (_value.prayer == null) {
-      return null;
-    }
-
-    return $PrayerCustomCopyWith<$Res>(_value.prayer!, (value) {
-      return _then(_value.copyWith(prayer: value) as $Val);
     });
   }
 }
@@ -113,13 +101,11 @@ abstract class _$$_CustomPrayerDetailStateCopyWith<$Res>
   $Res call(
       {FontModel fontModel,
       bool isLoading,
-      PrayerCustom? prayer,
+      PrayerUnit<PrayerCustom>? prayerUnit,
       String? message});
 
   @override
   $FontModelCopyWith<$Res> get fontModel;
-  @override
-  $PrayerCustomCopyWith<$Res>? get prayer;
 }
 
 /// @nodoc
@@ -136,7 +122,7 @@ class __$$_CustomPrayerDetailStateCopyWithImpl<$Res>
   $Res call({
     Object? fontModel = null,
     Object? isLoading = null,
-    Object? prayer = freezed,
+    Object? prayerUnit = freezed,
     Object? message = freezed,
   }) {
     return _then(_$_CustomPrayerDetailState(
@@ -148,10 +134,10 @@ class __$$_CustomPrayerDetailStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      prayer: freezed == prayer
-          ? _value.prayer
-          : prayer // ignore: cast_nullable_to_non_nullable
-              as PrayerCustom?,
+      prayerUnit: freezed == prayerUnit
+          ? _value.prayerUnit
+          : prayerUnit // ignore: cast_nullable_to_non_nullable
+              as PrayerUnit<PrayerCustom>?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -167,7 +153,7 @@ class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
   const _$_CustomPrayerDetailState(
       {required this.fontModel,
       required this.isLoading,
-      this.prayer,
+      this.prayerUnit,
       this.message})
       : super._();
 
@@ -176,13 +162,13 @@ class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
   @override
   final bool isLoading;
   @override
-  final PrayerCustom? prayer;
+  final PrayerUnit<PrayerCustom>? prayerUnit;
   @override
   final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CustomPrayerDetailState(fontModel: $fontModel, isLoading: $isLoading, prayer: $prayer, message: $message)';
+    return 'CustomPrayerDetailState(fontModel: $fontModel, isLoading: $isLoading, prayerUnit: $prayerUnit, message: $message)';
   }
 
   @override
@@ -192,7 +178,7 @@ class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
       ..add(DiagnosticsProperty('type', 'CustomPrayerDetailState'))
       ..add(DiagnosticsProperty('fontModel', fontModel))
       ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('prayer', prayer))
+      ..add(DiagnosticsProperty('prayerUnit', prayerUnit))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -205,13 +191,14 @@ class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
                 other.fontModel == fontModel) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.prayer, prayer) || other.prayer == prayer) &&
+            (identical(other.prayerUnit, prayerUnit) ||
+                other.prayerUnit == prayerUnit) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, fontModel, isLoading, prayer, message);
+      Object.hash(runtimeType, fontModel, isLoading, prayerUnit, message);
 
   @JsonKey(ignore: true)
   @override
@@ -226,7 +213,7 @@ abstract class _CustomPrayerDetailState extends CustomPrayerDetailState {
   const factory _CustomPrayerDetailState(
       {required final FontModel fontModel,
       required final bool isLoading,
-      final PrayerCustom? prayer,
+      final PrayerUnit<PrayerCustom>? prayerUnit,
       final String? message}) = _$_CustomPrayerDetailState;
   const _CustomPrayerDetailState._() : super._();
 
@@ -235,7 +222,7 @@ abstract class _CustomPrayerDetailState extends CustomPrayerDetailState {
   @override
   bool get isLoading;
   @override
-  PrayerCustom? get prayer;
+  PrayerUnit<PrayerCustom>? get prayerUnit;
   @override
   String? get message;
   @override

@@ -12,6 +12,10 @@ enum PrayerInQuranTopBarMenuItem implements IMenuItem{
   fontSize(
       title: "Yazı Boyutu",
       iconInfo: IconInfo(iconData: Icons.font_download_rounded)
+  ),
+  selectEdition(
+      title: "Kıraat Seç",
+      iconInfo: IconInfo(iconData: Icons.record_voice_over)
   );
 
   const PrayerInQuranTopBarMenuItem({required this.title, this.iconInfo});

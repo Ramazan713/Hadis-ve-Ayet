@@ -6,7 +6,7 @@ import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_mapper.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_repo.dart';
 
@@ -45,16 +45,17 @@ class PrayerAndVerseDetailBloc extends Bloc<IPrayerDetailEvent,PrayerAndVerseDet
       isLoading: true,
       fontModel: _fontModelUseCase.call()
     ));
-    final prayerStream = _prayerRepo.getStreamPrayerAndVerseById(event.prayerId);
+
+    final prayerStream = _prayerRepo.getStreamPrayerAndVerseUnitById(event.prayerId);
     await emit.forEach(prayerStream, onData: (data){
-      return state.copyWith(prayer: data,isLoading: false);
+      return state.copyWith(prayerUnit: data,isLoading: false);
     });
   }
 
   void _onAddToCustomPrayer(PrayerAndVerseDetailEventAddToCustomPrayer event,Emitter<PrayerAndVerseDetailState>emit)async{
-    final prayer = state.prayer;
-    if(prayer == null) return;
-    _prayerRepo.insertCustomPrayerWithRelationForPrayerVerse(prayer);
+    final prayerUnit = state.prayerUnit;
+    if(prayerUnit == null) return;
+    _prayerRepo.insertCustomPrayerWithRelationForPrayerVerse(prayerUnit);
     emit(state.copyWith(message: "Başarıyla Eklendi"));
   }
 

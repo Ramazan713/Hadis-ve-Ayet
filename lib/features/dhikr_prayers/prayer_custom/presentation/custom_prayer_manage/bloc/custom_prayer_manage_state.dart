@@ -2,7 +2,7 @@
 
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 part 'custom_prayer_manage_state.freezed.dart';
 
 @freezed

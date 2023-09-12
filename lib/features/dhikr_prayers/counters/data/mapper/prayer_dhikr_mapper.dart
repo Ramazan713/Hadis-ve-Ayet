@@ -2,7 +2,7 @@
 
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 
 extension PrayerDhikrEx on PrayerDhikr{
   Counter toCounter({

@@ -3,10 +3,10 @@ import 'package:hadith/core/data/local/entities/counter_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran/prayer_in_quran.dart';
 
 extension PrayerEntityExt on PrayerEntity{
 
@@ -154,7 +154,7 @@ extension PrayerInQuranExt on PrayerInQuran{
   PrayerCustom toPrayerCustom(){
     return PrayerCustom(
       id: id,
-      name: "$source - Kuran'da geçen dua ayetleri",
+      name: source,
       arabicContent: arabicContent,
       meaningContent: meaningContent,
       orderItem: orderItem,

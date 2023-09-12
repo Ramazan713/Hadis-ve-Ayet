@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
+import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/domain/prayer_and_verse_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_event.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 import 'package:hadith/utils/toast_utils.dart';
 
 import 'bloc/prayer_and_verse_detail_state.dart';
@@ -33,7 +39,6 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
 
     context.read<PrayerAndVerseDetailBloc>()
         .add(PrayerAndVerseDetailEventLoadData(prayerId: prayerId));
-
     return getListeners(
       child: Scaffold(
         body: SafeArea(
@@ -42,34 +47,36 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
             pinned: true,
             actions: getActions(context),
             appBarType: AppBarType.mediumBar,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: BasicAudioInfoBodyWrapper(
                 child: BlocBuilder<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState>(
                   builder: (context,state){
-                    if(state.isLoading){
-                      return const SharedLoadingIndicator();
-                    }
-
-                    final prayer = state.prayer;
+                    final prayerUnit = state.prayerUnit;
                     final fontModel = state.fontModel;
-                    if(prayer == null){
-                      return const SharedEmptyResult(
-                        content: "herhangi bir sonuç bulunamadı",
-                      );
-                    }
-                    return Column(
-                      children: [
-                        getArabicContentItem(prayer: prayer, fontModel: fontModel),
-                        const SizedBox(height: 8,),
-                        getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
-                        const SizedBox(height: 8,),
-                        getMeaningContentItem(prayer: prayer, fontModel: fontModel),
-                        const SizedBox(height: 8,),
-                      ],
+                    final prayer = prayerUnit?.item;
+
+                    return StackSecondContent(
+                      showStackChild: false,
+                      getSecondChild: (){
+                        return getLoadingOrEmptyResult(context,state);
+                      },
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            getListenItem(context,prayerUnit),
+                            getArabicContentItem(prayer: prayer, fontModel: fontModel),
+                            const SizedBox(height: 8,),
+                            getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
+                            const SizedBox(height: 8,),
+                            getMeaningContentItem(prayer: prayer, fontModel: fontModel),
+                            const SizedBox(height: 8,),
+                          ],
+                        ),
+                      ),
                     );
-                  }
-                )
+                  },
+                ),
               ),
             ),
           ),
@@ -78,20 +85,49 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
     );
   }
 
+  Widget? getLoadingOrEmptyResult(BuildContext context, PrayerAndVerseDetailState state){
+    final prayer = state.prayerUnit;
+    if(state.isLoading){
+      return const SharedLoadingIndicator();
+    }
+    if(prayer == null){
+      return const SharedEmptyResult();
+    }
+    return null;
+  }
+
 
   Widget getTitle(){
     return BlocBuilder<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState>(
       buildWhen: (prevState, nextState){
-        return prevState.prayer != nextState.prayer;
+        return prevState.prayerUnit != nextState.prayerUnit;
       },
       builder: (context,state){
-        return Text(state.prayer?.name ?? "");
+        return Text(state.prayerUnit?.item.name ?? "");
       }
     );
   }
 
+  Widget getListenItem(BuildContext context, PrayerUnit<PrayerAndVerse>? prayerUnit){
+    final verseIds = prayerUnit?.getVerseIds;
+    if(verseIds == null || verseIds.isEmpty) return const SizedBox.shrink();
+    final audioBloc = context.read<BasicAudioBloc>();
+    return Padding(
+      padding: const EdgeInsets.only(right: 4,top: 2,bottom: 8),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: FilledButton(
+          onPressed: (){
+            audioBloc.add(BasicAudioEventStartWithCustomVerseIds(verseIds: verseIds));
+          },
+          child: const Text("Dinle"),
+        ),
+      ),
+    );
+  }
+
   Widget getArabicContentItem({
-    required PrayerAndVerse prayer,
+    required PrayerAndVerse? prayer,
     required FontModel fontModel
   }){
     return TitleSectionChild(
@@ -102,7 +138,7 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
         contentFontSize: fontModel.contentFontSize,
         elevation: 3,
         content: ArabicContentItem(
-          content: prayer.arabicContent,
+          content: prayer?.arabicContent ?? "",
           fontSize: fontModel.arabicFontSize,
           fontFamily: fontModel.arabicFontFamilyEnum,
         )
@@ -110,10 +146,10 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
   }
 
   Widget getPronunciationContentItem({
-    required PrayerAndVerse prayer,
+    required PrayerAndVerse? prayer,
     required FontModel fontModel
   }){
-    if(prayer.pronunciationContent == null) {
+    if(prayer?.pronunciationContent == null) {
       return const SizedBox();
     }
     return TitleSectionItem(
@@ -123,12 +159,12 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
         useDefaultColor: true,
         contentFontSize: fontModel.contentFontSize,
         elevation: 3,
-        content: prayer.pronunciationContent ?? ""
+        content: prayer?.pronunciationContent ?? ""
     );
   }
 
   Widget getMeaningContentItem({
-    required PrayerAndVerse prayer,
+    required PrayerAndVerse? prayer,
     required FontModel fontModel
   }){
     return TitleSectionItem(
@@ -138,7 +174,7 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
         useDefaultColor: true,
         contentFontSize: fontModel.contentFontSize,
         elevation: 3,
-        content: prayer.meaningContent
+        content: prayer?.meaningContent ?? ""
     );
   }
 
@@ -151,11 +187,12 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
 
   Widget _getTopBarIconDropdownMenu(BuildContext context){
     final bloc = context.read<PrayerAndVerseDetailBloc>();
-    return BlocSelector<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState, PrayerAndVerse?>(
-      selector: (state) => state.prayer,
-      builder: (context, currentPrayer){
+    final audioBloc = context.read<BasicAudioBloc>();
+    return BlocSelector<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState, PrayerUnit<PrayerAndVerse>?>(
+      selector: (state) => state.prayerUnit,
+      builder: (context, currentPrayerUnit){
         return CustomDropdownIconMenu(
-          items: PrayerAndVerseTopBarMenuItems.getItems(currentPrayer),
+          items: PrayerAndVerseTopBarMenuItems.getItems(currentPrayerUnit?.item),
           onSelected: (menuItem){
             switch(menuItem){
               case PrayerAndVerseTopBarMenuItems.selectFontSize:
@@ -165,10 +202,14 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
                 bloc.add(PrayerAndVerseDetailEventAddToCustomPrayer());
                 break;
               case PrayerAndVerseTopBarMenuItems.goToCustomPrayer:
-                final parentId = currentPrayer?.parentPrayerId;
+                final parentId = currentPrayerUnit?.item.parentPrayerId;
                 if(parentId!=null){
                   CustomPrayerDetailRoute(prayerId: parentId).push(context);
                 }
+                break;
+              case PrayerAndVerseTopBarMenuItems.selectEdition:
+                audioBloc.add(BasicAudioEventCancel());
+                showSelectEdition(context);
                 break;
             }
           }

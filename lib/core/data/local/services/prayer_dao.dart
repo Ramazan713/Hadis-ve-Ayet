@@ -1,12 +1,17 @@
 
+import 'package:collection/collection.dart';
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
+import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 
 @dao
 abstract class PrayerDao{
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> insertPrayer(PrayerEntity prayer);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertPrayerVerses(List<PrayerVerseEntity> prayerVerseEntities);
 
   @transaction
   Future<int> insertPrayerWithOrder(PrayerEntity prayer)async{
@@ -16,10 +21,15 @@ abstract class PrayerDao{
   }
 
   @transaction
-  Future<void> insertPrayerWithRelation(PrayerEntity childPrayer, PrayerEntity unAddedParentPrayer)async{
+  Future<void> insertPrayerWithRelation(PrayerEntity childPrayer, PrayerEntity unAddedParentPrayer,List<int> prayerVerseIds)async{
     final parentId = await insertPrayerWithOrder(unAddedParentPrayer);
     final updatedPrayer = childPrayer.copyWith(parentPrayerId: parentId);
     await updatePrayer(updatedPrayer);
+
+    final prayerVerses = prayerVerseIds.mapIndexed((i,e){
+      return PrayerVerseEntity(id: null, verseId: e, prayerId: parentId, orderItem: i + 1);
+    }).toList();
+    await insertPrayerVerses(prayerVerses);
   }
 
   @Update(onConflict: OnConflictStrategy.replace)
@@ -27,6 +37,12 @@ abstract class PrayerDao{
 
   @delete
   Future<void> deletePrayer(PrayerEntity prayer);
+
+
+  @Query("""
+    select * from prayerVerses where prayerId = :prayerId order by orderItem asc
+  """)
+  Future<List<PrayerVerseEntity>> getPrayerVerseByPrayerId(int prayerId);
 
   @Query("select * from prayers where typeId = :typeId order by orderItem desc")
   Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId);
