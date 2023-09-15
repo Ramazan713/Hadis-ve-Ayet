@@ -208,7 +208,7 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
+class _$_PrayerCustom extends _PrayerCustom with DiagnosticableTreeMixin {
   const _$_PrayerCustom(
       {this.id,
       required this.name,
@@ -219,7 +219,8 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       this.orderItem = 0,
       this.updateCounter = false,
       this.counterId,
-      this.parentPrayerId});
+      this.parentPrayerId})
+      : super._();
 
   @override
   final int? id;
@@ -311,7 +312,7 @@ class _$_PrayerCustom with DiagnosticableTreeMixin implements _PrayerCustom {
       __$$_PrayerCustomCopyWithImpl<_$_PrayerCustom>(this, _$identity);
 }
 
-abstract class _PrayerCustom implements PrayerCustom {
+abstract class _PrayerCustom extends PrayerCustom {
   const factory _PrayerCustom(
       {final int? id,
       required final String name,
@@ -323,6 +324,7 @@ abstract class _PrayerCustom implements PrayerCustom {
       final dynamic updateCounter,
       final int? counterId,
       final int? parentPrayerId}) = _$_PrayerCustom;
+  const _PrayerCustom._() : super._();
 
   @override
   int? get id;

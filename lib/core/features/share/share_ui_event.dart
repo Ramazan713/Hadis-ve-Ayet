@@ -1,5 +1,7 @@
 
 
+import 'package:url_launcher/url_launcher_string.dart';
+
 sealed class ShareUiEvent{}
 
 class ShareUiEventCopyText extends ShareUiEvent{
@@ -16,4 +18,14 @@ class ShareUiEventShareFile extends ShareUiEvent{
   final String filePath;
   final String mimeType;
   ShareUiEventShareFile({required this.filePath, required this.mimeType});
+}
+
+class ShareUiEventLaunchUrl extends ShareUiEvent{
+  final String url;
+  final LaunchMode launchMode;
+
+  ShareUiEventLaunchUrl({
+    required this.url,
+    this.launchMode = LaunchMode.externalApplication
+  });
 }

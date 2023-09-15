@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/data_paging_status_enum.dart';
 import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/constants/enums/font_size_enum.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 import 'package:hadith/constants/enums/sourcetype_enum.dart';

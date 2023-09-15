@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_verse.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';

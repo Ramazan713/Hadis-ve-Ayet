@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/enums/loading_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/repo/share/share_manager.dart';
 import 'package:hadith/core/domain/repo/share/share_pdf_repo.dart';
@@ -18,54 +19,47 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
   late final ShareManager _shareManager;
   late final SharePdfRepo _sharePdfRepo;
 
-  ShareBloc({required ShareManager shareManager,required SharePdfRepo sharePdfRepo}): super(ShareState.init()){
+  ShareBloc({
+    required ShareManager shareManager,
+    required SharePdfRepo sharePdfRepo
+  }): super(ShareState.init()){
 
     _sharePdfRepo = sharePdfRepo;
     _shareManager = shareManager;
 
     on<ShareEventShareImage>(_onShareImage, transformer: restartable());
-    on<ShareEventCopyHadithText>(_onCopyHadithText, transformer: restartable());
-    on<ShareEventShareHadithText>(_onShareHadithText, transformer: restartable());
-    on<ShareEventCopyVerseText>(_onCopyVerseText, transformer: restartable());
-    on<ShareEventShareVerseText>(_onShareVerseText, transformer: restartable());
+    on<ShareEventCopyText>(_onCopyText, transformer: restartable());
+    on<ShareEventShareText>(_onShareText, transformer: restartable());
+    on<ShareEventLaunchUrl>(_onLaunchUrl, transformer: restartable());
 
     on<ShareEventSharePdfText>(_onSharePdfText, transformer: restartable());
     on<ShareEventSharePdf>(_onSharePdf, transformer: restartable());
 
+    on<ShareEventClearCompletedLoading>(_onClearCompletedLoading, transformer: restartable());
     on<ShareEventClearShareUiEvent>(_onClearShareUiEvent, transformer: restartable());
     on<ShareEventClearMessage>(_onClearMessage, transformer: restartable());
   }
 
-  void _onCopyHadithText(ShareEventCopyHadithText event, Emitter<ShareState> emit)async{
-    final sharedText = _shareManager.getHadithSharedText(event.hadith);
+  void _onShareText(ShareEventShareText event, Emitter<ShareState> emit){
     emit(state.copyWith(
-        shareUiEvent: ShareUiEventCopyText(copiedText: sharedText),
-        setShareUiEvent: true,
-        message: "Kopyalandı",
-        setMessage: true
+      shareUiEvent: ShareUiEventSharedText(sharedText: event.text),
     ));
   }
 
-  void _onCopyVerseText(ShareEventCopyVerseText event, Emitter<ShareState> emit)async{
-    final sharedText = _shareManager.getVerseSharedText(event.verse);
+  void _onCopyText(ShareEventCopyText event, Emitter<ShareState> emit){
     emit(state.copyWith(
-        shareUiEvent: ShareUiEventCopyText(copiedText: sharedText),
-        setShareUiEvent: true,
-        message: "Kopyalandı",
-        setMessage: true
+      shareUiEvent: ShareUiEventCopyText(copiedText: event.text),
+      message: "Kopyalandı",
     ));
   }
 
-  void _onShareHadithText(ShareEventShareHadithText event, Emitter<ShareState> emit)async{
-    final sharedText = _shareManager.getHadithSharedText(event.hadith);
-    emit(state.copyWith(shareUiEvent: ShareUiEventSharedText(sharedText: sharedText),
-        setShareUiEvent: true));
-  }
-
-  void _onShareVerseText(ShareEventShareVerseText event, Emitter<ShareState> emit)async{
-    final sharedText = _shareManager.getVerseSharedText(event.verse);
-    emit(state.copyWith(shareUiEvent: ShareUiEventSharedText(sharedText: sharedText),
-        setShareUiEvent: true));
+  void _onLaunchUrl(ShareEventLaunchUrl event, Emitter<ShareState> emit){
+    emit(state.copyWith(
+      shareUiEvent: ShareUiEventLaunchUrl(
+        url: event.url,
+        launchMode: event.launchMode
+      )
+    ));
   }
 
 
@@ -74,7 +68,7 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
     final Uint8List byteData;
     final String fileShortName;
 
-    emit(state.copyWith(loading: true));
+    emit(state.copyWith(loadingEnum: LoadingEnum.loading));
 
     switch(event.sourceType){
       case SourceTypeEnum.hadith:
@@ -97,9 +91,8 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
     await file.writeAsBytes(byteData);
 
     emit(state.copyWith(
-        setShareUiEvent: true,
-        shareUiEvent: ShareUiEventShareFile(filePath: filePath, mimeType: "application/pdf"),
-        loading: false
+      shareUiEvent: ShareUiEventShareFile(filePath: filePath, mimeType: "application/pdf"),
+        loadingEnum: LoadingEnum.completed
     ));
   }
 
@@ -107,7 +100,7 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
   void _onSharePdfText(ShareEventSharePdfText event, Emitter<ShareState> emit)async{
 
     final String content;
-    emit(state.copyWith(loading: true));
+    emit(state.copyWith(loadingEnum: LoadingEnum.loading));
 
     switch(event.sourceType){
       case SourceTypeEnum.hadith:
@@ -120,15 +113,13 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
 
     if(content.trim().isEmpty){
       emit(state.copyWith(
-          setMessage: true,
-          message: "Listede herhangi bir ${event.sourceType.shortName} bulunmamaktadır",
-          loading: false
+        message: "Listede herhangi bir ${event.sourceType.shortName} bulunmamaktadır",
+        loadingEnum: LoadingEnum.completed
       ));
     }else{
       emit(state.copyWith(
-          shareUiEvent: ShareUiEventSharedText(sharedText: content),
-          setShareUiEvent: true,
-          loading: false
+        shareUiEvent: ShareUiEventSharedText(sharedText: content),
+        loadingEnum: LoadingEnum.completed
       ));
     }
 
@@ -148,21 +139,22 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
     await file.writeAsBytes(dataBytes);
 
     emit(state.copyWith(
-      setShareUiEvent: true,
       shareUiEvent: ShareUiEventShareFile(filePath: imagePath, mimeType: "image/png")
     ));
   }
 
 
   void _onClearMessage(ShareEventClearMessage event, Emitter<ShareState> emit){
-    emit(state.copyWith(setMessage: true));
+    emit(state.copyWith(message: null));
   }
 
   void _onClearShareUiEvent(ShareEventClearShareUiEvent event, Emitter<ShareState> emit){
-    emit(state.copyWith(setShareUiEvent: true));
+    emit(state.copyWith(shareUiEvent: null));
   }
 
-
+  void _onClearCompletedLoading(ShareEventClearCompletedLoading event, Emitter<ShareState> emit){
+    emit(state.copyWith(loadingEnum: LoadingEnum.idle));
+  }
 
 
   Future<String> _getDirectoryPath({bool isRemoveFiles = true})async{

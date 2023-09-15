@@ -13,6 +13,7 @@ class K{
   static const service = ServiceK();
   static const backup = BackupK();
   static const actKeys = ActionResultKeysK();
+  static const urls = UrlK();
 
   static const timeOutSeconds = 13;
 
@@ -51,5 +52,13 @@ class ActionResultKeysK{
   final String uploadBackupForSignOut = "uploadBackupForSignOut";
 
   const ActionResultKeysK();
+}
+
+class UrlK{
+  final playStoreDetailUrl = "https://play.google.com/store/apps/details";
+  final playStoreSubsUrl = "https://play.google.com/store/apps/details";
+
+
+  const UrlK();
 }
 

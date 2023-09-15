@@ -10,14 +10,12 @@ class ShareManagerImpl extends ShareManager{
   late final HadithRepo _hadithRepo;
   late final VerseRepo _verseRepo;
 
-  ShareManagerImpl({required HadithRepo hadithRepo, required VerseRepo verseRepo}){
+  ShareManagerImpl({
+    required HadithRepo hadithRepo,
+    required VerseRepo verseRepo
+  }){
     _hadithRepo = hadithRepo;
     _verseRepo = verseRepo;
-  }
-
-  @override
-  String getHadithSharedText(Hadith hadith) {
-    return "${hadith.content}\n\t- ${hadith.source}\n";
   }
 
   @override
@@ -28,11 +26,6 @@ class ShareManagerImpl extends ShareManager{
       text+="${item.content}\n\t- ${item.source}\n\n\n";
     }
     return text;
-  }
-
-  @override
-  String getVerseSharedText(Verse verse) {
-    return "${verse.surahId}/${verse.surahName}\n${verse.verseNumber} - ${verse.content}\n";
   }
 
   @override

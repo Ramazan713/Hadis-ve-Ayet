@@ -312,7 +312,6 @@ class MyAppProviders extends StatelessWidget {
             prayerRepo: context.read(),
             appPreferences: context.read(),
             fontModelUseCase: context.read(),
-            prayerCustomRepo: context.read(),
           )),
           BlocProvider(create: (context)=> PrayerInQuranBloc(
             prayerRepo: context.read(),

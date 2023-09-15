@@ -10,12 +10,14 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_state.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/custom_prayer_detail_page.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/shared/show_prayer_share_dia.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 
 extension CustomPrayerDetailPageHeaderExt on CustomPrayerDetailPage{
 
   List<Widget> getActions(BuildContext context){
     return [
+      _getShareIcon(context),
       IconButton(
         tooltip: "Düzenle",
         onPressed: (){
@@ -55,6 +57,25 @@ extension CustomPrayerDetailPageHeaderExt on CustomPrayerDetailPage{
                   break;
               }
             }
+        );
+      },
+    );
+  }
+
+
+  Widget _getShareIcon(BuildContext context){
+    return BlocBuilder<CustomPrayerDetailBloc, CustomPrayerDetailState>(
+      builder: (context, state){
+        final prayer = state.prayer;
+        if(prayer == null || !prayer.hasAnyData) return const SizedBox.shrink();
+        return IconButton(
+          tooltip: "Paylaş",
+          onPressed: (){
+            showCustomPrayerShareDia(context,
+              prayer: state.prayer
+            );
+          },
+          icon: const Icon(Icons.share),
         );
       },
     );

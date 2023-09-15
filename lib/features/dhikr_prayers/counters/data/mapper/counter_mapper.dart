@@ -2,6 +2,7 @@
 
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
+import 'package:hadith/core/domain/models/share_verse_content/share_verse_content.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
@@ -24,6 +25,8 @@ extension CounterEntityExt on CounterEntity{
       prayerId: prayerId
     );
   }
+
+
 }
 
 extension CounterExt on Counter{
@@ -41,6 +44,19 @@ extension CounterExt on Counter{
       typeId: counterType.typeId,
       orderItem: order,
       prayerId: prayerId
+    );
+  }
+
+
+  ShareVerseContent toShareContent(){
+    return ShareVerseContent(
+        title: name,
+        content: content,
+        meaningContent: meaning,
+        arabicContent: arabicContent,
+        others: {
+          "Açıklaması": description
+        }
     );
   }
 

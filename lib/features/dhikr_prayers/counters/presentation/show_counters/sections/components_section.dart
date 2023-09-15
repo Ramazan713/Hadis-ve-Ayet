@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/share/dialogs/show_share_verse_content_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/dhikr_prayers/counters/data/mapper/counter_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/show_counter_select_menu.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
@@ -86,6 +88,12 @@ extension ShowCounterComponentsExt on ShowCounterPage{
               if(prayerId != null){
                 CustomPrayerDetailRoute(prayerId: prayerId).push(context); 
               }
+              break;
+            case ShowCounterSelectMenuEnum.share:
+              showShareVerseContentDia(context,
+                item: counter.toShareContent(),
+                imageName: "${counter.name}_counter.png"
+              );
               break;
           }
         }

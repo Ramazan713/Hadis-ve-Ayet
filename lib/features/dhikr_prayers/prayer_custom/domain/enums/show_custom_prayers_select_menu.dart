@@ -19,6 +19,10 @@ enum ShowCustomPrayersSelectMenuEnum implements IMenuItem{
       title: "Zikri güncelle",
       iconInfo: IconInfo(iconData: Icons.update)
   ),
+  share(
+    title: "Paylaş",
+    iconInfo: IconInfo(iconData: Icons.share)
+  ),
   edit(
       title: "Düzenle",
       iconInfo: IconInfo(iconData: Icons.edit)
@@ -45,6 +49,9 @@ enum ShowCustomPrayersSelectMenuEnum implements IMenuItem{
     }
     if(!prayer.updateCounter){
       items.remove(ShowCustomPrayersSelectMenuEnum.updateToDhikr);
+    }
+    if(!prayer.hasAnyData){
+      items.remove(ShowCustomPrayersSelectMenuEnum.share);
     }
 
     return items;

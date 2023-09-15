@@ -1,41 +1,25 @@
 
 
 import 'package:equatable/equatable.dart';
+import 'package:hadith/core/domain/enums/loading_enum.dart';
 import 'package:hadith/core/features/share/share_ui_event.dart';
 
-class ShareState extends Equatable{
 
-  final String? message;
-  final ShareUiEvent? shareUiEvent;
-  final bool loading;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+part 'share_state.freezed.dart';
 
-  const ShareState({
-    this.message,
-    this.shareUiEvent,
-    required this.loading
-  });
-
-  ShareState copyWith({
-    ShareUiEvent? shareUiEvent, bool setShareUiEvent = false,
-    String? message, bool setMessage = false,
-    bool? loading
-  }){
-    return ShareState(
-        shareUiEvent: setShareUiEvent ? shareUiEvent : this.shareUiEvent,
-        message: setMessage ? message : this.message,
-        loading: loading ?? this.loading
-    );
-  }
+@freezed
+class ShareState with _$ShareState{
+  const factory ShareState({
+    required LoadingEnum loadingEnum,
+    String? message,
+    ShareUiEvent? shareUiEvent
+  }) = _ShareState;
 
   static ShareState init(){
     return const ShareState(
-        loading: false
+      loadingEnum: LoadingEnum.idle
     );
   }
-
-
-  @override
-  List<Object?> get props => [shareUiEvent, message, loading];
-
-
 }

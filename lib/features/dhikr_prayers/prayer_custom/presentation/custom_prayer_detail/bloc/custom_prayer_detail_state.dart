@@ -26,18 +26,4 @@ class CustomPrayerDetailState with _$CustomPrayerDetailState{
   }
 
   PrayerCustom? get prayer => prayerUnit?.item;
-
-  bool get hasArabicContent => prayer?.arabicContent != null &&
-      (prayer?.arabicContent ?? "").isNotEmpty;
-
-  bool get hasContent =>  prayer?.pronunciationContent != null &&
-      (prayer?.pronunciationContent ?? "").isNotEmpty;
-
-  bool get hasMeaning =>  prayer?.meaningContent != null &&
-      (prayer?.meaningContent ?? "").isNotEmpty;
-
-  bool get hasSource =>  prayer?.source != null &&
-      (prayer?.source ?? "").isNotEmpty;
-
-  bool get hasAnyData => hasArabicContent || hasContent || hasMeaning;
 }

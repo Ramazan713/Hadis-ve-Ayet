@@ -6,9 +6,10 @@ import 'package:hadith/core/domain/models/icon_info.dart';
 enum DetailEsmaulHusnaTopBarMenuItem implements IMenuItem{
 
   fontSize(
-      title: "Yazı Boyutu",
-      iconInfo: IconInfo(iconData: Icons.font_download_rounded)
-  );
+    title: "Yazı Boyutu",
+    iconInfo: IconInfo(iconData: Icons.font_download_rounded)
+  ),
+  ;
 
   const DetailEsmaulHusnaTopBarMenuItem({required this.title, this.iconInfo});
 

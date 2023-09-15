@@ -48,10 +48,10 @@ class SettingsPage extends StatelessWidget {
                     ),
                     sections: [
                       getGeneralSection(context),
-                      getPremiumSection(),
+                      getPremiumSection(context),
                       getBackupSection(),
                       getAdvancedSection(context),
-                      getAppSection(),
+                      getAppSection(context),
                       getSignOutSection(context)
                     ],
                   ),

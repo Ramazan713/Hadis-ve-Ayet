@@ -24,5 +24,9 @@ class Verse{
     required this.isProstrationVerse,
     this.bookEnum = BookEnum.diyanetMeal
   });
+
+  String getShareText(){
+    return "$surahId/$surahName\n\n$verseNumber - $content\n";
+  }
   
 }

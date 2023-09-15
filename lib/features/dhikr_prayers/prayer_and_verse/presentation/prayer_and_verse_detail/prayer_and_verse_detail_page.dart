@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/share/dialogs/show_share_verse_content_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
@@ -19,6 +20,7 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/domain/prayer_and_verse_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_event.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_and_verse_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 import 'package:hadith/utils/toast_utils.dart';
@@ -181,6 +183,22 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
 
   List<Widget> getActions(BuildContext context){
     return [
+      BlocSelector<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState, PrayerAndVerse?>(
+        selector: (state) => state.prayerUnit?.item,
+        builder: (context, currentPrayer){
+          final prayer = currentPrayer;
+          if(prayer == null) return const SizedBox.shrink();
+          return IconButton(
+            onPressed: (){
+              showShareVerseContentDia(context,
+                item: prayer.toShareContent(),
+                imageName: "${prayer.name}.png"
+              );
+            },
+            icon: const Icon(Icons.share),
+          );
+        },
+      ),
       _getTopBarIconDropdownMenu(context)
     ];
   }

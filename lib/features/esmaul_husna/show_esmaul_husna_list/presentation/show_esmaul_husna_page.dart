@@ -1,6 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/share/bloc/share_bloc.dart';
+import 'package:hadith/core/features/share/bloc/share_event.dart';
+import 'package:hadith/core/features/share/dialogs/show_preview_share_image_handle_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
@@ -10,13 +14,18 @@ import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
+import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/esmaul_husna/shared/domain/enums/esmaul_husna_share_menu_item.dart';
+import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/shared/domain/extensions/esmaul_husna_share_ext.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/domain/enums/show_esmaul_husna_top_bar_menu_item.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/bloc/show_esmaul_husna_bloc.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/bloc/show_esmaul_husna_event.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/bloc/show_esmaul_husna_state.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/components/esmaul_husna_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'dart:ui' as ui;
 
 final _searchKey = GlobalKey();
 
@@ -88,6 +97,9 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
                               onClick: ()async{
                                 await EsmaulHusnaDetailRoute(pos: item.order).push(context);
                               },
+                              onShareClick: (){
+                                _showAndHandleBottomMenu(context, item, state.fontModel);
+                              },
                             );
                           },
                         );
@@ -100,6 +112,37 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  void _showAndHandleBottomMenu(BuildContext context,EsmaulHusna item, FontModel fontModel){
+    final shareBloc = context.read<ShareBloc>();
+
+    showShareAlertDia(context,
+      items: EsmaulHusnaShareMenuItem.values,
+      onSelected: (menuItem){
+        final shareText = item.getShareShort();
+        switch(menuItem){
+          case EsmaulHusnaShareMenuItem.shareText:
+            shareBloc.add(ShareEventShareText(text: shareText));
+            break;
+          case EsmaulHusnaShareMenuItem.copyText:
+            shareBloc.add(ShareEventCopyText(text: shareText));
+            break;
+          case EsmaulHusnaShareMenuItem.shareImage:
+            showPreviewShareImageHandleDia(context,
+              imageName: "${item.name}.png",
+              onImageWidget: (key){
+                return EsmaulHusnaRepaintItem(
+                  esmaulHusna: item,
+                  fontModel: fontModel,
+                  repaintKey: key,
+                );
+              }
+            );
+            break;
+        }
+      },
     );
   }
 

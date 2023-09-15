@@ -17,11 +17,6 @@ enum VerseBottomMenuItem implements IMenuItem{
       title: "Paylaş",
       iconInfo: IconInfo(iconData: Icons.share,)
   ),
-  copy(
-      title: "İçeriği Kopyala",
-      iconInfo: IconInfo(iconData: Icons.copy,)
-  ),
-
   addList(
       title: "Listeye Ekle",
       iconInfo: IconInfo(iconData: Icons.library_add,)

@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/font_size/font_size.dart';

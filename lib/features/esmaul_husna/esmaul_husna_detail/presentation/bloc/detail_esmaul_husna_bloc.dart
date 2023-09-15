@@ -1,6 +1,7 @@
 
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
@@ -32,6 +33,7 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
 
     on<DetailEsmaulHusnaEventLoadData>(_onLoadData,transformer: droppable());
     on<DetailEsmaulHusnaEventSaveAsDhikr>(_onSaveAsDhikr,transformer: droppable());
+    on<DetailEsmaulHusnaEventSetCurrentItem>(_onSetCurrentItem,transformer: droppable());
 
     on<DetailEsmaulHusnaEventClearMessage>(_onClearMessage,transformer: restartable());
 
@@ -39,6 +41,11 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     add(DetailEsmaulHusnaEventListenAppPref());
   }
 
+  void _onSetCurrentItem(DetailEsmaulHusnaEventSetCurrentItem event,Emitter<DetailEsmaulHusnaState>emit){
+    emit(state.copyWith(
+      currentItem: _getCurrentItem(state.items, event.page)
+    ));
+  }
 
   void _onListenInit(DetailEsmaulHusnaEventListenInit event,Emitter<DetailEsmaulHusnaState>emit)async{
     emit(state.copyWith(isLoading: true));
@@ -53,7 +60,8 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
     final items = await _esmaulHusnaRepo.getEsmaulHusnas();
     emit(state.copyWith(
       items: items,
-      isLoading: false
+      isLoading: false,
+      currentItem: _getCurrentItem(items, event.initPos)
     ));
   }
 
@@ -83,6 +91,14 @@ class DetailEsmaulHusnaBloc extends Bloc<IDetailEsmaulHusnaEvent,DetailEsmaulHus
 
   void _onClearMessage(DetailEsmaulHusnaEventClearMessage event,Emitter<DetailEsmaulHusnaState>emit)async{
     emit(state.copyWith(message: null));
+  }
+
+  EsmaulHusna? _getCurrentItem(List<EsmaulHusna> items, int index){
+    if(items.length > index){
+      final item = items[index];
+      return item;
+    }
+    return null;
   }
 
 }

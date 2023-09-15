@@ -8,4 +8,8 @@ class Hadith{
   final int contentSize;
 
   const Hadith({this.id,required this.bookId,required this.content,required this.contentSize,required this.source});
+
+  String getShareText(){
+    return "$content\n\t- $source\n";
+  }
 }

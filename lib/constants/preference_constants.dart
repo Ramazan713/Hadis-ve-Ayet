@@ -9,7 +9,7 @@ import 'package:hadith/utils/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/key_type_model.dart';
 import '../features/save_point/constants/scope_filter_enum.dart';
-import 'enums/verse_arabic_ui_2x_enum.dart';
+import '../core/domain/enums/verse_arabic_ui_2x_enum.dart';
 
 class PrefConstants{
 

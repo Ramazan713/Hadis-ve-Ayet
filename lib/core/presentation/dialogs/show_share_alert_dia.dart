@@ -5,9 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/presentation/components/share_item.dart';
 
-void showShareAlertDia(BuildContext context,{
-  required List<IMenuItem> menuItems,
-  required void Function(IMenuItem) onClick,
+void showShareAlertDia<T extends IMenuItem>(BuildContext context,{
+  required List<T> items,
+  required void Function(T) onSelected,
+  bool navigateBackWhenItemClick = true,
   String title="Paylaşma Seçenekleri"
 }){
   showDialog(context: context, builder: (context){
@@ -16,11 +17,14 @@ void showShareAlertDia(BuildContext context,{
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: menuItems.map((menuItem){
+          children: items.map((menuItem){
             return ShareItem(
               title: menuItem.title,
               onTap: (){
-                onClick(menuItem);
+                if(navigateBackWhenItemClick){
+                  Navigator.pop(context);
+                }
+                onSelected(menuItem);
               },
               iconInfo: menuItem.iconInfo,
             );

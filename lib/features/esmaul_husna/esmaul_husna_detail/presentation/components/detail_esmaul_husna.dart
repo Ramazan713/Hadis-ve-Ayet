@@ -6,6 +6,32 @@ import 'package:hadith/core/presentation/components/verses/arabic_content_item.d
 import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
 
 
+class DetailEsmaulHusnaRepaintItem extends StatelessWidget {
+  final EsmaulHusna esmaulHusna;
+  final FontModel fontModel;
+  final GlobalKey repaintKey;
+
+  const DetailEsmaulHusnaRepaintItem({
+    Key? key,
+    required this.repaintKey,
+    required this.esmaulHusna,
+    required this.fontModel,
+  }) :super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      key: repaintKey,
+      child: _DetailEsmaulHusnaShared(
+        esmaulHusna: esmaulHusna,
+        fontModel: fontModel,
+        useForShare: true,
+      ),
+    );
+  }
+}
+
+
 class DetailEsmaulHusna extends StatelessWidget {
   final EsmaulHusna esmaulHusna;
   final void Function() onSaveAsDhikr;
@@ -15,9 +41,39 @@ class DetailEsmaulHusna extends StatelessWidget {
   const DetailEsmaulHusna({
     Key? key,
     required this.esmaulHusna,
+    required this.fontModel,
     required this.onGotoDhikr,
     required this.onSaveAsDhikr,
-    required this.fontModel
+  }) :super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _DetailEsmaulHusnaShared(
+      esmaulHusna: esmaulHusna,
+      fontModel: fontModel,
+      onGotoDhikr: onGotoDhikr,
+      onSaveAsDhikr: onSaveAsDhikr,
+      useForShare: false,
+    );
+  }
+}
+
+
+
+class _DetailEsmaulHusnaShared extends StatelessWidget {
+  final EsmaulHusna esmaulHusna;
+  final void Function()? onSaveAsDhikr;
+  final void Function()? onGotoDhikr;
+  final FontModel fontModel;
+  final bool useForShare;
+
+  const _DetailEsmaulHusnaShared({
+    Key? key,
+    required this.esmaulHusna,
+    required this.fontModel,
+    this.onGotoDhikr,
+    this.onSaveAsDhikr,
+    this.useForShare = false
   }) :super(key: key);
 
   @override
@@ -32,16 +88,14 @@ class DetailEsmaulHusna extends StatelessWidget {
             children: [
               getHeader(context),
               const SizedBox(height: 32,),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: getButton(context)
-              ),
+              getButton(context),
               TitleSectionItem(
                 title: "Açıklaması",
                 contentFontSize: fontModel.contentFontSize,
                 content: esmaulHusna.meaning,
                 useDefaultColor: true,
                 elevation: 3,
+                useCard: !useForShare,
               ),
               const SizedBox(height: 16,),
 
@@ -83,18 +137,22 @@ class DetailEsmaulHusna extends StatelessWidget {
   }
 
   Widget getButton(BuildContext context){
-    return CustomAnimatedSwitcher(
-      firstChild: OutlinedButton.icon(
-        onPressed: onGotoDhikr,
-        icon: const Icon(Icons.open_in_new),
-        label: const Text("Zikre devam et"),
+    if(useForShare == true) return const SizedBox.shrink();
+    return Align(
+      alignment: Alignment.centerRight,
+      child: CustomAnimatedSwitcher(
+        firstChild: OutlinedButton.icon(
+          onPressed: onGotoDhikr,
+          icon: const Icon(Icons.open_in_new),
+          label: const Text("Zikre devam et"),
+        ),
+        secondChild: OutlinedButton.icon(
+          onPressed: onSaveAsDhikr,
+          icon: const Icon(Icons.add_box),
+          label: const Text("Zikir olarak kaydet"),
+        ),
+        showFirstChild: esmaulHusna.counterId != null,
       ),
-      secondChild: OutlinedButton.icon(
-        onPressed: onSaveAsDhikr,
-        icon: const Icon(Icons.add_box),
-        label: const Text("Zikir olarak kaydet"),
-      ),
-      showFirstChild: esmaulHusna.counterId != null,
     );
   }
 
@@ -104,6 +162,7 @@ class DetailEsmaulHusna extends StatelessWidget {
       contentFontSize: fontModel.contentFontSize,
       useDefaultColor: true,
       elevation: 3,
+      useCard: !useForShare,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

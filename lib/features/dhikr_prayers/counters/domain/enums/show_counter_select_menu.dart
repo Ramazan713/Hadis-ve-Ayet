@@ -14,6 +14,10 @@ enum ShowCounterSelectMenuEnum implements IMenuItem{
     title: "Dualarıma Git",
     iconInfo: IconInfo(iconData: Icons.open_in_new)
   ),
+  share(
+    title: "Paylaş",
+    iconInfo: IconInfo(iconData: Icons.share)
+  ),
   edit(
     title: "Düzenle",
     iconInfo: IconInfo(iconData: Icons.edit)

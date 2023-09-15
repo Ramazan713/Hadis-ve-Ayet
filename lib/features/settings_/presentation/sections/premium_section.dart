@@ -3,20 +3,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/core/features/premium/bloc/premium_state.dart';
 import 'package:hadith/core/features/premium/show_premium_dia.dart';
+import 'package:hadith/core/features/share/bloc/share_bloc.dart';
+import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings_/presentation/bloc/settings_state.dart';
 import 'package:hadith/features/settings_/presentation/settings_page.dart';
-import 'package:hadith/utils/toast_utils.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 extension SettingsPagePremiumExt on SettingsPage{
 
-  CustomSettingsSection getPremiumSection(){
+  CustomSettingsSection getPremiumSection(BuildContext context){
+    final shareBloc = context.read<ShareBloc>();
+
     return CustomSettingsSection(
         child: BlocBuilder<PremiumBloc, PremiumState>(
           builder: (context, state) {
@@ -45,17 +49,8 @@ extension SettingsPagePremiumExt on SettingsPage{
                           child: SettingsTile(
                             title: const Text("Abonelik Yönet"),
                             onPressed: (context) async {
-                              final url =
-                                  "https://play.google.com/store/account/subscriptions?package=$packageInfo";
-                              try {
-                                await launchUrl(
-                                    Uri.parse(url),
-                                    mode: LaunchMode.externalApplication
-                                );
-                              } catch (e) {
-                                ToastUtils.showLongToast(
-                                    "Bilinmeyen bir hata oluştu");
-                              }
+                              final url = "${K.urls.playStoreSubsUrl}?package=$packageInfo";
+                              shareBloc.add(ShareEventLaunchUrl(url: url,launchMode: LaunchMode.externalApplication));
                             },
                             leading: const Icon(Icons.manage_accounts),
                           ),

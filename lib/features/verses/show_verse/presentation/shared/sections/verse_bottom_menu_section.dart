@@ -9,7 +9,8 @@ import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
-import 'package:hadith/core/features/share/dialogs/show_preview_verse_image.dart';
+import 'package:hadith/core/features/share/dialogs/show_preview_share_image_handle_dia.dart';
+import 'package:hadith/core/features/share/enums/share_verse_content_menu_item.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
@@ -17,8 +18,8 @@ import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_menu_item.dart';
-import 'package:hadith/features/verses/show_verse/domain/constants/verse_share_menu_item.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/share/verse_repaint_item.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_bottom_menu.dart';
 
 import '../bloc/verse_shared_bloc.dart';
@@ -55,11 +56,8 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
               ));
               break;
             case VerseBottomMenuItem.share:
+              navigateBack();
               _handleShareDia(context,verseListModel);
-              break;
-            case VerseBottomMenuItem.copy:
-              context.read<ShareBloc>()
-                  .add(ShareEventCopyVerseText(verse: verseListModel.verse));
               break;
             case VerseBottomMenuItem.addList:
               navigateBack();
@@ -94,18 +92,28 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
 
   void _handleShareDia(BuildContext context, VerseListModel verseListModel){
     final shareBloc = context.read<ShareBloc>();
+    final shareText = verseListModel.verse.getShareText();
 
     showShareAlertDia(context,
-        menuItems: VerseShareMenuItem.values,
-        onClick: (menuItem){
+        items: SharingCommonMenuItem.values,
+        onSelected: (menuItem){
           switch(menuItem){
-            case VerseShareMenuItem.shareImage:
-              showPreviewAndShareVerseImage(context,
-                verseListModel: verseListModel,
+            case SharingCommonMenuItem.shareImage:
+              showPreviewShareImageHandleDia(context,
+                onImageWidget: (key){
+                  return VerseRepaintItem(
+                    repaintKey: key,
+                    verseListModel: verseListModel,
+                  );
+                },
+                imageName: "${verseListModel.verse.surahName}-${verseListModel.verse.verseNumber}-Ayet.png"
               );
               break;
-            case VerseShareMenuItem.shareText:
-              shareBloc.add(ShareEventShareVerseText(verse: verseListModel.verse));
+            case SharingCommonMenuItem.shareText:
+              shareBloc.add(ShareEventShareText(text: shareText));
+              break;
+            case SharingCommonMenuItem.copyText:
+              shareBloc.add(ShareEventCopyText(text: shareText));
               break;
           }
         }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/share/dialogs/show_share_verse_content_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_state.dart';
@@ -20,10 +21,15 @@ import 'package:hadith/core/presentation/controllers/custom_position_controller.
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_state.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/domain/enums/prayer_in_quran_bottom_menu_item.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/domain/enums/prayer_in_quran_top_bar_menu_item.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/components/prayer_in_quran_item.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_entity_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_in_quran_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 import 'package:hadith/utils/toast_utils.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -131,6 +137,13 @@ class PrayerInQuranPage extends StatelessWidget {
                             verseIds: prayerUnit.getVerseIds,
                             audioTag: prayer.id.toString()
                         ));
+                        break;
+                      case PrayerInQuranBottomMenuItem.share:
+                        showShareVerseContentDia(
+                            context,
+                            item: prayer.toShareContent(),
+                            imageName: "${prayer.source}.png"
+                        );
                         break;
                     }
                   },

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';

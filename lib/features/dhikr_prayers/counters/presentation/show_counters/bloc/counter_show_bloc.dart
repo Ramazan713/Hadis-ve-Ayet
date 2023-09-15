@@ -8,7 +8,7 @@ import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/features/dhikr_prayers/counters/data/mapper/counter_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/repo/counter_repo.dart';
-import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_custom_mapper.dart';
 
 import 'counter_show_event.dart';
 import 'counter_show_state.dart';

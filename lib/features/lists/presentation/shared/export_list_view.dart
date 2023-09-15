@@ -11,8 +11,8 @@ void exportListViewModel(BuildContext context, ListViewModel item){
 
   showShareAlertDia(
     context,
-    menuItems: ListShareMenuItem.values,
-    onClick: (menuItem){
+    items: ListShareMenuItem.values,
+    onSelected: (menuItem){
       switch(menuItem){
         case ListShareMenuItem.shareText:
           shareBloc.add(ShareEventSharePdfText(

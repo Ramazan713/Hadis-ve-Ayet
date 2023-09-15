@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
-import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
@@ -35,26 +34,24 @@ class _ShowListPageState extends State<ShowListPage> {
   @override
   Widget build(BuildContext context) {
     return widget.getListeners(
-      child: ShareConnect(
-          child: AdaptiveLayout(
-            body: SlotLayout(
-              config: <Breakpoint, SlotLayoutConfig>{
-                Breakpoints.small: SlotLayout.from(
-                  key: const Key('List Body Small'),
-                  builder: (_){
-                    return getContent(context,1);
-                  },
-                ),
-                Breakpoints.mediumAndUp: SlotLayout.from(
-                  key: const Key('List Body Medium'),
-                  builder: (_){
-                    return getContent(context, 2);
-                  }
-                )
+      child: AdaptiveLayout(
+        body: SlotLayout(
+          config: <Breakpoint, SlotLayoutConfig>{
+            Breakpoints.small: SlotLayout.from(
+              key: const Key('List Body Small'),
+              builder: (_){
+                return getContent(context,1);
               },
             ),
-          )
+            Breakpoints.mediumAndUp: SlotLayout.from(
+              key: const Key('List Body Medium'),
+              builder: (_){
+                return getContent(context, 2);
+              }
+            )
+          },
         ),
+      ),
     );
   }
 

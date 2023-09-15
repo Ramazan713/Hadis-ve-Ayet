@@ -17,7 +17,12 @@ enum PrayerInQuranBottomMenuItem implements IMenuItem{
   goToCustomPrayer(
       title: "Dualarıma Git",
       iconInfo: IconInfo(iconData: Icons.open_in_new)
-  );
+  ),
+  share(
+    title: "Paylaş",
+    iconInfo: IconInfo(iconData: Icons.share)
+  )
+  ;
 
   const PrayerInQuranBottomMenuItem({required this.title, this.iconInfo});
 
@@ -28,15 +33,15 @@ enum PrayerInQuranBottomMenuItem implements IMenuItem{
   final IconInfo? iconInfo;
 
   static List<PrayerInQuranBottomMenuItem> getItems(PrayerUnit<PrayerInQuran> prayer){
-    final items = <PrayerInQuranBottomMenuItem>[];
+    final items = PrayerInQuranBottomMenuItem.values.toList();
 
-    if(prayer.anyVerses){
-      items.add(PrayerInQuranBottomMenuItem.listen);
+    if(!prayer.anyVerses){
+      items.remove(PrayerInQuranBottomMenuItem.listen);
     }
     if(prayer.item.parentPrayerId != null){
-      items.add(PrayerInQuranBottomMenuItem.goToCustomPrayer);
+      items.remove(PrayerInQuranBottomMenuItem.addToCustomPrayer);
     }else{
-      items.add(PrayerInQuranBottomMenuItem.addToCustomPrayer);
+      items.remove(PrayerInQuranBottomMenuItem.goToCustomPrayer);
     }
     return items;
   }

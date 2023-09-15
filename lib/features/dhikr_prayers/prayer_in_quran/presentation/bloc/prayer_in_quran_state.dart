@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hadith/constants/enums/verse_arabic_ui_2x_enum.dart';
+import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_3x_enum.dart';

@@ -7,7 +7,7 @@ import 'package:hadith/models/item_label_model.dart';
 import 'package:hadith/models/key_type_model.dart';
 import 'package:hadith/utils/localstorage.dart';
 
-import '../constants/enums/verse_arabic_ui_2x_enum.dart';
+import '../core/domain/enums/verse_arabic_ui_2x_enum.dart';
 
 void showSelectVerseUi2X(BuildContext context, {
       ArabicVerseUI2X? currentValue,

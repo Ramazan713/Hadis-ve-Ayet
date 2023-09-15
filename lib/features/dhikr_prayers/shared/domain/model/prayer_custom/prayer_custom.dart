@@ -7,6 +7,9 @@ part 'prayer_custom.freezed.dart';
 
 @freezed
 class PrayerCustom with _$PrayerCustom{
+
+  const PrayerCustom._();
+
   const factory PrayerCustom({
     int? id,
     required String name,
@@ -19,4 +22,16 @@ class PrayerCustom with _$PrayerCustom{
     int? counterId,
     int? parentPrayerId
   }) = _PrayerCustom;
+
+  bool get hasArabicContent => arabicContent != null &&
+      (arabicContent ?? "").isNotEmpty;
+
+  bool get hasContent =>  pronunciationContent != null &&
+      (pronunciationContent ?? "").isNotEmpty;
+
+  bool get hasMeaning =>  meaningContent != null && (meaningContent ?? "").isNotEmpty;
+
+  bool get hasSource =>  source != null && (source ?? "").isNotEmpty;
+
+  bool get hasAnyData => hasArabicContent || hasContent || hasMeaning;
 }

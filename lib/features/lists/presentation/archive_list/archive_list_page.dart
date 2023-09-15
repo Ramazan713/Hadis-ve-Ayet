@@ -22,33 +22,31 @@ class ArchiveListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final listBloc = context.read<ArchiveListBloc>();
 
-    return ShareConnect(
-      child: BlocListener<ArchiveListBloc, ArchiveListState>(
-        listener: (context, state) {
-          if (state.message != null) {
-            ToastUtils.showLongToast(state.message ?? "");
-            listBloc.add(ArchiveListEventClearMessage());
-          }
-        },
-        child: AdaptiveLayout(
-          body: SlotLayout(
-            config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.small: SlotLayout.from(
-                key: const Key('Archive List Body Small'),
+    return BlocListener<ArchiveListBloc, ArchiveListState>(
+      listener: (context, state) {
+        if (state.message != null) {
+          ToastUtils.showLongToast(state.message ?? "");
+          listBloc.add(ArchiveListEventClearMessage());
+        }
+      },
+      child: AdaptiveLayout(
+        body: SlotLayout(
+          config: <Breakpoint, SlotLayoutConfig>{
+            Breakpoints.small: SlotLayout.from(
+              key: const Key('Archive List Body Small'),
+              builder: (_){
+                return getContent(context,1);
+              },
+            ),
+            Breakpoints.mediumAndUp: SlotLayout.from(
+                key: const Key('Archive List Body Medium'),
                 builder: (_){
-                  return getContent(context,1);
-                },
-              ),
-              Breakpoints.mediumAndUp: SlotLayout.from(
-                  key: const Key('Archive List Body Medium'),
-                  builder: (_){
-                    return getContent(context, 2);
-                  }
-              )
-            },
-          ),
+                  return getContent(context, 2);
+                }
+            )
+          },
         ),
-      )
+      ),
     );
   }
 
