@@ -105,6 +105,7 @@ import 'package:hadith/features/verses/providers/data/verse_data_service_provide
 import 'package:hadith/features/verses/providers/data/verse_domain_use_case_providers.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/bloc/manage_downloaded_audio_bloc.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
+import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_bloc.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/services/auth_service.dart';
@@ -297,6 +298,10 @@ class MyAppProviders extends StatelessWidget {
           )),
           BlocProvider(create: (context)=> ManageCounterBloc(
               counterRepo: context.read()
+          )),
+          BlocProvider(create: (context)=> SelectVersePageBloc(
+             selectVersePageRepo: context.read(),
+            selectVerseUseCases: context.read()
           )),
           BlocProvider(create: (context)=> ShowEsmaulHusnaBloc(
               appPreferences: context.read(),

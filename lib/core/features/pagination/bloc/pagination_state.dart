@@ -1,94 +1,53 @@
-import 'package:equatable/equatable.dart';
+import 'dart:collection';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
-
 import '../../../domain/enums/paging/paging_status.dart';
 import '../../../domain/models/paging/i_paging_item.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 
-class PaginationState<T extends IPagingItem> extends Equatable{
+part 'pagination_state.freezed.dart';
 
-  final int currentPage;
-  final int prevPage;
-  final int pageSize;
-  final int totalItems;
-  final List<T> items;
-  final PagingModifiedItem? lastModifiedItem;
-  final PagingStatus status;
-  final int preFetchDistance;
-  final int? jumpToPos;
-  final double jumpToAlignment;
-
-  final int visibleMinPos;
-  final int visibleMaxPos;
-
-  int get totalPages => totalItems ~/ pageSize;
-  int get visibleMiddlePos => (visibleMaxPos + visibleMinPos) ~/ 2;
-  T? get visibleMiddleItem => items.elementAtOrNull(visibleMiddlePos);
-
-
-  const PaginationState({
-    required this.currentPage,
-    required this.prevPage,
-    required this.pageSize,
-    required this.totalItems,
-    required this.items,
-    required this.status,
-    required this.preFetchDistance,
-    this.jumpToPos,
-    required this.jumpToAlignment,
-    required this.visibleMinPos,
-    required this.visibleMaxPos,
-    this.lastModifiedItem,
-  });
-
-  PaginationState copyWith({
-    int? currentPage,
-    int? prevPage,
-    int? pageSize,
-    int? preFetchDistance,
+@freezed
+class PaginationState<T extends IPagingItem> with _$PaginationState{
+  const factory PaginationState({
+    required int currentPage,
+    required int prevPage,
+    required int pageSize,
+    required int totalItems,
+    required int totalStaticPages,
+    required List<T> items,
+    required HashMap<int, List<T>> itemsByPage,
+    required PagingStatus status,
+    required int preFetchDistance,
+    required double jumpToAlignment,
+    required int visibleMinPos,
+    required int visibleMaxPos,
+    PagingModifiedItem? lastModifiedItem,
     int? jumpToPos,
-    bool setJumpToPos=false,
-    double? jumpToAlignment,
-    int? totalItems,
-    List<T>? items,
-    PagingStatus? status,
-    int? visibleMinPos,
-    int? visibleMaxPos,
-    PagingModifiedItem? lastModifiedItem, bool setLastModifiedItem = false
-  }){
-    return PaginationState(
-        currentPage: currentPage??this.currentPage,
-        prevPage: prevPage??this.prevPage,
-        jumpToPos: setJumpToPos?jumpToPos:this.jumpToPos,
-        jumpToAlignment: jumpToAlignment??this.jumpToAlignment,
-        status: status??this.status,
-        preFetchDistance: preFetchDistance??this.preFetchDistance,
-        pageSize: pageSize??this.pageSize,
-        totalItems: totalItems??this.totalItems,
-        items: items??this.items,
-        visibleMaxPos: visibleMaxPos??this.visibleMaxPos,
-        visibleMinPos: visibleMinPos??this.visibleMinPos,
-        lastModifiedItem: setLastModifiedItem ? lastModifiedItem : this.lastModifiedItem,
-    );
-  }
+  }) = _PaginationState;
+
+
+  int get totalDynamicPages => totalItems ~/ pageSize;
+  int get visibleMiddlePos => (visibleMaxPos + visibleMinPos) ~/ 2;
+  IPagingItem? get visibleMiddleItem => items.elementAtOrNull(visibleMiddlePos);
+
+  const PaginationState._();
 
   static PaginationState init(){
-    return const PaginationState(
-        prevPage: 0,
-        currentPage: 0,
-        pageSize: 1,
-        totalItems: 0,
-        preFetchDistance: 1,
-        items: [],
-        status: PagingStatus.init,
-        jumpToPos: null,
-        jumpToAlignment: 0,
-        visibleMinPos: 0,
-        visibleMaxPos: 0,
+    return PaginationState(
+      prevPage: 0,
+      currentPage: 0,
+      pageSize: 1,
+      totalItems: 0,
+      preFetchDistance: 1,
+      items: [],
+      itemsByPage: HashMap(),
+      status: PagingStatus.init,
+      jumpToPos: null,
+      jumpToAlignment: 0,
+      visibleMinPos: 0,
+      visibleMaxPos: 0,
+      totalStaticPages: 0
     );
   }
-
-  @override
-  List<Object?> get props => [currentPage,pageSize,totalItems,prevPage,visibleMinPos, visibleMaxPos,
-    jumpToPos,items,status, preFetchDistance, jumpToAlignment, lastModifiedItem];
-
 }

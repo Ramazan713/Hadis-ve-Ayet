@@ -14,7 +14,7 @@ import 'package:hadith/utils/localstorage.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class VersePaginationRepo extends PaginationRepo<VerseListModel>{
+abstract class VersePaginationRepo extends PaginationRepo<VerseListModel, int>{
 
   @protected
   late final VerseRepo verseRepo;
@@ -34,11 +34,11 @@ abstract class VersePaginationRepo extends PaginationRepo<VerseListModel>{
   }
 
   @protected
-  Future<List<Verse>> getVerseItems(int pageSize, int startIndex);
+  Future<List<Verse>> getVerseItems(int pageSize, int startIndex, int startPage, int endPage);
 
   @override
-  Future<List<VerseListModel>> getItems(int startIndex, int endIndex) async{
-    final verses = await getVerseItems(endIndex-startIndex, startIndex);
+  Future<List<VerseListModel>> getItems(int startIndex, int endIndex, int startPage, int endPage) async{
+    final verses = await getVerseItems(endIndex-startIndex, startIndex, startPage, endPage);
     final items = <VerseListModel>[];
 
     var index = 1;
@@ -92,6 +92,11 @@ abstract class VersePaginationRepo extends PaginationRepo<VerseListModel>{
         itemListInfo: itemListInfo,
         useArchiveListFeatures: _useArchiveListFeatures,
     );
+  }
+
+  @override
+  groupBy(item) {
+    return item.pagingId;
   }
 
 }

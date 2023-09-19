@@ -41,15 +41,15 @@ class VerseItem extends StatelessWidget {
     final schema = Theme.of(context).colorScheme;
     final cardColor = isSelected ? schema.secondaryContainer : schema.surface;
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(_borderRadius),
-      onLongPress: onLongPress,
-      onTap: onPress,
-      child: Ink(
-        child: Card(
-          color: cardColor,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_borderRadius)),
+    return Card(
+      color: cardColor,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_borderRadius)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(_borderRadius),
+        onLongPress: onLongPress,
+        onTap: onPress,
+        child: Ink(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
             child: Column(

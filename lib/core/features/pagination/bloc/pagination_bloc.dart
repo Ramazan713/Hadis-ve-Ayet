@@ -1,10 +1,12 @@
 
 
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/enums/data_status_enum.dart';
 import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 import '../../../domain/enums/paging/paging_invalidate_op.dart';
@@ -23,12 +25,12 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     on<PaginationEventFetchNextPage>(_onFetchNextPage, transformer: restartable());
     on<PaginationEventFetchPreviousPage>(_onFetchPreviousPage, transformer: restartable());
     on<PaginationEventJumpToPage>(_onJumpToPage, transformer: restartable());
+    on<PaginationEventChangePage>(_onChangePage, transformer: restartable());
     on<PaginationEventJumpToPos>(_onJumpToPos, transformer: restartable());
     on<PaginationEventSetVisiblePos>(_onSetVisiblePos, transformer: restartable());
     on<PaginationEventInValidate>(_onInValidate, transformer: sequential());
     on<PaginationEventChangeState>(_onChangeState, transformer: sequential());
   }
-
 
   void _onInit(PaginationEventInit event,Emitter<PaginationState>emit)async{
 
@@ -38,17 +40,21 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     emit(PaginationState.init().copyWith(status: PagingStatus.loading));
 
     final int totalItems = await _paginationRepo!.getTotalItems();
-    final currentPage = _calcPageNumber(config.currentPos,config.pageSize);
-
+    final currentPage = config.currentPage ?? _calcPageNumber(config.currentPos,config.pageSize);
     emit(PaginationState.init().copyWith(
         currentPage: currentPage,
         prevPage: max(currentPage - 1,0),
         pageSize: config.pageSize,
         preFetchDistance: config.preFetchDistance,
-        totalItems: totalItems
+        totalItems: totalItems,
+        totalStaticPages: totalItems
     ));
 
-    add(PaginationEventJumpToPos(pos: config.currentPos));
+    if(config.currentPage != null){
+      add(PaginationEventChangePage(page: currentPage));
+    }else{
+      add(PaginationEventJumpToPos(pos: config.currentPos));
+    }
   }
 
 
@@ -83,6 +89,14 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     );
   }
 
+  void _onJumpToPos(PaginationEventJumpToPos event,Emitter<PaginationState>emit)async{
+    if(state.status.isAnyLoading)return;
+
+    int pageNumber = (event.pos ~/ state.pageSize) + 1;
+    int jumpToPos = event.pos % state.pageSize;
+    add(PaginationEventJumpToPage(page: pageNumber,jumpToPos: jumpToPos));
+  }
+
   void _onJumpToPage(PaginationEventJumpToPage event,Emitter<PaginationState>emit)async{
     if(state.status.isAnyLoading) return;
     if(!_isPageNumberValid(event.page)) return;
@@ -114,18 +128,38 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     );
   }
 
+  void _onChangePage(PaginationEventChangePage event,Emitter<PaginationState>emit)async{
+    EasyDebounce.debounce("pagination_by_page", const Duration(milliseconds: 300), () async{
+      if(event.page > state.totalStaticPages) return;
+      final pageNumber = max(event.page, 1);
+
+      int currentPage = 1;
+      bool clearAll = false;
+
+      // next page
+      if(pageNumber >= state.currentPage && pageNumber <= state.currentPage + state.preFetchDistance){
+        currentPage = pageNumber;
+      } else if(pageNumber < state.currentPage && pageNumber >= state.currentPage - state.preFetchDistance){ // prev page
+        currentPage = pageNumber - 1;
+      }else{
+        clearAll = true;
+        currentPage = pageNumber;
+      }
+
+      int endPage = max(currentPage + state.preFetchDistance, 1);
+      int prevPage = max(currentPage - 1 - state.preFetchDistance, 1);
+      await _fetchDatasByPage(
+        startPage: prevPage,
+        endPage: endPage,
+        currentPage: currentPage,
+        clearAll: clearAll
+      );
+    });
+  }
+
   void _onChangeState(PaginationEventChangeState event,Emitter<PaginationState>emit){
     emit(event.newState);
   }
-
-  void _onJumpToPos(PaginationEventJumpToPos event,Emitter<PaginationState>emit)async{
-    if(state.status.isAnyLoading)return;
-
-    int pageNumber = (event.pos ~/ state.pageSize) + 1;
-    int jumpToPos = event.pos % state.pageSize;
-    add(PaginationEventJumpToPage(page: pageNumber,jumpToPos: jumpToPos));
-  }
-
 
   void _onSetVisiblePos(PaginationEventSetVisiblePos event,Emitter<PaginationState>emit){
 
@@ -134,14 +168,46 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     }
   }
 
+  Future<void> _fetchDatasByPage({
+    required int startPage,
+    required int endPage,
+    required int currentPage,
+    bool clearAll = false
+  })async{
+    if(_paginationRepo == null)return;
+    if(startPage>endPage)return;
+    final itemsByPage = state.itemsByPage;
 
-  Future<void> _fetchDatas(
-    {
-      required int startPage,
-      required int endPage,
-      bool shouldReplaceItems = true,
-      bool shouldAppendAtEnd = true,
-      int? jumpToPos,
+    if(clearAll){
+      itemsByPage.clear();
+    }
+
+    final initLoadingStatus = clearAll ? PagingStatus.loading : state.status;
+    add(PaginationEventChangeState(newState: state.copyWith(
+      status: initLoadingStatus,
+      prevPage: startPage,
+      currentPage: currentPage,
+    )));
+
+    for(int page = startPage ; page <= endPage ; page++){
+      if(!itemsByPage.keys.contains(page)){
+        final items = await _paginationRepo!.getItems(0,0, page, page);
+        itemsByPage.putIfAbsent(page, () => items);
+      }
+    }
+
+    add(PaginationEventChangeState(newState: state.copyWith(
+        status: PagingStatus.success,
+        itemsByPage: itemsByPage
+    )));
+  }
+
+  Future<void> _fetchDatas({
+    required int startPage,
+    required int endPage,
+    bool shouldReplaceItems = true,
+    bool shouldAppendAtEnd = true,
+    int? jumpToPos,
   })async{
     if(_paginationRepo == null)return;
     if(startPage>endPage)return;
@@ -151,23 +217,30 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     final endIndex = min(maxStartIndex + state.pageSize, state.totalItems);
 
     final itemsList = state.items.toList();
+    final itemsByPage = state.itemsByPage;
 
     if(shouldReplaceItems){
       itemsList.clear();
+      itemsByPage.clear();
     }
-    final items = await _paginationRepo!.getItems(startIndex, endIndex);
+    final items = await _paginationRepo!.getItems(startIndex, endIndex, startPage, endPage);
     if(shouldAppendAtEnd){
       itemsList.addAll(items);
     }else{
       itemsList.insertAll(0, items);
     }
+    itemsByPage.putIfAbsent(startPage, () => items);
 
-    final newState = state.copyWith(items: itemsList,
-        status: PagingStatus.success,jumpToPos: jumpToPos, setJumpToPos: jumpToPos!=null);
+    final newState = state.copyWith(
+      items: itemsList,
+      itemsByPage: itemsByPage,
+      status: PagingStatus.success,
+      jumpToPos: jumpToPos,
+    );
 
     add(PaginationEventChangeState(newState: newState));
 
-    add(PaginationEventChangeState(newState: newState.copyWith(setJumpToPos: jumpToPos!=null)));
+    add(PaginationEventChangeState(newState: newState.copyWith(jumpToPos: null)));
   }
 
 
@@ -187,7 +260,9 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
   void _onInValidate(PaginationEventInValidate event,Emitter<PaginationState>emit)async{
     if(_paginationRepo == null) return;
 
-    final items = state.items.toList();
+    final stateItems = state.items.toList();
+
+    final List<IPagingItem> items = stateItems.isEmpty ? state.itemsByPage.values.flattened.toList() : stateItems;
 
     final updatedItem = await _paginationRepo!.getUpdatedItem(event.item);
     if(updatedItem==null)return null;
@@ -224,8 +299,13 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
     }
 
     final lastModifiedItem = PagingModifiedItem(item: updatedItem, op: op);
+    final updatedItemsByPage = HashMap<int,List<IPagingItem>>.from(items.groupListsBy((e) => _paginationRepo?.groupBy(e)));
 
-    emit(state.copyWith(items: items, lastModifiedItem: lastModifiedItem,setLastModifiedItem: true));
+    emit(state.copyWith(
+        items: items,
+        itemsByPage: updatedItemsByPage,
+        lastModifiedItem: lastModifiedItem,
+    ));
   }
 
 
@@ -265,7 +345,7 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
 
 
   bool _isPageNumberValid(pageNumber){
-    return pageNumber > 0 && pageNumber <= state.totalPages + 1;
+    return pageNumber > 0 && pageNumber <= state.totalDynamicPages + 1;
   }
 
   int _calcPageNumber(int pos,int pageSize){

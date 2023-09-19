@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
+import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_audio_setting_dia.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
@@ -17,18 +19,22 @@ import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';
 import '../verse_show_shared_page.dart';
 
-extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
+extension VerseShowSharedPageHeaderExt on VerseShareBasePage{
 
-  List<Widget> getTopBarActions(BuildContext context){
+  List<Widget> getActions(BuildContext context,{
+    required SavePointDestination savePointDestination
+  }){
     return [
-      _getAppearanceIcon(context),
+      getTopBarAppearanceIcon(context),
       _getNavigatorIcon(context),
-      _getDropdownMenu(context)
+      getTopBarDropdownMenu(context,savePointDestination: savePointDestination)
     ];
   }
 
 
-  Widget _getDropdownMenu(BuildContext context){
+  Widget getTopBarDropdownMenu(BuildContext context, {
+    required SavePointDestination savePointDestination
+  }){
     return BlocSelector<PaginationBloc,PaginationState,VerseListModel?>(
         selector: (state)=>state.visibleMiddleItem.castOrNull<VerseListModel>(),
         builder: (context,visibleMiddleItem){
@@ -41,7 +47,11 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
                   showSelectFontSizeDia(context);
                   break;
                 case VerseTopBarMenuItem.savePoint:
-                  verseShowSelectSavePoint(context, itemIndexPos: visibleMiddleItem?.rowNumber ?? 0);
+                  verseShowSelectSavePoint(
+                    context,
+                    savePointDestination: savePointDestination,
+                    itemIndexPos: visibleMiddleItem?.rowNumber ?? 0,
+                  );
                   break;
                 case VerseTopBarMenuItem.selectEdition:
                   showEditAudioSettingDia(context);
@@ -52,7 +62,7 @@ extension VerseShowSharedPageHeaderExt on VerseShowSharedPage{
         });
   }
 
-  Widget _getAppearanceIcon(BuildContext context){
+  Widget getTopBarAppearanceIcon(BuildContext context){
     return IconButton(
       onPressed: () async{
         showSelectVerseUi2X(context, pref: KPref.verseAppearanceEnum);

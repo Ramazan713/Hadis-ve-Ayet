@@ -36,10 +36,11 @@ class EditSavePointBloc extends Bloc<IEditSavePointEvent,EditSavePointState>{
 
   void _onLoadData(EditSavePointEventLoadData event,Emitter<EditSavePointState>emit)async{
 
-      _scopeFilter.add(state.localScope);
+      _scopeFilter.add(event.scope ?? state.localScope);
       emit(state.copyWith(
           destination: event.destination,
           position: event.position,
+          localScope: event.scope,
           setSelectedSavePointId: true,
           selectedSavePointId: event.selectedSavePointId
       ));

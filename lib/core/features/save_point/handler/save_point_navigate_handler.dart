@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/presentation/handlers/duplicate_dialog_handler.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/features/verses/show_verse/presentation/verse_page_show_page.dart';
 
 
 void savePointNavigateHandlerWithSavePoint(
@@ -47,6 +48,9 @@ void savePointNavigateHandler(
         break;
       case DestinationCuz _:
         _loadAndGoCuz(context, destination, itemIndexPos);
+        break;
+      case DestinationPage _:
+        _loadAndGoPage(context, destination,itemIndexPos);
         break;
     }
   });
@@ -158,6 +162,21 @@ void _loadAndGoCuz(BuildContext context, DestinationCuz destination, int itemInd
       VerseShowCuzRoute(
           cuzNo: destination.cuzId,
           pos: itemIndexPos
+      ).push(context);
+      break;
+  }
+}
+
+void _loadAndGoPage(BuildContext context, DestinationPage destination, int itemIndexPos){
+  final sourceType = destination.getBookScope().sourceType;
+
+  switch(sourceType){
+    case SourceTypeEnum.hadith:
+      break;
+    case SourceTypeEnum.verse:
+      VersePageShowRoute(
+        pageIndex: destination.pageNoIndex,
+        pagePos: itemIndexPos
       ).push(context);
       break;
   }

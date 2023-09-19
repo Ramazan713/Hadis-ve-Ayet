@@ -34,7 +34,7 @@ class VerseSearchPagingRepo extends VersePaginationRepo{
   }
 
   @override
-  Future<List<Verse>> getVerseItems(int pageSize, int startIndex) {
+  Future<List<Verse>> getVerseItems(int pageSize, int startIndex, int startPage, int endPage) {
     return _searchRepo.getVerses(_query, criteria, pageSize, startIndex);
   }
 

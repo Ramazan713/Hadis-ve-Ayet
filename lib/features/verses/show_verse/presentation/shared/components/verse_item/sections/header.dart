@@ -20,7 +20,7 @@ extension VerseItemHeaderExt on VerseItem{
 
 
   Widget _getSurahInfo(BuildContext context){
-    return  Expanded(
+    return Expanded(
       child: Text(
         "${verse.surahId}/${verse.surahName}",
         style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: smallFontValue),

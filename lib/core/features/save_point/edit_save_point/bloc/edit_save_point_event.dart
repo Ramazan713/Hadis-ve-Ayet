@@ -11,11 +11,13 @@ class EditSavePointEventLoadData extends IEditSavePointEvent{
   final SavePointDestination destination;
   final int? selectedSavePointId;
   final int position;
+  final LocalDestinationScope? scope;
 
   EditSavePointEventLoadData({
     required this.destination,
-    this.selectedSavePointId,
     required this.position,
+    this.selectedSavePointId,
+    this.scope
   });
 }
 

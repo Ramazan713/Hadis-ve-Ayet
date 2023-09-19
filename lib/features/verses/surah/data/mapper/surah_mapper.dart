@@ -5,6 +5,10 @@ import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 
 extension SurahEntityExt on SurahEntity{
   Surah toSurah(){
-    return Surah(id: id, name: name);
+    return Surah(
+      id: id,
+      name: name,
+      searchName: searchName
+    );
   }
 }

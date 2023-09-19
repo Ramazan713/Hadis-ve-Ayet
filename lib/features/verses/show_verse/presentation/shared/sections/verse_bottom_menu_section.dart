@@ -3,7 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
+import 'package:hadith/core/domain/enums/save_point/local_destination_scope.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dart';
@@ -27,12 +30,16 @@ import '../bloc/verse_shared_event.dart';
 import '../bloc/verse_shared_state.dart';
 import '../verse_show_shared_page.dart';
 
-extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
+extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
 
 
   void handleBottomMenu(BuildContext context,{
     required VerseListModel verseListModel,
     required VerseSharedState state,
+    required SavePointDestination savePointDestination,
+    int? itemIndexPos,
+    LocalDestinationScope? initScope,
+    void Function(SavePoint)? onLoadSavePointClick,
   }){
 
     void navigateBack(){
@@ -83,7 +90,13 @@ extension VerseShowSharedPageBottomBarExt on VerseShowSharedPage{
               break;
             case VerseBottomMenuItem.savePoint:
               navigateBack();
-              verseShowSelectSavePoint(context,itemIndexPos: verseListModel.rowNumber);
+              verseShowSelectSavePoint(
+                context,
+                itemIndexPos: itemIndexPos ?? verseListModel.rowNumber,
+                savePointDestination: savePointDestination,
+                initScope: initScope,
+                onLoadSavePointClick: onLoadSavePointClick
+              );
               break;
           }
         }

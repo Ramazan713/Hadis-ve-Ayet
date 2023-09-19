@@ -27,7 +27,12 @@ enum SavePointType with IMenuItem{
   search(
       typeId: 6,
       title: "Arama"
-  );
+  ),
+  quranPage(
+    typeId: 7,
+    title: "Sayfa"
+  )
+  ;
 
 
   const SavePointType({required this.typeId,required this.title});
@@ -55,6 +60,8 @@ enum SavePointType with IMenuItem{
         return SavePointType.cuz;
       case 6:
         return SavePointType.search;
+      case 7:
+        return SavePointType.quranPage;
     }
     return SavePointType.list;
   }
@@ -72,6 +79,7 @@ extension SavePointTypeBarExt on SavePointType{
         return hadithResult;
       case BookEnum.diyanetMeal:
         return [SavePointType.list, SavePointType.topic,
+          SavePointType.quranPage,
           SavePointType.surah, SavePointType.cuz, SavePointType.search];
     }
   }

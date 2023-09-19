@@ -6,10 +6,6 @@ import 'package:hadith/core/data/local/entities/savepoint_type_entity.dart';
 
 @Entity(tableName: "savePoints",foreignKeys: [
   ForeignKey(
-      childColumns: ["savePointType"],
-      parentColumns: ["id"],
-      entity: SavePointTypeEntity),
-  ForeignKey(
       childColumns: ["bookId"],
       parentColumns: ["id"],
       entity: BookEntity)

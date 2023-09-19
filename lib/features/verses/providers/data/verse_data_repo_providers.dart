@@ -12,6 +12,8 @@ import 'package:hadith/features/verses/cuz/data/repo/cuz_repo_impl.dart';
 import 'package:hadith/features/verses/cuz/domain/repo/cuz_repo.dart';
 import 'package:hadith/core/data/repo/downloaded_audio_view_repo_impl.dart';
 import 'package:hadith/core/domain/repo/downloaded_audio_view_repo.dart';
+import 'package:hadith/features/verses/shared/data/repo/select_verse_page_repo_impl.dart';
+import 'package:hadith/features/verses/shared/domain/repo/select_verse_page_repo.dart';
 import 'package:hadith/features/verses/surah/data/repo/surah_repo_impl.dart';
 import 'package:hadith/features/verses/surah/domain/repo/surah_repo.dart';
 
@@ -46,7 +48,10 @@ List<RepositoryProvider> pVerseDataRepoProviders(AppDatabase appDatabase){
       audioViewDao: appDatabase.audioViewDao,
       verseAudioDao: appDatabase.verseAudioDao,
       fileService: context.read()
-    ))
+    )),
+
+    RepositoryProvider<SelectVersePageRepo>(create: (context) =>
+        SelectVersePageRepoImpl(selectVersePageDao: appDatabase.selectVersePageDao))
 
   ];
 }

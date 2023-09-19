@@ -47,6 +47,7 @@ import 'package:hadith/core/data/local/services/list/list_verse_view_dao.dart';
 import 'package:hadith/core/data/local/services/prayer_dao.dart';
 import 'package:hadith/core/data/local/services/save_point_dao.dart';
 import 'package:hadith/core/data/local/services/search_dao.dart';
+import 'package:hadith/core/data/local/services/select_verse_page_dao.dart';
 import 'package:hadith/core/data/local/services/surah_dao.dart';
 import 'package:hadith/core/data/local/services/title_dao.dart';
 import 'package:hadith/core/data/local/services/topic/section_view_dao.dart';
@@ -203,4 +204,5 @@ abstract class AppDatabase extends FloorDatabase{
   UserInfoDao get userInfoDao;
   BackupMetaDao get backupMetaDao;
   BackupDao get backupDao;
+  SelectVersePageDao get selectVersePageDao;
 }

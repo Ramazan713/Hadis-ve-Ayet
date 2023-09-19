@@ -9,7 +9,12 @@ import 'package:hadith/core/presentation/components/animated/custom_animated_swi
 import 'download_audio_progress_item.dart';
 
 class DownloadAudioInfoItem extends StatelessWidget {
-  const DownloadAudioInfoItem({Key? key}) : super(key: key);
+  final EdgeInsets? margins;
+
+  const DownloadAudioInfoItem({
+    Key? key,
+    this.margins
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class DownloadAudioInfoItem extends StatelessWidget {
   Widget getContent(BuildContext context, DownloadAudioState state) {
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 1),
+      margin: margins ?? const EdgeInsets.symmetric(horizontal: 1,vertical: 1),
       color: Theme.of(context).colorScheme.primaryContainer,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13)

@@ -13,7 +13,7 @@ import 'package:hadith/utils/localstorage.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel>{
+abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel, int>{
 
   @protected
   late final HadithRepo hadithRepo;
@@ -35,7 +35,7 @@ abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel>{
   Future<List<Hadith>> getHadithItems(int pageSize, int startIndex);
 
   @override
-  Future<List<HadithListModel>> getItems(int startIndex, int endIndex) async{
+  Future<List<HadithListModel>> getItems(int startIndex, int endIndex, int startPage, int endPage) async{
     final hadiths = await getHadithItems(endIndex-startIndex, startIndex);
     final items = <HadithListModel>[];
 
@@ -88,4 +88,7 @@ abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel>{
         updatedHadith: updatedHadith);
   }
 
+
+  @override
+  int groupBy(HadithListModel item) => item.pagingId;
 }

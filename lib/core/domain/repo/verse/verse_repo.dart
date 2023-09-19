@@ -38,6 +38,11 @@ abstract class VerseRepo{
   Future<bool> getExistsVerseByTopicId(int topicId, int id);
 
 
+  Future<List<Verse>> getPagingVersesByPageNo(int pageNo);
+
+  Future<int> getVerseCountByPageNo(int pageNo);
+
+  Future<bool> getExistsVerseByPageNo(int pageNo, int id);
 
 
   Future<Verse?> getVerseById(int id);

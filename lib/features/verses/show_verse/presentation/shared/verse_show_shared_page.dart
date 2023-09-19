@@ -9,7 +9,6 @@ import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/paging_list_view.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_with_paging.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
-import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_info_body_wrapper.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
@@ -33,64 +32,86 @@ import 'bloc/verse_shared_state.dart';
 import 'components/paging_verse_connect.dart';
 import 'components/verse_item/verse_item.dart';
 
+abstract class VerseShareBasePage extends StatefulWidget {
 
-class VerseShowSharedPage extends StatelessWidget {
+  final EditSavePointHandler? editSavePointHandler;
+  final int? listIdControlForSelectList;
 
-  final SavePointDestination savePointDestination;
+  const VerseShareBasePage({
+    super.key,
+    this.editSavePointHandler,
+    this.listIdControlForSelectList
+  });
+}
+
+
+
+class VerseShowSharedPage extends VerseShareBasePage {
+
   final VersePaginationRepo paginationRepo;
   final String title;
   final SearchParam? searchParam;
   final int pos;
-  final int? listIdControlForSelectList;
-  final EditSavePointHandler? editSavePointHandler;
 
-  VerseShowSharedPage({
+  final SavePointDestination savePointDestination;
+
+  const VerseShowSharedPage({
     Key? key,
     required this.savePointDestination,
     required this.paginationRepo,
     required this.title,
     this.searchParam,
-    this.listIdControlForSelectList,
-    this.editSavePointHandler,
+    super.listIdControlForSelectList,
+    super.editSavePointHandler,
     required this.pos
   }) : super(key: key);
 
+  @override
+  State<VerseShowSharedPage> createState() => _VerseShowSharedPageState();
+}
 
-  final CustomScrollController _customScrollController = CustomScrollController();
-  final ItemScrollController _itemScrollController = ItemScrollController();
+class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
+
+  final CustomScrollController customScrollController = CustomScrollController();
+  final ItemScrollController itemScrollController = ItemScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final pagingBloc = context.read<PaginationBloc>();
+
+    pagingBloc.add(PaginationEventInit(widget.paginationRepo,
+        config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: widget.pos)
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final pagingBloc = context.read<PaginationBloc>();
-
-    pagingBloc.add(PaginationEventInit(paginationRepo,
-        config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: pos)
-    ));
-
     return FollowAudioWrapper(
-      itemScrollController: _itemScrollController,
+      itemScrollController: itemScrollController,
       child: AudioConnect(
         child: PagingVerseConnect(
           child: SaveAutoSavePointWithPaging(
-            destination: savePointDestination,
+            destination: widget.savePointDestination,
             autoType: SaveAutoType.general,
             child: Scaffold(
               body: CustomNestedViewAppBar(
-                scrollController: _customScrollController,
-                title: Text(title),
-                actions: getTopBarActions(context),
+                scrollController: customScrollController,
+                title: Text(widget.title),
+                actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
                 child: AudioInfoBodyWrapper(
-                  destination: savePointDestination,
+                  destination: widget.savePointDestination,
                   child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
                     selector: (state) => state.audio?.mealId,
                     builder: (context, currentMealId){
                       return BlocBuilder<VerseSharedBloc, VerseSharedState>(
                         builder: (context, state){
                           return PagingListView<VerseListModel>(
-                            itemScrollController: _itemScrollController,
+                            itemScrollController: itemScrollController,
                             onScroll: (scrollDirection){
-                              _customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                              customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
                             },
                             itemBuilder: (context, item, index){
                               return VerseItem(
@@ -99,9 +120,10 @@ class VerseShowSharedPage extends StatelessWidget {
                                 arabicVerseUIEnum: state.arabicVerseUIEnum,
                                 showListVerseIcons: true,
                                 onLongPress: (){
-                                  handleBottomMenu(
+                                  widget.handleBottomMenu(
                                     context,
                                     verseListModel: item,
+                                    savePointDestination: widget.savePointDestination,
                                     state: state,
                                   );
                                 },
@@ -110,7 +132,7 @@ class VerseShowSharedPage extends StatelessWidget {
                                       .add(ListenAudioEventToggleVisibilityAudioWidget());
                                 },
                                 verseListModel: item,
-                                searchParam: searchParam,
+                                searchParam: widget.searchParam,
                               );
                             },
                             loadingItem: const GetShimmerItems(
@@ -134,4 +156,9 @@ class VerseShowSharedPage extends StatelessWidget {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    customScrollController.dispose();
+  }
 }

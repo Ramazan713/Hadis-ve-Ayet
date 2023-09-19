@@ -5,6 +5,7 @@ import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
+import 'package:hadith/core/presentation/controllers/custom_sing_position_controller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CustomScrollablePositionedList extends StatefulWidget {
@@ -13,6 +14,7 @@ class CustomScrollablePositionedList extends StatefulWidget {
 
   final ItemScrollController? itemScrollController;
   final ItemPositionsListener? itemPositionsListener;
+  final CustomSinglePositionController? singlePositionController;
   final int itemCount;
   final int initialScrollIndex;
   final bool shrinkWrap;
@@ -34,6 +36,7 @@ class CustomScrollablePositionedList extends StatefulWidget {
     this.shrinkWrap = false,
     this.onVisibleItemChanged,
     this.pageSize,
+    this.singlePositionController,
     this.scrollDelayType = ScrollDelayType.both
   }) : super(key: key);
 
@@ -68,12 +71,21 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
         addSemanticIndexes: true,
         addRepaintBoundaries: true,
         itemCount: widget.itemCount,
-        initialScrollIndex: widget.initialScrollIndex,
+        initialScrollIndex: getInitPos(),
         itemPositionsListener: _itemPositionsListener,
         itemScrollController: widget.itemScrollController,
         itemBuilder: (context, index){
           return widget.itemBuilder(context,index);
         });
+  }
+
+  int getInitPos(){
+    final pos = widget.singlePositionController?.pos;
+    if(pos != null && widget.itemScrollController?.isAttached == false){
+      widget.singlePositionController?.setPosWithoutNotifier(0);
+      return pos;
+    }
+    return widget.initialScrollIndex;
   }
 
 
@@ -85,6 +97,8 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
 
   void _addListeners() {
 
+    widget.singlePositionController?.addListener(_listenPosNotifier);
+
     if(_scrollDelayType.isThrottle()){
       _itemPositionsListener.itemPositions.addListener(_onThrottlePositionChanged);
     }
@@ -94,6 +108,8 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
   }
 
   void _removeListeners() async {
+    widget.singlePositionController?.removeListener(_listenPosNotifier);
+
     if(_scrollDelayType.isThrottle()){
       _itemPositionsListener.itemPositions.removeListener(_onThrottlePositionChanged);
     }
@@ -106,6 +122,15 @@ class _CustomScrollablePositionedListState extends State<CustomScrollablePositio
 
 // about extentions of positions functions
 extension _CustomScrollablePositionedListStateExt on _CustomScrollablePositionedListState {
+
+  void _listenPosNotifier(){
+    final pos = widget.singlePositionController?.pos;
+    if(pos!=null){
+      if(widget.itemScrollController?.isAttached == true){
+        widget.itemScrollController?.scrollTo(index: pos, duration: const Duration(milliseconds: 300));
+      }
+    }
+  }
 
   void _onThrottlePositionChanged(){
     EasyThrottle.throttle(

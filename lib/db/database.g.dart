@@ -167,6 +167,8 @@ class _$AppDatabase extends AppDatabase {
 
   BackupDao? _backupDaoInstance;
 
+  SelectVersePageDao? _selectVersePageDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -203,7 +205,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `IntData` (`data` INTEGER NOT NULL, PRIMARY KEY (`data`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `savePointType` (`id` INTEGER, `name` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -257,7 +259,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `counters` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `content` TEXT, `arabicContent` TEXT, `meaning` TEXT, `description` TEXT, `orderItem` INTEGER NOT NULL, `lastCounter` INTEGER NOT NULL, `goal` INTEGER, `typeId` INTEGER NOT NULL, `prayerId` INTEGER, FOREIGN KEY (`prayerId`) REFERENCES `Prayers` (`id`) ON UPDATE CASCADE ON DELETE SET NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `CuzEntity` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `SurahEntity` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `verse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, `surahId` INTEGER NOT NULL, `cuzNo` INTEGER NOT NULL, `pageNo` INTEGER NOT NULL, `verseNumber` TEXT NOT NULL, `content` TEXT NOT NULL, `isProstrationVerse` INTEGER NOT NULL, FOREIGN KEY (`cuzNo`) REFERENCES `Cuz` (`cuzNo`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`surahId`) REFERENCES `Surah` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `History` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `originType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, FOREIGN KEY (`originType`) REFERENCES `sourceType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -275,13 +277,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `PrayerVerses` (`id` INTEGER, `verseId` INTEGER NOT NULL, `prayerId` INTEGER NOT NULL, `orderItem` INTEGER NOT NULL, FOREIGN KEY (`verseId`) REFERENCES `verse` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`prayerId`) REFERENCES `Prayers` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `topicSavePoint` (`id` INTEGER, `pos` INTEGER NOT NULL, `type` INTEGER NOT NULL, `parentKey` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `CuzEntity` (`cuzNo` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY (`cuzNo`))');
+            'CREATE TABLE IF NOT EXISTS `Cuz` (`cuzNo` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY (`cuzNo`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `SurahEntity` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `searchName` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Surah` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `searchName` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verseArabic` (`id` INTEGER, `mealId` INTEGER NOT NULL, `verse` TEXT NOT NULL, `verseNumber` TEXT NOT NULL, `verseNumberTr` INTEGER NOT NULL, FOREIGN KEY (`mealId`) REFERENCES `verse` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
@@ -289,7 +291,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `hadith` (`content` TEXT NOT NULL, `source` TEXT NOT NULL, `contentSize` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookId` INTEGER NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`savePointType`) REFERENCES `savePointType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `list` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `isRemovable` INTEGER NOT NULL, `sourceId` INTEGER NOT NULL, `isArchive` INTEGER NOT NULL, `pos` INTEGER NOT NULL, FOREIGN KEY (`sourceId`) REFERENCES `sourceType` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
@@ -611,6 +613,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   BackupDao get backupDao {
     return _backupDaoInstance ??= _$BackupDao(database, changeListener);
+  }
+
+  @override
+  SelectVersePageDao get selectVersePageDao {
+    return _selectVersePageDaoInstance ??=
+        _$SelectVersePageDao(database, changeListener);
   }
 }
 
@@ -5411,6 +5419,38 @@ class _$VerseDao extends VerseDao {
   }
 
   @override
+  Future<List<VerseEntity>> getPagingVersesByPageNo(int pageNo) async {
+    return _queryAdapter.queryList('select * from verse where pageNo = ?1',
+        mapper: (Map<String, Object?> row) => VerseEntity(
+            id: row['id'] as int?,
+            surahId: row['surahId'] as int,
+            cuzNo: row['cuzNo'] as int,
+            pageNo: row['pageNo'] as int,
+            verseNumber: row['verseNumber'] as String,
+            content: row['content'] as String,
+            isProstrationVerse: (row['isProstrationVerse'] as int) != 0,
+            bookId: row['bookId'] as int),
+        arguments: [pageNo]);
+  }
+
+  @override
+  Future<int?> getVerseCountByPageNo() async {
+    return _queryAdapter.query('select count(distinct pageNo) from verse',
+        mapper: (Map<String, Object?> row) => row.values.first as int);
+  }
+
+  @override
+  Future<bool?> getExistsVerseByPageNo(
+    int pageNo,
+    int id,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(select * from verse where pageNo = ?1 and id = ?2)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [pageNo, id]);
+  }
+
+  @override
   Future<VerseEntity?> getVerseById(int id) async {
     return _queryAdapter.query('select * from Verse where id = ?1',
         mapper: (Map<String, Object?> row) => VerseEntity(
@@ -7634,5 +7674,240 @@ class _$BackupDao extends BackupDao {
         await transactionDatabase.backupDao.deletePrayers();
       });
     }
+  }
+}
+
+class _$SelectVersePageDao extends SelectVersePageDao {
+  _$SelectVersePageDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<List<SurahEntity>> getSurahes() async {
+    return _queryAdapter.queryList('select * from surah',
+        mapper: (Map<String, Object?> row) => SurahEntity(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String));
+  }
+
+  @override
+  Future<List<CuzEntity>> getCuzs() async {
+    return _queryAdapter.queryList('select * from cuz',
+        mapper: (Map<String, Object?> row) =>
+            CuzEntity(cuzNo: row['cuzNo'] as int, name: row['name'] as String));
+  }
+
+  @override
+  Future<List<String>> getVerseNumbers(int surahId) async {
+    return _queryAdapter.queryList(
+        'select verseNumber from verse where surahId = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
+        arguments: [surahId]);
+  }
+
+  @override
+  Future<int?> getMaxPage() async {
+    return _queryAdapter.query('select ifnull(max(pageNo),0) from verse',
+        mapper: (Map<String, Object?> row) => row.values.first as int);
+  }
+
+  @override
+  Future<int?> getVerseId(
+    int surahId,
+    int cuzNo,
+    String verseNumber,
+  ) async {
+    return _queryAdapter.query(
+        'select id from verse      where surahId = ?1 and cuzNo = ?2 and verseNumber = ?3',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [surahId, cuzNo, verseNumber]);
+  }
+
+  @override
+  Future<int?> getPagePosition(
+    int id,
+    int pageNo,
+    int surahId,
+    int cuzNo,
+  ) async {
+    return _queryAdapter.query(
+        'select count(*) from verse      where pageNo = ?2 and surahId = ?3 and cuzNo = ?4 and id <= ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [id, pageNo, surahId, cuzNo]);
+  }
+
+  @override
+  Future<bool?> existsSurahByCuzNo(
+    int surahId,
+    int cuzNo,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from surah S, Verse V      where V.surahId = S.id and V.cuzNo = ?2 and S.id = ?1)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [surahId, cuzNo]);
+  }
+
+  @override
+  Future<bool?> existsCuzBySurah(
+    int cuzNo,
+    int surahId,
+    String verseNumber,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from surah S, Verse V      where V.surahId = S.id and V.cuzNo = ?1 and S.id = ?2 and verseNumber = ?3)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [cuzNo, surahId, verseNumber]);
+  }
+
+  @override
+  Future<bool?> existsPageByCuzNo(
+    int pageNo,
+    int cuzNo,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from Verse     where cuzNo = ?2 and pageNo = ?1)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [pageNo, cuzNo]);
+  }
+
+  @override
+  Future<bool?> existsPageBySurahId(
+    int pageNo,
+    int surahId,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from Verse     where surahId = ?2 and pageNo = ?1)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [pageNo, surahId]);
+  }
+
+  @override
+  Future<bool?> existsPageBySurah(
+    int pageNo,
+    int surahId,
+    String verseNumber,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from Verse     where surahId = ?2 and pageNo = ?1 and verseNumber = ?3)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [pageNo, surahId, verseNumber]);
+  }
+
+  @override
+  Future<bool?> existsVerseNumber(
+    String verseNumber,
+    int surahId,
+    int cuzNo,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from Verse     where surahId = ?2 and cuzNo = ?3 and verseNumber = ?1)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [verseNumber, surahId, cuzNo]);
+  }
+
+  @override
+  Future<bool?> existsVerseNumberWithPageNo(
+    String verseNumber,
+    int surahId,
+    int cuzNo,
+    int pageNo,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from Verse     where surahId = ?2 and cuzNo = ?3 and verseNumber = ?1 and pageNo = ?4)',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [verseNumber, surahId, cuzNo, pageNo]);
+  }
+
+  @override
+  Future<SurahEntity?> getFirstSurahByCuzNo(int cuzNo) async {
+    return _queryAdapter.query(
+        'select S.* from surah S, Verse V      where V.surahId = S.id and V.cuzNo = ?1 limit 1',
+        mapper: (Map<String, Object?> row) => SurahEntity(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String),
+        arguments: [cuzNo]);
+  }
+
+  @override
+  Future<SurahEntity?> getFirstSurahByPageNo(int pageNo) async {
+    return _queryAdapter.query(
+        'select S.* from surah S, Verse V      where V.surahId = S.id and V.pageNo = ?1 limit 1',
+        mapper: (Map<String, Object?> row) => SurahEntity(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String),
+        arguments: [pageNo]);
+  }
+
+  @override
+  Future<CuzEntity?> getFirstCuzBySurah(
+    int surahId,
+    String verseNumber,
+  ) async {
+    return _queryAdapter.query(
+        'select C.* from cuz C, Verse V      where V.cuzNo = C.cuzNo and V.surahId = ?1 and V.verseNumber = ?2 limit 1',
+        mapper: (Map<String, Object?> row) => CuzEntity(cuzNo: row['cuzNo'] as int, name: row['name'] as String),
+        arguments: [surahId, verseNumber]);
+  }
+
+  @override
+  Future<CuzEntity?> getFirstCuzBySurahId(int surahId) async {
+    return _queryAdapter.query(
+        'select C.* from cuz C, Verse V      where V.cuzNo = C.cuzNo and V.surahId = ?1 limit 1',
+        mapper: (Map<String, Object?> row) => CuzEntity(cuzNo: row['cuzNo'] as int, name: row['name'] as String),
+        arguments: [surahId]);
+  }
+
+  @override
+  Future<CuzEntity?> getFirstCuzByPageNo(int pageNo) async {
+    return _queryAdapter.query(
+        'select C.* from cuz C, Verse V      where V.cuzNo = C.cuzNo and V.pageNo = ?1 limit 1',
+        mapper: (Map<String, Object?> row) => CuzEntity(cuzNo: row['cuzNo'] as int, name: row['name'] as String),
+        arguments: [pageNo]);
+  }
+
+  @override
+  Future<int?> getFirstPageByCuzNo(int cuzNo) async {
+    return _queryAdapter.query(
+        'select pageNo from Verse V      where V.cuzNo = ?1 limit 1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [cuzNo]);
+  }
+
+  @override
+  Future<int?> getFirstPageBySurah(
+    int surahId,
+    String verseNumber,
+  ) async {
+    return _queryAdapter.query(
+        'select pageNo from Verse V      where V.surahId = ?1 and verseNumber = ?2 limit 1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [surahId, verseNumber]);
+  }
+
+  @override
+  Future<String?> getFirstVerseNumber(
+    int surahId,
+    int cuzNo,
+  ) async {
+    return _queryAdapter.query(
+        'select verseNumber from Verse     where surahId = ?1 and cuzNo = ?2 limit 1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
+        arguments: [surahId, cuzNo]);
+  }
+
+  @override
+  Future<String?> getFirstVerseNumberWithPageNo(
+    int surahId,
+    int cuzNo,
+    int pageNo,
+  ) async {
+    return _queryAdapter.query(
+        'select verseNumber from Verse     where surahId = ?1 and cuzNo = ?2 and pageNo = ?3 limit 1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
+        arguments: [surahId, cuzNo, pageNo]);
   }
 }

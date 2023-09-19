@@ -23,7 +23,7 @@ class VerseTopicPagingRepo extends VersePaginationRepo{
   }
 
   @override
-  Future<List<Verse>> getVerseItems(int pageSize, int startIndex) {
+  Future<List<Verse>> getVerseItems(int pageSize, int startIndex, int startPage, int endPage) {
     return verseRepo.getPagingVersesByTopicId(_topicId, pageSize, startIndex);
   }
 

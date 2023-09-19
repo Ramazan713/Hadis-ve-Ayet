@@ -20,6 +20,8 @@ class AudioInfoBodyWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    const margins = EdgeInsets.symmetric(horizontal: 1,vertical: 2);
+
     return GestureDetector(
       onTap: (){
         context.read<ListenVerseAudioBloc>()
@@ -27,9 +29,12 @@ class AudioInfoBodyWrapper extends StatelessWidget {
       },
       child: Column(
         children: [
-          const ListenAudioInfoItem(),
-          const SizedBox(height: 4,),
-          const DownloadAudioInfoItem(),
+          const ListenAudioInfoItem(
+            margins: margins,
+          ),
+          const DownloadAudioInfoItem(
+            margins: margins,
+          ),
           Expanded(child: child),
           ListenAudioPlayerWidget(
             destination: destination,

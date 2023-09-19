@@ -81,6 +81,23 @@ abstract class VerseDao{
   Future<bool?> getExistsVerseByTopicId(int topicId, int id);
 
 
+  // by page
+  @Query("""
+    select * from verse where pageNo = :pageNo
+  """)
+  Future<List<VerseEntity>> getPagingVersesByPageNo(int pageNo);
+
+  @Query("""
+    select count(distinct pageNo) from verse
+  """)
+  Future<int?> getVerseCountByPageNo();
+
+  @Query("""
+    select exists(select * from verse where pageNo = :pageNo and id = :id)
+  """)
+  Future<bool?> getExistsVerseByPageNo(int pageNo, int id);
+
+
 
   // general
   @Query("""

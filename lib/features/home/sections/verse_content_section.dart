@@ -42,6 +42,14 @@ extension HomeVerseContentSection on HomePage{
             useSecondary: false,
           ),
           HomeItem(
+            title: "Sayfa",
+            iconData: FontAwesomeIcons.bookQuran,
+            onTap: (){
+              VersePageShowRoute().push(context);
+            },
+            useSecondary: false,
+          ),
+          HomeItem(
             title: "Kayıt Noktaları",
             iconData: Icons.save,
             onTap: (){

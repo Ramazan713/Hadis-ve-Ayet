@@ -23,7 +23,7 @@ class VerseSurahPagingRepo extends VersePaginationRepo{
   }
 
   @override
-  Future<List<Verse>> getVerseItems(int pageSize, int startIndex) {
+  Future<List<Verse>> getVerseItems(int pageSize, int startIndex, int startPage, int endPage) {
     return verseRepo.getPagingVersesBySurahId(_surahId, pageSize, startIndex);
   }
 

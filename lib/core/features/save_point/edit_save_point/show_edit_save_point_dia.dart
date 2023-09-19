@@ -23,6 +23,7 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
   required int itemIndexPos,
   required void Function(SavePoint savePoint) onSelectedSavePoint,
   int? selectedSavePointId,
+  LocalDestinationScope? initScope,
   String? description,
   String? title
 }){
@@ -33,6 +34,7 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
       selectedSavePointId: selectedSavePointId,
       description: description,
       customTitle: title,
+      scope: initScope,
       useWideScope: false,
       customBottomButtons: (savePoint){
         return FilledButton(
@@ -52,12 +54,14 @@ void showEditSavePointsDiaBasic(BuildContext context, {
   void Function(SavePoint savePoint)? onLoadSavePointClick,
   int? selectedSavePointId,
   String? description,
-  String? title
+  String? title,
+  LocalDestinationScope? initScope
 })async{
   showEditSavePointsDiaCustom(
     context,
     destination: destination,
     itemIndexPos: itemIndexPos,
+    scope: initScope,
     selectedSavePointId: selectedSavePointId,
     onLoadSavePointClick: (savePoint, differentLocation){
       onLoadSavePointClick?.call(savePoint);
@@ -75,12 +79,14 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
   required void Function(void Function(bool)) onOverrideSavePointRequestHandler,
   required void Function(void Function(bool)) onLoadSavePointRequestHandler,
   int? selectedSavePointId,
+  LocalDestinationScope? initScope,
   String? description,
   String? title
 })async{
   showEditSavePointsDiaCustom(
       context,
       destination: destination,
+      scope: initScope,
       itemIndexPos: itemIndexPos,
       selectedSavePointId: selectedSavePointId,
       onLoadSavePointClick: onLoadSavePointClick,
@@ -103,6 +109,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   bool useWideScope = false,
   String? customTitle,
   String? description,
+  LocalDestinationScope? scope,
   Widget Function(SavePoint?)? customBottomButtons
 }) async {
 
@@ -113,7 +120,8 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   editPointBloc.add(EditSavePointEventLoadData(
       destination: destination,
       selectedSavePointId: selectedSavePointId,
-      position: itemIndexPos
+      position: itemIndexPos,
+      scope: scope
   ));
 
   showBottomSheetHandler(

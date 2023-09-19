@@ -5,7 +5,12 @@ import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio
 import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
 
 class ListenAudioInfoItem extends StatelessWidget {
-  const ListenAudioInfoItem({Key? key}) : super(key: key);
+  final EdgeInsets? margins;
+
+  const ListenAudioInfoItem({
+    Key? key,
+    this.margins
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class ListenAudioInfoItem extends StatelessWidget {
       children: [
         Card(
           color: Theme.of(context).colorScheme.primaryContainer,
-          margin: const EdgeInsets.symmetric(horizontal: 3,vertical: 3),
+          margin: margins ?? const EdgeInsets.symmetric(horizontal: 1,vertical: 1),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(13)
           ),

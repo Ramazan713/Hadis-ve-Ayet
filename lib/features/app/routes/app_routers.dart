@@ -34,6 +34,7 @@ import 'package:hadith/features/settings_/presentation/settings_page.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
+import 'package:hadith/features/verses/show_verse/presentation/verse_page_show_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_cuz_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_list_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_search_page.dart';
@@ -257,6 +258,25 @@ class VerseShowSurahRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return VerseShowSurahPage(surahId: surahId, pos: pos,);
+  }
+}
+
+@TypedGoRoute<VersePageShowRoute>(
+    path: "/verse/page/:pageIndex/:pagePos"
+)
+class VersePageShowRoute extends GoRouteData{
+
+  final int pageIndex;
+  final int pagePos;
+
+  VersePageShowRoute({
+    this.pageIndex = 0,
+    this.pagePos = 0
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return VersePageShowPage(startPageIndex: pageIndex, pagePos: pagePos,);
   }
 }
 

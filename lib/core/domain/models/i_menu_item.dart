@@ -2,8 +2,15 @@
 
 import 'package:hadith/core/domain/models/icon_info.dart';
 
-mixin IMenuItem{
+mixin ISelectItem{
   String get title;
+}
+
+mixin ISearchableSelectItem implements ISelectItem{
+  String get searchableText;
+}
+
+mixin IMenuItem implements ISelectItem{
   IconInfo? get iconInfo;
 }
 

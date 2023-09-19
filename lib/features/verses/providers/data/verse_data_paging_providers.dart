@@ -4,6 +4,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/db/database.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_list_paging_repo.dart';
+import 'package:hadith/features/verses/show_verse/data/repo/verse_page_paing_repo.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_search_paging_repo.dart';
 
 import '../../show_verse/data/repo/verse_cuz_paging_repo.dart';
@@ -43,5 +44,10 @@ List<RepositoryProvider> pVerseDataPagingProviders(AppDatabase appDatabase){
       searchRepo:  context.read()
     )),
 
+    RepositoryProvider<VersePagePagingRepo>(create: (context) => VersePagePagingRepo(
+        verseRepo: context.read(),
+        verseArabicRepo: context.read(),
+        itemListInfoRepo: context.read(),
+    )),
   ];
 }

@@ -5,7 +5,7 @@ import 'package:validatorless/validatorless.dart';
 
 class CustomFormTextField extends StatelessWidget {
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? errorText;
   final String? label;
   final String? hintText;
@@ -25,19 +25,26 @@ class CustomFormTextField extends StatelessWidget {
   final TextDirection? textDirection;
   final AutovalidateMode autoValidateMode;
   final List<FormFieldValidator<String>> validators;
+  final void Function()? onTap;
+  final bool readOnly;
+  final Widget? trailingWidget;
+  final void Function(String?)? onChanged;
+  final bool enabled;
 
   final ValueNotifier<bool> _isEmptyTextNotifier = ValueNotifier(true);
   final ValueNotifier<bool> _showPassWordNotifier = ValueNotifier(false);
 
   CustomFormTextField({
-    required this.controller,
     Key? key,
+    this.controller,
     this.errorText,
     this.hintText,
     this.label,
     this.autoFocus = true,
     this.isPassword = false,
     this.autoCorrect = false,
+    this.readOnly = false,
+    this.enabled = true,
     this.keyBoardType,
     this.inputAction,
     this.focusNode,
@@ -49,15 +56,21 @@ class CustomFormTextField extends StatelessWidget {
     this.initialValue,
     this.style,
     this.textDirection,
+    this.onTap,
+    this.trailingWidget,
+    this.onChanged,
     this.autoValidateMode = AutovalidateMode.onUserInteraction,
     this.validators = const []
   }) : super(key: key);
 
+  late final TextEditingController currentTextController;
 
   @override
   Widget build(BuildContext context) {
 
-    _isEmptyTextNotifier.value = controller.text.isEmpty;
+    currentTextController = controller ?? TextEditingController(text: initialValue);
+
+    _isEmptyTextNotifier.value =currentTextController.text.isEmpty;
 
     return ValueListenableBuilder(
       valueListenable: _showPassWordNotifier,
@@ -66,9 +79,14 @@ class CustomFormTextField extends StatelessWidget {
           padding: padding ?? const EdgeInsets.all(1),
           child: FormBuilderTextField(
             name: name ?? label ?? hintText ?? "",
-            controller: controller,
+            controller: currentTextController,
+            onTap: onTap,
+            readOnly: readOnly,
+            enabled: enabled,
             onChanged: (newText){
-              final isEmpty = newText?.trim().isEmpty ?? false;
+              final trimText = newText?.trim();
+              onChanged?.call(trimText);
+              final isEmpty = trimText?.isEmpty ?? false;
               if(_isEmptyTextNotifier.value != isEmpty){
                 _isEmptyTextNotifier.value = isEmpty;
               }
@@ -77,7 +95,6 @@ class CustomFormTextField extends StatelessWidget {
                 RegExp(r"^\s")
             )],
             autovalidateMode: autoValidateMode,
-            initialValue: initialValue,
             validator: Validatorless.multiple(validators),
             autocorrect: autoCorrect,
             obscureText: isPassword&&!showPassword,
@@ -105,7 +122,7 @@ class CustomFormTextField extends StatelessWidget {
                   borderRadius:
                   BorderRadius.all(Radius.circular(10))
               ),
-              suffixIcon: getSuffixIcon()
+              suffixIcon: getSuffixIcon(),
             ),
           ),
         );
@@ -126,13 +143,17 @@ class CustomFormTextField extends StatelessWidget {
       );
     }
 
+    if(readOnly && trailingWidget != null){
+      return trailingWidget!;
+    }
+
     return ValueListenableBuilder<bool>(
       valueListenable: _isEmptyTextNotifier,
       builder: (context,emptyText,child){
         if(emptyText == true) return const SizedBox();
         return IconButton(
             onPressed: (){
-              controller.clear();
+              currentTextController.clear();
             },
             icon: const Icon(Icons.clear)
         );

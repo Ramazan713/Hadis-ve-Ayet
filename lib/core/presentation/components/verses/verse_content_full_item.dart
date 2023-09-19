@@ -29,6 +29,8 @@ class VerseContentFullItem extends StatelessWidget {
 
   Verse get verse => verseListModel.verse;
 
+  FontWeight get fontWeight => verse.isProstrationVerse ? FontWeight.w500 : FontWeight.normal;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,10 +45,7 @@ class VerseContentFullItem extends StatelessWidget {
 
     final fontWeight = verse.isProstrationVerse ? FontWeight.w500 : FontWeight.normal;
 
-    final sharedTextStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-      fontWeight: fontWeight,
-      fontSize: fontModel.contentFontSize,
-    );
+    final sharedTextStyle = getSharedTextStyle(context);
 
     final contents = SearchUtils.getSelectedText(
         context,
@@ -56,10 +55,10 @@ class VerseContentFullItem extends StatelessWidget {
     );
 
     final items=<Widget>[
-
       _getVerseItemMentionWidget(
-          verseListModel.verse,
-          sharedTextStyle
+        context,
+        verseListModel.verse,
+        sharedTextStyle
       ),
       const SizedBox(height: 7,),
     ];
@@ -91,34 +90,66 @@ class VerseContentFullItem extends StatelessWidget {
   }
 
 
-  Widget _getVerseItemMentionWidget(Verse verse, TextStyle? sharedTextStyle) {
+  Widget _getVerseItemMentionWidget(BuildContext context,Verse verse, TextStyle? sharedTextStyle) {
     var verseNum = int.parse(verse.verseNumber.split(",")[0]);
 
-    if (verseNum == 1 && !KVerse.mentionExclusiveIds.contains(verse.surahId)) {
+    if (verseNum == 1) {
 
-      if(arabicVerseUIEnum.arabicVisible){
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: ArabicContentItem(
-            content: KVerse.mentionTextArabic,
-            fontSize: fontModel.arabicFontSize - 3,
-            fontFamily: fontModel.arabicFontFamilyEnum,
-          ),
-        );
-      }
-
-      return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 19),
-          child: Text(
-            KVerse.mentionText,
-            textAlign: TextAlign.start,
-            style: sharedTextStyle?.copyWith(
-                fontSize: (sharedTextStyle.fontSize??20) - 3
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 4,bottom: 12),
+            child: Text(
+              "${verse.surahName} Suresi",
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: fontModel.contentFontSize + 3
+              ),
+              textAlign: TextAlign.center,
             ),
-          ));
+          ),
+          getMentionContent(context, verse)
+        ],
+      );
     }
     return const SizedBox(
       height: 0,
     );
   }
+
+  Widget getMentionContent(BuildContext context, Verse verse){
+
+    if(KVerse.mentionExclusiveIds.contains(verse.surahId)){
+      return const SizedBox();
+    }
+
+    if(arabicVerseUIEnum.arabicVisible){
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: ArabicContentItem(
+          content: KVerse.mentionTextArabic,
+          fontSize: fontModel.arabicFontSize - 3,
+          fontFamily: fontModel.arabicFontFamilyEnum,
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 19),
+      child: Text(
+        KVerse.mentionText,
+        textAlign: TextAlign.start,
+        style: getSharedTextStyle(context)?.copyWith(
+           fontSize: (getSharedTextStyle(context)?.fontSize??20) - 3
+        ),
+      ));
+  }
+
+  TextStyle? getSharedTextStyle(BuildContext context){
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+      fontWeight: fontWeight,
+      fontSize: fontModel.contentFontSize,
+    );
+  }
+
 }

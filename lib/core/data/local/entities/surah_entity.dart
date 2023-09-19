@@ -2,7 +2,7 @@
 
 import 'package:floor/floor.dart';
 
-@entity
+@Entity(tableName: "Surah")
 class SurahEntity{
   @PrimaryKey(autoGenerate: false)
   final int id;

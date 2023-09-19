@@ -54,6 +54,24 @@ class VerseRepoImpl extends VerseRepo {
 
 
   @override
+  Future<List<Verse>> getPagingVersesByPageNo(int pageNo) async{
+    final verseEntities = await _verseDao.getPagingVersesByPageNo(pageNo);
+    return _getVerses(verseEntities);
+  }
+
+  @override
+  Future<int> getVerseCountByPageNo(int pageNo) async{
+    return (await _verseDao.getVerseCountByPageNo()) ?? 0;
+  }
+
+  @override
+  Future<bool> getExistsVerseByPageNo(int pageNo, int id) async{
+    return (await _verseDao.getExistsVerseByPageNo(pageNo, id)) ?? false;
+  }
+
+
+
+  @override
   Future<List<Verse>> getPagingVersesByListId(int listId, int pageSize, int startIndex) async{
     final verseEntities = await _verseDao.getPagingVersesByListId(listId, pageSize, startIndex);
     return _getVerses(verseEntities);
@@ -89,6 +107,10 @@ class VerseRepoImpl extends VerseRepo {
 
 
 
+
+
+
+
   @override
   Future<int?> getPosById(int id){
     return _verseDao.getPosById(id);
@@ -117,4 +139,6 @@ class VerseRepoImpl extends VerseRepo {
   Future<int?> getSurahPosById(int id, int surahId) {
     return _verseDao.getSurahPosById(id, surahId);
   }
+
+
 }

@@ -51,13 +51,14 @@ class VerseRepaintItem extends StatelessWidget {
                     Text(
                       "${verse.surahId}/${verse.surahName}",
                       style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(fontSize: fontModel.contentFontSize),
+                          ?.copyWith(fontSize: fontModel.contentFontSize - 3),
                     ),
                     VerseContentFullItem(
                       arabicVerseUIEnum: verseUiEnum,
                       fontModel: fontModel,
                       verseListModel: verseListModel,
                     ),
+                    const SizedBox(height: 8,)
                   ],
                 ),
               ),

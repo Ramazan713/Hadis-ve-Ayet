@@ -19,6 +19,7 @@ List<RouteBase> get $appRoutes => [
       $surahRoute,
       $verseShowCuzRoute,
       $verseShowSurahRoute,
+      $versePageShowRoute,
       $verseShowListRoute,
       $verseShowTopicRoute,
       $verseShowSearchRoute,
@@ -338,6 +339,32 @@ extension $VerseShowSurahRouteExtension on VerseShowSurahRoute {
 
   String get location => GoRouteData.$location(
         '/surah/${Uri.encodeComponent(surahId.toString())}/${Uri.encodeComponent(pos.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $versePageShowRoute => GoRouteData.$route(
+      path: '/verse/page/:pageIndex/:pagePos',
+      factory: $VersePageShowRouteExtension._fromState,
+    );
+
+extension $VersePageShowRouteExtension on VersePageShowRoute {
+  static VersePageShowRoute _fromState(GoRouterState state) =>
+      VersePageShowRoute(
+        pageIndex: int.parse(state.pathParameters['pageIndex']!) ?? 0,
+        pagePos: int.parse(state.pathParameters['pagePos']!) ?? 0,
+      );
+
+  String get location => GoRouteData.$location(
+        '/verse/page/${Uri.encodeComponent(pageIndex.toString())}/${Uri.encodeComponent(pagePos.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

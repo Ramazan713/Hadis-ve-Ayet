@@ -53,6 +53,9 @@ sealed class SavePointDestination{
           cuzName: parentName
       );
     }
+    else if(typeId == DestinationPage.type.typeId){
+      return DestinationPage(pageNoIndex: int.tryParse(parentKey)??1);
+    }
     else if(typeId == DestinationSearch.type.typeId){
       return DestinationSearch.from(
           parentKey: parentKey,
@@ -158,6 +161,21 @@ class DestinationCuz extends SavePointDestination {
 
   @override
   String get typeDescription => "$cuzId.${type.title}";
+}
+
+class DestinationPage extends SavePointDestination {
+  static const SavePointType type = SavePointType.quranPage;
+  final int pageNoIndex;
+
+  DestinationPage({required this.pageNoIndex}): super(
+      bookScope: BookScopeEnum.diyanetMeal,
+      parentKey: pageNoIndex.toString(),
+      parentName: pageNoIndex.toString(),
+      type: type
+  );
+
+  @override
+  String get typeDescription => "${pageNoIndex + 1}.${type.title}";
 }
 
 class DestinationSearch extends SavePointDestination {
