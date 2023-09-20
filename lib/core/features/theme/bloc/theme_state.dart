@@ -11,13 +11,17 @@ class ThemeState with _$ThemeState{
   const factory ThemeState({
     required bool isLoading,
     required ThemeTypeEnum themeType,
+    required bool dynamicColorSupported,
+    required bool useDynamicColors,
     String? message
   }) = _ThemeState;
 
   static ThemeState init(){
     return ThemeState(
       isLoading: false,
-      themeType: KPref.themeTypeEnum.defaultPrefEnum
+      themeType: KPref.themeTypeEnum.defaultPrefEnum,
+      dynamicColorSupported: false,
+      useDynamicColors: false
     );
   }
 }

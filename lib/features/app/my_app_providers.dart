@@ -229,7 +229,7 @@ class MyAppProviders extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context)=> ThemeBloc(appPreferences: context.read())),
+          BlocProvider(create: (context)=> ThemeBloc(appPreferences: context.read()),lazy: false,),
           BlocProvider(create: (context)=> PremiumBloc(premiumRepo: context.read()),lazy: false,),
           BlocProvider(create: (context)=> BackupBloc(
             authService: context.read(),

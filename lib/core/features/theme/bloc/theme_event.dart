@@ -5,7 +5,14 @@ import 'package:hadith/core/domain/enums/theme_type_enum.dart';
 
 abstract class IThemeEvent{}
 
+class ThemeEventInit extends IThemeEvent{}
+
 class ThemeEventListenAppPref extends IThemeEvent{}
+
+class ThemeEventSetUseDynamicColor extends IThemeEvent{
+  final bool useDynamicColors;
+  ThemeEventSetUseDynamicColor({required this.useDynamicColors});
+}
 
 class ThemeEventSetThemeType extends IThemeEvent{
   final ThemeTypeEnum themeTypeEnum;

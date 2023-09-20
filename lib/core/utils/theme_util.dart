@@ -22,19 +22,23 @@ class ThemeUtil{
 
   static ColorScheme getSchema({
     required ThemeTypeEnum themeEnum,
-    required Brightness brightness
+    required Brightness brightness,
+    required bool dynamicColorSupported,
+    required bool useDynamicColor,
+    ColorScheme? lightDynamic,
+    ColorScheme? darkDynamic,
   }){
     if(isLightTheme(themeEnum: themeEnum, brightness: brightness)){
-      return lightColorScheme;
+      if(!dynamicColorSupported || !useDynamicColor) return lightColorScheme;
+      return lightDynamic ?? lightColorScheme;
     }
-    return darkColorScheme;
+    if(!dynamicColorSupported || !useDynamicColor) return darkColorScheme;
+    return darkDynamic ?? darkColorScheme;
   }
 
   static void setStatusBarColor({
-    required ThemeTypeEnum themeEnum,
-    required Brightness brightness
+    required ColorScheme schema
   }){
-    final schema = getSchema(themeEnum: themeEnum, brightness: brightness);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: schema.primary));
   }
 

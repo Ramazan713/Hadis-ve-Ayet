@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ThemeState {
   bool get isLoading => throw _privateConstructorUsedError;
   ThemeTypeEnum get themeType => throw _privateConstructorUsedError;
+  bool get dynamicColorSupported => throw _privateConstructorUsedError;
+  bool get useDynamicColors => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +33,12 @@ abstract class $ThemeStateCopyWith<$Res> {
           ThemeState value, $Res Function(ThemeState) then) =
       _$ThemeStateCopyWithImpl<$Res, ThemeState>;
   @useResult
-  $Res call({bool isLoading, ThemeTypeEnum themeType, String? message});
+  $Res call(
+      {bool isLoading,
+      ThemeTypeEnum themeType,
+      bool dynamicColorSupported,
+      bool useDynamicColors,
+      String? message});
 }
 
 /// @nodoc
@@ -49,6 +56,8 @@ class _$ThemeStateCopyWithImpl<$Res, $Val extends ThemeState>
   $Res call({
     Object? isLoading = null,
     Object? themeType = null,
+    Object? dynamicColorSupported = null,
+    Object? useDynamicColors = null,
     Object? message = freezed,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +69,14 @@ class _$ThemeStateCopyWithImpl<$Res, $Val extends ThemeState>
           ? _value.themeType
           : themeType // ignore: cast_nullable_to_non_nullable
               as ThemeTypeEnum,
+      dynamicColorSupported: null == dynamicColorSupported
+          ? _value.dynamicColorSupported
+          : dynamicColorSupported // ignore: cast_nullable_to_non_nullable
+              as bool,
+      useDynamicColors: null == useDynamicColors
+          ? _value.useDynamicColors
+          : useDynamicColors // ignore: cast_nullable_to_non_nullable
+              as bool,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -76,7 +93,12 @@ abstract class _$$_ThemeStateCopyWith<$Res>
       __$$_ThemeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, ThemeTypeEnum themeType, String? message});
+  $Res call(
+      {bool isLoading,
+      ThemeTypeEnum themeType,
+      bool dynamicColorSupported,
+      bool useDynamicColors,
+      String? message});
 }
 
 /// @nodoc
@@ -92,6 +114,8 @@ class __$$_ThemeStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? themeType = null,
+    Object? dynamicColorSupported = null,
+    Object? useDynamicColors = null,
     Object? message = freezed,
   }) {
     return _then(_$_ThemeState(
@@ -103,6 +127,14 @@ class __$$_ThemeStateCopyWithImpl<$Res>
           ? _value.themeType
           : themeType // ignore: cast_nullable_to_non_nullable
               as ThemeTypeEnum,
+      dynamicColorSupported: null == dynamicColorSupported
+          ? _value.dynamicColorSupported
+          : dynamicColorSupported // ignore: cast_nullable_to_non_nullable
+              as bool,
+      useDynamicColors: null == useDynamicColors
+          ? _value.useDynamicColors
+          : useDynamicColors // ignore: cast_nullable_to_non_nullable
+              as bool,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -115,18 +147,26 @@ class __$$_ThemeStateCopyWithImpl<$Res>
 
 class _$_ThemeState with DiagnosticableTreeMixin implements _ThemeState {
   const _$_ThemeState(
-      {required this.isLoading, required this.themeType, this.message});
+      {required this.isLoading,
+      required this.themeType,
+      required this.dynamicColorSupported,
+      required this.useDynamicColors,
+      this.message});
 
   @override
   final bool isLoading;
   @override
   final ThemeTypeEnum themeType;
   @override
+  final bool dynamicColorSupported;
+  @override
+  final bool useDynamicColors;
+  @override
   final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ThemeState(isLoading: $isLoading, themeType: $themeType, message: $message)';
+    return 'ThemeState(isLoading: $isLoading, themeType: $themeType, dynamicColorSupported: $dynamicColorSupported, useDynamicColors: $useDynamicColors, message: $message)';
   }
 
   @override
@@ -136,6 +176,8 @@ class _$_ThemeState with DiagnosticableTreeMixin implements _ThemeState {
       ..add(DiagnosticsProperty('type', 'ThemeState'))
       ..add(DiagnosticsProperty('isLoading', isLoading))
       ..add(DiagnosticsProperty('themeType', themeType))
+      ..add(DiagnosticsProperty('dynamicColorSupported', dynamicColorSupported))
+      ..add(DiagnosticsProperty('useDynamicColors', useDynamicColors))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -148,11 +190,16 @@ class _$_ThemeState with DiagnosticableTreeMixin implements _ThemeState {
                 other.isLoading == isLoading) &&
             (identical(other.themeType, themeType) ||
                 other.themeType == themeType) &&
+            (identical(other.dynamicColorSupported, dynamicColorSupported) ||
+                other.dynamicColorSupported == dynamicColorSupported) &&
+            (identical(other.useDynamicColors, useDynamicColors) ||
+                other.useDynamicColors == useDynamicColors) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, themeType, message);
+  int get hashCode => Object.hash(runtimeType, isLoading, themeType,
+      dynamicColorSupported, useDynamicColors, message);
 
   @JsonKey(ignore: true)
   @override
@@ -165,12 +212,18 @@ abstract class _ThemeState implements ThemeState {
   const factory _ThemeState(
       {required final bool isLoading,
       required final ThemeTypeEnum themeType,
+      required final bool dynamicColorSupported,
+      required final bool useDynamicColors,
       final String? message}) = _$_ThemeState;
 
   @override
   bool get isLoading;
   @override
   ThemeTypeEnum get themeType;
+  @override
+  bool get dynamicColorSupported;
+  @override
+  bool get useDynamicColors;
   @override
   String? get message;
   @override

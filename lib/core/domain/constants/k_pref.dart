@@ -14,6 +14,7 @@ import '../preferences/model/pref_key.dart';
 
 class KPref{
 
+  static final PrefKey<bool> useDynamicColors = PrefKey(key: "useDynamicColors", defaultValue: true);
   static final PrefKey<bool> useArchiveListFeatures = PrefKey(key: "useArchiveListFeatures", defaultValue: false);
   static final PrefKey<bool> showVerseListIcons = PrefKey(key: "showVerseListIcons", defaultValue: false);
   static final PrefKey<double> audioPlayerSpeed = PrefKey(key: "audioPlayerSpeed", defaultValue: 1.0);
@@ -67,7 +68,7 @@ class KPref{
   static final prefValues = <PrefKey<dynamic>>[
     useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
-    defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,
+    defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,useDynamicColors,
     counterBackupDate, showCounterDetailContents, addCounterShowDetails, showCustomPrayersShowDetailContents
   ];
 

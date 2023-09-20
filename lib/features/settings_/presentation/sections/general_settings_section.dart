@@ -11,6 +11,7 @@ import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia
 import 'package:hadith/core/features/theme/bloc/theme_bloc.dart';
 import 'package:hadith/core/features/theme/bloc/theme_event.dart';
 import 'package:hadith/core/features/theme/bloc/theme_state.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_radio_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_search_criteria.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
@@ -29,6 +30,9 @@ extension SettingsPageGeneralExt on SettingsPage{
           child: _getSelectTheme(context),
         ),
         CustomSettingsTile(
+          child: _getUseDynamicColor(context),
+        ),
+        CustomSettingsTile(
             child: _getSearchCriteria()
         ),
         CustomSettingsTile(
@@ -41,21 +45,42 @@ extension SettingsPageGeneralExt on SettingsPage{
     );
   }
 
+  Widget _getUseDynamicColor(BuildContext context){
+    final themeBloc = context.read<ThemeBloc>();
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return CustomAnimatedVisibility(
+          visible: state.dynamicColorSupported,
+          child: SettingsTile.switchTile(
+            initialValue: state.useDynamicColors,
+            onToggle: (newValue){
+              themeBloc.add(ThemeEventSetUseDynamicColor(useDynamicColors: newValue));
+            },
+            title: const Text("Dinamik renkler kullan"),
+            onPressed: (context) async {
+              showSelectSearchCriteria(context,pref: KPref.searchCriteriaEnum);
+            },
+            leading: const Icon(Icons.palette),
+          ),
+        );
+      }
+    );
+  }
 
 
   Widget _getSearchCriteria(){
     return BlocSelector<SettingsBloc, SettingsState, SearchCriteriaEnum>(
-        selector: (state) => state.searchCriteria,
-        builder: (context, searchCriteria) {
-          return SettingsTile(
-            title: const Text("Arama Kriteri"),
-            onPressed: (context) async {
-              showSelectSearchCriteria(context,pref: KPref.searchCriteriaEnum);
-            },
-            value: Text(searchCriteria.description),
-            leading: const Icon(Icons.search),
-          );
-        });
+      selector: (state) => state.searchCriteria,
+      builder: (context, searchCriteria) {
+        return SettingsTile(
+          title: const Text("Arama Kriteri"),
+          onPressed: (context) async {
+            showSelectSearchCriteria(context,pref: KPref.searchCriteriaEnum);
+          },
+          value: Text(searchCriteria.description),
+          leading: const Icon(Icons.search),
+        );
+      });
   }
 
   Widget _getFontSize(){
