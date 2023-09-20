@@ -52,8 +52,11 @@ class _DialogContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             getHeader(context),
-            getDivider(),
-            getBodyContent(context)
+            Flexible(
+              child: SingleChildScrollView(
+                  child: getBodyContent(context)
+              )
+            )
           ],
         )
     );
@@ -63,6 +66,7 @@ class _DialogContent extends StatelessWidget {
   Widget getBodyContent(BuildContext context){
     return Column(
       children: [
+        getDivider(),
         getAudioEditionSection(),
         getDivider(),
         getEditDownloadedAudioSection(context),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/backup_meta_model/backup_meta_model.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 
 
 class BackupMetaItem extends StatelessWidget {
@@ -16,22 +17,16 @@ class BackupMetaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final colorSchema = Theme.of(context).colorScheme;
-    final tileColor = isSelected ? colorSchema.secondaryContainer : null;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ListTile(
-        tileColor: tileColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(19),
-        ),
-        title: Text(
-          "Backup-${item.isAuto ? 'Auto-' : ''}${item.updatedDate}",
-        ),
-        onTap: onTap,
+    return CardListTile(
+      margins:const EdgeInsets.symmetric(vertical: 4),
+      isSelected: isSelected,
+      elevation: 1,
+      borderWidth: 1,
+      shadowColor: null,
+      title: Text(
+        "Backup-${item.isAuto ? 'Auto-' : ''}${item.updatedDate}",
       ),
+      onTap: onTap,
     );
   }
 }

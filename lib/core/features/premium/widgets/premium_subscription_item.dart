@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/premium/subscription_model.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 
 class PremiumSubscriptionItem extends StatelessWidget {
   final SubscriptionModel subsItem;
@@ -13,16 +14,11 @@ class PremiumSubscriptionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return ListTile(
-      tileColor: Theme.of(context).colorScheme.primaryContainer,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(19),
-        side: BorderSide(
-          color: Theme.of(context).colorScheme.outline
-        )
-      ),
+    return CardListTile(
+      defaultColor: Theme.of(context).colorScheme.primaryContainer,
+      borderWidth: 1,
       onTap: onClick,
+      borderRadius: BorderRadius.circular(19),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

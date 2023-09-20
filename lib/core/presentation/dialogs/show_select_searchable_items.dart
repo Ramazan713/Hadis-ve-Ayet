@@ -3,6 +3,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/extensions/string_ext.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/core/presentation/components/shared_components/shared_header.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
@@ -41,8 +42,6 @@ class _DialogContent<T extends ISearchableSelectItem> extends StatelessWidget {
   final void Function(T) onSelected;
   final String? title;
 
-
-
   _DialogContent({
     super.key,
     required this.items,
@@ -77,7 +76,7 @@ class _DialogContent<T extends ISearchableSelectItem> extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(
+          Flexible(
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -107,7 +106,6 @@ class _DialogContent<T extends ISearchableSelectItem> extends StatelessWidget {
   }
 
   Widget getContent(BuildContext context){
-    final borderRadius = BorderRadius.circular(13);
     return ValueListenableBuilder(
       valueListenable: searchedItemsNotifier,
       builder: (context, searchedItems, child){
@@ -126,17 +124,15 @@ class _DialogContent<T extends ISearchableSelectItem> extends StatelessWidget {
               itemCount: searchedItems.length,
               itemBuilder: (context, index){
                 final item = searchedItems[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: ListTile(
-                    title: Text(item.title),
-                    shape: RoundedRectangleBorder(borderRadius: borderRadius),
-                    selectedTileColor: Theme.of(context).colorScheme.secondaryContainer,
-                    selected: item == selectedItem,
-                    onTap: (){
-                      selectedItemNotifier.value = item;
-                    },
-                  ),
+                return CardListTile(
+                  margins: const EdgeInsets.symmetric(vertical: 3,horizontal: 1),
+                  title: Text(item.title),
+                  isSelected: item == selectedItem,
+                  onTap: (){
+                    selectedItemNotifier.value = item;
+                  },
+                  elevation: 1,
+                  shadowColor: null,
                 );
               },
             );

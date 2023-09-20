@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/selectable_list_view_model.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_checkbox_list_tile.dart';
 
 class SelectListItem extends StatelessWidget {
 
@@ -17,31 +18,24 @@ class SelectListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final listModel = item.listViewModel;
-    final tileColor = isParentList ? Theme.of(context).colorScheme.secondaryContainer : null;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 1),
-      child: CheckboxListTile(
-        value: item.isSelected,
-        selected: item.isSelected,
-        tileColor: tileColor,
-        selectedTileColor: tileColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13),
-        ),
-        onChanged: (selected){
-          onClicked.call();
-        },
-        title: Text(
-          listModel.name,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        subtitle: Text(
-          "${listModel.itemCounts} ${listModel.sourceType.shortName}",
-          style: Theme.of(context).textTheme.bodyMedium,
-        ) ,
+    return CardCheckboxListTile(
+      margins: const EdgeInsets.symmetric(vertical: 4,horizontal: 1),
+      isSelected: item.isSelected,
+      isSelectedCard: isParentList,
+      borderWidth: 0.7,
+      elevation: 1,
+      onChanged: (selected){
+        onClicked.call();
+      },
+      title: Text(
+        listModel.name,
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+      subtitle: Text(
+        "${listModel.itemCounts} ${listModel.sourceType.shortName}",
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
