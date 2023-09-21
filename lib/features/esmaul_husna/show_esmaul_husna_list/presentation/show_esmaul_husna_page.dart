@@ -25,22 +25,26 @@ import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/bloc/show_esmaul_husna_state.dart';
 import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/components/esmaul_husna_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'dart:ui' as ui;
 
-final _searchKey = GlobalKey();
-
-class ShowEsmaulHusnaPage extends StatelessWidget {
-
+class ShowEsmaulHusnaPage extends StatefulWidget {
   final int initPos;
 
-  ShowEsmaulHusnaPage({
+  const ShowEsmaulHusnaPage({
     Key? key,
     required this.initPos
   }) : super(key: key);
 
-  final CustomScrollController _scrollController = CustomScrollController();
-  final CustomPositionController _positionController = CustomPositionController();
-  final ItemScrollController _itemScrollController = ItemScrollController();
+  @override
+  State<ShowEsmaulHusnaPage> createState() => _ShowEsmaulHusnaPageState();
+}
+
+class _ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
+
+  final CustomScrollController scrollController = CustomScrollController();
+  final CustomPositionController positionController = CustomPositionController();
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final TextEditingController searchTextController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +56,11 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
           selector: (state) => state.isSearchBarVisible,
           builder: (context, isSearchBarVisible){
             return CustomNestedSearchableAppBar(
-              key: _searchKey,
+              textEditingController: searchTextController,
               onSearchVisibilityChanged: (isSearchVisible){
                 bloc.add(ShowEsmaulHusnaEventSetSearchBarVisibility(isVisible: isSearchVisible));
               },
-              scrollController: _scrollController,
+              scrollController: scrollController,
               searchBarVisible: isSearchBarVisible,
               onTextChanged: (text){
                 bloc.add(ShowEsmaulHusnaEventSetQuery(query: text));
@@ -79,15 +83,15 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
                           );
                         }
                         return CustomScrollablePositionedList(
-                          initialScrollIndex: initPos,
+                          initialScrollIndex: widget.initPos,
                           itemCount: items.length,
-                          itemScrollController: _itemScrollController,
+                          itemScrollController: itemScrollController,
                           delayMilliSeconds: 50,
                           onScroll: (scrollDirection){
-                            _scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                            scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
                           },
                           onVisibleItemChanged: (min,max){
-                            _positionController.setPositions(min, max,totalItems: state.items.length);
+                            positionController.setPositions(min, max,totalItems: state.items.length);
                           },
                           itemBuilder: (context, index){
                             final item = items[index];
@@ -149,9 +153,9 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
   List<Widget> getActions(BuildContext context){
     return [
       NavigateToIcon(
-        positionController: _positionController,
+        positionController: positionController,
         onPosChanged: (selectedIndex){
-          _itemScrollController.jumpTo(index: selectedIndex);
+          itemScrollController.jumpTo(index: selectedIndex);
         },
       ),
       _topBarDropDownMenu(context)
@@ -169,5 +173,13 @@ class ShowEsmaulHusnaPage extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchTextController.dispose();
+    scrollController.dispose();
+    positionController.dispose();
   }
 }

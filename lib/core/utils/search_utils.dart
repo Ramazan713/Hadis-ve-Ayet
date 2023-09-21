@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
-import 'package:hadith/utils/theme_util.dart';
 
 class SearchUtils{
 
@@ -24,8 +23,12 @@ class SearchUtils{
 
     List<TextSpan>spans = [];
 
+    final paint = Paint();
+    paint.color = Theme.of(context).colorScheme.onSecondaryContainer;
+
     TextStyle searchStyle= TextStyle(
-        backgroundColor: ThemeUtil.getThemeModel(context).selectedTextColor()
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foreground: paint
     );
 
     searchStyle = searchStyle.merge(textStyle?.copyWith(inherit: true));

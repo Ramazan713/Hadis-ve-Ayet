@@ -47,7 +47,7 @@ abstract class HadithAllDao{
 
   @Query("""
     select H.* from Hadith H,ListHadith LH
-    where LH.hadithId=H.id and LH.listId=:listId limit :pageSize offset :startIndex
+    where LH.hadithId=H.id and LH.listId=:listId order by LH.pos desc limit :pageSize offset :startIndex 
   """)
   Future<List<HadithEntity>> getPagingHadithsByListId(int listId, int pageSize, int startIndex);
 

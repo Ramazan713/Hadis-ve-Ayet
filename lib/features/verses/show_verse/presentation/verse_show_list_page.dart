@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_list_paging_repo.dart';
 
@@ -50,6 +51,7 @@ class VerseShowListPage extends StatelessWidget {
             savePointDestination: destination,
             paginationRepo: listPagingRepo,
             listIdControlForSelectList: listId,
+            selectAudioOption: SelectAudioOption.verse,
             title: "$currentTitle - ${listBookScope.bookScopeEnum.sourceType.shortName}",
             pos: pos,
           );

@@ -11,7 +11,9 @@ import 'package:hadith/features/search/presentation/search_page.dart';
 
 extension SearchPageComponentsExt on SearchPage{
 
-  Widget getSearchView(BuildContext context){
+  Widget getSearchView(BuildContext context,{
+    required TextEditingController textEditingController
+  }){
     final bloc = context.read<SearchBloc>();
 
     return CustomSearchView(

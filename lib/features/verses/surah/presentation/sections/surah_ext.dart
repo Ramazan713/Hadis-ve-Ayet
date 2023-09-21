@@ -5,16 +5,21 @@ import 'package:hadith/core/features/save_point/show_save_point/show_select_save
 import 'package:hadith/core/features/topic_save_point/components/topic_save_point_floating_action_button.dart';
 import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
+import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/verses/surah/domain/enums/surah_top_bar_menu_item.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_state.dart';
 import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 extension SurahPageExt on SurahPage{
 
-  Widget getFab(){
+  Widget getFab({
+    required CustomScrollController scrollController,
+    required ItemScrollController itemScrollController
+  }){
     return BlocSelector<SurahBloc,SurahState,bool>(
         selector: (state) => !state.searchBarVisible,
         builder: (context, showFab){
@@ -49,7 +54,7 @@ extension SurahPageExt on SurahPage{
             break;
           case SurahTopBarMenuItem.selectSavePoint:
             showSelectSavePoints(context,
-              shortTitle: "Surah",
+              shortTitle: "Sure",
               savePointType: SavePointType.surah,
               bookScope: BookScopeEnum.diyanetMeal,
             );

@@ -8,6 +8,7 @@ import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
@@ -46,6 +47,7 @@ class VerseShowSearchPage extends StatelessWidget{
       paginationRepo: searchPagingRepo,
       title: query,
       pos: pos,
+      selectAudioOption: SelectAudioOption.verse,
       searchParam: SearchParam(searchCriteria: searchCriteria, searchQuery: query),
       editSavePointHandler: _getEditSavePointHandler(context),
     );

@@ -36,14 +36,19 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'bloc/prayer_in_quran_bloc.dart';
 import 'bloc/prayer_in_quran_state.dart';
 
-final _searchKey = GlobalKey();
+class PrayerInQuranPage extends StatefulWidget {
+  const PrayerInQuranPage({Key? key}) : super(key: key);
 
-class PrayerInQuranPage extends StatelessWidget {
-  PrayerInQuranPage({Key? key}) : super(key: key);
+  @override
+  State<PrayerInQuranPage> createState() => _PrayerInQuranPageState();
+}
 
-  final CustomPositionController _positionController = CustomPositionController();
-  final ItemScrollController _itemScrollController = ItemScrollController();
-  final CustomScrollController _scrollController = CustomScrollController();
+class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
+
+  final CustomPositionController positionController = CustomPositionController();
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final CustomScrollController scrollController = CustomScrollController();
+  final TextEditingController searchTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +61,8 @@ class PrayerInQuranPage extends StatelessWidget {
             selector: (state) => state.isSearchBarVisible,
             builder: (context, isSearchBarVisible){
               return CustomNestedSearchableAppBar(
-                key: _searchKey,
-                scrollController: _scrollController,
+                textEditingController: searchTextController,
+                scrollController: scrollController,
                 onTextChanged: (text){
                   bloc.add(PrayerInQuranEventSetQuery(query: text));
                 },
@@ -103,13 +108,13 @@ class PrayerInQuranPage extends StatelessWidget {
             return CustomScrollablePositionedList(
               itemCount: items.length,
               shrinkWrap: true,
-              itemScrollController: _itemScrollController,
+              itemScrollController: itemScrollController,
               delayMilliSeconds: 50,
               onScroll: (scrollDirection){
-                _scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
               },
               onVisibleItemChanged: (min,max){
-                _positionController.setPositions(min, max,totalItems: state.items.length);
+                positionController.setPositions(min, max,totalItems: state.items.length);
               },
               itemBuilder: (context, index){
                 final prayerUnit = items[index];
@@ -156,13 +161,12 @@ class PrayerInQuranPage extends StatelessWidget {
     );
   }
 
-
   List<Widget> getActions(BuildContext context){
     return [
       NavigateToIcon(
-        positionController: _positionController,
+        positionController: positionController,
         onPosChanged: (selectedIndex){
-          _itemScrollController.jumpTo(index: selectedIndex);
+          itemScrollController.jumpTo(index: selectedIndex);
         },
       ),
       _topBarDropDownMenu(context)
@@ -205,4 +209,11 @@ class PrayerInQuranPage extends StatelessWidget {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    searchTextController.dispose();
+    positionController.dispose();
+    scrollController.dispose();
+  }
 }

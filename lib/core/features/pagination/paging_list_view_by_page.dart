@@ -21,10 +21,6 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
   final GetShimmerItems? loadingItem;
   final Widget? emptyResultChild;
 
-  //added here because pageView height unbounded and these widgets can only be found in pageView for some purposes
-  final Widget? leadingChild;
-  final Widget? trailingChild;
-
   final CustomPageController pageController;
   final CustomScrollController? customScrollController;
   final CustomPositionController? positionController;
@@ -37,8 +33,6 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
     this.positionController,
     this.emptyResultChild,
     this.loadingItem,
-    this.leadingChild,
-    this.trailingChild
   });
 
 
@@ -74,33 +68,12 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
             if(items.isEmpty){
               return getEmptyWidget();
             }
-            return getPageContent(context, items);
+            return getPositionsList(context, items);
           },
         );
       },
     );
   }
-
-  Widget getPageContent(BuildContext context, List<IPagingItem> items){
-    final leading = leadingChild;
-    final trailing = trailingChild;
-
-    if(leading == null && trailing == null) return getPositionsList(context, items);
-
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if(leading != null) leading,
-          getPositionsList(context, items),
-          if(trailing != null) trailing
-        ],
-      ),
-    );
-
-  }
-
 
   Widget getPositionsList(BuildContext context, List<IPagingItem> items){
     return CustomScrollablePositionedList(

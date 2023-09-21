@@ -38,10 +38,7 @@ class VerseTopicGetDownloadedModelsUseCase{
       final models = <VerseTopicModel<T>>[];
       for(final item in items){
         final audioView = audioViews.firstWhereOrNull((e) => e.itemId == selectKey(item));
-        if(audioView!=null) audioViews.remove(audioView);
-        models.add(
-            VerseTopicModel<T>(data: item, audioViewModel: audioView)
-        );
+        models.add(VerseTopicModel<T>(data: item, audioViewModel: audioView));
       }
       return models;
     });

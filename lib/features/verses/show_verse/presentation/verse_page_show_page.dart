@@ -10,6 +10,7 @@ import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
 import 'package:hadith/core/features/pagination/paging_list_view_by_page.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_with_paging.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_info_body_wrapper.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
@@ -48,6 +49,10 @@ class VersePageShowPage extends VerseShareBasePage {
     required this.startPageIndex,
     this.pagePos = 0
   }): super();
+
+
+  @override
+  SelectAudioOption? get selectAudioOption => SelectAudioOption.cuz;
 
   @override
   State<VersePageShowPage> createState() => _VersePageShowPageState();
@@ -111,7 +116,6 @@ class _VersePageShowPageState extends State<VersePageShowPage> {
                                   pageController: pageController,
                                   customScrollController: customScrollController,
                                   positionController: positionController,
-                                  trailingChild: getPageButtons(context),
                                   loadingItem: const GetShimmerItems(
                                       itemCount: 13,
                                       shimmerItem: ShimmerVerseItem()
@@ -122,7 +126,7 @@ class _VersePageShowPageState extends State<VersePageShowPage> {
                                       fontModel: state.fontModel,
                                       isSelected: item.pagingId == currentMealId,
                                       arabicVerseUIEnum: state.arabicVerseUIEnum,
-                                      showListVerseIcons: true,
+                                      showListVerseIcons: state.showListVerseIcons,
                                       onLongPress: (){
                                         widget.handleBottomMenu(
                                             context,
@@ -159,45 +163,6 @@ class _VersePageShowPageState extends State<VersePageShowPage> {
       ),
     );
   }
-  
-  
-  Widget getPageButtons(BuildContext context){
-    return BlocSelector<PaginationBloc, PaginationState, int>(
-      selector: (state) => state.totalStaticPages,
-      builder: (context, totalPages){
-        return ListenableBuilder(
-          listenable: pageController.controller,
-          builder: (context, child){
-            return Padding(
-              padding: const EdgeInsets.only(left: 2,right: 2,bottom: 4),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: pageController.currentPageIndex == 0 ? null : (){
-                        pageController.animateToPreviousPage();
-                      },
-                      child: const Text("Önceki"),
-                    ),
-                  ),
-                  const SizedBox(width: 4,),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: pageController.currentPageIndex == totalPages - 1 ? null : (){
-                        pageController.animateToNextPage();
-                      },
-                      child: const Text("Sonraki"),
-                    ),
-                  ),
-                ],
-              ),
-            )  ;
-          },
-        );
-      },
-    );
-  }
-  
 
   Widget getPageInfo(BuildContext context){
     return ListenableBuilder(

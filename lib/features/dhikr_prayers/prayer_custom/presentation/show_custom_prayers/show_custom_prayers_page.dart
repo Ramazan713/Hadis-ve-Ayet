@@ -13,22 +13,33 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/sections/components_section.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/sections/top_bar_section.dart';
-
 import 'bloc/show_custom_prayers_bloc.dart';
 import 'bloc/show_custom_prayers_state.dart';
 import 'components/custom_prayer_item.dart';
 
-class ShowCustomPrayersPage extends StatelessWidget {
-  ShowCustomPrayersPage({Key? key}) : super(key: key);
+class ShowCustomPrayersPage extends StatefulWidget {
+  const ShowCustomPrayersPage({Key? key}) : super(key: key);
 
-  final CustomScrollController _scrollController = CustomScrollController();
+  @override
+  State<ShowCustomPrayersPage> createState() => _ShowCustomPrayersPageState();
+}
+
+class _ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
+
+  final CustomScrollController scrollController = CustomScrollController();
+  final TextEditingController searchTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final bloc = context.read<ShowCustomPrayersBloc>();
+    bloc.add(ShowCustomPrayersEventLoadData());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<ShowCustomPrayersBloc>();
-    bloc.add(ShowCustomPrayersEventLoadData());
-
-    return getListeners(
+    return widget.getListeners(
       child: AdaptiveLayout(
         body: SlotLayout(
           config: <Breakpoint, SlotLayoutConfig>{
@@ -39,10 +50,10 @@ class ShowCustomPrayersPage extends StatelessWidget {
               },
             ),
             Breakpoints.mediumAndUp: SlotLayout.from(
-                key: const Key('ShowPrayers Body Medium'),
-                builder: (_){
-                  return getPageContent(context, 2);
-                }
+              key: const Key('ShowPrayers Body Medium'),
+              builder: (_){
+                return getPageContent(context, 2);
+              }
             )
           },
         ),
@@ -58,11 +69,11 @@ class ShowCustomPrayersPage extends StatelessWidget {
             selector: (state) => state.isSearchBarVisible,
             builder: (context, isSearchBarVisible){
               return CustomNestedSearchableAppBar(
-                key: null,
+                textEditingController: searchTextController,
                 pinned: true,
-                actions: getActions(context),
+                actions: widget.getActions(context),
                 appBarType: AppBarType.mediumBar,
-                scrollController: _scrollController,
+                scrollController: scrollController,
                 title: const Text("Eklediğim Dua ve Ayetler",overflow: TextOverflow.ellipsis,),
                 onTextChanged: (newText){
                   bloc.add(ShowCustomPrayersEventSetQuery(query: newText));
@@ -108,7 +119,7 @@ class ShowCustomPrayersPage extends StatelessWidget {
                   CustomPrayerDetailRoute(prayerId: item.id ?? 0).push(context);
                 },
                 onMenuClick: () {
-                  handleBottomMenu(context,item);
+                  widget.handleBottomMenu(context,item);
                 },
               );
             },
@@ -120,7 +131,7 @@ class ShowCustomPrayersPage extends StatelessWidget {
 
   Widget getFab(BuildContext context){
     return CustomVisibilityWithScrolling(
-      controller: _scrollController.controller,
+      controller: scrollController.controller,
       child: FloatingActionButton(
         onPressed: (){
           AddCustomPrayerRoute().push(context);
@@ -130,4 +141,10 @@ class ShowCustomPrayersPage extends StatelessWidget {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    searchTextController.dispose();
+    scrollController.dispose();
+  }
 }

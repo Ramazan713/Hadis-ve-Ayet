@@ -44,16 +44,21 @@ class CustomNestedViewAppBar extends StatelessWidget {
         scrollController: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
           return [
-            CustomSliverAppBar(
-              title: title,
-              actions: actions,
-              bottom: appBarBottom,
-              floating: floating,
-              pinned: pinned,
-              snap: snap,
-              appBarType: appBarType,
-              toolbarHeight: toolbarHeight,
-              showNavigateBack: showNavigateBack,
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverSafeArea(
+                sliver: CustomSliverAppBar(
+                  title: title,
+                  actions: actions,
+                  bottom: appBarBottom,
+                  floating: floating,
+                  pinned: pinned,
+                  snap: snap,
+                  appBarType: appBarType,
+                  toolbarHeight: toolbarHeight,
+                  showNavigateBack: showNavigateBack,
+                ),
+              ),
             ),
             ...headerSlivers
           ];

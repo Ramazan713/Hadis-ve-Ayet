@@ -7,14 +7,12 @@ import 'package:hadith/features/islamic_info/shared/domain/model/islamic_info_it
 class InfoCollectionItem extends StatelessWidget {
   final IslamicInfoCollection collection;
   final bool showHorizontal;
-  final ScrollController scrollController;
   final double contentFontSize;
 
   const InfoCollectionItem({
     Key? key,
     required this.collection,
     required this.showHorizontal,
-    required this.scrollController,
     required this.contentFontSize
   }) : super(key: key);
 
@@ -28,7 +26,7 @@ class InfoCollectionItem extends StatelessWidget {
           getTitle(context),
           ListView.builder(
             shrinkWrap: true,
-            controller: scrollController,
+            controller: ScrollController(),
             itemCount: collection.infoItems.length,
             itemBuilder: (context, index) {
               final item = collection.infoItems[index];

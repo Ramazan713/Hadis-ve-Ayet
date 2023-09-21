@@ -17,18 +17,34 @@ import 'bloc/search_bloc.dart';
 import 'bloc/search_state.dart';
 
 
-class SearchPage extends StatelessWidget {
-  SearchPage({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+
+  void unFocusBar(BuildContext context){
+    FocusScope.of(context).unfocus(disposition: UnfocusDisposition.scope);
+  }
+}
+
+class _SearchPageState extends State<SearchPage> {
 
   final scrollController = ScrollController();
   final textEditingController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
 
     final bloc = context.read<SearchBloc>();
     textEditingController.setTextWithCursor(bloc.state.searchQuery);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final bloc = context.read<SearchBloc>();
 
     return WillPopScope(
       onWillPop: (){
@@ -37,7 +53,7 @@ class SearchPage extends StatelessWidget {
       },
       child: GestureDetector(
         onTap: (){
-          unFocusBar(context);
+          widget.unFocusBar(context);
         },
         child: Scaffold(
           body: SafeArea(
@@ -47,7 +63,9 @@ class SearchPage extends StatelessWidget {
               toolbarHeight: K.searchBarHeight,
               actions: [
                 Expanded(
-                  child: getSearchView(context),
+                  child: widget.getSearchView(context,
+                    textEditingController: textEditingController
+                  ),
                 )
               ],
               child: Padding(
@@ -60,7 +78,6 @@ class SearchPage extends StatelessWidget {
       ),
     );
   }
-
 
   Widget getMainContent(BuildContext context){
     return Column(
@@ -88,7 +105,7 @@ class SearchPage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      getChipActions(context),
+                      widget.getChipActions(context,),
                       getContentSwitcher(context, state)
                     ],
                   ),
@@ -106,16 +123,25 @@ class SearchPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: CustomAnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        firstChild: getSearchResultContent(context,state),
-        secondChild: getHistoryContent(context,state),
+        firstChild: widget.getSearchResultContent(context,
+          state: state,
+          scrollController: scrollController
+        ),
+        secondChild: widget.getHistoryContent(context,
+          state: state,
+          scrollController: scrollController,
+          textEditingController: textEditingController
+        ),
         showFirstChild: state.isSearchActive,
       ),
     );
   }
 
-
-  void unFocusBar(BuildContext context){
-    FocusScope.of(context).unfocus(disposition: UnfocusDisposition.scope);
+  @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+    scrollController.dispose();
   }
 
 }

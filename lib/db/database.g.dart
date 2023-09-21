@@ -3804,7 +3804,7 @@ class _$HadithAllDao extends HadithAllDao {
     int startIndex,
   ) async {
     return _queryAdapter.queryList(
-        'select H.* from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1 limit ?2 offset ?3',
+        'select H.* from Hadith H,ListHadith LH     where LH.hadithId=H.id and LH.listId=?1 order by LH.pos desc limit ?2 offset ?3',
         mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
         arguments: [listId, pageSize, startIndex]);
   }

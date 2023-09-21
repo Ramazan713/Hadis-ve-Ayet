@@ -9,7 +9,6 @@ import 'package:hadith/core/features/save_point/show_save_point/show_select_save
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
-import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
@@ -19,21 +18,28 @@ import 'package:hadith/features/topics/presentation/section_page/bloc/section_st
 import 'package:hadith/features/topics/presentation/section_page/section_item.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_model.dart';
 
-
-final _searchKey = GlobalKey();
-
-class SectionPage extends StatelessWidget {
+class SectionPage extends StatefulWidget {
   final BookEnum bookEnum;
 
-  SectionPage({Key? key, required this.bookEnum}) : super(key: key);
+  const SectionPage({Key? key, required this.bookEnum}) : super(key: key);
 
+  @override
+  State<SectionPage> createState() => _SectionPageState();
+}
+
+class _SectionPageState extends State<SectionPage> {
   final searchTextController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<SectionBloc>();
-    bloc.add(SectionEventLoadData(book: bookEnum));
+  void initState() {
+    super.initState();
 
+    final bloc = context.read<SectionBloc>();
+    bloc.add(SectionEventLoadData(book: widget.bookEnum));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AdaptiveLayout(
       body: SlotLayout(
         config: <Breakpoint, SlotLayoutConfig>{
@@ -44,16 +50,15 @@ class SectionPage extends StatelessWidget {
             },
           ),
           Breakpoints.mediumAndUp: SlotLayout.from(
-              key: const Key('Section Body Medium'),
-              builder: (_){
-                return getContent(context, 2);
-              }
+            key: const Key('Section Body Medium'),
+            builder: (_){
+              return getContent(context, 2);
+            }
           )
         },
       ),
     );
   }
-
 
   Widget getContent(BuildContext context, int gridCount){
     final bloc = context.read<SectionBloc>();
@@ -64,7 +69,7 @@ class SectionPage extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: CustomNestedSearchableAppBar(
-              key: _searchKey,
+              textEditingController: searchTextController,
               searchBarVisible: isSearchBarVisible,
               onSearchVisibilityChanged: (newIsSearchBarVisible){
                 bloc.add(SectionEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
@@ -72,8 +77,8 @@ class SectionPage extends StatelessWidget {
               onTextChanged: (newText){
                 bloc.add(SectionEventSearch(query: newText));
               },
-              title: Text("Bölüm - ${bookEnum.bookScope.description}"),
-              actions: getActions(context),
+              title: Text("Bölüm - ${widget.bookEnum.bookScope.description}"),
+              actions: widget.getActions(context),
               pinned: true,
               snap: false,
               floating: false,
@@ -117,7 +122,7 @@ class SectionPage extends StatelessWidget {
             rowNumber: index == 0 ? null : index,
             onTap: (){
               TopicRoute(
-                  bookId: bookEnum.bookId,
+                  bookId: widget.bookEnum.bookId,
                   sectionTitle: item.sectionViewModel.name,
                   sectionId: item.sectionViewModel.id,
                   useBookAllSections: item.isBookSection
@@ -129,6 +134,11 @@ class SectionPage extends StatelessWidget {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    searchTextController.dispose();
+  }
 }
 
 

@@ -76,10 +76,11 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
 
   void _onStartDownloadingWithVerse(DownloadAudioEventStartDownloadingWithVerse event,Emitter<DownloadAudioState>emit)async{
     final paramBuilder = const AudioParamBuilder().copyWith(
-        setStartVerseId: true,
-        startVerseId: event.verse.id,
-        setVerse: true,
-        verse: event.verse
+      setStartVerseId: true,
+      startVerseId: event.verse.id,
+      setVerse: true,
+      verse: event.verse,
+      selectAudioOption: event.selectAudioOption
     );
     emit(state.copyWith(audioParamBuilder: paramBuilder));
 
@@ -133,7 +134,7 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
     if(!paramBuilder.hasOption){
       return emit(state.copyWith(
           setDialogEvent: true,
-          dialogEvent: DownloadAudioDialogEventShowOption(selectAudioOption: SelectAudioOption.cuz)
+          dialogEvent: DownloadAudioDialogEventShowOption(selectAudioOption: paramBuilder.selectAudioOption)
       ));
     }
 

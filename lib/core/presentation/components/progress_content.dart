@@ -18,14 +18,16 @@ class ProgressRateContent extends StatelessWidget {
     final colorSchema = Theme.of(context).colorScheme;
 
     final rateInPercentileText = (rateOrDefault * 100).toStringAsFixed(1);
-    final textColor = rateOrDefault >= 0.5 ? colorSchema.onPrimaryContainer : colorSchema.primary;
+    final textColor = rateOrDefault >= 0.5 ? colorSchema.onPrimary : colorSchema.onSurfaceVariant;
+
     return Stack(
       alignment: Alignment.center,
       children: [
         LinearProgressIndicator(
           value: rate,
           minHeight: 20,
-          color: colorSchema.primaryContainer,
+          color: colorSchema.primary,
+          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
         Text(
           "%$rateInPercentileText ${getDescription()}",

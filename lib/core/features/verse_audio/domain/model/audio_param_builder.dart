@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/download_audio_param.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_param.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 
 class AudioParamBuilder extends Equatable{
   final String? identifier;
@@ -13,6 +14,7 @@ class AudioParamBuilder extends Equatable{
   final int? startVerseId;
   final Verse? verse;
   final bool checkNotification;
+  final SelectAudioOption selectAudioOption;
 
   const AudioParamBuilder({
     this.itemId,
@@ -20,7 +22,8 @@ class AudioParamBuilder extends Equatable{
     this.identifier,
     this.startVerseId,
     this.verse,
-    this.checkNotification = true
+    this.checkNotification = true,
+    this.selectAudioOption = SelectAudioOption.cuz
   });
 
   AudioParamBuilder copyWith({
@@ -29,7 +32,8 @@ class AudioParamBuilder extends Equatable{
     int? itemId, bool setItemId = false,
     int? startVerseId, bool setStartVerseId = false,
     bool? checkNotification,
-    Verse? verse, bool setVerse = false
+    Verse? verse, bool setVerse = false,
+    SelectAudioOption? selectAudioOption
   }){
     return AudioParamBuilder(
       op: setOption ? op : this.op,
@@ -37,7 +41,8 @@ class AudioParamBuilder extends Equatable{
       identifier:  setIdentifier ? identifier : this.identifier,
       itemId: setItemId ? itemId : this.itemId,
       checkNotification: checkNotification ?? this.checkNotification,
-      verse: setVerse ? verse : this.verse
+      verse: setVerse ? verse : this.verse,
+      selectAudioOption: selectAudioOption ?? this.selectAudioOption
     );
   }
 
@@ -96,5 +101,7 @@ class AudioParamBuilder extends Equatable{
   }
 
   @override
-  List<Object?> get props => [identifier,op,itemId,startVerseId,checkNotification, verse];
+  List<Object?> get props => [identifier,op,itemId,startVerseId,checkNotification,
+    verse, selectAudioOption
+  ];
 }

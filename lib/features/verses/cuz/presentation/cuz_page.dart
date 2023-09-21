@@ -11,6 +11,7 @@ import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_p
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
+import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_event.dart';
 import 'package:hadith/features/verses/shared/domain/models/audio_info_result_model.dart';
 import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_connect.dart';
@@ -30,26 +31,41 @@ import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_state.dart';
 import 'package:hadith/features/verses/cuz/presentation/sections/components_section.dart';
 import 'package:hadith/features/verses/cuz/presentation/sections/top_bar_section.dart';
 import 'package:hadith/features/verses/shared/presentation/verse_topic_item/verse_topic_audio_info.dart';
-import 'package:hadith/features/verses/shared/presentation/verse_topic_item/verse_topic_item.dart';
+import 'package:hadith/features/verses/shared/presentation/components/verse_topic_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class CuzPage extends StatelessWidget {
-  CuzPage({Key? key}) : super(key: key);
+class CuzPage extends StatefulWidget {
+  const CuzPage({Key? key}) : super(key: key);
+
+  @override
+  State<CuzPage> createState() => _CuzPageState();
+}
+
+class _CuzPageState extends State<CuzPage> {
 
   final CustomScrollController scrollController = CustomScrollController();
   final ItemScrollController itemScrollController = ItemScrollController();
-  final CustomPositionController _positionController = CustomPositionController();
+  final CustomPositionController positionController = CustomPositionController();
+
+  @override
+  void initState() {
+    super.initState();
+    final topicSavePointBloc = context.read<TopicSavePointBloc>();
+    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: TopicSavePointTypeCuz()));
+
+    context.read<CuzBloc>().add(CuzEventLoadData());
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final topicSavePointBloc = context.read<TopicSavePointBloc>();
-    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: TopicSavePointTypeCuz()));
-
     return AudioConnect(
       child: ManageDownloadedAudioListener(
         child: Scaffold(
-          floatingActionButton: getFab(context),
+          floatingActionButton:  widget.getFab(context,
+            itemScrollController: itemScrollController,
+            scrollController: scrollController
+          ),
           body: SafeArea(
             child: CustomNestedViewAppBar(
               title: const Text("Cüz"),
@@ -57,7 +73,7 @@ class CuzPage extends StatelessWidget {
               snap: true,
               floating: true,
               appBarType: AppBarType.defaultBar,
-              actions: getActions(context),
+              actions: widget.getActions(context),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
@@ -115,7 +131,7 @@ class CuzPage extends StatelessWidget {
         scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
       },
       onVisibleItemChanged: (min,max){
-        _positionController.setPositions(min, max,totalItems: items.length);
+        positionController.setPositions(min, max,totalItems: items.length);
       },
       itemScrollController: itemScrollController,
       itemBuilder: (context, index){
@@ -130,20 +146,22 @@ class CuzPage extends StatelessWidget {
           downloadedAudioView: item.audioViewModel,
           hasSavePoint: hasSavePoint,
           iconData: FontAwesomeIcons.bookQuran,
-          onLongPress: (){
-            verseTopicBottomMenuSharedHandler(context,
-              itemId: cuz.no,
-              hasSavePoint: hasSavePoint,
-              topicModel: item,
-              audioResult: info,
+          onClickMoreMenu: (){
+            onShowMenu(context,
+              item: item,
+              cuz: cuz,
+              info: info,
               index: index,
-              audioOption: QuranAudioOption.cuz,
-              onGoToLastSavePoint: (){
-                navigateWithSavePoint(context,
-                    cuz: cuz,
-                    autoType: SaveAutoType.none
-                );
-              }
+              hasSavePoint: hasSavePoint
+            );
+          },
+          onLongPress: (){
+            onShowMenu(context,
+              item: item,
+              cuz: cuz,
+              info: info,
+              index: index,
+              hasSavePoint: hasSavePoint
             );
           },
           onTap: () {
@@ -153,6 +171,29 @@ class CuzPage extends StatelessWidget {
             );
           });
       },
+    );
+  }
+
+  void onShowMenu(BuildContext context,{
+    required Cuz cuz,
+    required VerseTopicModel<Cuz> item,
+    required bool hasSavePoint,
+    required AudioInfoResultModel<int> info,
+    required int index
+  }){
+    verseTopicBottomMenuSharedHandler(context,
+        itemId: cuz.no,
+        hasSavePoint: hasSavePoint,
+        topicModel: item,
+        audioResult: info,
+        index: index,
+        audioOption: QuranAudioOption.cuz,
+        onGoToLastSavePoint: (){
+          navigateWithSavePoint(context,
+            cuz: cuz,
+            autoType: SaveAutoType.none
+          );
+        }
     );
   }
 
@@ -169,5 +210,10 @@ class CuzPage extends StatelessWidget {
     ));
   }
 
-
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+    positionController.dispose();
+  }
 }

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
-import 'package:hadith/core/presentation/components/app_bar/search_sliver_appbar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
-import 'package:hadith/widgets/app_bar/custom_search_sliver_appbar.dart';
 import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
 
 import 'custom_appbar_searchable.dart';
 import 'custom_nested_view.dart';
 
-class CustomNestedSearchableAppBar extends StatefulWidget {
+class CustomNestedSearchableAppBar extends StatelessWidget {
 
   final Widget child;
+  final TextEditingController textEditingController;
   final bool searchBarVisible;
   final void Function(String) onTextChanged;
   final void Function(bool isVisible) onSearchVisibilityChanged;
@@ -28,7 +27,8 @@ class CustomNestedSearchableAppBar extends StatefulWidget {
   final bool? showNavigateBack;
 
   const CustomNestedSearchableAppBar({
-    required Key? key,
+    Key? key,
+    required this.textEditingController,
     required this.child,
     required this.onTextChanged,
     required this.onSearchVisibilityChanged,
@@ -48,43 +48,41 @@ class CustomNestedSearchableAppBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomNestedSearchableAppBar> createState() => _CustomNestedSearchableAppBarState();
-}
-
-class _CustomNestedSearchableAppBarState extends State<CustomNestedSearchableAppBar>{
-  final textEditingController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: (){
-        if(widget.searchBarVisible && widget.useWillPopScope){
-          widget.onTextChanged("");
+        if(searchBarVisible && useWillPopScope){
+          onTextChanged("");
           textEditingController.text = "";
-          widget.onSearchVisibilityChanged(false);
+          onSearchVisibilityChanged(false);
           return Future.value(false);
         }
         return Future.value(true);
       },
       child: CustomNestedView(
-        scrollController: widget.scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-          return [
-            _getSearchableAppBar(),
-            ...widget.headerSlivers
-          ];
-        },
-        child: widget.child
+          scrollController: scrollController,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+            return [
+              SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverSafeArea(
+                      sliver: _getSearchableAppBar()
+                  )
+              ),
+              ...headerSlivers
+            ];
+          },
+          child: child
       ),
     );
   }
 
   CustomAppBarSearchable _getSearchableAppBar(){
     return CustomAppBarSearchable(
-      searchBarVisible: widget.searchBarVisible,
-      onChanged: widget.onTextChanged,
+      searchBarVisible: searchBarVisible,
+      onChanged: onTextChanged,
       onClosed: (){
-        widget.onSearchVisibilityChanged(false);
+        onSearchVisibilityChanged(false);
       },
       sliverAppBar: _getAppBar(),
       textEditingController: textEditingController,
@@ -93,29 +91,24 @@ class _CustomNestedSearchableAppBarState extends State<CustomNestedSearchableApp
 
   CustomSliverAppBar _getAppBar(){
     return CustomSliverAppBar(
-      title: widget.title,
+      title: title,
       actions: [
         IconButton(
           onPressed: () {
-            widget.onSearchVisibilityChanged(true);
+            onSearchVisibilityChanged(true);
           },
           icon: const Icon(Icons.search),
           tooltip: "Ara",
         ),
-        ...?widget.actions,
+        ...?actions,
       ],
-      bottom: widget.appBarBottom,
-      floating: widget.floating,
-      pinned: widget.pinned,
-      snap: widget.snap,
-      appBarType: widget.appBarType,
-      showNavigateBack: widget.showNavigateBack,
+      bottom: appBarBottom,
+      floating: floating,
+      pinned: pinned,
+      snap: snap,
+      appBarType: appBarType,
+      showNavigateBack: showNavigateBack,
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    textEditingController.dispose();
-  }
 }

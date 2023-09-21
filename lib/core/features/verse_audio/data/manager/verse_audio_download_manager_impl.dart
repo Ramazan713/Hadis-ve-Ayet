@@ -282,6 +282,7 @@ class VerseAudioDownloadManagerImpl extends VerseAudioDownloadManager{
     return ResourceSuccess(null);
   }
 
+  @override
   Future<Resource<void>> downloadMultiVerse({
     required List<int> verseIds,
     required String identifier,

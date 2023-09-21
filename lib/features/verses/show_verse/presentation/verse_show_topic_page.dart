@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/constants/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 
 import '../data/repo/verse_topic_paging_repo.dart';
 import 'shared/bloc/verse_shared_bloc.dart';
@@ -42,6 +43,7 @@ class VerseShowTopicPage extends StatelessWidget {
           return VerseShowSharedPage(
             savePointDestination: destination,
             paginationRepo: surahPagingRepo,
+            selectAudioOption: SelectAudioOption.verse,
             title: currentTitle,
             pos: pos,
           );

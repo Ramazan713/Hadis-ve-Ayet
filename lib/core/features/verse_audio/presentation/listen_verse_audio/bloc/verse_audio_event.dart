@@ -3,6 +3,7 @@ import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_param.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/audio_param_builder.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 
 abstract class IListenVerseAudioEvent{}
 
@@ -22,7 +23,12 @@ class ListenAudioEventHandleAfterDownloading extends IListenVerseAudioEvent{
 
 class ListenAudioEventStartListeningWithVerse extends IListenVerseAudioEvent{
   final Verse verse;
-  ListenAudioEventStartListeningWithVerse({required this.verse});
+  final SelectAudioOption? selectAudioOption;
+
+  ListenAudioEventStartListeningWithVerse({
+    required this.verse,
+    this.selectAudioOption
+  });
 }
 
 class ListenAudioEventListeningBuilder extends IListenVerseAudioEvent{}

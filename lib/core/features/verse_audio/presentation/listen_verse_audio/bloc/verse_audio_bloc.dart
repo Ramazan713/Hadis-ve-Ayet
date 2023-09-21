@@ -82,7 +82,8 @@ class ListenVerseAudioBloc extends Bloc<IListenVerseAudioEvent,ListenVerseAudioS
       startVerseId: event.verse.id,
       setVerse: true,
       verse: event.verse,
-      checkNotification: state.audioParamBuilder.checkNotification
+      checkNotification: state.audioParamBuilder.checkNotification,
+      selectAudioOption: event.selectAudioOption
     );
     emit(state.copyWith(audioParamBuilder: paramBuilder));
 
@@ -123,7 +124,7 @@ class ListenVerseAudioBloc extends Bloc<IListenVerseAudioEvent,ListenVerseAudioS
       return emit(state.copyWith(
           setDialogEvent: true,
           dialogEvent: ListenAudioDialogEventShowOption(
-            selectAudioOption: SelectAudioOption.cuz
+            selectAudioOption: paramBuilder.selectAudioOption
           )
       ));
     }

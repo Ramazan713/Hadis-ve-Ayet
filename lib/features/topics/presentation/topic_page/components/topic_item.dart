@@ -6,21 +6,19 @@ import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 class TopicItem extends StatelessWidget {
   final TopicViewModel topicViewModel;
   final void Function() onTap;
-  final void Function()? onLongPress;
+  final void Function()? onMenuClick;
   final SourceTypeEnum sourceType;
   final bool hasSavePoint;
   final int? rowNumber;
 
-  const TopicItem(
-      {Key? key,
-        required this.sourceType,
-        this.onLongPress,
-        required this.topicViewModel,
-        required this.hasSavePoint,
-        required this.onTap,
-        required this.rowNumber
-      })
-      : super(key: key);
+  const TopicItem({Key? key,
+    required this.sourceType,
+    this.onMenuClick,
+    required this.topicViewModel,
+    required this.hasSavePoint,
+    required this.onTap,
+    required this.rowNumber
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +29,7 @@ class TopicItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13)
         ),
+        contentPadding: const EdgeInsets.only(right: 8,left: 16),
         tileColor: Theme.of(context).colorScheme.secondaryContainer,
         title: Text(
           topicViewModel.name,
@@ -41,17 +40,26 @@ class TopicItem extends StatelessWidget {
           "${topicViewModel.itemsCount} ${sourceType.shortName}",
         ),
         onTap: onTap,
-        onLongPress: onLongPress,
+        onLongPress: onMenuClick,
         trailing: getTrailing(context),
       ),
     );
   }
 
   Widget? getTrailing(BuildContext context){
-    if(!hasSavePoint) return null;
-    return Icon(
-      Icons.beenhere,
-      color: Theme.of(context).colorScheme.error
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if(hasSavePoint)
+          Icon(
+              Icons.beenhere,
+              color: Theme.of(context).colorScheme.error
+          ),
+        IconButton(
+          onPressed: onMenuClick,
+          icon: const Icon(Icons.more_vert),
+        )
+      ],
     );
   }
 

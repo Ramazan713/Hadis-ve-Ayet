@@ -12,7 +12,10 @@ import 'package:flutter/material.dart';
 
 extension SearchPageSearchResultExt on SearchPage{
 
-  Widget getSearchResultContent(BuildContext context, SearchState state){
+  Widget getSearchResultContent(BuildContext context, {
+    required SearchState state,
+    required ScrollController scrollController
+  }){
     final searchResults = state.searchResults;
 
     return ListView.builder(

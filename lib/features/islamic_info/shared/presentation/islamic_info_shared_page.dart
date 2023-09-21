@@ -21,14 +21,12 @@ class IslamicInfoSharedPage extends StatelessWidget {
   final String title;
   final IslamicInfoType infoType;
 
-  IslamicInfoSharedPage({
+  const IslamicInfoSharedPage({
     Key? key,
     required this.infoType,
     required this.title,
     required this.showVertical
   }) : super(key: key);
-
-  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,6 @@ class IslamicInfoSharedPage extends StatelessWidget {
                     return InfoCollectionItem(
                       collection: item,
                       showHorizontal: showVertical,
-                      scrollController: scrollController,
                       contentFontSize: state.fontModel.contentFontSize,
                     );
                   },

@@ -10,30 +10,26 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_stat
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
-import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
+import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_event.dart';
 import 'package:hadith/features/topics/presentation/topic_page/components/topic_item.dart';
 import 'package:hadith/features/topics/presentation/topic_page/sections/topic_ext.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
 import 'bloc/topic_state.dart';
 
-final _searchKey = GlobalKey();
-
-
-class TopicPage extends StatelessWidget {
+class TopicPage extends StatefulWidget {
   final BookEnum bookEnum;
   final int sectionId;
   final bool useBookAllSections;
   final String sectionTitle;
 
-  TopicPage({
+  const TopicPage({
     Key? key,
     required this.bookEnum,
     required this.sectionId,
@@ -41,30 +37,44 @@ class TopicPage extends StatelessWidget {
     required this.sectionTitle
   }) : super(key: key);
 
+  @override
+  State<TopicPage> createState() => _TopicPageState();
+
   SourceTypeEnum get sourceType => bookEnum.sourceType;
+}
+
+class _TopicPageState extends State<TopicPage> {
 
   final ItemScrollController itemScrollController = ItemScrollController();
   final CustomScrollController scrollController = CustomScrollController();
   final CustomPositionController positionController = CustomPositionController();
+  final TextEditingController searchTextController = TextEditingController();
 
-  final searchTextController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    final bloc = context.read<TopicBloc>();
+    final topicSavePointBloc = context.read<TopicSavePointBloc>();
+
+    bloc.add(TopicEventLoadData(book: widget.bookEnum, sectionId: widget.sectionId,useBookAllSections: widget.useBookAllSections));
+    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: widget.getTopicType()));
+  }
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<TopicBloc>();
-    final topicSavePointBloc = context.read<TopicSavePointBloc>();
-
-    bloc.add(TopicEventLoadData(book: bookEnum, sectionId: sectionId,useBookAllSections: useBookAllSections));
-    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: getTopicType()));
 
     return BlocSelector<TopicBloc, TopicState, bool>(
         selector: (state)=>state.searchBarVisible,
         builder: (context,isSearchBarVisible){
           return Scaffold(
-            floatingActionButton: getFloatingActionWidget(),
+            floatingActionButton: widget.getFloatingActionWidget(
+              scrollController: scrollController,
+              itemScrollController: itemScrollController
+            ),
             body: SafeArea(
               child: CustomNestedSearchableAppBar(
-                key: _searchKey,
+                textEditingController: searchTextController,
                 scrollController: scrollController,
                 searchBarVisible: isSearchBarVisible,
                 onSearchVisibilityChanged: (newIsSearchBarVisible){
@@ -74,10 +84,13 @@ class TopicPage extends StatelessWidget {
                   bloc.add(TopicEventSearch(query: newText));
                 },
                 title: Text(
-                  "$sectionTitle - ${bookEnum.bookScope.description}",
+                  "${widget.sectionTitle} - ${widget.bookEnum.bookScope.description}",
                   overflow: TextOverflow.ellipsis,
                 ),
-                actions: getActions(context),
+                actions: widget.getActions(context,
+                  itemScrollController: itemScrollController,
+                  positionController: positionController
+                ),
                 snap: true,
                 floating: true,
                 appBarType: AppBarType.defaultBar,
@@ -104,7 +117,6 @@ class TopicPage extends StatelessWidget {
         return BlocSelector<TopicSavePointBloc,TopicSavePointState, TopicSavePoint?>(
           selector: (state)=>state.topicSavePoint,
           builder: (context, currentTopicSavePoint){
-
             if(state.isLoading){
               return const GetShimmerItems(
                 itemCount: 19,
@@ -132,12 +144,12 @@ class TopicPage extends StatelessWidget {
                 return TopicItem(
                   topicViewModel: item,
                   hasSavePoint: !state.searchBarVisible && hasSavePoint,
-                  sourceType: sourceType,
+                  sourceType: widget.sourceType,
                   onTap: (){
-                    handleNavigation(context, item);
+                    widget.handleNavigation(context, item);
                   },
-                  onLongPress: state.searchBarVisible ? null : (){
-                    handleBottomMenu(
+                  onMenuClick: state.searchBarVisible ? null : (){
+                    widget.handleBottomMenu(
                       context,
                       index: index,
                       hasSavePoint: hasSavePoint,
@@ -154,4 +166,12 @@ class TopicPage extends StatelessWidget {
     );
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchTextController.dispose();
+    scrollController.dispose();
+    positionController.dispose();
+  }
 }

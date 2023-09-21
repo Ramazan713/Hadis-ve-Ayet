@@ -43,11 +43,11 @@ class HadithItemState extends State<HadithItem> {
   @override
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(20);
-    return InkWell(
-      onLongPress: widget.onLongClick,
-      borderRadius: borderRadius,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      child: InkWell(
+        onLongPress: widget.onLongClick,
+        borderRadius: borderRadius,
         child: Padding(
           padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
           child: Column(

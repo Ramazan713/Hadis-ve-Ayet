@@ -9,6 +9,7 @@ import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/paging_list_view.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_with_paging.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_info_body_wrapper.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
@@ -42,6 +43,8 @@ abstract class VerseShareBasePage extends StatefulWidget {
     this.editSavePointHandler,
     this.listIdControlForSelectList
   });
+
+  SelectAudioOption? get selectAudioOption;
 }
 
 
@@ -52,8 +55,11 @@ class VerseShowSharedPage extends VerseShareBasePage {
   final String title;
   final SearchParam? searchParam;
   final int pos;
-
   final SavePointDestination savePointDestination;
+
+  @override
+  final SelectAudioOption? selectAudioOption;
+
 
   const VerseShowSharedPage({
     Key? key,
@@ -63,6 +69,7 @@ class VerseShowSharedPage extends VerseShareBasePage {
     this.searchParam,
     super.listIdControlForSelectList,
     super.editSavePointHandler,
+    this.selectAudioOption,
     required this.pos
   }) : super(key: key);
 
@@ -118,7 +125,7 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
                                 fontModel: state.fontModel,
                                 isSelected: item.pagingId == currentMealId,
                                 arabicVerseUIEnum: state.arabicVerseUIEnum,
-                                showListVerseIcons: true,
+                                showListVerseIcons: state.showListVerseIcons,
                                 onLongPress: (){
                                   widget.handleBottomMenu(
                                     context,

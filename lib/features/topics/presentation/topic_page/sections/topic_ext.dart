@@ -12,17 +12,23 @@ import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_even
 import 'package:hadith/core/features/topic_save_point/components/topic_save_point_floating_action_button.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
+import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
+import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../bloc/topic_bloc.dart';
 import '../bloc/topic_state.dart';
 
 extension TopicPageExt on TopicPage{
-  List<Widget> getActions(BuildContext context){
+  List<Widget> getActions(BuildContext context,{
+    required CustomPositionController positionController,
+    required ItemScrollController itemScrollController
+  }){
     return [
       NavigateToIcon(
         positionController: positionController,
@@ -83,7 +89,10 @@ extension TopicPageExt on TopicPage{
     );
   }
 
-  Widget getFloatingActionWidget(){
+  Widget getFloatingActionWidget({
+    required CustomScrollController scrollController,
+    required ItemScrollController itemScrollController
+  }){
     return BlocSelector<TopicBloc,TopicState,bool>(
         selector: (state) => !state.searchBarVisible,
         builder: (context, showFab){

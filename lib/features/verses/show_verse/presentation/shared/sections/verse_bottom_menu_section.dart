@@ -52,14 +52,16 @@ extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
           switch(menuItem){
             case VerseBottomMenuItem.download:
               navigateBack();
-              context.read<DownloadAudioBloc>()
-                  .add(DownloadAudioEventStartDownloadingWithVerse(verse: verseListModel.verse));
+              context.read<DownloadAudioBloc>().add(DownloadAudioEventStartDownloadingWithVerse(
+                verse: verseListModel.verse,
+                selectAudioOption: selectAudioOption
+              ));
               break;
             case VerseBottomMenuItem.play:
               navigateBack();
-              context.read<ListenVerseAudioBloc>()
-                  .add(ListenAudioEventStartListeningWithVerse(
-                verse: verseListModel.verse
+              context.read<ListenVerseAudioBloc>().add(ListenAudioEventStartListeningWithVerse(
+                verse: verseListModel.verse,
+                selectAudioOption: selectAudioOption
               ));
               break;
             case VerseBottomMenuItem.share:

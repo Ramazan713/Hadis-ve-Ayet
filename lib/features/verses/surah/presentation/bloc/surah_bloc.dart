@@ -33,6 +33,8 @@ class SurahBloc extends Bloc<ISurahEvent, SurahState>{
     on<SurahEventSearch>(_onSearch, transformer: restartable());
     on<SurahEventLoadData>(_onLoadData, transformer: restartable());
 
+    _queryFilter.add("");
+
     add(SurahEventLoadData());
   }
 
@@ -48,9 +50,7 @@ class SurahBloc extends Bloc<ISurahEvent, SurahState>{
 
   void _onLoadData(SurahEventLoadData event, Emitter<SurahState> emit) async{
 
-    _queryFilter.add("");
-
-    emit(state.copyWith(isLoading: true, items: []));
+    emit(state.copyWith(isLoading: true));
 
     final surahStream = _queryFilter.distinct().asyncMap((query)async{
       if(query.trim().isEmpty){

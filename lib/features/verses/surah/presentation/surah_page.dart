@@ -26,7 +26,7 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/save_auto_type.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verses/shared/presentation/verse_topic_item/verse_topic_audio_info.dart';
-import 'package:hadith/features/verses/shared/presentation/verse_topic_item/verse_topic_item.dart';
+import 'package:hadith/features/verses/shared/presentation/components/verse_topic_item.dart';
 import 'package:hadith/features/verses/surah/domain/models/surah.dart';
 import 'package:hadith/features/verses/surah/presentation/sections/surah_ext.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -35,34 +35,46 @@ import 'bloc/surah_bloc.dart';
 import 'bloc/surah_event.dart';
 import 'bloc/surah_state.dart';
 
-final _searchKey = GlobalKey();
+class SurahPage extends StatefulWidget {
+  const SurahPage({Key? key,}) : super(key: key);
 
+  @override
+  State<SurahPage> createState() => _SurahPageState();
+}
 
-class SurahPage extends StatelessWidget {
-  SurahPage({Key? key,}) : super(key: key);
+class _SurahPageState extends State<SurahPage> {
 
   final ItemScrollController itemScrollController = ItemScrollController();
   final CustomScrollController scrollController = CustomScrollController();
   final searchTextController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+
+    final topicSavePointBloc = context.read<TopicSavePointBloc>();
+    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: TopicSavePointTypeSurah()));
+
+    context.read<SurahBloc>().add(SurahEventLoadData());
+  }
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<SurahBloc>();
-    final topicSavePointBloc = context.read<TopicSavePointBloc>();
-
-    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: TopicSavePointTypeSurah()));
 
     return AudioConnect(
       child: ManageDownloadedAudioListener(
         child: Scaffold(
-          floatingActionButton: getFab(),
+          floatingActionButton: widget.getFab(
+            itemScrollController: itemScrollController,
+            scrollController: scrollController
+          ),
           body: SafeArea(
             child: BlocSelector<SurahBloc, SurahState, bool>(
               selector: (state)=>state.searchBarVisible,
               builder: (context,isSearchBarVisible){
                 return CustomNestedSearchableAppBar(
-                  key: _searchKey,
+                  textEditingController: searchTextController,
                   scrollController: scrollController,
                   searchBarVisible: isSearchBarVisible,
                   onSearchVisibilityChanged: (newIsSearchBarVisible){
@@ -72,7 +84,7 @@ class SurahPage extends StatelessWidget {
                     bloc.add(SurahEventSearch(query: newText));
                   },
                   title: const Text("Sure"),
-                  actions: getActions(context),
+                  actions: widget.getActions(context),
                   snap: true,
                   floating: true,
                   appBarType: AppBarType.defaultBar,
@@ -114,7 +126,6 @@ class SurahPage extends StatelessWidget {
             if(items.isEmpty){
               return const SharedEmptyResult();
             }
-
             return VerseTopicAudioInfo(
               selectListenState: (state) => state?.surahId,
               selectDownloadState: (state) => state?.surahId,
@@ -161,28 +172,60 @@ class SurahPage extends StatelessWidget {
             VerseShowSurahRoute(surahId: surah.id)
                 .push(context);
           },
+          onClickMoreMenu: searchBarVisible ? null : (){
+            onShowMenu(context,
+                item: item,
+                info: info,
+                hasSavePoint: hasSavePoint,
+                index: index,
+                surah: surah
+            );
+          },
           onLongPress: searchBarVisible ? null : (){
-            verseTopicBottomMenuSharedHandler(context,
-              itemId: surah.id,
+            onShowMenu(context,
+              item: item,
+              info: info,
               hasSavePoint: hasSavePoint,
-              topicModel: item,
-              audioResult: info,
               index: index,
-              audioOption: QuranAudioOption.surah,
-              onGoToLastSavePoint: (){
-                context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
-                    destination: DestinationSurah(
-                        surahName: surah.name,
-                        surahId: surah.id
-                    ),
-                    autoType: SaveAutoType.none
-                ));
-              }
+              surah: surah
             );
           },
           iconData: FontAwesomeIcons.bookQuran,
         );
       },
     );
+  }
+
+  void onShowMenu(BuildContext context,{
+    required Surah surah,
+    required VerseTopicModel<Surah> item,
+    required bool hasSavePoint,
+    required AudioInfoResultModel<int> info,
+    required int index
+  }){
+    verseTopicBottomMenuSharedHandler(context,
+      itemId: surah.id,
+      hasSavePoint: hasSavePoint,
+      topicModel: item,
+      audioResult: info,
+      index: index,
+      audioOption: QuranAudioOption.surah,
+      onGoToLastSavePoint: (){
+        context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
+            destination: DestinationSurah(
+                surahName: surah.name,
+                surahId: surah.id
+            ),
+            autoType: SaveAutoType.none
+        ));
+      }
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchTextController.dispose();
+    scrollController.dispose();
   }
 }

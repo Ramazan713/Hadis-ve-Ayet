@@ -95,7 +95,7 @@ class HadithTopicRoute extends GoRouteData{
 class SearchRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SearchPage();
+    return const SearchPage();
   }
 }
 
@@ -211,7 +211,7 @@ class CuzRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return CuzPage();
+    return const CuzPage();
   }
 }
 
@@ -224,7 +224,7 @@ class SurahRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SurahPage();
+    return const SurahPage();
   }
 }
 
@@ -385,7 +385,7 @@ class PrayerInQuranRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return PrayerInQuranPage();
+    return const PrayerInQuranPage();
   }
 }
 
@@ -396,7 +396,7 @@ class CustomPrayersRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ShowCustomPrayersPage();
+    return const ShowCustomPrayersPage();
   }
 }
 
@@ -477,7 +477,7 @@ class ShowCountersRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ShowCounterPage();
+    return const ShowCounterPage();
   }
 }
 
@@ -594,7 +594,7 @@ class SettingsRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SettingsPage();
+    return const SettingsPage();
   }
 }
 
@@ -605,6 +605,6 @@ class SettingsAudioRoute extends GoRouteData{
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SettingsAudioPage();
+    return const SettingsAudioPage();
   }
 }

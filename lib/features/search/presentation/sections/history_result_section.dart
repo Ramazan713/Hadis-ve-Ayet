@@ -14,7 +14,11 @@ import 'package:flutter/material.dart';
 extension SearchPageHistoryResultExt on SearchPage{
 
 
-  Widget getHistoryContent(BuildContext context, SearchState state){
+  Widget getHistoryContent(BuildContext context, {
+    required SearchState state,
+    required ScrollController scrollController,
+    required TextEditingController textEditingController
+  }){
     final searchBloc = context.read<SearchBloc>();
     final histories = state.histories;
 

@@ -10,6 +10,8 @@ class VerseTopicItem extends StatelessWidget {
   final IconData iconData;
   final void Function()? onTap;
   final void Function()? onLongPress;
+  final void Function()? onClickMoreMenu;
+
   final bool hasSavePoint;
   final AudioInfoResultModel infoResult;
   final DownloadedAudioViewModel? downloadedAudioView;
@@ -23,6 +25,7 @@ class VerseTopicItem extends StatelessWidget {
     required this.onTap,
     required this.hasSavePoint,
     this.downloadedAudioView,
+    this.onClickMoreMenu,
     required this.infoResult
   }) : super(key: key);
 
@@ -63,10 +66,21 @@ class VerseTopicItem extends StatelessWidget {
       items.add(CircleIconTip(
           iconData: Icons.beenhere,
           message: "kayıt noktası",
-          iconColor: Theme.of(context).errorColor,
+          iconColor: Theme.of(context).colorScheme.error,
       ));
       items.add(const SizedBox(width: width,));
     }
+
+    if(onClickMoreMenu!= null){
+      items.add(
+        IconButton(
+          onPressed: onClickMoreMenu,
+          icon: const Icon(Icons.more_vert),
+          tooltip: "Daha fazlası",
+        )
+      );
+    }
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: items,
@@ -81,6 +95,7 @@ class VerseTopicItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13)
         ),
+        contentPadding: const EdgeInsets.only(left: 16,right: 8),
         tileColor: Theme.of(context).colorScheme.primaryContainer,
         title: Text(label,),
         leading: Icon(iconData),

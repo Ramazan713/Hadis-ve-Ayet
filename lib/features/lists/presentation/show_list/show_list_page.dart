@@ -18,8 +18,6 @@ import 'package:hadith/features/lists/presentation/show_list/sections/components
 import 'package:hadith/features/lists/presentation/show_list/sections/handle_bottom_menu_section.dart';
 import 'package:hadith/features/lists/presentation/show_list/sections/top_bar_section.dart';
 
-final _searchKey = GlobalKey();
-
 class ShowListPage extends StatefulWidget {
   const ShowListPage({Key? key}) : super(key: key);
 
@@ -30,6 +28,7 @@ class ShowListPage extends StatefulWidget {
 class _ShowListPageState extends State<ShowListPage> {
 
   final scrollController = ScrollController();
+  final searchTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +56,18 @@ class _ShowListPageState extends State<ShowListPage> {
 
   Widget getContent(BuildContext context,int gridCount){
     final listBloc = context.read<ShowListBloc>();
+
     return BlocSelector<ShowListBloc, ShowListState,bool>(
       selector: (state)=> state.searchBarVisible,
       builder: (context, searchBarVisible) {
         return DefaultTabController(
           length: 2,
+          initialIndex: listBloc.state.currentTab.index,
           child: Scaffold(
             floatingActionButton: getFab(context),
             body: SafeArea(
               child: CustomNestedSearchableAppBar(
-                key: _searchKey,
+                textEditingController: searchTextController,
                 pinned: true,
                 snap: true,
                 floating: true,
@@ -182,5 +183,6 @@ class _ShowListPageState extends State<ShowListPage> {
   void dispose() {
     super.dispose();
     scrollController.dispose();
+    searchTextController.dispose();
   }
 }

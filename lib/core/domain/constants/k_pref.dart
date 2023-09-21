@@ -6,7 +6,6 @@ import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/theme_type_enum.dart';
-import 'package:hadith/core/domain/enums/verse_arabic_ui_3x_enum.dart';
 import 'package:hadith/core/domain/enums/verse_ui_4x_enum.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
 
@@ -16,7 +15,7 @@ class KPref{
 
   static final PrefKey<bool> useDynamicColors = PrefKey(key: "useDynamicColors", defaultValue: true);
   static final PrefKey<bool> useArchiveListFeatures = PrefKey(key: "useArchiveListFeatures", defaultValue: false);
-  static final PrefKey<bool> showVerseListIcons = PrefKey(key: "showVerseListIcons", defaultValue: false);
+  static final PrefKey<bool> showVerseListIcons = PrefKey(key: "showVerseListIcons", defaultValue: true);
   static final PrefKey<double> audioPlayerSpeed = PrefKey(key: "audioPlayerSpeed", defaultValue: 1.0);
   static final PrefKey<bool> audioFollowWithText = PrefKey(key: "audioFollowWithText", defaultValue: true);
   static final PrefKey<bool> askListenAudioNotificationPermission = PrefKey(key: "askListenAudioNotificationPermission", defaultValue: true);
