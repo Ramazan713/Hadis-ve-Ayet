@@ -13,9 +13,12 @@ abstract class SectionViewDao{
 
   @Query("""
     select * from sectionTopicsView where bookId = :bookId and
-     name like :querySearchFull order by 
-     (case when lower(name)=:queryRaw then 1 when name like :queryOrderForLike 
-     then 2 else 3 end )
+     (name like :querySearchFull or searchName like :querySearchFull)
+     order by 
+     (case when lower(name)=:queryRaw then 1 
+     when name like :queryOrderForLike then 2 
+     when searchName like :queryOrderForLike then 3
+     else 4 end)
   """)
   Stream<List<SectionTopicsView>> getSectionTopicsByBookIdAndQuery(
       int bookId,

@@ -314,11 +314,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `ListVerseView` AS select L.id,L.name,L.isRemovable,L.isArchive,L.sourceId,count(LV.verseId)itemCounts,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListVerse LV on L.id=LV.listId where L.sourceId=2  group by L.id');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `SectionTopicsView` AS     select S.id, S.name, S.bookId, count(T.id)topicCount from section S,Topic T \n    where S.id=T.sectionId  group by S.id\n  ');
+            'CREATE VIEW IF NOT EXISTS `SectionTopicsView` AS     select S.id, S.name, S.searchName, S.bookId, count(T.id)topicCount from section S,Topic T \n    where S.id=T.sectionId  group by S.id\n  ');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `TopicHadithsView` AS     select T.id,T.name,T.sectionId, count(HT.hadithId)hadithCount from \n    topic T,HadithTopic HT where T.id=HT.topicId group by T.id\n  ');
+            'CREATE VIEW IF NOT EXISTS `TopicHadithsView` AS     select T.id,T.name, T.searchName, T.sectionId, count(HT.hadithId)hadithCount from \n    topic T,HadithTopic HT where T.id=HT.topicId group by T.id\n  ');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `TopicVersesView` AS   select T.id,T.name,T.sectionId, count(VT.verseId)verseCount from \n  topic T,VerseTopic VT where T.id=VT.topicId group by T.id\n  ');
+            'CREATE VIEW IF NOT EXISTS `TopicVersesView` AS   select T.id,T.name, T.searchName, T.sectionId, count(VT.verseId)verseCount from \n  topic T,VerseTopic VT where T.id=VT.topicId group by T.id\n  ');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `VerseInfoListView` AS select V.id verseId,\n        (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 1 and L.isArchive = 0 and LV.verseId = V.id)) inAnyList,\n\t\t    (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 1 and L.isArchive = 1 and LV.verseId = V.id)) inAnyArchiveList,  \n        (select exists(select * from ListVerse LV, list L\n          where LV.listId = L.id and L.isRemovable = 0 and LV.verseId = V.id)) inFavorite \n        from verse V');
         await database.execute(
@@ -4758,6 +4758,7 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
         mapper: (Map<String, Object?> row) => TopicHadithsView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             hadithCount: row['hadithCount'] as int),
         arguments: [sectionId],
@@ -4773,10 +4774,11 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select * from topicHadithsView where sectionId = ?1 and      name like ?2 order by       (case when lower(name)=?4 then 1 when name like ?3       then 2 else 3 end )',
+        'select * from topicHadithsView where sectionId = ?1 and      (name like ?2 or searchName like ?2)      order by (case when lower(name)=?4 then 1       when name like ?3 then 2       when searchName like ?3 then 3 else 4 end)',
         mapper: (Map<String, Object?> row) => TopicHadithsView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             hadithCount: row['hadithCount'] as int),
         arguments: [sectionId, querySearchFull, queryOrderForLike, queryRaw],
@@ -4791,6 +4793,7 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
         mapper: (Map<String, Object?> row) => TopicHadithsView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             hadithCount: row['hadithCount'] as int),
         arguments: [bookId],
@@ -4806,10 +4809,11 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 and     TH.name like ?2 order by      (case when lower(TH.name)=?4 then 1 when TH.name like ?3      then 2 else 3 end ), TH.id',
+        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 and     (TH.name like ?2 or TH.searchName like ?2)     order by (case when lower(TH.name)=?4 then 1      when TH.name like ?3 then 2      when TH.searchName like ?3 then 3 else 4 end ), TH.id',
         mapper: (Map<String, Object?> row) => TopicHadithsView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             hadithCount: row['hadithCount'] as int),
         arguments: [bookId, querySearchFull, queryOrderForLike, queryRaw],
@@ -4837,6 +4841,7 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
         mapper: (Map<String, Object?> row) => TopicVersesView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             verseCount: row['verseCount'] as int),
         arguments: [sectionId],
@@ -4852,10 +4857,11 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select * from topicVersesView where sectionId = ?1 and      name like ?2 order by       (case when lower(name)=?4 then 1 when name like ?3       then 2 else 3 end )',
+        'select * from topicVersesView where sectionId = ?1 and      (name like ?2 or searchName like ?2)      order by       (case when lower(name)=?4 then 1       when name like ?3 then 2       when searchName like ?3 then 3      else 4 end )',
         mapper: (Map<String, Object?> row) => TopicVersesView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             verseCount: row['verseCount'] as int),
         arguments: [sectionId, querySearchFull, queryOrderForLike, queryRaw],
@@ -4870,6 +4876,7 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
         mapper: (Map<String, Object?> row) => TopicVersesView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             verseCount: row['verseCount'] as int),
         arguments: [bookId],
@@ -4885,10 +4892,11 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 and     TV.name like ?2 order by      (case when lower(TV.name)=?4 then 1 when TV.name like ?3      then 2 else 3 end ), TV.id',
+        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 and     (TV.name like ?2 or TV.searchName like ?2)     order by (case when lower(TV.name)=?4 then 1      when TV.name like ?3 then 2      when TV.searchName like ?3 then 3     else 4 end ), TV.id',
         mapper: (Map<String, Object?> row) => TopicVersesView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             sectionId: row['sectionId'] as int,
             verseCount: row['verseCount'] as int),
         arguments: [bookId, querySearchFull, queryOrderForLike, queryRaw],
@@ -4916,6 +4924,7 @@ class _$SectionViewDao extends SectionViewDao {
         mapper: (Map<String, Object?> row) => SectionTopicsView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             bookId: row['bookId'] as int,
             topicCount: row['topicCount'] as int),
         arguments: [bookId],
@@ -4931,10 +4940,11 @@ class _$SectionViewDao extends SectionViewDao {
     String queryRaw,
   ) {
     return _queryAdapter.queryListStream(
-        'select * from sectionTopicsView where bookId = ?1 and      name like ?2 order by       (case when lower(name)=?4 then 1 when name like ?3       then 2 else 3 end )',
+        'select * from sectionTopicsView where bookId = ?1 and      (name like ?2 or searchName like ?2)      order by       (case when lower(name)=?4 then 1       when name like ?3 then 2       when searchName like ?3 then 3      else 4 end)',
         mapper: (Map<String, Object?> row) => SectionTopicsView(
             id: row['id'] as int,
             name: row['name'] as String,
+            searchName: row['searchName'] as String,
             bookId: row['bookId'] as int,
             topicCount: row['topicCount'] as int),
         arguments: [bookId, querySearchFull, queryOrderForLike, queryRaw],

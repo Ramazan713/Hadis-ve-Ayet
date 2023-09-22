@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 
 @DatabaseView(
   """
-    select T.id,T.name,T.sectionId, count(HT.hadithId)hadithCount from 
+    select T.id,T.name, T.searchName, T.sectionId, count(HT.hadithId)hadithCount from 
     topic T,HadithTopic HT where T.id=HT.topicId group by T.id
   """,
   viewName: "TopicHadithsView"
@@ -12,9 +12,15 @@ import 'package:floor/floor.dart';
 class TopicHadithsView{
   final int id;
   final String name;
+  final String searchName;
   final int sectionId;
   final int hadithCount;
 
-  TopicHadithsView({required this.id, required this.name, required this.sectionId,
-    required this.hadithCount});
+  TopicHadithsView({
+    required this.id,
+    required this.name,
+    required this.searchName,
+    required this.sectionId,
+    required this.hadithCount
+  });
 }

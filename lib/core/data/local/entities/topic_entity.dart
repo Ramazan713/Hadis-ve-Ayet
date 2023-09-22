@@ -14,7 +14,13 @@ class TopicEntity{
   @PrimaryKey(autoGenerate: true)
   final int? id;
   final String name;
+  final String searchName;
   final int sectionId;
 
-  TopicEntity({this.id,required this.name,required this.sectionId});
+  TopicEntity({
+    this.id,
+    required this.name,
+    required this.searchName,
+    required this.sectionId
+  });
 }

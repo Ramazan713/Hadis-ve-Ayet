@@ -13,7 +13,13 @@ class SectionEntity{
   @PrimaryKey(autoGenerate: true)
   final int? id;
   final String name;
+  final String searchName;
   final int bookId;
 
-  SectionEntity({this.id,required this.name,required this.bookId});
+  SectionEntity({
+    this.id,
+    required this.name,
+    required this.searchName,
+    required this.bookId,
+  });
 }
