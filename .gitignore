@@ -54,3 +54,4 @@ app.*.map.json
 /assets/fonts
 /assets/
 
+/lib/core/domain/constants/secrets.dart

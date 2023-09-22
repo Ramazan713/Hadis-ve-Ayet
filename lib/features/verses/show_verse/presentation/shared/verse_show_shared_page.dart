@@ -4,6 +4,7 @@ import 'package:hadith/core/domain/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/paging_list_view.dart';
@@ -96,63 +97,65 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
   @override
   Widget build(BuildContext context) {
 
-    return FollowAudioWrapper(
-      itemScrollController: itemScrollController,
-      child: AudioConnect(
-        child: PagingVerseConnect(
-          child: SaveAutoSavePointWithPaging(
-            destination: widget.savePointDestination,
-            autoType: SaveAutoType.general,
-            child: Scaffold(
-              body: CustomNestedViewAppBar(
-                scrollController: customScrollController,
-                title: Text(widget.title),
-                actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
-                child: AudioInfoBodyWrapper(
-                  destination: widget.savePointDestination,
-                  child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
-                    selector: (state) => state.audio?.mealId,
-                    builder: (context, currentMealId){
-                      return BlocBuilder<VerseSharedBloc, VerseSharedState>(
-                        builder: (context, state){
-                          return PagingListView<VerseListModel>(
-                            itemScrollController: itemScrollController,
-                            onScroll: (scrollDirection){
-                              customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
-                            },
-                            itemBuilder: (context, item, index){
-                              return VerseItem(
-                                fontModel: state.fontModel,
-                                isSelected: item.pagingId == currentMealId,
-                                arabicVerseUIEnum: state.arabicVerseUIEnum,
-                                showListVerseIcons: state.showListVerseIcons,
-                                onLongPress: (){
-                                  widget.handleBottomMenu(
-                                    context,
-                                    verseListModel: item,
-                                    savePointDestination: widget.savePointDestination,
-                                    state: state,
-                                  );
-                                },
-                                onPress: (){
-                                  context.read<ListenVerseAudioBloc>()
-                                      .add(ListenAudioEventToggleVisibilityAudioWidget());
-                                },
-                                verseListModel: item,
-                                searchParam: widget.searchParam,
-                              );
-                            },
-                            loadingItem: const GetShimmerItems(
-                              itemCount: 13,
-                              shimmerItem: ShimmerVerseItem()
-                            ),
-                            emptyResultChild: const SharedEmptyResult(
-                              content: "Herhangi bir ayet bulunamadı",
-                            ),
-                          );
-                        },
-                      );
-                    },
+    return AdCheckWidget(
+      child: FollowAudioWrapper(
+        itemScrollController: itemScrollController,
+        child: AudioConnect(
+          child: PagingVerseConnect(
+            child: SaveAutoSavePointWithPaging(
+              destination: widget.savePointDestination,
+              autoType: SaveAutoType.general,
+              child: Scaffold(
+                body: CustomNestedViewAppBar(
+                  scrollController: customScrollController,
+                  title: Text(widget.title),
+                  actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
+                  child: AudioInfoBodyWrapper(
+                    destination: widget.savePointDestination,
+                    child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                      selector: (state) => state.audio?.mealId,
+                      builder: (context, currentMealId){
+                        return BlocBuilder<VerseSharedBloc, VerseSharedState>(
+                          builder: (context, state){
+                            return PagingListView<VerseListModel>(
+                              itemScrollController: itemScrollController,
+                              onScroll: (scrollDirection){
+                                customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                              },
+                              itemBuilder: (context, item, index){
+                                return VerseItem(
+                                  fontModel: state.fontModel,
+                                  isSelected: item.pagingId == currentMealId,
+                                  arabicVerseUIEnum: state.arabicVerseUIEnum,
+                                  showListVerseIcons: state.showListVerseIcons,
+                                  onLongPress: (){
+                                    widget.handleBottomMenu(
+                                      context,
+                                      verseListModel: item,
+                                      savePointDestination: widget.savePointDestination,
+                                      state: state,
+                                    );
+                                  },
+                                  onPress: (){
+                                    context.read<ListenVerseAudioBloc>()
+                                        .add(ListenAudioEventToggleVisibilityAudioWidget());
+                                  },
+                                  verseListModel: item,
+                                  searchParam: widget.searchParam,
+                                );
+                              },
+                              loadingItem: const GetShimmerItems(
+                                itemCount: 13,
+                                shimmerItem: ShimmerVerseItem()
+                              ),
+                              emptyResultChild: const SharedEmptyResult(
+                                content: "Herhangi bir ayet bulunamadı",
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

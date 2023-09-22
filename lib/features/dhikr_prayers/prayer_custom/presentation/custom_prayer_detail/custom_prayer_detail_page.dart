@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
@@ -29,32 +30,34 @@ class CustomPrayerDetailPage extends StatelessWidget {
     context.read<CustomPrayerDetailBloc>()
         .add(CustomPrayerDetailLoadData(prayerId: prayerId));
 
-    return getListeners(
-      child: Scaffold(
-        body: SafeArea(
-          child: CustomNestedViewAppBar(
-            title: const Text("Dualarım"),
-            snap: true,
-            floating: true,
-            actions: getActions(context),
-            child: BasicAudioInfoBodyWrapper(
-              child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
-                builder: (context,state){
-                  return StackSecondContent(
-                    getSecondChild: (){
-                      return getLoadingOrEmptyResult(context, state);
-                    },
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: CustomPrayerDetailItem(
-                          fontModel: state.fontModel,
-                          prayerUnit: state.prayerUnit,
-                        )
+    return AdCheckWidget(
+      child: getListeners(
+        child: Scaffold(
+          body: SafeArea(
+            child: CustomNestedViewAppBar(
+              title: const Text("Dualarım"),
+              snap: true,
+              floating: true,
+              actions: getActions(context),
+              child: BasicAudioInfoBodyWrapper(
+                child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
+                  builder: (context,state){
+                    return StackSecondContent(
+                      getSecondChild: (){
+                        return getLoadingOrEmptyResult(context, state);
+                      },
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: CustomPrayerDetailItem(
+                            fontModel: state.fontModel,
+                            prayerUnit: state.prayerUnit,
+                          )
+                        ),
                       ),
-                    ),
-                  );
-                }
+                    );
+                  }
+                ),
               ),
             ),
           ),

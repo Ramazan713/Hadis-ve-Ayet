@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/share/dialogs/show_share_verse_content_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
@@ -41,43 +42,46 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
 
     context.read<PrayerAndVerseDetailBloc>()
         .add(PrayerAndVerseDetailEventLoadData(prayerId: prayerId));
-    return getListeners(
-      child: Scaffold(
-        body: SafeArea(
-          child: CustomNestedViewAppBar(
-            title: getTitle(),
-            pinned: true,
-            actions: getActions(context),
-            appBarType: AppBarType.mediumBar,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: BasicAudioInfoBodyWrapper(
-                child: BlocBuilder<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState>(
-                  builder: (context,state){
-                    final prayerUnit = state.prayerUnit;
-                    final fontModel = state.fontModel;
-                    final prayer = prayerUnit?.item;
 
-                    return StackSecondContent(
-                      showStackChild: false,
-                      getSecondChild: (){
-                        return getLoadingOrEmptyResult(context,state);
-                      },
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            getListenItem(context,prayerUnit),
-                            getArabicContentItem(prayer: prayer, fontModel: fontModel),
-                            const SizedBox(height: 8,),
-                            getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
-                            const SizedBox(height: 8,),
-                            getMeaningContentItem(prayer: prayer, fontModel: fontModel),
-                            const SizedBox(height: 8,),
-                          ],
+    return AdCheckWidget(
+      child: getListeners(
+        child: Scaffold(
+          body: SafeArea(
+            child: CustomNestedViewAppBar(
+              title: getTitle(),
+              pinned: true,
+              actions: getActions(context),
+              appBarType: AppBarType.mediumBar,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: BasicAudioInfoBodyWrapper(
+                  child: BlocBuilder<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState>(
+                    builder: (context,state){
+                      final prayerUnit = state.prayerUnit;
+                      final fontModel = state.fontModel;
+                      final prayer = prayerUnit?.item;
+
+                      return StackSecondContent(
+                        showStackChild: false,
+                        getSecondChild: (){
+                          return getLoadingOrEmptyResult(context,state);
+                        },
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              getListenItem(context,prayerUnit),
+                              getArabicContentItem(prayer: prayer, fontModel: fontModel),
+                              const SizedBox(height: 8,),
+                              getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
+                              const SizedBox(height: 8,),
+                              getMeaningContentItem(prayer: prayer, fontModel: fontModel),
+                              const SizedBox(height: 8,),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

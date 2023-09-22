@@ -14,7 +14,7 @@ import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_state.dart';
 import 'package:hadith/features/save_point/save_point_param.dart';
 import 'package:hadith/models/save_point_argument.dart';
-import 'package:hadith/utils/ad_util.dart';
+import 'package:hadith/core/utils/ad_util.dart';
 import 'package:hadith/features/save_point/model/savepoint.dart';
 import 'package:hadith/dialogs/show_custom_alert_bottom_dia.dart';
 import 'package:hadith/features/add_to_list/model/edit_select_list_model.dart';

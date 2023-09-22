@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/dialogs/show_preview_share_image_handle_dia.dart';
@@ -50,70 +51,72 @@ class _ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
   Widget build(BuildContext context) {
     final bloc = context.read<ShowEsmaulHusnaBloc>();
 
-    return Scaffold(
-      body: SafeArea(
-        child: BlocSelector<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState, bool>(
-          selector: (state) => state.isSearchBarVisible,
-          builder: (context, isSearchBarVisible){
-            return CustomNestedSearchableAppBar(
-              textEditingController: searchTextController,
-              onSearchVisibilityChanged: (isSearchVisible){
-                bloc.add(ShowEsmaulHusnaEventSetSearchBarVisibility(isVisible: isSearchVisible));
-              },
-              scrollController: scrollController,
-              searchBarVisible: isSearchBarVisible,
-              onTextChanged: (text){
-                bloc.add(ShowEsmaulHusnaEventSetQuery(query: text));
-              },
-              title: const Text("Esmaul Husna"),
-              actions: getActions(context),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: BlocBuilder<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState>(
-                      builder: (context, state){
-                        if(state.isLoading){
-                          return const SharedLoadingIndicator();
-                        }
-                        final items = state.items;
+    return AdCheckWidget(
+      child: Scaffold(
+        body: SafeArea(
+          child: BlocSelector<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState, bool>(
+            selector: (state) => state.isSearchBarVisible,
+            builder: (context, isSearchBarVisible){
+              return CustomNestedSearchableAppBar(
+                textEditingController: searchTextController,
+                onSearchVisibilityChanged: (isSearchVisible){
+                  bloc.add(ShowEsmaulHusnaEventSetSearchBarVisibility(isVisible: isSearchVisible));
+                },
+                scrollController: scrollController,
+                searchBarVisible: isSearchBarVisible,
+                onTextChanged: (text){
+                  bloc.add(ShowEsmaulHusnaEventSetQuery(query: text));
+                },
+                title: const Text("Esmaul Husna"),
+                actions: getActions(context),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState>(
+                        builder: (context, state){
+                          if(state.isLoading){
+                            return const SharedLoadingIndicator();
+                          }
+                          final items = state.items;
 
-                        if(items.isEmpty){
-                          return const SharedEmptyResult(
-                            content: "herhangi bir sonuç bulunamadı",
-                          );
-                        }
-                        return CustomScrollablePositionedList(
-                          initialScrollIndex: widget.initPos,
-                          itemCount: items.length,
-                          itemScrollController: itemScrollController,
-                          delayMilliSeconds: 50,
-                          onScroll: (scrollDirection){
-                            scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
-                          },
-                          onVisibleItemChanged: (min,max){
-                            positionController.setPositions(min, max,totalItems: state.items.length);
-                          },
-                          itemBuilder: (context, index){
-                            final item = items[index];
-                            return EsmaulHusnaItem(
-                              fontModel: state.fontModel,
-                              esmaulHusna: item,
-                              onClick: ()async{
-                                await EsmaulHusnaDetailRoute(pos: item.order).push(context);
-                              },
-                              onShareClick: (){
-                                _showAndHandleBottomMenu(context, item, state.fontModel);
-                              },
+                          if(items.isEmpty){
+                            return const SharedEmptyResult(
+                              content: "herhangi bir sonuç bulunamadı",
                             );
-                          },
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
+                          }
+                          return CustomScrollablePositionedList(
+                            initialScrollIndex: widget.initPos,
+                            itemCount: items.length,
+                            itemScrollController: itemScrollController,
+                            delayMilliSeconds: 50,
+                            onScroll: (scrollDirection){
+                              scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
+                            },
+                            onVisibleItemChanged: (min,max){
+                              positionController.setPositions(min, max,totalItems: state.items.length);
+                            },
+                            itemBuilder: (context, index){
+                              final item = items[index];
+                              return EsmaulHusnaItem(
+                                fontModel: state.fontModel,
+                                esmaulHusna: item,
+                                onClick: ()async{
+                                  await EsmaulHusnaDetailRoute(pos: item.order).push(context);
+                                },
+                                onShareClick: (){
+                                  _showAndHandleBottomMenu(context, item, state.fontModel);
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

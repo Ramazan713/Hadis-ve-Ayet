@@ -28,28 +28,32 @@ class _ShowCounterPageState extends State<ShowCounterPage> {
   final ScrollController scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context) {
-    context.read<CounterShowBloc>().add(CounterShowEventLoadData());
+  void initState() {
+    super.initState();
 
-    return AdCheckWidget(
-      child: AdaptiveLayout(
-        body: SlotLayout(
-          config: <Breakpoint, SlotLayoutConfig>{
-            Breakpoints.small: SlotLayout.from(
-              key: const Key('ShowCounter Body Small'),
-              builder: (_){
-                return getPageContent(context,1);
-              },
-            ),
-            Breakpoints.mediumAndUp: SlotLayout.from(
-              key: const Key('ShowCounter Body Medium'),
-              builder: (_){
-                return getPageContent(context, 2);
-              }
-            )
-          },
-        ),
-      )
+    context.read<CounterShowBloc>().add(CounterShowEventLoadData());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return AdaptiveLayout(
+      body: SlotLayout(
+        config: <Breakpoint, SlotLayoutConfig>{
+          Breakpoints.small: SlotLayout.from(
+            key: const Key('ShowCounter Body Small'),
+            builder: (_){
+              return getPageContent(context,1);
+            },
+          ),
+          Breakpoints.mediumAndUp: SlotLayout.from(
+            key: const Key('ShowCounter Body Medium'),
+            builder: (_){
+              return getPageContent(context, 2);
+            }
+          )
+        },
+      ),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
@@ -86,74 +87,76 @@ class _VersePageShowPageState extends State<VersePageShowPage> {
   @override
   Widget build(BuildContext context) {
 
-    return FollowAudioWrapperByPage(
-      pageController: pageController,
-      child: AudioConnect(
-        child: PagingVerseConnect(
-          child: SaveAutoSavePointWithPaging(
-            destination: savePointDestination,
-            autoType: SaveAutoType.general,
-            child: Scaffold(
-              body: CustomNestedViewAppBar(
-                scrollController: customScrollController,
-                floating: true,
-                snap: true,
-                title: const Text("Kuran"),
-                actions: getActions(context),
-                child: AudioInfoBodyWrapper(
-                  destination: savePointDestination,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      getPageInfo(context),
-                      Flexible(
-                        child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
-                          selector: (state) => state.audio?.mealId,
-                          builder: (context, currentMealId){
-                            return BlocBuilder<VerseSharedBloc, VerseSharedState>(
-                              builder: (context, state){
-                                return PagingListViewByPage<VerseListModel>(
-                                  pageController: pageController,
-                                  customScrollController: customScrollController,
-                                  positionController: positionController,
-                                  loadingItem: const GetShimmerItems(
-                                      itemCount: 13,
-                                      shimmerItem: ShimmerVerseItem()
-                                  ),
-                                  itemBuilder: (context, item, index){
-                                    return VerseItem(
-                                      key: Key(item.pagingId.toString()),
-                                      fontModel: state.fontModel,
-                                      isSelected: item.pagingId == currentMealId,
-                                      arabicVerseUIEnum: state.arabicVerseUIEnum,
-                                      showListVerseIcons: state.showListVerseIcons,
-                                      onLongPress: (){
-                                        widget.handleBottomMenu(
-                                            context,
-                                            verseListModel: item,
-                                            itemIndexPos: index,
-                                            state: state,
-                                            savePointDestination: savePointDestination,
-                                            initScope: LocalDestinationScope.wide,
-                                            onLoadSavePointClick: (savePoint){
-                                              onLoadSavePointClick(context,savePoint);
-                                            }
-                                        );
-                                      },
-                                      onPress: (){
-                                        context.read<ListenVerseAudioBloc>()
-                                            .add(ListenAudioEventToggleVisibilityAudioWidget());
-                                      },
-                                      verseListModel: item,
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      )
-                    ],
+    return AdCheckWidget(
+      child: FollowAudioWrapperByPage(
+        pageController: pageController,
+        child: AudioConnect(
+          child: PagingVerseConnect(
+            child: SaveAutoSavePointWithPaging(
+              destination: savePointDestination,
+              autoType: SaveAutoType.general,
+              child: Scaffold(
+                body: CustomNestedViewAppBar(
+                  scrollController: customScrollController,
+                  floating: true,
+                  snap: true,
+                  title: const Text("Kuran"),
+                  actions: getActions(context),
+                  child: AudioInfoBodyWrapper(
+                    destination: savePointDestination,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        getPageInfo(context),
+                        Flexible(
+                          child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                            selector: (state) => state.audio?.mealId,
+                            builder: (context, currentMealId){
+                              return BlocBuilder<VerseSharedBloc, VerseSharedState>(
+                                builder: (context, state){
+                                  return PagingListViewByPage<VerseListModel>(
+                                    pageController: pageController,
+                                    customScrollController: customScrollController,
+                                    positionController: positionController,
+                                    loadingItem: const GetShimmerItems(
+                                        itemCount: 13,
+                                        shimmerItem: ShimmerVerseItem()
+                                    ),
+                                    itemBuilder: (context, item, index){
+                                      return VerseItem(
+                                        key: Key(item.pagingId.toString()),
+                                        fontModel: state.fontModel,
+                                        isSelected: item.pagingId == currentMealId,
+                                        arabicVerseUIEnum: state.arabicVerseUIEnum,
+                                        showListVerseIcons: state.showListVerseIcons,
+                                        onLongPress: (){
+                                          widget.handleBottomMenu(
+                                              context,
+                                              verseListModel: item,
+                                              itemIndexPos: index,
+                                              state: state,
+                                              savePointDestination: savePointDestination,
+                                              initScope: LocalDestinationScope.wide,
+                                              onLoadSavePointClick: (savePoint){
+                                                onLoadSavePointClick(context,savePoint);
+                                              }
+                                          );
+                                        },
+                                        onPress: (){
+                                          context.read<ListenVerseAudioBloc>()
+                                              .add(ListenAudioEventToggleVisibilityAudioWidget());
+                                        },
+                                        verseListModel: item,
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

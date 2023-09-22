@@ -77,7 +77,7 @@ class CustomSliverAppBar extends StatelessWidget {
     if(showNavigateBack == null && !Navigator.canPop(context)) return null;
     return IconButton(
       onPressed: (){
-        Navigator.pop(context);
+        Navigator.maybePop(context);
       },
       icon: const Icon(Icons.arrow_back),
     );

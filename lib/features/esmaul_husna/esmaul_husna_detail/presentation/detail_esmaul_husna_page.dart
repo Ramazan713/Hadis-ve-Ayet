@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/share_connect.dart';
@@ -50,29 +51,31 @@ class _DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
   @override
   Widget build(BuildContext context) {
 
-    return widget.getListeners(
-      positionController: positionController,
-      child: Scaffold(
-          body: SafeArea(
-            child: CustomNestedViewAppBar(
-              title: const Text("Esmaul Husna"),
-              floating: true,
-              snap: true,
-              actions: widget.getActions(context,pageController,positionController),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: getContent(context),
-                    ),
-                    widget.getBottomButtons(context,pageController,positionController)
-                  ],
+    return AdCheckWidget(
+      child: widget.getListeners(
+        positionController: positionController,
+        child: Scaffold(
+            body: SafeArea(
+              child: CustomNestedViewAppBar(
+                title: const Text("Esmaul Husna"),
+                floating: true,
+                snap: true,
+                actions: widget.getActions(context,pageController,positionController),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: getContent(context),
+                      ),
+                      widget.getBottomButtons(context,pageController,positionController)
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+      ),
     );
   }
 

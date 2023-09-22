@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/sections/counter_content_section.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/sections/dhikr_content_section.dart';
@@ -20,35 +21,37 @@ class DetailCounterSharedContentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: SafeArea(
-        child: CustomNestedViewAppBar(
-          actions: getActions(context),
-          title: Text(title),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: CustomScrollView(
-              slivers: [
-                SliverList.list(
-                  children: [
-                    getCounterContent()
-                  ],
-                ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+    return AdCheckWidget(
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomNestedViewAppBar(
+            actions: getActions(context),
+            title: Text(title),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: CustomScrollView(
+                slivers: [
+                  SliverList.list(
                     children: [
-                      const SizedBox(height: 13,),
-                      const Spacer(flex: 3,),
-                      getDhikr(),
-                      const SizedBox(height: 8,),
-                      getCompletedWidget(),
-                      const Spacer(),
+                      getCounterContent()
                     ],
                   ),
-                )
-              ],
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const SizedBox(height: 13,),
+                        const Spacer(flex: 3,),
+                        getDhikr(),
+                        const SizedBox(height: 8,),
+                        getCompletedWidget(),
+                        const Spacer(),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/features/premium/bloc/premium_bloc.dart';
 import 'package:hadith/features/premium/bloc/premium_state.dart';
-import 'package:hadith/utils/ad_util.dart';
+import 'package:hadith/core/utils/ad_util.dart';
 
 class AdCheckWidget extends StatefulWidget {
   final Widget child;
@@ -27,10 +27,10 @@ class _AdCheckWidgetState extends State<AdCheckWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<PremiumBlocOld, PremiumState>(
       builder: (context, state) {
-        if (!state.isPremium) {
-          _checkAdOpeningCounter();
-          _checkAdStatus();
-        }
+        // if (!state.isPremium) {
+        //   _checkAdOpeningCounter();
+        //   _checkAdStatus();
+        // }
         return WillPopScope(
             onWillPop: () {
               if (!state.isPremium && _interstitialAd != null) {
@@ -69,24 +69,24 @@ class _AdCheckWidgetState extends State<AdCheckWidget> {
         ));
   }
 
-  void _checkAdStatus() {
-    _adTimer?.cancel();
-    _adTimer = Timer.periodic(const Duration(seconds: AdUtil.tickIntervalSeconds), (timer) {
-      if (_interstitialAd == null) {
-        if (AdUtil.increaseConsumeSeconds()) {
-          _loadAd();
-        }
-      }
-    });
-  }
-
-  void _checkAdOpeningCounter() {
-    if (_interstitialAd == null) {
-      if (AdUtil.increaseOpeningCounter()) {
-        _loadAd();
-      }
-    }
-  }
+  // void _checkAdStatus() {
+  //   _adTimer?.cancel();
+  //   _adTimer = Timer.periodic(const Duration(seconds: AdUtil.tickIntervalSeconds), (timer) {
+  //     if (_interstitialAd == null) {
+  //       if (AdUtil.increaseConsumeSeconds()) {
+  //         _loadAd();
+  //       }
+  //     }
+  //   });
+  // }
+  //
+  // void _checkAdOpeningCounter() {
+  //   if (_interstitialAd == null) {
+  //     if (AdUtil.increaseOpeningCounter()) {
+  //       _loadAd();
+  //     }
+  //   }
+  // }
 
   @override
   void dispose() {
