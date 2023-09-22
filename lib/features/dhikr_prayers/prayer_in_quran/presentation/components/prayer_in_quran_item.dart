@@ -8,8 +8,6 @@ import 'package:hadith/core/utils/search_utils.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/domain/enums/prayer_in_quran_bottom_menu_item.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_in_quran/prayer_in_quran.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
-import 'package:hadith/features/extra_features/quran_prayer/domain/model/quran_prayer.dart';
-import 'package:hadith/features/verse/verse_helper_funcs.dart';
 
 class PrayerInQuranItem extends StatelessWidget {
   final PrayerUnit<PrayerInQuran> prayerUnit;

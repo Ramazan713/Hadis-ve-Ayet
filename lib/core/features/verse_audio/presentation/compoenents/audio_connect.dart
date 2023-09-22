@@ -11,7 +11,7 @@ import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_state.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_voice_options.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 class AudioConnect extends StatelessWidget {
   final Widget child;

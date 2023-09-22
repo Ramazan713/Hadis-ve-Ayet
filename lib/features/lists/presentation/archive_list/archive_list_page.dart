@@ -3,12 +3,10 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/lists/presentation/archive_list/sections/handle_bottom_menu_section.dart';
-import 'package:hadith/features/paging/my_extractor_glow_behavior.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 import '../shared/components/list_item.dart';
 import 'bloc/archive_list_bloc.dart';
@@ -111,27 +109,24 @@ class ArchiveListPage extends StatelessWidget {
 
   Widget getEmptyWidget(BuildContext context) {
     return Center(
-      child: ScrollConfiguration(
-        behavior: MyExtractorGlowBehavior(),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Icon(
-                Icons.library_add_check_outlined,
-                size: 100,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                "Arşiv'e listeler ekleyebilirsiniz",
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Icon(
+              Icons.library_add_check_outlined,
+              size: 100,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Text(
+              "Arşiv'e listeler ekleyebilirsiniz",
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            )
+          ],
         ),
       ),
     );

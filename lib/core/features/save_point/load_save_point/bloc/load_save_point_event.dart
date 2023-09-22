@@ -1,6 +1,6 @@
 
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 
 abstract class ILoadSavePointEvent{}
 

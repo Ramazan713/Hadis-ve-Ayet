@@ -9,7 +9,8 @@ class HadithTopicPagingRepo extends HadithPaginationRepo{
   HadithTopicPagingRepo({
     required super.hadithRepo,
     required super.topicRepo,
-    required super.itemListInfoRepo
+    required super.itemListInfoRepo,
+    required super.appPreferences
   });
 
   int _topicId = 0;

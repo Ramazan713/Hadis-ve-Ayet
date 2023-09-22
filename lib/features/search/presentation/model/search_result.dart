@@ -1,11 +1,7 @@
 
-
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
-
-
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/search/presentation/model/search_content.dart';
 part 'search_result.freezed.dart';
 

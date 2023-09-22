@@ -1,7 +1,7 @@
 
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:hadith/core/domain/constants/secrets.dart';
+import 'package:hadith/core/constants/secrets.dart';
 
 class AdUtil{
   

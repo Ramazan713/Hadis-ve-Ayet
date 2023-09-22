@@ -1,9 +1,10 @@
 
 import 'package:go_router/go_router.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/counter_detail_setting.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_empty_page.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_page.dart';
@@ -27,10 +28,9 @@ import 'package:hadith/features/islamic_info/adjectives_of/adjectives_of_page.da
 import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_page.dart';
 import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
 import 'package:hadith/features/lists/presentation/archive_list/archive_list_page.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:hadith/core/features/audio_setting/audio_settings_page.dart';
-import 'package:hadith/features/settings_/presentation/settings_page.dart';
+import 'package:hadith/features/settings/presentation/settings_page.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';

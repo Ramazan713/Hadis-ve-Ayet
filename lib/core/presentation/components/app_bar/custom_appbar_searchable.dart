@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/widgets/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/core/presentation/components/app_bar/custom_sliver_appbar.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'search_sliver_appbar.dart';

@@ -1,7 +1,7 @@
 
 
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 
 enum ListBookScope{
   hadith,verse;

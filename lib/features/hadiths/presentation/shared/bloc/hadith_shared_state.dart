@@ -1,8 +1,7 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/constants/enums/font_size_enum.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 
 class HadithSharedState extends Equatable{

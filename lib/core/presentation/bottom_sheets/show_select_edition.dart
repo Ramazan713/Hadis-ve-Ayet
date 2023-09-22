@@ -15,7 +15,7 @@ import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_event.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_state.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 void showSelectEdition(BuildContext context) {
 

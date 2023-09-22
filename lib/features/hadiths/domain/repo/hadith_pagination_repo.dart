@@ -1,17 +1,16 @@
 
 
-import 'package:hadith/constants/preference_constants.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/item_list_info.dart';
+import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/topic_repo.dart';
 import 'package:hadith/core/domain/repo/pagination_repo.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/core/domain/repo/hadith_repo.dart';
-import 'package:hadith/utils/localstorage.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel, int>{
 
@@ -19,15 +18,18 @@ abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel, int>
   late final HadithRepo hadithRepo;
   late final TopicRepo _topicRepo;
   late final ItemListInfoRepo _itemListInfoRepo;
-  final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
+  late final AppPreferences _appPreferences;
 
-  bool get _useArchiveListFeatures => _sharedPreferences.getBool(PrefConstants.useArchiveListFeatures.key)??false;
+  bool get _useArchiveListFeatures => _appPreferences.getItem(KPref.useArchiveListFeatures);
 
-
-  HadithPaginationRepo({required this.hadithRepo,required TopicRepo topicRepo,
+  HadithPaginationRepo({
+    required this.hadithRepo,
+    required TopicRepo topicRepo,
+    required AppPreferences appPreferences,
     required ItemListInfoRepo itemListInfoRepo
   }){
     _topicRepo = topicRepo;
+    _appPreferences = appPreferences;
     _itemListInfoRepo = itemListInfoRepo;
   }
 

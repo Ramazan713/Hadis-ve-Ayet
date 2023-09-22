@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/features/search/presentation/components/search_content_item.dart';
 import 'package:hadith/features/search/presentation/components/search_show_all.dart';

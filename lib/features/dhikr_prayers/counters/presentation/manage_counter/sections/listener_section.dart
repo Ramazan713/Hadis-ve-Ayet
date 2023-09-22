@@ -6,7 +6,7 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_count
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/manage_counter_page.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 extension ManageCounterPageListenerExt on ManageCounterPage{
 

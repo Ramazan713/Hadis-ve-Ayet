@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';

@@ -10,7 +10,7 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_co
 import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/components/add_counter_item.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 void showAddCounterDia<T extends IDetailItem>(BuildContext context){
 

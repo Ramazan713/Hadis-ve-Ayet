@@ -1,7 +1,7 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/features/topics/domain/model/section_view_model.dart';
 
 import '../section_model.dart';

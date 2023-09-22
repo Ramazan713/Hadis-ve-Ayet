@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
@@ -10,8 +10,8 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_search
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_bloc.dart';
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_event.dart';
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_state.dart';

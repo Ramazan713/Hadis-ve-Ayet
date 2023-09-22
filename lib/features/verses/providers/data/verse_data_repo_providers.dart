@@ -7,7 +7,7 @@ import 'package:hadith/core/features/verse_audio/data/local/verse_meal_voice_rep
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_downloaded_voice_repo.dart';
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_meal_voice_repo.dart';
-import 'package:hadith/db/database.dart';
+import 'package:hadith/core/data/local/database.dart';
 import 'package:hadith/features/verses/cuz/data/repo/cuz_repo_impl.dart';
 import 'package:hadith/features/verses/cuz/domain/repo/cuz_repo.dart';
 import 'package:hadith/core/data/repo/downloaded_audio_view_repo_impl.dart';

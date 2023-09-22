@@ -18,6 +18,7 @@ import 'package:hadith/core/data/repo/share/share_pdf_repo_impl.dart';
 import 'package:hadith/core/data/repo/title_repo_impl.dart';
 import 'package:hadith/core/data/repo/topic_repo_impl.dart';
 import 'package:hadith/core/data/repo/topic_save_point_repo_impl.dart';
+import 'package:hadith/core/data/repo/user_info_repo_impl.dart';
 import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/data/repo/verse/verse_arabic_repo_impl.dart';
 import 'package:hadith/core/data/repo/verse/verse_repo_impl.dart';
@@ -39,10 +40,10 @@ import 'package:hadith/core/domain/repo/share/share_pdf_repo.dart';
 import 'package:hadith/core/domain/repo/title_repo.dart';
 import 'package:hadith/core/domain/repo/topic_repo.dart';
 import 'package:hadith/core/domain/repo/topic_save_point_repo.dart';
+import 'package:hadith/core/domain/repo/user_info_repo.dart';
 import 'package:hadith/core/domain/repo/verse/verse_arabic_repo.dart';
 import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
-import 'package:hadith/db/database.dart';
-import 'package:hadith/utils/localstorage.dart';
+import 'package:hadith/core/data/local/database.dart';
 
 import '../domain/repo/list/list_verse_repo.dart';
 import '../domain/repo/list/list_verse_view_repo.dart';
@@ -54,7 +55,6 @@ import '../data/repo/save_point_repo_impl.dart';
 List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
   return [
     RepositoryProvider<GetVerses>(create: (context) => GetVerses(surahDao: appDatabase.surahDao)),
-    RepositoryProvider<AppPreferences>(create: (context) => AppPreferencesImpl(preferences: LocalStorage.sharedPreferences)),
     RepositoryProvider<ListRepo>(create: (context) => ListRepoImpl(listDao: appDatabase.listDao)),
     RepositoryProvider<ListHadithRepo>(create: (context) => ListHadithRepoImpl(listHadithDao: appDatabase.listHadithDao),),
     RepositoryProvider<ListVerseRepo>(create: (context) => ListVerseRepoImpl(listVerseDao: appDatabase.listVerseDao),),
@@ -95,6 +95,9 @@ List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
     )),
     RepositoryProvider<ItemPositionRepo>(create: (context) => ItemPositionRepoImpl(
         itemPositionDao: appDatabase.itemPositionDao
-    ))
+    )),
+    RepositoryProvider<UserInfoRepo>(create: (context)=> UserInfoRepoImpl(
+        userInfoDao: appDatabase.userInfoDao
+    )),
   ];
 }

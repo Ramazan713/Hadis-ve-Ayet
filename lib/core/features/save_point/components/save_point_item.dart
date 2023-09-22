@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/constants/extensions.dart';
+import 'package:hadith/core/extensions/date_time_ext.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 
 
 class SavePointItem extends StatelessWidget {

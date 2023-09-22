@@ -4,7 +4,7 @@ import 'package:hadith/core/data/local/entities/verse_arabic_entity.dart';
 import 'package:hadith/core/data/local/services/verse/verse_arabic_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_dao.dart';
 import 'package:hadith/core/data/repo/verse/get_verses.dart';
-import 'package:hadith/core/domain/constants/k_verse.dart';
+import 'package:hadith/core/constants/k_verse.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/verse_downloaded_model.dart';
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_downloaded_voice_repo.dart';

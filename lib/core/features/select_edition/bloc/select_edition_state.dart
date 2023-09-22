@@ -1,6 +1,6 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
 

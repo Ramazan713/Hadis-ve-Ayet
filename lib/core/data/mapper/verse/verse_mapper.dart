@@ -1,5 +1,5 @@
 
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/data/local/entities/verse_entity.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 

@@ -1,5 +1,6 @@
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/backup_meta_control_enum.dart';
+import 'package:hadith/core/domain/repo/user_info_repo.dart';
 import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/domain/manager/backup_manager.dart';
 import 'package:hadith/core/domain/models/auth_user/auth_user.dart';
@@ -9,7 +10,6 @@ import 'package:hadith/core/domain/repo/backup/local_backup_repo.dart';
 import 'package:hadith/core/domain/services/auth_service.dart';
 import 'package:hadith/core/domain/services/storage_service.dart';
 import 'package:hadith/core/utils/resource.dart';
-import 'package:hadith/features/settings_/domain/repo/user_info_repo.dart';
 import 'package:uuid/uuid.dart';
 
 class BackupManagerImpl extends BackupManager{

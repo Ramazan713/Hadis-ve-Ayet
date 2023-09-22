@@ -1,11 +1,7 @@
 
-
-import 'dart:async';
-
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/app_constants.dart';
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/domain/use_cases/list/list_use_cases.dart';

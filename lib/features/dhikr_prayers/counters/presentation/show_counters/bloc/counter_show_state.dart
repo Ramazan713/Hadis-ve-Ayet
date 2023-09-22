@@ -1,5 +1,5 @@
 
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 
 import '../../../domain/model/counter.dart';
 

@@ -4,8 +4,8 @@ import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_state.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
-import 'package:hadith/widgets/custom_animated_widget.dart';
 
 class TopicSavePointFloatingActionButton extends StatelessWidget {
 
@@ -34,8 +34,8 @@ class TopicSavePointFloatingActionButton extends StatelessWidget {
                     controller.isTopBarVisible &&
                     showFab;
 
-                return CustomAnimatedWidget(
-                  isVisible: isFabVisible,
+                return CustomAnimatedVisibility(
+                  visible: isFabVisible,
                   child: FloatingActionButton(
                     onPressed: (){
                       final topicSavePoint = currentTopicSavePoint;

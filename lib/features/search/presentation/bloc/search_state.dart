@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:hadith/constants/enums/data_status_enum.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/features/search/domain/model/history.dart';

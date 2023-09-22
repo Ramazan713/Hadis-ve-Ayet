@@ -7,7 +7,7 @@ import 'package:hadith/core/features/share/bloc/share_event.dart';
 import 'package:hadith/core/features/share/bloc/share_state.dart';
 import 'package:hadith/core/features/share/share_ui_event.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_full_loading_dia.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 

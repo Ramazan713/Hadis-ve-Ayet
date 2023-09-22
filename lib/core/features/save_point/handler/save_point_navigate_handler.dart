@@ -3,10 +3,8 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/presentation/handlers/duplicate_dialog_handler.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
-import 'package:hadith/features/verses/show_verse/presentation/verse_page_show_page.dart';
-
 
 void savePointNavigateHandlerWithSavePoint(
 BuildContext context,

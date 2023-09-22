@@ -1,9 +1,8 @@
 
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/search/presentation/bloc/search_state.dart';
 import 'package:hadith/features/search/presentation/components/search_result_collection.dart';
 import 'package:hadith/features/search/presentation/model/search_result.dart';

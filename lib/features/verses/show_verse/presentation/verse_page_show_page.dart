@@ -26,7 +26,7 @@ import 'package:hadith/core/presentation/controllers/custom_page_controller.dart
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_audio_setting_dia.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/features/verses/shared/presentation/select_verse_page/select_verse_page_dia.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_page_paing_repo.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_top_bar_menu_item.dart';

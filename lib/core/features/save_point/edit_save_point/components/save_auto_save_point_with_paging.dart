@@ -4,7 +4,7 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_state.dart';
 import 'package:hadith/core/presentation/controllers/custom_save_point_position_controller.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 
 import 'save_auto_save_point_widget.dart';
 

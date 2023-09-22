@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
-import 'package:hadith/core/domain/constants/k_verse.dart';
+import 'package:hadith/core/constants/k_verse.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/core/utils/search_utils.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/verse_arabic_content_item.dart';
-import 'package:hadith/utils/text_utils.dart';
 
 import 'arabic_content_item.dart';
 

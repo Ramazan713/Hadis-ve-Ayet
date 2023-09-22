@@ -25,7 +25,7 @@ import 'package:hadith/core/domain/use_cases/topic_save_point/delete_topic_save_
 import 'package:hadith/core/domain/use_cases/topic_save_point/get_topic_save_point.dart';
 import 'package:hadith/core/domain/use_cases/topic_save_point/insert_topic_save_point.dart';
 import 'package:hadith/core/domain/use_cases/topic_save_point/topic_save_point_use_cases.dart';
-import 'package:hadith/db/database.dart';
+import 'package:hadith/core/data/local/database.dart';
 
 import '../domain/use_cases/list/copy_list.dart';
 import '../domain/use_cases/select_list/insert_or_delete_list.dart';

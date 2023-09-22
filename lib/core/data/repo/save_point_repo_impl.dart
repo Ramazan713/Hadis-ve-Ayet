@@ -5,8 +5,9 @@ import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart'
 import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
+
+import '../../domain/enums/book_scope_enum.dart';
 
 class SavePointRepoImpl extends SavePointRepo{
 

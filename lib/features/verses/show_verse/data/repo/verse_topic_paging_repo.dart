@@ -9,7 +9,8 @@ class VerseTopicPagingRepo extends VersePaginationRepo{
   VerseTopicPagingRepo({
     required super.verseRepo,
     required super.verseArabicRepo,
-    required super.itemListInfoRepo
+    required super.itemListInfoRepo,
+    required super.appPreferences
   });
 
   VerseTopicPagingRepo init({required int topicId}){

@@ -2,9 +2,6 @@
 
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
-import 'package:hadith/features/extra_features/counter/data/entity/counter_entity.dart';
-import 'package:hadith/features/extra_features/esmaul_husna/domain/model/esmaul_husna.dart';
-
 @Entity(
     tableName: "EsmaulHusna",
   foreignKeys: [

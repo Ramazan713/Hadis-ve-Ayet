@@ -1,7 +1,7 @@
 
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/db/database.dart';
+import 'package:hadith/core/data/local/database.dart';
 import 'package:hadith/features/dhikr_prayers/counters/data/repo/counter_repo_impl.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/repo/counter_repo.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/repo/prayer_custom_repo_impl.dart';

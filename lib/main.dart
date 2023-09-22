@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/background_service_manager.dart';
-import 'package:hadith/utils/localstorage.dart';
-import 'db/instance.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'core/data/local/instance.dart';
 import 'features/app/my_app.dart';
 import 'features/app/my_app_providers.dart';
 
@@ -15,12 +15,10 @@ Future<void> main() async {
 
     WidgetsFlutterBinding.ensureInitialized();
 
-
     final database = await getDatabase();
+    final sharedPreferences = await SharedPreferences.getInstance();
 
-    await LocalStorage.initStorage();
     await Firebase.initializeApp();
-
     MobileAds.instance.initialize();
     await BackgroundServiceManager.initService();
 
@@ -30,6 +28,7 @@ Future<void> main() async {
     runApp(
       MyAppProviders(
         appDatabase: database,
+        sharedPreferences: sharedPreferences,
         child: const MyApp(),
       )
     );

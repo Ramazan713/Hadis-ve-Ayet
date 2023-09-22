@@ -5,7 +5,7 @@ import 'package:hadith/core/data/manager/backup_manager_impl.dart';
 import 'package:hadith/core/data/repo/share/share_manager_impl.dart';
 import 'package:hadith/core/domain/manager/backup_manager.dart';
 import 'package:hadith/core/domain/repo/share/share_manager.dart';
-import 'package:hadith/db/database.dart';
+import 'package:hadith/core/data/local/database.dart';
 
 List<RepositoryProvider> pCoreDataManagerRepoProviders(AppDatabase appDatabase){
   return [

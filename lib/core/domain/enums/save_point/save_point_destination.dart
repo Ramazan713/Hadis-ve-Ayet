@@ -1,7 +1,7 @@
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 
 import 'save_point_type.dart';
 

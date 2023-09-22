@@ -17,7 +17,8 @@ class VerseSearchPagingRepo extends VersePaginationRepo{
     required SearchRepo searchRepo,
     required super.itemListInfoRepo,
     required super.verseRepo,
-    required super.verseArabicRepo
+    required super.verseArabicRepo,
+    required super.appPreferences
   }){
     _searchRepo = searchRepo;
   }

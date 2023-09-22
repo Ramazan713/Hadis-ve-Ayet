@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/db/entities/history_entity.dart';
 import 'package:hadith/features/search/domain/model/history.dart';
 
 class HistoryItem extends StatelessWidget {

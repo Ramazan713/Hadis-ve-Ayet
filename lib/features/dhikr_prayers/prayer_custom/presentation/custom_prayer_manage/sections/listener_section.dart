@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 import '../bloc/custom_prayer_manage_bloc.dart';
 import '../bloc/custom_prayer_manage_event.dart';

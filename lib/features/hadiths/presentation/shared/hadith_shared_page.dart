@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/domain/models/paging/paging_config.dart';
@@ -22,7 +22,7 @@ import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_s
 import 'package:hadith/features/hadiths/presentation/shared/sections/bottom_menu.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/hadith_icons_handle.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/header.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_hadith_item.dart';
 
 import 'components/hadith_item/hadith_item.dart';

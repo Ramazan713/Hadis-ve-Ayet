@@ -1,17 +1,7 @@
-import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
-import 'package:hadith/db/entities/source_type_entity.dart';
 
-
-@Entity(tableName: "list",foreignKeys: [
-  ForeignKey(
-      childColumns: ["sourceId"],
-      parentColumns: ["id"],
-      entity: SourceTypeEntity
-  )
-])
+@Entity(tableName: "list")
 class ListEntity{
   @PrimaryKey(autoGenerate: true)
   final int? id;

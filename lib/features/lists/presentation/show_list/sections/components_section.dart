@@ -7,7 +7,7 @@ import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 extension ShowListComponentsSectionExt on ShowListPage{
 

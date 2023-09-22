@@ -1,8 +1,6 @@
 
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/cuz_entity.dart';
-import 'package:hadith/db/entities/cuz.dart';
-
 
 @dao
 abstract class CuzDao{

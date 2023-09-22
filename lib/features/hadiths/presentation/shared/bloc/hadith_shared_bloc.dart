@@ -1,7 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/enums/font_size_enum.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
@@ -9,7 +8,6 @@ import 'package:hadith/core/domain/preferences/model/i_key.dart';
 import 'package:hadith/core/domain/repo/title_repo.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
 import 'package:hadith/core/features/pagination/paging_modified_item.dart';
-import 'package:hadith/utils/font_size_helper.dart';
 
 import 'hadith_shared_event.dart';
 import 'hadith_shared_state.dart';

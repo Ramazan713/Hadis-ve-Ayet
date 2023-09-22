@@ -9,7 +9,8 @@ class VerseSurahPagingRepo extends VersePaginationRepo{
   VerseSurahPagingRepo({
     required super.verseRepo,
     required super.verseArabicRepo,
-    required super.itemListInfoRepo
+    required super.itemListInfoRepo,
+    required super.appPreferences
   });
 
   VerseSurahPagingRepo init({required int surahId}){

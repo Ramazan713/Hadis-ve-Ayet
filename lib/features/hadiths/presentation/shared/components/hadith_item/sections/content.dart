@@ -1,5 +1,5 @@
 
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/utils/search_utils.dart';
 
 import '../hadith_item.dart';

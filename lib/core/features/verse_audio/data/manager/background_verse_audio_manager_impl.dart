@@ -13,7 +13,7 @@ import 'package:hadith/core/data/repo/verse/get_verses.dart';
 import 'package:hadith/core/data/repo/verse/verse_repo_impl.dart';
 import 'package:hadith/core/data/services/connectivity_service_impl.dart';
 import 'package:hadith/core/data/services/file_service_impl.dart';
-import 'package:hadith/core/domain/constants/app_k.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/use_cases/save_point/insert_or_update_auto_save_point.dart';
 import 'package:hadith/core/features/verse_audio/data/local/verse_audio_repo_impl.dart';
 import 'package:hadith/core/features/verse_audio/data/local/verse_downloaded_voice_repo_impl.dart';
@@ -38,8 +38,8 @@ import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_dow
 import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_listen_audio_notification.dart';
 import 'package:hadith/core/features/verse_audio/domain/notification/notification_base.dart';
 import 'package:hadith/core/features/verse_audio/domain/services/attach_notification_id_service.dart';
-import 'package:hadith/db/database.dart';
-import 'package:hadith/db/instance.dart';
+import 'package:hadith/core/data/local/database.dart';
+import 'package:hadith/core/data/local/instance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{

@@ -1,7 +1,5 @@
 
-import 'package:equatable/equatable.dart';
 import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
-import 'package:hadith/features/backup/backup_meta/bloc/backup_meta_event.dart';
 
 abstract class IBasicAudioEvent{}
 

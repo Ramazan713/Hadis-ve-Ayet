@@ -1,6 +1,5 @@
 
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
-import 'package:hadith/features/extra_features/counter/domain/model/counter.dart';
 
 abstract class IAddReadyCounterEvent{}
 

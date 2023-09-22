@@ -1,13 +1,13 @@
 
 
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/core/domain/repo/search_repo.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/domain/repo/hadith_pagination_repo.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 class HadithSearchPagingRepo extends HadithPaginationRepo{
 
@@ -21,7 +21,8 @@ class HadithSearchPagingRepo extends HadithPaginationRepo{
     required SearchRepo searchRepo,
     required super.hadithRepo,
     required super.topicRepo,
-    required super.itemListInfoRepo
+    required super.itemListInfoRepo,
+    required super.appPreferences
   }){
     _searchRepo = searchRepo;
   }

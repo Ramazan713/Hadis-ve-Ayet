@@ -1,16 +1,15 @@
 
-
-import 'package:hadith/constants/preference_constants.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/item_list_info.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
+import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/pagination_repo.dart';
 import 'package:hadith/core/domain/models/verse/verse_arabic.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/core/domain/repo/verse/verse_arabic_repo.dart';
 import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
-import 'package:hadith/utils/localstorage.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,17 +19,19 @@ abstract class VersePaginationRepo extends PaginationRepo<VerseListModel, int>{
   late final VerseRepo verseRepo;
   late final VerseArabicRepo _verseArabicRepo;
   late final ItemListInfoRepo _itemListInfoRepo;
-  final SharedPreferences _sharedPreferences = LocalStorage.sharedPreferences;
+  late final AppPreferences _appPreferences;
 
-  bool get _useArchiveListFeatures => _sharedPreferences.getBool(PrefConstants.useArchiveListFeatures.key)??false;
+  bool get _useArchiveListFeatures => _appPreferences.getItem(KPref.useArchiveListFeatures);
 
   VersePaginationRepo({
     required this.verseRepo,
     required VerseArabicRepo verseArabicRepo,
-    required ItemListInfoRepo itemListInfoRepo
+    required ItemListInfoRepo itemListInfoRepo,
+    required AppPreferences appPreferences
   }){
     _verseArabicRepo = verseArabicRepo;
     _itemListInfoRepo = itemListInfoRepo;
+    _appPreferences = appPreferences;
   }
 
   @protected

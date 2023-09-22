@@ -9,7 +9,6 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_a
 import 'package:hadith/core/presentation/bottom_sheets/show_manage_downloaded_audios.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_slider.dart';
-import 'package:hadith/themes/custom/get_setting_theme.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsAudioPage extends StatelessWidget {

@@ -9,7 +9,7 @@ import 'package:hadith/core/domain/services/auth_service.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
 import 'package:hadith/core/domain/services/file_service.dart';
 import 'package:hadith/core/domain/services/storage_service.dart';
-import 'package:hadith/db/database.dart';
+import 'package:hadith/core/data/local/database.dart';
 
 List<RepositoryProvider> pCoreDataServiceProviders(AppDatabase appDatabase){
   return [

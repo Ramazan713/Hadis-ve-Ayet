@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/topic_save_point.dart';
@@ -14,12 +14,11 @@ import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topi
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_event.dart';
 import 'package:hadith/features/topics/presentation/topic_page/components/topic_item.dart';
 import 'package:hadith/features/topics/presentation/topic_page/sections/topic_ext.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'bloc/topic_state.dart';
 

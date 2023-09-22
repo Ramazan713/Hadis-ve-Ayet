@@ -1,8 +1,4 @@
 
-
-import 'package:equatable/equatable.dart';
-import 'package:hadith/features/verse/manage_audios/audio_manage_enum.dart';
-import 'package:hadith/features/verse/manage_audios/manage_audio_model.dart';
 import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
 

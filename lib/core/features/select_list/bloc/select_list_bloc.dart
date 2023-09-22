@@ -2,14 +2,11 @@
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/constants/preference_constants.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/models/selectable_list_view_model.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/list/list_use_cases.dart';
 import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
-import 'package:hadith/utils/localstorage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'select_list_event.dart';
 import 'select_list_state.dart';

@@ -9,7 +9,8 @@ class VerseCuzPagingRepo extends VersePaginationRepo{
   VerseCuzPagingRepo({
     required super.verseRepo,
     required super.verseArabicRepo,
-    required super.itemListInfoRepo
+    required super.itemListInfoRepo,
+    required super.appPreferences
   });
 
   VerseCuzPagingRepo init({required int cuzNo}){

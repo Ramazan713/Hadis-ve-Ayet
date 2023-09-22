@@ -2,22 +2,17 @@
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
+import 'package:hadith/core/domain/services/connectivity_service.dart';
 import 'package:hadith/core/extensions/resource_extension.dart';
-import 'package:hadith/core/features/verse_audio/data/mapper/param_mapper.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/listen_audio_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/verse_audio_download_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_param.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_service_state.dart';
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/core/features/verse_audio/domain/services/i_verse_audio_service.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
-import 'package:hadith/core/utils/resource.dart';
-import 'package:hadith/features/verse/verse_listen_audio/constants/audio_enum.dart';
-import 'package:hadith/services/connectivity_service.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'basic_audio_event.dart';
 import 'basic_audio_state.dart';
@@ -29,6 +24,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
   late final AppPreferences _appPreferences;
   late final VerseAudioRepo _verseAudioRepo;
   late final EditionRepo _editionRepo;
+  late final ConnectivityService _connectivityService;
 
 
   BasicAudioBloc({
@@ -36,7 +32,8 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     required VerseAudioDownloadManager downloadManager,
     required AppPreferences appPreferences,
     required VerseAudioRepo verseAudioRepo,
-    required EditionRepo editionRepo
+    required EditionRepo editionRepo,
+    required ConnectivityService connectivityService
   }) : super(BasicAudioState.init()){
 
     _audioPlayerService = verseAudioService;
@@ -44,6 +41,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     _appPreferences = appPreferences;
     _verseAudioRepo = verseAudioRepo;
     _editionRepo = editionRepo;
+    _connectivityService = connectivityService;
 
     on<BasicAudioEventStartWithIdentifier>(_onStartWithIdentifier,transformer: droppable());
     on<BasicAudioEventStartWithCustomVerseIds>(_onStartWithCustomVerseIds,transformer: droppable());
@@ -97,7 +95,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
         audioTag: event.audioTag
       ));
     }else{
-      if(!await ConnectivityService.isConnectedInternet()){
+      if(!(await _connectivityService.hasConnected)){
         return _showMessage("internet bağlantınızı kontrol edin",emit);
       }
       emit(state.copyWith(

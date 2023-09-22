@@ -5,7 +5,6 @@ import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/domain/repo/list/list_repo.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
-import 'package:hadith/features/save_point/constants/origin_tag_enum.dart';
 
 class DeleteList{
 

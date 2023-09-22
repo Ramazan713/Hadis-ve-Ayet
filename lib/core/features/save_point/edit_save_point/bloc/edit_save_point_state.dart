@@ -1,12 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hadith/constants/enums/book_enum.dart';
-import 'package:hadith/constants/enums/data_status_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/local_destination_scope.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
-import 'package:collection/collection.dart';
 
 class EditSavePointState extends Equatable{
 

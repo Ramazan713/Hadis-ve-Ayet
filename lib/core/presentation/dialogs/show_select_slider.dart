@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
-import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showSelectSlider(BuildContext context,{
   required double value,

@@ -1,6 +1,6 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 
 

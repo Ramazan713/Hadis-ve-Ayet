@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
-import 'package:hadith/core/domain/constants/k_validators.dart';
+import 'package:hadith/core/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_validators.dart';
 import 'package:hadith/core/presentation/components/selections/custom_segmented_button.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';

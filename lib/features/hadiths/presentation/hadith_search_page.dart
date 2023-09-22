@@ -9,9 +9,9 @@ import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_search_paging_repo.dart';
-import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 
 import 'shared/hadith_shared_page.dart';
 

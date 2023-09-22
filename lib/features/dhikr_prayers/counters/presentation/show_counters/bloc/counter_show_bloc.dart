@@ -3,7 +3,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/data/local/services/prayer_dao.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/features/dhikr_prayers/counters/data/mapper/counter_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';

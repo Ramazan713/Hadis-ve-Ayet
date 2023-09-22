@@ -7,7 +7,8 @@ class HadithListPagingRepo extends HadithPaginationRepo{
   HadithListPagingRepo({
     required super.hadithRepo,
     required super.topicRepo,
-    required super.itemListInfoRepo
+    required super.itemListInfoRepo,
+    required super.appPreferences
   });
 
   int _listId = 0;

@@ -9,7 +9,7 @@ import 'package:hadith/core/presentation/components/shared_loading_indicator.dar
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/components/custom_detail_prayer_item.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/sections/header_section.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 import 'bloc/custom_prayer_detail_bloc.dart';
 import 'bloc/custom_prayer_detail_event.dart';

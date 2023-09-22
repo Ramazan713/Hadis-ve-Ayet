@@ -24,7 +24,7 @@ import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/pray
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_and_verse_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 import 'bloc/prayer_and_verse_detail_state.dart';
 

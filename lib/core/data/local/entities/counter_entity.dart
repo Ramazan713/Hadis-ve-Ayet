@@ -1,11 +1,6 @@
 
-
-import 'dart:convert';
-
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
-import 'package:hadith/features/extra_features/counter/domain/counter_type.dart';
-import 'package:hadith/features/extra_features/counter/domain/model/counter.dart';
 
 @Entity(
     tableName: "counters",

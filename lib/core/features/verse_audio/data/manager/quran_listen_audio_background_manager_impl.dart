@@ -19,7 +19,7 @@ import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/verse
 import 'package:hadith/core/features/verse_audio/domain/model/service_audio/foreground_send_data.dart';
 import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_listen_audio_notification.dart';
 import 'package:hadith/core/features/verse_audio/domain/services/i_verse_audio_service.dart';
-import 'package:hadith/features/save_point/constants/save_auto_type.dart';
+import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:mutex/mutex.dart';
 

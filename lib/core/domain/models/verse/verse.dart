@@ -1,6 +1,6 @@
 
 
-import 'package:hadith/constants/enums/book_enum.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 
 class Verse{
   final int? id;

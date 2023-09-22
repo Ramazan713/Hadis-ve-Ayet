@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/presentation/handlers/duplicate_dialog_handler.dart';
-import 'package:hadith/widgets/buttons/custom_button_negative.dart';
-import 'package:hadith/widgets/buttons/custom_button_positive.dart';
 
 void showCustomAlertDia(BuildContext context, {
   required String title,

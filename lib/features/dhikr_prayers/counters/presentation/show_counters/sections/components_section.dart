@@ -12,7 +12,7 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counter
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 extension ShowCounterComponentsExt on ShowCounterPage{
 

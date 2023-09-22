@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/constants/app_k.dart';
-import 'package:hadith/core/domain/constants/k_pref.dart';
+import 'package:hadith/core/constants/app_k.dart';
+import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/domain/manager/backup_manager.dart';
 import 'package:hadith/core/domain/models/backup_meta_model/backup_meta_model.dart';

@@ -9,8 +9,12 @@ class HadithAllPagingRepo extends HadithPaginationRepo{
 
   HadithBookEnum _hadithBookEnum = HadithBookEnum.serlevha;
 
-  HadithAllPagingRepo({ required super.hadithRepo,
-    required super.topicRepo, required super.itemListInfoRepo});
+  HadithAllPagingRepo({
+    required super.hadithRepo,
+    required super.topicRepo,
+    required super.itemListInfoRepo,
+    required super.appPreferences
+  });
 
   HadithAllPagingRepo init(HadithBookEnum hadithBookEnum){
     _hadithBookEnum = hadithBookEnum;

@@ -12,7 +12,7 @@ import 'package:hadith/core/presentation/components/selections/custom_segmented_
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
-import 'package:hadith/utils/toast_utils.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 
 import 'bloc/edit_save_point_event.dart';
 import 'bloc/edit_save_point_state.dart';
