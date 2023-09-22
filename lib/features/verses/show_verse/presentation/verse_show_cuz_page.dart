@@ -15,6 +15,7 @@ import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_event.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_state.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
 
 class VerseShowCuzPage extends StatelessWidget {
@@ -37,7 +38,8 @@ class VerseShowCuzPage extends StatelessWidget {
         itemId: cuzNo, titleEnum: TitleEnum.cuz
     ));
 
-    return BlocSelector<VerseSharedBloc, VerseSharedState, String>(
+    return VerseSharedProviders(
+      child: BlocSelector<VerseSharedBloc, VerseSharedState, String>(
         selector: (state) => state.title,
         builder: (context, currentTitle){
           final cuzPagingRepo = context.read<VerseCuzPagingRepo>()
@@ -48,11 +50,13 @@ class VerseShowCuzPage extends StatelessWidget {
           return VerseShowSharedPage(
             savePointDestination: destination,
             paginationRepo: cuzPagingRepo,
+            showNavigateToActions: false,
             title: currentTitle,
             pos: pos,
             editSavePointHandler: _getEditSavePointHandler(context),
           );
         }
+      ),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/list_book_scope.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_list_paging_repo.dart';
@@ -12,6 +13,7 @@ import 'package:hadith/features/verses/show_verse/data/repo/verse_list_paging_re
 import 'shared/bloc/verse_shared_bloc.dart';
 import 'shared/bloc/verse_shared_event.dart';
 import 'shared/bloc/verse_shared_state.dart';
+import 'shared/shared_providers.dart';
 import 'shared/verse_show_shared_page.dart';
 
 class VerseShowListPage extends StatelessWidget {
@@ -34,7 +36,8 @@ class VerseShowListPage extends StatelessWidget {
         itemId: listId, titleEnum: TitleEnum.list
     ));
 
-    return BlocSelector<VerseSharedBloc, VerseSharedState, String>(
+    return VerseSharedProviders(
+      child: BlocSelector<VerseSharedBloc, VerseSharedState, String>(
         selector: (state) => state.title,
         builder: (context, currentTitle){
 
@@ -50,12 +53,14 @@ class VerseShowListPage extends StatelessWidget {
           return VerseShowSharedPage(
             savePointDestination: destination,
             paginationRepo: listPagingRepo,
+            showNavigateToActions: true,
             listIdControlForSelectList: listId,
             selectAudioOption: SelectAudioOption.verse,
             title: "$currentTitle - ${listBookScope.bookScopeEnum.sourceType.shortName}",
             pos: pos,
           );
         }
+      ),
     );
 
 

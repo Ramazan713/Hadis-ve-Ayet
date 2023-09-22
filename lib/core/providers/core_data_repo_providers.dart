@@ -8,6 +8,7 @@ import 'package:hadith/core/data/repo/backup/local_backup_repo_impl.dart';
 import 'package:hadith/core/data/repo/edition_repo_impl.dart';
 import 'package:hadith/core/data/repo/hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/item_list_info_repo_impl.dart';
+import 'package:hadith/core/data/repo/item_position_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_hadith_repo_impl.dart';
 import 'package:hadith/core/data/repo/list/list_verse_repo_impl.dart';
 import 'package:hadith/core/data/repo/premium_repo_impl.dart';
@@ -25,6 +26,7 @@ import 'package:hadith/core/domain/repo/backup/backup_meta_repo.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
+import 'package:hadith/core/domain/repo/item_position_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_hadith_view_repo.dart';
 import 'package:hadith/core/domain/repo/list/list_repo.dart';
@@ -90,6 +92,9 @@ List<RepositoryProvider> pCoreDataRepoProviders(AppDatabase appDatabase){
     )),
     RepositoryProvider<PremiumRepo>(create: (context) => PremiumRepoImpl(
       premiumProductDetailUseCase: context.read()
+    )),
+    RepositoryProvider<ItemPositionRepo>(create: (context) => ItemPositionRepoImpl(
+        itemPositionDao: appDatabase.itemPositionDao
     ))
   ];
 }

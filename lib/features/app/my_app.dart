@@ -21,10 +21,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic){
@@ -65,14 +72,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     );
 
 
-  }
-
-
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
   }
 
   @override

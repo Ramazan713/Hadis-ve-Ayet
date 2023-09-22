@@ -14,6 +14,7 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/save_point/constants/book_scope_enum.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_search_paging_repo.dart';
 
+import 'shared/shared_providers.dart';
 import 'shared/verse_show_shared_page.dart';
 
 class VerseShowSearchPage extends StatelessWidget{
@@ -42,14 +43,17 @@ class VerseShowSearchPage extends StatelessWidget{
     final searchPagingRepo = context.read<VerseSearchPagingRepo>()
         .init(destination);
 
-    return VerseShowSharedPage(
-      savePointDestination: destination,
-      paginationRepo: searchPagingRepo,
-      title: query,
-      pos: pos,
-      selectAudioOption: SelectAudioOption.verse,
-      searchParam: SearchParam(searchCriteria: searchCriteria, searchQuery: query),
-      editSavePointHandler: _getEditSavePointHandler(context),
+    return VerseSharedProviders(
+      child: VerseShowSharedPage(
+        savePointDestination: destination,
+        paginationRepo: searchPagingRepo,
+        showNavigateToActions: true,
+        title: query,
+        pos: pos,
+        selectAudioOption: SelectAudioOption.verse,
+        searchParam: SearchParam(searchCriteria: searchCriteria, searchQuery: query),
+        editSavePointHandler: _getEditSavePointHandler(context),
+      ),
     );
   }
 

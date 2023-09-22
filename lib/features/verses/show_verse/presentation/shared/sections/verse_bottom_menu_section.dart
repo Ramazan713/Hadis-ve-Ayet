@@ -9,6 +9,8 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
 import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_event.dart';
@@ -46,21 +48,24 @@ extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
       Navigator.pop(context);
     }
 
+    final verse = verseListModel.verse;
+
     showVerseBottomMenu(context,
         verseListModel: verseListModel,
+        showNavigateToActions: showNavigateToActions,
         onListener: (menuItem){
           switch(menuItem){
             case VerseBottomMenuItem.download:
               navigateBack();
               context.read<DownloadAudioBloc>().add(DownloadAudioEventStartDownloadingWithVerse(
-                verse: verseListModel.verse,
+                verse: verse,
                 selectAudioOption: selectAudioOption
               ));
               break;
             case VerseBottomMenuItem.play:
               navigateBack();
               context.read<ListenVerseAudioBloc>().add(ListenAudioEventStartListeningWithVerse(
-                verse: verseListModel.verse,
+                verse: verse,
                 selectAudioOption: selectAudioOption
               ));
               break;
@@ -99,6 +104,14 @@ extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
                 initScope: initScope,
                 onLoadSavePointClick: onLoadSavePointClick
               );
+              break;
+            case VerseBottomMenuItem.navToSurah:
+              navigateBack();
+              final surahDestination = DestinationSurah(surahId: verse.surahId, surahName: verse.surahName);
+              context.read<LoadSavePointBloc>().add(LoadSavePointEventNavigateWithSurahDestination(
+                destination: surahDestination,
+                mealId: verse.id ?? 0
+              ));
               break;
           }
         }

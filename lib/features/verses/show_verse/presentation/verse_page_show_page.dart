@@ -38,17 +38,45 @@ import 'package:hadith/features/verses/show_verse/presentation/shared/components
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/header.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/verse_bottom_menu_section.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
 
-class VersePageShowPage extends VerseShareBasePage {
 
+class VersePageShowPage extends StatelessWidget {
   final int startPageIndex;
   final int pagePos;
 
   const VersePageShowPage({
     super.key,
+    this.pagePos = 0,
     required this.startPageIndex,
-    this.pagePos = 0
+  }): super();
+
+  @override
+  Widget build(BuildContext context) {
+    return VerseSharedProviders(
+      child: _VersePageShowPageContent(
+        startPageIndex: startPageIndex,
+        showNavigateToActions: false,
+        pagePos: pagePos,
+      ),
+    );
+  }
+}
+
+
+
+
+class _VersePageShowPageContent extends VerseShareBasePage {
+
+  final int startPageIndex;
+  final int pagePos;
+
+  const _VersePageShowPageContent({
+    super.key,
+    this.pagePos = 0,
+    required this.startPageIndex,
+    super.showNavigateToActions = false
   }): super();
 
 
@@ -56,10 +84,10 @@ class VersePageShowPage extends VerseShareBasePage {
   SelectAudioOption? get selectAudioOption => SelectAudioOption.cuz;
 
   @override
-  State<VersePageShowPage> createState() => _VersePageShowPageState();
+  State<_VersePageShowPageContent> createState() => _VersePageShowPageState();
 }
 
-class _VersePageShowPageState extends State<VersePageShowPage> {
+class _VersePageShowPageState extends State<_VersePageShowPageContent> {
 
   final CustomScrollController customScrollController = CustomScrollController();
   final CustomPositionController positionController = CustomPositionController();

@@ -9,6 +9,7 @@ import '../data/repo/verse_topic_paging_repo.dart';
 import 'shared/bloc/verse_shared_bloc.dart';
 import 'shared/bloc/verse_shared_event.dart';
 import 'shared/bloc/verse_shared_state.dart';
+import 'shared/shared_providers.dart';
 import 'shared/verse_show_shared_page.dart';
 
 class VerseShowTopicPage extends StatelessWidget {
@@ -31,7 +32,8 @@ class VerseShowTopicPage extends StatelessWidget {
         itemId: topicId, titleEnum: TitleEnum.topic
     ));
 
-    return BlocSelector<VerseSharedBloc, VerseSharedState, String>(
+    return VerseSharedProviders(
+      child: BlocSelector<VerseSharedBloc, VerseSharedState, String>(
         selector: (state) => state.title,
         builder: (context, currentTitle){
 
@@ -43,11 +45,13 @@ class VerseShowTopicPage extends StatelessWidget {
           return VerseShowSharedPage(
             savePointDestination: destination,
             paginationRepo: surahPagingRepo,
+            showNavigateToActions: true,
             selectAudioOption: SelectAudioOption.verse,
             title: currentTitle,
             pos: pos,
           );
         }
+      ),
     );
 
 

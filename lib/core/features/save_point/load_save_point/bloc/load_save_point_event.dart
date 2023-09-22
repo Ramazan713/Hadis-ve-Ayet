@@ -28,3 +28,14 @@ class LoadSavePointEventLoadLast extends ILoadSavePointEvent{
   });
 }
 
+
+class LoadSavePointEventNavigateWithSurahDestination extends ILoadSavePointEvent{
+  final DestinationSurah destination;
+  final int mealId;
+
+  LoadSavePointEventNavigateWithSurahDestination({
+    required this.destination,
+    required this.mealId,
+  });
+}
+

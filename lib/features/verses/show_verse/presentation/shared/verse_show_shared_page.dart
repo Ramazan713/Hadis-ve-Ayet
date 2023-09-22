@@ -38,11 +38,13 @@ abstract class VerseShareBasePage extends StatefulWidget {
 
   final EditSavePointHandler? editSavePointHandler;
   final int? listIdControlForSelectList;
+  final bool showNavigateToActions;
 
   const VerseShareBasePage({
     super.key,
+    required this.showNavigateToActions,
     this.editSavePointHandler,
-    this.listIdControlForSelectList
+    this.listIdControlForSelectList,
   });
 
   SelectAudioOption? get selectAudioOption;
@@ -66,12 +68,13 @@ class VerseShowSharedPage extends VerseShareBasePage {
     Key? key,
     required this.savePointDestination,
     required this.paginationRepo,
+    required this.pos,
+    required super.showNavigateToActions,
     required this.title,
     this.searchParam,
     super.listIdControlForSelectList,
     super.editSavePointHandler,
     this.selectAudioOption,
-    required this.pos
   }) : super(key: key);
 
   @override

@@ -10,16 +10,19 @@ import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 
 void showVerseBottomMenu(BuildContext context, {
-    required VerseListModel verseListModel,
-    required Function(VerseBottomMenuItem)onListener,
+  required VerseListModel verseListModel,
+  required Function(VerseBottomMenuItem)onListener,
+  required bool showNavigateToActions
 }) {
 
   List<VerseBottomMenuItem> getItems(VerseListModel? currentLastModifiedItem){
     final validVerseListModel = currentLastModifiedItem?.pagingId == verseListModel.pagingId ?
         currentLastModifiedItem??verseListModel : verseListModel;
+
     final items = VerseBottomMenuItem.getItems(
-        isInAnyList: validVerseListModel.isInAnyList,
-        inInFavorite: validVerseListModel.isInFavorite
+      isInAnyList: validVerseListModel.isInAnyList,
+      inInFavorite: validVerseListModel.isInFavorite,
+      showNavigateToActions: showNavigateToActions
     );
     return items;
   }
@@ -31,7 +34,9 @@ void showVerseBottomMenu(BuildContext context, {
     context,
     title: title,
     onItemClick: onListener,
-    wrapper: ({required Widget Function(List<VerseBottomMenuItem> oldItems) updateItems}){
+    wrapper: ({
+      required Widget Function(List<VerseBottomMenuItem> oldItems) updateItems
+    }){
       return BlocSelector<PaginationBloc, PaginationState, VerseListModel?>(
         selector: (state) => state.lastModifiedItem?.item.castOrNull<VerseListModel>(),
         builder: (context, currentLastModifiedItem){

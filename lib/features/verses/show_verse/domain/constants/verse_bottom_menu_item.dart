@@ -5,6 +5,11 @@ import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
 
 enum VerseBottomMenuItem implements IMenuItem{
+
+  navToSurah(
+      title: "Bulunduğu Sure'ye Git",
+      iconInfo: IconInfo(iconData: Icons.open_in_new)
+  ),
   play(
       title: "Dinle",
       iconInfo: IconInfo(iconData: Icons.play_arrow,)
@@ -47,7 +52,11 @@ enum VerseBottomMenuItem implements IMenuItem{
   final IconInfo? iconInfo;
 
 
-  static List<VerseBottomMenuItem> getItems({required bool isInAnyList, required bool inInFavorite}){
+  static List<VerseBottomMenuItem> getItems({
+    required bool isInAnyList,
+    required bool inInFavorite,
+    required bool showNavigateToActions
+  }){
 
     final items = VerseBottomMenuItem.values.toList();
 
@@ -59,6 +68,10 @@ enum VerseBottomMenuItem implements IMenuItem{
 
     items.remove(listItem);
     items.remove(favItem);
+
+    if(!showNavigateToActions){
+      items.remove(VerseBottomMenuItem.navToSurah);
+    }
 
     return items;
   }

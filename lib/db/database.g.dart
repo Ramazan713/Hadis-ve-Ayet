@@ -169,6 +169,8 @@ class _$AppDatabase extends AppDatabase {
 
   SelectVersePageDao? _selectVersePageDaoInstance;
 
+  ItemPositionDao? _itemPositionDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -619,6 +621,12 @@ class _$AppDatabase extends AppDatabase {
   SelectVersePageDao get selectVersePageDao {
     return _selectVersePageDaoInstance ??=
         _$SelectVersePageDao(database, changeListener);
+  }
+
+  @override
+  ItemPositionDao get itemPositionDao {
+    return _itemPositionDaoInstance ??=
+        _$ItemPositionDao(database, changeListener);
   }
 }
 
@@ -7909,5 +7917,29 @@ class _$SelectVersePageDao extends SelectVersePageDao {
         'select verseNumber from Verse     where surahId = ?1 and cuzNo = ?2 and pageNo = ?3 limit 1',
         mapper: (Map<String, Object?> row) => row.values.first as String,
         arguments: [surahId, cuzNo, pageNo]);
+  }
+}
+
+class _$ItemPositionDao extends ItemPositionDao {
+  _$ItemPositionDao(
+    this.database,
+    this.changeListener,
+  ) : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<int?> getSurahPos(
+    int surahId,
+    int mealId,
+  ) async {
+    return _queryAdapter.query(
+        'select count(*) from verse where surahId = ?1 and id < ?2',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [surahId, mealId]);
   }
 }

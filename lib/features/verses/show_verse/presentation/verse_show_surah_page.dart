@@ -10,6 +10,7 @@ import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_surah_paging_repo.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
 
 import 'shared/bloc/verse_shared_bloc.dart';
 import 'shared/bloc/verse_shared_event.dart';
@@ -34,10 +35,10 @@ class VerseShowSurahPage extends StatelessWidget {
         itemId: surahId, titleEnum: TitleEnum.surah
     ));
 
-    return BlocSelector<VerseSharedBloc, VerseSharedState, String>(
+    return VerseSharedProviders(
+      child: BlocSelector<VerseSharedBloc, VerseSharedState, String>(
         selector: (state) => state.title,
         builder: (context, currentTitle){
-
           final surahPagingRepo = context.read<VerseSurahPagingRepo>()
               .init(surahId: surahId);
 
@@ -46,11 +47,13 @@ class VerseShowSurahPage extends StatelessWidget {
           return VerseShowSharedPage(
             savePointDestination: destination,
             paginationRepo: surahPagingRepo,
+            showNavigateToActions: false,
             title: currentTitle,
             editSavePointHandler: _getEditSavePointHandler(context),
             pos: pos,
           );
         }
+      ),
     );
   }
 

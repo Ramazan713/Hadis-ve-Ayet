@@ -39,6 +39,7 @@ import 'package:hadith/core/data/local/services/cuz_dao.dart';
 import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
 import 'package:hadith/core/data/local/services/history_dao.dart';
 import 'package:hadith/core/data/local/services/islamic_info_dao.dart';
+import 'package:hadith/core/data/local/services/item_pos_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_dao.dart';
 import 'package:hadith/core/data/local/services/list/list_hadith_view_dao.dart';
@@ -205,4 +206,5 @@ abstract class AppDatabase extends FloorDatabase{
   BackupMetaDao get backupMetaDao;
   BackupDao get backupDao;
   SelectVersePageDao get selectVersePageDao;
+  ItemPositionDao get itemPositionDao;
 }
