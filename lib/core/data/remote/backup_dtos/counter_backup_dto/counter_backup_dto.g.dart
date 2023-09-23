@@ -14,10 +14,11 @@ _$_CounterBackupDto _$$_CounterBackupDtoFromJson(Map<String, dynamic> json) =>
       meaning: json['meaning'] as String?,
       description: json['description'] as String?,
       goal: json['goal'] as int?,
+      prayerId: json['prayerId'] as int?,
       name: json['name'] as String,
       orderItem: json['orderItem'] as int,
       lastCounter: json['lastCounter'] as int,
-      typeId: json['typeId'] as int,
+      type: json['type'] as int,
     );
 
 Map<String, dynamic> _$$_CounterBackupDtoToJson(_$_CounterBackupDto instance) =>
@@ -28,8 +29,9 @@ Map<String, dynamic> _$$_CounterBackupDtoToJson(_$_CounterBackupDto instance) =>
       'meaning': instance.meaning,
       'description': instance.description,
       'goal': instance.goal,
+      'prayerId': instance.prayerId,
       'name': instance.name,
       'orderItem': instance.orderItem,
       'lastCounter': instance.lastCounter,
-      'typeId': instance.typeId,
+      'type': instance.type,
     };

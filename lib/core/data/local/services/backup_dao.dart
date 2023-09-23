@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
+import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
 import 'package:hadith/core/data/local/entities/history_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_entity.dart';
 import 'package:hadith/core/data/local/entities/list/list_hadith_entity.dart';
@@ -8,9 +11,13 @@ import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
+import 'package:hadith/core/data/mapper/backup/counter_backup_mapper.dart';
 import 'package:hadith/core/data/mapper/backup/prayer_backup_mapper.dart';
 import 'package:hadith/core/data/mapper/backup/prayer_verse_backup_mapper.dart';
+import 'package:hadith/core/data/remote/backup_dtos/counter_backup_dto/counter_backup_dto.dart';
+import 'package:hadith/core/data/remote/backup_dtos/esmaul_husna_info_dto/esmaul_husna_info_dto.dart';
 import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
+import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_non_removable_dto.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
 
 @dao
@@ -18,6 +25,9 @@ abstract class BackupDao{
 
   @Query("""select * from history""")
   Future<List<HistoryEntity>> getHistories();
+
+  @Query("""select * from esmaulHusna where counterId is not null""")
+  Future<List<EsmaulHusnaEntity>> getEsmaulHusnas();
 
   @Query("""select * from list""")
   Future<List<ListEntity>> getLists();
@@ -40,6 +50,9 @@ abstract class BackupDao{
   @Query("""select * from prayers where typeId = :typeId""")
   Future<List<PrayerEntity>> getPrayersWithTypeId(int typeId);
 
+  @Query("""select * from prayers where isRemovable = 0""")
+  Future<List<PrayerEntity>> getPrayersNonRemovable();
+
   @Query("""select * from prayerVerses where prayerId = :prayerId""")
   Future<List<PrayerVerseEntity>> getPrayerVersesByPrayerId(int prayerId);
 
@@ -56,19 +69,6 @@ abstract class BackupDao{
     }
     return result;
   }
-
-  @transaction
-  Future<void> insertPrayerBackups(List<PrayerBackupDto> prayerBackups)async{
-    for(final prayer in prayerBackups){
-      final prayerVerseDtos = prayer.prayerVerseBackups;
-      final prayerId = await insertPrayerEntity(prayer.toPrayerEntity());
-      final prayerVerseEntities = prayerVerseDtos.map((e){
-        return e.copyWith(prayerId: prayerId).toPrayerVerseEntity();
-      }).toList();
-      await insertPrayerVerseEntities(prayerVerseEntities);
-    }
-  }
-
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertHistories(List<HistoryEntity> histories);
@@ -114,11 +114,25 @@ abstract class BackupDao{
   Future<void> insertTopicSavePoint(TopicSavePointEntity topicSavePointEntity);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertCounterEntity(CounterEntity counterEntity);
+  Future<int> insertCounterEntity(CounterEntity counterEntity);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> insertPrayerEntity(PrayerEntity prayer);
 
+  @Query("""
+    update esmaulHusna set counterId = :counterId where orderItem = :orderItem
+  """)
+  Future<void> updateEsmaulHusnaCounterId(int orderItem, int counterId);
+
+  @Query("""
+    update prayers set parentPrayerId = :parentPrayerId where orderItem = :orderItem and typeId = :typeId
+  """)
+  Future<void> updateNonRemovablePrayers(int orderItem, int typeId, int parentPrayerId);
+
+  @Query("""
+    update prayers set counterId = :counterId where id = :id
+  """)
+  Future<void> updatePrayerCounterId(int counterId, int id);
 
 
   @Query("""delete from history""")
@@ -152,5 +166,7 @@ abstract class BackupDao{
   Future<void> deletePrayers()async{
     await deletePrayersWithTypeId(PrayerTypeEnum.custom.typeId);
   }
+
+
 
 }

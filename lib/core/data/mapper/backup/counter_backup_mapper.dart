@@ -5,11 +5,11 @@ import 'package:hadith/core/data/remote/backup_dtos/counter_backup_dto/counter_b
 
 
 extension CounterBackupDtoExt on CounterBackupDto{
-  CounterEntity toCounterEntity(){
+  CounterEntity toCounterEntity({int? updatedPrayerId}){
     return CounterEntity(
-      id: id,
       name: name,
-      typeId: typeId,
+      prayerId: updatedPrayerId,
+      typeId: type,
       lastCounter: lastCounter,
       orderItem: orderItem,
       description: description,
@@ -27,7 +27,8 @@ extension CounterEntityExt on CounterEntity{
     return CounterBackupDto(
         id: id,
         name: name,
-        typeId: typeId,
+        prayerId: prayerId,
+        type: typeId,
         lastCounter: lastCounter,
         orderItem: orderItem,
         description: description,

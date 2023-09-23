@@ -13,10 +13,11 @@ class CounterBackupDto with _$CounterBackupDto{
     String? meaning,
     String? description,
     int? goal,
+    int? prayerId,
     required String name,
     required int orderItem,
     required int lastCounter,
-    required int typeId
+    required int type
   }) = _CounterBackupDto;
 
   factory CounterBackupDto.fromJson(Map<String, Object?> json) => _$CounterBackupDtoFromJson(json);

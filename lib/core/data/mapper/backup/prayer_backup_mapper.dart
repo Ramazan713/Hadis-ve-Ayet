@@ -9,6 +9,7 @@ extension PrayerEntityExt on PrayerEntity{
     required List<PrayerVerseBackupDto> prayerVerseBackups
   }){
     return PrayerBackupDto(
+      id: id,
       name: name,
       orderItem: orderItem,
       typeId: typeId,
@@ -25,7 +26,7 @@ extension PrayerEntityExt on PrayerEntity{
 
 
 extension PrayerBackupDtoExt on PrayerBackupDto{
-  PrayerEntity toPrayerEntity(){
+  PrayerEntity toPrayerEntity({int? parentPrayerId, int? counterId}){
     return PrayerEntity(
       name: name,
       orderItem: orderItem,

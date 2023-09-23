@@ -8,6 +8,7 @@ part of 'prayer_backup_dto.dart';
 
 _$_PrayerBackupDto _$$_PrayerBackupDtoFromJson(Map<String, dynamic> json) =>
     _$_PrayerBackupDto(
+      id: json['id'] as int?,
       name: json['name'] as String?,
       arabicContent: json['arabicContent'] as String?,
       meaningContent: json['meaningContent'] as String?,
@@ -25,6 +26,7 @@ _$_PrayerBackupDto _$$_PrayerBackupDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_PrayerBackupDtoToJson(_$_PrayerBackupDto instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'arabicContent': instance.arabicContent,
       'meaningContent': instance.meaningContent,

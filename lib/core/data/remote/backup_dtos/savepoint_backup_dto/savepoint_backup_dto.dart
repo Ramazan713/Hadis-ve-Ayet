@@ -13,7 +13,7 @@ class SavePointBackupDto with _$SavePointBackupDto{
     required int autoType,
     required String modifiedDate,
     required int savePointType,
-    required int bookScope,
+    required int bookIdBinary,
     required String parentName,
     required String parentKey
   }) = _SavePointBackupDto;

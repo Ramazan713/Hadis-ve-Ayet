@@ -8,6 +8,7 @@ part 'prayer_backup_dto.g.dart';
 @freezed
 class PrayerBackupDto with _$PrayerBackupDto{
   const factory PrayerBackupDto({
+    int? id,
     String? name,
     String? arabicContent,
     String? meaningContent,

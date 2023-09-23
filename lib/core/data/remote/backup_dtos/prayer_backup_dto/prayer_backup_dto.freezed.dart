@@ -20,6 +20,7 @@ PrayerBackupDto _$PrayerBackupDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PrayerBackupDto {
+  int? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get arabicContent => throw _privateConstructorUsedError;
   String? get meaningContent => throw _privateConstructorUsedError;
@@ -46,7 +47,8 @@ abstract class $PrayerBackupDtoCopyWith<$Res> {
       _$PrayerBackupDtoCopyWithImpl<$Res, PrayerBackupDto>;
   @useResult
   $Res call(
-      {String? name,
+      {int? id,
+      String? name,
       String? arabicContent,
       String? meaningContent,
       String? pronunciationContent,
@@ -72,6 +74,7 @@ class _$PrayerBackupDtoCopyWithImpl<$Res, $Val extends PrayerBackupDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? arabicContent = freezed,
     Object? meaningContent = freezed,
@@ -85,6 +88,10 @@ class _$PrayerBackupDtoCopyWithImpl<$Res, $Val extends PrayerBackupDto>
     Object? prayerVerseBackups = null,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -142,7 +149,8 @@ abstract class _$$_PrayerBackupDtoCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? name,
+      {int? id,
+      String? name,
       String? arabicContent,
       String? meaningContent,
       String? pronunciationContent,
@@ -166,6 +174,7 @@ class __$$_PrayerBackupDtoCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? arabicContent = freezed,
     Object? meaningContent = freezed,
@@ -179,6 +188,10 @@ class __$$_PrayerBackupDtoCopyWithImpl<$Res>
     Object? prayerVerseBackups = null,
   }) {
     return _then(_$_PrayerBackupDto(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -233,7 +246,8 @@ class _$_PrayerBackupDto
     with DiagnosticableTreeMixin
     implements _PrayerBackupDto {
   const _$_PrayerBackupDto(
-      {this.name,
+      {this.id,
+      this.name,
       this.arabicContent,
       this.meaningContent,
       this.pronunciationContent,
@@ -249,6 +263,8 @@ class _$_PrayerBackupDto
   factory _$_PrayerBackupDto.fromJson(Map<String, dynamic> json) =>
       _$$_PrayerBackupDtoFromJson(json);
 
+  @override
+  final int? id;
   @override
   final String? name;
   @override
@@ -280,7 +296,7 @@ class _$_PrayerBackupDto
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PrayerBackupDto(name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, counterId: $counterId, parentPrayerId: $parentPrayerId, typeId: $typeId, orderItem: $orderItem, isRemovable: $isRemovable, prayerVerseBackups: $prayerVerseBackups)';
+    return 'PrayerBackupDto(id: $id, name: $name, arabicContent: $arabicContent, meaningContent: $meaningContent, pronunciationContent: $pronunciationContent, source: $source, counterId: $counterId, parentPrayerId: $parentPrayerId, typeId: $typeId, orderItem: $orderItem, isRemovable: $isRemovable, prayerVerseBackups: $prayerVerseBackups)';
   }
 
   @override
@@ -288,6 +304,7 @@ class _$_PrayerBackupDto
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'PrayerBackupDto'))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('arabicContent', arabicContent))
       ..add(DiagnosticsProperty('meaningContent', meaningContent))
@@ -306,6 +323,7 @@ class _$_PrayerBackupDto
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PrayerBackupDto &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.arabicContent, arabicContent) ||
                 other.arabicContent == arabicContent) &&
@@ -331,6 +349,7 @@ class _$_PrayerBackupDto
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       arabicContent,
       meaningContent,
@@ -359,7 +378,8 @@ class _$_PrayerBackupDto
 
 abstract class _PrayerBackupDto implements PrayerBackupDto {
   const factory _PrayerBackupDto(
-          {final String? name,
+          {final int? id,
+          final String? name,
           final String? arabicContent,
           final String? meaningContent,
           final String? pronunciationContent,
@@ -375,6 +395,8 @@ abstract class _PrayerBackupDto implements PrayerBackupDto {
   factory _PrayerBackupDto.fromJson(Map<String, dynamic> json) =
       _$_PrayerBackupDto.fromJson;
 
+  @override
+  int? get id;
   @override
   String? get name;
   @override

@@ -26,7 +26,7 @@ mixin _$SavePointBackupDto {
   int get autoType => throw _privateConstructorUsedError;
   String get modifiedDate => throw _privateConstructorUsedError;
   int get savePointType => throw _privateConstructorUsedError;
-  int get bookScope => throw _privateConstructorUsedError;
+  int get bookIdBinary => throw _privateConstructorUsedError;
   String get parentName => throw _privateConstructorUsedError;
   String get parentKey => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $SavePointBackupDtoCopyWith<$Res> {
       int autoType,
       String modifiedDate,
       int savePointType,
-      int bookScope,
+      int bookIdBinary,
       String parentName,
       String parentKey});
 }
@@ -73,7 +73,7 @@ class _$SavePointBackupDtoCopyWithImpl<$Res, $Val extends SavePointBackupDto>
     Object? autoType = null,
     Object? modifiedDate = null,
     Object? savePointType = null,
-    Object? bookScope = null,
+    Object? bookIdBinary = null,
     Object? parentName = null,
     Object? parentKey = null,
   }) {
@@ -102,9 +102,9 @@ class _$SavePointBackupDtoCopyWithImpl<$Res, $Val extends SavePointBackupDto>
           ? _value.savePointType
           : savePointType // ignore: cast_nullable_to_non_nullable
               as int,
-      bookScope: null == bookScope
-          ? _value.bookScope
-          : bookScope // ignore: cast_nullable_to_non_nullable
+      bookIdBinary: null == bookIdBinary
+          ? _value.bookIdBinary
+          : bookIdBinary // ignore: cast_nullable_to_non_nullable
               as int,
       parentName: null == parentName
           ? _value.parentName
@@ -133,7 +133,7 @@ abstract class _$$_SavePointBackupDtoCopyWith<$Res>
       int autoType,
       String modifiedDate,
       int savePointType,
-      int bookScope,
+      int bookIdBinary,
       String parentName,
       String parentKey});
 }
@@ -155,7 +155,7 @@ class __$$_SavePointBackupDtoCopyWithImpl<$Res>
     Object? autoType = null,
     Object? modifiedDate = null,
     Object? savePointType = null,
-    Object? bookScope = null,
+    Object? bookIdBinary = null,
     Object? parentName = null,
     Object? parentKey = null,
   }) {
@@ -184,9 +184,9 @@ class __$$_SavePointBackupDtoCopyWithImpl<$Res>
           ? _value.savePointType
           : savePointType // ignore: cast_nullable_to_non_nullable
               as int,
-      bookScope: null == bookScope
-          ? _value.bookScope
-          : bookScope // ignore: cast_nullable_to_non_nullable
+      bookIdBinary: null == bookIdBinary
+          ? _value.bookIdBinary
+          : bookIdBinary // ignore: cast_nullable_to_non_nullable
               as int,
       parentName: null == parentName
           ? _value.parentName
@@ -212,7 +212,7 @@ class _$_SavePointBackupDto
       required this.autoType,
       required this.modifiedDate,
       required this.savePointType,
-      required this.bookScope,
+      required this.bookIdBinary,
       required this.parentName,
       required this.parentKey});
 
@@ -232,7 +232,7 @@ class _$_SavePointBackupDto
   @override
   final int savePointType;
   @override
-  final int bookScope;
+  final int bookIdBinary;
   @override
   final String parentName;
   @override
@@ -240,7 +240,7 @@ class _$_SavePointBackupDto
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SavePointBackupDto(id: $id, itemIndexPos: $itemIndexPos, title: $title, autoType: $autoType, modifiedDate: $modifiedDate, savePointType: $savePointType, bookScope: $bookScope, parentName: $parentName, parentKey: $parentKey)';
+    return 'SavePointBackupDto(id: $id, itemIndexPos: $itemIndexPos, title: $title, autoType: $autoType, modifiedDate: $modifiedDate, savePointType: $savePointType, bookIdBinary: $bookIdBinary, parentName: $parentName, parentKey: $parentKey)';
   }
 
   @override
@@ -254,7 +254,7 @@ class _$_SavePointBackupDto
       ..add(DiagnosticsProperty('autoType', autoType))
       ..add(DiagnosticsProperty('modifiedDate', modifiedDate))
       ..add(DiagnosticsProperty('savePointType', savePointType))
-      ..add(DiagnosticsProperty('bookScope', bookScope))
+      ..add(DiagnosticsProperty('bookIdBinary', bookIdBinary))
       ..add(DiagnosticsProperty('parentName', parentName))
       ..add(DiagnosticsProperty('parentKey', parentKey));
   }
@@ -274,8 +274,8 @@ class _$_SavePointBackupDto
                 other.modifiedDate == modifiedDate) &&
             (identical(other.savePointType, savePointType) ||
                 other.savePointType == savePointType) &&
-            (identical(other.bookScope, bookScope) ||
-                other.bookScope == bookScope) &&
+            (identical(other.bookIdBinary, bookIdBinary) ||
+                other.bookIdBinary == bookIdBinary) &&
             (identical(other.parentName, parentName) ||
                 other.parentName == parentName) &&
             (identical(other.parentKey, parentKey) ||
@@ -284,8 +284,17 @@ class _$_SavePointBackupDto
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, itemIndexPos, title,
-      autoType, modifiedDate, savePointType, bookScope, parentName, parentKey);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      itemIndexPos,
+      title,
+      autoType,
+      modifiedDate,
+      savePointType,
+      bookIdBinary,
+      parentName,
+      parentKey);
 
   @JsonKey(ignore: true)
   @override
@@ -310,7 +319,7 @@ abstract class _SavePointBackupDto implements SavePointBackupDto {
       required final int autoType,
       required final String modifiedDate,
       required final int savePointType,
-      required final int bookScope,
+      required final int bookIdBinary,
       required final String parentName,
       required final String parentKey}) = _$_SavePointBackupDto;
 
@@ -330,7 +339,7 @@ abstract class _SavePointBackupDto implements SavePointBackupDto {
   @override
   int get savePointType;
   @override
-  int get bookScope;
+  int get bookIdBinary;
   @override
   String get parentName;
   @override

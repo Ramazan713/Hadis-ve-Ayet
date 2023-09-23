@@ -15,7 +15,7 @@ _$_SavePointBackupDto _$$_SavePointBackupDtoFromJson(
       autoType: json['autoType'] as int,
       modifiedDate: json['modifiedDate'] as String,
       savePointType: json['savePointType'] as int,
-      bookScope: json['bookScope'] as int,
+      bookIdBinary: json['bookIdBinary'] as int,
       parentName: json['parentName'] as String,
       parentKey: json['parentKey'] as String,
     );
@@ -29,7 +29,7 @@ Map<String, dynamic> _$$_SavePointBackupDtoToJson(
       'autoType': instance.autoType,
       'modifiedDate': instance.modifiedDate,
       'savePointType': instance.savePointType,
-      'bookScope': instance.bookScope,
+      'bookIdBinary': instance.bookIdBinary,
       'parentName': instance.parentName,
       'parentKey': instance.parentKey,
     };

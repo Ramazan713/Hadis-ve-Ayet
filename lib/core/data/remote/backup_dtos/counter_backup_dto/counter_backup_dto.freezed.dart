@@ -26,10 +26,11 @@ mixin _$CounterBackupDto {
   String? get meaning => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   int? get goal => throw _privateConstructorUsedError;
+  int? get prayerId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get orderItem => throw _privateConstructorUsedError;
   int get lastCounter => throw _privateConstructorUsedError;
-  int get typeId => throw _privateConstructorUsedError;
+  int get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,10 +51,11 @@ abstract class $CounterBackupDtoCopyWith<$Res> {
       String? meaning,
       String? description,
       int? goal,
+      int? prayerId,
       String name,
       int orderItem,
       int lastCounter,
-      int typeId});
+      int type});
 }
 
 /// @nodoc
@@ -75,10 +77,11 @@ class _$CounterBackupDtoCopyWithImpl<$Res, $Val extends CounterBackupDto>
     Object? meaning = freezed,
     Object? description = freezed,
     Object? goal = freezed,
+    Object? prayerId = freezed,
     Object? name = null,
     Object? orderItem = null,
     Object? lastCounter = null,
-    Object? typeId = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -105,6 +108,10 @@ class _$CounterBackupDtoCopyWithImpl<$Res, $Val extends CounterBackupDto>
           ? _value.goal
           : goal // ignore: cast_nullable_to_non_nullable
               as int?,
+      prayerId: freezed == prayerId
+          ? _value.prayerId
+          : prayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -117,9 +124,9 @@ class _$CounterBackupDtoCopyWithImpl<$Res, $Val extends CounterBackupDto>
           ? _value.lastCounter
           : lastCounter // ignore: cast_nullable_to_non_nullable
               as int,
-      typeId: null == typeId
-          ? _value.typeId
-          : typeId // ignore: cast_nullable_to_non_nullable
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -140,10 +147,11 @@ abstract class _$$_CounterBackupDtoCopyWith<$Res>
       String? meaning,
       String? description,
       int? goal,
+      int? prayerId,
       String name,
       int orderItem,
       int lastCounter,
-      int typeId});
+      int type});
 }
 
 /// @nodoc
@@ -163,10 +171,11 @@ class __$$_CounterBackupDtoCopyWithImpl<$Res>
     Object? meaning = freezed,
     Object? description = freezed,
     Object? goal = freezed,
+    Object? prayerId = freezed,
     Object? name = null,
     Object? orderItem = null,
     Object? lastCounter = null,
-    Object? typeId = null,
+    Object? type = null,
   }) {
     return _then(_$_CounterBackupDto(
       id: freezed == id
@@ -193,6 +202,10 @@ class __$$_CounterBackupDtoCopyWithImpl<$Res>
           ? _value.goal
           : goal // ignore: cast_nullable_to_non_nullable
               as int?,
+      prayerId: freezed == prayerId
+          ? _value.prayerId
+          : prayerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -205,9 +218,9 @@ class __$$_CounterBackupDtoCopyWithImpl<$Res>
           ? _value.lastCounter
           : lastCounter // ignore: cast_nullable_to_non_nullable
               as int,
-      typeId: null == typeId
-          ? _value.typeId
-          : typeId // ignore: cast_nullable_to_non_nullable
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -225,10 +238,11 @@ class _$_CounterBackupDto
       this.meaning,
       this.description,
       this.goal,
+      this.prayerId,
       required this.name,
       required this.orderItem,
       required this.lastCounter,
-      required this.typeId});
+      required this.type});
 
   factory _$_CounterBackupDto.fromJson(Map<String, dynamic> json) =>
       _$$_CounterBackupDtoFromJson(json);
@@ -246,17 +260,19 @@ class _$_CounterBackupDto
   @override
   final int? goal;
   @override
+  final int? prayerId;
+  @override
   final String name;
   @override
   final int orderItem;
   @override
   final int lastCounter;
   @override
-  final int typeId;
+  final int type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CounterBackupDto(id: $id, content: $content, arabicContent: $arabicContent, meaning: $meaning, description: $description, goal: $goal, name: $name, orderItem: $orderItem, lastCounter: $lastCounter, typeId: $typeId)';
+    return 'CounterBackupDto(id: $id, content: $content, arabicContent: $arabicContent, meaning: $meaning, description: $description, goal: $goal, prayerId: $prayerId, name: $name, orderItem: $orderItem, lastCounter: $lastCounter, type: $type)';
   }
 
   @override
@@ -270,10 +286,11 @@ class _$_CounterBackupDto
       ..add(DiagnosticsProperty('meaning', meaning))
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('goal', goal))
+      ..add(DiagnosticsProperty('prayerId', prayerId))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('orderItem', orderItem))
       ..add(DiagnosticsProperty('lastCounter', lastCounter))
-      ..add(DiagnosticsProperty('typeId', typeId));
+      ..add(DiagnosticsProperty('type', type));
   }
 
   @override
@@ -289,18 +306,20 @@ class _$_CounterBackupDto
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.goal, goal) || other.goal == goal) &&
+            (identical(other.prayerId, prayerId) ||
+                other.prayerId == prayerId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
             (identical(other.lastCounter, lastCounter) ||
                 other.lastCounter == lastCounter) &&
-            (identical(other.typeId, typeId) || other.typeId == typeId));
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, content, arabicContent,
-      meaning, description, goal, name, orderItem, lastCounter, typeId);
+      meaning, description, goal, prayerId, name, orderItem, lastCounter, type);
 
   @JsonKey(ignore: true)
   @override
@@ -324,10 +343,11 @@ abstract class _CounterBackupDto implements CounterBackupDto {
       final String? meaning,
       final String? description,
       final int? goal,
+      final int? prayerId,
       required final String name,
       required final int orderItem,
       required final int lastCounter,
-      required final int typeId}) = _$_CounterBackupDto;
+      required final int type}) = _$_CounterBackupDto;
 
   factory _CounterBackupDto.fromJson(Map<String, dynamic> json) =
       _$_CounterBackupDto.fromJson;
@@ -345,13 +365,15 @@ abstract class _CounterBackupDto implements CounterBackupDto {
   @override
   int? get goal;
   @override
+  int? get prayerId;
+  @override
   String get name;
   @override
   int get orderItem;
   @override
   int get lastCounter;
   @override
-  int get typeId;
+  int get type;
   @override
   @JsonKey(ignore: true)
   _$$_CounterBackupDtoCopyWith<_$_CounterBackupDto> get copyWith =>

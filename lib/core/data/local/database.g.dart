@@ -4089,6 +4089,22 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
+  Future<List<EsmaulHusnaEntity>> getEsmaulHusnas() async {
+    return _queryAdapter.queryList(
+        'select * from esmaulHusna where counterId is not null',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String));
+  }
+
+  @override
   Future<List<ListEntity>> getLists() async {
     return _queryAdapter.queryList('select * from list',
         mapper: (Map<String, Object?> row) => ListEntity(
@@ -4180,6 +4196,25 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
+  Future<List<PrayerEntity>> getPrayersNonRemovable() async {
+    return _queryAdapter.queryList(
+        'select * from prayers where isRemovable = 0',
+        mapper: (Map<String, Object?> row) => PrayerEntity(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            arabicContent: row['arabicContent'] as String?,
+            meaningContent: row['meaningContent'] as String?,
+            pronunciationContent: row['pronunciationContent'] as String?,
+            source: row['source'] as String?,
+            typeId: row['typeId'] as int,
+            orderItem: row['orderItem'] as int,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            counterId: row['counterId'] as int?,
+            updateCounter: (row['updateCounter'] as int) != 0,
+            parentPrayerId: row['parentPrayerId'] as int?));
+  }
+
+  @override
   Future<List<PrayerVerseEntity>> getPrayerVersesByPrayerId(
       int prayerId) async {
     return _queryAdapter.queryList(
@@ -4190,6 +4225,37 @@ class _$BackupDao extends BackupDao {
             prayerId: row['prayerId'] as int,
             orderItem: row['orderItem'] as int),
         arguments: [prayerId]);
+  }
+
+  @override
+  Future<void> updateEsmaulHusnaCounterId(
+    int orderItem,
+    int counterId,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'update esmaulHusna set counterId = ?2 where orderItem = ?1',
+        arguments: [orderItem, counterId]);
+  }
+
+  @override
+  Future<void> updateNonRemovablePrayers(
+    int orderItem,
+    int typeId,
+    int parentPrayerId,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'update prayers set parentPrayerId = ?3 where orderItem = ?1 and typeId = ?2',
+        arguments: [orderItem, typeId, parentPrayerId]);
+  }
+
+  @override
+  Future<void> updatePrayerCounterId(
+    int counterId,
+    int id,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'update prayers set counterId = ?1 where id = ?2',
+        arguments: [counterId, id]);
   }
 
   @override
@@ -4321,8 +4387,8 @@ class _$BackupDao extends BackupDao {
   }
 
   @override
-  Future<void> insertCounterEntity(CounterEntity counterEntity) async {
-    await _counterEntityInsertionAdapter.insert(
+  Future<int> insertCounterEntity(CounterEntity counterEntity) {
+    return _counterEntityInsertionAdapter.insertAndReturnId(
         counterEntity, OnConflictStrategy.replace);
   }
 
@@ -4347,20 +4413,6 @@ class _$BackupDao extends BackupDao {
         final transactionDatabase = _$AppDatabase(changeListener)
           ..database = transaction;
         return transactionDatabase.backupDao.getPrayersBackupDto();
-      });
-    }
-  }
-
-  @override
-  Future<void> insertPrayerBackups(List<PrayerBackupDto> prayerBackups) async {
-    if (database is sqflite.Transaction) {
-      await super.insertPrayerBackups(prayerBackups);
-    } else {
-      await (database as sqflite.Database)
-          .transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)
-          ..database = transaction;
-        await transactionDatabase.backupDao.insertPrayerBackups(prayerBackups);
       });
     }
   }
