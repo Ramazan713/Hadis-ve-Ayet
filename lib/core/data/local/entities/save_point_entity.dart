@@ -4,12 +4,9 @@ import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/book_entity.dart';
 import 'package:hadith/core/data/local/entities/savepoint_type_entity.dart';
 
-@Entity(tableName: "savePoints",foreignKeys: [
-  ForeignKey(
-      childColumns: ["bookId"],
-      parentColumns: ["id"],
-      entity: BookEntity)
-])
+@Entity(
+    tableName: "savePoints"
+)
 class SavePointEntity{
   @PrimaryKey(autoGenerate: true)
   final int? id;

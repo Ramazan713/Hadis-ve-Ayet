@@ -133,7 +133,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 4,
+      version: 5,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -191,7 +191,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `verseArabic` (`id` INTEGER, `mealId` INTEGER NOT NULL, `verse` TEXT NOT NULL, `verseNumber` TEXT NOT NULL, `verseNumberTr` INTEGER NOT NULL, FOREIGN KEY (`mealId`) REFERENCES `verse` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL, FOREIGN KEY (`bookId`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `savePoints` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `itemIndexPos` INTEGER NOT NULL, `title` TEXT NOT NULL, `autoType` INTEGER NOT NULL, `modifiedDate` TEXT NOT NULL, `savePointType` INTEGER NOT NULL, `bookScope` INTEGER NOT NULL, `parentName` TEXT NOT NULL, `parentKey` TEXT NOT NULL)');
 
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `ListVerseView` AS   select L.id,L.name,L.isRemovable,L.isArchive,L.sourceId,count(LV.verseId)itemCounts,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos \n  from List L left join ListVerse LV on L.id=LV.listId where L.sourceId=2  group by L.id');
@@ -200,7 +200,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `cuzAudioView` AS   select E.name editionName, E.identifier,  V.cuzNo, \n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.cuzNo=V.cuzNo) then 1 else 0 end isDownloaded,\n  C.name cuzName\n  from  verse V, VerseAudio A, AudioEdition E, Cuz C\n  where  A.identifier = E.identifier and A.mealId=V.id and C.cuzNo = V.cuzNo\n  group by E.identifier, C.name, V.cuzNo\n  ');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `surahAudioView` AS select E.name editionName , E.identifier, V.surahId, S.name surahName,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.surahId=V.surahId) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E, Surah S\n  where V.id=A.mealId and A.identifier = E.identifier and S.id = V.surahId\n  group by E.identifier,V.surahId, S.name\n  ');
+            'CREATE VIEW IF NOT EXISTS `SurahAudioView` AS select E.name editionName , E.identifier, V.surahId, S.name surahName,\n  case when count(A.mealId) = (select count(VX.id) from Verse VX where VX.surahId=V.surahId) then 1 else 0 end isDownloaded\n  from  verse V, VerseAudio A, AudioEdition E, Surah S\n  where V.id=A.mealId and A.identifier = E.identifier and S.id = V.surahId\n  group by E.identifier,V.surahId, S.name\n  ');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `SectionTopicsView` AS     select S.id, S.name, S.searchName, S.bookId, count(T.id)topicCount from section S,Topic T \n    where S.id=T.sectionId  group by S.id\n  ');
         await database.execute(

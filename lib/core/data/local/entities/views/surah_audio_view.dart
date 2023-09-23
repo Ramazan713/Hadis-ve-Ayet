@@ -6,7 +6,7 @@ import 'package:floor/floor.dart';
   from  verse V, VerseAudio A, AudioEdition E, Surah S
   where V.id=A.mealId and A.identifier = E.identifier and S.id = V.surahId
   group by E.identifier,V.surahId, S.name
-  """, viewName: "surahAudioView")
+  """, viewName: "SurahAudioView")
 class SurahAudioView{
   final String editionName;
   final String identifier;

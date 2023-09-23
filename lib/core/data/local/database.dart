@@ -73,7 +73,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 part 'database.g.dart';
 
 @Database(
-    version: 4,
+    version: 5,
     entities: [
       HadithEntity,ListHadithEntity, ListVerseEntity, ListEntity,
       PrayerEntity, EsmaulHusnaEntity, CounterEntity, SavePointTypeEntity,
