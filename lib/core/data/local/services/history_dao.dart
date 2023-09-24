@@ -6,10 +6,10 @@ import 'package:hadith/core/data/local/entities/history_entity.dart';
 @dao
 abstract class HistoryDao{
 
-  @Query("select * from history order by modifiedDate desc")
+  @Query("select * from histories order by modifiedDate desc")
   Stream<List<HistoryEntity>> getStreamHistories();
 
-  @Query("""select * from history where lower(name) = lower(:name)""")
+  @Query("""select * from histories where lower(name) = lower(:name)""")
   Future<HistoryEntity?> getHistoryEntity(String name);
 
   @Insert(onConflict: OnConflictStrategy.replace)

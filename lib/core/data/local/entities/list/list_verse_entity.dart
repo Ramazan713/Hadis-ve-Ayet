@@ -4,23 +4,30 @@
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/verse_entity.dart';
 
-@Entity(tableName: "listVerse",foreignKeys: [
-  ForeignKey(
+@Entity(
+  tableName: "ListVerses",
+  foreignKeys: [
+    ForeignKey(
       childColumns: ["listId"],
       parentColumns: ["id"],
       entity: List
-  ),
-  ForeignKey(
+    ),
+    ForeignKey(
       childColumns: ["verseId"],
       parentColumns: ["id"],
       entity: VerseEntity
-  )
-],primaryKeys: ["listId","verseId"])
+    )
+  ],
+  primaryKeys: ["listId","verseId"]
+)
 class ListVerseEntity{
   final int listId;
   final int verseId;
   final int pos;
 
-
-  const ListVerseEntity({required this.listId,required this.verseId,required this.pos});
+  const ListVerseEntity({
+    required this.listId,
+    required this.verseId,
+    required this.pos
+  });
 }

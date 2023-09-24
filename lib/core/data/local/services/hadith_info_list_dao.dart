@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../entities/views/hadith_info_list_view.dart';
+import '../views/hadith_info_list_view.dart';
 
 @dao
 abstract class HadithInfoListDao{

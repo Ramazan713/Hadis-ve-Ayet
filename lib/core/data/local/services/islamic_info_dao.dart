@@ -7,10 +7,10 @@ import 'package:hadith/core/data/local/entities/islamic_info/islamic_info_title_
 @dao
 abstract class IslamicInfoDao{
 
-  @Query("select * from islamicInfoTitle where type=:type")
+  @Query("select * from islamicInfoTitles where type=:type")
   Future<List<IslamicInfoTitleEntity>> getIslamicInfoTitlesByTypeId(int type);
 
-  @Query("select * from islamicInfoItem where titleId=:titleId")
+  @Query("select * from islamicInfoItems where titleId=:titleId")
   Future<List<IslamicInfoItemEntity>> getIslamicInfoItemsByTitleId(int titleId);
 
 }

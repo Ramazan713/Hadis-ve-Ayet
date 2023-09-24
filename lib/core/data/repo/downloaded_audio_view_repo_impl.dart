@@ -2,8 +2,8 @@
 
 
 import 'package:hadith/core/data/local/entities/verse_audio_entity.dart';
-import 'package:hadith/core/data/local/entities/views/cuz_audio_view.dart';
-import 'package:hadith/core/data/local/entities/views/surah_audio_view.dart';
+import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
+import 'package:hadith/core/data/local/views/surah_audio_view.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_audio_dao.dart';
 import 'package:hadith/core/domain/services/file_service.dart';

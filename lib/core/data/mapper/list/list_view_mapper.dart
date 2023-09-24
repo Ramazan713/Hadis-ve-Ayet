@@ -1,7 +1,7 @@
 
 
-import 'package:hadith/core/data/local/entities/views/list_hadith_view.dart';
-import 'package:hadith/core/data/local/entities/views/list_verse_view.dart';
+import 'package:hadith/core/data/local/views/list_hadith_view.dart';
+import 'package:hadith/core/data/local/views/list_verse_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_model.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';

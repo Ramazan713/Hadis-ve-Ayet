@@ -5,14 +5,14 @@ import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/source_type_entity.dart';
 
 @Entity(
-    tableName: "History",
-    foreignKeys: [
-      ForeignKey(
-        childColumns: ["originType"],
-        parentColumns: ["id"],
-        entity: SourceTypeEntity
-      )
-    ]
+  tableName: "Histories",
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ["originType"],
+      parentColumns: ["id"],
+      entity: SourceTypeEntity
+    )
+  ]
 )
 class HistoryEntity {
   @PrimaryKey(autoGenerate: true)
@@ -21,5 +21,10 @@ class HistoryEntity {
   final int originType;
   final String modifiedDate;
 
-  const HistoryEntity({this.id, required this.name, required this.originType,required this.modifiedDate});
+  const HistoryEntity({
+    this.id,
+    required this.name,
+    required this.originType,
+    required this.modifiedDate
+  });
 }

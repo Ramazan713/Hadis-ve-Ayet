@@ -16,19 +16,19 @@ abstract class ListDao{
   Future<int> deleteList(ListEntity listEntity);
 
 
-  @Query("""select ifnull(max(pos),0) data from list where sourceId=:sourceId """)
+  @Query("""select ifnull(max(pos),0) data from lists where sourceId=:sourceId """)
   Future<int?> getMaxPosListWithSourceId(int sourceId);
 
-  @Query("""select ifnull(max(pos),0) data from list""")
+  @Query("""select ifnull(max(pos),0) data from lists""")
   Future<int?>getMaxPosList();
 
 
   @Query("""
-    select * from list where isRemovable = 0 and sourceId = :sourceId
+    select * from lists where isRemovable = 0 and sourceId = :sourceId
   """)
   Future<ListEntity?> getFavoriteList(int sourceId);
 
-  @Query("select name from list where id = :listId")
+  @Query("select name from lists where id = :listId")
   Future<String?> getListName(int listId);
 
 }

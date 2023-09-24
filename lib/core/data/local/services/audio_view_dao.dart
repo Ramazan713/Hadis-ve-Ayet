@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
-import 'package:hadith/core/data/local/entities/views/cuz_audio_view.dart';
-import 'package:hadith/core/data/local/entities/views/surah_audio_view.dart';
+import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
+import 'package:hadith/core/data/local/views/surah_audio_view.dart';
 
 @dao
 abstract class AudioViewDao{

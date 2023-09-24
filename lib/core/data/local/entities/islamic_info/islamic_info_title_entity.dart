@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "IslamicInfoTitle")
+@Entity(tableName: "IslamicInfoTitles")
 class IslamicInfoTitleEntity{
 
   @primaryKey
@@ -11,9 +11,9 @@ class IslamicInfoTitleEntity{
 
   IslamicInfoTitleEntity({
     this.id,
+    this.description,
     required this.title,
     required this.type,
-    this.description
   });
 
 }

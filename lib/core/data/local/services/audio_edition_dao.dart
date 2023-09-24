@@ -13,31 +13,31 @@ abstract class AudioEditionDao{
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void>updateAudioEditions(List<AudioEditionEntity>editions);
 
-  @Query("""select * from audioEdition""")
+  @Query("""select * from audioEditions""")
   Future<List<AudioEditionEntity>> getEditions();
 
-  @Query("""select * from audioEdition""")
+  @Query("""select * from audioEditions""")
   Stream<List<AudioEditionEntity>> getStreamEditions();
 
-  @Query("""select * from audioEdition where isSelected = 1""")
+  @Query("""select * from audioEditions where isSelected = 1""")
   Stream<AudioEditionEntity?> getSelectedStreamEdition();
 
-  @Query("""select * from audioEdition where isSelected = 1""")
+  @Query("""select * from audioEditions where isSelected = 1""")
   Future<AudioEditionEntity?> getSelectedEdition();
 
 
 
 
-  @Query("""select exists(select 1 from audioEdition) as data""")
+  @Query("""select exists(select 1 from audioEditions) as data""")
   Future<bool?> isEditionNotEmpty();
 
   @Query("""
-    select * from audioEdition where identifier = :identifier
+    select * from audioEditions where identifier = :identifier
   """)
   Future<AudioEditionEntity?> getEditionByIdentifier(String identifier);
 
   @Query("""
-    select name from audioEdition where identifier = :identifier
+    select name from audioEditions where identifier = :identifier
   """)
   Future<String?> getEditionNameByIdentifier(String identifier);
 

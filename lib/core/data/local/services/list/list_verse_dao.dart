@@ -23,21 +23,21 @@ abstract class ListVerseDao{
 
 
   @Query("""
-    select * from listVerse where verseId = :verseId and listId = :listId
+    select * from listVerses where verseId = :verseId and listId = :listId
   """)
   Future<ListVerseEntity?> getListVerse(int verseId, int listId);
 
   @Query("""
-    select ifnull(max(pos),0) from listVerse
+    select ifnull(max(pos),0) from listVerses
   """)
   Future<int?> getMaxPos();
 
-  @Query("""select * from listVerse where listId=:listId""")
+  @Query("""select * from listVerses where listId=:listId""")
   Future<List<ListVerseEntity>> getListVersesWithListId(int listId);
 
 
   @Query("""
-    select listId from listVerse where verseId = :verseId
+    select listId from listVerses where verseId = :verseId
   """)
   Future<List<int>> getListIdsFromVerseId(int verseId);
 

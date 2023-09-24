@@ -1,7 +1,7 @@
 
 
 import 'package:floor/floor.dart';
-import 'package:hadith/core/data/local/entities/views/section_topics_view.dart';
+import 'package:hadith/core/data/local/views/section_topics_view.dart';
 
 @dao
 abstract class SectionViewDao{

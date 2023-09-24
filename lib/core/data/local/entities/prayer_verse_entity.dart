@@ -4,20 +4,20 @@ import 'package:hadith/core/data/local/entities/verse_entity.dart';
 import 'prayer_entity.dart';
 
 @Entity(
-    tableName: "PrayerVerses",
-    foreignKeys: [
-      ForeignKey(
-          childColumns: ["verseId"],
-          parentColumns: ["id"],
-          entity: VerseEntity
-      ),
-      ForeignKey(
-          childColumns: ["prayerId"],
-          parentColumns: ["id"],
-          entity: PrayerEntity,
-          onDelete: ForeignKeyAction.cascade,
-      ),
-    ]
+  tableName: "PrayerVerses",
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ["verseId"],
+      parentColumns: ["id"],
+      entity: VerseEntity
+    ),
+    ForeignKey(
+      childColumns: ["prayerId"],
+      parentColumns: ["id"],
+      entity: PrayerEntity,
+      onDelete: ForeignKeyAction.cascade,
+    ),
+  ]
 )
 class PrayerVerseEntity{
   @primaryKey

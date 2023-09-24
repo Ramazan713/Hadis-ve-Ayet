@@ -3,13 +3,13 @@
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
 @Entity(
-    tableName: "EsmaulHusna",
+  tableName: "EsmaulHusnas",
   foreignKeys: [
     ForeignKey(
-        childColumns: ["counterId"],
-        parentColumns: ["id"],
-        entity: CounterEntity,
-        onDelete: ForeignKeyAction.setNull
+      childColumns: ["counterId"],
+      parentColumns: ["id"],
+      entity: CounterEntity,
+      onDelete: ForeignKeyAction.setNull
     )
   ]
 )

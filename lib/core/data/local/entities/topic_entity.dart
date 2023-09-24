@@ -3,13 +3,16 @@
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/section_entity.dart';
 
-@Entity(tableName: "topic",foreignKeys: [
-  ForeignKey(
+@Entity(
+  tableName: "Topics",
+  foreignKeys: [
+    ForeignKey(
       childColumns: ["sectionId"],
       parentColumns: ["id"],
       entity: SectionEntity
-  )
-])
+    )
+  ]
+)
 class TopicEntity{
   @PrimaryKey(autoGenerate: true)
   final int? id;

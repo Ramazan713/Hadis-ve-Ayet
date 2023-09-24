@@ -1,10 +1,14 @@
 
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "savePointType")
+@Entity(tableName: "SavePointTypes")
 class SavePointTypeEntity{
   @PrimaryKey(autoGenerate: false)
   final int? id;
   final String name;
-  SavePointTypeEntity({this.id,required this.name});
+
+  SavePointTypeEntity({
+    this.id,
+    required this.name
+  });
 }

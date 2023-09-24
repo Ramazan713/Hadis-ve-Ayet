@@ -4,14 +4,14 @@ import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/verse_entity.dart';
 
 @Entity(
-    tableName: "verseArabic",
-    foreignKeys: [
-      ForeignKey(
-          childColumns: ["mealId"],
-          parentColumns: ["id"],
-          entity: VerseEntity
-      )
-    ]
+  tableName: "VerseArabics",
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ["mealId"],
+      parentColumns: ["id"],
+      entity: VerseEntity
+    )
+  ]
 )
 class VerseArabicEntity{
   @primaryKey

@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "AudioEdition")
+@Entity(tableName: "AudioEditions")
 class AudioEditionEntity{
 
   @primaryKey

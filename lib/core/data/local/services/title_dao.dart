@@ -6,7 +6,7 @@ import 'package:floor/floor.dart';
 abstract class TitleDao{
 
   @Query("""
-    select name from topic where id = :topicId
+    select name from topics where id = :topicId
   """)
   Future<String?> getTopicTitleById(int topicId);
 
@@ -16,19 +16,19 @@ abstract class TitleDao{
   Future<String?> getCounterTitleById(int id);
 
   @Query("""
-    select name from list where id = :listId
+    select name from lists where id = :listId
   """)
   Future<String?> getListTitleById(int listId);
 
 
   @Query("""
-    select name from surah where id = :surahId
+    select name from surahs where id = :surahId
   """)
   Future<String?> getSurahTitleById(int surahId);
 
 
   @Query("""
-    select name from cuz where cuzNo = :cuzNo
+    select name from cuzs where cuzNo = :cuzNo
   """)
   Future<String?> getCuzTitleById(int cuzNo);
 

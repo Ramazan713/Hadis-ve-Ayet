@@ -6,23 +6,26 @@ import 'package:hadith/core/data/local/entities/book_entity.dart';
 import 'package:hadith/core/data/local/entities/cuz_entity.dart';
 import 'package:hadith/core/data/local/entities/surah_entity.dart';
 
-@Entity(tableName: "verse",foreignKeys: [
-  ForeignKey(
+@Entity(
+  tableName: "Verses",
+  foreignKeys: [
+    ForeignKey(
       childColumns: ["cuzNo"],
       parentColumns: ["cuzNo"],
       entity: CuzEntity
-  ),
-  ForeignKey(
+    ),
+    ForeignKey(
       childColumns: ["surahId"],
       parentColumns: ["id"],
       entity: SurahEntity
-  ),
-  ForeignKey(
+    ),
+    ForeignKey(
       childColumns: ["bookId"],
       parentColumns: ["id"],
       entity: BookEntity
-  )
-])
+    )
+  ]
+)
 class VerseEntity{
 
   @PrimaryKey(autoGenerate: true)

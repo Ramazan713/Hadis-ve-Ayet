@@ -3,7 +3,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "BackupMeta")
+@Entity(tableName: "BackupMetas")
 class BackupMetaEntity{
 
   @PrimaryKey(autoGenerate: true)

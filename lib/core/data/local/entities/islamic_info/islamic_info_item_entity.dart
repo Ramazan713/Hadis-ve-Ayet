@@ -2,12 +2,13 @@ import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/islamic_info/islamic_info_title_entity.dart';
 
 
-@Entity(tableName: "IslamicInfoItem",
+@Entity(
+  tableName: "IslamicInfoItems",
   foreignKeys: [
     ForeignKey(
-        childColumns: ["titleId"],
-        parentColumns: ["id"],
-        entity: IslamicInfoTitleEntity
+      childColumns: ["titleId"],
+      parentColumns: ["id"],
+      entity: IslamicInfoTitleEntity
     )
   ]
 )
@@ -19,8 +20,11 @@ class IslamicInfoItemEntity{
   final String? name;
   final String? description;
 
-  IslamicInfoItemEntity({this.id,this.name,required this.titleId,
-    this.description
+  IslamicInfoItemEntity({
+    this.id,
+    this.name,
+    this.description,
+    required this.titleId,
   });
 
 }

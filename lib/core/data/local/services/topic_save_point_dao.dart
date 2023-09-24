@@ -15,11 +15,11 @@ abstract class TopicSavePointDao{
   @delete
   Future<void> deleteTopicSavePoint(TopicSavePointEntity topicSavePointEntity);
 
-  @Query("""select * from topicSavePoint where type=:type and parentKey=:parentKey
+  @Query("""select * from topicSavePoints where type=:type and parentKey=:parentKey
      order by id desc limit 1""")
   Stream<TopicSavePointEntity?> getStreamTopicSavePointEntity(int type, String parentKey);
 
-  @Query("""select * from topicSavePoint where type=:type and parentKey=:parentKey
+  @Query("""select * from topicSavePoints where type=:type and parentKey=:parentKey
      order by id desc limit 1""")
   Future<TopicSavePointEntity?> getTopicSavePointEntity(int type, String parentKey);
 }

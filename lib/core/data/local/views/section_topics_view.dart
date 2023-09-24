@@ -1,10 +1,9 @@
 
 import 'package:floor/floor.dart';
 
-@DatabaseView(
-  """
-    select S.id, S.name, S.searchName, S.bookId, count(T.id)topicCount from section S,Topic T 
-    where S.id=T.sectionId  group by S.id
+@DatabaseView("""
+    select S.id, S.name, S.searchName, S.bookId, count(T.id)topicCount from sections S, topics T 
+    where S.id = T.sectionId group by S.id
   """,
   viewName: "SectionTopicsView"
 )

@@ -3,7 +3,7 @@ import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 
 @Entity(
-    tableName: "counters",
+  tableName: "Counters",
   foreignKeys: [
     ForeignKey(
       childColumns: ["prayerId"],

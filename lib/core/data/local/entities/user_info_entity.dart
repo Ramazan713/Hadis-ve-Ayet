@@ -2,7 +2,7 @@
 import 'dart:typed_data';
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "userInfo")
+@Entity(tableName: "UserInfos")
 class UserInfoEntity{
 
   @PrimaryKey(autoGenerate: true)
@@ -12,5 +12,9 @@ class UserInfoEntity{
 
   final Uint8List? img;
 
-  UserInfoEntity({required this.userId,required this.img,this.id});
+  UserInfoEntity({
+    this.id,
+    required this.userId,
+    required this.img,
+  });
 }

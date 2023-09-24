@@ -6,22 +6,22 @@ import 'package:hadith/core/data/local/entities/backup_meta.dart';
 @dao
 abstract class BackupMetaDao{
 
-  @Query("""select * from backupMeta where isAuto = :isAuto order by updatedDate desc limit :limit offset :offset""")
+  @Query("""select * from backupMetas where isAuto = :isAuto order by updatedDate desc limit :limit offset :offset""")
   Future<List<BackupMetaEntity>> getBackupMetaWithAutoAndOffset(bool isAuto,int limit, int offset);
 
-  @Query("""select * from backupMeta order by updatedDate desc""")
+  @Query("""select * from backupMetas order by updatedDate desc""")
   Stream<List<BackupMetaEntity>> getStreamBackupMetas();
 
-  @Query("""select * from backupMeta order by updatedDate desc""")
+  @Query("""select * from backupMetas order by updatedDate desc""")
   Future<List<BackupMetaEntity>> getBackupMetas();
 
-  @Query("""select * from backupMeta order by updatedDate desc limit 1""")
+  @Query("""select * from backupMetas order by updatedDate desc limit 1""")
   Future<BackupMetaEntity?> getLastBackupMeta();
 
-  @Query("""select * from backupMeta where isAuto = :isAuto order by updatedDate limit 1""")
+  @Query("""select * from backupMetas where isAuto = :isAuto order by updatedDate limit 1""")
   Future<BackupMetaEntity?> getFirstBackupMeta(bool isAuto);
 
-  @Query("""select count(*) data from backupMeta where isAuto = :isAuto""")
+  @Query("""select count(*) data from backupMetas where isAuto = :isAuto""")
   Future<int?> getBackupMetaSizeWithAuto(bool isAuto);
 
   @Insert(onConflict: OnConflictStrategy.replace)

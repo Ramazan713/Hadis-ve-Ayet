@@ -1,6 +1,6 @@
 
 import 'package:floor/floor.dart';
-import 'package:hadith/core/data/local/entities/views/list_verse_view.dart';
+import 'package:hadith/core/data/local/views/list_verse_view.dart';
 
 @dao
 abstract class ListVerseViewDao{

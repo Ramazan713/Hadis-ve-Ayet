@@ -12,9 +12,9 @@ abstract class UserInfoDao{
   @delete
   Future<int>deleteUserInfo(UserInfoEntity userInfo);
 
-  @Query("""select * from userInfo where userId=:userId limit 1""")
+  @Query("""select * from userInfos where userId=:userId limit 1""")
   Stream<UserInfoEntity?> getStreamUserInfoWithId(String userId);
 
-  @Query("""select * from userInfo where userId=:userId limit 1""")
+  @Query("""select * from userInfos where userId=:userId limit 1""")
   Future<UserInfoEntity?> getUserInfoWithId(String userId);
 }

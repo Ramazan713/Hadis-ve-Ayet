@@ -23,15 +23,15 @@ import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
 import 'package:hadith/core/data/local/entities/user_info_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_arabic_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_audio_entity.dart';
-import 'package:hadith/core/data/local/entities/views/cuz_audio_view.dart';
-import 'package:hadith/core/data/local/entities/views/hadith_info_list_view.dart';
-import 'package:hadith/core/data/local/entities/views/list_hadith_view.dart';
-import 'package:hadith/core/data/local/entities/views/list_verse_view.dart';
-import 'package:hadith/core/data/local/entities/views/section_topics_view.dart';
-import 'package:hadith/core/data/local/entities/views/surah_audio_view.dart';
-import 'package:hadith/core/data/local/entities/views/topic_hadiths_view.dart';
-import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
-import 'package:hadith/core/data/local/entities/views/verse_info_list_view.dart';
+import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
+import 'package:hadith/core/data/local/views/hadith_info_list_view.dart';
+import 'package:hadith/core/data/local/views/list_hadith_view.dart';
+import 'package:hadith/core/data/local/views/list_verse_view.dart';
+import 'package:hadith/core/data/local/views/section_topics_view.dart';
+import 'package:hadith/core/data/local/views/surah_audio_view.dart';
+import 'package:hadith/core/data/local/views/topic_hadiths_view.dart';
+import 'package:hadith/core/data/local/views/topic_verses_view.dart';
+import 'package:hadith/core/data/local/views/verse_info_list_view.dart';
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/backup_dao.dart';
@@ -76,7 +76,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 part 'database.g.dart';
 
 @Database(
-    version: 5,
+    version: 6,
     entities: [
       HadithEntity,ListHadithEntity, ListVerseEntity, ListEntity,
       PrayerEntity, EsmaulHusnaEntity, CounterEntity, SavePointTypeEntity,

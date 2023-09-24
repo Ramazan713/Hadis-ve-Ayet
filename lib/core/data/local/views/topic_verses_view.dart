@@ -2,10 +2,9 @@
 
 import 'package:floor/floor.dart';
 
-@DatabaseView(
-  """
-  select T.id,T.name, T.searchName, T.sectionId, count(VT.verseId)verseCount from 
-  topic T,VerseTopic VT where T.id=VT.topicId group by T.id
+@DatabaseView("""
+  select T.id,T.name, T.searchName, T.sectionId, count(VT.verseId)verseCount 
+  from topics T, verseTopics VT where T.id=VT.topicId group by T.id
   """,
   viewName: "TopicVersesView"
 )

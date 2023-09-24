@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "list")
+@Entity(tableName: "Lists")
 class ListEntity{
   @PrimaryKey(autoGenerate: true)
   final int? id;
@@ -11,6 +11,12 @@ class ListEntity{
   final bool isArchive;
   final int pos;
 
-  const ListEntity({this.id,required this.name,this.isArchive=false,
-    required this.isRemovable,required this.sourceId,required this.pos});
+  const ListEntity({
+    this.id,
+    this.isArchive = false,
+    required this.name,
+    required this.isRemovable,
+    required this.sourceId,
+    required this.pos
+  });
 }

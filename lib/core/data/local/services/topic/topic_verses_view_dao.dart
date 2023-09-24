@@ -1,7 +1,7 @@
 
 
 import 'package:floor/floor.dart';
-import 'package:hadith/core/data/local/entities/views/topic_verses_view.dart';
+import 'package:hadith/core/data/local/views/topic_verses_view.dart';
 
 @dao
 abstract class TopicVersesViewDao{

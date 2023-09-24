@@ -10,22 +10,22 @@ abstract class EsmaulHusnaDao{
   Future<void> updateEsmaulHusna(EsmaulHusnaEntity esmaulHusna);
 
   @Query("""
-    select * from esmaulHusna order by orderItem
+    select * from esmaulHusnas order by orderItem
   """)
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnas();
 
   @Query("""
-    select * from esmaulHusna order by orderItem
+    select * from esmaulHusnas order by orderItem
   """)
   Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnas();
 
   @Query("""
-    select * from esmaulHusna where id=:id order by orderItem
+    select * from esmaulHusnas where id=:id order by orderItem
   """)
   Future<EsmaulHusnaEntity?> getEsmaulHusnaWithId(int id);
 
   @Query("""
-    select * from esmaulHusna where 
+    select * from esmaulHusnas where 
     lower(name) Like lower(:query) or 
     lower(searchName) Like lower(:query) or 
     lower(meaning) Like lower(:query) or
@@ -35,7 +35,7 @@ abstract class EsmaulHusnaDao{
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnasSearchedLike(String query);
 
   @Query("""
-     select * from esmaulHusna where 
+     select * from esmaulHusnas where 
      lower(name) REGEXP lower(:regExp) or
      lower(searchName) REGEXP lower(:regExp) or
      lower(meaning) REGEXP lower(:regExp) or

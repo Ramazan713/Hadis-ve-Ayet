@@ -5,13 +5,16 @@ import 'package:floor/floor.dart';
 
 import 'book_entity.dart';
 
-@Entity(tableName: "hadith",foreignKeys: [
-  ForeignKey(
+@Entity(
+  tableName: "Hadiths",
+  foreignKeys: [
+    ForeignKey(
       childColumns: ["bookId"],
       parentColumns: ["id"],
       entity: BookEntity
-  )
-])
+    )
+  ]
+)
 class HadithEntity {
   @PrimaryKey(autoGenerate: true)
   final int? id;
@@ -20,5 +23,11 @@ class HadithEntity {
   final String source;
   final int contentSize;
 
-  const HadithEntity({this.id,required this.bookId,required this.content,required this.contentSize,required this.source});
+  const HadithEntity({
+    this.id,
+    required this.bookId,
+    required this.content,
+    required this.contentSize,
+    required this.source
+  });
 }

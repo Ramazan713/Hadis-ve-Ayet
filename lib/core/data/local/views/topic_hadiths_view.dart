@@ -2,10 +2,9 @@
 
 import 'package:floor/floor.dart';
 
-@DatabaseView(
-  """
+@DatabaseView("""
     select T.id,T.name, T.searchName, T.sectionId, count(HT.hadithId)hadithCount from 
-    topic T,HadithTopic HT where T.id=HT.topicId group by T.id
+    topics T, hadithTopics HT where T.id = HT.topicId group by T.id
   """,
   viewName: "TopicHadithsView"
 )

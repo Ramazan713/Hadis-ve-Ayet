@@ -1,9 +1,11 @@
 import 'package:floor/floor.dart';
 
 @DatabaseView("""
-  select L.id,L.name,L.isRemovable,L.isArchive,L.sourceId,count(LV.verseId)itemCounts,ifnull(max(LH.pos),0)contentMaxPos,L.pos listPos 
-  from List L left join ListVerse LV on L.id=LV.listId where L.sourceId=2  group by L.id""",
-    viewName: "ListVerseView")
+    select L.id, L.name, L.isRemovable, L.isArchive, L.sourceId, count(LV.verseId)itemCounts,
+    ifnull(max(LV.pos),0)contentMaxPos,L.pos listPos 
+    from lists L left join listVerses LV on L.id=LV.listId where L.sourceId=2 group by L.id
+  """,
+  viewName: "ListVerseView")
 class ListVerseView{
 
   @primaryKey

@@ -23,23 +23,23 @@ abstract class ListHadithDao{
   Future<int> deleteListHadiths(List<ListHadithEntity> listHadithEntities);
 
 
-  @Query("""select * from listHadith where hadithId = :hadithId and listId = :listId""")
+  @Query("""select * from listHadiths where hadithId = :hadithId and listId = :listId""")
   Future<ListHadithEntity?> getListHadith(int hadithId, int listId);
 
-  @Query("""select ifnull(max(pos),0) from listHadith""")
+  @Query("""select ifnull(max(pos),0) from listHadiths""")
   Future<int?> getMaxPos();
 
 
-  @Query("""select * from listHadith where listId=:listId""")
+  @Query("""select * from listHadiths where listId=:listId""")
   Future<List<ListHadithEntity>> getListHadithsWithListId(int listId);
 
   @Query("""
-    select listId from listHadith where hadithId = :hadithId
+    select listId from listHadiths where hadithId = :hadithId
   """)
   Stream<List<int>> getStreamListIdsFromHadithId(int hadithId);
 
   @Query("""
-    select listId from listHadith where hadithId = :hadithId
+    select listId from listHadiths where hadithId = :hadithId
   """)
   Future<List<int>> getListIdsFromHadithId(int hadithId);
 

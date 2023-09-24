@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
@@ -11,37 +10,33 @@ import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
-import 'package:hadith/core/data/mapper/backup/counter_backup_mapper.dart';
 import 'package:hadith/core/data/mapper/backup/prayer_backup_mapper.dart';
 import 'package:hadith/core/data/mapper/backup/prayer_verse_backup_mapper.dart';
-import 'package:hadith/core/data/remote/backup_dtos/counter_backup_dto/counter_backup_dto.dart';
-import 'package:hadith/core/data/remote/backup_dtos/esmaul_husna_info_dto/esmaul_husna_info_dto.dart';
 import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
-import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_non_removable_dto.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
 
 @dao
 abstract class BackupDao{
 
-  @Query("""select * from history""")
+  @Query("""select * from histories""")
   Future<List<HistoryEntity>> getHistories();
 
-  @Query("""select * from esmaulHusna where counterId is not null""")
+  @Query("""select * from esmaulHusnas where counterId is not null""")
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnas();
 
-  @Query("""select * from list""")
+  @Query("""select * from lists""")
   Future<List<ListEntity>> getLists();
 
-  @Query("""select * from ListHadith""")
+  @Query("""select * from listHadiths""")
   Future<List<ListHadithEntity>> getHadithListEntities();
 
-  @Query("""select * from listVerse""")
+  @Query("""select * from listVerses""")
   Future<List<ListVerseEntity>> getVerseListEntities();
 
   @Query("""select * from savePoints""")
   Future<List<SavePointEntity>> getSavePoints();
 
-  @Query("""select * from topicSavePoint""")
+  @Query("""select * from topicSavePoints""")
   Future<List<TopicSavePointEntity>> getTopicSavePoints();
 
   @Query("""select * from counters""")
@@ -120,7 +115,7 @@ abstract class BackupDao{
   Future<int> insertPrayerEntity(PrayerEntity prayer);
 
   @Query("""
-    update esmaulHusna set counterId = :counterId where orderItem = :orderItem
+    update esmaulHusnas set counterId = :counterId where orderItem = :orderItem
   """)
   Future<void> updateEsmaulHusnaCounterId(int orderItem, int counterId);
 
@@ -135,22 +130,22 @@ abstract class BackupDao{
   Future<void> updatePrayerCounterId(int counterId, int id);
 
 
-  @Query("""delete from history""")
+  @Query("""delete from histories""")
   Future<void> deleteHistories();
 
-  @Query("""delete from list where isRemovable=1""")
+  @Query("""delete from lists where isRemovable=1""")
   Future<void> deleteLists();
 
-  @Query("""delete from ListHadith""")
+  @Query("""delete from listHadiths""")
   Future<void> deleteHadithLists();
 
-  @Query("""delete from listVerse""")
+  @Query("""delete from listVerses""")
   Future<void> deleteVerseLists();
 
-  @Query("""delete from savepoints""")
+  @Query("""delete from savePoints""")
   Future<void> deleteSavePoints();
 
-  @Query("""delete from topicSavePoint""")
+  @Query("""delete from topicSavePoints""")
   Future<void> deleteTopicSavePoints();
 
   @Query("""delete from counters""")

@@ -2,7 +2,7 @@
 
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "topicSavePoint")
+@Entity(tableName: "TopicSavePoints")
 class TopicSavePointEntity{
 
   @primaryKey
@@ -11,5 +11,10 @@ class TopicSavePointEntity{
   final int type;
   final String parentKey;
 
-  TopicSavePointEntity({this.id,required this.pos,required this.type,required this.parentKey});
+  TopicSavePointEntity({
+    this.id,
+    required this.pos,
+    required this.type,
+    required this.parentKey
+  });
 }
