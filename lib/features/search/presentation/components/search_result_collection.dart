@@ -3,7 +3,7 @@ import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/features/search/presentation/components/search_content_item.dart';
 import 'package:hadith/features/search/presentation/components/search_show_all.dart';
-import 'package:hadith/features/search/presentation/model/search_result.dart';
+import 'package:hadith/features/search/domain/model/search_result.dart';
 
 class SearchResultCollection extends StatelessWidget {
   final SearchResult searchResult;

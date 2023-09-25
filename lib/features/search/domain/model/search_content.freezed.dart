@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SearchContent {
   String get content => throw _privateConstructorUsedError;
   String get source => throw _privateConstructorUsedError;
+  List<SearchPart> get searchParts => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchContentCopyWith<SearchContent> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $SearchContentCopyWith<$Res> {
           SearchContent value, $Res Function(SearchContent) then) =
       _$SearchContentCopyWithImpl<$Res, SearchContent>;
   @useResult
-  $Res call({String content, String source});
+  $Res call({String content, String source, List<SearchPart> searchParts});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$SearchContentCopyWithImpl<$Res, $Val extends SearchContent>
   $Res call({
     Object? content = null,
     Object? source = null,
+    Object? searchParts = null,
   }) {
     return _then(_value.copyWith(
       content: null == content
@@ -58,6 +60,10 @@ class _$SearchContentCopyWithImpl<$Res, $Val extends SearchContent>
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
+      searchParts: null == searchParts
+          ? _value.searchParts
+          : searchParts // ignore: cast_nullable_to_non_nullable
+              as List<SearchPart>,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$_SearchContentCopyWith<$Res>
       __$$_SearchContentCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String content, String source});
+  $Res call({String content, String source, List<SearchPart> searchParts});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$_SearchContentCopyWithImpl<$Res>
   $Res call({
     Object? content = null,
     Object? source = null,
+    Object? searchParts = null,
   }) {
     return _then(_$_SearchContent(
       content: null == content
@@ -96,6 +103,10 @@ class __$$_SearchContentCopyWithImpl<$Res>
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
+      searchParts: null == searchParts
+          ? _value._searchParts
+          : searchParts // ignore: cast_nullable_to_non_nullable
+              as List<SearchPart>,
     ));
   }
 }
@@ -103,16 +114,27 @@ class __$$_SearchContentCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
-  const _$_SearchContent({required this.content, required this.source});
+  const _$_SearchContent(
+      {required this.content,
+      required this.source,
+      required final List<SearchPart> searchParts})
+      : _searchParts = searchParts;
 
   @override
   final String content;
   @override
   final String source;
+  final List<SearchPart> _searchParts;
+  @override
+  List<SearchPart> get searchParts {
+    if (_searchParts is EqualUnmodifiableListView) return _searchParts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_searchParts);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SearchContent(content: $content, source: $source)';
+    return 'SearchContent(content: $content, source: $source, searchParts: $searchParts)';
   }
 
   @override
@@ -121,7 +143,8 @@ class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
     properties
       ..add(DiagnosticsProperty('type', 'SearchContent'))
       ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('source', source));
+      ..add(DiagnosticsProperty('source', source))
+      ..add(DiagnosticsProperty('searchParts', searchParts));
   }
 
   @override
@@ -130,11 +153,14 @@ class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
         (other.runtimeType == runtimeType &&
             other is _$_SearchContent &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.source, source) || other.source == source));
+            (identical(other.source, source) || other.source == source) &&
+            const DeepCollectionEquality()
+                .equals(other._searchParts, _searchParts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, content, source);
+  int get hashCode => Object.hash(runtimeType, content, source,
+      const DeepCollectionEquality().hash(_searchParts));
 
   @JsonKey(ignore: true)
   @override
@@ -146,12 +172,15 @@ class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
 abstract class _SearchContent implements SearchContent {
   const factory _SearchContent(
       {required final String content,
-      required final String source}) = _$_SearchContent;
+      required final String source,
+      required final List<SearchPart> searchParts}) = _$_SearchContent;
 
   @override
   String get content;
   @override
   String get source;
+  @override
+  List<SearchPart> get searchParts;
   @override
   @JsonKey(ignore: true)
   _$$_SearchContentCopyWith<_$_SearchContent> get copyWith =>

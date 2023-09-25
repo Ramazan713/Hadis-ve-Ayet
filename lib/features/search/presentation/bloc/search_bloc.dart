@@ -7,16 +7,19 @@ import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
+import 'package:hadith/core/domain/models/search_param.dart';
+import 'package:hadith/core/domain/models/search_part/search_part.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/search_repo.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
+import 'package:hadith/core/utils/search_utils.dart';
 import 'package:hadith/features/search/domain/model/history.dart';
 import 'package:hadith/features/search/domain/repo/history_repo.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
 import 'package:hadith/features/search/presentation/bloc/search_state.dart';
-import 'package:hadith/features/search/presentation/model/query_criteria_model.dart';
-import 'package:hadith/features/search/presentation/model/search_content.dart';
-import 'package:hadith/features/search/presentation/model/search_result.dart';
+import 'package:hadith/features/search/domain/model/query_criteria_model.dart';
+import 'package:hadith/features/search/domain/model/search_content.dart';
+import 'package:hadith/features/search/domain/model/search_result.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SearchBloc extends Bloc<ISearchEvent,SearchState>{
@@ -98,6 +101,7 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
   }
 
 
+
   Future<List<SearchResult>> _getSearchResult(String searchedQuery, SearchCriteriaEnum criteria)async{
 
     final searchResults = <SearchResult>[];
@@ -109,7 +113,8 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
 
       final searchContents = verseSamples.map((e) => SearchContent(
           content: e.content,
-          source: "${e.surahName} - ${e.verseNumber}"
+          source: "${e.surahName} - ${e.verseNumber}",
+          searchParts: _getSearchParts(e.content)
       )).toList();
 
       searchResults.add(
@@ -128,7 +133,8 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
       final hadithSamples = await _searchRepo.getAllHadiths(searchedQuery, criteria, pageSize, 0);
       final searchContents = hadithSamples.map((e) => SearchContent(
           content: e.content,
-          source: e.source
+          source: e.source,
+          searchParts: _getSearchParts(e.content)
       )).toList();
 
       searchResults.add(
@@ -146,7 +152,8 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
       final hadithSamples = await _searchRepo.getHadithsByBookId(searchedQuery, criteria,BookEnum.serlevha.bookId, pageSize, 0);
       final searchContents = hadithSamples.map((e) => SearchContent(
           content: e.content,
-          source: e.source
+          source: e.source,
+          searchParts: _getSearchParts(e.content)
       )).toList();
       searchResults.add(
         SearchResult(
@@ -164,7 +171,8 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
       final hadithSamples = await _searchRepo.getHadithsByBookId(searchedQuery, criteria,BookEnum.sitte.bookId, pageSize, 0);
       final searchContents = hadithSamples.map((e) => SearchContent(
           content: e.content,
-          source: e.source
+          source: e.source,
+          searchParts: _getSearchParts(e.content)
       )).toList();
       searchResults.add(
         SearchResult(
@@ -175,10 +183,18 @@ class SearchBloc extends Bloc<ISearchEvent,SearchState>{
         )
       );
     }
-
     return searchResults;
   }
 
-
+  List<SearchPart> _getSearchParts(String text){
+    final searchParam = SearchParam(
+      searchCriteria: state.searchCriteria,
+      searchQuery: _queryFilter.value
+    );
+    return SearchUtils.getSearchParts(
+      content: text,
+      searchParam: searchParam,
+    );
+  }
 }
 

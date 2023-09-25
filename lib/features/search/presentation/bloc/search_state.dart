@@ -2,7 +2,7 @@ import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/features/search/domain/model/history.dart';
-import 'package:hadith/features/search/presentation/model/search_result.dart';
+import 'package:hadith/features/search/domain/model/search_result.dart';
 
 
 

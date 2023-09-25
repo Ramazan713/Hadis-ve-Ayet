@@ -5,7 +5,7 @@ import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/search/presentation/bloc/search_state.dart';
 import 'package:hadith/features/search/presentation/components/search_result_collection.dart';
-import 'package:hadith/features/search/presentation/model/search_result.dart';
+import 'package:hadith/features/search/domain/model/search_result.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +24,7 @@ extension SearchPageSearchResultExt on SearchPage{
         itemBuilder: (context, index){
           final searchResult = searchResults[index];
           return SearchResultCollection(
+            key: Key(searchResult.bookScope.description),
             searchResult: searchResult,
             searchParam: state.searchParam,
             onDetailClick: (){

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/utils/search_utils.dart';
-import 'package:hadith/features/search/presentation/model/search_content.dart';
+import 'package:hadith/features/search/domain/model/search_content.dart';
 
 
 class SearchContentItem extends StatelessWidget {
+
   final SearchContent searchContent;
   final SearchParam searchParam;
 
@@ -14,15 +16,9 @@ class SearchContentItem extends StatelessWidget {
     required this.searchParam,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
-
-    final searchResult = SearchUtils.getSelectedText(context,
-        content: searchContent.content,
-        searchParam: searchParam,
-        textStyle: Theme.of(context).textTheme.bodyLarge
-    );
-
     return SizedBox(
       width: 300,
       child: Card(
@@ -31,9 +27,14 @@ class SearchContentItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 9),
           child: Column(
             children: [
-              RichText(
-                text: TextSpan(
-                  children: searchResult,
+              Text.rich(
+                TextSpan(
+                  children: SearchUtils.getOrDefaultSelectedTextWithParts(context,
+                    content: searchContent.content,
+                    searchParam: searchParam,
+                    textStyle: Theme.of(context).textTheme.bodyLarge,
+                    parts: searchContent.searchParts
+                  ),
                 ),
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
