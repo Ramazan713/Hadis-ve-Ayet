@@ -555,7 +555,7 @@ class _$HadithAllDao extends HadithAllDao {
   @override
   Future<List<HadithEntity>> getHadithsFromListId(int listId) async {
     return _queryAdapter.queryList(
-        's     elect H.* from hadiths H, listHadiths LH     where LH.hadithId=H.id and LH.listId=?1 order by     LH.pos desc',
+        'select H.* from hadiths H, listHadiths LH     where LH.hadithId=H.id and LH.listId=?1 order by     LH.pos desc',
         mapper: (Map<String, Object?> row) => HadithEntity(id: row['id'] as int?, bookId: row['bookId'] as int, content: row['content'] as String, contentSize: row['contentSize'] as int, source: row['source'] as String),
         arguments: [listId]);
   }

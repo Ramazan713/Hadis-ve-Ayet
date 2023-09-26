@@ -109,7 +109,10 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
         return prevState.prayerUnit != nextState.prayerUnit;
       },
       builder: (context,state){
-        return Text(state.prayerUnit?.item.name ?? "");
+        return Text(
+          state.prayerUnit?.item.name ?? "",
+          overflow: TextOverflow.ellipsis,
+        );
       }
     );
   }

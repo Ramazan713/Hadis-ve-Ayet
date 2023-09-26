@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hadith/core/domain/enums/theme_type_enum.dart';
+import 'package:hadith/core/domain/models/theme_scheme/theme_scheme.dart';
 import 'package:hadith/features/app/color_schemes.g.dart';
 
 class ThemeUtil{
@@ -20,7 +21,10 @@ class ThemeUtil{
     }
   }
 
-  static ColorScheme getSchema({
+
+
+
+  static ThemeScheme getSchemes({
     required ThemeTypeEnum themeEnum,
     required Brightness brightness,
     required bool dynamicColorSupported,
@@ -28,12 +32,26 @@ class ThemeUtil{
     ColorScheme? lightDynamic,
     ColorScheme? darkDynamic,
   }){
-    if(isLightTheme(themeEnum: themeEnum, brightness: brightness)){
-      if(!dynamicColorSupported || !useDynamicColor) return lightColorScheme;
-      return lightDynamic ?? lightColorScheme;
-    }
-    if(!dynamicColorSupported || !useDynamicColor) return darkColorScheme;
-    return darkDynamic ?? darkColorScheme;
+
+    final lightScheme = _getLightScheme(
+      dynamicColorSupported: dynamicColorSupported,
+      useDynamicColor: useDynamicColor,
+      lightDynamic: lightDynamic
+    );
+
+    final darkScheme = _getDarkScheme(
+        dynamicColorSupported: dynamicColorSupported,
+        useDynamicColor: useDynamicColor,
+        darkDynamic: darkDynamic
+    );
+
+    final currentScheme = isLightTheme(themeEnum: themeEnum, brightness: brightness) ? lightScheme : darkScheme;
+
+    return ThemeScheme(
+      currentScheme: currentScheme,
+      darkScheme: darkScheme,
+      lightScheme: lightScheme
+    );
   }
 
   static void setStatusBarColor({
@@ -42,4 +60,22 @@ class ThemeUtil{
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: schema.primary));
   }
 
+
+  static ColorScheme _getLightScheme({
+    required bool dynamicColorSupported,
+    required bool useDynamicColor,
+    ColorScheme? lightDynamic,
+  }){
+    if(!dynamicColorSupported || !useDynamicColor) return lightColorScheme;
+    return lightDynamic ?? lightColorScheme;
+  }
+
+  static ColorScheme _getDarkScheme({
+    required bool dynamicColorSupported,
+    required bool useDynamicColor,
+    ColorScheme? darkDynamic,
+  }){
+    if(!dynamicColorSupported || !useDynamicColor) return darkColorScheme;
+    return darkDynamic ?? darkColorScheme;
+  }
 }

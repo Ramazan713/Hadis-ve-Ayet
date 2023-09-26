@@ -68,6 +68,12 @@ class HadithItemState extends State<HadithItem> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    showContinue.dispose();
+    super.dispose();
+  }
 }
 
 

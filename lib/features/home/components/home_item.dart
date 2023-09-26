@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 
 
 class HomeItem extends StatelessWidget {
@@ -7,7 +8,6 @@ class HomeItem extends StatelessWidget {
   final IconData iconData;
   final EdgeInsets? paddings;
   final bool useSecondary;
-
 
   const HomeItem({
     Key? key,
@@ -25,35 +25,25 @@ class HomeItem extends StatelessWidget {
 
     final color = useSecondary ? schema.onSecondaryContainer : schema.onPrimaryContainer;
     final backgroundColor = useSecondary ? schema.secondaryContainer : schema.primaryContainer;
-
-    final shape = RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(13),
-        side: BorderSide(
-            color: Theme.of(context).colorScheme.outlineVariant
-        )
-    );
-
     final defaultPaddings = paddings ?? const EdgeInsets.symmetric(vertical: 5);
 
-    return Padding(
-      padding: defaultPaddings,
-      child: ListTile(
-        tileColor: backgroundColor,
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: color
-          ),
+    return CardListTile(
+      margins: defaultPaddings,
+      defaultColor: backgroundColor,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 17,vertical: 3),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: color
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 17,vertical: 3),
-        leading: Icon(
-          iconData,
-          color: color,
-        ),
-        shape: shape,
-        trailing: Icon(Icons.arrow_forward,color: color,),
-        onTap: onTap,
       ),
+      leading: Icon(
+        iconData,
+        color: color,
+      ),
+      trailing: Icon(Icons.arrow_forward,color: color,),
+      onTap: onTap,
+      borderWidth: 1,
     );
   }
 }

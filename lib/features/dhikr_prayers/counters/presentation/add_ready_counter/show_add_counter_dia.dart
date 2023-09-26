@@ -218,8 +218,8 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
 
   @override
   void dispose() {
-    super.dispose();
     bodyScrollController.dispose();
+    super.dispose();
   }
 }
 

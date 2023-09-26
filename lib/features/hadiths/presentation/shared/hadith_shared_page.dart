@@ -70,7 +70,7 @@ class HadithSharedPage extends StatelessWidget {
             body: SafeArea(
               child: CustomNestedViewAppBar(
                 scrollController: controller,
-                floatHeaderSlivers: true,
+                floatHeaderSlivers: false,
                 title: Text(title),
                 actions: getTopBarActions(context),
                 child: BlocBuilder<HadithSharedBloc, HadithSharedState>(

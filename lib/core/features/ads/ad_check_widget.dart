@@ -97,9 +97,9 @@ class _AdCheckWidgetState extends State<AdCheckWidget>  with WidgetsBindingObser
 
   @override
   void dispose() {
-    super.dispose();
     WidgetsBinding.instance.removeObserver(this);
     _adTimer?.cancel();
+    super.dispose();
   }
 
 }

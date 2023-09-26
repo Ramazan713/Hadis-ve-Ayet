@@ -187,7 +187,6 @@ class LocalBackupRepoImpl extends LocalBackupRepo{
       );
       return ResourceSuccess(null);
     }catch(e){
-      print("Error: $e");
       return ResourceError(e.toString());
     }
   }

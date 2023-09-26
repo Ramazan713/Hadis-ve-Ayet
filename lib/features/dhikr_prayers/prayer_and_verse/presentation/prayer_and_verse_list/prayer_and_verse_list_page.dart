@@ -17,7 +17,10 @@ class PrayerAndVerseListPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: CustomNestedViewAppBar(
-          title: const Text("Namaz Duaları ve Ayetler"),
+          title: const Text(
+            "Namaz Duaları ve Ayetler",
+            overflow: TextOverflow.ellipsis,
+          ),
           pinned: true,
           appBarType: AppBarType.mediumBar,
           child: Column(

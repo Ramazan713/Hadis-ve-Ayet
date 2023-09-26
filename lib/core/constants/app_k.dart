@@ -56,7 +56,7 @@ class ActionResultKeysK{
 
 class UrlK{
   final playStoreDetailUrl = "https://play.google.com/store/apps/details";
-  final playStoreSubsUrl = "https://play.google.com/store/apps/details";
+  final playStoreSubsUrl = "https://play.google.com/store/account/subscriptions";
 
 
   const UrlK();

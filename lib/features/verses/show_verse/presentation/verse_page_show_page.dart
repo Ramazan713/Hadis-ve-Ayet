@@ -273,9 +273,9 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
 
   @override
   void dispose() {
-    super.dispose();
     customScrollController.dispose();
     pageController.dispose();
     positionController.dispose();
+    super.dispose();
   }
 }

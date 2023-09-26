@@ -69,7 +69,7 @@ class CardListTile extends StatelessWidget {
   BorderSide getBorder(BuildContext context){
     if(borderWidth == null) return BorderSide.none;
     return BorderSide(
-      color: Theme.of(context).colorScheme.outline,
+      color: Theme.of(context).colorScheme.outlineVariant,
       width: borderWidth ?? 1
     );
   }

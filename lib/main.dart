@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/background_service_manager.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/data/local/instance.dart';
 import 'features/app/my_app.dart';
 import 'features/app/my_app_providers.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 
 Future<void> main() async {
@@ -22,8 +24,10 @@ Future<void> main() async {
     MobileAds.instance.initialize();
     await BackgroundServiceManager.initService();
 
-    // FlutterError.onError =
-    //     FirebaseCrashlytics.instance.recordFlutterFatalError;
+    if(!kDebugMode){
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+    }
 
     runApp(
       MyAppProviders(
@@ -33,7 +37,9 @@ Future<void> main() async {
       )
     );
   }, (error, stack) {
-    // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    if(!kDebugMode){
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    }
   });
 
 }

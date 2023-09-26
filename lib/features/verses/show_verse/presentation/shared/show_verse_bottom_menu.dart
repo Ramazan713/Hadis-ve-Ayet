@@ -12,7 +12,8 @@ import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 void showVerseBottomMenu(BuildContext context, {
   required VerseListModel verseListModel,
   required Function(VerseBottomMenuItem)onListener,
-  required bool showNavigateToActions
+  required bool showNavigateToActions,
+  PaginationBloc? bloc,
 }) {
 
   List<VerseBottomMenuItem> getItems(VerseListModel? currentLastModifiedItem){
@@ -38,6 +39,7 @@ void showVerseBottomMenu(BuildContext context, {
       required Widget Function(List<VerseBottomMenuItem> oldItems) updateItems
     }){
       return BlocSelector<PaginationBloc, PaginationState, VerseListModel?>(
+        bloc: bloc,
         selector: (state) => state.lastModifiedItem?.item.castOrNull<VerseListModel>(),
         builder: (context, currentLastModifiedItem){
           return updateItems.call(getItems(currentLastModifiedItem));

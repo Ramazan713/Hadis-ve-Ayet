@@ -80,8 +80,8 @@ abstract class HadithAllDao{
   Future<int?> getPosById(int id);
 
 
-  @Query("""s
-    elect H.* from hadiths H, listHadiths LH
+  @Query("""
+    select H.* from hadiths H, listHadiths LH
     where LH.hadithId=H.id and LH.listId=:listId order by
     LH.pos desc
   """)

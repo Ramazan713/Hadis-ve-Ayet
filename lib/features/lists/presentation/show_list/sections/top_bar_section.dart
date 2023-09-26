@@ -31,8 +31,9 @@ extension ShowListTopBarExt on ShowListPage{
     ];
   }
 
-  TabBar getTopTabBar(BuildContext context){
+  TabBar getTopTabBar(BuildContext context, {TabController? controller}){
     return TabBar(
+      controller: controller,
       tabs: [
         Tab(
           text: ListTabEnum.hadith.sourceType.shortName,
@@ -41,10 +42,6 @@ extension ShowListTopBarExt on ShowListPage{
           text: ListTabEnum.verse.sourceType.shortName,
         ),
       ],
-      onTap: (index) {
-        context.read<ShowListBloc>()
-            .add(ShowListEventChangeTab(index: index));
-      },
     );
   }
 }

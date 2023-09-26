@@ -35,7 +35,7 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
       description: description,
       customTitle: title,
       scope: initScope,
-      useWideScope: false,
+      useWideScope: true,
       customBottomButtons: (savePoint){
         return FilledButton(
           onPressed: savePoint == null ? null : (){

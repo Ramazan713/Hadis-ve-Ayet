@@ -65,6 +65,7 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
                 return CustomNestedSearchableAppBar(
                   textEditingController: searchTextController,
                   scrollController: scrollController,
+                  floatHeaderSlivers: true,
                   onTextChanged: (text){
                     bloc.add(PrayerInQuranEventSetQuery(query: text));
                   },
@@ -72,8 +73,6 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
                     bloc.add(PrayerInQuranEventSetSearchBarVisibility(isVisible: isSearchVisible));
                   },
                   searchBarVisible: isSearchBarVisible,
-                  floating: true,
-                  snap: true,
                   title: const Text("Dua Ayetleri",),
                   actions: getActions(context),
                   child: Padding(
@@ -110,9 +109,8 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
 
             return CustomScrollablePositionedList(
               itemCount: items.length,
-              shrinkWrap: true,
+              shrinkWrap: false,
               itemScrollController: itemScrollController,
-              delayMilliSeconds: 50,
               onScroll: (scrollDirection){
                 scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
               },
@@ -123,6 +121,7 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
                 final prayerUnit = items[index];
                 final prayer = prayerUnit.item;
                 return PrayerInQuranItem(
+                  key: Key(prayer.id.toString()),
                   searchParam: state.searchParam,
                   isSelected: currentAudioTag == prayer.id.toString(),
                   prayerUnit: prayerUnit,
@@ -214,9 +213,9 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
     positionController.dispose();
     scrollController.dispose();
+    super.dispose();
   }
 }

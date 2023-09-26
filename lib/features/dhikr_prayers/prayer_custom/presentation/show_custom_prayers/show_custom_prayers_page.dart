@@ -143,8 +143,8 @@ class _ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
     scrollController.dispose();
+    super.dispose();
   }
 }

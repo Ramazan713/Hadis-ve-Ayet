@@ -42,12 +42,14 @@ class CustomNestedViewAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomNestedView(
         scrollController: scrollController,
+        floatHeaderSlivers: floatHeaderSlivers,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
           return [
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverSafeArea(
                 sliver: CustomSliverAppBar(
+                  key: const Key("Custom Sliver App Bar"),
                   title: title,
                   actions: actions,
                   bottom: appBarBottom,

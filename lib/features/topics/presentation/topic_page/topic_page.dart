@@ -168,9 +168,9 @@ class _TopicPageState extends State<TopicPage> {
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
     scrollController.dispose();
     positionController.dispose();
+    super.dispose();
   }
 }

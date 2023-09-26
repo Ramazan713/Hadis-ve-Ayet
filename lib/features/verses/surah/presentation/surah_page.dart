@@ -224,8 +224,8 @@ class _SurahPageState extends State<SurahPage> {
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
     scrollController.dispose();
+    super.dispose();
   }
 }

@@ -47,7 +47,7 @@ enum ShowCustomPrayersSelectMenuEnum implements IMenuItem{
     } else {
       items.remove(ShowCustomPrayersSelectMenuEnum.addToDhikr);
     }
-    if(!prayer.updateCounter){
+    if(!prayer.updateCounter || prayer.counterId == null){
       items.remove(ShowCustomPrayersSelectMenuEnum.updateToDhikr);
     }
     if(!prayer.hasAnyData){

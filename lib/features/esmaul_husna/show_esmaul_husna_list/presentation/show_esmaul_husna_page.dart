@@ -180,9 +180,9 @@ class _ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
     scrollController.dispose();
     positionController.dispose();
+    super.dispose();
   }
 }

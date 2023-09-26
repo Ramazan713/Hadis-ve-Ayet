@@ -251,10 +251,9 @@ class _DialogContentState extends State<_DialogContent> {
 
   @override
   void dispose() {
-    super.dispose();
-
     textPageEditingController.dispose();
     focusPageNode.dispose();
+    super.dispose();
   }
 
 }

@@ -53,6 +53,7 @@ extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
     showVerseBottomMenu(context,
         verseListModel: verseListModel,
         showNavigateToActions: showNavigateToActions,
+        bloc: context.read<PaginationBloc>(),
         onListener: (menuItem){
           switch(menuItem){
             case VerseBottomMenuItem.download:

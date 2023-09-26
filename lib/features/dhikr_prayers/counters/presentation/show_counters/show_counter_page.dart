@@ -117,8 +117,8 @@ class _ShowCounterPageState extends State<ShowCounterPage> {
 
   @override
   void dispose() {
-    super.dispose();
     scrollController.dispose();
+    super.dispose();
   }
 }
 

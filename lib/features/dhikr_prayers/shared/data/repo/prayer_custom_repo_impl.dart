@@ -48,7 +48,10 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
     final maxPos = (await _counterDao.getMaxOrder() ?? 0) + 1;
     final counterEntity = prayer.toCounterEntity(orderItem: maxPos + 1);
     final counterId = await _counterDao.insertCounterEntity(counterEntity);
-    final updatedPrayer = prayer.copyWith(counterId: counterId).toPrayerEntity();
+    final updatedPrayer = prayer.copyWith(
+        counterId: counterId,
+        updateCounter: false
+    ).toPrayerEntity();
     _prayerDao.updatePrayer(updatedPrayer);
   }
 

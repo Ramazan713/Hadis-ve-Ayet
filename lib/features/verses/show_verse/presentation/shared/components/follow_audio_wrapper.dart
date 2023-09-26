@@ -32,7 +32,7 @@ class FollowAudioWrapper extends StatelessWidget {
             itemScrollController.scrollTo(
                 index: index,
                 duration: const Duration(milliseconds: 300),
-                alignment: 0.2
+                alignment: 0.0
             );
           }
         }

@@ -25,13 +25,24 @@ class ShowListPage extends StatefulWidget {
   State<ShowListPage> createState() => _ShowListPageState();
 }
 
-class _ShowListPageState extends State<ShowListPage> {
+class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMixin {
 
   final scrollController = ScrollController();
   final searchTextController = TextEditingController();
+  late final TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final initIndex = context.read<ShowListBloc>().state.currentTab.index;
+    tabController = TabController(length: 2, vsync: this,initialIndex: initIndex);
+    tabController.addListener(listenTabChanges);
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return widget.getListeners(
       child: AdaptiveLayout(
         body: SlotLayout(
@@ -60,55 +71,52 @@ class _ShowListPageState extends State<ShowListPage> {
     return BlocSelector<ShowListBloc, ShowListState,bool>(
       selector: (state)=> state.searchBarVisible,
       builder: (context, searchBarVisible) {
-        return DefaultTabController(
-          length: 2,
-          initialIndex: listBloc.state.currentTab.index,
-          child: Scaffold(
-            floatingActionButton: getFab(context),
-            body: SafeArea(
-              child: CustomNestedSearchableAppBar(
-                textEditingController: searchTextController,
-                pinned: true,
-                snap: true,
-                floating: true,
-                searchBarVisible: searchBarVisible,
-                scrollController: CustomScrollController(
-                    controller: scrollController
-                ),
-                onTextChanged: (newText){
-                  listBloc.add(ShowListEventSearch(query: newText));
-                },
-                onSearchVisibilityChanged: (newSearchBarVisible){
-                  listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
-                },
-                actions: widget.getActions(context),
-                title: const Text("Listeler"),
-                appBarBottom: widget.getTopTabBar(context),
-                child: TabBarView(
-                  children: [
-                    BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                      selector: (state)=>state.listHadiths,
-                      builder: (context,listHadiths){
-                        return getListItems(
-                            items: listHadiths,
-                            gridCount: gridCount,
-                            sourceType: SourceTypeEnum.hadith,
-                            useSecondary: true
-                        );
-                      },
-                    ),
-                    BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                      selector: (state)=>state.listVerses,
-                      builder: (context,listVerses){
-                        return getListItems(
-                            items: listVerses,
-                            gridCount: gridCount,
-                            sourceType: SourceTypeEnum.verse,
-                        );
-                      },
-                    ),
-                  ],
-                ),
+        return Scaffold(
+          floatingActionButton: getFab(context),
+          body: SafeArea(
+            child: CustomNestedSearchableAppBar(
+              textEditingController: searchTextController,
+              pinned: true,
+              snap: true,
+              floating: true,
+              searchBarVisible: searchBarVisible,
+              scrollController: CustomScrollController(
+                  controller: scrollController
+              ),
+              onTextChanged: (newText){
+                listBloc.add(ShowListEventSearch(query: newText));
+              },
+              onSearchVisibilityChanged: (newSearchBarVisible){
+                listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
+              },
+              actions: widget.getActions(context),
+              title: const Text("Listeler"),
+              appBarBottom: widget.getTopTabBar(context, controller: tabController),
+              child: TabBarView(
+                controller: tabController,
+                children: [
+                  BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
+                    selector: (state)=>state.listHadiths,
+                    builder: (context,listHadiths){
+                      return getListItems(
+                          items: listHadiths,
+                          gridCount: gridCount,
+                          sourceType: SourceTypeEnum.hadith,
+                          useSecondary: true
+                      );
+                    },
+                  ),
+                  BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
+                    selector: (state)=>state.listVerses,
+                    builder: (context,listVerses){
+                      return getListItems(
+                          items: listVerses,
+                          gridCount: gridCount,
+                          sourceType: SourceTypeEnum.verse,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -179,10 +187,19 @@ class _ShowListPageState extends State<ShowListPage> {
     );
   }
 
+  void listenTabChanges(){
+    if(!tabController.indexIsChanging){
+      context.read<ShowListBloc>()
+          .add(ShowListEventChangeTab(index: tabController.index));
+    }
+  }
+
   @override
   void dispose() {
-    super.dispose();
     scrollController.dispose();
     searchTextController.dispose();
+    tabController.removeListener(listenTabChanges);
+    tabController.dispose();
+    super.dispose();
   }
 }

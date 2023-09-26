@@ -126,9 +126,9 @@ class _DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
 
   @override
   void dispose() {
-    super.dispose();
     pageController.dispose();
     positionController.dispose();
+    super.dispose();
   }
 
 }

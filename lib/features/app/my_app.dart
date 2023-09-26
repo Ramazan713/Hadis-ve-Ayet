@@ -32,7 +32,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
-
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic){
         return BlocBuilder<ThemeBloc,ThemeState>(
@@ -41,7 +40,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
                 prevState.useDynamicColors != nextState.useDynamicColors;
           },
           builder: (context,state){
-            final schema = ThemeUtil.getSchema(
+
+            final themeSchemes = ThemeUtil.getSchemes(
               themeEnum: state.themeType,
               brightness: Theme.of(context).brightness,
               lightDynamic: lightDynamic,
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
               useDynamicColor: state.useDynamicColors
             );
 
-            ThemeUtil.setStatusBarColor(schema: schema);
+            ThemeUtil.setStatusBarColor(schema: themeSchemes.currentScheme);
 
             return MaterialApp.router(
               routerConfig: _buildRouter,
@@ -59,11 +59,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
               themeMode: state.themeType.mode,
               theme: ThemeData(
                 useMaterial3: true,
-                colorScheme: schema
+                colorScheme: themeSchemes.lightScheme
               ),
               darkTheme: ThemeData(
                 useMaterial3: true,
-                colorScheme: schema
+                colorScheme: themeSchemes.darkScheme
               ),
             );
           },

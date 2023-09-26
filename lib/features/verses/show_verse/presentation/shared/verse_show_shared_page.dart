@@ -171,7 +171,7 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
 
   @override
   void dispose() {
-    super.dispose();
     customScrollController.dispose();
+    super.dispose();
   }
 }

@@ -77,7 +77,10 @@ class _SectionPageState extends State<SectionPage> {
               onTextChanged: (newText){
                 bloc.add(SectionEventSearch(query: newText));
               },
-              title: Text("Bölüm - ${widget.bookEnum.bookScope.description}"),
+              title: Text(
+                "Bölüm - ${widget.bookEnum.bookScope.description}",
+                overflow: TextOverflow.ellipsis,
+              ),
               actions: widget.getActions(context),
               pinned: true,
               snap: false,
@@ -136,8 +139,8 @@ class _SectionPageState extends State<SectionPage> {
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
+    super.dispose();
   }
 }
 

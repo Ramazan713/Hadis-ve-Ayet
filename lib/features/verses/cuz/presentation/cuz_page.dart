@@ -212,8 +212,8 @@ class _CuzPageState extends State<CuzPage> {
 
   @override
   void dispose() {
-    super.dispose();
     scrollController.dispose();
     positionController.dispose();
+    super.dispose();
   }
 }

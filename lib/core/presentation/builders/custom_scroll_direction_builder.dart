@@ -67,8 +67,9 @@ class _CustomScrollDirectionBuilderState extends State<CustomScrollDirectionBuil
 
   @override
   void dispose() {
-    super.dispose();
     widget.controller.removeListener(listen);
+    _notifier.dispose();
+    super.dispose();
   }
 
 }

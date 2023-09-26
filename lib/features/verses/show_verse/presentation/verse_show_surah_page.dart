@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
+import 'package:hadith/core/features/get_title/bloc/get_title_bloc.dart';
+import 'package:hadith/core/features/get_title/bloc/get_title_event.dart';
+import 'package:hadith/core/features/get_title/bloc/get_title_state.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
 import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
@@ -30,20 +33,17 @@ class VerseShowSurahPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final surahPagingRepo = context.read<VerseSurahPagingRepo>().init(surahId: surahId);
 
-    context.read<VerseSharedBloc>().add(VerseSharedEventSetTitle(
+    context.read<GetTitleBloc>().add(GetTitleEventRequestTitle(
         itemId: surahId, titleEnum: TitleEnum.surah
     ));
 
     return VerseSharedProviders(
-      child: BlocSelector<VerseSharedBloc, VerseSharedState, String>(
-        selector: (state) => state.title,
+      child: BlocSelector<GetTitleBloc, GetTitleState, String>(
+        selector: (state) => state.title??"",
         builder: (context, currentTitle){
-          final surahPagingRepo = context.read<VerseSurahPagingRepo>()
-              .init(surahId: surahId);
-
           final destination = DestinationSurah(surahId: surahId,surahName: currentTitle);
-
           return VerseShowSharedPage(
             savePointDestination: destination,
             paginationRepo: surahPagingRepo,
