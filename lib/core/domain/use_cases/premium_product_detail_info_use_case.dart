@@ -8,14 +8,6 @@ class PremiumProductDetailInfoUseCase{
 
   SubscriptionModel call({required ProductDetails productDetails}){
     String? trialContent;
-    if(productDetails is GooglePlayProductDetails){
-      final daysPattern = RegExp("\\d+D");
-      final match = daysPattern.firstMatch(productDetails.skuDetails.freeTrialPeriod);
-      final matchResult = productDetails.skuDetails.freeTrialPeriod.substring(match?.start??0,match?.end);
-      if(matchResult != ''){
-        trialContent = matchResult.split("D")[0];
-      }
-    }
 
     String title;
     if(productDetails.title.contains("(")){

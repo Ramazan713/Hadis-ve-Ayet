@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/core/extensions/go_router_ext.dart';
 import 'package:hadith/features/app/my_app_top_listeners.dart';
 import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 
@@ -68,7 +69,7 @@ class CustomNavigationBar extends StatelessWidget {
   }
 
   String _currentLocation(BuildContext context){
-    return GoRouter.of(context).location;
+    return GoRouter.of(context).location();
   }
 
   void _onClicked(BuildContext context,int i){
