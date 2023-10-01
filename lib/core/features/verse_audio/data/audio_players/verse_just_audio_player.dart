@@ -93,4 +93,9 @@ class VerseJustAudioPlayer extends IVerseAudioPlayer{
     }
   }
 
+  @override
+  Future<void> start() async{
+    await _play();
+  }
+
 }

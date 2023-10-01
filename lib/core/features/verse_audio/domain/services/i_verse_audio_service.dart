@@ -10,6 +10,7 @@ import 'package:hadith/core/features/verse_audio/domain/enums/listen_audio_enum.
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_param.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_service_state.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/verse_meal_voice_model.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/verse_audio_state_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_meal_voice_repo.dart';
 import 'package:rxdart/rxdart.dart';
@@ -24,18 +25,13 @@ abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
   late final VerseAudioRepo _verseAudioRepo;
   late final FileService _fileService;
 
-  final BehaviorSubject<ListenAudioServiceState> _streamResource = BehaviorSubject();
 
-  late final ValueStream<ListenAudioServiceState> broadcastListener;
+  @protected
+  ListenAudioStateManager stateManager = ListenAudioStateManager();
+  ValueStream<ListenAudioServiceState> get broadcastListener  => stateManager.stateStream;
 
   StreamSubscription<Duration>? _durationSubs;
   StreamSubscription<Duration>? _positionSubs;
-
-
-  @protected
-  ListenAudioServiceState _state = ListenAudioServiceState.init();
-
-  ListenAudioServiceState get sharedState => _state;
 
 
   IVerseAudioServiceManager({
@@ -52,30 +48,21 @@ abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
     _verseAudioRepo = verseAudioRepo;
     _fileService = fileService;
 
-    broadcastListener = _streamResource.stream;
-
     _positionSubs = audioPlayer.positionStream.mapNotNull((e)=>e).listen((event){
-      if(event <= _state.duration){
-        addState(_state.copyWith(position: event));
+      if(event <= stateManager.state.duration){
+        stateManager.setNewState(position: event);
       }
     });
 
-    _durationSubs = audioPlayer.durationStream.mapNotNull((e)=>e).listen((event) {
-      addState(_state.copyWith(duration: event));
+    _durationSubs = audioPlayer.durationStream.throttleTime(const Duration(milliseconds: 500),trailing: true).mapNotNull((e)=>e).listen((event) {
+      stateManager.setNewState(duration: event);
     });
-  }
-
-  @protected
-  void addState(ListenAudioServiceState newState){
-    _state = newState;
-    _streamResource.add(_state);
   }
 
   Future<void> _initPlayer()async{
     final speed = _appPreferences.getItem(KPref.audioPlayerSpeed);
     await changeSpeed(speed);
   }
-
 
   Future<void> playAudiosWithCustom({required String identifier, required List<int> verseIds})async{
     var verseAudioModels = await _verseVoiceRepo.getVerseVoiceModelsWithCustom(identifier: identifier,verseIds: verseIds);
@@ -90,7 +77,7 @@ abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
   Future<void> _playAudios(List<VerseMealVoiceModel> verseAudioModels)async{
     final isValid = await _verseAudioRepo.validateVerseAudios(verseAudios: verseAudioModels);
     if(!isValid){
-      return addState(_state.copyWith(audio: null, setAudio: true, error: "audio file not found",setError: true));
+      return stateManager.setNewState(audio: null, setAudio: true, error: "audio file not found",setError: true);
     }
     await _initPlayer();
     await play(verseAudioModels);
@@ -100,46 +87,51 @@ abstract class IVerseAudioServiceManager<T extends IVerseAudioPlayer>{
   @protected
   Future<void> play(List<VerseMealVoiceModel> items);
 
-  Future<void> resume()async{
+
+  Future<void> start()async{
     await audioPlayer.resume();
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.running));
   }
+
+  Future<void> resume()async{
+    stateManager.setNewState(audioEnum: ListenAudioEnum.running);
+    await audioPlayer.resume();
+  }
+
   Future<void> pause()async{
+    stateManager.setNewState(audioEnum: ListenAudioEnum.pause);
     await audioPlayer.pause();
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.pause));
   }
 
   Future<void> stop()async{
+    stateManager.setNewState(audioEnum: ListenAudioEnum.idle);
     await audioPlayer.stop();
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.idle));
   }
 
   Future<void> changeSpeed(double speed)async{
     final fixedSpeed = double.parse(speed.toStringAsFixed(1));
-
     await _appPreferences.setItem(KPref.audioPlayerSpeed, fixedSpeed);
-    addState(_state.copyWith(speed: fixedSpeed));
+    stateManager.setNewState(speed: fixedSpeed);
     await audioPlayer.changeSpeed(fixedSpeed);
   }
   Future<void> changePosition(Duration position)async{
+    stateManager.setNewState(position: position);
     await audioPlayer.changePosition(position);
-    addState(_state.copyWith(position: position));
   }
 
   Future<void> setLoop(bool isLoop)async{
+    stateManager.setNewState(isLoop: isLoop);
     await audioPlayer.setLoop(isLoop);
-    addState(_state.copyWith(isLoop: isLoop));
   }
 
   Future<void> setFinish()async{
-    addState(_state.copyWith(audioEnum: ListenAudioEnum.finish));
+    stateManager.setNewState(audioEnum: ListenAudioEnum.finish);
   }
 
   Future<void>dispose()async{
     await _positionSubs?.cancel();
     await _durationSubs?.cancel();
     await audioPlayer.release();
-    await _streamResource.close();
+    await stateManager.dispose();
   }
 
   @protected

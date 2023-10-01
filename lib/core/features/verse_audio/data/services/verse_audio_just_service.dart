@@ -27,9 +27,8 @@ class VerseAudioJustService extends IVerseAudioServiceManager<VerseJustAudioPlay
 
     if(files.isNotEmpty){
       await _setListeners(items);
-
       await audioPlayer.setPlayList(files);
-      await audioPlayer.resume();
+      await audioPlayer.start();
     }
   }
 
@@ -37,23 +36,22 @@ class VerseAudioJustService extends IVerseAudioServiceManager<VerseJustAudioPlay
     await _subsCurrentIndex?.cancel();
     await _subsPlayerState?.cancel();
 
-
     _subsCurrentIndex = audioPlayer.currentIndexStream.listen((currentIndex) {
       if(currentIndex!=null){
-        addState(sharedState.copyWith(
+        stateManager.setNewState(
             setAudio: true, audio: items[currentIndex],
             audioEnum: ListenAudioEnum.running,
-        ));
+        );
       }
     });
 
     _subsPlayerState = audioPlayer.playerState.distinct().listen((event) {
       if(event.processingState == ProcessingState.completed){
-        addState(sharedState.copyWith(audioEnum: ListenAudioEnum.finish));
+        stateManager.setNewState(audioEnum: ListenAudioEnum.finish);
       }else if(event.processingState == ProcessingState.ready){
-        addState(sharedState.copyWith(
+        stateManager.setNewState(
             audioEnum: event.playing ? ListenAudioEnum.running : ListenAudioEnum.pause
-        ));
+        );
       }
     });
   }

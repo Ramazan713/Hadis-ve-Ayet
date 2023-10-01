@@ -8,6 +8,7 @@ abstract class IVerseAudioPlayer{
   abstract final ValueStream<Duration?> durationStream;
 
   Future<void> play(File file);
+  Future<void> start();
   Future<void> resume();
   Future<void> pause();
   Future<void> stop();

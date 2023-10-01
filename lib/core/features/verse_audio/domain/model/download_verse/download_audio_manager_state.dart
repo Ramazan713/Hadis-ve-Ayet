@@ -75,11 +75,11 @@ class DownloadAudioManagerState extends Equatable{
 
   String _getQueueInfo(){
     if(queueParams.isEmpty) return "";
-    return "${queueParams.length} kuyrukta";
+    return "-- (${queueParams.length} kuyrukta)";
   }
 
   String get getBodyContent{
-    return error ?? "($getProgressContent) - ${voiceModel?.surahName??""} ${voiceModel?.verseNumberTr??""} -- (${_getQueueInfo()})";
+    return error ?? "($getProgressContent) - ${voiceModel?.surahName ?? "?"} ${voiceModel?.verseNumberTr ?? "?"}  ${_getQueueInfo()}";
   }
 
   bool isActive(){

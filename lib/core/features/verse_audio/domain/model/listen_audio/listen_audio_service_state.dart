@@ -58,7 +58,7 @@ class ListenAudioServiceState extends Equatable{
   }
 
   String getInfo(){
-    return "${audio?.editionName} - ${audio?.surahName} ${audio?.verseNumbers}";
+    return "${ audio?.editionName ?? "?" } - ${ audio?.surahName ?? "?" } ${ audio?.verseNumbers ?? "?" }";
   }
 
   bool isDistinctForNotification(ListenAudioServiceState otherAudio){
