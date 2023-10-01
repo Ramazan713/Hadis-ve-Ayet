@@ -11,12 +11,14 @@ class CardListTile extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final bool isSelected;
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final double elevation;
   final Color? shadowColor;
   final double? borderWidth;
   final Color? selectedColor;
   final Color? defaultColor;
   final BorderRadius? borderRadius;
+  final ShapeBorder? shape;
 
   const CardListTile({
     super.key,
@@ -30,17 +32,19 @@ class CardListTile extends StatelessWidget {
     this.margins,
     this.contentPadding,
     this.onTap,
+    this.onLongPress,
     this.borderWidth,
     this.selectedColor,
     this.defaultColor,
     this.borderRadius,
+    this.shape
   });
 
   @override
   Widget build(BuildContext context) {
     final currentBorderRadius = borderRadius ?? BorderRadius.circular(13);
 
-    final shape = RoundedRectangleBorder(
+    final currentShape = shape ?? RoundedRectangleBorder(
       borderRadius: currentBorderRadius,
       side: getBorder(context)
     );
@@ -52,13 +56,14 @@ class CardListTile extends StatelessWidget {
       shadowColor: shadowColor,
       selectedColor: selectedColor,
       defaultColor: defaultColor,
-      shape: shape,
+      shape: currentShape,
       child: ListTile(
-        shape: shape,
+        shape: currentShape,
         contentPadding: contentPadding,
         title: title,
         subtitle: subtitle,
         onTap: onTap,
+        onLongPress: onLongPress,
         trailing: trailing,
         leading: leading,
       ),

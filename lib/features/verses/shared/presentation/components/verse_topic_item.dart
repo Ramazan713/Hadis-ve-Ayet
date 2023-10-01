@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/features/verses/shared/domain/models/audio_info_result_model.dart';
 import 'package:hadith/features/verses/shared/presentation/components/circle_icon_tip.dart';
 
@@ -28,6 +29,21 @@ class VerseTopicItem extends StatelessWidget {
     this.onClickMoreMenu,
     required this.infoResult
   }) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return CardListTile(
+      margins: const EdgeInsets.symmetric(vertical: 3),
+      contentPadding: const EdgeInsets.only(left: 16,right: 8),
+      defaultColor: Theme.of(context).colorScheme.primaryContainer,
+      title: Text(label,),
+      leading: Icon(iconData),
+      onTap: onTap,
+      onLongPress: onLongPress,
+      trailing: getTrailingWidget(context),
+    );
+  }
 
 
   Widget? getTrailingWidget(BuildContext context){
@@ -64,45 +80,26 @@ class VerseTopicItem extends StatelessWidget {
     }
     if(hasSavePoint){
       items.add(CircleIconTip(
-          iconData: Icons.beenhere,
-          message: "kayıt noktası",
-          iconColor: Theme.of(context).colorScheme.error,
+        iconData: Icons.beenhere,
+        message: "kayıt noktası",
+        iconColor: Theme.of(context).colorScheme.error,
       ));
       items.add(const SizedBox(width: width,));
     }
 
     if(onClickMoreMenu!= null){
       items.add(
-        IconButton(
-          onPressed: onClickMoreMenu,
-          icon: const Icon(Icons.more_vert),
-          tooltip: "Daha fazlası",
-        )
+          IconButton(
+            onPressed: onClickMoreMenu,
+            icon: const Icon(Icons.more_vert),
+            tooltip: "Daha fazlası",
+          )
       );
     }
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: items,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13)
-        ),
-        contentPadding: const EdgeInsets.only(left: 16,right: 8),
-        tileColor: Theme.of(context).colorScheme.primaryContainer,
-        title: Text(label,),
-        leading: Icon(iconData),
-        onTap: onTap,
-        onLongPress: onLongPress,
-        trailing: getTrailingWidget(context),
-      ),
     );
   }
 }

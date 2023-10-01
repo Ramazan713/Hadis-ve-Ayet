@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 
 class TopicItem extends StatelessWidget {
@@ -22,27 +23,21 @@ class TopicItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(13)
-        ),
-        contentPadding: const EdgeInsets.only(right: 8,left: 16),
-        tileColor: Theme.of(context).colorScheme.secondaryContainer,
-        title: Text(
-          topicViewModel.name,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        leading: getLeading(context),
-        subtitle: Text(
-          "${topicViewModel.itemsCount} ${sourceType.shortName}",
-        ),
-        onTap: onTap,
-        onLongPress: onMenuClick,
-        trailing: getTrailing(context),
+    return CardListTile(
+      margins: const EdgeInsets.symmetric(vertical: 3),
+      contentPadding: const EdgeInsets.only(right: 8,left: 16),
+      defaultColor: Theme.of(context).colorScheme.secondaryContainer,
+      title: Text(
+        topicViewModel.name,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
+      leading: getLeading(context),
+      subtitle: Text(
+        "${topicViewModel.itemsCount} ${sourceType.shortName}",
+      ),
+      onTap: onTap,
+      onLongPress: onMenuClick,
+      trailing: getTrailing(context),
     );
   }
 

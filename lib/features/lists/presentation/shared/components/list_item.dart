@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 
 class SharedListItem extends StatelessWidget {
 
@@ -29,31 +30,26 @@ class SharedListItem extends StatelessWidget {
     final schema = Theme.of(context).colorScheme;
     final tileColor = useSecondary ? schema.secondaryContainer : schema.primaryContainer;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13)
-        ),
-        tileColor: tileColor,
-        title: Text(
-          listViewModel.name,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        leading: icon,
-        subtitle: Text(
-          "${listViewModel.itemCounts} $subTitleTag",
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        trailing: IconButton(
-          onPressed: onMenuClick,
-          icon: const Icon(
-            Icons.more_vert,
-            size: 30,
-          ),
-        ),
-        onTap: onClick,
+    return CardListTile(
+      margins: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),
+      defaultColor: tileColor,
+      title: Text(
+        listViewModel.name,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
+      leading: icon,
+      subtitle: Text(
+        "${listViewModel.itemCounts} $subTitleTag",
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: IconButton(
+        onPressed: onMenuClick,
+        icon: const Icon(
+          Icons.more_vert,
+          size: 30,
+        ),
+      ),
+      onTap: onClick,
     );
   }
 }

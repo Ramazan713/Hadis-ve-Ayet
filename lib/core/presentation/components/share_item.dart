@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 
 
 class ShareItem extends StatelessWidget {
@@ -12,17 +13,15 @@ class ShareItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ListTile(
-        onTap: onTap,
-        tileColor: Theme.of(context).colorScheme.secondaryContainer,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19)),
-        leading: iconInfo?.toIcon(),
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+    return CardListTile(
+      margins: const EdgeInsets.symmetric(vertical: 5),
+      onTap: onTap,
+      defaultColor: Theme.of(context).colorScheme.secondaryContainer,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19)),
+      leading: iconInfo?.toIcon(),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/features/topics/domain/model/section_view_model.dart';
 
 class SectionItem extends StatelessWidget {
@@ -17,23 +18,18 @@ class SectionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13)
-        ),
-        tileColor: Theme.of(context).colorScheme.secondaryContainer,
-        title: Text(
-          sectionItem.name,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        leading: getLeading(context),
-        subtitle: Text(
-          "${sectionItem.topicsCount} başlık",
-        ),
-        onTap: onTap,
+    return CardListTile(
+      margins: const EdgeInsets.symmetric(vertical: 3),
+      defaultColor: Theme.of(context).colorScheme.secondaryContainer,
+      title: Text(
+        sectionItem.name,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
+      leading: getLeading(context),
+      subtitle: Text(
+        "${sectionItem.topicsCount} başlık",
+      ),
+      onTap: onTap,
     );
   }
 

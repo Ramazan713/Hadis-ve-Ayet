@@ -6,7 +6,7 @@ import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_event.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_state.dart';
-import 'package:hadith/core/presentation/components/custom_list_tile.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_slider.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_manage_downloaded_audios.dart';
@@ -102,9 +102,11 @@ class _DialogContent extends StatelessWidget {
     return BlocSelector<AudioSettingBloc,AudioSettingState,AudioEdition?>(
       selector: (state) => state.selectedEdition,
       builder: (context,audioEdition){
-        return CustomListTile(
-          title: "Kıraat seç",
-          subTitle: audioEdition?.name??"Seçilmedi",
+        return CardListTile(
+          title: const Text("Kıraat seç"),
+          defaultColor: Colors.transparent,
+          elevation: 0,
+          subtitle: Text(audioEdition?.name??"Seçilmedi"),
           onTap: (){
             showSelectEdition(context);
           },
@@ -131,8 +133,10 @@ class _DialogContent extends StatelessWidget {
   }
 
   Widget getEditDownloadedAudioSection(BuildContext context){
-    return CustomListTile(
-      title: "İndirilen ses dosyalarını yönet",
+    return CardListTile(
+      title: const Text("İndirilen ses dosyalarını yönet"),
+      defaultColor: Colors.transparent,
+      elevation: 0,
       onTap: (){
         showManageDownloadedAudios(context);
       },
@@ -144,9 +148,11 @@ class _DialogContent extends StatelessWidget {
     return BlocSelector<AudioSettingBloc,AudioSettingState,double>(
       selector: (state)=>state.audioSpeed,
       builder: (context,audioSpeed){
-        return CustomListTile(
-          title: "Ses hızı",
-          subTitle: audioSpeed.toStringAsFixed(1),
+        return CardListTile(
+          title: const Text("Ses hızı"),
+          defaultColor: Colors.transparent,
+          elevation: 0,
+          subtitle: Text(audioSpeed.toStringAsFixed(1)),
           onTap: (){
             showSelectSlider(
                 context,
