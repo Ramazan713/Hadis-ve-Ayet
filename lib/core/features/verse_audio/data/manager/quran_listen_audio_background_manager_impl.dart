@@ -241,7 +241,7 @@ extension SavePointExt on QuranListenAudioBackgroundManagerImpl{
         break;
     }
     if(destination!=null && pos != null){
-      return _SavePointResult(destination: destination, pos: pos);
+      return _SavePointResult(destination: destination, pos: pos + 1);
     }
     return null;
   }

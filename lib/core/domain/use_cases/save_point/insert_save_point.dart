@@ -22,7 +22,7 @@ class InsertSavePoint{
   }) async{
 
     final savePoint = SavePoint(
-        itemIndexPos: position,
+        itemPos: position,
         title: title,
         autoType: autoType,
         modifiedDate: dateTime.toIso8601String(),

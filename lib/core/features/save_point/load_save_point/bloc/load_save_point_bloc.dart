@@ -37,7 +37,7 @@ class LoadSavePointBloc extends Bloc<ILoadSavePointEvent,LoadSavePointState>{
     if(savePoint!=null){
       emit(state.copyWith(
         setResult: true,
-        resultLoadSavePoint: ResultLoadSavePoint(destination: event.destination, itemIndexPos: savePoint.itemIndexPos)
+        resultLoadSavePoint: ResultLoadSavePoint(destination: event.destination, itemIndexPos: savePoint.itemPos)
       ));
     }
   }
@@ -50,7 +50,7 @@ class LoadSavePointBloc extends Bloc<ILoadSavePointEvent,LoadSavePointState>{
     if(savePoint!=null){
       emit(state.copyWith(
           setResult: true,
-          resultLoadSavePoint: ResultLoadSavePoint(destination: event.destination, itemIndexPos: savePoint.itemIndexPos)
+          resultLoadSavePoint: ResultLoadSavePoint(destination: event.destination, itemIndexPos: savePoint.itemPos)
       ));
     }else{
       emit(state.copyWith(

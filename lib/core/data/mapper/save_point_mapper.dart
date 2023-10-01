@@ -12,12 +12,11 @@ extension SavePointEntityExt on SavePointEntity{
   SavePoint toSavePoint(){
     return SavePoint(
         id: id,
-        itemIndexPos: itemIndexPos,
+        itemPos: itemIndexPos,
         title: title,
         autoType: SaveAutoTypeExt.fromIndex(autoType),
         modifiedDate: modifiedDate,
-        destination: SavePointDestination.from(savePointType, parentKey,
-            parentName, bookScope),
+        destination: SavePointDestination.from(savePointType, parentKey, parentName, bookScope),
     );
   }
 }
@@ -27,7 +26,7 @@ extension SavePointExt on SavePoint{
   SavePointEntity toSavePointEntity(){
     return SavePointEntity(
         id: id,
-        itemIndexPos: itemIndexPos,
+        itemIndexPos: itemPos,
         title: title,
         autoType: autoType.index,
         modifiedDate: modifiedDate,

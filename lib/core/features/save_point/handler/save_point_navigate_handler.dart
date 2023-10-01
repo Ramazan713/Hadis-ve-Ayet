@@ -15,7 +15,7 @@ BuildContext context,
   savePointNavigateHandler(
       context,
       destination: savePoint.destination,
-      itemIndexPos: savePoint.itemIndexPos
+      itemIndexPos: savePoint.itemPos
   );
 }
 

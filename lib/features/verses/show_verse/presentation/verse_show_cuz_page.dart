@@ -68,13 +68,13 @@ class VerseShowCuzPage extends StatelessWidget {
           if(differentLocation){
             final cuzDestination = savePoint.destination.castOrNull<DestinationCuz>();
             if(cuzDestination!=null){
-              final location = VerseShowCuzRoute(cuzNo: cuzDestination.cuzId, pos: savePoint.itemIndexPos)
+              final location = VerseShowCuzRoute(cuzNo: cuzDestination.cuzId, pos: savePoint.itemPos)
                   .location;
               context.replace(location);
             }
           }else{
             context.read<PaginationBloc>()
-                .add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
+                .add(PaginationEventJumpToPos(pos: savePoint.itemPos));
           }
         },
         onLoadSavePointRequestHandler: (requestHandler){

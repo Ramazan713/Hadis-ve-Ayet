@@ -90,7 +90,7 @@ extension VerseShowSharedPageHeaderExt on VerseShareBasePage{
               showGetNumberDia(
                 context,
                 listener: (selected) {
-                  pagingBloc.add(PaginationEventJumpToPos(pos: selected));
+                  pagingBloc.add(PaginationEventJumpToPos(pos: selected + 1));
                 },
                 currentIndex: visibleMiddleItem.rowNumber,
                 limitIndex: state.totalItems - 1

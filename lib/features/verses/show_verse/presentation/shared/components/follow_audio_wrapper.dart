@@ -30,9 +30,8 @@ class FollowAudioWrapper extends StatelessWidget {
           final index = items.indexWhere((element) => element.pagingId == mealId);
           if(index!=-1){
             itemScrollController.scrollTo(
-                index: index,
+                index: index + 1, // +1 because paginationListView has two extra widget(in the start end end)
                 duration: const Duration(milliseconds: 300),
-                alignment: 0.0
             );
           }
         }

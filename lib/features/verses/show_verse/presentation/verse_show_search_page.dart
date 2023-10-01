@@ -69,13 +69,13 @@ class VerseShowSearchPage extends StatelessWidget{
                  query: searchDestination.query,
                  bookScopeId: searchDestination.bookScope.binaryId,
                  criteriaId: searchDestination.criteria.enumValue,
-                 pos: savePoint.itemIndexPos
+                 pos: savePoint.itemPos
               ).location;
               context.replace(location);
             }
           }else{
             context.read<PaginationBloc>()
-                .add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
+                .add(PaginationEventJumpToPos(pos: savePoint.itemPos));
           }
         },
         onLoadSavePointRequestHandler: (requestHandler){

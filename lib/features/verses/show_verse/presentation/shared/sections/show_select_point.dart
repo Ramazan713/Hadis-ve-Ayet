@@ -38,7 +38,7 @@ extension VerseShowSharedPageSelectSavePointExt on VerseShareBasePage{
             if(onLoadSavePointClick != null){
               onLoadSavePointClick(savePoint);
             }else{
-              pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
+              pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemPos));
             }
           }
       );

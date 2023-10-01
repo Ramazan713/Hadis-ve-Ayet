@@ -28,7 +28,7 @@ extension HadithSharedPageSelectSavePointExt on HadithSharedPage{
           destination: savePointDestination,
           itemIndexPos: itemIndexPos,
           onLoadSavePointClick: (savePoint){
-            pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
+            pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemPos));
           }
       );
     }

@@ -71,7 +71,7 @@ class InsertOrUpdateAutoSavePoint{
           autoType: autoType,
       );
       final savePoint = SavePoint(
-        itemIndexPos: itemIndexPos,
+        itemPos: itemIndexPos,
         title: currentTitle,
         autoType: autoType,
         modifiedDate: modifiedDate,

@@ -110,7 +110,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
     });
   }
 
-  SavePointDestination get savePointDestination => DestinationPage(pageNoIndex: pageController.currentPageIndex);
+  SavePointDestination get savePointDestination => DestinationPage(pageNoIndex: pageController.currentPageIndex + 1);
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +161,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
                                           widget.handleBottomMenu(
                                               context,
                                               verseListModel: item,
-                                              itemIndexPos: index,
+                                              itemIndexPos: index + 1,
                                               state: state,
                                               savePointDestination: savePointDestination,
                                               initScope: LocalDestinationScope.wide,
@@ -267,7 +267,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
     final destination = savePoint.destination;
     if(destination is DestinationPage){
       Navigator.pop(context);
-      pageController.animateToPage(pageIndex: destination.pageNoIndex, pos: savePoint.itemIndexPos);
+      pageController.animateToPage(pageIndex: destination.pageNoIndex, pos: savePoint.itemPos + 1);
     }
   }
 

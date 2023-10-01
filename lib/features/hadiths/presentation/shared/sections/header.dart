@@ -64,10 +64,9 @@ extension HadithSharedPageHeaderExt on HadithSharedPage{
 
           final item = state.visibleMiddleItem?.castOrNull<HadithListModel>();
           if(item == null) return;
-
           showGetNumberDia(context,
             listener: (newPos){
-              pagingBloc.add(PaginationEventJumpToPos(pos: newPos));
+              pagingBloc.add(PaginationEventJumpToPos(pos: newPos + 1));
             },
             currentIndex: item.rowNumber,
             limitIndex: state.totalItems - 1

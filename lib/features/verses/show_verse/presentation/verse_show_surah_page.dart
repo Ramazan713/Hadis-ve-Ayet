@@ -64,13 +64,13 @@ class VerseShowSurahPage extends StatelessWidget {
           if(differentLocation){
             final surahDestination = savePoint.destination.castOrNull<DestinationSurah>();
             if(surahDestination!=null){
-              final location = VerseShowSurahRoute(surahId: surahDestination.surahId, pos: savePoint.itemIndexPos)
+              final location = VerseShowSurahRoute(surahId: surahDestination.surahId, pos: savePoint.itemPos)
                   .location;
               context.replace(location);
             }
           }else{
             context.read<PaginationBloc>()
-                .add(PaginationEventJumpToPos(pos: savePoint.itemIndexPos));
+                .add(PaginationEventJumpToPos(pos: savePoint.itemPos));
           }
         },
         onLoadSavePointRequestHandler: (requestHandler){

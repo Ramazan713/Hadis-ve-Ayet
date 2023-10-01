@@ -10,27 +10,41 @@ import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 
 class SavePoint extends Equatable{
   final int? id;
-  final int itemIndexPos;
+  final int itemPos;
   final String title;
   final SaveAutoType autoType;
   final String modifiedDate;
   final SavePointDestination destination;
 
-  const SavePoint({this.id,required this.itemIndexPos,required this.title,required this.autoType,
-    required this.modifiedDate,required this.destination});
+  const SavePoint({
+    this.id,
+    required this.itemPos,
+    required this.title,
+    required this.autoType,
+    required this.modifiedDate,
+    required this.destination
+  });
 
-  SavePoint copyWith({int? id, bool setId = false, int? itemIndexPos,String? title,SaveAutoType? autoType,String? modifiedDate,
-    SavePointDestination? destination}){
-    return SavePoint(itemIndexPos: itemIndexPos??this.itemIndexPos,
-        title: title??this.title,autoType: autoType??this.autoType,
+  SavePoint copyWith({
+    int? id, bool setId = false,
+    int? itemIndexPos,
+    String? title,
+    SaveAutoType? autoType,
+    String? modifiedDate,
+    SavePointDestination? destination
+  }){
+    return SavePoint(
+        itemPos: itemIndexPos ?? this.itemPos,
+        title: title ?? this.title,
+        autoType: autoType ?? this.autoType,
         id: setId ? id : this.id,
-        destination: destination??this.destination,
+        destination: destination ?? this.destination,
         modifiedDate: modifiedDate ?? this.modifiedDate
     );
   }
 
   @override
-  List<Object?> get props => [id,itemIndexPos,title,autoType,modifiedDate,destination];
+  List<Object?> get props => [id,itemPos,title,autoType,modifiedDate,destination];
 
 
 

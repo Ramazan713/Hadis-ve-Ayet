@@ -133,7 +133,7 @@ class SavePointItem extends StatelessWidget {
         Flexible(
           flex: 3,
           child: Text(
-            "pos: ${item.itemIndexPos} ",
+            "pos: ${item.itemPos} ",
             style: textStyle,
           )
         ),
