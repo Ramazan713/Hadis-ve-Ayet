@@ -7,6 +7,8 @@ abstract class QuranListenAudioBackgroundManager{
 
   void runService(ListenAudioParam audioParam);
 
+  Future<void> onStart();
+
   Future<void> setFinishPlayer();
 
   Future<void> cancel();

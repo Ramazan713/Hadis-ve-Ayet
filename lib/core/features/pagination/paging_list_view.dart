@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
-import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -84,10 +82,10 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
           initialScrollIndex: initialScrollIndex,
           itemPositionsListener: _itemPositionsListener,
           itemScrollController: _itemScrollController,
-          onVisibleItemChanged: (firstPos,lastPos){
-
+          onVisibleItemChanged: (firstPos,lastPos)async{
+            if(paginationBloc.isClosed) return;
             paginationBloc.add(PaginationEventSetVisiblePos(visibleMaxPos: lastPos - 1, visibleMinPos: firstPos - 1));
-            _onFetchPagesWithPositions(context,state,firstPos,lastPos);
+            _onFetchPagesWithPositions(context,paginationBloc,state,firstPos,lastPos);
           },
           onScroll: (scrollDirection){
             onScroll?.call(scrollDirection);
@@ -111,6 +109,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
       },
     );
   }
+
 }
 
 
@@ -152,11 +151,10 @@ extension _PagingListViewPositionExt on PagingListView {
 
   void _onFetchPagesWithPositions(
       BuildContext context,
+      PaginationBloc paginationBloc,
       PaginationState pagingState,
       int firstVisibleItemIndex, int lastVisibleItemIndex,
   ) {
-    final paginationBloc = context.read<PaginationBloc>();
-
     if (firstVisibleItemIndex != -1 && lastVisibleItemIndex != -1) {
       //if first item smaller than preFetch and page is greater than 1
       if (firstVisibleItemIndex <= pagingState.preFetchDistance &&
@@ -174,4 +172,5 @@ extension _PagingListViewPositionExt on PagingListView {
       }
     }
   }
+
 }

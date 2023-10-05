@@ -37,12 +37,12 @@ class TopicPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TopicPage> createState() => _TopicPageState();
+  State<TopicPage> createState() => TopicPageState();
 
   SourceTypeEnum get sourceType => bookEnum.sourceType;
 }
 
-class _TopicPageState extends State<TopicPage> {
+class TopicPageState extends State<TopicPage> {
 
   final ItemScrollController itemScrollController = ItemScrollController();
   final CustomScrollController scrollController = CustomScrollController();
@@ -56,7 +56,7 @@ class _TopicPageState extends State<TopicPage> {
     final topicSavePointBloc = context.read<TopicSavePointBloc>();
 
     bloc.add(TopicEventLoadData(book: widget.bookEnum, sectionId: widget.sectionId,useBookAllSections: widget.useBookAllSections));
-    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: widget.getTopicType()));
+    topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: getTopicType()));
   }
 
   @override
@@ -67,10 +67,7 @@ class _TopicPageState extends State<TopicPage> {
         selector: (state)=>state.searchBarVisible,
         builder: (context,isSearchBarVisible){
           return Scaffold(
-            floatingActionButton: widget.getFloatingActionWidget(
-              scrollController: scrollController,
-              itemScrollController: itemScrollController
-            ),
+            floatingActionButton: getFloatingActionWidget(),
             body: SafeArea(
               child: CustomNestedSearchableAppBar(
                 textEditingController: searchTextController,
@@ -86,10 +83,7 @@ class _TopicPageState extends State<TopicPage> {
                   "${widget.sectionTitle} - ${widget.bookEnum.bookScope.description}",
                   overflow: TextOverflow.ellipsis,
                 ),
-                actions: widget.getActions(context,
-                  itemScrollController: itemScrollController,
-                  positionController: positionController
-                ),
+                actions: getActions(),
                 snap: true,
                 floating: true,
                 appBarType: AppBarType.defaultBar,
@@ -145,11 +139,10 @@ class _TopicPageState extends State<TopicPage> {
                   hasSavePoint: !state.searchBarVisible && hasSavePoint,
                   sourceType: widget.sourceType,
                   onTap: (){
-                    widget.handleNavigation(context, item);
+                    handleNavigation(item);
                   },
                   onMenuClick: state.searchBarVisible ? null : (){
-                    widget.handleBottomMenu(
-                      context,
+                    handleBottomMenu(
                       index: index,
                       hasSavePoint: hasSavePoint,
                       topic: item

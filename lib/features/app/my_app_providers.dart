@@ -273,7 +273,7 @@ class MyAppProviders extends StatelessWidget {
                 notification: VerseListenAudioNotificationImpl(),
                 savePointUseCases: context.read()
             );
-          }),
+          },lazy: false,),
           BlocProvider(create: (context){
             return DownloadAudioBloc(
                 connectivityService: context.read(),

@@ -80,6 +80,7 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
   required void Function(void Function(bool)) onLoadSavePointRequestHandler,
   int? selectedSavePointId,
   LocalDestinationScope? initScope,
+  bool? useWideScopeNaming,
   String? description,
   String? title
 })async{
@@ -93,6 +94,7 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
       onOverrideSavePointRequestHandler: onOverrideSavePointRequestHandler,
       onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
       useWideScope: true,
+      useWideScopeNaming: useWideScopeNaming,
       description: description,
       customTitle: title
   );
@@ -107,6 +109,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   void Function(void Function(bool))? onLoadSavePointRequestHandler,
   int? selectedSavePointId,
   bool useWideScope = false,
+  bool? useWideScopeNaming,
   String? customTitle,
   String? description,
   LocalDestinationScope? scope,
@@ -144,6 +147,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
           onOverrideSavePointRequestHandler: onLoadSavePointRequestHandler,
           selectedSavePointId: selectedSavePointId,
           useWideScope: useWideScope,
+          useWideScopeNaming: useWideScopeNaming,
         );
       },
     )
@@ -161,6 +165,7 @@ class _DialogContent extends StatelessWidget {
   final void Function(void Function(bool))? onLoadSavePointRequestHandler;
   final int? selectedSavePointId;
   final bool useWideScope;
+  final bool? useWideScopeNaming;
   final String? description;
   final Widget Function(SavePoint?)? customBottomButtons;
   final String title;
@@ -176,6 +181,7 @@ class _DialogContent extends StatelessWidget {
     this.onLoadSavePointRequestHandler,
     this.selectedSavePointId,
     this.useWideScope = false,
+    this.useWideScopeNaming,
     this.description,
     this.customBottomButtons
   }) : super(key: key);
@@ -303,7 +309,7 @@ class _DialogContent extends StatelessWidget {
             final title = SavePoint.getAutoSavePointTitle(
                 destination,
                 date: date.toString(),
-                useLocalWideScope: useWideScope
+                useLocalWideScope: useWideScopeNaming ?? useWideScope
             );
             showEditTextDia(
               context, (newTitle) {

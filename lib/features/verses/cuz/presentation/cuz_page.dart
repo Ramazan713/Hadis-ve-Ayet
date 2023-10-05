@@ -38,10 +38,10 @@ class CuzPage extends StatefulWidget {
   const CuzPage({Key? key}) : super(key: key);
 
   @override
-  State<CuzPage> createState() => _CuzPageState();
+  State<CuzPage> createState() => CuzPageState();
 }
 
-class _CuzPageState extends State<CuzPage> {
+class CuzPageState extends State<CuzPage> {
 
   final CustomScrollController scrollController = CustomScrollController();
   final ItemScrollController itemScrollController = ItemScrollController();
@@ -62,10 +62,7 @@ class _CuzPageState extends State<CuzPage> {
     return AudioConnect(
       child: ManageDownloadedAudioListener(
         child: Scaffold(
-          floatingActionButton:  widget.getFab(context,
-            itemScrollController: itemScrollController,
-            scrollController: scrollController
-          ),
+          floatingActionButton: getFab(),
           body: SafeArea(
             child: CustomNestedViewAppBar(
               title: const Text("Cüz"),
@@ -73,7 +70,7 @@ class _CuzPageState extends State<CuzPage> {
               snap: true,
               floating: true,
               appBarType: AppBarType.defaultBar,
-              actions: widget.getActions(context),
+              actions: getActions(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(

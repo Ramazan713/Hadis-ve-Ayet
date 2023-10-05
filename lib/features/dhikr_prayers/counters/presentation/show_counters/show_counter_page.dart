@@ -19,10 +19,10 @@ class ShowCounterPage extends StatefulWidget {
   const ShowCounterPage({Key? key}) : super(key: key);
 
   @override
-  State<ShowCounterPage> createState() => _ShowCounterPageState();
+  State<ShowCounterPage> createState() => ShowCounterPageState();
 }
 
-class _ShowCounterPageState extends State<ShowCounterPage> {
+class ShowCounterPageState extends State<ShowCounterPage> {
 
   final ScrollController scrollController = ScrollController();
 
@@ -57,13 +57,13 @@ class _ShowCounterPageState extends State<ShowCounterPage> {
   }
 
   Widget getPageContent(BuildContext context, int gridCount){
-    return widget.getListeners(
+    return getListeners(
       child: Scaffold(
         body: SafeArea(
           child: CustomNestedViewAppBar(
             floating: true,
             snap: true,
-            actions: widget.getActions(context),
+            actions: getActions(),
             scrollController: CustomScrollController(
               controller: scrollController
             ),
@@ -73,8 +73,8 @@ class _ShowCounterPageState extends State<ShowCounterPage> {
                 padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                 child: Column(
                   children: [
-                    widget.getDhikrmaticContent(context, gridCount),
-                    widget.getDhikrListContent(context, gridCount)
+                    getDhikrmaticContent(gridCount),
+                    getDhikrListContent(gridCount)
                   ],
                 ),
               ),

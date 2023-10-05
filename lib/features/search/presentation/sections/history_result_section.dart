@@ -11,13 +11,11 @@ import 'package:hadith/features/search/presentation/components/history_item.dart
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:flutter/material.dart';
 
-extension SearchPageHistoryResultExt on SearchPage{
+extension SearchPageHistoryResultExt on SearchPageState{
 
 
-  Widget getHistoryContent(BuildContext context, {
+  Widget getHistoryContent({
     required SearchState state,
-    required ScrollController scrollController,
-    required TextEditingController textEditingController
   }){
     final searchBloc = context.read<SearchBloc>();
     final histories = state.histories;
@@ -32,7 +30,7 @@ extension SearchPageHistoryResultExt on SearchPage{
           history: history,
           onClick: (){
             textEditingController.setTextWithCursor(history.name);
-            unFocusBar(context);
+            unFocusBar();
             searchBloc.add(SearchEventSetQuery(query: history.name));
           },
           onRemoveClick: (){

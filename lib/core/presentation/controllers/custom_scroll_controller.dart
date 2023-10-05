@@ -46,4 +46,10 @@ class CustomScrollController with ChangeNotifier{
     }
     setScrollDirection(scroll);
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 }

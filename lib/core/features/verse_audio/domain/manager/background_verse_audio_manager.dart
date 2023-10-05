@@ -53,7 +53,7 @@ abstract class BackgroundVerseAudioManager{
       case BackgroundEventStopAll _:
         service.invoke(key);
         break;
-      case BackgroundEventCheckNotificationStatus _:
+      case BackgroundEventCheckInitData _:
         service.invoke(key);
         break;
     }

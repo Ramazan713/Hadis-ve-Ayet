@@ -43,6 +43,7 @@ class HadithSearchPage extends StatelessWidget {
         savePointDestination: destination,
         paginationRepo: searchPagingRepo,
         pos: pos,
+        useWideScopeNaming: false,
         searchParam: SearchParam(
             searchCriteria: searchCriteria,
             searchQuery: query

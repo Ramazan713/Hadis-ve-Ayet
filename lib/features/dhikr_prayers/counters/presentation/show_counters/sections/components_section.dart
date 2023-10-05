@@ -14,16 +14,16 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counter
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 
-extension ShowCounterComponentsExt on ShowCounterPage{
+extension ShowCounterComponentsExt on ShowCounterPageState{
 
   
-  List<Widget> getActions(BuildContext context){
+  List<Widget> getActions(){
     return [
-      _getViewIcon(context)
+      _getViewIcon()
     ];
   }
 
-  Widget _getViewIcon(BuildContext context){
+  Widget _getViewIcon(){
     final bloc = context.read<CounterShowBloc>();
     return BlocSelector<CounterShowBloc,CounterShowState,bool>(
       selector: (state)=>state.showDetailContents,
@@ -49,7 +49,7 @@ extension ShowCounterComponentsExt on ShowCounterPage{
   }
 
   
-  Widget getSubTitleWidget(BuildContext context, String title){
+  Widget getSubTitleWidget(String title){
     return Padding(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
       child: Text(
         title,
@@ -59,7 +59,7 @@ extension ShowCounterComponentsExt on ShowCounterPage{
   }
 
 
-  void handleBottomMenu(BuildContext context,Counter counter){
+  void handleBottomMenu(Counter counter){
     final bloc = context.read<CounterShowBloc>();
     showBottomMenuItems(
         context,

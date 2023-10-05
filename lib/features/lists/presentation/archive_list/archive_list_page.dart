@@ -13,9 +13,14 @@ import 'bloc/archive_list_bloc.dart';
 import 'bloc/archive_list_event.dart';
 import 'bloc/archive_list_state.dart';
 
-class ArchiveListPage extends StatelessWidget {
+class ArchiveListPage extends StatefulWidget {
   const ArchiveListPage({Key? key}) : super(key: key);
 
+  @override
+  State<ArchiveListPage> createState() => ArchiveListPageState();
+}
+
+class ArchiveListPageState extends State<ArchiveListPage> {
   @override
   Widget build(BuildContext context) {
     final listBloc = context.read<ArchiveListBloc>();
@@ -48,7 +53,6 @@ class ArchiveListPage extends StatelessWidget {
     );
   }
 
-
   Widget getContent(BuildContext context, int gridCount){
     return Scaffold(
       body: SafeArea(
@@ -77,6 +81,7 @@ class ArchiveListPage extends StatelessWidget {
             final sourceType = item.sourceType;
 
             return SharedListItem(
+              key: Key(item.id.toString()),
               subTitleTag: sourceType.shortName,
               listViewModel: item,
               icon: sourceType.getListIcon(context, item.isRemovable),
@@ -97,7 +102,7 @@ class ArchiveListPage extends StatelessWidget {
                 }
               },
               onMenuClick: () {
-                showAndManageBottomMenu(context, item, sourceType);
+                showAndManageBottomMenu(item, sourceType);
               },
             );
           },
@@ -105,7 +110,6 @@ class ArchiveListPage extends StatelessWidget {
       },
     );
   }
-
 
   Widget getEmptyWidget(BuildContext context) {
     return Center(
@@ -131,5 +135,4 @@ class ArchiveListPage extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -26,6 +26,7 @@ extension VerseShowSharedPageSelectSavePointExt on VerseShareBasePage{
           destination: savePointDestination,
           itemIndexPos: itemIndexPos,
           initScope: initScope,
+          useWideScopeNaming: useWideScopeNaming,
           onLoadSavePointClick: editSavePointHandler!.onLoadSavePointClick,
           onOverrideSavePointRequestHandler: editSavePointHandler!.onOverrideSavePointRequestHandler,
           onLoadSavePointRequestHandler: editSavePointHandler!.onLoadSavePointRequestHandler);

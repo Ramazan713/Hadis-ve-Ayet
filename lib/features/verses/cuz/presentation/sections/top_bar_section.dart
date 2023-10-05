@@ -8,9 +8,9 @@ import 'package:hadith/features/verses/cuz/domain/enums/cuz_top_bar_menu_item.da
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
 import 'package:flutter/material.dart';
 
-extension CuzPageTopBarExt on CuzPage{
+extension CuzPageTopBarExt on CuzPageState{
 
-  List<Widget> getActions(BuildContext context){
+  List<Widget> getActions(){
     return [
       IconButton(
         onPressed: () {
@@ -23,11 +23,11 @@ extension CuzPageTopBarExt on CuzPage{
         icon: const Icon(Icons.save),
         tooltip: "Kayıt Noktası",
       ),
-      _getDropdownMenu(context)
+      _getDropdownMenu()
     ];
   }
 
-  Widget _getDropdownMenu(BuildContext context){
+  Widget _getDropdownMenu(){
     return CustomDropdownIconMenu(
       items: CuzTopBarMenuItem.values,
       onSelected: (menuItem){

@@ -20,9 +20,9 @@ import 'package:hadith/core/utils/toast_utils.dart';
 import 'package:hadith/features/esmaul_husna/shared/domain/extensions/esmaul_husna_share_ext.dart';
 
 
-extension DetailEsmaulHusnaExt on DetailEsmaulHusnaPage{
+extension DetailEsmaulHusnaExt on DetailEsmaulHusnaPageState{
 
-  Widget getBottomButtons(BuildContext context, PageController pageController, CustomPositionController positionController){
+  Widget getBottomButtons(){
     return ListenableBuilder(
       listenable: positionController,
       builder: (context, child){
@@ -52,7 +52,7 @@ extension DetailEsmaulHusnaExt on DetailEsmaulHusnaPage{
     );
   }
 
-  Widget getListeners({required Widget child, required CustomPositionController positionController}){
+  Widget getListeners({required Widget child}){
     return MultiBlocListener(
       listeners: [
         BlocListener<DetailEsmaulHusnaBloc, DetailEsmaulHusnaState>(
@@ -81,20 +81,20 @@ extension DetailEsmaulHusnaExt on DetailEsmaulHusnaPage{
     );
   }
 
-  List<Widget> getActions(BuildContext context,PageController pageController, CustomPositionController positionController){
+  List<Widget> getActions(){
     return [
-      _getShareIcon(context),
+      _getShareIcon(),
       NavigateToIcon(
         positionController: positionController,
         onPosChanged: (selectedIndex){
-          jumpToPage(selectedIndex, pageController);
+          jumpToPage(selectedIndex);
         },
       ),
-      _topBarDropDownMenu(context)
+      _topBarDropDownMenu()
     ];
   }
 
-  Widget _topBarDropDownMenu(BuildContext context){
+  Widget _topBarDropDownMenu(){
     return CustomDropdownIconMenu(
       items: DetailEsmaulHusnaTopBarMenuItem.values,
       onSelected: (menuItem){
@@ -107,7 +107,7 @@ extension DetailEsmaulHusnaExt on DetailEsmaulHusnaPage{
     );
   }
 
-  Widget _getShareIcon(BuildContext context){
+  Widget _getShareIcon(){
     final shareBloc = context.read<ShareBloc>();
     return BlocBuilder<DetailEsmaulHusnaBloc,DetailEsmaulHusnaState>(
       buildWhen: (prevState, nextState){
@@ -154,7 +154,7 @@ extension DetailEsmaulHusnaExt on DetailEsmaulHusnaPage{
   }
 
 
-  void jumpToPage(int page, PageController pageController){
+  void jumpToPage(int page){
     pageController.animateToPage(page,duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 

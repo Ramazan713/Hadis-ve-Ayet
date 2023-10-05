@@ -19,6 +19,7 @@ extension HadithSharedPageSelectSavePointExt on HadithSharedPage{
       showEditSavePointsDiaAdvanced(
           context,
           destination: savePointDestination,
+          useWideScopeNaming: useWideScopeNaming,
           itemIndexPos: itemIndexPos,
           onLoadSavePointClick: editSavePointHandler!.onLoadSavePointClick,
           onOverrideSavePointRequestHandler: editSavePointHandler!.onOverrideSavePointRequestHandler,

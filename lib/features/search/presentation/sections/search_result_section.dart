@@ -9,11 +9,10 @@ import 'package:hadith/features/search/domain/model/search_result.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:flutter/material.dart';
 
-extension SearchPageSearchResultExt on SearchPage{
+extension SearchPageSearchResultExt on SearchPageState{
 
-  Widget getSearchResultContent(BuildContext context, {
+  Widget getSearchResultContent( {
     required SearchState state,
-    required ScrollController scrollController
   }){
     final searchResults = state.searchResults;
 
@@ -28,9 +27,8 @@ extension SearchPageSearchResultExt on SearchPage{
             searchResult: searchResult,
             searchParam: state.searchParam,
             onDetailClick: (){
-              unFocusBar(context);
+              unFocusBar();
               _navigateTo(
-                  context,
                   searchResult: searchResult,
                   criteria: state.searchCriteria,
                   query: state.searchQuery
@@ -41,7 +39,7 @@ extension SearchPageSearchResultExt on SearchPage{
     );
   }
 
-  void _navigateTo(BuildContext context,{
+  void _navigateTo({
     required SearchResult searchResult,
     required SearchCriteriaEnum criteria,
     required String query

@@ -39,10 +39,10 @@ class SurahPage extends StatefulWidget {
   const SurahPage({Key? key,}) : super(key: key);
 
   @override
-  State<SurahPage> createState() => _SurahPageState();
+  State<SurahPage> createState() => SurahPageState();
 }
 
-class _SurahPageState extends State<SurahPage> {
+class SurahPageState extends State<SurahPage> {
 
   final ItemScrollController itemScrollController = ItemScrollController();
   final CustomScrollController scrollController = CustomScrollController();
@@ -65,10 +65,7 @@ class _SurahPageState extends State<SurahPage> {
     return AudioConnect(
       child: ManageDownloadedAudioListener(
         child: Scaffold(
-          floatingActionButton: widget.getFab(
-            itemScrollController: itemScrollController,
-            scrollController: scrollController
-          ),
+          floatingActionButton: getFab(),
           body: SafeArea(
             child: BlocSelector<SurahBloc, SurahState, bool>(
               selector: (state)=>state.searchBarVisible,
@@ -84,7 +81,7 @@ class _SurahPageState extends State<SurahPage> {
                     bloc.add(SurahEventSearch(query: newText));
                   },
                   title: const Text("Sure"),
-                  actions: widget.getActions(context),
+                  actions: getActions(),
                   snap: true,
                   floating: true,
                   appBarType: AppBarType.defaultBar,

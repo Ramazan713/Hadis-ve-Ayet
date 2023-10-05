@@ -6,6 +6,8 @@ abstract class QuranDownloadAudioBackgroundManager{
 
   void addDownloadQueue(DownloadAudioParam param);
 
+  Future<void> onStart();
+
   Future<void> cancel();
 
   Future<void> dispose();

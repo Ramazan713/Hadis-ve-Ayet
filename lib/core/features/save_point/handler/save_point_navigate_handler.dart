@@ -173,7 +173,7 @@ void _loadAndGoPage(BuildContext context, DestinationPage destination, int itemI
       break;
     case SourceTypeEnum.verse:
       VersePageShowRoute(
-        pageIndex: destination.pageNoIndex,
+        pageIndex: destination.pageNo - 1,
         pagePos: itemIndexPos
       ).push(context);
       break;

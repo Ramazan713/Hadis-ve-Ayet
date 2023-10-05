@@ -92,6 +92,11 @@ class QuranListenAudioBackgroundManagerImpl extends QuranListenAudioBackgroundMa
   }
 
   @override
+  Future<void> onStart() async{
+    _service.invoke(BackgroundSendData.sendListenAudioSelectedSavePointId,{"data": _selectedSavePointId});
+  }
+
+  @override
   Future<void> cancel() async{
     _notifySelectedSavePointId(null);
     await _audioService.stop();

@@ -14,12 +14,9 @@ import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-extension SurahPageExt on SurahPage{
+extension SurahPageExt on SurahPageState{
 
-  Widget getFab({
-    required CustomScrollController scrollController,
-    required ItemScrollController itemScrollController
-  }){
+  Widget getFab(){
     return BlocSelector<SurahBloc,SurahState,bool>(
         selector: (state) => !state.searchBarVisible,
         builder: (context, showFab){
@@ -38,13 +35,13 @@ extension SurahPageExt on SurahPage{
     );
   }
 
-  List<Widget> getActions(BuildContext context){
+  List<Widget> getActions(){
     return [
-      _getDropdownMenu(context)
+      _getDropdownMenu()
     ];
   }
 
-  Widget _getDropdownMenu(BuildContext context){
+  Widget _getDropdownMenu(){
     return CustomDropdownIconMenu(
       items: SurahTopBarMenuItem.values,
       onSelected: (menuItem){

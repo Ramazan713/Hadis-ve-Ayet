@@ -22,10 +22,10 @@ class ShowListPage extends StatefulWidget {
   const ShowListPage({Key? key}) : super(key: key);
 
   @override
-  State<ShowListPage> createState() => _ShowListPageState();
+  State<ShowListPage> createState() => ShowListPageState();
 }
 
-class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMixin {
+class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixin {
 
   final scrollController = ScrollController();
   final searchTextController = TextEditingController();
@@ -43,7 +43,7 @@ class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
 
-    return widget.getListeners(
+    return getListeners(
       child: AdaptiveLayout(
         body: SlotLayout(
           config: <Breakpoint, SlotLayoutConfig>{
@@ -89,9 +89,9 @@ class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMix
               onSearchVisibilityChanged: (newSearchBarVisible){
                 listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
               },
-              actions: widget.getActions(context),
+              actions: getActions(),
               title: const Text("Listeler"),
-              appBarBottom: widget.getTopTabBar(context, controller: tabController),
+              appBarBottom: getTopTabBar(),
               child: TabBarView(
                 controller: tabController,
                 children: [
@@ -99,10 +99,10 @@ class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMix
                     selector: (state)=>state.listHadiths,
                     builder: (context,listHadiths){
                       return getListItems(
-                          items: listHadiths,
-                          gridCount: gridCount,
-                          sourceType: SourceTypeEnum.hadith,
-                          useSecondary: true
+                        items: listHadiths,
+                        gridCount: gridCount,
+                        sourceType: SourceTypeEnum.hadith,
+                        useSecondary: true
                       );
                     },
                   ),
@@ -110,9 +110,9 @@ class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMix
                     selector: (state)=>state.listVerses,
                     builder: (context,listVerses){
                       return getListItems(
-                          items: listVerses,
-                          gridCount: gridCount,
-                          sourceType: SourceTypeEnum.verse,
+                        items: listVerses,
+                        gridCount: gridCount,
+                        sourceType: SourceTypeEnum.verse,
                       );
                     },
                   ),
@@ -164,7 +164,7 @@ class _ShowListPageState extends State<ShowListPage> with TickerProviderStateMix
             }
           },
           onMenuClick: (){
-            widget.showAndManageBottomMenu(context,item,sourceType);
+            showAndManageBottomMenu(item,sourceType);
           },
         );
       },

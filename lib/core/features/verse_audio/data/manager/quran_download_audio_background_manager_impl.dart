@@ -72,6 +72,11 @@ class QuranDownloadAudioBackgroundManagerImpl extends QuranDownloadAudioBackgrou
     await _cancelNotificationListener();
     _audioDownloadManager.dispose();
   }
+
+  @override
+  Future<void> onStart() async{
+
+  }
 }
 
 extension SetListenersExt on QuranDownloadAudioBackgroundManagerImpl{

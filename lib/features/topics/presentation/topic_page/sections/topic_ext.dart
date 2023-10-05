@@ -24,11 +24,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../bloc/topic_bloc.dart';
 import '../bloc/topic_state.dart';
 
-extension TopicPageExt on TopicPage{
-  List<Widget> getActions(BuildContext context,{
-    required CustomPositionController positionController,
-    required ItemScrollController itemScrollController
-  }){
+extension TopicPageExt on TopicPageState{
+
+  List<Widget> getActions(){
     return [
       NavigateToIcon(
         positionController: positionController,
@@ -39,24 +37,24 @@ extension TopicPageExt on TopicPage{
     ];
   }
 
-  void handleNavigation(BuildContext context, TopicViewModel item){
-    switch(sourceType){
+  void handleNavigation(TopicViewModel item){
+    switch(widget.sourceType){
       case SourceTypeEnum.hadith:
         HadithTopicRoute(
-          bookId: bookEnum.bookId,
+          bookId: widget.bookEnum.bookId,
           topicId: item.id,
         ).push(context);
         break;
       case SourceTypeEnum.verse:
         VerseShowTopicRoute(
           topicId: item.id,
-          bookId: bookEnum.bookId,
+          bookId: widget.bookEnum.bookId,
         ).push(context);
         break;
     }
   }
 
-  void handleBottomMenu(BuildContext context,{
+  void handleBottomMenu({
       required TopicViewModel topic,
       required bool hasSavePoint,
       required int index
@@ -72,7 +70,7 @@ extension TopicPageExt on TopicPage{
                   destination: DestinationTopic(
                       topicId: topic.id,
                       topicName: topic.name,
-                      bookEnum: bookEnum
+                      bookEnum: widget.bookEnum
                   ),
                   autoType: SaveAutoType.none
               ));
@@ -89,32 +87,29 @@ extension TopicPageExt on TopicPage{
     );
   }
 
-  Widget getFloatingActionWidget({
-    required CustomScrollController scrollController,
-    required ItemScrollController itemScrollController
-  }){
+  Widget getFloatingActionWidget(){
     return BlocSelector<TopicBloc,TopicState,bool>(
-        selector: (state) => !state.searchBarVisible,
-        builder: (context, showFab){
-          return TopicSavePointFloatingActionButton(
-            controller: scrollController,
-            showFab: showFab,
-            onSavePointClick: (topicSavePoint){
-              itemScrollController.scrollTo(
-                  index: topicSavePoint.pos,
-                  duration: const Duration(milliseconds: 300),
-                  alignment: 0.5
-              );
-            },
-          );
-        }
+      selector: (state) => !state.searchBarVisible,
+      builder: (context, showFab){
+        return TopicSavePointFloatingActionButton(
+          controller: scrollController,
+          showFab: showFab,
+          onSavePointClick: (topicSavePoint){
+            itemScrollController.scrollTo(
+                index: topicSavePoint.pos,
+                duration: const Duration(milliseconds: 300),
+                alignment: 0.5
+            );
+          },
+        );
+      }
     );
   }
 
   TopicSavePointType getTopicType(){
-    if(useBookAllSections){
-      return TopicSavePointTypeTopicUsesAllBook(bookEnum: bookEnum);
+    if(widget.useBookAllSections){
+      return TopicSavePointTypeTopicUsesAllBook(bookEnum: widget.bookEnum);
     }
-    return TopicSavePointTypeTopic(sectionId: sectionId);
+    return TopicSavePointTypeTopic(sectionId: widget.sectionId);
   }
 }

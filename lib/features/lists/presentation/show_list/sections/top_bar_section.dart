@@ -9,10 +9,10 @@ import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart
 import '../bloc/show_list_bloc.dart';
 import '../../../domain/list_tab_enum.dart';
 
-extension ShowListTopBarExt on ShowListPage{
+extension ShowListTopBarExt on ShowListPageState{
 
 
-  List<Widget> getActions(BuildContext context){
+  List<Widget> getActions(){
     return [
       IconButton(
         onPressed: () {
@@ -31,9 +31,9 @@ extension ShowListTopBarExt on ShowListPage{
     ];
   }
 
-  TabBar getTopTabBar(BuildContext context, {TabController? controller}){
+  TabBar getTopTabBar(){
     return TabBar(
-      controller: controller,
+      controller: tabController,
       tabs: [
         Tab(
           text: ListTabEnum.hadith.sourceType.shortName,

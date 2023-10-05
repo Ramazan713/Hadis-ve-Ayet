@@ -25,8 +25,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
+    BackgroundVerseAudioManager.onEvent(BackgroundEventCheckInitData(),startIfNotRunning: false);
     WidgetsBinding.instance.addObserver(this);
-
     context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
   }
 
@@ -79,9 +79,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     super.didChangeAppLifecycleState(state);
     if(state == AppLifecycleState.resumed){
       context.read<PremiumBloc>().add(PremiumEventCheckPurchase());
-      await BackgroundVerseAudioManager.onEvent(BackgroundEventCheckNotificationStatus(),startIfNotRunning: false);
+      await BackgroundVerseAudioManager.onEvent(BackgroundEventCheckInitData(),startIfNotRunning: false);
     }
   }
+
 
   @override
   void dispose() {

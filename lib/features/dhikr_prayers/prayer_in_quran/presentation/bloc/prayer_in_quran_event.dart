@@ -23,6 +23,6 @@ class PrayerInQuranEventAddCustomPrayer extends IPrayerInQuranEvent{
   PrayerInQuranEventAddCustomPrayer({required this.prayerUnit});
 }
 
-class PrayerInQuranEventListenData extends IPrayerInQuranEvent{}
+class PrayerInQuranEventLoadData extends IPrayerInQuranEvent{}
 
 class PrayerInQuranEventListenAppPref extends IPrayerInQuranEvent{}

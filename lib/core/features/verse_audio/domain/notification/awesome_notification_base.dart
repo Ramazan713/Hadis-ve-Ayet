@@ -28,8 +28,12 @@ abstract class AwesomeNotificationBase<T, Y extends INotificationKey> extends No
   @nonVirtual
   @override
   Future<bool> checkPermission()async{
-    return (await AwesomeNotifications()
-        .checkPermissionList(channelKey: notificationChannelKey,permissions: notificationPermissionList)).isNotEmpty;
+    try{
+      return (await AwesomeNotifications()
+          .checkPermissionList(channelKey: notificationChannelKey,permissions: notificationPermissionList)).isNotEmpty;
+    }catch(e){
+      return false;
+    }
   }
 
   @nonVirtual

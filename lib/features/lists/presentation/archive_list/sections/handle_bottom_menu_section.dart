@@ -12,9 +12,9 @@ import '../archive_list_page.dart';
 import '../bloc/archive_list_bloc.dart';
 import '../bloc/archive_list_event.dart';
 
-extension HandleBottomMenuExt on ArchiveListPage{
+extension HandleBottomMenuExt on ArchiveListPageState{
 
-  void showAndManageBottomMenu(BuildContext context,ListViewModel item, SourceTypeEnum sourceType){
+  void showAndManageBottomMenu(ListViewModel item, SourceTypeEnum sourceType){
 
     showBottomMenuItems(context,
         items: ArchiveListMenuEnum.values,

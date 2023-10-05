@@ -21,10 +21,10 @@ class ShowCustomPrayersPage extends StatefulWidget {
   const ShowCustomPrayersPage({Key? key}) : super(key: key);
 
   @override
-  State<ShowCustomPrayersPage> createState() => _ShowCustomPrayersPageState();
+  State<ShowCustomPrayersPage> createState() => ShowCustomPrayersPageState();
 }
 
-class _ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
+class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
 
   final CustomScrollController scrollController = CustomScrollController();
   final TextEditingController searchTextController = TextEditingController();
@@ -39,7 +39,7 @@ class _ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.getListeners(
+    return getListeners(
       child: AdaptiveLayout(
         body: SlotLayout(
           config: <Breakpoint, SlotLayoutConfig>{
@@ -71,7 +71,7 @@ class _ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
               return CustomNestedSearchableAppBar(
                 textEditingController: searchTextController,
                 pinned: true,
-                actions: widget.getActions(context),
+                actions: getActions(),
                 appBarType: AppBarType.mediumBar,
                 scrollController: scrollController,
                 title: const Text("Eklediğim Dua ve Ayetler",overflow: TextOverflow.ellipsis,),
@@ -119,7 +119,7 @@ class _ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
                   CustomPrayerDetailRoute(prayerId: item.id ?? 0).push(context);
                 },
                 onMenuClick: () {
-                  widget.handleBottomMenu(context,item);
+                  handleBottomMenu(item);
                 },
               );
             },

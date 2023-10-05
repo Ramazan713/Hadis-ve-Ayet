@@ -14,15 +14,15 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counter
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/components/main_dhikrmatic_item.dart';
 
 
-extension ShowCounterSectionsExt on ShowCounterPage{
+extension ShowCounterSectionsExt on ShowCounterPageState{
 
-  Widget getDhikrmaticContent(BuildContext context, int gridCount){
+  Widget getDhikrmaticContent(int gridCount){
     return Padding(
         padding: const EdgeInsets.only(top: 3,bottom: 19),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            getSubTitleWidget(context, "Zikir Türleri"),
+            getSubTitleWidget("Zikir Türleri"),
             StaggeredGrid.count(
               crossAxisCount: gridCount,
               children: [
@@ -45,11 +45,11 @@ extension ShowCounterSectionsExt on ShowCounterPage{
     );
   }
 
-  Widget getDhikrListContent(BuildContext context, int gridCount){
+  Widget getDhikrListContent(int gridCount){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        getSubTitleWidget(context, "Zikir Listesi"),
+        getSubTitleWidget("Zikir Listesi"),
         BlocBuilder<CounterShowBloc, CounterShowState>(
           builder: (context, state) {
             final counters = state.counters;
@@ -75,7 +75,7 @@ extension ShowCounterSectionsExt on ShowCounterPage{
                     DetailCounterRoute(id: counter.id??0).push(context);
                   },
                   onMenuClick: () {
-                    handleBottomMenu(context,counter);
+                    handleBottomMenu(counter);
                   },
                 );
               },

@@ -28,10 +28,10 @@ class DetailEsmaulHusnaPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DetailEsmaulHusnaPage> createState() => _DetailEsmaulHusnaPageState();
+  State<DetailEsmaulHusnaPage> createState() => DetailEsmaulHusnaPageState();
 }
 
-class _DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
+class DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
   late final PageController pageController;
 
   final CustomPositionController positionController = CustomPositionController();
@@ -44,7 +44,6 @@ class _DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
 
     final bloc = context.read<DetailEsmaulHusnaBloc>();
     bloc.add(DetailEsmaulHusnaEventLoadData(initPos: widget.initPos));
-
     positionController.setPositions(widget.initPos,widget.initPos,totalItems: bloc.state.items.length);
   }
 
@@ -52,23 +51,22 @@ class _DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
   Widget build(BuildContext context) {
 
     return AdCheckWidget(
-      child: widget.getListeners(
-        positionController: positionController,
+      child: getListeners(
         child: Scaffold(
             body: SafeArea(
               child: CustomNestedViewAppBar(
                 title: const Text("Esmaul Husna"),
                 floating: true,
                 snap: true,
-                actions: widget.getActions(context,pageController,positionController),
+                actions: getActions(),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 3),
                   child: Column(
                     children: [
                       Expanded(
-                        child: getContent(context),
+                        child: getContent(),
                       ),
-                      widget.getBottomButtons(context,pageController,positionController)
+                      getBottomButtons()
                     ],
                   ),
                 ),
@@ -79,12 +77,13 @@ class _DetailEsmaulHusnaPageState extends State<DetailEsmaulHusnaPage> {
     );
   }
 
-  Widget getContent(BuildContext context){
+  Widget getContent(){
     final bloc = context.read<DetailEsmaulHusnaBloc>();
     return BlocBuilder<DetailEsmaulHusnaBloc,DetailEsmaulHusnaState>(
       buildWhen: (prevState, nextState){
         return prevState.isLoading != nextState.isLoading ||
-            prevState.items != nextState.items;
+            prevState.items != nextState.items ||
+            prevState.fontModel != nextState.fontModel;
       },
       builder: (context,state){
         if(state.isLoading){

@@ -41,9 +41,10 @@ class BackgroundEventStopAll extends BackgroundEvent{
   BackgroundEventStopAll(): super(eventKey: key);
 }
 
-class BackgroundEventCheckNotificationStatus extends BackgroundEvent{
-  static const String key = "BackgroundEventCheckNotificationStatus";
-  BackgroundEventCheckNotificationStatus(): super(eventKey: key);
+class BackgroundEventCheckInitData extends BackgroundEvent{
+  static const String key = "BackgroundEventCheckInitData";
+  BackgroundEventCheckInitData(): super(eventKey: key);
 }
+
 
 

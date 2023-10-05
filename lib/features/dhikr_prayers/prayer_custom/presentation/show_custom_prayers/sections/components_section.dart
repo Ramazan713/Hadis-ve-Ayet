@@ -12,9 +12,9 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_cu
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 
-extension ShowCustomPrayersPageComponentsExt on ShowCustomPrayersPage{
+extension ShowCustomPrayersPageComponentsExt on ShowCustomPrayersPageState{
 
-  void handleBottomMenu(BuildContext context,PrayerCustom prayer){
+  void handleBottomMenu(PrayerCustom prayer){
     final bloc = context.read<ShowCustomPrayersBloc>();
     showBottomMenuItems(
         context,

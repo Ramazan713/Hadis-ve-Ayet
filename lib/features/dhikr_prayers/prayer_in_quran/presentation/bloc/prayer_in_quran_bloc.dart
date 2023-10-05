@@ -39,17 +39,16 @@ class PrayerInQuranBloc extends Bloc<IPrayerInQuranEvent,PrayerInQuranState>{
     _filterCriteria.value = _appPreferences.getEnumItem(KPref.prayerInQuranSearchCriteria);
 
     on<PrayerInQuranEventListenAppPref>(_onListenAppPref,transformer: restartable());
-    on<PrayerInQuranEventListenData>(_onListenData,transformer: restartable());
+    on<PrayerInQuranEventLoadData>(_onLoadData,transformer: restartable());
     on<PrayerInQuranEventSetQuery>(_onSetQuery,transformer: restartable());
     on<PrayerInQuranEventSetSearchBarVisibility>(_onSetSearchBarVisibility,transformer: restartable());
     on<PrayerInQuranEventClearMessage>(_onClearMessage,transformer: restartable());
     on<PrayerInQuranEventAddCustomPrayer>(_onAddCustomPrayer,transformer: restartable());
 
     add(PrayerInQuranEventListenAppPref());
-    add(PrayerInQuranEventListenData());
   }
 
-  void _onListenData(PrayerInQuranEventListenData event,Emitter<PrayerInQuranState>emit)async{
+  void _onLoadData(PrayerInQuranEventLoadData event,Emitter<PrayerInQuranState>emit)async{
     emit(state.copyWith(isLoading: true));
     final streamData = Rx.combineLatest2(_filterQuery, _filterCriteria, (query, criteria){
       return _QueryCriteria(query: query,criteriaEnum: criteria);

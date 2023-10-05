@@ -9,11 +9,9 @@ import 'package:hadith/features/search/presentation/bloc/search_bloc.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 
-extension SearchPageComponentsExt on SearchPage{
+extension SearchPageComponentsExt on SearchPageState{
 
-  Widget getSearchView(BuildContext context,{
-    required TextEditingController textEditingController
-  }){
+  Widget getSearchView(){
     final bloc = context.read<SearchBloc>();
 
     return CustomSearchView(
@@ -34,7 +32,7 @@ extension SearchPageComponentsExt on SearchPage{
   }
 
 
-  Widget getChipActions(BuildContext context){
+  Widget getChipActions(){
     return Row(
       children: [
         ActionChip(

@@ -56,7 +56,7 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
   StreamSubscription<Map<String, dynamic>?>? _subsAudioCloseListener;
   StreamSubscription<Map<String, dynamic>?>? _subsAudioDownloadStartListener;
   StreamSubscription<Map<String, dynamic>?>? _subsAudioDownloadCloseListener;
-  StreamSubscription<Map<String, dynamic>?>? _subsAudioCheckNotificationListener;
+  StreamSubscription<Map<String, dynamic>?>? _subsAudioCheckInitDataListener;
 
   final List<BackgroundServiceEnumWrapper> _activeServices = [];
 
@@ -171,9 +171,11 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
       await _cancelDownloadService();
     });
 
-    _subsAudioCheckNotificationListener = _service.on(BackgroundEventCheckNotificationStatus.key).listen((event) async{
+    _subsAudioCheckInitDataListener = _service.on(BackgroundEventCheckInitData.key).listen((event) async{
       await _listenAudioNotification.notifyPermissionStatus();
       await _downloadAudioNotification.notifyPermissionStatus();
+      await _downloadAudioBackgroundManager?.onStart();
+      await _audioBackgroundManager?.onStart();
     });
   }
 
@@ -190,7 +192,7 @@ class BackgroundVerseAudioManagerImpl extends BackgroundVerseAudioManager{
     await _subsAudioCloseListener?.cancel();
     await _subsAudioDownloadStartListener?.cancel();
     await _subsAudioDownloadCloseListener?.cancel();
-    await _subsAudioCheckNotificationListener?.cancel();
+    await _subsAudioCheckInitDataListener?.cancel();
   }
 
   Future<void> _handleNotificationBase(String key)async{

@@ -54,7 +54,7 @@ sealed class SavePointDestination{
       );
     }
     else if(typeId == DestinationPage.type.typeId){
-      return DestinationPage(pageNoIndex: int.tryParse(parentKey)??1);
+      return DestinationPage(pageNo: int.tryParse(parentKey)??1);
     }
     else if(typeId == DestinationSearch.type.typeId){
       return DestinationSearch.from(
@@ -165,17 +165,17 @@ class DestinationCuz extends SavePointDestination {
 
 class DestinationPage extends SavePointDestination {
   static const SavePointType type = SavePointType.quranPage;
-  final int pageNoIndex;
+  final int pageNo;
 
-  DestinationPage({required this.pageNoIndex}): super(
+  DestinationPage({required this.pageNo}): super(
       bookScope: BookScopeEnum.diyanetMeal,
-      parentKey: pageNoIndex.toString(),
-      parentName: pageNoIndex.toString(),
+      parentKey: pageNo.toString(),
+      parentName: pageNo.toString(),
       type: type
   );
 
   @override
-  String get typeDescription => "${pageNoIndex + 1}.${type.title}";
+  String get typeDescription => "$pageNo.${type.title}";
 }
 
 class DestinationSearch extends SavePointDestination {

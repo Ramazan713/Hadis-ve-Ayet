@@ -7,15 +7,15 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_cu
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_state.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/show_custom_prayers_page.dart';
 
-extension ShowCustomPrayersPageTopBarExt on ShowCustomPrayersPage{
+extension ShowCustomPrayersPageTopBarExt on ShowCustomPrayersPageState{
 
-  List<Widget> getActions(BuildContext context){
+  List<Widget> getActions(){
     return [
-      _getViewIcon(context)
+      _getViewIcon()
     ];
   }
 
-  Widget _getViewIcon(BuildContext context){
+  Widget _getViewIcon(){
     final bloc = context.read<ShowCustomPrayersBloc>();
     return BlocSelector<ShowCustomPrayersBloc,ShowCustomPrayersState,bool>(
       selector: (state)=>state.showDetailContents,

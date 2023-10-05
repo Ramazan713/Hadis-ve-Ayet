@@ -9,7 +9,7 @@ import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_stat
 import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 
-extension ShowListComponentsSectionExt on ShowListPage{
+extension ShowListComponentsSectionExt on ShowListPageState{
 
 
   Widget getListeners({required Widget child}){

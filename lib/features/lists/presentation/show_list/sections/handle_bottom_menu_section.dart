@@ -18,31 +18,32 @@ import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_even
 
 import '../show_list_page.dart';
 
-extension HandleBottomMenuExt on ShowListPage{
+extension HandleBottomMenuExt on ShowListPageState{
 
-  void showAndManageBottomMenu(BuildContext context,ListViewModel item, SourceTypeEnum sourceType){
+  void showAndManageBottomMenu(ListViewModel item, SourceTypeEnum sourceType){
     final listMenuEnums = ShowListMenuEnum.getMenuItems(item.isRemovable);
 
-    showBottomMenuItems(context,
+    showBottomMenuItems(
+        context,
         items: listMenuEnums,
         onItemClick: (menuItem){
           Navigator.of(context,rootNavigator: true).pop();
 
           switch(menuItem){
             case ShowListMenuEnum.rename:
-              _rename(context, item);
+              _rename(item);
               break;
             case ShowListMenuEnum.remove:
-              _remove(context, item);
+              _remove(item);
               break;
             case ShowListMenuEnum.archive:
-              _archive(context, item);
+              _archive(item);
               break;
             case ShowListMenuEnum.removeItems:
-              _removeItems(context, item, sourceType);
+              _removeItems(item, sourceType);
               break;
             case ShowListMenuEnum.newCopy:
-              _copy(context, item);
+              _copy(item);
               break;
             case ShowListMenuEnum.exportAs:
               exportListViewModel(context, item);
@@ -54,14 +55,14 @@ extension HandleBottomMenuExt on ShowListPage{
     );
   }
 
-  void _rename(BuildContext context, ListViewModel item){
+  void _rename(ListViewModel item){
     final bloc = context.read<ShowListBloc>();
     showEditTextDia(context, (newText) {
       bloc.add(ShowListEventRename(listViewModel: item, newTitle: newText));
     }, title: "Yeniden İsimlendir", content: item.name,useRootNavigator: true);
   }
 
-  void _remove(BuildContext context, ListViewModel item){
+  void _remove(ListViewModel item){
     final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(
         context,
@@ -74,7 +75,7 @@ extension HandleBottomMenuExt on ShowListPage{
     );
   }
 
-  void _archive(BuildContext context, ListViewModel item){
+  void _archive(ListViewModel item){
     final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(
         context,
@@ -86,7 +87,7 @@ extension HandleBottomMenuExt on ShowListPage{
         });
   }
 
-  void _removeItems(BuildContext context, ListViewModel item, SourceTypeEnum sourceType){
+  void _removeItems(ListViewModel item, SourceTypeEnum sourceType){
     final key= sourceType==SourceTypeEnum.hadith?"hadisleri":"ayetleri";
     final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(
@@ -99,7 +100,7 @@ extension HandleBottomMenuExt on ShowListPage{
         });
   }
 
-  void _copy(BuildContext context, ListViewModel item){
+  void _copy(ListViewModel item){
     final bloc = context.read<ShowListBloc>();
     showCustomAlertDia(context,useRootNavigator: true,
         title: "Yeni bir kopya oluştumak istediğinize emin misiniz",

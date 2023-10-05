@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:hadith/core/extensions/list_ext.dart';
 import 'package:hadith/core/features/verse_audio/data/audio_players/verse_just_audio_player.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/listen_audio_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/verse_meal_voice_model.dart';
@@ -39,7 +40,7 @@ class VerseAudioJustService extends IVerseAudioServiceManager<VerseJustAudioPlay
     _subsCurrentIndex = audioPlayer.currentIndexStream.listen((currentIndex) {
       if(currentIndex!=null){
         stateManager.setNewState(
-            setAudio: true, audio: items[currentIndex],
+            setAudio: true, audio: items.getOrNull(currentIndex),
             audioEnum: ListenAudioEnum.running,
         );
       }

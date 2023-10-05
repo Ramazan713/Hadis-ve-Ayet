@@ -101,6 +101,7 @@ enum VerseUi4XEnumOption with IMenuItem{
     for (var element in options) {
       totalValue *= element.uiValue;
     }
+    if(totalValue == 1) return VerseUi4XEnum(enumValue: defaultTotalValues);
     return VerseUi4XEnum(enumValue: totalValue);
   }
 

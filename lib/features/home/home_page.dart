@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
   Widget getContent(BuildContext context,int gridCount){
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.only(top: 5),
+        padding: const EdgeInsets.only(top: 3),
         child: CustomNestedViewAppBar(
           floating: true,
           snap: true,

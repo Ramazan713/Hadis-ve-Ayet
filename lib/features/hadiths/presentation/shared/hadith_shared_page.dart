@@ -37,6 +37,7 @@ class HadithSharedPage extends StatelessWidget {
   final int pos;
   final int? listIdControlForSelectList;
   final EditSavePointHandler? editSavePointHandler;
+  final bool? useWideScopeNaming;
 
   HadithSharedPage({
     Key? key,
@@ -46,6 +47,7 @@ class HadithSharedPage extends StatelessWidget {
     this.searchParam,
     this.listIdControlForSelectList,
     this.editSavePointHandler,
+    this.useWideScopeNaming,
     required this.pos
   }) : super(key: key);
 

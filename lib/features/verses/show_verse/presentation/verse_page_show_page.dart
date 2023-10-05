@@ -110,7 +110,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
     });
   }
 
-  SavePointDestination get savePointDestination => DestinationPage(pageNoIndex: pageController.currentPageIndex + 1);
+  DestinationPage get savePointDestination => DestinationPage(pageNo: pageController.currentPageIndex + 1);
 
   @override
   Widget build(BuildContext context) {
@@ -267,7 +267,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
     final destination = savePoint.destination;
     if(destination is DestinationPage){
       Navigator.pop(context);
-      pageController.animateToPage(pageIndex: destination.pageNoIndex, pos: savePoint.itemPos + 1);
+      pageController.animateToPage(pageIndex: destination.pageNo - 1, pos: savePoint.itemPos);
     }
   }
 

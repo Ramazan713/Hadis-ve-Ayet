@@ -51,6 +51,14 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
   final CustomScrollController scrollController = CustomScrollController();
   final TextEditingController searchTextController = TextEditingController();
 
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<PrayerInQuranBloc>()
+        .add(PrayerInQuranEventLoadData());
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<PrayerInQuranBloc>();

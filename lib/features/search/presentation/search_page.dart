@@ -21,14 +21,12 @@ class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<SearchPage> createState() => SearchPageState();
 
-  void unFocusBar(BuildContext context){
-    FocusScope.of(context).unfocus(disposition: UnfocusDisposition.scope);
-  }
+
 }
 
-class _SearchPageState extends State<SearchPage> {
+class SearchPageState extends State<SearchPage> {
 
   final scrollController = ScrollController();
   final textEditingController = TextEditingController();
@@ -53,7 +51,7 @@ class _SearchPageState extends State<SearchPage> {
       },
       child: GestureDetector(
         onTap: (){
-          widget.unFocusBar(context);
+          unFocusBar();
         },
         child: Scaffold(
           body: SafeArea(
@@ -63,9 +61,7 @@ class _SearchPageState extends State<SearchPage> {
               toolbarHeight: K.searchBarHeight,
               actions: [
                 Expanded(
-                  child: widget.getSearchView(context,
-                    textEditingController: textEditingController
-                  ),
+                  child: getSearchView(),
                 )
               ],
               child: Padding(
@@ -105,7 +101,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      widget.getChipActions(context,),
+                      getChipActions(),
                       getContentSwitcher(context, state)
                     ],
                   ),
@@ -123,14 +119,11 @@ class _SearchPageState extends State<SearchPage> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: CustomAnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        firstChild: widget.getSearchResultContent(context,
+        firstChild: getSearchResultContent(
           state: state,
-          scrollController: scrollController
         ),
-        secondChild: widget.getHistoryContent(context,
+        secondChild: getHistoryContent(
           state: state,
-          scrollController: scrollController,
-          textEditingController: textEditingController
         ),
         showFirstChild: state.isSearchActive,
       ),
@@ -144,6 +137,9 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
+  void unFocusBar(){
+    FocusScope.of(context).unfocus(disposition: UnfocusDisposition.scope);
+  }
 }
 
 

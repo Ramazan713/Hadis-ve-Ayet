@@ -50,6 +50,7 @@ class VerseShowSearchPage extends StatelessWidget{
         showNavigateToActions: true,
         title: query,
         pos: pos,
+        useWideScopeNaming: false,
         selectAudioOption: SelectAudioOption.verse,
         searchParam: SearchParam(searchCriteria: searchCriteria, searchQuery: query),
         editSavePointHandler: _getEditSavePointHandler(context),
