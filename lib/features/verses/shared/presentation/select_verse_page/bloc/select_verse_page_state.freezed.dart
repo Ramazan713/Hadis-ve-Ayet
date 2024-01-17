@@ -241,9 +241,8 @@ class __$$_SelectVersePageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectVersePageState
-    with DiagnosticableTreeMixin
-    implements _SelectVersePageState {
+class _$_SelectVersePageState extends _SelectVersePageState
+    with DiagnosticableTreeMixin {
   const _$_SelectVersePageState(
       {required this.isLoading,
       required final List<Cuz> cuzs,
@@ -258,7 +257,8 @@ class _$_SelectVersePageState
       this.selectResult})
       : _cuzs = cuzs,
         _surahes = surahes,
-        _verseNumbers = verseNumbers;
+        _verseNumbers = verseNumbers,
+        super._();
 
   @override
   final bool isLoading;
@@ -371,7 +371,7 @@ class _$_SelectVersePageState
           this, _$identity);
 }
 
-abstract class _SelectVersePageState implements SelectVersePageState {
+abstract class _SelectVersePageState extends SelectVersePageState {
   const factory _SelectVersePageState(
       {required final bool isLoading,
       required final List<Cuz> cuzs,
@@ -384,6 +384,7 @@ abstract class _SelectVersePageState implements SelectVersePageState {
       final VerseNumber? selectedVerseNumber,
       final String? message,
       final SelectPageResult? selectResult}) = _$_SelectVersePageState;
+  const _SelectVersePageState._() : super._();
 
   @override
   bool get isLoading;

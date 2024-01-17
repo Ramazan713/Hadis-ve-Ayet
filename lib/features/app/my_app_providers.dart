@@ -57,11 +57,11 @@ import 'package:hadith/features/topics/data/providers/topic_data_repo_provider.d
 import 'package:hadith/features/topics/presentation/section_page/bloc/section_bloc.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_bloc.dart';
-import 'package:hadith/features/verses/providers/data/verse_data_manager_providers.dart';
-import 'package:hadith/features/verses/providers/data/verse_data_paging_providers.dart';
-import 'package:hadith/features/verses/providers/data/verse_data_repo_providers.dart';
-import 'package:hadith/features/verses/providers/data/verse_data_service_providers.dart';
-import 'package:hadith/features/verses/providers/data/verse_domain_use_case_providers.dart';
+import 'package:hadith/core/providers/verse_data_manager_providers.dart';
+import 'package:hadith/features/verses/providers/verse_data_paging_providers.dart';
+import 'package:hadith/core/providers/verse_data_repo_providers.dart';
+import 'package:hadith/core/providers/verse_data_service_providers.dart';
+import 'package:hadith/core/providers/verse_domain_use_case_providers.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/bloc/manage_downloaded_audio_bloc.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_bloc.dart';
@@ -186,8 +186,8 @@ class MyAppProviders extends StatelessWidget {
               counterRepo: context.read()
           )),
           BlocProvider(create: (context)=> SelectVersePageBloc(
-             selectVersePageRepo: context.read(),
-            selectVerseUseCases: context.read()
+              selectVersePageRepo: context.read(),
+              selectVerseManager: context.read()
           )),
           BlocProvider(create: (context)=> ShowEsmaulHusnaBloc(
               appPreferences: context.read(),

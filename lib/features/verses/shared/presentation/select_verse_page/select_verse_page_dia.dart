@@ -8,11 +8,11 @@ import 'package:hadith/core/presentation/components/shared_components/shared_hea
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
-import 'package:hadith/features/verses/cuz/domain/models/cuz.dart';
+import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/features/verses/shared/domain/models/select_page_result/select_page_result.dart';
 import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_event.dart';
-import 'package:hadith/features/verses/surah/domain/models/surah.dart';
+import 'package:hadith/core/features/verses/domain/model/surah.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 import 'bloc/select_verse_page_state.dart';
 

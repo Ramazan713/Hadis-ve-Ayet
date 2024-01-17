@@ -25,7 +25,7 @@ import 'package:hadith/core/presentation/controllers/custom_scroll_controller.da
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
-import 'package:hadith/features/verses/cuz/domain/models/cuz.dart';
+import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_bloc.dart';
 import 'package:hadith/features/verses/cuz/presentation/bloc/cuz_state.dart';
 import 'package:hadith/features/verses/cuz/presentation/sections/components_section.dart';

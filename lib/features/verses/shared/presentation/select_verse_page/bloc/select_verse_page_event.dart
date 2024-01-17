@@ -1,7 +1,7 @@
 
-import 'package:hadith/features/verses/cuz/domain/models/cuz.dart';
-import 'package:hadith/features/verses/shared/domain/models/verse_number.dart';
-import 'package:hadith/features/verses/surah/domain/models/surah.dart';
+import 'package:hadith/core/features/verses/domain/model/cuz.dart';
+import 'package:hadith/core/features/verses/domain/model/verse_number.dart';
+import 'package:hadith/core/features/verses/domain/model/surah.dart';
 
 abstract class ISelectVersePageEvent{}
 

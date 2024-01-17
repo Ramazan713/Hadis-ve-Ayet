@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
-import 'package:hadith/features/verses/surah/domain/models/surah.dart';
+import 'package:hadith/core/features/verses/domain/model/surah.dart';
 
 class SurahState extends Equatable{
 

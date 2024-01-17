@@ -27,7 +27,7 @@ import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/features/verses/shared/presentation/verse_topic_item/verse_topic_audio_info.dart';
 import 'package:hadith/features/verses/shared/presentation/components/verse_topic_item.dart';
-import 'package:hadith/features/verses/surah/domain/models/surah.dart';
+import 'package:hadith/core/features/verses/domain/model/surah.dart';
 import 'package:hadith/features/verses/surah/presentation/sections/surah_ext.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
