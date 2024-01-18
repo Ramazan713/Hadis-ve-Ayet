@@ -2,6 +2,7 @@
 
 
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 
 abstract class IShowCustomPrayersEvent{}
 
@@ -19,6 +20,11 @@ class ShowCustomPrayersEventSetQuery extends IShowCustomPrayersEvent{
 class ShowCustomPrayersEventSetSearchBarVisibility extends IShowCustomPrayersEvent{
   final bool isVisible;
   ShowCustomPrayersEventSetSearchBarVisibility({required this.isVisible});
+}
+
+class ShowCustomPrayersEventAddFromDhikr extends IShowCustomPrayersEvent{
+  final PrayerDhikr prayer;
+  ShowCustomPrayersEventAddFromDhikr({required this.prayer});
 }
 
 class ShowCustomPrayersEventAddDhikr extends IShowCustomPrayersEvent{

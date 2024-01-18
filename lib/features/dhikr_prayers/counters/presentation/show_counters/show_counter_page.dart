@@ -8,7 +8,7 @@ import 'package:hadith/core/presentation/controllers/custom_scroll_controller.da
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/show_counter_add_action_enum.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/show_add_counter_dia.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/show_select_dhikr_dia.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/sections/components_section.dart';
@@ -89,6 +89,7 @@ class ShowCounterPageState extends State<ShowCounterPage> {
 
 
   Widget getFab(BuildContext context){
+    final bloc = context.read<CounterShowBloc>();
     return CustomVisibilityWithScrolling(
       controller: scrollController,
       child: FloatingActionButton(
@@ -104,7 +105,9 @@ class ShowCounterPageState extends State<ShowCounterPage> {
                   AddNewCounterRoute().push(context);
                   break;
                 case ShowCounterAddActionMenuEnum.addFromList:
-                  showAddCounterDia(context);
+                  showSelectDhikrDia(context,onSelected: (selectedDhikr){
+                    bloc.add(CounterShowEventAddFromDhikr(prayer: selectedDhikr));
+                  });
                   break;
               }
             }

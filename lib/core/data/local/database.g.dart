@@ -1850,6 +1850,26 @@ class _$VerseArabicDao extends VerseArabicDao {
   }
 
   @override
+  Future<List<VerseArabicEntity>> getArabicVersesByMealIds(
+      List<int> mealIds) async {
+    const offset = 1;
+    final _sqliteVariablesForMealIds =
+        Iterable<String>.generate(mealIds.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryList(
+        'select * from verseArabics where mealId in (' +
+            _sqliteVariablesForMealIds +
+            ') order by id',
+        mapper: (Map<String, Object?> row) => VerseArabicEntity(
+            id: row['id'] as int?,
+            mealId: row['mealId'] as int,
+            verse: row['verse'] as String,
+            verseNumber: row['verseNumber'] as String,
+            verseNumberTr: row['verseNumberTr'] as int),
+        arguments: [...mealIds]);
+  }
+
+  @override
   Future<List<VerseArabicEntity>> getAllNotDownloadedVerseArabicsWithMealId(
     int mealId,
     String identifier,
@@ -2201,6 +2221,18 @@ class _$VerseDao extends VerseDao {
             isProstrationVerse: (row['isProstrationVerse'] as int) != 0,
             bookId: row['bookId'] as int),
         arguments: [...ids]);
+  }
+
+  @override
+  Future<List<VerseEntity>> getVersesByOffsetAndSurah(
+    int surahId,
+    int surahSize,
+    int offset,
+  ) async {
+    return _queryAdapter.queryList(
+        'select * from verses where surahId = ?1 order by id limit ?2 offset ?3',
+        mapper: (Map<String, Object?> row) => VerseEntity(id: row['id'] as int?, surahId: row['surahId'] as int, cuzNo: row['cuzNo'] as int, pageNo: row['pageNo'] as int, verseNumber: row['verseNumber'] as String, content: row['content'] as String, isProstrationVerse: (row['isProstrationVerse'] as int) != 0, bookId: row['bookId'] as int),
+        arguments: [surahId, surahSize, offset]);
   }
 }
 

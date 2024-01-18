@@ -6,6 +6,7 @@ import 'package:hadith/core/data/local/services/prayer_dao.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/features/dhikr_prayers/counters/data/mapper/counter_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/counters/data/mapper/prayer_dhikr_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/repo/counter_repo.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_custom_mapper.dart';
@@ -34,6 +35,7 @@ class CounterShowBloc extends Bloc<ICounterShowEvent,CounterShowState>{
     on<CounterShowEventSetDetailView>(_onSetDetailView, transformer: restartable());
     on<CounterShowEventDelete>(_onDelete,transformer: droppable());
     on<CounterShowEventClearMessage>(_onClearMessage,transformer: droppable());
+    on<CounterShowEventAddFromDhikr>(_onAddFromDhikr,transformer: droppable());
 
     add(CounterShowEventInit());
   }
@@ -45,6 +47,12 @@ class CounterShowBloc extends Bloc<ICounterShowEvent,CounterShowState>{
       showDetailContents: showDetail,
       counters: counters
     ));
+  }
+
+  void _onAddFromDhikr(CounterShowEventAddFromDhikr event,Emitter<CounterShowState>emit)async{
+    final counter = event.prayer.toCounter();
+    await _counterRepo.insertCounter(counter);
+    emit(state.copyWith(message: "Başarıyla kaydedildi"));
   }
 
   void _onAddToCustomPrayer(CounterShowEventAddToCustomPrayer event,Emitter<CounterShowState>emit)async{

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'add_ready_counter_state.dart';
+part of 'select_dhikr_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,41 +15,36 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$AddReadyCounterState {
+mixin _$SelectDhikrState {
   List<PrayerDhikr> get items => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  bool get navigateBack => throw _privateConstructorUsedError;
   bool get showDetails => throw _privateConstructorUsedError;
   PrayerDhikr? get selectedItem => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AddReadyCounterStateCopyWith<AddReadyCounterState> get copyWith =>
+  $SelectDhikrStateCopyWith<SelectDhikrState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AddReadyCounterStateCopyWith<$Res> {
-  factory $AddReadyCounterStateCopyWith(AddReadyCounterState value,
-          $Res Function(AddReadyCounterState) then) =
-      _$AddReadyCounterStateCopyWithImpl<$Res, AddReadyCounterState>;
+abstract class $SelectDhikrStateCopyWith<$Res> {
+  factory $SelectDhikrStateCopyWith(
+          SelectDhikrState value, $Res Function(SelectDhikrState) then) =
+      _$SelectDhikrStateCopyWithImpl<$Res, SelectDhikrState>;
   @useResult
   $Res call(
       {List<PrayerDhikr> items,
       bool isLoading,
-      bool navigateBack,
       bool showDetails,
-      PrayerDhikr? selectedItem,
-      String? message});
+      PrayerDhikr? selectedItem});
 
   $PrayerDhikrCopyWith<$Res>? get selectedItem;
 }
 
 /// @nodoc
-class _$AddReadyCounterStateCopyWithImpl<$Res,
-        $Val extends AddReadyCounterState>
-    implements $AddReadyCounterStateCopyWith<$Res> {
-  _$AddReadyCounterStateCopyWithImpl(this._value, this._then);
+class _$SelectDhikrStateCopyWithImpl<$Res, $Val extends SelectDhikrState>
+    implements $SelectDhikrStateCopyWith<$Res> {
+  _$SelectDhikrStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -61,10 +56,8 @@ class _$AddReadyCounterStateCopyWithImpl<$Res,
   $Res call({
     Object? items = null,
     Object? isLoading = null,
-    Object? navigateBack = null,
     Object? showDetails = null,
     Object? selectedItem = freezed,
-    Object? message = freezed,
   }) {
     return _then(_value.copyWith(
       items: null == items
@@ -75,10 +68,6 @@ class _$AddReadyCounterStateCopyWithImpl<$Res,
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      navigateBack: null == navigateBack
-          ? _value.navigateBack
-          : navigateBack // ignore: cast_nullable_to_non_nullable
-              as bool,
       showDetails: null == showDetails
           ? _value.showDetails
           : showDetails // ignore: cast_nullable_to_non_nullable
@@ -87,10 +76,6 @@ class _$AddReadyCounterStateCopyWithImpl<$Res,
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as PrayerDhikr?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 
@@ -108,31 +93,29 @@ class _$AddReadyCounterStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AddReadyCounterStateCopyWith<$Res>
-    implements $AddReadyCounterStateCopyWith<$Res> {
-  factory _$$_AddReadyCounterStateCopyWith(_$_AddReadyCounterState value,
-          $Res Function(_$_AddReadyCounterState) then) =
-      __$$_AddReadyCounterStateCopyWithImpl<$Res>;
+abstract class _$$_SelectDhikrStateCopyWith<$Res>
+    implements $SelectDhikrStateCopyWith<$Res> {
+  factory _$$_SelectDhikrStateCopyWith(
+          _$_SelectDhikrState value, $Res Function(_$_SelectDhikrState) then) =
+      __$$_SelectDhikrStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {List<PrayerDhikr> items,
       bool isLoading,
-      bool navigateBack,
       bool showDetails,
-      PrayerDhikr? selectedItem,
-      String? message});
+      PrayerDhikr? selectedItem});
 
   @override
   $PrayerDhikrCopyWith<$Res>? get selectedItem;
 }
 
 /// @nodoc
-class __$$_AddReadyCounterStateCopyWithImpl<$Res>
-    extends _$AddReadyCounterStateCopyWithImpl<$Res, _$_AddReadyCounterState>
-    implements _$$_AddReadyCounterStateCopyWith<$Res> {
-  __$$_AddReadyCounterStateCopyWithImpl(_$_AddReadyCounterState _value,
-      $Res Function(_$_AddReadyCounterState) _then)
+class __$$_SelectDhikrStateCopyWithImpl<$Res>
+    extends _$SelectDhikrStateCopyWithImpl<$Res, _$_SelectDhikrState>
+    implements _$$_SelectDhikrStateCopyWith<$Res> {
+  __$$_SelectDhikrStateCopyWithImpl(
+      _$_SelectDhikrState _value, $Res Function(_$_SelectDhikrState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -140,12 +123,10 @@ class __$$_AddReadyCounterStateCopyWithImpl<$Res>
   $Res call({
     Object? items = null,
     Object? isLoading = null,
-    Object? navigateBack = null,
     Object? showDetails = null,
     Object? selectedItem = freezed,
-    Object? message = freezed,
   }) {
-    return _then(_$_AddReadyCounterState(
+    return _then(_$_SelectDhikrState(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -153,10 +134,6 @@ class __$$_AddReadyCounterStateCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      navigateBack: null == navigateBack
-          ? _value.navigateBack
-          : navigateBack // ignore: cast_nullable_to_non_nullable
               as bool,
       showDetails: null == showDetails
           ? _value.showDetails
@@ -166,26 +143,20 @@ class __$$_AddReadyCounterStateCopyWithImpl<$Res>
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as PrayerDhikr?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_AddReadyCounterState
+class _$_SelectDhikrState
     with DiagnosticableTreeMixin
-    implements _AddReadyCounterState {
-  const _$_AddReadyCounterState(
+    implements _SelectDhikrState {
+  const _$_SelectDhikrState(
       {required final List<PrayerDhikr> items,
       required this.isLoading,
-      required this.navigateBack,
       required this.showDetails,
-      this.selectedItem,
-      this.message})
+      this.selectedItem})
       : _items = items;
 
   final List<PrayerDhikr> _items;
@@ -199,47 +170,38 @@ class _$_AddReadyCounterState
   @override
   final bool isLoading;
   @override
-  final bool navigateBack;
-  @override
   final bool showDetails;
   @override
   final PrayerDhikr? selectedItem;
-  @override
-  final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AddReadyCounterState(items: $items, isLoading: $isLoading, navigateBack: $navigateBack, showDetails: $showDetails, selectedItem: $selectedItem, message: $message)';
+    return 'SelectDhikrState(items: $items, isLoading: $isLoading, showDetails: $showDetails, selectedItem: $selectedItem)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'AddReadyCounterState'))
+      ..add(DiagnosticsProperty('type', 'SelectDhikrState'))
       ..add(DiagnosticsProperty('items', items))
       ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('navigateBack', navigateBack))
       ..add(DiagnosticsProperty('showDetails', showDetails))
-      ..add(DiagnosticsProperty('selectedItem', selectedItem))
-      ..add(DiagnosticsProperty('message', message));
+      ..add(DiagnosticsProperty('selectedItem', selectedItem));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AddReadyCounterState &&
+            other is _$_SelectDhikrState &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.navigateBack, navigateBack) ||
-                other.navigateBack == navigateBack) &&
             (identical(other.showDetails, showDetails) ||
                 other.showDetails == showDetails) &&
             (identical(other.selectedItem, selectedItem) ||
-                other.selectedItem == selectedItem) &&
-            (identical(other.message, message) || other.message == message));
+                other.selectedItem == selectedItem));
   }
 
   @override
@@ -247,42 +209,33 @@ class _$_AddReadyCounterState
       runtimeType,
       const DeepCollectionEquality().hash(_items),
       isLoading,
-      navigateBack,
       showDetails,
-      selectedItem,
-      message);
+      selectedItem);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AddReadyCounterStateCopyWith<_$_AddReadyCounterState> get copyWith =>
-      __$$_AddReadyCounterStateCopyWithImpl<_$_AddReadyCounterState>(
-          this, _$identity);
+  _$$_SelectDhikrStateCopyWith<_$_SelectDhikrState> get copyWith =>
+      __$$_SelectDhikrStateCopyWithImpl<_$_SelectDhikrState>(this, _$identity);
 }
 
-abstract class _AddReadyCounterState implements AddReadyCounterState {
-  const factory _AddReadyCounterState(
+abstract class _SelectDhikrState implements SelectDhikrState {
+  const factory _SelectDhikrState(
       {required final List<PrayerDhikr> items,
       required final bool isLoading,
-      required final bool navigateBack,
       required final bool showDetails,
-      final PrayerDhikr? selectedItem,
-      final String? message}) = _$_AddReadyCounterState;
+      final PrayerDhikr? selectedItem}) = _$_SelectDhikrState;
 
   @override
   List<PrayerDhikr> get items;
   @override
   bool get isLoading;
   @override
-  bool get navigateBack;
-  @override
   bool get showDetails;
   @override
   PrayerDhikr? get selectedItem;
   @override
-  String? get message;
-  @override
   @JsonKey(ignore: true)
-  _$$_AddReadyCounterStateCopyWith<_$_AddReadyCounterState> get copyWith =>
+  _$$_SelectDhikrStateCopyWith<_$_SelectDhikrState> get copyWith =>
       throw _privateConstructorUsedError;
 }

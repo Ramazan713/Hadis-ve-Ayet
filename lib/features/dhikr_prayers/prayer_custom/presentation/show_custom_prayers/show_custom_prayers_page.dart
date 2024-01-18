@@ -4,12 +4,16 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/presentation/bottom_sheets/show_bottom_menu_items.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/show_select_dhikr_dia.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/custom_prayer_add_action_enum.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/show_create_quran_prayer_dia.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/sections/components_section.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/sections/top_bar_section.dart';
@@ -130,11 +134,32 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
   }
 
   Widget getFab(BuildContext context){
+    final bloc = context.read<ShowCustomPrayersBloc>();
     return CustomVisibilityWithScrolling(
       controller: scrollController.controller,
       child: FloatingActionButton(
         onPressed: (){
-          AddCustomPrayerRoute().push(context);
+          showBottomMenuItems(
+              context,
+              title: "Ekleme Yöntemleri",
+              items: CustomPrayerAddActionMenuEnum.values,
+              onItemClick: (menuItem){
+                Navigator.pop(context);
+                switch(menuItem){
+                  case CustomPrayerAddActionMenuEnum.addFromQuran:
+                    showCreateQuranPrayerDia(context);
+                    break;
+                  case CustomPrayerAddActionMenuEnum.addFromManuel:
+                    AddCustomPrayerRoute().push(context);
+                    break;
+                  case CustomPrayerAddActionMenuEnum.addFromList:
+                    showSelectDhikrDia(context, onSelected: (selectedDhikr){
+                      bloc.add(ShowCustomPrayersEventAddFromDhikr(prayer: selectedDhikr));
+                    });
+                    break;
+                }
+              }
+          );
         },
         child: const Icon(Icons.add),
       )

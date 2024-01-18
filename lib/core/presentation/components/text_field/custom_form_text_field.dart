@@ -28,6 +28,7 @@ class CustomFormTextField extends StatelessWidget {
   final void Function()? onTap;
   final bool readOnly;
   final Widget? trailingWidget;
+  final bool forceCustomTrailingWidget;
   final void Function(String?)? onChanged;
   final bool enabled;
 
@@ -58,6 +59,7 @@ class CustomFormTextField extends StatelessWidget {
     this.textDirection,
     this.onTap,
     this.trailingWidget,
+    this.forceCustomTrailingWidget = false,
     this.onChanged,
     this.autoValidateMode = AutovalidateMode.onUserInteraction,
     this.validators = const []
@@ -143,7 +145,7 @@ class CustomFormTextField extends StatelessWidget {
       );
     }
 
-    if(readOnly && trailingWidget != null){
+    if((readOnly && trailingWidget != null) || forceCustomTrailingWidget){
       return trailingWidget!;
     }
 

@@ -5,6 +5,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_dhikr_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 import 'package:rxdart/rxdart.dart';
@@ -37,6 +38,7 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
     on<ShowCustomPrayersEventUpdateDhikr>(_onUpdateDhikr,transformer: restartable());
     on<ShowCustomPrayersEventDelete>(_onDelete,transformer: restartable());
     on<ShowCustomPrayersEventSetDetailView>(_onSetDetailView, transformer: restartable());
+    on<ShowCustomPrayersEventAddFromDhikr>(_onAddFromDhikr, transformer: restartable());
 
 
     on<ShowCustomPrayersEventSetSearchBarVisibility>(_onSetSearchBarVisibility,transformer: restartable());
@@ -77,6 +79,12 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
   void _onUpdateDhikr(ShowCustomPrayersEventUpdateDhikr event,Emitter<ShowCustomPrayersState>emit)async{
     await _prayerRepo.updateToCounter(event.prayer);
     emit(state.copyWith(message: "Zikir güncellendi"));
+  }
+
+  void _onAddFromDhikr(ShowCustomPrayersEventAddFromDhikr event,Emitter<ShowCustomPrayersState>emit)async{
+    final customPrayer = event.prayer.toPrayerCustom();
+    await _prayerRepo.insertPrayerCustom(customPrayer);
+    emit(state.copyWith(message: "Başarıyla Eklendi"));
   }
 
   void _onSetQuery(ShowCustomPrayersEventSetQuery event,Emitter<ShowCustomPrayersState>emit)async{

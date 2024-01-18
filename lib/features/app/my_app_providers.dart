@@ -29,13 +29,14 @@ import 'package:hadith/core/features/select_font_size/bloc/select_font_size_bloc
 import 'package:hadith/core/features/select_list/bloc/select_list_bloc.dart';
 import 'package:hadith/core/features/share/bloc/share_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/bloc/topic_save_point_bloc.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/bloc/select_dhikr_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/bloc/counter_setting_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/bloc/create_quran_prayer_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/bloc/custom_prayer_manage_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
@@ -150,6 +151,10 @@ class MyAppProviders extends StatelessWidget {
               appPreferences:  context.read(),
             fontModelUseCase: context.read()
           )),
+          BlocProvider(create: (context)=> CreateQuranPrayerBloc(
+              prayerCustomByQuranRepo: context.read(),
+              selectVerseManager: context.read()
+          )),
           BlocProvider(create: (context)=> IslamicInfoSharedBloc(
               islamicInfoRepo: context.read(),
               fontModelUseCase: context.read(),
@@ -164,8 +169,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> GetTitleBloc(
               titleRepo: context.read()
           )),
-          BlocProvider(create: (context)=> AddReadyCounterBloc(
-              counterRepo: context.read(),
+          BlocProvider(create: (context)=> SelectDhikrCounterBloc(
               prayerRepo: context.read(),
               appPreferences:  context.read()
           )),

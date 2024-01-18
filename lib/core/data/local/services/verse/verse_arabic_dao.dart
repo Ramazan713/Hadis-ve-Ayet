@@ -10,6 +10,8 @@ abstract class VerseArabicDao{
   @Query("""select * from verseArabics where mealId=:mealId""")
   Future<List<VerseArabicEntity>> getArabicVersesByMealId(int mealId);
 
+  @Query("""select * from verseArabics where mealId in (:mealIds) order by id""")
+  Future<List<VerseArabicEntity>> getArabicVersesByMealIds(List<int> mealIds);
 
   @Query("""
     select VA.* from verseArabics VA, verses V 

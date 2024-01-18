@@ -3,13 +3,13 @@ import 'package:hadith/core/presentation/components/card_list_tile/card_list_til
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 
 
-class AddCounterItem extends StatelessWidget {
+class SelectDhikrItem extends StatelessWidget {
   final PrayerDhikr item;
   final Function() onClick;
   final bool showDetails;
   final bool selected;
 
-  const AddCounterItem({
+  const SelectDhikrItem({
     Key? key,
     required this.item,
     required this.onClick,

@@ -122,4 +122,8 @@ abstract class VerseDao{
   """)
   Future<List<VerseEntity>> getVersesByIds(List<int> ids);
 
+  @Query("""
+    select * from verses where surahId = :surahId order by id limit :surahSize offset :offset
+  """)
+  Future<List<VerseEntity>> getVersesByOffsetAndSurah(int surahId, int surahSize, int offset);
 }

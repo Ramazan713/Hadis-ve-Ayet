@@ -11,25 +11,22 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/p
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-part 'add_ready_counter_state.freezed.dart';
+part 'select_dhikr_state.freezed.dart';
 
 @freezed
-class AddReadyCounterState with _$AddReadyCounterState{
-  const factory AddReadyCounterState({
+class SelectDhikrState with _$SelectDhikrState{
+  const factory SelectDhikrState({
     required List<PrayerDhikr> items,
     required bool isLoading,
-    required bool navigateBack,
     required bool showDetails,
     PrayerDhikr? selectedItem,
-    String? message,
-  }) = _AddReadyCounterState;
+  }) = _SelectDhikrState;
 
-  static AddReadyCounterState init(){
-    return AddReadyCounterState(
+  static SelectDhikrState init(){
+    return SelectDhikrState(
       items: [],
       isLoading: false,
-      navigateBack: false,
-      showDetails: KPref.addCounterShowDetails.defaultValue
+      showDetails: KPref.selectDhikrShowDetails.defaultValue
     );
   }
 

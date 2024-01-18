@@ -5,16 +5,19 @@ import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_bloc.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_event.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/bloc/add_ready_counter_state.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/add_ready_counter/components/add_counter_item.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/bloc/select_dhikr_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/bloc/select_dhikr_event.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/bloc/select_dhikr_state.dart';
+import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/components/select_dhikr_item.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 
-void showAddCounterDia<T extends IDetailItem>(BuildContext context){
+void showSelectDhikrDia<T extends IDetailItem>(
+    BuildContext context,{
+      required void Function(PrayerDhikr selectedDhikr) onSelected
+}){
 
-  context.read<AddReadyCounterBloc>().add(AddReadyCounterEventLoadData());
+  context.read<SelectDhikrCounterBloc>().add(SelectDhikrEventLoadData());
 
   showBottomSheetHandler(
     context: context,
@@ -30,6 +33,7 @@ void showAddCounterDia<T extends IDetailItem>(BuildContext context){
         builder: (context, controller){
           return  _DialogContent(
             controller: controller,
+            onSelected: onSelected,
             onCancel: (){
               Navigator.of(context,rootNavigator: false).pop();
             },
@@ -46,12 +50,14 @@ class _DialogContent<T extends IDetailItem> extends StatefulWidget {
   final String? title;
   final void Function() onCancel;
   final ScrollController controller;
+  final void Function(PrayerDhikr selectedDhikr) onSelected;
 
   const _DialogContent({
     Key? key,
     this.title,
     required this.onCancel,
-    required this.controller
+    required this.controller,
+    required this.onSelected
   }) : super(key: key);
 
   @override
@@ -63,21 +69,18 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
 
   @override
   Widget build(BuildContext context) {
-
-    return getListeners(
-      context: context,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(top: 5,bottom: 13,right: 4,left: 4),
-                child: getHeader(context)
-            ),
-            Expanded(
-              child: SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 3),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(top: 5,bottom: 13,right: 4,left: 4),
+              child: getHeader(context)
+          ),
+          Expanded(
+            child: SingleChildScrollView(
                 controller: widget.controller,
                 child: Column(
                   children: [
@@ -86,18 +89,17 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
                     getContent(context),
                   ],
                 )
-              ),
             ),
-            getButtons(context)
-          ],
-        ),
+          ),
+          getButtons(context)
+        ],
       ),
     );
   }
 
   Widget getContent(BuildContext context){
-    final bloc = context.read<AddReadyCounterBloc>();
-    return BlocBuilder<AddReadyCounterBloc, AddReadyCounterState>(
+    final bloc = context.read<SelectDhikrCounterBloc>();
+    return BlocBuilder<SelectDhikrCounterBloc, SelectDhikrState>(
       builder: (context, state) {
         if(state.isLoading){
           return const SharedLoadingIndicator();
@@ -109,13 +111,13 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            return AddCounterItem(
+            return SelectDhikrItem(
               key: Key(item.id.toString()),
               item: item,
               showDetails: state.showDetails,
               selected: state.selectedItem == item,
               onClick: (){
-                bloc.add(AddReadyCounterEventSelectItem(prayer: item));
+                bloc.add(SelectDhikrEventSelectItem(prayer: item));
               }
             );
           },
@@ -125,8 +127,8 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
   }
 
   Widget getCheckList(BuildContext context){
-    final bloc = context.read<AddReadyCounterBloc>();
-    return BlocSelector<AddReadyCounterBloc, AddReadyCounterState,bool>(
+    final bloc = context.read<SelectDhikrCounterBloc>();
+    return BlocSelector<SelectDhikrCounterBloc, SelectDhikrState,bool>(
       selector: (state) => state.showDetails,
       builder: (context, showDetails){
         return CheckboxListTile(
@@ -136,7 +138,7 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
           ),
           title: const Text("Detaylı Göster"),
           onChanged: (changedValue){
-            bloc.add(AddReadyCounterEventShowDetails(showDetails: changedValue ?? false));
+            bloc.add(SelectDhikrEventShowDetails(showDetails: changedValue ?? false));
           }
         );
       }
@@ -165,54 +167,18 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
   }
 
   Widget getButtons(BuildContext context){
-    final bloc = context.read<AddReadyCounterBloc>();
-    return BlocSelector<AddReadyCounterBloc, AddReadyCounterState,PrayerDhikr?>(
+    return BlocSelector<SelectDhikrCounterBloc, SelectDhikrState,PrayerDhikr?>(
       selector: (state) => state.selectedItem,
       builder: (context, selectedItem){
         return SharedDiaButtons(
           onApprove: selectedItem == null ? null : (){
-            bloc.add(AddReadyCounterEventAddCounter(prayer: selectedItem));
+            widget.onSelected(selectedItem);
+            Navigator.pop(context);
           },
           approveLabel: "Kaydet",
           onCancel: widget.onCancel,
         );
       },
-    );
-  }
-
-  Widget getListeners({
-    required Widget child,
-    required BuildContext context
-  }){
-    final bloc = context.read<AddReadyCounterBloc>();
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AddReadyCounterBloc,AddReadyCounterState>(
-          listenWhen: (prevState, nextState){
-            return prevState.message != nextState.message;
-          },
-          listener: (context, state){
-            final message = state.message;
-            if(message!=null){
-              ToastUtils.showLongToast(message);
-              bloc.add(AddReadyCounterEventClearMessage());
-            }
-          },
-        ),
-        BlocListener<AddReadyCounterBloc,AddReadyCounterState>(
-          listenWhen: (prevState, nextState){
-            return prevState.navigateBack != nextState.navigateBack;
-          },
-          listener: (context, state){
-            final navigateBack = state.navigateBack;
-            if(navigateBack){
-              bloc.add(AddReadyCounterEventClearNavigateBack());
-              Navigator.pop(context);
-            }
-          },
-        )
-      ],
-      child: child,
     );
   }
 
