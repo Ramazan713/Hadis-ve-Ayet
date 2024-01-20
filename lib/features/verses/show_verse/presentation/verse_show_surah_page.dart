@@ -14,10 +14,6 @@ import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_surah_paging_repo.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
-
-import 'shared/bloc/verse_shared_bloc.dart';
-import 'shared/bloc/verse_shared_event.dart';
-import 'shared/bloc/verse_shared_state.dart';
 import 'shared/verse_show_shared_page.dart';
 
 class VerseShowSurahPage extends StatelessWidget {
@@ -51,11 +47,14 @@ class VerseShowSurahPage extends StatelessWidget {
             title: currentTitle,
             editSavePointHandler: _getEditSavePointHandler(context),
             pos: pos,
+            trailingWidget: getNextPrevButton(context),
           );
         }
       ),
     );
   }
+
+
 
   EditSavePointHandler _getEditSavePointHandler(BuildContext context){
     return EditSavePointHandler(
@@ -64,9 +63,7 @@ class VerseShowSurahPage extends StatelessWidget {
           if(differentLocation){
             final surahDestination = savePoint.destination.castOrNull<DestinationSurah>();
             if(surahDestination!=null){
-              final location = VerseShowSurahRoute(surahId: surahDestination.surahId, pos: savePoint.itemPos)
-                  .location;
-              context.replace(location);
+              replaceNavigation(context, surahId: surahDestination.surahId, pos: savePoint.itemPos);
             }
           }else{
             context.read<PaginationBloc>()
@@ -93,5 +90,37 @@ class VerseShowSurahPage extends StatelessWidget {
         }
     );
   }
-  
+
+  Widget getNextPrevButton(BuildContext context){
+    return Row(
+      children: [
+        Expanded(
+          child: TextButton(
+              onPressed: surahId == 1 ? null : (){
+                replaceNavigation(context, surahId: surahId - 1, pos: 0);
+              },
+              child: const Text("Önceki")
+          ),
+        ),
+        const SizedBox(width: 4,),
+        Expanded(
+          child: TextButton(
+              onPressed: surahId == 114 ? null : (){
+                replaceNavigation(context, surahId: surahId + 1, pos: 0);
+              },
+              child: const Text("Sonraki")
+          ),
+        )
+      ],
+    );
+  }
+
+  void replaceNavigation(BuildContext context,{
+    required int surahId,
+    required int pos
+  }){
+    final location = VerseShowSurahRoute(surahId: surahId, pos: pos).location;
+    context.pushReplacement(location);
+  }
+
 }

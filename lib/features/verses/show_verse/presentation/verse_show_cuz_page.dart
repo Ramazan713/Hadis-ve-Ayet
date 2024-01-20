@@ -54,6 +54,7 @@ class VerseShowCuzPage extends StatelessWidget {
             title: currentTitle,
             pos: pos,
             editSavePointHandler: _getEditSavePointHandler(context),
+            trailingWidget: getNextPrevButton(context),
           );
         }
       ),
@@ -68,9 +69,7 @@ class VerseShowCuzPage extends StatelessWidget {
           if(differentLocation){
             final cuzDestination = savePoint.destination.castOrNull<DestinationCuz>();
             if(cuzDestination!=null){
-              final location = VerseShowCuzRoute(cuzNo: cuzDestination.cuzId, pos: savePoint.itemPos)
-                  .location;
-              context.replace(location);
+              replaceNavigation(context, cuzNo: cuzDestination.cuzId, pos: savePoint.itemPos);
             }
           }else{
             context.read<PaginationBloc>()
@@ -96,5 +95,37 @@ class VerseShowCuzPage extends StatelessWidget {
           );
         }
     );
+  }
+
+  Widget getNextPrevButton(BuildContext context){
+    return Row(
+      children: [
+        Expanded(
+          child: TextButton(
+              onPressed: cuzNo == 1 ? null : (){
+                replaceNavigation(context, cuzNo: cuzNo - 1, pos: 0);
+              },
+              child: const Text("Önceki")
+          ),
+        ),
+        const SizedBox(width: 4,),
+        Expanded(
+          child: TextButton(
+              onPressed: cuzNo == 30 ? null : (){
+                replaceNavigation(context, cuzNo: cuzNo + 1, pos: 0);
+              },
+              child: const Text("Sonraki")
+          ),
+        )
+      ],
+    );
+  }
+
+  void replaceNavigation(BuildContext context,{
+    required int cuzNo,
+    required int pos
+  }){
+    final location = VerseShowCuzRoute(cuzNo: cuzNo, pos: pos).location;
+    context.pushReplacement(location);
   }
 }

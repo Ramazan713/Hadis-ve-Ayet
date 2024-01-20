@@ -67,7 +67,7 @@ class HadithSearchPage extends StatelessWidget {
                   criteriaId: searchDestination.criteria.enumValue,
                   pos: savePoint.itemPos
               ).location;
-              context.replace(location);
+              context.pushReplacement(location);
             }
           }else{
             context.read<PaginationBloc>()

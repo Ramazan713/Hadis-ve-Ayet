@@ -20,6 +20,8 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
   late final ItemPositionsListener _itemPositionsListener;
   late final ItemScrollController _itemScrollController;
   final Widget? emptyResultChild;
+  final Widget? trailingWidget;
+  final bool shrinkWrap;
 
   PagingListView({
     super.key,
@@ -28,7 +30,9 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
     this.loadingItem,
     ItemPositionsListener? itemPositionsListener,
     ItemScrollController? itemScrollController,
-    this.emptyResultChild
+    this.emptyResultChild,
+    this.shrinkWrap = false,
+    this.trailingWidget
   }){
     _itemPositionsListener = itemPositionsListener ?? ItemPositionsListener.create();
     _itemScrollController = itemScrollController ?? ItemScrollController();
@@ -38,6 +42,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final paginationBloc = context.read<PaginationBloc>();
+    final hasTrailingWidget = trailingWidget != null;
 
     return BlocConsumer<PaginationBloc, PaginationState>(
       listenWhen: (prevState, nextState) {
@@ -59,6 +64,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
         final items = state.items;
         final status = state.status;
         final itemCount = items.length + 2;
+        final itemCountWithTrailing = itemCount + (hasTrailingWidget ? 1 : 0);
 
         if (status == PagingStatus.loading) {
           return _getLoadingWidget();
@@ -75,8 +81,8 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
         var initialScrollIndex =  !_itemScrollController.isAttached &&
             status.isSuccess ? (state.jumpToPos??0):0;
         return CustomScrollablePositionedList(
-          shrinkWrap: false,
-          itemCount: itemCount,
+          shrinkWrap: shrinkWrap,
+          itemCount: itemCountWithTrailing,
           delayMilliSeconds: 500,
           pageSize: state.pageSize,
           initialScrollIndex: initialScrollIndex,
@@ -91,6 +97,10 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
             onScroll?.call(scrollDirection);
           },
           itemBuilder: (context, index) {
+
+            if(trailingWidget != null && index == itemCountWithTrailing - 1){
+              return trailingWidget!;
+            }
 
             final loadingContent = _getLoadingPlaceholderContent(
                 status,index,itemCount

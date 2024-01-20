@@ -177,6 +177,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
                                         verseListModel: item,
                                       );
                                     },
+                                    trailingWidget: getNextPrevButton(context),
                                   );
                                 },
                               );
@@ -192,6 +193,43 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getNextPrevButton(BuildContext context){
+    return BlocBuilder<PaginationBloc,PaginationState>(
+      buildWhen: (prevState, nextState){
+        return prevState.totalStaticPages != nextState.totalStaticPages;
+      },
+      builder: (context, state){
+        return ListenableBuilder(
+            listenable: pageController,
+            builder: (context, child){
+              final nextEnabled = state.totalStaticPages - 1 != pageController.currentPageIndex;
+              final prevEnabled = pageController.currentPageIndex != 0;
+              return Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                        onPressed: !prevEnabled ? null : (){
+                          pageController.animateToPreviousPage();
+                        },
+                        child: const Text("Önceki")
+                    ),
+                  ),
+                  const SizedBox(width: 4,),
+                  Expanded(
+                    child: TextButton(
+                        onPressed: !nextEnabled ? null : (){
+                          pageController.animateToNextPage();
+                        },
+                        child: const Text("Sonraki")
+                    ),
+                  )
+                ],
+              );
+            });
+      },
     );
   }
 

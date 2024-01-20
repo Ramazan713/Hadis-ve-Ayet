@@ -20,6 +20,7 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
   final Widget Function(BuildContext,T, int) itemBuilder;
   final GetShimmerItems? loadingItem;
   final Widget? emptyResultChild;
+  final Widget? trailingWidget;
 
   final CustomPageController pageController;
   final CustomScrollController? customScrollController;
@@ -33,6 +34,7 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
     this.positionController,
     this.emptyResultChild,
     this.loadingItem,
+    this.trailingWidget
   });
 
 
@@ -76,10 +78,13 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
   }
 
   Widget getPositionsList(BuildContext context, List<IPagingItem> items){
+    final itemsCount = items.length;
+    final itemsCountWithTrailing = itemsCount + (trailingWidget != null ? 1 : 0);
+
     return CustomScrollablePositionedList(
         delayMilliSeconds: 500,
         shrinkWrap: true,
-        itemCount: items.length,
+        itemCount: itemsCountWithTrailing,
         singlePositionController: pageController.positionController,
         itemScrollController: ItemScrollController(),
         onScroll: (scrollDirection){
@@ -89,6 +94,11 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
           positionController?.setPositions(firstPos, lastPos);
         },
         itemBuilder: (context, index){
+
+          if(trailingWidget != null && index == itemsCountWithTrailing - 1){
+            return trailingWidget!;
+          }
+
           final item = items[index];
 
           final castedItem = item.castOrNull<T>();
