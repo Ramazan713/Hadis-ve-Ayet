@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
 import 'package:hadith/core/features/share/dialogs/show_share_verse_content_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
@@ -213,11 +215,12 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
   Widget _getTopBarIconDropdownMenu(BuildContext context){
     final bloc = context.read<PrayerAndVerseDetailBloc>();
     final audioBloc = context.read<BasicAudioBloc>();
+    final loadSavePointBloc = context.read<LoadSavePointBloc>();
     return BlocSelector<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState, PrayerUnit<PrayerAndVerse>?>(
       selector: (state) => state.prayerUnit,
       builder: (context, currentPrayerUnit){
         return CustomDropdownIconMenu(
-          items: PrayerAndVerseTopBarMenuItems.getItems(currentPrayerUnit?.item),
+          items: PrayerAndVerseTopBarMenuItems.getItems(currentPrayerUnit),
           onSelected: (menuItem){
             switch(menuItem){
               case PrayerAndVerseTopBarMenuItems.selectFontSize:
@@ -235,6 +238,11 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
               case PrayerAndVerseTopBarMenuItems.selectEdition:
                 audioBloc.add(BasicAudioEventCancel());
                 showSelectEdition(context);
+                break;
+              case PrayerAndVerseTopBarMenuItems.navToSurah:
+                final mealId = currentPrayerUnit?.getVerseIds.firstOrNull;
+                if(mealId == null) return;
+                loadSavePointBloc.add(LoadSavePointEventNavigateToSurahDestinationWithMealId(mealId: mealId));
                 break;
             }
           }

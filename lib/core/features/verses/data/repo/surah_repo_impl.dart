@@ -32,6 +32,12 @@ class SurahRepoImpl extends SurahRepo{
   }
 
   @override
+  Future<Surah?> getSurahFromMealId(int mealId) async{
+    return (await _surahDao.getSurahFromMealId(mealId))
+        ?.toSurah();
+  }
+
+  @override
   Future<List<Surah>> getSurahesWithQuery(String query) async{
     final queryRs = _queryExtUseCase.call(query);
 

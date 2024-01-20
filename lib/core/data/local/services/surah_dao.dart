@@ -24,6 +24,9 @@ abstract class SurahDao{
   @Query("""select * from surahs where id=:surahId""")
   Future<SurahEntity?> getSurah(int surahId);
 
+  @Query("""select S.* from Surahs S, Verses V where V.surahId = S.id and V.id = :mealId""")
+  Future<SurahEntity?> getSurahFromMealId(int mealId);
+
   @Query("""
     select name from surahs where id = :surahId
   """)

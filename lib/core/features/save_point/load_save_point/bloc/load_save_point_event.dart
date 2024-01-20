@@ -39,3 +39,11 @@ class LoadSavePointEventNavigateWithSurahDestination extends ILoadSavePointEvent
   });
 }
 
+
+class LoadSavePointEventNavigateToSurahDestinationWithMealId extends ILoadSavePointEvent{
+  final int mealId;
+
+  LoadSavePointEventNavigateToSurahDestinationWithMealId({
+    required this.mealId,
+  });
+}

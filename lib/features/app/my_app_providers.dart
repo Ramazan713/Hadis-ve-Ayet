@@ -236,6 +236,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> LoadSavePointBloc(
             savePointRepo: context.read(),
             itemPositionRepo: context.read(),
+            surahRepo: context.read()
           )),
           BlocProvider(create: (context) => SearchBloc(searchRepo: context.read(), historyRepo: context.read(),
             appPreferences: context.read())),

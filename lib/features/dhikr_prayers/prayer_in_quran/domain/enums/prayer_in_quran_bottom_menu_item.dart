@@ -10,6 +10,10 @@ enum PrayerInQuranBottomMenuItem implements IMenuItem{
     title: "Dinle",
     iconInfo: IconInfo(iconData: Icons.play_arrow)
   ),
+  navToSurah(
+      title: "Bulunduğu Sure'ye Git",
+      iconInfo: IconInfo(iconData: Icons.open_in_new)
+  ),
   addToCustomPrayer(
       title: "Dualarıma Ekle",
       iconInfo: IconInfo(iconData: Icons.add)

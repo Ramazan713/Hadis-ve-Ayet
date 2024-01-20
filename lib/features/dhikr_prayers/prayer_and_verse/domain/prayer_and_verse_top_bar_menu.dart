@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 
 enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
+  navToSurah(
+      title: "Bulunduğu Sure'ye Git",
+      iconInfo: IconInfo(iconData: Icons.open_in_new)
+  ),
   addToCustomPrayer(
       title: "Dualarıma Ekle",
       iconInfo: IconInfo(iconData: Icons.add)
@@ -35,16 +40,19 @@ enum PrayerAndVerseTopBarMenuItems implements IMenuItem{
   @override
   final IconInfo iconInfo;
 
-  static List<PrayerAndVerseTopBarMenuItems> getItems(PrayerAndVerse? prayer){
+  static List<PrayerAndVerseTopBarMenuItems> getItems(PrayerUnit<PrayerAndVerse>? prayerUnit){
     final items = [
       PrayerAndVerseTopBarMenuItems.selectFontSize,
       PrayerAndVerseTopBarMenuItems.selectEdition
     ];
 
-    if(prayer == null || prayer.parentPrayerId == null) {
+    if(prayerUnit == null || prayerUnit.item.parentPrayerId == null) {
       items.insert(0,PrayerAndVerseTopBarMenuItems.addToCustomPrayer);
     }else{
       items.insert(0,PrayerAndVerseTopBarMenuItems.goToCustomPrayer);
+    }
+    if(prayerUnit?.anyVerses == true){
+      items.insert(0, PrayerAndVerseTopBarMenuItems.navToSurah);
     }
     return items;
   }

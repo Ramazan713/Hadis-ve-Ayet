@@ -1818,6 +1818,14 @@ class _$SurahDao extends SurahDao {
   }
 
   @override
+  Future<SurahEntity?> getSurahFromMealId(int mealId) async {
+    return _queryAdapter.query(
+        'select S.* from Surahs S, Verses V where V.surahId = S.id and V.id = ?1',
+        mapper: (Map<String, Object?> row) => SurahEntity(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String),
+        arguments: [mealId]);
+  }
+
+  @override
   Future<String?> getSurahNameById(int surahId) async {
     return _queryAdapter.query('select name from surahs where id = ?1',
         mapper: (Map<String, Object?> row) => row.values.first as String,

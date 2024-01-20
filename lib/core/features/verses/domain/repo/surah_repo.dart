@@ -10,4 +10,6 @@ abstract class SurahRepo{
   Future<Surah?>getSurah(int surahId);
 
   Future<String?> getSurahNameById(int surahId);
+
+  Future<Surah?> getSurahFromMealId(int mealId);
 }

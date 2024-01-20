@@ -2,9 +2,11 @@
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/repo/item_position_repo.dart';
 import 'package:hadith/core/domain/repo/save_point_repo.dart';
 import 'package:hadith/core/features/save_point/load_save_point/model/result_load_save_point.dart';
+import 'package:hadith/core/features/verses/domain/repo/surah_repo.dart';
 
 import 'load_save_point_event.dart';
 import 'load_save_point_state.dart';
@@ -13,18 +15,22 @@ class LoadSavePointBloc extends Bloc<ILoadSavePointEvent,LoadSavePointState>{
 
   late final SavePointRepo _savePointRepo;
   late final ItemPositionRepo _itemPositionRepo;
+  late final SurahRepo _surahRepo;
 
   LoadSavePointBloc({
     required SavePointRepo savePointRepo,
-    required ItemPositionRepo itemPositionRepo
+    required ItemPositionRepo itemPositionRepo,
+    required SurahRepo surahRepo
   }): super(LoadSavePointState.init()){
 
     _savePointRepo = savePointRepo;
     _itemPositionRepo = itemPositionRepo;
+    _surahRepo = surahRepo;
 
     on<LoadSavePointEventLoadLast>(_onLoadLast, transformer: restartable());
     on<LoadSavePointEventNavigateWithSurahDestination>(_onNavigateWithSurahDestination, transformer: restartable());
     on<LoadSavePointEventLoadLastOrDefault>(_onLoadLastOrDefault, transformer: restartable());
+    on<LoadSavePointEventNavigateToSurahDestinationWithMealId>(_onNavigateToSurahDestinationWithMealId, transformer: restartable());
     on<LoadSavePointEventClearResult>(_onClearResult, transformer: restartable());
   }
 
@@ -68,6 +74,14 @@ class LoadSavePointBloc extends Bloc<ILoadSavePointEvent,LoadSavePointState>{
       setResult: true,
       resultLoadSavePoint: ResultLoadSavePoint(destination: destination, itemIndexPos: pos + 1)
     ));
+  }
+
+  void _onNavigateToSurahDestinationWithMealId(LoadSavePointEventNavigateToSurahDestinationWithMealId event, Emitter<LoadSavePointState> emit)async{
+    final surah = await _surahRepo.getSurahFromMealId(event.mealId);
+    if(surah == null) return;
+
+    final destination = DestinationSurah(surahId: surah.id, surahName: surah.name);
+    add(LoadSavePointEventNavigateWithSurahDestination(destination: destination,mealId: event.mealId));
   }
 
   void _onClearResult(LoadSavePointEventClearResult event, Emitter<LoadSavePointState> emit)async{
