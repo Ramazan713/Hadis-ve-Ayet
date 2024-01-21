@@ -15,6 +15,11 @@ abstract class EsmaulHusnaDao{
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnas();
 
   @Query("""
+    select * from esmaulHusnas where orderItem = :orderItem
+  """)
+  Future<EsmaulHusnaEntity?> getEsmaulHusnaByOrderItem(int orderItem);
+
+  @Query("""
     select * from esmaulHusnas order by orderItem
   """)
   Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnas();

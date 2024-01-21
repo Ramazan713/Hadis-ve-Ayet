@@ -3481,6 +3481,23 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   }
 
   @override
+  Future<EsmaulHusnaEntity?> getEsmaulHusnaByOrderItem(int orderItem) async {
+    return _queryAdapter.query(
+        'select * from esmaulHusnas where orderItem = ?1 order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String),
+        arguments: [orderItem]);
+  }
+
+  @override
   Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnas() {
     return _queryAdapter.queryListStream(
         'select * from esmaulHusnas order by orderItem',

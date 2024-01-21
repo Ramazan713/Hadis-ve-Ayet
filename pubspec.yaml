@@ -72,6 +72,7 @@ dependencies:
   path: ^1.8.3
   flutter_form_builder: ^8.0.0
   validatorless: ^1.2.3
+  home_widget: ^0.4.0
 
 #flutter packages pub run build_runner build
 #flutter pub run build_runner build
