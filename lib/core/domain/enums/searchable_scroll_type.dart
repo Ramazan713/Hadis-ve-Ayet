@@ -1,0 +1,4 @@
+
+enum SearchableScrollType{
+  filter, navigatePosition
+}

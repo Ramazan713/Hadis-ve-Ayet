@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_validators.dart';
+import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
 import 'package:hadith/core/presentation/components/selections/custom_searchable_select_menu.dart';
 import 'package:hadith/core/presentation/components/shared_components/shared_header.dart';
@@ -150,6 +151,7 @@ class _DialogContentState extends State<_DialogContent> {
                     items: state.verseNumbers,
                     selectedItem: state.selectedVerseNumber,
                     label: "Ayet Seç",
+                    scrollType: SearchableScrollType.navigatePosition,
                     onSelected: (selected){
                       bloc.add(SelectVerseEventSelectVerse(verseNumber: selected));
                     },

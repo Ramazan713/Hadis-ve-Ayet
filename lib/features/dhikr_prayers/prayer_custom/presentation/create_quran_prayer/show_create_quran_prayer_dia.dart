@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/core/constants/k_validators.dart';
 import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/font_size/font_size.dart';
+import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
 import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/core/features/verses/domain/model/surah.dart';
 import 'package:hadith/core/presentation/components/selections/custom_searchable_select_menu.dart';
@@ -162,6 +163,7 @@ class _DialogContentState extends State<_DialogContent> {
                         margins: margins,
                         items: state.verseNumbers,
                         selectedItem: state.firstSelectedVerseNumber,
+                        scrollType: SearchableScrollType.navigatePosition,
                         label: "Başlangıç Ayeti Seç",
                         onSelected: (selected){
                           bloc.add(CreateQuranPrayerEventSelectVerse(verseNumber: selected, isFirstField: true));
@@ -175,6 +177,7 @@ class _DialogContentState extends State<_DialogContent> {
                         margins: margins,
                         items: state.verseNumbers,
                         selectedItem: state.lastSelectedVerseNumber,
+                        scrollType: SearchableScrollType.navigatePosition,
                         label: "Bitiş Ayeti Seç",
                         onSelected: (selected){
                           bloc.add(CreateQuranPrayerEventSelectVerse(verseNumber: selected, isFirstField: false));
