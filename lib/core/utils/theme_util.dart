@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hadith/core/domain/enums/theme_type_enum.dart';
-import 'package:hadith/core/domain/models/theme_scheme/theme_scheme.dart';
+import 'package:hadith/core/features/theme/domain/enums/theme_type_enum.dart';
+import 'package:hadith/core/features/theme/domain/models/theme_scheme.dart';
 import 'package:hadith/features/app/color_schemes.g.dart';
 
 class ThemeUtil{

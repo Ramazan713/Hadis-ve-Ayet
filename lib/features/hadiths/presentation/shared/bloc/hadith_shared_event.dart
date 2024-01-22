@@ -1,6 +1,4 @@
-
-
-import 'package:hadith/core/domain/enums/paging_title_enum.dart';
+import 'package:hadith/core/features/get_title/domain/enums/title_enum.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 
 abstract class IHadithSharedEvent{}

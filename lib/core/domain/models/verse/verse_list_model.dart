@@ -1,9 +1,9 @@
 
 
 import 'package:hadith/core/domain/models/item_list_info.dart';
-import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/models/verse/verse_arabic.dart';
+import 'package:hadith/core/features/pagination/domain/models/i_paging_item.dart';
 
 class VerseListModel with IPagingItem{
   final bool isInFavorite;

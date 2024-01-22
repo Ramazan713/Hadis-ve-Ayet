@@ -3,11 +3,11 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
-import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
-import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
-import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/features/verses/domain/model/surah.dart';
 import 'package:hadith/core/features/verses/domain/repo/surah_repo.dart';
+import 'package:hadith/features/verses/shared/domain/models/verse_topic_model.dart';
+import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'surah_event.dart';

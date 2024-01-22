@@ -5,9 +5,9 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
-import 'package:hadith/core/domain/services/auth_service.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
 import 'package:hadith/core/domain/repo/user_info_repo.dart';
+import 'package:hadith/core/features/auth/domain/services/auth_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rxdart/rxdart.dart';
 

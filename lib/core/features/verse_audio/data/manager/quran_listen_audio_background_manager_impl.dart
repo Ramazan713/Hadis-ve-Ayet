@@ -6,10 +6,11 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
-import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
-import 'package:hadith/core/domain/use_cases/save_point/insert_or_update_auto_save_point.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/insert_or_update_auto_save_point.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/listen_audio_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/quran_listen_audio_foreground_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/audio_listen_event.dart';
@@ -19,7 +20,6 @@ import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/verse
 import 'package:hadith/core/features/verse_audio/domain/model/service_audio/foreground_send_data.dart';
 import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_listen_audio_notification.dart';
 import 'package:hadith/core/features/verse_audio/domain/services/i_verse_audio_service.dart';
-import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:mutex/mutex.dart';
 

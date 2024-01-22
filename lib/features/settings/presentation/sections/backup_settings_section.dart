@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/models/auth_user/auth_user.dart';
-import 'package:hadith/core/features/auth/bloc/auth_bloc.dart';
-import 'package:hadith/core/features/auth/bloc/auth_state.dart';
-import 'package:hadith/core/presentation/dialogs/show_backup_dia.dart';
+import 'package:hadith/core/features/auth/domain/models/auth_user/auth_user.dart';
+import 'package:hadith/core/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:hadith/core/features/auth/presentation/bloc/auth_state.dart';
+import 'package:hadith/core/features/backup/presentation/backup/show_backup_dia.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/features/settings/presentation/settings_page.dart';
 import 'package:settings_ui/settings_ui.dart';

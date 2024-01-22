@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/verse_audio/presentation/dialogs/show_manage_download_audio.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_state.dart';
-import 'package:hadith/core/presentation/dialogs/show_manage_download_audio.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
+
 import 'download_audio_progress_item.dart';
 
 class DownloadAudioInfoItem extends StatelessWidget {

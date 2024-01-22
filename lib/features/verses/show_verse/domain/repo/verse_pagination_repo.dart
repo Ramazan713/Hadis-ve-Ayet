@@ -5,13 +5,12 @@ import 'package:hadith/core/domain/models/item_list_info.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
-import 'package:hadith/core/domain/repo/pagination_repo.dart';
 import 'package:hadith/core/domain/models/verse/verse_arabic.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/core/domain/repo/verse/verse_arabic_repo.dart';
 import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
+import 'package:hadith/core/features/pagination/domain/repo/pagination_repo.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class VersePaginationRepo extends PaginationRepo<VerseListModel, int>{
 

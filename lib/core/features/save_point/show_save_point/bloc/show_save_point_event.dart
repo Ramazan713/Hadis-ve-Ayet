@@ -1,7 +1,6 @@
-
-import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
-import 'package:hadith/core/domain/models/save_point.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
+import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 
 abstract class IShowSavePointEvent{}
 

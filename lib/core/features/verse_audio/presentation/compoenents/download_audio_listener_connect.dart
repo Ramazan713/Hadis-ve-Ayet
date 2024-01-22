@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/verse_audio/data/mapper/param_mapper.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/audio_service.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_download_audio_notification.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_dialog_event.dart';

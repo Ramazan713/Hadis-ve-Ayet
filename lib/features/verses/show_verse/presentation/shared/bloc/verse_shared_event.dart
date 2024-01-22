@@ -1,7 +1,6 @@
-
-
-import 'package:hadith/core/domain/enums/paging_title_enum.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/get_title/domain/enums/title_enum.dart';
+
 abstract class IVerseSharedEvent{}
 
 class VerseSharedEventInit extends IVerseSharedEvent{}

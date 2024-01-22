@@ -1,10 +1,10 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/download_audio_param.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_param.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 
 class AudioParamBuilder extends Equatable{

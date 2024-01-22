@@ -1,9 +1,3 @@
-
-
-import 'package:hadith/core/domain/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
-import 'package:hadith/core/domain/models/topic_save_point.dart';
-
 abstract class ISurahEvent{}
 
 class SurahEventLoadData extends ISurahEvent{}

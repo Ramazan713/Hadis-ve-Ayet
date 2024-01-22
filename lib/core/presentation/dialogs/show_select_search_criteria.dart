@@ -6,7 +6,7 @@ import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_radio_dia.dart';
+import 'package:hadith/core/presentation/selections/show_select_radio_dia.dart';
 
 void showSelectSearchCriteria(BuildContext context, {
   void Function(SearchCriteriaEnum)? callback,

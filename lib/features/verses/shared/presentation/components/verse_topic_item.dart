@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/domain/models/downloaded_audio_view_model.dart';
 import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/features/verses/shared/domain/models/audio_info_result_model.dart';
 import 'package:hadith/features/verses/shared/presentation/components/circle_icon_tip.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/play_basic_audio.dart';
 
 

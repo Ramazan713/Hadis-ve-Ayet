@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/features/topic_save_point/components/topic_save_point_floating_action_button.dart';
+import 'package:hadith/core/features/topic_save_point/presentation/components/topic_save_point_floating_action_button.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
 
 extension CuzPageComponentsExt on CuzPageState{

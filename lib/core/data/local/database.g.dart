@@ -3483,7 +3483,7 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   @override
   Future<EsmaulHusnaEntity?> getEsmaulHusnaByOrderItem(int orderItem) async {
     return _queryAdapter.query(
-        'select * from esmaulHusnas where orderItem = ?1 order by orderItem',
+        'select * from esmaulHusnas where orderItem = ?1',
         mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
             id: row['id'] as int?,
             orderItem: row['orderItem'] as int,

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hadith/core/domain/enums/paging_title_enum.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
-import 'package:hadith/core/features/get_title/bloc/get_title_bloc.dart';
-import 'package:hadith/core/features/get_title/bloc/get_title_event.dart';
-import 'package:hadith/core/features/get_title/bloc/get_title_state.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
-import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
+import 'package:hadith/core/features/get_title/domain/enums/title_enum.dart';
+import 'package:hadith/core/features/get_title/presentation/bloc/get_title_bloc.dart';
+import 'package:hadith/core/features/get_title/presentation/bloc/get_title_event.dart';
+import 'package:hadith/core/features/get_title/presentation/bloc/get_title_state.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/presentation/edit_save_point/model/edit_save_point_handler.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_surah_paging_repo.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
+
 import 'shared/verse_show_shared_page.dart';
 
 class VerseShowSurahPage extends StatelessWidget {

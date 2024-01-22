@@ -1,5 +1,5 @@
 
-import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 
 abstract class IBasicAudioEvent{}
 

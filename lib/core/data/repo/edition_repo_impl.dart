@@ -1,11 +1,11 @@
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
-import 'package:hadith/core/data/remote/dto/edition_dto.dart';
-import 'package:hadith/core/extensions/app_extension.dart';
-import 'package:hadith/core/domain/services/connectivity_service.dart';
 import 'package:hadith/core/data/mapper/edition_mapper.dart';
-import 'package:hadith/core/data/remote/edition_download_service.dart';
+import 'package:hadith/core/data/remote/dtos/edition_dto.dart';
+import 'package:hadith/core/data/remote/services/edition_download_service.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
+import 'package:hadith/core/domain/services/connectivity_service.dart';
+import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/utils/resource.dart';
 
 

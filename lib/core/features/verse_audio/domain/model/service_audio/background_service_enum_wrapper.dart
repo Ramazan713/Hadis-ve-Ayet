@@ -1,6 +1,6 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/audio_service.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'background_service_enum_wrapper.g.dart';

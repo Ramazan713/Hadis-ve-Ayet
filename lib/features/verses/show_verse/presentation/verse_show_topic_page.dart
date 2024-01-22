@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/paging_title_enum.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
+import 'package:hadith/core/features/get_title/domain/enums/title_enum.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 
 import '../data/repo/verse_topic_paging_repo.dart';

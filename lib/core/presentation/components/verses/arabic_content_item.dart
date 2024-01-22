@@ -23,7 +23,6 @@ class ArabicContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      textScaleFactor: fontFamily.textScaleFactor,
       textAlign: textAlign,
       text: sharedArabicContentSpan(
           context,
@@ -32,6 +31,8 @@ class ArabicContentItem extends StatelessWidget {
           height: 2,
           fontFamily: fontFamily
       ),
-      textDirection: TextDirection.rtl,);
+      textDirection: TextDirection.rtl,
+      textScaler: TextScaler.linear(fontFamily.textScaleFactor),
+    );
   }
 }

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/verse_ui_4x_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
-import 'package:hadith/core/presentation/dialogs/show_select_check_box_dia.dart';
+import 'package:hadith/core/presentation/selections/show_select_check_box_dia.dart';
 
 void showSelectVerseUi4X(BuildContext context, {
   void Function(VerseUi4XEnum)? callback,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/enums/esmaul_husna_share_menu_item.dart';
 import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
 
 class EsmaulHusnaRepaintItem extends StatelessWidget {

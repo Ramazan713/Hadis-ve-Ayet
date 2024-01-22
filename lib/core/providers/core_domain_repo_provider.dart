@@ -1,8 +1,5 @@
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/repo/save_point_repo.dart';
-import 'package:hadith/core/domain/repo/topic_save_point_repo.dart';
+import 'package:hadith/core/domain/use_cases/list/copy_list.dart';
 import 'package:hadith/core/domain/use_cases/list/delete_items_in_list.dart';
 import 'package:hadith/core/domain/use_cases/list/delete_list.dart';
 import 'package:hadith/core/domain/use_cases/list/get_lists.dart';
@@ -10,25 +7,25 @@ import 'package:hadith/core/domain/use_cases/list/insert_list.dart';
 import 'package:hadith/core/domain/use_cases/list/list_use_cases.dart';
 import 'package:hadith/core/domain/use_cases/list/search_lists.dart';
 import 'package:hadith/core/domain/use_cases/list/update_list.dart';
-import 'package:hadith/core/domain/use_cases/save_point/delete_save_point.dart';
-import 'package:hadith/core/domain/use_cases/save_point/get_save_points.dart';
-import 'package:hadith/core/domain/use_cases/save_point/insert_or_update_auto_save_point.dart';
-import 'package:hadith/core/domain/use_cases/save_point/insert_save_point.dart';
-import 'package:hadith/core/domain/use_cases/save_point/save_point_use_cases.dart';
-import 'package:hadith/core/domain/use_cases/save_point/update_save_point.dart';
-import 'package:hadith/core/domain/use_cases/select_list/add_favorite.dart';
-import 'package:hadith/core/domain/use_cases/select_list/add_list.dart';
-import 'package:hadith/core/domain/use_cases/select_list/get_favorite_list.dart';
-import 'package:hadith/core/domain/use_cases/select_list/get_selectable_list_view.dart';
-import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
-import 'package:hadith/core/domain/use_cases/topic_save_point/delete_topic_save_point.dart';
-import 'package:hadith/core/domain/use_cases/topic_save_point/get_topic_save_point.dart';
-import 'package:hadith/core/domain/use_cases/topic_save_point/insert_topic_save_point.dart';
-import 'package:hadith/core/domain/use_cases/topic_save_point/topic_save_point_use_cases.dart';
 import 'package:hadith/core/data/local/database.dart';
-
-import '../domain/use_cases/list/copy_list.dart';
-import '../domain/use_cases/select_list/insert_or_delete_list.dart';
+import 'package:hadith/core/features/save_point/domain/repo/save_point_repo.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/delete_save_point.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/get_save_points.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/insert_or_update_auto_save_point.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/insert_save_point.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/save_point_use_cases.dart';
+import 'package:hadith/core/features/save_point/domain/use_cases/update_save_point.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/add_favorite.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/add_list.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/get_favorite_list.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/get_selectable_list_view.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/insert_or_delete_list.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/select_list_use_cases.dart';
+import 'package:hadith/core/features/topic_save_point/domain/repo/topic_save_point_repo.dart';
+import 'package:hadith/core/features/topic_save_point/domain/use_cases/delete_topic_save_point.dart';
+import 'package:hadith/core/features/topic_save_point/domain/use_cases/get_topic_save_point.dart';
+import 'package:hadith/core/features/topic_save_point/domain/use_cases/insert_topic_save_point.dart';
+import 'package:hadith/core/features/topic_save_point/domain/use_cases/topic_save_point_use_cases.dart';
 
 List<RepositoryProvider> pCoreDomainRepoProviders(AppDatabase appDatabase){
   return [

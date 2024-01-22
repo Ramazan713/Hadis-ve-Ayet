@@ -1,13 +1,13 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
-import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
-import 'package:hadith/core/domain/repo/title_repo.dart';
-import 'package:hadith/core/domain/use_cases/select_list/select_list_use_cases.dart';
-import 'package:hadith/core/features/pagination/paging_modified_item.dart';
+import 'package:hadith/core/features/get_title/domain/repo/title_repo.dart';
+import 'package:hadith/core/features/pagination/domain/enums/paging_invalidate_op.dart';
+import 'package:hadith/core/features/pagination/domain/models/paging_modified_item.dart';
+import 'package:hadith/core/features/select_list/domain/use_cases/select_list_use_cases.dart';
 
 import 'hadith_shared_event.dart';
 import 'hadith_shared_state.dart';

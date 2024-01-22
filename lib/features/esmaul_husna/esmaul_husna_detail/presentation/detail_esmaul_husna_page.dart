@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
-import 'package:hadith/core/features/share/bloc/share_bloc.dart';
-import 'package:hadith/core/features/share/bloc/share_event.dart';
-import 'package:hadith/core/features/share/share_connect.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
@@ -12,11 +9,9 @@ import 'package:hadith/core/presentation/controllers/custom_position_controller.
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_bloc.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_event.dart';
+import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_state.dart';
 import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/components/detail_esmaul_husna.dart';
-import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/sections/components_section.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/extensions/esmaul_husna_share_ext.dart';
-
-import 'bloc/detail_esmaul_husna_state.dart';
+import './sections/components_section.dart';
 
 class DetailEsmaulHusnaPage extends StatefulWidget {
 

@@ -7,10 +7,10 @@ import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_bloc.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_event.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_state.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
+import 'package:hadith/core/presentation/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 import '../../features/select_font_size/components/font_slider_item.dart';
 

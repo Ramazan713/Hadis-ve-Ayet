@@ -1,7 +1,7 @@
 
 import 'package:hadith/core/features/verse_audio/domain/model/id_model.dart';
 
-import '../enums/audio_service.dart';
+import '../enums/audio_service_enum.dart';
 
 abstract class AttachNotificationIdService{
 

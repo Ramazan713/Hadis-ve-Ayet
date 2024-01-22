@@ -1,6 +1,5 @@
 
-
-import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 
 class K{
   static const List<SavePointType> allowedAutoSavePointTypes = [

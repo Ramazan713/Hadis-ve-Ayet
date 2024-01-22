@@ -1,5 +1,4 @@
 
-
 import 'package:hadith/core/data/local/views/hadith_info_list_view.dart';
 import 'package:hadith/core/data/local/views/verse_info_list_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';

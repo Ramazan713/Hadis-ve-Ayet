@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:hadith/core/constants/k_pref.dart';
-import 'package:hadith/core/features/pagination/paging_modified_item.dart';
+import 'package:hadith/core/features/pagination/domain/models/paging_modified_item.dart';
 
 class HadithSharedState extends Equatable{
 

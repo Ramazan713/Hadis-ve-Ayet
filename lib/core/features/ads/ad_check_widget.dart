@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_detector/focus_detector.dart';
-import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
-import 'package:hadith/core/features/premium/bloc/premium_state.dart';
+import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart';
+import 'package:hadith/core/features/premium/presentation/bloc/premium_state.dart';
 import 'package:hadith/core/utils/ad_util.dart';
 
 class AdCheckWidget extends StatefulWidget {

@@ -8,16 +8,15 @@ import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
 import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/core/features/verses/domain/model/surah.dart';
-import 'package:hadith/core/presentation/components/selections/custom_searchable_select_menu.dart';
-import 'package:hadith/core/presentation/components/shared_components/shared_header.dart';
+import 'package:hadith/core/presentation/components/shared_header.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
+import 'package:hadith/core/presentation/selections/custom_searchable_select_menu.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/bloc/create_quran_prayer_bloc.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/bloc/create_quran_prayer_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/bloc/create_quran_prayer_state.dart';
-
-import '../../../../../core/utils/toast_utils.dart';
-import 'bloc/create_quran_prayer_event.dart';
 
 void showCreateQuranPrayerDia(BuildContext context){
   showDialog(

@@ -2,14 +2,14 @@
 
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/core/domain/models/item_list_info.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:hadith/core/domain/repo/item_list_info_repo.dart';
 import 'package:hadith/core/domain/repo/topic_repo.dart';
-import 'package:hadith/core/domain/repo/pagination_repo.dart';
-import 'package:hadith/core/domain/models/hadith.dart';
+import 'package:hadith/core/features/pagination/domain/repo/pagination_repo.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
-import 'package:hadith/core/domain/repo/hadith_repo.dart';
 import 'package:meta/meta.dart';
 
 abstract class HadithPaginationRepo extends PaginationRepo<HadithListModel, int>{

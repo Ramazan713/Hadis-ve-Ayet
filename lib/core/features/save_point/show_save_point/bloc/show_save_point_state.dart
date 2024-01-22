@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
-import 'package:hadith/core/domain/models/save_point.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
+import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 
 class ShowSavePointState extends Equatable{
   final List<SavePoint> savePoints;

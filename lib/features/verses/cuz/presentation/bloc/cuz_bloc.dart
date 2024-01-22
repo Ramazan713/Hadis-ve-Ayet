@@ -1,9 +1,9 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
-import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/core/features/verses/domain/repo/cuz_repo.dart';
+import 'package:hadith/features/verses/shared/domain/use_cases/verse_topic_get_downloaded_models_use_case.dart';
 
 import 'cuz_event.dart';
 import 'cuz_state.dart';

@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
+import 'package:hadith/core/features/select_edition/show_select_edition.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
+import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/custom_prayer_detail_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_bloc.dart';

@@ -2,35 +2,36 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
-import 'package:hadith/core/domain/enums/save_point/local_destination_scope.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/domain/models/save_point.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
-import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
-import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
-import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dart';
-import 'package:hadith/core/features/share/bloc/share_bloc.dart';
-import 'package:hadith/core/features/share/bloc/share_event.dart';
-import 'package:hadith/core/features/share/dialogs/show_preview_share_image_handle_dia.dart';
-import 'package:hadith/core/features/share/enums/share_verse_content_menu_item.dart';
+import 'package:hadith/core/features/pagination/domain/enums/paging_invalidate_op.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/save_point/domain/enums/local_destination_scope.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
+import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_event.dart';
+import 'package:hadith/core/features/select_list/presentation/show_select_list_bottom_dia.dart';
+import 'package:hadith/core/features/share/domain/enums/share_verse_content_menu_item.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
+import 'package:hadith/core/features/share/presentation/dialogs/show_preview_share_image_handle_dia.dart';
+import 'package:hadith/core/features/share/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_event.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
-import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_menu_item.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/share/verse_repaint_item.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_bottom_menu.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_bottom_menu.dart';
 
 import '../bloc/verse_shared_bloc.dart';
 import '../bloc/verse_shared_event.dart';
 import '../bloc/verse_shared_state.dart';
 import '../verse_show_shared_page.dart';
+import './show_select_point.dart';
 
 extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
 

@@ -1,19 +1,17 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/paging/paging_invalidate_op.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
-import 'package:hadith/core/features/select_list/show_select_list_bottom_dia.dart';
-import 'package:hadith/core/features/share/bloc/share_bloc.dart';
-import 'package:hadith/core/features/share/bloc/share_event.dart';
-import 'package:hadith/core/features/share/dialogs/show_preview_share_image_handle_dia.dart';
-import 'package:hadith/core/features/share/enums/share_verse_content_menu_item.dart';
+import 'package:hadith/core/features/pagination/domain/enums/paging_invalidate_op.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/select_list/presentation/show_select_list_bottom_dia.dart';
+import 'package:hadith/core/features/share/domain/enums/share_verse_content_menu_item.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
+import 'package:hadith/core/features/share/presentation/dialogs/show_preview_share_image_handle_dia.dart';
+import 'package:hadith/core/features/share/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
-import 'package:hadith/core/presentation/dialogs/show_share_alert_dia.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_bloc.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_event.dart';

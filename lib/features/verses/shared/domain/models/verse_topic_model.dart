@@ -1,7 +1,7 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/domain/models/downloaded_audio_view_model.dart';
 
 class VerseTopicModel<T> extends Equatable{
   final DownloadedAudioViewModel? audioViewModel;

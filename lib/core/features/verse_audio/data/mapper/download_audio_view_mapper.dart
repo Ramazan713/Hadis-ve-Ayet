@@ -2,8 +2,8 @@
 
 import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
 import 'package:hadith/core/data/local/views/surah_audio_view.dart';
-import 'package:hadith/core/domain/enums/downloaded_audio_view_enum.dart';
-import 'package:hadith/core/domain/models/downloaded_audio_view_model.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/domain/enums/downloaded_audio_view_enum.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/domain/models/downloaded_audio_view_model.dart';
 
 extension CuzAudioViewExt on CuzAudioView{
 

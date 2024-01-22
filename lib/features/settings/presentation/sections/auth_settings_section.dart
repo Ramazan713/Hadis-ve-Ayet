@@ -1,12 +1,9 @@
-
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/models/auth_user/auth_user.dart';
-import 'package:hadith/core/features/auth/bloc/auth_bloc.dart';
-import 'package:hadith/core/features/auth/bloc/auth_event.dart';
-import 'package:hadith/core/features/auth/bloc/auth_state.dart';
+import 'package:hadith/core/features/auth/domain/models/auth_user/auth_user.dart';
+import 'package:hadith/core/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:hadith/core/features/auth/presentation/bloc/auth_event.dart';
+import 'package:hadith/core/features/auth/presentation/bloc/auth_state.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/settings/presentation/components/user_info_icon.dart';

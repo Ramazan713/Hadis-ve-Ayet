@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/paging_title_enum.dart';
-import 'package:hadith/core/features/get_title/bloc/get_title_bloc.dart';
-import 'package:hadith/core/features/get_title/bloc/get_title_event.dart';
-import 'package:hadith/core/features/get_title/bloc/get_title_state.dart';
+import 'package:hadith/core/features/get_title/domain/enums/title_enum.dart';
+import 'package:hadith/core/features/get_title/presentation/bloc/get_title_bloc.dart';
+import 'package:hadith/core/features/get_title/presentation/bloc/get_title_event.dart';
+import 'package:hadith/core/features/get_title/presentation/bloc/get_title_state.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_detail_event.dart';
-
-import 'bloc/detail_counter_bloc.dart';
-import 'detail_counter_shared_content_page.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_shared_content_page.dart';
 
 class DetailCounterPage extends StatelessWidget {
 

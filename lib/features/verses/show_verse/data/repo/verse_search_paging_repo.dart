@@ -1,9 +1,9 @@
 
-import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/core/domain/repo/search_repo.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
 import 'package:hadith/features/verses/show_verse/domain/repo/verse_pagination_repo.dart';
 
 class VerseSearchPagingRepo extends VersePaginationRepo{

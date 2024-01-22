@@ -4,18 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_validators.dart';
 import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
-import 'package:hadith/core/presentation/components/selections/custom_searchable_select_menu.dart';
-import 'package:hadith/core/presentation/components/shared_components/shared_header.dart';
+import 'package:hadith/core/features/verses/domain/model/cuz.dart';
+import 'package:hadith/core/features/verses/domain/model/surah.dart';
+import 'package:hadith/core/presentation/components/shared_header.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
-import 'package:hadith/core/features/verses/domain/model/cuz.dart';
+import 'package:hadith/core/presentation/selections/custom_searchable_select_menu.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 import 'package:hadith/features/verses/shared/domain/models/select_page_result/select_page_result.dart';
 import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_bloc.dart';
 import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_event.dart';
-import 'package:hadith/core/features/verses/domain/model/surah.dart';
-import 'package:hadith/core/utils/toast_utils.dart';
-import 'bloc/select_verse_page_state.dart';
+import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_state.dart';
 
 void selectVersePageDia(BuildContext context,{
   required void Function(SelectPageResult) onApproved,

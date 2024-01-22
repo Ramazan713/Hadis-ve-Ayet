@@ -1,13 +1,13 @@
 
 
 import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
-import 'package:hadith/core/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
-import 'package:hadith/core/domain/enums/theme_type_enum.dart';
 import 'package:hadith/core/domain/enums/verse_ui_4x_enum.dart';
 import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
+import 'package:hadith/core/features/theme/domain/enums/theme_type_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 
 import '../domain/preferences/model/pref_key.dart';
 

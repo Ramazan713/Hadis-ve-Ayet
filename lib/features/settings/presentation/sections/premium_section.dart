@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/core/constants/app_k.dart';
-import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
-import 'package:hadith/core/features/premium/bloc/premium_state.dart';
-import 'package:hadith/core/features/premium/show_premium_dia.dart';
-import 'package:hadith/core/features/share/bloc/share_bloc.dart';
-import 'package:hadith/core/features/share/bloc/share_event.dart';
+import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart';
+import 'package:hadith/core/features/premium/presentation/bloc/premium_state.dart';
+import 'package:hadith/core/features/premium/presentation/show_premium_dia.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
+import 'package:hadith/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_state.dart';
 import 'package:hadith/features/settings/presentation/settings_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../bloc/settings_bloc.dart';
 
 extension SettingsPagePremiumExt on SettingsPage{
 

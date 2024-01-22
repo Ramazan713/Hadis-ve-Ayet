@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/audio_service.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/download_audio_manager_state.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/listen_audio/listen_audio_service_state.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/service_audio/background_event.dart';

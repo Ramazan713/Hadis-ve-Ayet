@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
-import 'package:hadith/core/features/pagination/paging_modified_item.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/pagination/domain/models/paging_modified_item.dart';
 
 
 class VerseSharedState extends Equatable{

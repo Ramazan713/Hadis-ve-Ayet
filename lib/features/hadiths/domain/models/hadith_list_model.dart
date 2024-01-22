@@ -1,6 +1,6 @@
 import 'package:hadith/core/domain/models/item_list_info.dart';
-import 'package:hadith/core/domain/models/paging/i_paging_item.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
+import 'package:hadith/core/features/pagination/domain/models/i_paging_item.dart';
 
 class HadithListModel with IPagingItem {
   final bool isInFavorite;

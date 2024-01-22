@@ -2,12 +2,8 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
-import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
-import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_entity_mapper.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
-import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_repo.dart';
 
 import 'prayer_and_verse_detail_event.dart';

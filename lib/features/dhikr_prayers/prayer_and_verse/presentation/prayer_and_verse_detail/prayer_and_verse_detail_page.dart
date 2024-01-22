@@ -4,31 +4,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
-import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_bloc.dart';
-import 'package:hadith/core/features/save_point/load_save_point/bloc/load_save_point_event.dart';
-import 'package:hadith/core/features/share/dialogs/show_share_verse_content_dia.dart';
+import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
+import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_event.dart';
+import 'package:hadith/core/features/select_edition/show_select_edition.dart';
+import 'package:hadith/core/features/share/presentation/dialogs/show_share_verse_content_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
-import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
+import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
+import 'package:hadith/core/utils/toast_utils.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/domain/prayer_and_verse_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_event.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_state.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_and_verse_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_verse/prayer_and_verse.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
-import 'package:hadith/core/utils/toast_utils.dart';
-
-import 'bloc/prayer_and_verse_detail_state.dart';
 
 class PrayerAndVerseDetailPage extends StatelessWidget {
 

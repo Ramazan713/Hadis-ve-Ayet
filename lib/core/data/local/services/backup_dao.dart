@@ -10,9 +10,9 @@ import 'package:hadith/core/data/local/entities/prayer_entity.dart';
 import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 import 'package:hadith/core/data/local/entities/save_point_entity.dart';
 import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
-import 'package:hadith/core/data/mapper/backup/prayer_backup_mapper.dart';
-import 'package:hadith/core/data/mapper/backup/prayer_verse_backup_mapper.dart';
-import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
+import 'package:hadith/core/features/backup/data/mapper/prayer_backup_mapper.dart';
+import 'package:hadith/core/features/backup/data/mapper/prayer_verse_backup_mapper.dart';
+import 'package:hadith/core/features/backup/data/remote/dtos/prayer_backup_dto/prayer_backup_dto.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/enums/prayer_type_enum.dart';
 
 @dao

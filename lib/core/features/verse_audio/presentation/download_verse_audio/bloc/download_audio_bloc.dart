@@ -7,7 +7,7 @@ import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
 import 'package:hadith/core/features/verse_audio/data/mapper/param_mapper.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/audio_service.dart';
+import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/background_verse_audio_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/audio_download_event.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/download_verse/download_audio_manager_state.dart';
@@ -17,10 +17,9 @@ import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_dow
 import 'package:hadith/core/features/verse_audio/domain/repo/verse_audio_repo.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/audio_param_builder.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_dialog_event.dart';
+import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_event.dart';
+import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_state.dart';
 import 'package:hadith/core/utils/resource.dart';
-
-import 'download_audio_event.dart';
-import 'download_audio_state.dart';
 
 class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
 

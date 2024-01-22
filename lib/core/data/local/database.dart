@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:typed_data';
+
 import 'package:floor/floor.dart';
 import 'package:hadith/core/data/local/entities/audio_edition_entity.dart';
 import 'package:hadith/core/data/local/entities/backup_meta.dart';
@@ -23,15 +24,6 @@ import 'package:hadith/core/data/local/entities/topic_savepoint_entity.dart';
 import 'package:hadith/core/data/local/entities/user_info_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_arabic_entity.dart';
 import 'package:hadith/core/data/local/entities/verse_audio_entity.dart';
-import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
-import 'package:hadith/core/data/local/views/hadith_info_list_view.dart';
-import 'package:hadith/core/data/local/views/list_hadith_view.dart';
-import 'package:hadith/core/data/local/views/list_verse_view.dart';
-import 'package:hadith/core/data/local/views/section_topics_view.dart';
-import 'package:hadith/core/data/local/views/surah_audio_view.dart';
-import 'package:hadith/core/data/local/views/topic_hadiths_view.dart';
-import 'package:hadith/core/data/local/views/topic_verses_view.dart';
-import 'package:hadith/core/data/local/views/verse_info_list_view.dart';
 import 'package:hadith/core/data/local/services/audio_edition_dao.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/backup_dao.dart';
@@ -39,6 +31,7 @@ import 'package:hadith/core/data/local/services/backup_meta_dao.dart';
 import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/cuz_dao.dart';
 import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
+import 'package:hadith/core/data/local/services/hadith_all_dao.dart';
 import 'package:hadith/core/data/local/services/history_dao.dart';
 import 'package:hadith/core/data/local/services/islamic_info_dao.dart';
 import 'package:hadith/core/data/local/services/item_pos_dao.dart';
@@ -61,17 +54,22 @@ import 'package:hadith/core/data/local/services/user_info_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_arabic_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_audio_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_dao.dart';
-import 'package:hadith/core/data/local/services/hadith_all_dao.dart';
-import 'package:hadith/core/data/remote/backup_dtos/counter_backup_dto/counter_backup_dto.dart';
-import 'package:hadith/core/data/remote/backup_dtos/esmaul_husna_info_dto/esmaul_husna_info_dto.dart';
-import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_dto.dart';
-import 'package:hadith/core/data/remote/backup_dtos/prayer_backup_dto/prayer_backup_non_removable_dto.dart';
+import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
+import 'package:hadith/core/data/local/views/hadith_info_list_view.dart';
+import 'package:hadith/core/data/local/views/list_hadith_view.dart';
+import 'package:hadith/core/data/local/views/list_verse_view.dart';
+import 'package:hadith/core/data/local/views/section_topics_view.dart';
+import 'package:hadith/core/data/local/views/surah_audio_view.dart';
+import 'package:hadith/core/data/local/views/topic_hadiths_view.dart';
+import 'package:hadith/core/data/local/views/topic_verses_view.dart';
+import 'package:hadith/core/data/local/views/verse_info_list_view.dart';
+import 'package:hadith/core/features/backup/data/remote/dtos/prayer_backup_dto/prayer_backup_dto.dart';
+import 'package:sqflite/sqflite.dart' as sqflite;
+
 import 'entities/verse_entity.dart';
 import 'services/hadith_info_list_dao.dart';
 import 'services/topic_dao.dart';
 import 'services/verse/verse_info_list_dao.dart';
-import 'package:sqflite/sqflite.dart' as sqflite;
-
 
 part 'database.g.dart';
 

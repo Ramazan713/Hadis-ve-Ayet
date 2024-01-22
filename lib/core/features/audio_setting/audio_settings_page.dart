@@ -5,9 +5,9 @@ import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_event.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_state.dart';
+import 'package:hadith/core/features/manage_downloaded_audio/presentation/show_manage_downloaded_audios_dia.dart';
+import 'package:hadith/core/features/select_edition/show_select_edition.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
-import 'package:hadith/core/presentation/bottom_sheets/show_manage_downloaded_audios.dart';
-import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_slider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -110,7 +110,7 @@ class SettingsAudioPage extends StatelessWidget {
     return SettingsTile(
       title: const Text("İndirilen ses dosyalarını yönet"),
       onPressed: (context){
-        showManageDownloadedAudios(context);
+        showManageDownloadedAudiosDia(context);
       },
     );
   }

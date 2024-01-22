@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/features/premium/bloc/premium_bloc.dart';
-import 'package:hadith/core/features/premium/bloc/premium_state.dart';
-import 'package:hadith/core/features/premium/show_premium_active.dart';
+import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart';
+import 'package:hadith/core/features/premium/presentation/bloc/premium_state.dart';
+import 'package:hadith/core/features/premium/presentation/show_premium_active.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
 import 'package:hadith/core/presentation/components/search/custom_search_bar_empty.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
+import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/home/enums/home_top_bar_menu_item.dart';
 import 'package:hadith/features/home/home_page.dart';

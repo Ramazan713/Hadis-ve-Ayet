@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
-import 'package:hadith/core/features/share/bloc/share_bloc.dart';
-import 'package:hadith/core/features/share/bloc/share_event.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
+import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_state.dart';
 import 'package:hadith/features/settings/presentation/settings_page.dart';

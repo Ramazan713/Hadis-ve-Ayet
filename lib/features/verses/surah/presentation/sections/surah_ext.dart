@@ -1,18 +1,16 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_type.dart';
-import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
-import 'package:hadith/core/features/topic_save_point/components/topic_save_point_floating_action_button.dart';
-import 'package:hadith/core/presentation/components/selections/dropdown_icon_menu.dart';
-import 'package:hadith/core/presentation/bottom_sheets/show_select_edition.dart';
-import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
+import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
+import 'package:hadith/core/features/select_edition/show_select_edition.dart';
+import 'package:hadith/core/features/topic_save_point/presentation/components/topic_save_point_floating_action_button.dart';
+import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/verses/surah/domain/enums/surah_top_bar_menu_item.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_state.dart';
 import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
-import 'package:flutter/material.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 extension SurahPageExt on SurahPageState{
 

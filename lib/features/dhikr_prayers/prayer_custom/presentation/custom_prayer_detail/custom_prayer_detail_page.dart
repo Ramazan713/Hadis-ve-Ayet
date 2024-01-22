@@ -7,13 +7,13 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_a
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/components/custom_detail_prayer_item.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/sections/header_section.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/components/custom_detail_prayer_item.dart';
 
 import 'bloc/custom_prayer_detail_bloc.dart';
 import 'bloc/custom_prayer_detail_event.dart';
 import 'bloc/custom_prayer_detail_state.dart';
+import './sections/header_section.dart';
 
 class CustomPrayerDetailPage extends StatelessWidget {
 

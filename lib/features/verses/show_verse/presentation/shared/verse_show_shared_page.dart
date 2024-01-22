@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
-import 'package:hadith/core/domain/enums/save_point/save_point_destination.dart';
-import 'package:hadith/core/domain/models/paging/paging_config.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_bloc.dart';
-import 'package:hadith/core/features/pagination/bloc/pagination_event.dart';
-import 'package:hadith/core/features/pagination/paging_list_view.dart';
-import 'package:hadith/core/features/save_point/edit_save_point/components/save_auto_save_point_with_paging.dart';
-import 'package:hadith/core/features/save_point/edit_save_point/model/edit_save_point_handler.dart';
+import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/pagination/presentation/paging_list_view.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/presentation/edit_save_point/components/save_auto_save_point_with_paging.dart';
+import 'package:hadith/core/features/save_point/presentation/edit_save_point/model/edit_save_point_handler.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_info_body_wrapper.dart';
@@ -21,18 +22,17 @@ import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_verse_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
-import 'package:hadith/core/domain/enums/save_point/save_auto_type.dart';
 import 'package:hadith/features/verses/show_verse/domain/repo/verse_pagination_repo.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/follow_audio_wrapper.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/sections/header.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/sections/verse_bottom_menu_section.dart';
-
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'bloc/verse_shared_bloc.dart';
 import 'bloc/verse_shared_state.dart';
 import 'components/paging_verse_connect.dart';
 import 'components/verse_item/verse_item.dart';
+import './sections/header.dart';
+import './sections/show_select_point.dart';
+import './sections/verse_bottom_menu_section.dart';
 
 abstract class VerseShareBasePage extends StatefulWidget {
 
