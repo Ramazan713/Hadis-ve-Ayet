@@ -9,8 +9,7 @@ import 'package:hadith/core/features/theme/presentation/bloc/theme_state.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/background_verse_audio_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/service_audio/background_event.dart';
 import 'package:hadith/core/utils/theme_util.dart';
-import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
-import 'routes/combine_routers.dart';
+import './routes/app_routers.dart' as app_routers;
 
 class MyApp extends StatefulWidget {
 
@@ -93,7 +92,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
 
 final _buildRouter = GoRouter(
-  // navigatorKey: rootNavigatorKey,
-    initialLocation: HomeRoute().location,
-    routes: $combinedAppRoutes
+    initialLocation: "/",
+    routes: app_routers.$appRoutes
 );

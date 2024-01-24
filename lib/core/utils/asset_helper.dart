@@ -9,6 +9,8 @@ class AssetHelper{
   static String quranBook = "assets/images/quran_book.png";
   static String esmaulHusna = "assets/images/esmaul_husna.png";
   static String islamicInfo2 = "assets/images/islamic_info_2.png";
+  static String appImage = "assets/images/app_icon.png";
+
 
   static String dhikr2 = "assets/images/dhikr2.png";
   static String verseStop = "assets/images/verse_stop.png";

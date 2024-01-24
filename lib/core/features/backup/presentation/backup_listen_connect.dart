@@ -5,8 +5,8 @@ import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_bloc
 import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_event.dart';
 import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_state.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_full_loading_dia.dart';
-import 'package:hadith/features/app/routes/bottom_nav_routers.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
 
 class BackupListenConnect extends StatelessWidget {
 
@@ -58,7 +58,6 @@ class BackupListenConnect extends StatelessWidget {
               final refreshApp = state.refreshApp;
               if(refreshApp){
                 Navigator.of(context,rootNavigator: true).popUntil((route) => route.isFirst);
-                HomeRoute().go(context);
                 bloc.add(BackupEventClearRefreshApp());
               }
             }
