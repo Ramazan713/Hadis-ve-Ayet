@@ -7,13 +7,11 @@ import 'home_item.dart';
 class HomeSectionItem extends StatelessWidget {
   final String title;
   final List<HomeItem> items;
-  final int gridCount;
 
   const HomeSectionItem({
     Key? key,
     required this.title,
     required this.items,
-    required this.gridCount
   }) : super(key: key);
 
   @override
@@ -31,9 +29,10 @@ class HomeSectionItem extends StatelessWidget {
           ),
         ),
 
-        StaggeredGrid.count(
-          crossAxisCount: gridCount,
-          crossAxisSpacing: 10,
+        StaggeredGrid.extent(
+          maxCrossAxisExtent: 650,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
           children: items,
         )
       ],

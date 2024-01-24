@@ -18,12 +18,11 @@ import 'package:hadith/features/home/home_page.dart';
 
 extension HomeSitteContentSection on HomePage{
 
-  HomeSectionItem getSitteHadithSection(BuildContext context,int gridCount){
+  HomeSectionItem getSitteHadithSection(BuildContext context){
     final loadSavePointBloc = context.read<LoadSavePointBloc>();
 
     return HomeSectionItem(
         title: "Kütübi Sitte",
-        gridCount: gridCount,
         items: [
           HomeItem(
             title: "Tümü",

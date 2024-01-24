@@ -3,6 +3,7 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/lists/presentation/archive_list/sections/handle_bottom_menu_section.dart';
@@ -32,39 +33,18 @@ class ArchiveListPageState extends State<ArchiveListPage> {
           listBloc.add(ArchiveListEventClearMessage());
         }
       },
-      child: AdaptiveLayout(
-        body: SlotLayout(
-          config: <Breakpoint, SlotLayoutConfig>{
-            Breakpoints.small: SlotLayout.from(
-              key: const Key('Archive List Body Small'),
-              builder: (_){
-                return getContent(context,1);
-              },
-            ),
-            Breakpoints.mediumAndUp: SlotLayout.from(
-                key: const Key('Archive List Body Medium'),
-                builder: (_){
-                  return getContent(context, 2);
-                }
-            )
-          },
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomNestedViewAppBar(
+            title: const Text("Arşiv"),
+            child: getListItemsContent(),
+          ),
         ),
       ),
     );
   }
 
-  Widget getContent(BuildContext context, int gridCount){
-    return Scaffold(
-      body: SafeArea(
-        child: CustomNestedViewAppBar(
-          title: const Text("Arşiv"),
-          child: getListItemsContent(gridCount),
-        ),
-      ),
-    );
-  }
-
-  Widget getListItemsContent(int gridCount){
+  Widget getListItemsContent(){
     return BlocBuilder<ArchiveListBloc, ArchiveListState>(
       builder: (context, state) {
         final items = state.listModels;
@@ -72,9 +52,7 @@ class ArchiveListPageState extends State<ArchiveListPage> {
         if(items.isEmpty){
           return getEmptyWidget(context);
         }
-        return AlignedGridView.count(
-          crossAxisCount: gridCount,
-          crossAxisSpacing: 10,
+        return LazyStaggeredGridView(
           itemCount: items.length,
           itemBuilder: (context, index){
             final item = items[index];

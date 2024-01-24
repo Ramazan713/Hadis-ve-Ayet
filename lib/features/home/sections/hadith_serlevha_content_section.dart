@@ -17,12 +17,11 @@ import 'package:hadith/features/home/home_page.dart';
 
 extension HomeSerlevhaContentSection on HomePage{
 
-  HomeSectionItem getSerlevhaHadithSection(BuildContext context,int gridCount){
+  HomeSectionItem getSerlevhaHadithSection(BuildContext context){
     final loadSavePointBloc = context.read<LoadSavePointBloc>();
 
     return HomeSectionItem(
         title: "Serlevha",
-        gridCount: gridCount,
         items: [
           HomeItem(
             title: "Tümü",

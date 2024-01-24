@@ -12,10 +12,9 @@ import 'package:hadith/features/home/home_page.dart';
 
 extension HomeVerseContentSection on HomePage{
 
-  HomeSectionItem getVerseSection(BuildContext context,int gridCount){
+  HomeSectionItem getVerseSection(BuildContext context){
     return HomeSectionItem(
         title: "Kur'an-ı Kerim",
-        gridCount: gridCount,
         items: [
           HomeItem(
             title: "Konular",

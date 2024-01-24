@@ -6,7 +6,7 @@ class HomeItem extends StatelessWidget {
   final void Function() onTap;
   final String title;
   final IconData iconData;
-  final EdgeInsets? paddings;
+  final EdgeInsets? margins;
   final bool useSecondary;
 
   const HomeItem({
@@ -14,7 +14,7 @@ class HomeItem extends StatelessWidget {
     required this.title,
     required this.iconData,
     required this.onTap,
-    this.paddings,
+    this.margins,
     this.useSecondary = true
   }) : super(key: key);
 
@@ -25,10 +25,9 @@ class HomeItem extends StatelessWidget {
 
     final color = useSecondary ? schema.onSecondaryContainer : schema.onPrimaryContainer;
     final backgroundColor = useSecondary ? schema.secondaryContainer : schema.primaryContainer;
-    final defaultPaddings = paddings ?? const EdgeInsets.symmetric(vertical: 5);
 
     return CardListTile(
-      margins: defaultPaddings,
+      margins: margins ?? EdgeInsets.zero,
       defaultColor: backgroundColor,
       contentPadding: const EdgeInsets.symmetric(horizontal: 17,vertical: 3),
       title: Text(
