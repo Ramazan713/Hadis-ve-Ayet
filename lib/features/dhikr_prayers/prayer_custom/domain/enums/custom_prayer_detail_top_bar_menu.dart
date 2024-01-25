@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/domain/models/icon_info.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
 
 enum CustomPrayerDetailTopBarMenuItems implements IMenuItem{
+  navToSurah(
+      title: "Bulunduğu Sure'ye Git",
+      iconInfo: IconInfo(iconData: Icons.open_in_new)
+  ),
   addToDhikr(
       title: "Zikir olarak ekle",
       iconInfo: IconInfo(iconData: Icons.add)
@@ -35,7 +40,7 @@ enum CustomPrayerDetailTopBarMenuItems implements IMenuItem{
   @override
   final IconInfo iconInfo;
 
-  static List<CustomPrayerDetailTopBarMenuItems> getItems(PrayerCustom? prayer){
+  static List<CustomPrayerDetailTopBarMenuItems> getItems(PrayerUnit<PrayerCustom>? prayer){
 
     if(prayer == null){
       return [
@@ -45,11 +50,15 @@ enum CustomPrayerDetailTopBarMenuItems implements IMenuItem{
     }
 
     final items = CustomPrayerDetailTopBarMenuItems.values.toList();
-    if(prayer.counterId == null) {
+    if(prayer.item.counterId == null) {
       items.remove(CustomPrayerDetailTopBarMenuItems.goToDhikr);
     } else {
       items.remove(CustomPrayerDetailTopBarMenuItems.addToDhikr);
     }
+    if(!prayer.anyVerses){
+      items.remove(CustomPrayerDetailTopBarMenuItems.navToSurah);
+    }
+
     return items;
   }
 }
