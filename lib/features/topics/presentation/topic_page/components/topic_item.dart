@@ -11,6 +11,7 @@ class TopicItem extends StatelessWidget {
   final SourceTypeEnum sourceType;
   final bool hasSavePoint;
   final int? rowNumber;
+  final EdgeInsets? margins;
 
   const TopicItem({Key? key,
     required this.sourceType,
@@ -18,13 +19,14 @@ class TopicItem extends StatelessWidget {
     required this.topicViewModel,
     required this.hasSavePoint,
     required this.onTap,
-    required this.rowNumber
+    required this.rowNumber,
+    this.margins
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CardListTile(
-      margins: const EdgeInsets.symmetric(vertical: 3),
+      margins: margins ?? EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(right: 8,left: 16),
       defaultColor: Theme.of(context).colorScheme.secondaryContainer,
       title: Text(

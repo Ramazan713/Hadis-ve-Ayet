@@ -57,15 +57,17 @@ class CardListTile extends StatelessWidget {
       selectedColor: selectedColor,
       defaultColor: defaultColor,
       shape: currentShape,
-      child: ListTile(
-        shape: currentShape,
-        contentPadding: contentPadding,
-        title: title,
-        subtitle: subtitle,
-        onTap: onTap,
-        onLongPress: onLongPress,
-        trailing: trailing,
-        leading: leading,
+      child: Center(
+        child: ListTile(
+          shape: currentShape,
+          contentPadding: contentPadding,
+          title: title,
+          subtitle: subtitle,
+          onTap: onTap,
+          onLongPress: onLongPress,
+          trailing: trailing,
+          leading: leading,
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 
+@Deprecated("Use BaseNestedScrollView")
 class CustomNestedView extends StatelessWidget {
 
   final List<Widget> Function(BuildContext context, bool innerBoxIsScrolled) headerSliverBuilder;

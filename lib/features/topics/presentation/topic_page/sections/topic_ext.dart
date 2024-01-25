@@ -12,11 +12,14 @@ import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_sa
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/components/topic_save_point_floating_action_button.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
+import 'package:hadith/core/presentation/components/navigate_to_icon_auto.dart';
+import 'package:hadith/core/presentation/dialogs/show_get_number_dia.dart';
 import 'package:hadith/core/presentation/selections/show_bottom_menu_items.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../bloc/topic_bloc.dart';
 import '../bloc/topic_state.dart';
@@ -25,10 +28,10 @@ extension TopicPageExt on TopicPageState{
 
   List<Widget> getActions(){
     return [
-      NavigateToIcon(
-        positionController: positionController,
-        onPosChanged: (selectedIndex){
-          itemScrollController.jumpTo(index: selectedIndex);
+      NavigateToIconAuto(
+        autoScrollController: autoScrollController,
+        onPosChanged: (selectedIndex)async{
+          await autoScrollController.scrollToIndex(selectedIndex, preferPosition: AutoScrollPosition.begin);
         },
       ),
     ];
@@ -92,10 +95,10 @@ extension TopicPageExt on TopicPageState{
           controller: scrollController,
           showFab: showFab,
           onSavePointClick: (topicSavePoint){
-            itemScrollController.scrollTo(
-                index: topicSavePoint.pos,
+            autoScrollController.scrollToIndex(
+                topicSavePoint.pos,
                 duration: const Duration(milliseconds: 300),
-                alignment: 0.5
+                preferPosition: AutoScrollPosition.middle
             );
           },
         );

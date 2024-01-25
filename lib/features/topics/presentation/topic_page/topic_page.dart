@@ -4,22 +4,22 @@ import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/topic_save_point/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_state.dart';
-import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
-import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
-import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
+import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_event.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_state.dart';
 import 'package:hadith/features/topics/presentation/topic_page/components/topic_item.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import './sections/topic_ext.dart';
 
 class TopicPage extends StatefulWidget {
@@ -44,9 +44,8 @@ class TopicPage extends StatefulWidget {
 
 class TopicPageState extends State<TopicPage> {
 
-  final ItemScrollController itemScrollController = ItemScrollController();
+  final CustomAutoScrollController autoScrollController = CustomAutoScrollController(suggestedRowHeight: 60);
   final CustomScrollController scrollController = CustomScrollController();
-  final CustomPositionController positionController = CustomPositionController();
   final TextEditingController searchTextController = TextEditingController();
 
   @override
@@ -57,44 +56,49 @@ class TopicPageState extends State<TopicPage> {
 
     bloc.add(TopicEventLoadData(book: widget.bookEnum, sectionId: widget.sectionId,useBookAllSections: widget.useBookAllSections));
     topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: getTopicType()));
+
   }
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<TopicBloc>();
 
-    return BlocSelector<TopicBloc, TopicState, bool>(
-        selector: (state)=>state.searchBarVisible,
-        builder: (context,isSearchBarVisible){
-          return Scaffold(
-            floatingActionButton: getFloatingActionWidget(),
-            body: SafeArea(
-              child: CustomNestedSearchableAppBar(
-                textEditingController: searchTextController,
-                scrollController: scrollController,
-                searchBarVisible: isSearchBarVisible,
-                onSearchVisibilityChanged: (newIsSearchBarVisible){
-                  bloc.add(TopicEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
-                },
-                onTextChanged: (newText){
-                  bloc.add(TopicEventSearch(query: newText));
-                },
-                title: Text(
-                  "${widget.sectionTitle} - ${widget.bookEnum.bookScope.description}",
-                  overflow: TextOverflow.ellipsis,
+    return getListeners(
+      child: BlocSelector<TopicBloc, TopicState, bool>(
+          selector: (state)=>state.searchBarVisible,
+          builder: (context,isSearchBarVisible){
+            return Scaffold(
+              floatingActionButton: getFloatingActionWidget(),
+              body: SafeArea(
+                child: DefaultNestedSearchableAppBar(
+                  textEditingController: searchTextController,
+                  scrollController: scrollController,
+                  contentScrollController: autoScrollController,
+                  searchBarVisible: isSearchBarVisible,
+                  onSearchVisibilityChanged: (newIsSearchBarVisible){
+                    bloc.add(TopicEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
+                  },
+                  onTextChanged: (newText){
+                    bloc.add(TopicEventSearch(query: newText));
+                  },
+                  title: Text(
+                    "${widget.sectionTitle} - ${widget.bookEnum.bookScope.description}",
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  actions: getActions(),
+                  snap: true,
+                  floating: true,
+                  floatHeaderSlivers: true,
+                  appBarType: AppBarType.defaultBar,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: getItemsContent(),
+                  ),
                 ),
-                actions: getActions(),
-                snap: true,
-                floating: true,
-                appBarType: AppBarType.defaultBar,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: getItemsContent(),
-                ),
-              ),
-            )
-          );
-        }
+              )
+            );
+          }
+      ),
     );
   }
 
@@ -120,35 +124,34 @@ class TopicPageState extends State<TopicPage> {
               return const SharedEmptyResult();
             }
 
-            return CustomScrollablePositionedList(
+            return LazyAlignedGridView(
+              shrinkWrap: true,
+              controller: autoScrollController.controller,
+              maxCrossAxisExtent: 600,
               itemCount: items.length,
-              delayMilliSeconds: 50,
-              onScroll: (scrollDirection){
-                scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
-              },
-              onVisibleItemChanged: (min,max){
-                positionController.setPositions(min, max,totalItems: state.items.length);
-              },
-              itemScrollController: itemScrollController,
               itemBuilder: (context, index){
                 final item = items[index];
                 final hasSavePoint = currentTopicSavePoint?.pos == index;
-
-                return TopicItem(
-                  topicViewModel: item,
-                  hasSavePoint: !state.searchBarVisible && hasSavePoint,
-                  sourceType: widget.sourceType,
-                  onTap: (){
-                    handleNavigation(item);
-                  },
-                  onMenuClick: state.searchBarVisible ? null : (){
-                    handleBottomMenu(
-                      index: index,
-                      hasSavePoint: hasSavePoint,
-                      topic: item
-                    );
-                  },
-                  rowNumber: index + 1
+                return AutoScrollTag(
+                  index: index,
+                  key: ValueKey("$index"),
+                  controller: autoScrollController.controller,
+                  child: TopicItem(
+                    topicViewModel: item,
+                    hasSavePoint: !state.searchBarVisible && hasSavePoint,
+                    sourceType: widget.sourceType,
+                    onTap: (){
+                      handleNavigation(item);
+                    },
+                    onMenuClick: state.searchBarVisible ? null : (){
+                      handleBottomMenu(
+                        index: index,
+                        hasSavePoint: hasSavePoint,
+                        topic: item
+                      );
+                    },
+                    rowNumber: index + 1
+                  ),
                 );
               },
             );
@@ -158,12 +161,22 @@ class TopicPageState extends State<TopicPage> {
     );
   }
 
+  Widget getListeners({required Widget child}){
+    return BlocListener<TopicBloc,TopicState>(
+      listenWhen: (prevState, nextState) => prevState.items.length != nextState.items.length,
+      listener: (context, state){
+        autoScrollController.setTotalItems(totalItems: state.items.length);
+      },
+      child: child,
+    );
+  }
+
 
   @override
   void dispose() {
     searchTextController.dispose();
     scrollController.dispose();
-    positionController.dispose();
+    autoScrollController.dispose();
     super.dispose();
   }
 }

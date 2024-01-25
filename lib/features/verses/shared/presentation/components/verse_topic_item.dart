@@ -12,6 +12,7 @@ class VerseTopicItem extends StatelessWidget {
   final void Function()? onTap;
   final void Function()? onLongPress;
   final void Function()? onClickMoreMenu;
+  final EdgeInsets? margins;
 
   final bool hasSavePoint;
   final AudioInfoResultModel infoResult;
@@ -27,14 +28,15 @@ class VerseTopicItem extends StatelessWidget {
     required this.hasSavePoint,
     this.downloadedAudioView,
     this.onClickMoreMenu,
-    required this.infoResult
+    required this.infoResult,
+    this.margins
   }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return CardListTile(
-      margins: const EdgeInsets.symmetric(vertical: 3),
+      margins: margins ?? EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(left: 16,right: 8),
       defaultColor: Theme.of(context).colorScheme.primaryContainer,
       title: Text(label,),

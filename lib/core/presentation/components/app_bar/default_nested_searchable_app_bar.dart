@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
-import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
+import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
+import 'package:hadith/core/presentation/components/app_bar/base_nested_scroll_view.dart';
+import 'package:hadith/core/presentation/components/app_bar/custom_appbar_searchable.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_sliver_appbar.dart';
+import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
+import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 
-import 'custom_appbar_searchable.dart';
-import 'custom_nested_view.dart';
-
-@Deprecated("Use DefaultNestedSearchableAppBar")
-class CustomNestedSearchableAppBar extends StatelessWidget {
+class DefaultNestedSearchableAppBar extends StatelessWidget {
 
   final Widget child;
   final TextEditingController textEditingController;
@@ -15,6 +15,7 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
   final void Function(String) onTextChanged;
   final void Function(bool isVisible) onSearchVisibilityChanged;
   final CustomScrollController? scrollController;
+  final CustomAutoScrollController? contentScrollController;
   final bool floatHeaderSlivers;
   final PreferredSizeWidget? appBarBottom;
   final bool useWillPopScope;
@@ -26,55 +27,53 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
   final List<Widget> headerSlivers;
   final AppBarType? appBarType;
   final bool? showNavigateBack;
+  final int delayMilliSeconds;
+  final ScrollDelayType scrollDelayType;
 
-  const CustomNestedSearchableAppBar({
+  const DefaultNestedSearchableAppBar({
     Key? key,
     required this.textEditingController,
     required this.child,
     required this.onTextChanged,
     required this.onSearchVisibilityChanged,
+    this.scrollDelayType = ScrollDelayType.both,
     this.searchBarVisible = false,
-    this.scrollController,
     this.floatHeaderSlivers = false,
-    this.appBarBottom,
-    this.title,
-    this.actions,
+    this.useWillPopScope = true,
+    this.delayMilliSeconds = 500,
+    this.headerSlivers = const [],
     this.pinned = false,
     this.snap = false,
     this.floating = false,
+    this.contentScrollController,
+    this.scrollController,
+    this.appBarBottom,
+    this.title,
+    this.actions,
     this.appBarType,
-    this.useWillPopScope = true,
     this.showNavigateBack,
-    this.headerSlivers = const []
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: (){
-        if(searchBarVisible && useWillPopScope){
+    return PopScope(
+      canPop: !(searchBarVisible && useWillPopScope),
+      onPopInvoked: (canPop){
+        if(!canPop){
           onTextChanged("");
           textEditingController.text = "";
           onSearchVisibilityChanged(false);
-          return Future.value(false);
         }
-        return Future.value(true);
       },
-      child: CustomNestedView(
-          scrollController: scrollController,
-          floatHeaderSlivers: floatHeaderSlivers,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-            return [
-              SliverOverlapAbsorber(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverSafeArea(
-                      sliver: _getSearchableAppBar()
-                  )
-              ),
-              ...headerSlivers
-            ];
-          },
-          child: child
+      child: BaseNestedScrollView(
+        scrollController: scrollController,
+        contentScrollController: contentScrollController,
+        floatHeaderSlivers: floatHeaderSlivers,
+        headerSlivers: headerSlivers,
+        delayMilliSeconds: delayMilliSeconds,
+        scrollDelayType: scrollDelayType,
+        sliverAppBar: _getSearchableAppBar(),
+        child: child,
       ),
     );
   }
@@ -112,5 +111,4 @@ class CustomNestedSearchableAppBar extends StatelessWidget {
       showNavigateBack: showNavigateBack,
     );
   }
-
 }

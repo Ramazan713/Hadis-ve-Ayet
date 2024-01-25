@@ -4,6 +4,7 @@ import 'package:hadith/core/presentation/components/app_bar/custom_nested_view.d
 import 'package:hadith/core/presentation/components/app_bar/custom_sliver_appbar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 
+@Deprecated("Use DefaultNestedScrollableAppBar")
 class CustomNestedViewAppBar extends StatelessWidget {
 
   final Widget child;
