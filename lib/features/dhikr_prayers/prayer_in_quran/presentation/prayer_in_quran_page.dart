@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_event.dart';
@@ -14,10 +16,13 @@ import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/custom_scrollable_positioned_list.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon.dart';
+import 'package:hadith/core/presentation/components/navigate_to_icon_auto.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
+import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
@@ -31,6 +36,7 @@ import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_state.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/components/prayer_in_quran_item.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_in_quran_mapper.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class PrayerInQuranPage extends StatefulWidget {
@@ -42,8 +48,9 @@ class PrayerInQuranPage extends StatefulWidget {
 
 class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
 
-  final CustomPositionController positionController = CustomPositionController();
-  final ItemScrollController itemScrollController = ItemScrollController();
+  final CustomAutoScrollController autoScrollController = CustomAutoScrollController(
+    suggestedRowHeight: 150
+  );
   final CustomScrollController scrollController = CustomScrollController();
   final TextEditingController searchTextController = TextEditingController();
 
@@ -66,9 +73,10 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
             child: BlocSelector<PrayerInQuranBloc,PrayerInQuranState,bool>(
               selector: (state) => state.isSearchBarVisible,
               builder: (context, isSearchBarVisible){
-                return CustomNestedSearchableAppBar(
+                return DefaultNestedSearchableAppBar(
                   textEditingController: searchTextController,
                   scrollController: scrollController,
+                  contentScrollController: autoScrollController,
                   floatHeaderSlivers: true,
                   onTextChanged: (text){
                     bloc.add(PrayerInQuranEventSetQuery(query: text));
@@ -111,60 +119,63 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
               return const SharedEmptyResult();
             }
 
-            return CustomScrollablePositionedList(
+            return LazyStaggeredGridView(
+              maxCrossAxisExtent: 700,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
               itemCount: items.length,
               shrinkWrap: false,
-              itemScrollController: itemScrollController,
-              onScroll: (scrollDirection){
-                scrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
-              },
-              onVisibleItemChanged: (min,max){
-                positionController.setPositions(min, max,totalItems: state.items.length);
-              },
+              controller: autoScrollController.controller,
               itemBuilder: (context, index){
                 final prayerUnit = items[index];
                 final prayer = prayerUnit.item;
-                return PrayerInQuranItem(
-                  key: Key(prayer.id.toString()),
-                  searchParam: state.searchParam,
-                  isSelected: currentAudioTag == prayer.id.toString(),
-                  prayerUnit: prayerUnit,
-                  order: index + 1,
-                  verseUIEnum: state.arabicVerseUI2X,
-                  fontModel: state.fontModel,
-                  onMenuSelect: (menuItem){
-                    switch(menuItem){
-                      case PrayerInQuranBottomMenuItem.addToCustomPrayer:
-                        bloc.add(PrayerInQuranEventAddCustomPrayer(prayerUnit: prayerUnit));
-                        break;
-                      case PrayerInQuranBottomMenuItem.goToCustomPrayer:
-                        final parentId = prayer.parentPrayerId;
-                        if(parentId!=null){
-                          CustomPrayerDetailRoute(prayerId: parentId).push(context);
-                        }
-                        break;
-                      case PrayerInQuranBottomMenuItem.listen:
-                        context.read<BasicAudioBloc>().add(BasicAudioEventStartWithCustomVerseIds(
-                            verseIds: prayerUnit.getVerseIds,
-                            audioTag: prayer.id.toString()
-                        ));
-                        break;
-                      case PrayerInQuranBottomMenuItem.share:
-                        showShareVerseContentDia(
-                            context,
-                            item: prayer.toShareContent(),
-                            imageName: "${prayer.source}.png"
-                        );
-                        break;
-                      case PrayerInQuranBottomMenuItem.navToSurah:
-                        final mealId = prayerUnit.getVerseIds.firstOrNull;
-                        if(mealId == null) return;
-                        context.read<LoadSavePointBloc>()
-                            .add(LoadSavePointEventNavigateToSurahDestinationWithMealId(mealId: mealId));
 
-                        break;
-                    }
-                  },
+                return AutoScrollTag(
+                  index: index,
+                  key: ValueKey(index.toString()),
+                  controller: autoScrollController.controller,
+                  child: PrayerInQuranItem(
+                    key: Key(prayer.id.toString()),
+                    searchParam: state.searchParam,
+                    isSelected: currentAudioTag == prayer.id.toString(),
+                    prayerUnit: prayerUnit,
+                    order: index + 1,
+                    verseUIEnum: state.arabicVerseUI2X,
+                    fontModel: state.fontModel,
+                    onMenuSelect: (menuItem){
+                      switch(menuItem){
+                        case PrayerInQuranBottomMenuItem.addToCustomPrayer:
+                          bloc.add(PrayerInQuranEventAddCustomPrayer(prayerUnit: prayerUnit));
+                          break;
+                        case PrayerInQuranBottomMenuItem.goToCustomPrayer:
+                          final parentId = prayer.parentPrayerId;
+                          if(parentId!=null){
+                            CustomPrayerDetailRoute(prayerId: parentId).push(context);
+                          }
+                          break;
+                        case PrayerInQuranBottomMenuItem.listen:
+                          context.read<BasicAudioBloc>().add(BasicAudioEventStartWithCustomVerseIds(
+                              verseIds: prayerUnit.getVerseIds,
+                              audioTag: prayer.id.toString()
+                          ));
+                          break;
+                        case PrayerInQuranBottomMenuItem.share:
+                          showShareVerseContentDia(
+                              context,
+                              item: prayer.toShareContent(),
+                              imageName: "${prayer.source}.png"
+                          );
+                          break;
+                        case PrayerInQuranBottomMenuItem.navToSurah:
+                          final mealId = prayerUnit.getVerseIds.firstOrNull;
+                          if(mealId == null) return;
+                          context.read<LoadSavePointBloc>()
+                              .add(LoadSavePointEventNavigateToSurahDestinationWithMealId(mealId: mealId));
+
+                          break;
+                      }
+                    },
+                  ),
                 );
               },
             );
@@ -176,10 +187,10 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
 
   List<Widget> getActions(BuildContext context){
     return [
-      NavigateToIcon(
-        positionController: positionController,
+      NavigateToIconAuto(
+        autoScrollController: autoScrollController,
         onPosChanged: (selectedIndex){
-          itemScrollController.jumpTo(index: selectedIndex);
+          autoScrollController.scrollToIndex(selectedIndex, preferPosition: AutoScrollPosition.begin);
         },
       ),
       _topBarDropDownMenu(context)
@@ -206,26 +217,38 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
   }
 
   Widget getListeners({required Widget child}){
-    return BlocListener<PrayerInQuranBloc,PrayerInQuranState>(
-      listenWhen: (prevState, nextState){
-        return prevState.message != nextState.message;
-      },
-      listener: (context, state){
-        final message = state.message;
-        if(message!=null){
-          ToastUtils.showLongToast(message);
-          context.read<PrayerInQuranBloc>()
-              .add(PrayerInQuranEventClearMessage());
-        }
-      },
-      child: child,
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<PrayerInQuranBloc,PrayerInQuranState>(
+            listenWhen: (prevState, nextState){
+              return prevState.message != nextState.message;
+            },
+            listener: (context, state){
+              final message = state.message;
+              if(message!=null){
+                ToastUtils.showLongToast(message);
+                context.read<PrayerInQuranBloc>()
+                    .add(PrayerInQuranEventClearMessage());
+              }
+            },
+          ),
+          BlocListener<PrayerInQuranBloc,PrayerInQuranState>(
+            listenWhen: (prevState, nextState){
+              return prevState.items.length != nextState.items.length;
+            },
+            listener: (context, state){
+              autoScrollController.setTotalItems(totalItems: state.items.length);
+            },
+          )
+        ],
+        child: child
     );
   }
 
   @override
   void dispose() {
     searchTextController.dispose();
-    positionController.dispose();
+    autoScrollController.dispose();
     scrollController.dispose();
     super.dispose();
   }

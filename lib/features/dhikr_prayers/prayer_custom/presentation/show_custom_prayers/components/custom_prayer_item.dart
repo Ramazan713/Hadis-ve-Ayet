@@ -26,7 +26,7 @@ class CustomPrayerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(13);
     return Card(
-      margin: margins,
+      margin: margins ?? EdgeInsets.zero,
       shape: RoundedRectangleBorder(
           borderRadius: borderRadius
       ),

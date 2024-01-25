@@ -11,6 +11,7 @@ import 'package:hadith/features/verses/surah/domain/enums/surah_top_bar_menu_ite
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_state.dart';
 import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 extension SurahPageExt on SurahPageState{
 
@@ -22,10 +23,9 @@ extension SurahPageExt on SurahPageState{
             controller: scrollController,
             showFab: showFab,
             onSavePointClick: (topicSavePoint){
-              itemScrollController.scrollTo(
-                  index: topicSavePoint.pos,
-                  duration: const Duration(milliseconds: 300),
-                  alignment: 0.5
+              autoScrollController.scrollToIndex(
+                  topicSavePoint.pos,
+                  preferPosition: AutoScrollPosition.middle
               );
             },
           );

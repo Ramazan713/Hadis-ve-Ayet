@@ -4,6 +4,7 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/selections/show_bottom_menu_items.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
@@ -36,36 +37,15 @@ class ShowCounterPageState extends State<ShowCounterPage> {
   @override
   Widget build(BuildContext context) {
 
-    return AdaptiveLayout(
-      body: SlotLayout(
-        config: <Breakpoint, SlotLayoutConfig>{
-          Breakpoints.small: SlotLayout.from(
-            key: const Key('ShowCounter Body Small'),
-            builder: (_){
-              return getPageContent(context,1);
-            },
-          ),
-          Breakpoints.mediumAndUp: SlotLayout.from(
-            key: const Key('ShowCounter Body Medium'),
-            builder: (_){
-              return getPageContent(context, 2);
-            }
-          )
-        },
-      ),
-    );
-  }
-
-  Widget getPageContent(BuildContext context, int gridCount){
     return getListeners(
       child: Scaffold(
         body: SafeArea(
-          child: CustomNestedViewAppBar(
+          child: DefaultNestedScrollableAppBar(
             floating: true,
             snap: true,
             actions: getActions(),
             scrollController: CustomScrollController(
-              controller: scrollController
+                controller: scrollController
             ),
             title: const Text("Sayaç"),
             child: SingleChildScrollView(
@@ -73,8 +53,8 @@ class ShowCounterPageState extends State<ShowCounterPage> {
                 padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                 child: Column(
                   children: [
-                    getDhikrmaticContent(gridCount),
-                    getDhikrListContent(gridCount)
+                    getDhikrmaticContent(),
+                    getDhikrListContent()
                   ],
                 ),
               ),
@@ -85,8 +65,6 @@ class ShowCounterPageState extends State<ShowCounterPage> {
       ),
     );
   }
-
-
 
   Widget getFab(BuildContext context){
     final bloc = context.read<CounterShowBloc>();

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
-import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
@@ -40,35 +39,13 @@ class _SectionPageState extends State<SectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveLayout(
-      body: SlotLayout(
-        config: <Breakpoint, SlotLayoutConfig>{
-          Breakpoints.small: SlotLayout.from(
-            key: const Key('Section Body Small'),
-            builder: (_){
-              return getContent(context,1);
-            },
-          ),
-          Breakpoints.mediumAndUp: SlotLayout.from(
-            key: const Key('Section Body Medium'),
-            builder: (_){
-              return getContent(context, 2);
-            }
-          )
-        },
-      ),
-    );
-  }
-
-  Widget getContent(BuildContext context, int gridCount){
     final bloc = context.read<SectionBloc>();
-
     return BlocSelector<SectionBloc, SectionState, bool>(
       selector: (state)=>state.searchBarVisible,
       builder: (context,isSearchBarVisible){
         return Scaffold(
           body: SafeArea(
-            child: CustomNestedSearchableAppBar(
+            child: DefaultNestedSearchableAppBar(
               textEditingController: searchTextController,
               searchBarVisible: isSearchBarVisible,
               onSearchVisibilityChanged: (newIsSearchBarVisible){
@@ -92,8 +69,8 @@ class _SectionPageState extends State<SectionPage> {
                   builder: (context, state){
                     if(state.isLoading){
                       return const GetShimmerItems(
-                        itemCount: 19,
-                        shimmerItem: ShimmerTopicItem()
+                          itemCount: 19,
+                          shimmerItem: ShimmerTopicItem()
                       );
                     }
                     final items = state.items;
@@ -102,7 +79,7 @@ class _SectionPageState extends State<SectionPage> {
                       return const SharedEmptyResult();
                     }
 
-                    return getItemsContent(items,gridCount);
+                    return getItemsContent(items);
                   },
                 ),
               ),
@@ -113,10 +90,9 @@ class _SectionPageState extends State<SectionPage> {
     );
   }
 
-  Widget getItemsContent(List<SectionModel> items, int gridCount){
-    return AlignedGridView.count(
-        crossAxisCount: gridCount,
-        crossAxisSpacing: 10,
+  Widget getItemsContent(List<SectionModel> items){
+    return LazyAlignedGridView(
+        maxCrossAxisExtent: 600,
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index){
           final item = items[index];

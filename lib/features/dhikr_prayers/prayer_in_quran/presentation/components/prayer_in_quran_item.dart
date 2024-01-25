@@ -45,7 +45,7 @@ class PrayerInQuranItem extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(13),
       ),
-      margin: margins ?? const EdgeInsets.symmetric(vertical: 6),
+      margin: margins ?? EdgeInsets.zero,
       elevation: 3,
       child: Padding(
         padding: paddings ?? const EdgeInsets.only(left: 7,right: 7,bottom: 7,top: 1),

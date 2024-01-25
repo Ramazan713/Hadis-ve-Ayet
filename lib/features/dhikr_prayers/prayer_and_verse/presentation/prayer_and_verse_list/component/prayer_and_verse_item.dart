@@ -5,17 +5,19 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_and_ver
 class PrayerAndVerseItem extends StatelessWidget {
   final PrayerAndVerse prayer;
   final Function() onClick;
+  final EdgeInsets? margins;
 
   const PrayerAndVerseItem({
     Key? key,
     required this.prayer,
-    required this.onClick
+    required this.onClick,
+    this.margins
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CardListTile(
-      margins: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+      margins: margins,
       title: Text(prayer.name),
       defaultColor: Theme.of(context).colorScheme.secondaryContainer,
       onTap: onClick,

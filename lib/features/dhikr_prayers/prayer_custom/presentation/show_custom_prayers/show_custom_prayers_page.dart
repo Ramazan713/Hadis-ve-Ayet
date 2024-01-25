@@ -4,8 +4,10 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
@@ -43,36 +45,14 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return getListeners(
-      child: AdaptiveLayout(
-        body: SlotLayout(
-          config: <Breakpoint, SlotLayoutConfig>{
-            Breakpoints.small: SlotLayout.from(
-              key: const Key('ShowPrayers Body Small'),
-              builder: (_){
-                return getPageContent(context,1);
-              },
-            ),
-            Breakpoints.mediumAndUp: SlotLayout.from(
-              key: const Key('ShowPrayers Body Medium'),
-              builder: (_){
-                return getPageContent(context, 2);
-              }
-            )
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget getPageContent(BuildContext context, int gridCount){
     final bloc = context.read<ShowCustomPrayersBloc>();
-    return Scaffold(
+    return getListeners(
+      child: Scaffold(
         body: SafeArea(
           child: BlocSelector<ShowCustomPrayersBloc, ShowCustomPrayersState,bool>(
             selector: (state) => state.isSearchBarVisible,
             builder: (context, isSearchBarVisible){
-              return CustomNestedSearchableAppBar(
+              return DefaultNestedSearchableAppBar(
                 textEditingController: searchTextController,
                 pinned: true,
                 actions: getActions(),
@@ -88,17 +68,19 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                  child: getListContent(context,gridCount),
+                  child: getListContent(context),
                 ),
               );
             },
           )
         ),
-        floatingActionButton: getFab(context)
+          floatingActionButton: getFab(context)
+      )
     );
   }
 
-  Widget getListContent(BuildContext context, int gridCount){
+
+  Widget getListContent(BuildContext context){
     return BlocBuilder<ShowCustomPrayersBloc, ShowCustomPrayersState>(
       builder: (context, state) {
         final items = state.items;
@@ -108,26 +90,26 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
         if (items.isEmpty) {
           return const SharedEmptyResult();
         }
-        return SingleChildScrollView(
-          child: AlignedGridView.count(
-            crossAxisCount: gridCount,
-            shrinkWrap: true,
-            controller: ScrollController(),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return CustomPrayerItem(
-                item: item,
-                showDetail: state.showDetailContents,
-                onClick: () {
-                  CustomPrayerDetailRoute(prayerId: item.id ?? 0).push(context);
-                },
-                onMenuClick: () {
-                  handleBottomMenu(item);
-                },
-              );
-            },
-          ),
+        return LazyAlignedGridView(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          shrinkWrap: true,
+          itemCount: items.length,
+          maxCrossAxisExtent: 600,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return CustomPrayerItem(
+              item: item,
+              showDetail: state.showDetailContents,
+              onClick: () {
+                CustomPrayerDetailRoute(prayerId: item.id ?? 0).push(context);
+              },
+              onMenuClick: () {
+                handleBottomMenu(item);
+              },
+            );
+          },
         );
       }
     );

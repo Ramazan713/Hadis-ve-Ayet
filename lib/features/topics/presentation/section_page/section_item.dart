@@ -7,19 +7,21 @@ class SectionItem extends StatelessWidget {
   final SectionViewModel sectionItem;
   final int? rowNumber;
   final void Function() onTap;
+  final EdgeInsets? margins;
 
   const SectionItem({
     Key? key,
     required this.sectionItem,
     required this.onTap,
-    required this.rowNumber
+    required this.rowNumber,
+    this.margins
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return CardListTile(
-      margins: const EdgeInsets.symmetric(vertical: 3),
+      margins: margins ?? EdgeInsets.zero,
       defaultColor: Theme.of(context).colorScheme.secondaryContainer,
       title: Text(
         sectionItem.name,

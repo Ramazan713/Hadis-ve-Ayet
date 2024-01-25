@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
@@ -15,15 +16,15 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counter
 
 extension ShowCounterSectionsExt on ShowCounterPageState{
 
-  Widget getDhikrmaticContent(int gridCount){
+  Widget getDhikrmaticContent(){
     return Padding(
         padding: const EdgeInsets.only(top: 3,bottom: 19),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             getSubTitleWidget("Zikir Türleri"),
-            StaggeredGrid.count(
-              crossAxisCount: gridCount,
+            StaggeredGrid.extent(
+              maxCrossAxisExtent: 500,
               children: [
                 MainDhikrmaticItem(
                   title: "Zikirmatik (Klasik)",
@@ -44,7 +45,7 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
     );
   }
 
-  Widget getDhikrListContent(int gridCount){
+  Widget getDhikrListContent(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -60,10 +61,12 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
                 )
               );
             }
-            return AlignedGridView.count(
-              crossAxisCount: gridCount,
+            return LazyAlignedGridView(
+              maxCrossAxisExtent: 700,
               shrinkWrap: true,
+              mainAxisSpacing: 8,
               controller: ScrollController(),
+              crossAxisSpacing: 8,
               itemCount: counters.length,
               itemBuilder: (context, index) {
                 final counter = counters[index];
