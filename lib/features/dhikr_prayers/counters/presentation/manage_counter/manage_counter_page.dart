@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/sections/content_section.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/sections/listener_section.dart';
 
@@ -41,37 +44,71 @@ class ManageCounterPage extends StatelessWidget {
       context: context,
       child: Scaffold(
         body: SafeArea(
-          child: CustomNestedViewAppBar(
+          child: DefaultNestedScrollableAppBar(
             title: Text("$subtitle $actionName"),
             floating: true,
             snap: true,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 7),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            getSelectTypeWidget(context),
-                            getNewContents(context),
-                          ],
+            child: DefaultAdaptiveLayout(
+              builder: (context, windowSizeClass){
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              getAdaptiveSelectTypeWidget(context, windowSizeClass),
+                              getNewContents(context, windowSizeClass: windowSizeClass),
+                              getStandardAdaptiveBottomButton(context,windowSizeClass)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                      getExpandedAdaptiveBottomButton(context,windowSizeClass)
+                    ],
                   ),
-                  getBottomButton(context)
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),
       ),
     );
   }
+
+  Widget getAdaptiveSelectTypeWidget(BuildContext context, WindowSizeClass windowSizeClass){
+    if(!windowSizeClass.isExpanded){
+      return getSelectTypeWidget(context, margins: const EdgeInsets.symmetric(vertical: 16, horizontal: 4));
+    }
+    return Row(
+      children: [
+        Flexible(
+          child: getSelectTypeWidget(context, margins: const EdgeInsets.only(bottom: 12)),
+        ),
+        const Spacer()
+      ],
+    );
+  }
+
+  Widget getExpandedAdaptiveBottomButton(BuildContext context, WindowSizeClass windowSizeClass){
+    if(windowSizeClass.isExpanded) return const SizedBox();
+    return getBottomButton(context);
+  }
+
+  Widget getStandardAdaptiveBottomButton(BuildContext context, WindowSizeClass windowSizeClass){
+    if(!windowSizeClass.isExpanded) return const SizedBox();
+    return Row(
+      children: [
+        const Spacer(),
+        Expanded(
+          child: getBottomButton(context, margins: const EdgeInsets.only(top: 12, bottom: 12)),
+        ),
+        const Spacer(),
+      ],
+    );
+  }
+
 }
 

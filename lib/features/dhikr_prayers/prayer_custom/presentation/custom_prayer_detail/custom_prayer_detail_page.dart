@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
@@ -34,7 +36,7 @@ class CustomPrayerDetailPage extends StatelessWidget {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: CustomNestedViewAppBar(
+            child: DefaultNestedScrollableAppBar(
               title: const Text("Dualarım"),
               snap: true,
               floating: true,
@@ -46,14 +48,19 @@ class CustomPrayerDetailPage extends StatelessWidget {
                       getSecondChild: (){
                         return getLoadingOrEmptyResult(context, state);
                       },
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: CustomPrayerDetailItem(
-                            fontModel: state.fontModel,
-                            prayerUnit: state.prayerUnit,
-                          )
-                        ),
+                      child: DefaultAdaptiveLayout(
+                        builder: (context, windowSizeClass){
+                          return SingleChildScrollView(
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 5),
+                                child: CustomPrayerDetailItem(
+                                  fontModel: state.fontModel,
+                                  prayerUnit: state.prayerUnit,
+                                  windowSizeClass: windowSizeClass,
+                                )
+                            ),
+                          );
+                        },
                       ),
                     );
                   }

@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/constants/k_validators.dart';
+import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
 import 'package:hadith/core/presentation/selections/custom_segmented_button.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
@@ -14,9 +16,11 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_count
 
 extension ManageCounterPageContentExt on ManageCounterPage{
 
-  Widget getSelectTypeWidget(BuildContext context){
+  Widget getSelectTypeWidget(BuildContext context,{
+    EdgeInsets? margins
+  }){
     return Padding(
-      padding: const EdgeInsets.only(top: 5,bottom: 13),
+      padding: margins ?? EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -43,9 +47,11 @@ extension ManageCounterPageContentExt on ManageCounterPage{
     );
   }
 
-  Widget getBottomButton(BuildContext context){
+  Widget getBottomButton(BuildContext context,{
+    EdgeInsets? margins
+  }){
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: margins ?? EdgeInsets.zero,
       child: FilledButton(
         child: Text(actionName),
         onPressed: (){
@@ -61,7 +67,7 @@ extension ManageCounterPageContentExt on ManageCounterPage{
             ));
           }
         },
-      )
+      ),
     );
   }
 
@@ -87,7 +93,6 @@ extension ManageCounterPageContentExt on ManageCounterPage{
       style: style,
       textDirection: textDirection,
       validators: validators,
-      padding: const EdgeInsets.symmetric(vertical: 13),
     );
   }
 
@@ -98,56 +103,66 @@ extension ManageCounterPageContentExt on ManageCounterPage{
     );
   }
 
-  Widget getNewContents(BuildContext context){
+  Widget getNewContents(BuildContext context,{
+    required WindowSizeClass windowSizeClass
+  }){
+    final defaultMinLineSize = windowSizeClass.isExpanded ? 4 : 2;
+    final axisCount = windowSizeClass.isExpanded ? 2 : 1;
+
     return FormBuilder(
       key: formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          getFormField(
-            controller: nameTextController,
-            title: "İsim (zorunlu alan)",
-            maxLines: 2,
-            validators: [KValidate.required, KValidate.minRequire(3)]
-          ),
-          getFormField(
-            controller: contentTextController,
-            title: "İçerik (isteğe bağlı)",
-            maxLines: 7,
-            minLines: 2,
-            inputType: TextInputType.multiline
-          ),
-          getFormField(
-            controller: meaningTextController,
-            title: "Anlamı (isteğe bağlı)",
-            maxLines: 7,
-            minLines: 2,
-            inputType: TextInputType.multiline
-          ),
-          getFormField(
-            controller: arabicContentController,
-            title: "Arapça İçerik (isteğe bağlı)",
-            maxLines: 7,
-            minLines: 2,
-            inputType: TextInputType.multiline,
-            style: getArabicStyle(context),
-            textDirection: TextDirection.rtl,
-          ),
-          getFormField(
-            controller: descriptionTextController,
-            title: "Açıklama (isteğe bağlı)",
-            maxLines: 5,
-            minLines: 2,
-            inputType: TextInputType.multiline
-          ),
-          getFormField(
-            controller: goalTextController,
-            title: "Hedef (isteğe bağlı)",
-            inputType: TextInputType.number,
-            inputAction: TextInputAction.done,
-            validators: [KValidate.onlyNumbers()]
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 4),
+        child: StaggeredGrid.count(
+          crossAxisCount: axisCount,
+          crossAxisSpacing: 24,
+          mainAxisSpacing: 24,
+          children: [
+            getFormField(
+              controller: nameTextController,
+              title: "İsim (zorunlu alan)",
+              maxLines: 2,
+              validators: [KValidate.required, KValidate.minRequire(3)]
+            ),
+            getFormField(
+              controller: contentTextController,
+              title: "İçerik (isteğe bağlı)",
+              maxLines: 7,
+              minLines: defaultMinLineSize,
+              inputType: TextInputType.multiline
+            ),
+            getFormField(
+              controller: meaningTextController,
+              title: "Anlamı (isteğe bağlı)",
+              maxLines: 7,
+              minLines: defaultMinLineSize,
+              inputType: TextInputType.multiline
+            ),
+            getFormField(
+              controller: arabicContentController,
+              title: "Arapça İçerik (isteğe bağlı)",
+              maxLines: 7,
+              minLines: defaultMinLineSize,
+              inputType: TextInputType.multiline,
+              style: getArabicStyle(context),
+              textDirection: TextDirection.rtl,
+            ),
+            getFormField(
+              controller: descriptionTextController,
+              title: "Açıklama (isteğe bağlı)",
+              maxLines: 5,
+              minLines: defaultMinLineSize,
+              inputType: TextInputType.multiline
+            ),
+            getFormField(
+              controller: goalTextController,
+              title: "Hedef (isteğe bağlı)",
+              inputType: TextInputType.number,
+              inputAction: TextInputAction.done,
+              validators: [KValidate.onlyNumbers()]
+            ),
+          ],
+        ),
       ),
     );
   }

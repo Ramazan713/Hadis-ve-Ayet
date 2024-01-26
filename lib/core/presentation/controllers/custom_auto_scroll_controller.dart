@@ -1,6 +1,5 @@
 
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class CustomAutoScrollController with ChangeNotifier{
@@ -12,7 +11,7 @@ class CustomAutoScrollController with ChangeNotifier{
     double? suggestedRowHeight
   }){
     _scrollController = autoScrollController ?? AutoScrollController(
-      suggestedRowHeight: suggestedRowHeight
+      suggestedRowHeight: suggestedRowHeight,
     );
   }
 
@@ -47,9 +46,12 @@ class CustomAutoScrollController with ChangeNotifier{
     Duration? duration,
     AutoScrollPosition? preferPosition
   })async{
-    _scrollController.scrollToIndex(index,
-        duration: duration ?? scrollAnimationDuration,
-        preferPosition: preferPosition
-    );
+    Future.delayed(const Duration(milliseconds: 200),() {
+      _scrollController.scrollToIndex(index,
+          duration: duration ?? scrollAnimationDuration,
+          preferPosition: preferPosition
+      );
+    },);
+
   }
 }

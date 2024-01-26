@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
@@ -11,11 +13,13 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.da
 class CustomPrayerDetailItem extends StatelessWidget {
   final PrayerUnit<PrayerCustom>? prayerUnit;
   final FontModel fontModel;
+  final WindowSizeClass windowSizeClass;
 
   const CustomPrayerDetailItem({
     super.key,
     required this.prayerUnit,
     required this.fontModel,
+    required this.windowSizeClass
   });
 
   PrayerCustom? get prayer => prayerUnit?.item;
@@ -63,19 +67,16 @@ class CustomPrayerDetailItem extends StatelessWidget {
   }
 
   Widget getContentItems(){
-    return Column(
+    final axisCount = windowSizeClass.isExpanded ? 2 : 1;
+    return StaggeredGrid.count(
+      crossAxisCount: axisCount,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
       children: [
         getArabicContentItem(),
-        if(prayer?.hasArabicContent == true)const SizedBox(height: 8,),
-
         getPronunciationContentItem(),
-        if(prayer?.hasContent == true)const SizedBox(height: 8,),
-
         getMeaningContentItem(),
-        if(prayer?.hasMeaning == true)const SizedBox(height: 8,),
-
         getSourceContentItem(),
-        const SizedBox(height: 8,),
       ],
     );
   }

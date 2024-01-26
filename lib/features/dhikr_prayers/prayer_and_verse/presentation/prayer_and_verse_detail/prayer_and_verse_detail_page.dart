@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_event.dart';
@@ -13,6 +16,7 @@ import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
@@ -48,7 +52,7 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: CustomNestedViewAppBar(
+            child: DefaultNestedScrollableAppBar(
               title: getTitle(),
               pinned: true,
               actions: getActions(context),
@@ -62,24 +66,27 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
                       final fontModel = state.fontModel;
                       final prayer = prayerUnit?.item;
 
-                      return StackSecondContent(
-                        showStackChild: false,
-                        getSecondChild: (){
-                          return getLoadingOrEmptyResult(context,state);
+                      return DefaultAdaptiveLayout(
+                        builder: (context, windowSizeClass){
+                          return StackSecondContent(
+                            showStackChild: false,
+                            getSecondChild: (){
+                              return getLoadingOrEmptyResult(context,state);
+                            },
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  getListenItem(context,prayerUnit),
+                                  getContent(context,
+                                      windowSizeClass: windowSizeClass,
+                                      prayer: prayer,
+                                      fontModel: fontModel
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
                         },
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              getListenItem(context,prayerUnit),
-                              getArabicContentItem(prayer: prayer, fontModel: fontModel),
-                              const SizedBox(height: 8,),
-                              getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
-                              const SizedBox(height: 8,),
-                              getMeaningContentItem(prayer: prayer, fontModel: fontModel),
-                              const SizedBox(height: 8,),
-                            ],
-                          ),
-                        ),
                       );
                     },
                   ),
@@ -91,6 +98,25 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget getContent(BuildContext context,{
+    required WindowSizeClass windowSizeClass,
+    required PrayerAndVerse? prayer,
+    required FontModel fontModel
+  }){
+    final axisCount = windowSizeClass.isExpanded ? 2 : 1;
+    return StaggeredGrid.count(
+      crossAxisCount: axisCount,
+      crossAxisSpacing: 4,
+      mainAxisSpacing: 4,
+      children: [
+        getArabicContentItem(prayer: prayer, fontModel: fontModel),
+        getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
+        getMeaningContentItem(prayer: prayer, fontModel: fontModel),
+      ],
+    );
+  }
+
 
   Widget? getLoadingOrEmptyResult(BuildContext context, PrayerAndVerseDetailState state){
     final prayer = state.prayerUnit;

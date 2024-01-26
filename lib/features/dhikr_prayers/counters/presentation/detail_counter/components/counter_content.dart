@@ -8,13 +8,15 @@ class CounterContent extends StatelessWidget {
   final String content;
   final FontModel fontModel;
   final bool isArabic;
+  final EdgeInsets? margins;
 
   const CounterContent({
     Key? key,
     required this.title,
     required this.content,
     required this.fontModel,
-    this.isArabic = false
+    this.isArabic = false,
+    this.margins
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class CounterContent extends StatelessWidget {
         useDefaultColor: true,
         elevation: 3,
         contentFontSize: fontModel.contentFontSize,
-        margins: const EdgeInsets.symmetric(vertical: 6),
+        margins: margins,
         content: ArabicContentItem(
           content: content,
           fontSize: fontModel.arabicFontSize,
@@ -41,7 +43,7 @@ class CounterContent extends StatelessWidget {
       useDefaultColor: true,
       elevation: 3,
       contentFontSize: fontModel.contentFontSize,
-      margins: const EdgeInsets.symmetric(vertical: 6),
+      margins: margins,
     );
   }
 }
