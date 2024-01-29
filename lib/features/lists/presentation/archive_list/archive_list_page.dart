@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
-import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/lists/presentation/archive_list/sections/handle_bottom_menu_section.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
+import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/lists/domain/archive_list_menu_enum.dart';
 
 import '../shared/components/list_item.dart';
+import './sections/handle_bottom_menu_section.dart';
 import 'bloc/archive_list_bloc.dart';
 import 'bloc/archive_list_event.dart';
 import 'bloc/archive_list_state.dart';
@@ -35,7 +36,7 @@ class ArchiveListPageState extends State<ArchiveListPage> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: CustomNestedViewAppBar(
+          child: DefaultNestedScrollableAppBar(
             title: const Text("Arşiv"),
             child: getListItemsContent(),
           ),
@@ -52,8 +53,9 @@ class ArchiveListPageState extends State<ArchiveListPage> {
         if(items.isEmpty){
           return getEmptyWidget(context);
         }
-        return LazyStaggeredGridView(
+        return LazyAlignedGridView(
           itemCount: items.length,
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           itemBuilder: (context, index){
             final item = items[index];
             final sourceType = item.sourceType;
@@ -62,7 +64,20 @@ class ArchiveListPageState extends State<ArchiveListPage> {
               key: Key(item.id.toString()),
               subTitleTag: sourceType.shortName,
               listViewModel: item,
-              icon: sourceType.getListIcon(context, item.isRemovable),
+              leading: sourceType.getListIcon(context, item.isRemovable),
+              trailing: SelectAdaptiveDropdownMenu(
+                popWhenItemSelect: true,
+                icon: const Icon(Icons.more_vert,size: 30,),
+                items: ArchiveListMenuEnum.values,
+                title: "'${item.name}' listesi için",
+                onItemClick: (selected, type){
+                  manageBottomMenuItem(
+                      item: item,
+                      menuItem: selected,
+                      sourceType: sourceType
+                  );
+                },
+              ),
               onClick: () {
                 switch (sourceType) {
                   case SourceTypeEnum.hadith:
@@ -78,9 +93,6 @@ class ArchiveListPageState extends State<ArchiveListPage> {
                     ).push(context);
                     break;
                 }
-              },
-              onMenuClick: () {
-                showAndManageBottomMenu(item, sourceType);
               },
             );
           },

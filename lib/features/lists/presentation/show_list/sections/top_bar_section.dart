@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
-import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
+import '../show_list_page.dart';
 
 import '../bloc/show_list_bloc.dart';
 import '../../../domain/list_tab_enum.dart';

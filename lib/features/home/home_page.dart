@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
-import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
 import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import './sections/top_bar_section.dart';

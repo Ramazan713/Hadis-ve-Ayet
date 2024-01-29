@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';

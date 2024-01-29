@@ -4,13 +4,13 @@ import 'package:hadith/core/domain/models/i_menu_item.dart';
 class CustomDropdownIconMenu<T extends IMenuItem> extends StatelessWidget {
   final List<T> items;
   final Function(T) onSelected;
-  final IconData? iconData;
+  final Icon? icon;
 
   const CustomDropdownIconMenu({
     Key? key,
     required this.items,
     required this.onSelected,
-    this.iconData
+    this.icon
   }) : super(key: key);
 
   List<Widget> getMenuItems(BuildContext context){
@@ -43,7 +43,7 @@ class CustomDropdownIconMenu<T extends IMenuItem> extends StatelessWidget {
               menuController.open();
             }
           },
-          icon: Icon(iconData ?? Icons.more_vert),
+          icon: icon ?? const Icon(Icons.more_vert),
         );
       },
     );

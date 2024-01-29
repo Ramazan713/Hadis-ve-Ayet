@@ -3,13 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/lists/domain/show_list_menu_enum.dart';
 import 'package:hadith/features/lists/presentation/shared/components/list_item.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
@@ -51,7 +55,7 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
           return Scaffold(
             floatingActionButton: getFab(context),
             body: SafeArea(
-              child: CustomNestedSearchableAppBar(
+              child: DefaultNestedSearchableAppBar(
                 textEditingController: searchTextController,
                 pinned: true,
                 snap: true,
@@ -112,15 +116,30 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
       return const SharedEmptyResult();
     }
 
-    return LazyStaggeredGridView(
+    return LazyAlignedGridView(
       itemCount: items.length,
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       itemBuilder: (BuildContext context, int index) {
         var item = items[index];
+
         return SharedListItem(
           subTitleTag: sourceType.shortName,
           listViewModel: item,
           useSecondary: useSecondary,
-          icon: sourceType.getListIcon(context, item.isRemovable),
+          leading: sourceType.getListIcon(context, item.isRemovable),
+          trailing: SelectAdaptiveDropdownMenu(
+            icon: const Icon(Icons.more_vert,size: 30,),
+            popWhenItemSelect: true,
+            items: ShowListMenuEnum.getMenuItems(item.isRemovable),
+              title: "'${item.name}' listesi için",
+              onItemClick: (selected, type){
+                manageBottomMenuItem(
+                    item: item,
+                    menuItem: selected,
+                    sourceType: sourceType,
+                );
+              },
+          ),
           onClick: (){
             switch(sourceType){
               case SourceTypeEnum.hadith:
@@ -136,9 +155,6 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
                 ).push(context);
                 break;
             }
-          },
-          onMenuClick: (){
-            showAndManageBottomMenu(item,sourceType);
           },
         );
       },

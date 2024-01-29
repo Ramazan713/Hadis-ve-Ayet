@@ -5,7 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/constants/k_validators.dart';
-import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
 import 'package:hadith/core/presentation/components/text_field/custom_form_text_field.dart';
 import 'package:hadith/core/presentation/selections/custom_segmented_button.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';

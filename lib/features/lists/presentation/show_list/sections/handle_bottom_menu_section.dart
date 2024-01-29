@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_dropdown_menu_type.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
-import 'package:hadith/core/presentation/selections/show_bottom_menu_items.dart';
 import 'package:hadith/features/lists/domain/show_list_menu_enum.dart';
 import 'package:hadith/features/lists/presentation/shared/export_list_view.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
@@ -16,39 +16,31 @@ import '../show_list_page.dart';
 
 extension HandleBottomMenuExt on ShowListPageState{
 
-  void showAndManageBottomMenu(ListViewModel item, SourceTypeEnum sourceType){
-    final listMenuEnums = ShowListMenuEnum.getMenuItems(item.isRemovable);
-
-    showBottomMenuItems(
-        context,
-        items: listMenuEnums,
-        onItemClick: (menuItem){
-          Navigator.of(context,rootNavigator: true).pop();
-
-          switch(menuItem){
-            case ShowListMenuEnum.rename:
-              _rename(item);
-              break;
-            case ShowListMenuEnum.remove:
-              _remove(item);
-              break;
-            case ShowListMenuEnum.archive:
-              _archive(item);
-              break;
-            case ShowListMenuEnum.removeItems:
-              _removeItems(item, sourceType);
-              break;
-            case ShowListMenuEnum.newCopy:
-              _copy(item);
-              break;
-            case ShowListMenuEnum.exportAs:
-              exportListViewModel(context, item);
-              break;
-          }
-        },
-        title: "'${item.name}' listesi için",
-        useRootNavigator: true
-    );
+  void manageBottomMenuItem({
+    required ShowListMenuEnum menuItem,
+    required SourceTypeEnum sourceType,
+    required ListViewModel item
+}){
+    switch(menuItem){
+      case ShowListMenuEnum.rename:
+        _rename(item);
+        break;
+      case ShowListMenuEnum.remove:
+        _remove(item);
+        break;
+      case ShowListMenuEnum.archive:
+        _archive(item);
+        break;
+      case ShowListMenuEnum.removeItems:
+        _removeItems(item, sourceType);
+        break;
+      case ShowListMenuEnum.newCopy:
+        _copy(item);
+        break;
+      case ShowListMenuEnum.exportAs:
+        exportListViewModel(context, item);
+        break;
+    }
   }
 
   void _rename(ListViewModel item){

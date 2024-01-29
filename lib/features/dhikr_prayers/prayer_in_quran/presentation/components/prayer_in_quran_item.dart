@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
 import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/core/utils/search_utils.dart';
@@ -73,10 +74,11 @@ class PrayerInQuranItem extends StatelessWidget {
           ),
         ),
         if(onMenuSelect!=null)
-          CustomDropdownIconMenu(
-            iconData: Icons.more_horiz,
+          SelectAdaptiveDropdownMenu(
+            title: prayer.source,
+            icon: const Icon(Icons.more_horiz),
             items: PrayerInQuranBottomMenuItem.getItems(prayerUnit),
-            onSelected: (selected){
+            onItemClick: (selected, type){
               onMenuSelect?.call(selected);
             }
           )

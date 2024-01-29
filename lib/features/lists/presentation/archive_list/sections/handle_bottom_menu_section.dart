@@ -14,30 +14,26 @@ import '../bloc/archive_list_event.dart';
 
 extension HandleBottomMenuExt on ArchiveListPageState{
 
-  void showAndManageBottomMenu(ListViewModel item, SourceTypeEnum sourceType){
+  void manageBottomMenuItem({
+    required ArchiveListMenuEnum menuItem,
+    required SourceTypeEnum sourceType,
+    required ListViewModel item
+  }){
 
-    showBottomMenuItems(context,
-        items: ArchiveListMenuEnum.values,
-        onItemClick: (menuItem){
-          Navigator.pop(context);
-
-          switch(menuItem){
-            case ArchiveListMenuEnum.rename:
-              _rename(context, item);
-              break;
-            case ArchiveListMenuEnum.remove:
-              _remove(context, item);
-              break;
-            case ArchiveListMenuEnum.unArchive:
-              _unArchive(context, item);
-              break;
-            case ArchiveListMenuEnum.exportAs:
-              exportListViewModel(context, item);
-              break;
-          }
-        },
-        title: "'${item.name}' listesi için",
-    );
+    switch(menuItem){
+      case ArchiveListMenuEnum.rename:
+        _rename(context, item);
+        break;
+      case ArchiveListMenuEnum.remove:
+        _remove(context, item);
+        break;
+      case ArchiveListMenuEnum.unArchive:
+        _unArchive(context, item);
+        break;
+      case ArchiveListMenuEnum.exportAs:
+        exportListViewModel(context, item);
+        break;
+    }
   }
 
   void _rename(BuildContext context, ListViewModel item){

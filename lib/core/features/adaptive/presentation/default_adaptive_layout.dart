@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
-import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
 
 class DefaultAdaptiveLayout extends StatelessWidget {
 

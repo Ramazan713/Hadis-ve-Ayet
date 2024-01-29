@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hadith/core/features/adaptive/domain/models/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
 import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 
 class SingleAdaptivePane extends StatelessWidget {

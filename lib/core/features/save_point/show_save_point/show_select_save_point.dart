@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/presentation/components/save_point_list_view.dart';
@@ -54,10 +55,10 @@ void _showSelectSavePoints(BuildContext context, {
   required List<SavePointType> menuItems,
 }){
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
       context: context,
       useRootNavigator: true,
-      child: DraggableScrollableSheet(
+      bottomSheetChild: DraggableScrollableSheet(
         minChildSize: 0.5,
         initialChildSize: 0.7,
         maxChildSize: 0.99,
@@ -69,6 +70,11 @@ void _showSelectSavePoints(BuildContext context, {
             shortTitle: shortTitle,
           );
         },
+      ),
+      child: _DialogContent(
+        controller: ScrollController(),
+        menuItems: menuItems,
+        shortTitle: shortTitle,
       )
   );
 
