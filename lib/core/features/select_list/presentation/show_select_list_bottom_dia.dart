@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/select_list/presentation/bloc/select_list_bloc.dart';
 import 'package:hadith/core/features/select_list/presentation/bloc/select_list_event.dart';
 import 'package:hadith/core/features/select_list/presentation/bloc/select_list_state.dart';
@@ -43,9 +44,17 @@ void showSelectListBottomDia(BuildContext context,{
     );
   }
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
     child: getListeners(
+      child: _DialogContent(
+        controller: ScrollController(),
+        onClosed: (){
+          Navigator.of(context,rootNavigator: false).pop();
+        },
+      ),
+    ),
+    bottomSheetChild: getListeners(
       child: DraggableScrollableSheet(
         minChildSize: 0.4,
         expand: false,

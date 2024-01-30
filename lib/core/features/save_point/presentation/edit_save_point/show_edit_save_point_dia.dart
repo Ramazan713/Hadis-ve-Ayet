@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/save_point/domain/enums/local_destination_scope.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
@@ -124,9 +125,23 @@ void showEditSavePointsDiaCustom(BuildContext context, {
       scope: scope
   ));
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    child: DraggableScrollableSheet(
+    child: _DialogContent(
+      controller: ScrollController(),
+      title: title,
+      destination: destination,
+      itemIndexPos: itemIndexPos,
+      customBottomButtons: customBottomButtons,
+      description: description,
+      onLoadSavePointClick: onLoadSavePointClick,
+      onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
+      onOverrideSavePointRequestHandler: onLoadSavePointRequestHandler,
+      selectedSavePointId: selectedSavePointId,
+      useWideScope: useWideScope,
+      useWideScopeNaming: useWideScopeNaming,
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
       minChildSize: 0.4,
       initialChildSize: 0.5,
       maxChildSize: 0.99,

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_bloc.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_event.dart';
@@ -23,10 +24,16 @@ void showManageEditionAudiosDia(BuildContext context, {
   final manageBloc = context.read<ManageAudioBloc>();
   manageBloc.add(ManageAudioEventLoadData(identifier: audioEdition.identifier));
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    useRootNavigator: useRootNavigator,
-    child: DraggableScrollableSheet(
+    child: _DialogContent(
+      audioEdition: audioEdition,
+      onNavigateBack: (){
+        Navigator.of(context,rootNavigator: useRootNavigator).pop();
+      },
+      controller: ScrollController(),
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
       expand: false,
       minChildSize: 0.5,
       initialChildSize: 0.6,
@@ -42,6 +49,7 @@ void showManageEditionAudiosDia(BuildContext context, {
       },
     )
   );
+
 }
 
 class _DialogContent extends StatelessWidget {

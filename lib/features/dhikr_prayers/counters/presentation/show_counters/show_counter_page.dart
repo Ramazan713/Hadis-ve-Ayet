@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
@@ -72,7 +73,7 @@ class ShowCounterPageState extends State<ShowCounterPage> {
       controller: scrollController,
       child: FloatingActionButton(
         onPressed: () {
-          showBottomMenuItems(
+          selectAdaptiveMenuItems(
             context,
             title: "Ekleme Yöntemleri",
             items: ShowCounterAddActionMenuEnum.values,

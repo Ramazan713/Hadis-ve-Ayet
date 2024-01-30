@@ -86,29 +86,27 @@ void _dialogContent({
   required bool useDialogAsParent,
   required void Function()? onClosed
 }){
-  duplicateDialogHandler(func: ()async {
-    showDialog(
-      context: context,
-      useRootNavigator: useRootNavigator,
-      useSafeArea: useSafeArea,
-      barrierDismissible: isDismissible,
-      builder: (context){
-        if(useDialogAsParent){
-          return Dialog(
-            child: SizedBox(
-                width: 560,
-                child: dialogChild ?? child
-            ),
-          );
-        }
-        return SizedBox(
-          width: 560,
-          child: dialogChild ?? child
+  showDialog(
+    context: context,
+    useRootNavigator: useRootNavigator,
+    useSafeArea: useSafeArea,
+    barrierDismissible: isDismissible,
+    builder: (context){
+      if(useDialogAsParent){
+        return Dialog(
+          child: SizedBox(
+              width: 560,
+              child: dialogChild ?? child
+          ),
         );
       }
-    ).then((value){
-      onClosed?.call();
-    });
+      return SizedBox(
+          width: 560,
+          child: dialogChild ?? child
+      );
+    }
+  ).then((value){
+    onClosed?.call();
   });
 }
 

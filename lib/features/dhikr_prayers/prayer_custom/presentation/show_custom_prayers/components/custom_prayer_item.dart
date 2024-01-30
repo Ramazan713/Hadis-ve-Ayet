@@ -3,19 +3,19 @@ import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/
 
 class CustomPrayerItem extends StatelessWidget {
   final PrayerCustom item;
-  final Function() onMenuClick;
   final Function() onClick;
   final bool showDetail;
   final EdgeInsets? paddingsDetails;
   final EdgeInsets? paddingsNormal;
   final EdgeInsets? margins;
+  final Widget trailing;
 
 
   const CustomPrayerItem({
     Key? key,
     required this.item,
-    required this.onMenuClick,
     required this.onClick,
+    required this.trailing,
     this.showDetail = true,
     this.paddingsDetails,
     this.paddingsNormal,
@@ -40,13 +40,7 @@ class CustomPrayerItem extends StatelessWidget {
               Expanded(
                 child: getAdaptiveContent(context),
               ),
-              IconButton(
-                onPressed: onMenuClick,
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              )
+              trailing
             ],
           ),
         ),

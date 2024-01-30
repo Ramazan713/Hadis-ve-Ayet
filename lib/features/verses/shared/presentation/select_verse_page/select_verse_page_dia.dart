@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_validators.dart';
 import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/core/features/verses/domain/model/surah.dart';
 import 'package:hadith/core/presentation/components/shared_header.dart';
@@ -25,22 +27,17 @@ void selectVersePageDia(BuildContext context,{
   final selectPageBloc = context.read<SelectVersePageBloc>();
   selectPageBloc.add(SelectVerseEventLoadData(startPage: startPage));
 
-  showDialog(
-    useSafeArea: true,
+
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    builder: (context){
-      return Dialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-        child: _DialogContent(
-          onApproved: onApproved,
-          onCancel: (){
-            Navigator.pop(context);
-          },
-        ),
-      );
-    }
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: _DialogContent(
+      onApproved: onApproved,
+      onCancel: (){
+        Navigator.pop(context);
+      },
+    )
   );
-  
 }
 
 

@@ -11,10 +11,10 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/custom_
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_state.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/custom_prayer_detail_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/shared/show_prayer_share_dia.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_unit.dart';
+import '../custom_prayer_detail_page.dart';
 
 extension CustomPrayerDetailPageHeaderExt on CustomPrayerDetailPage{
 

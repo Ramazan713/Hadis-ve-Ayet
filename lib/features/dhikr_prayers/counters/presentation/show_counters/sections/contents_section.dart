@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
+import 'package:hadith/features/dhikr_prayers/counters/domain/enums/show_counter_select_menu.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/components/counter_item.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/components/main_dhikrmatic_item.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/sections/components_section.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
-
+import '../show_counter_page.dart';
+import './components_section.dart';
 
 extension ShowCounterSectionsExt on ShowCounterPageState{
 
@@ -76,9 +77,14 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
                   onClick: () {
                     DetailCounterRoute(id: counter.id??0).push(context);
                   },
-                  onMenuClick: () {
-                    handleBottomMenu(counter);
-                  },
+                  trailing: SelectAdaptiveDropdownMenu(
+                    items: ShowCounterSelectMenuEnum.getItems(counter),
+                    title: "'${counter.name}' adlı zikri için",
+                    popWhenItemSelect: true,
+                    onItemClick: (selected, type){
+                      handleMenuItem(menuItem: selected, counter: counter);
+                    },
+                  ),
                 );
               },
             );

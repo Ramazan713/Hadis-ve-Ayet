@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_state.dart';
 import 'package:hadith/core/presentation/selections/show_bottom_menu_items.dart';
@@ -31,7 +32,7 @@ void showVerseBottomMenu(BuildContext context, {
   final verse = verseListModel.verse;
   final title = "${verse.surahName} ${verse.verseNumber}. Ayet";
 
-  showCustomExtendBottomMenuItems(
+  selectAdaptiveMenuItemsExtended(
     context,
     title: title,
     onItemClick: onListener,

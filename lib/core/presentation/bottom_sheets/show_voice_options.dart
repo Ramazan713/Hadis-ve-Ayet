@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/quran_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
@@ -23,7 +24,7 @@ void showVoiceOptions(BuildContext context, {
         "Dinlemek" : "Indirmek";
     final title = "$shortTitle istediğiniz kategoriyi seçiniz";
 
-    showBottomMenuItems(
+    selectAdaptiveMenuItems(
       context,
       items: items,
       title: title,

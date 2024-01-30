@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_state.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/show_custom_prayers_page.dart';
+import '../show_custom_prayers_page.dart';
 
 extension ShowCustomPrayersPageTopBarExt on ShowCustomPrayersPageState{
 

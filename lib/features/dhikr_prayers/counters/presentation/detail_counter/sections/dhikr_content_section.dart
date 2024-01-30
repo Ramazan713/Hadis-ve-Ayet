@@ -8,7 +8,7 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_count
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_detail_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/components/counter_complete_goal_item.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/components/dhikrmatic_classic.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_shared_content_page.dart';
+import '../detail_counter_shared_content_page.dart';
 
 import '../components/dhikrmatic_unlimited.dart';
 

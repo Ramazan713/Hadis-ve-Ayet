@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/domain/enums/downloaded_audio_view_enum.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_bloc.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_event.dart';
@@ -19,22 +20,27 @@ void showManageDownloadedAudiosDia(BuildContext context,{bool useRootNavigator =
   final manageBloc = context.read<ManageAudioBloc>();
   manageBloc.add(ManageAudioEventLoadData(identifier: null));
 
-  showBottomSheetHandler(
-      context: context,
-      useRootNavigator: useRootNavigator,
-      child: DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.6,
-        maxChildSize: 1,
-        builder: (context,draggableScrollController){
-          return _DialogContent(
-            controller: draggableScrollController,
-            onNavigateBack: (){
-              Navigator.of(context,rootNavigator: useRootNavigator).pop();
-            },
-          );
-        },
-      )
+  adaptiveBaseForDialogAndBottomSheet(
+    context: context,
+    child: _DialogContent(
+      controller: ScrollController(),
+      onNavigateBack: (){
+        Navigator.of(context,rootNavigator: useRootNavigator).pop();
+      },
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: 0.6,
+      maxChildSize: 1,
+      builder: (context,draggableScrollController){
+        return _DialogContent(
+          controller: draggableScrollController,
+          onNavigateBack: (){
+            Navigator.of(context,rootNavigator: useRootNavigator).pop();
+          },
+        );
+      },
+    )
   );
 }
 

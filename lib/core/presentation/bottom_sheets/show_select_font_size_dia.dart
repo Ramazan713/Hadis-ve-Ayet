@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hadith/core/constants/k_verse.dart';
 import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/font_size/font_size.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_bloc.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_event.dart';
 import 'package:hadith/core/features/select_font_size/bloc/select_font_size_state.dart';
@@ -19,35 +20,30 @@ void showSelectFontSizeDia(BuildContext context){
   final selectFontBloc = context.read<SelectFontSizeBloc>();
   selectFontBloc.add(SelectFontSizeEventInit());
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    child: BlocListener<SelectFontSizeBloc,SelectFontSizeState>(
-        listener: (context, state){
-          final message = state.message;
-          if(message!=null){
-            ToastUtils.showLongToast(message);
-            selectFontBloc.add(SelectFontSizeEventClearMessage());
-          }
-        },
-        child: DraggableScrollableSheet(
-          expand: false,
-          minChildSize: 0.5,
-          initialChildSize: 0.7,
-          maxChildSize: 0.99,
-          builder: (context, scrollController){
-            return _DialogContent(
-              controller: scrollController,
-              onClose: (){
-                context.pop();
-              },
-            );
+    child: _DialogContent(
+      controller: ScrollController(),
+      onClose: (){
+        context.pop();
+      },
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
+      expand: false,
+      minChildSize: 0.5,
+      initialChildSize: 0.7,
+      maxChildSize: 0.99,
+      builder: (context, scrollController){
+        return _DialogContent(
+          controller: scrollController,
+          onClose: (){
+            context.pop();
           },
-        ),
-      )
+        );
+      },
+    )
   );
-
 }
-
 
 class _DialogContent extends StatelessWidget {
   final void Function() onClose;
@@ -61,40 +57,51 @@ class _DialogContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 13,left: 13,top: 5,bottom: 3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          getCloseIcon(context),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: controller,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    constraints: const BoxConstraints(
-                      minHeight: 150
+    final selectFontBloc = context.read<SelectFontSizeBloc>();
+
+    return BlocListener<SelectFontSizeBloc,SelectFontSizeState>(
+      listener: (context, state){
+        final message = state.message;
+        if(message!=null){
+          ToastUtils.showLongToast(message);
+          selectFontBloc.add(SelectFontSizeEventClearMessage());
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 13,left: 13,top: 5,bottom: 3),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            getCloseIcon(context),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: controller,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(
+                        minHeight: 150
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: getContent(context)
+                      )
                     ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: getContent(context)
-                    )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 24,bottom: 16),
-                    child: _getDropdownArabicFont(context)
-                  ),
-                  _getContentSlider(),
-                  _getArabicSlider(),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24,bottom: 16),
+                      child: _getDropdownArabicFont(context)
+                    ),
+                    _getContentSlider(),
+                    _getArabicSlider(),
+                  ],
+                ),
               ),
             ),
-          ),
-          _getButtons(context)
-        ],
+            _getButtons(context)
+          ],
+        ),
       ),
     );
   }

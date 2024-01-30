@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
@@ -12,34 +13,40 @@ import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/c
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 
-void showSelectDhikrDia<T extends IDetailItem>(
-    BuildContext context,{
-      required void Function(PrayerDhikr selectedDhikr) onSelected
+void showSelectDhikrDia<T extends IDetailItem>(BuildContext context,{
+  required void Function(PrayerDhikr selectedDhikr) onSelected
 }){
 
   context.read<SelectDhikrCounterBloc>().add(SelectDhikrEventLoadData());
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    child: DraggableScrollableSheet(
-        minChildSize: 0.4,
-        initialChildSize: 0.7,
-        maxChildSize: 0.99,
-        snap: true,
-        snapSizes: const [
-          0.5,0.75,0.99
-        ],
-        expand: false,
-        builder: (context, controller){
-          return  _DialogContent(
-            controller: controller,
-            onSelected: onSelected,
-            onCancel: (){
-              Navigator.of(context,rootNavigator: false).pop();
-            },
-          );
-        }
-      )
+    child: _DialogContent(
+      controller: ScrollController(),
+      onSelected: onSelected,
+      onCancel: (){
+        Navigator.of(context,rootNavigator: false).pop();
+      },
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
+      minChildSize: 0.4,
+      initialChildSize: 0.7,
+      maxChildSize: 0.99,
+      snap: true,
+      snapSizes: const [
+        0.5,0.75,0.99
+      ],
+      expand: false,
+      builder: (context, controller){
+        return  _DialogContent(
+          controller: controller,
+          onSelected: onSelected,
+          onCancel: (){
+            Navigator.of(context,rootNavigator: false).pop();
+          },
+        );
+      }
+    )
   );
 
 }

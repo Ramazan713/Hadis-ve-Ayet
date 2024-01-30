@@ -2,27 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart';
 import 'package:hadith/core/features/premium/presentation/bloc/premium_state.dart';
 import 'package:hadith/core/features/premium/presentation/components/premium_feature_item.dart';
 
 void showPremiumActive(BuildContext context){
-
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    useSafeArea: true,
-    builder: (context){
-      return Dialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 19),
-        child: _DialogContent(
-          onClosed: (){
-            Navigator.pop(context);
-          },
-        )
-      );
-    }
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: _DialogContent(
+      onClosed: (){
+        Navigator.pop(context);
+      },
+    )
   );
-
 }
 
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_bloc.dart';
 import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_event.dart';
 import 'package:hadith/core/features/backup/presentation/backup_meta/show_select_download_backup_dia.dart';
@@ -7,16 +9,11 @@ import 'package:hadith/core/presentation/components/icon_text_item.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 
 void showBackupDia(BuildContext context){
-
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    useSafeArea: true,
-    builder: (context) {
-      return const Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 7),
-        child: _DialogContent(),
-      );
-  });
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: const _DialogContent()
+  );
 }
 
 class _DialogContent extends StatelessWidget {

@@ -11,8 +11,8 @@ import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_state.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/show_counter_page.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
+import '../show_counter_page.dart';
 
 extension ShowCounterComponentsExt on ShowCounterPageState{
 
@@ -59,45 +59,40 @@ extension ShowCounterComponentsExt on ShowCounterPageState{
   }
 
 
-  void handleBottomMenu(Counter counter){
+  void handleMenuItem({
+    required ShowCounterSelectMenuEnum menuItem,
+    required Counter counter
+  }){
     final bloc = context.read<CounterShowBloc>();
-    showBottomMenuItems(
-        context,
-        title: "'${counter.name}' adlı zikri için",
-        items: ShowCounterSelectMenuEnum.getItems(counter),
-        onItemClick: (menuItem){
-          Navigator.pop(context);
-          switch(menuItem){
-            case ShowCounterSelectMenuEnum.remove:
-              showCustomAlertDia(
-                context,
-                title: "Silmek istediğinize emin misiniz",
-                content: "'${counter.name}' silindiğinde geri alınamaz",
-                btnApproved: () {
-                  bloc.add(CounterShowEventDelete(counter: counter));
-                });
-              break;
-            case ShowCounterSelectMenuEnum.edit:
-              ManageCounterRoute(counterId: counter.id ?? 0).push(context);
-              break;
-            case ShowCounterSelectMenuEnum.addToCustomPrayer:
-              bloc.add(CounterShowEventAddToCustomPrayer(counter: counter));
-              break;
-            case ShowCounterSelectMenuEnum.goToCustomPrayer:
-              final prayerId = counter.prayerId;
-              if(prayerId != null){
-                CustomPrayerDetailRoute(prayerId: prayerId).push(context); 
-              }
-              break;
-            case ShowCounterSelectMenuEnum.share:
-              showShareVerseContentDia(context,
-                item: counter.toShareContent(),
-                imageName: "${counter.name}_counter.png"
-              );
-              break;
-          }
+    switch(menuItem){
+      case ShowCounterSelectMenuEnum.remove:
+        showCustomAlertDia(
+            context,
+            title: "Silmek istediğinize emin misiniz",
+            content: "'${counter.name}' silindiğinde geri alınamaz",
+            btnApproved: () {
+              bloc.add(CounterShowEventDelete(counter: counter));
+            });
+        break;
+      case ShowCounterSelectMenuEnum.edit:
+        ManageCounterRoute(counterId: counter.id ?? 0).push(context);
+        break;
+      case ShowCounterSelectMenuEnum.addToCustomPrayer:
+        bloc.add(CounterShowEventAddToCustomPrayer(counter: counter));
+        break;
+      case ShowCounterSelectMenuEnum.goToCustomPrayer:
+        final prayerId = counter.prayerId;
+        if(prayerId != null){
+          CustomPrayerDetailRoute(prayerId: prayerId).push(context);
         }
-    );
+        break;
+      case ShowCounterSelectMenuEnum.share:
+        showShareVerseContentDia(context,
+            item: counter.toShareContent(),
+            imageName: "${counter.name}_counter.png"
+        );
+        break;
+    }
   }
 
   Widget getListeners({required Widget child}){
@@ -116,5 +111,4 @@ extension ShowCounterComponentsExt on ShowCounterPageState{
       child: child,
     );
   }
-
 }

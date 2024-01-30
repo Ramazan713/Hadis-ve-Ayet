@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_bloc.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_event.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_bloc.dart';
@@ -27,7 +28,8 @@ void verseTopicBottomMenuSharedHandler(BuildContext context,
   required int itemId,
   required AudioInfoResultModel<int> audioResult,
   required void Function() onGoToLastSavePoint,
-  required QuranAudioOption audioOption
+  required QuranAudioOption audioOption,
+  required String title
 }){
   final topicSavePointBloc = context.read<TopicSavePointBloc>();
   final downloadedView = topicModel.audioViewModel;
@@ -42,8 +44,9 @@ void verseTopicBottomMenuSharedHandler(BuildContext context,
       op: audioOption
   );
 
-  showBottomMenuItems(
+  selectAdaptiveMenuItems(
       context,
+      title: title,
       items: VerseTopicBottomMenuItem.getMenuItems(
           topicModel: topicModel,
           hasSavePoint: hasSavePoint,

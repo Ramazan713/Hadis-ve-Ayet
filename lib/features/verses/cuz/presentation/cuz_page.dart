@@ -179,6 +179,7 @@ class CuzPageState extends State<CuzPage> {
   }){
     verseTopicBottomMenuSharedHandler(context,
         itemId: cuz.no,
+        title: cuz.title,
         hasSavePoint: hasSavePoint,
         topicModel: item,
         audioResult: info,

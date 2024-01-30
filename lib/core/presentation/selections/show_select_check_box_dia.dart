@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 
 void showSelectCheckBoxDia<T extends IMenuItem>(BuildContext context,{
@@ -15,25 +17,19 @@ void showSelectCheckBoxDia<T extends IMenuItem>(BuildContext context,{
     Navigator.of(context,rootNavigator: useRootNavigator).pop();
   }
 
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
       context: context,
-      useRootNavigator: useRootNavigator,
-      useSafeArea: true,
-      builder: (context){
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 7,vertical: 13),
-          child: _DialogContent(
-            items: items,
-            selectedItems: selectedItems,
-            title: title,
-            onCancel: navigateBack,
-            onSelected: (selecteds){
-              onApprove?.call(selecteds);
-              navigateBack();
-            },
-          ),
-        );
-      }
+      baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+      child: _DialogContent(
+        items: items,
+        selectedItems: selectedItems,
+        title: title,
+        onCancel: navigateBack,
+        onSelected: (selecteds){
+          onApprove?.call(selecteds);
+          navigateBack();
+        },
+      )
   );
 }
 

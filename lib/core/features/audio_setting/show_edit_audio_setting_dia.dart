@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_bloc.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_event.dart';
 import 'package:hadith/core/features/audio_setting/bloc/audio_setting_state.dart';
@@ -20,17 +22,13 @@ void showEditAudioSettingDia(BuildContext context){
     Navigator.of(context,rootNavigator: true).pop();
   }
 
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
       context: context,
+      baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
       useSafeArea: true,
-      builder: (context){
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 13,vertical: 13),
-          child: _DialogContent(
-            onNavigateBack: onNavigateBack,
-          ),
-        );
-      }
+      child: _DialogContent(
+        onNavigateBack: onNavigateBack,
+      )
   );
 
 }

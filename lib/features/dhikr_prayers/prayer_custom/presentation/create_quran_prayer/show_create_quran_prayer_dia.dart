@@ -6,6 +6,7 @@ import 'package:hadith/core/constants/k_validators.dart';
 import 'package:hadith/core/domain/enums/font_size/font_family_arabic.dart';
 import 'package:hadith/core/domain/enums/font_size/font_size.dart';
 import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/verses/domain/model/cuz.dart';
 import 'package:hadith/core/features/verses/domain/model/surah.dart';
 import 'package:hadith/core/presentation/components/shared_header.dart';
@@ -19,15 +20,11 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/bloc/create_quran_prayer_state.dart';
 
 void showCreateQuranPrayerDia(BuildContext context){
-  showDialog(
-      context: context,
-      useSafeArea: true,
-      builder: (context) {
-        return const Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 8),
-          child: _DialogContent(),
-        );
-      });
+
+  adaptiveBaseForDialogAndBottomSheet(
+    context: context,
+    child: const _DialogContent()
+  );
 }
 
 

@@ -13,7 +13,7 @@ import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_counter_state.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/bloc/detail_detail_event.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_shared_content_page.dart';
+import '../detail_counter_shared_content_page.dart';
 
 extension DetailCounterSharedContentPageTopBarExt on DetailCounterSharedContentPage{
 

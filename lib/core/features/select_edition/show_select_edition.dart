@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/show_manage_edition_audios_dia.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_event.dart';
@@ -21,9 +22,12 @@ void showSelectEdition(BuildContext context) {
 
   context.read<SelectEditionBloc>().add(EditionEventLoadData());
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    child: DraggableScrollableSheet(
+    child: _DialogContent(
+      scrollController: ScrollController(),
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
       minChildSize: 0.5,
       initialChildSize: 0.7,
       maxChildSize: 1.0,
@@ -38,6 +42,7 @@ void showSelectEdition(BuildContext context) {
       context.read<BasicAudioBloc>().add(BasicAudioEventCancel());
     }
   );
+
 }
 
 

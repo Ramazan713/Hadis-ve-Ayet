@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 
 
 void showPreviewSharedImageDia(BuildContext context,{
@@ -6,21 +8,19 @@ void showPreviewSharedImageDia(BuildContext context,{
   required Function()onTap
 }){
 
-  showDialog(
+
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    builder: (context){
-      return Dialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 7),
-        child: _DialogContent(
-          previewWidget: previewWidget,
-          onShareClick: onTap,
-          onNavigateBack: (){
-            Navigator.pop(context);
-          },
-        ),
-      );
-    }
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: _DialogContent(
+      previewWidget: previewWidget,
+      onShareClick: onTap,
+      onNavigateBack: (){
+        Navigator.pop(context);
+      },
+    )
   );
+
 }
 
 

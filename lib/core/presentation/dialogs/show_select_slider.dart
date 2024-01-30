@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 
 void showSelectSlider(BuildContext context,{
@@ -66,27 +68,21 @@ void showSelectSlider(BuildContext context,{
     );
   }
 
-
-  showDialog(
-      context: context,
-      useSafeArea: true,
-      builder: (context){
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(vertical: 3,horizontal: 9),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 3),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  getTitle(),
-                  getSliderContent(),
-                  getButtons()
-                ],
-              ),
-            ),
-          ),
-        );
-      }
+  adaptiveBaseForDialogAndBottomSheet(
+    context: context,
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 3),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            getTitle(),
+            getSliderContent(),
+            getButtons()
+          ],
+        ),
+      ),
+    )
   );
 }

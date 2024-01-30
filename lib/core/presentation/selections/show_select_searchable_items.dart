@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/searchable_scroll_type.dart';
 import 'package:hadith/core/domain/models/i_menu_item.dart';
 import 'package:hadith/core/extensions/string_ext.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_header.dart';
@@ -19,24 +21,20 @@ void showSelectSearchableItems<T extends ISearchableSelectItem>(BuildContext con
   SearchableScrollType scrollType = SearchableScrollType.filter
 }){
 
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    builder: (context){
-      return Dialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        child: _DialogContent(
-          items: items,
-          onSelected: onSelected,
-          title: title,
-          selectedItem: selectedItem,
-          scrollToSelectedItem: scrollToSelectedItem,
-          scrollType: scrollType,
-          onClose: (){
-            Navigator.pop(context);
-          },
-        ),
-      );
-    }
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: _DialogContent(
+      items: items,
+      onSelected: onSelected,
+      title: title,
+      selectedItem: selectedItem,
+      scrollToSelectedItem: scrollToSelectedItem,
+      scrollType: scrollType,
+      onClose: (){
+        Navigator.pop(context);
+      },
+    ),
   );
 }
 

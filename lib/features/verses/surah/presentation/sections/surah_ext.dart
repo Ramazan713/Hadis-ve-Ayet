@@ -10,8 +10,8 @@ import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/verses/surah/domain/enums/surah_top_bar_menu_item.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_state.dart';
-import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import '../surah_page.dart';
 
 extension SurahPageExt on SurahPageState{
 

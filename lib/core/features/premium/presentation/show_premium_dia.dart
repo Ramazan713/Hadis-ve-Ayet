@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/premium/presentation/components/premium_feature_item.dart';
 import 'package:hadith/core/features/premium/presentation/components/premium_subscription_item.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
@@ -14,9 +15,15 @@ void showPremiumDia(BuildContext context){
   final premiumBloc=context.read<PremiumBloc>();
   premiumBloc.add(PremiumEventLoadProducts());
 
-  showBottomSheetHandler(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    child: DraggableScrollableSheet(
+    child: _DialogContent(
+      scrollController: ScrollController(),
+      onClosed: (){
+        Navigator.pop(context);
+      },
+    ),
+    bottomSheetChild: DraggableScrollableSheet(
       minChildSize: 0.5,
       initialChildSize: 0.7,
       expand: false,
@@ -27,8 +34,10 @@ void showPremiumDia(BuildContext context){
             Navigator.pop(context);
           },
         );
-      })
+       }
+      )
   );
+
 }
 
 class _DialogContent extends StatelessWidget {

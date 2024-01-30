@@ -209,6 +209,7 @@ class SurahPageState extends State<SurahPage> {
   }){
     verseTopicBottomMenuSharedHandler(context,
       itemId: surah.id,
+      title: surah.title,
       hasSavePoint: hasSavePoint,
       topicModel: item,
       audioResult: info,

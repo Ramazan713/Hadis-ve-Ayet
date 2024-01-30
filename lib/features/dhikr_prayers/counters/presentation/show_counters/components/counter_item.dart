@@ -3,19 +3,18 @@ import 'package:hadith/features/dhikr_prayers/counters/domain/model/counter.dart
 
 class CounterItem extends StatelessWidget {
   final Counter item;
-  final Function() onMenuClick;
   final Function() onClick;
   final bool showDetail;
   final EdgeInsets? paddingsDetails;
   final EdgeInsets? paddingsNormal;
   final EdgeInsets? margins;
-
+  final Widget trailing;
 
   const CounterItem({
     Key? key,
     required this.item,
-    required this.onMenuClick,
     required this.onClick,
+    required this.trailing,
     this.showDetail = true,
     this.paddingsDetails,
     this.paddingsNormal,
@@ -40,13 +39,7 @@ class CounterItem extends StatelessWidget {
               Expanded(
                 child: getAdaptiveContent(context),
               ),
-              IconButton(
-                onPressed: onMenuClick,
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              )
+              trailing
             ],
           ),
         ),

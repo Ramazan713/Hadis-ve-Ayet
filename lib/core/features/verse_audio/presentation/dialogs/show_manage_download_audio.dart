@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/download_enum.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_event.dart';
@@ -8,16 +10,12 @@ import 'package:hadith/core/features/verse_audio/presentation/download_verse_aud
 
 void showManageDownloadAudio(BuildContext context){
 
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    useSafeArea: true,
-    builder: (context){
-      return const Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 19),
-        child: _DialogContent(),
-      );
-    }
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: const _DialogContent()
   );
+
 }
 
 

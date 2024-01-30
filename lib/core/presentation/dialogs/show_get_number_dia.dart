@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hadith/core/extensions/text_editing_controller_ext.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 
 void showGetNumberDia(BuildContext context,{
@@ -14,22 +16,18 @@ void showGetNumberDia(BuildContext context,{
     Navigator.of(context,rootNavigator: true).pop();
   }
 
-  showDialog(
+  adaptiveBaseForDialogAndBottomSheet(
     context: context,
-    useSafeArea: true,
-    builder: (context){
-      return Dialog(
-        child: _DialogContent(
-          currentIndex: currentIndex,
-          limitIndex: limitIndex,
-          onCancel: navigateBack,
-          onApprove: (number){
-            listener(number);
-            navigateBack();
-          }
-        ),
-      );
-    }
+    baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+    child: _DialogContent(
+      currentIndex: currentIndex,
+      limitIndex: limitIndex,
+      onCancel: navigateBack,
+      onApprove: (number){
+        listener(number);
+        navigateBack();
+      }
+    )
   );
 }
 

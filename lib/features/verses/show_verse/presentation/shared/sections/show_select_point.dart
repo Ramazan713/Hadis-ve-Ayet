@@ -8,7 +8,7 @@ import 'package:hadith/core/features/save_point/domain/enums/local_destination_s
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/show_edit_save_point_dia.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
+import '../verse_show_shared_page.dart';
 
 extension VerseShowSharedPageSelectSavePointExt on VerseShareBasePage{
 

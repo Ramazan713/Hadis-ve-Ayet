@@ -23,6 +23,7 @@ class SelectDhikrItem extends StatelessWidget {
     return CardListTile(
       margins: const EdgeInsets.symmetric(vertical: 3),
       isSelected: selected,
+      borderWidth: 0.7,
       title: Text(
         item.name,
         maxLines: 1,
