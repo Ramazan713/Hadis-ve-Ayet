@@ -3,7 +3,7 @@
 import 'package:hadith/core/data/local/entities/counter_entity.dart';
 import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
 import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/domain/models/esmaul_husna.dart';
 
 extension EsmaulHusnaEntityExt on EsmaulHusnaEntity{
 

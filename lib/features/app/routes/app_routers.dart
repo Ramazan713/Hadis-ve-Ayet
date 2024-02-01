@@ -8,7 +8,6 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/audio_setting/audio_settings_page.dart';
 import 'package:hadith/core/features/save_point/domain/enums/list_book_scope.dart';
 import 'package:hadith/features/app/root_page.dart';
-import 'package:hadith/features/category/category_page.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/counter_detail_setting.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_empty_page.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_page.dart';
@@ -20,14 +19,12 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/custom_prayer_manage_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/show_custom_prayers_page.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/prayer_in_quran_page.dart';
-import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/detail_esmaul_husna_page.dart';
-import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/show_esmaul_husna_page.dart';
+import 'package:hadith/features/esmaul_husna/presentation/show_esmaul_husna_page.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_list_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_search_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_topic_page.dart';
-import 'package:hadith/features/home/home_page.dart';
 import 'package:hadith/features/islamic_info/adjectives_of/adjectives_of_page.dart';
 import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_page.dart';
 import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
@@ -467,22 +464,6 @@ class ShowEsmaulHusnaRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ShowEsmaulHusnaPage(initPos: pos,);
-  }
-}
-
-
-@TypedGoRoute<EsmaulHusnaDetailRoute>(
-    path: "/esmaulHusna/detail/:pos"
-)
-class EsmaulHusnaDetailRoute extends GoRouteData{
-
-  final int pos;
-
-  EsmaulHusnaDetailRoute({required this.pos});
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return DetailEsmaulHusnaPage(initPos: pos,);
   }
 }
 

@@ -4,9 +4,9 @@ import 'package:hadith/core/data/local/entities/esmaul_husna_entity.dart';
 import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/esmaul_husna_dao.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
-import 'package:hadith/features/esmaul_husna/shared/data/mapper/esmaul_husna_mapper.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/repo/esmaul_husna_repo.dart';
+import 'package:hadith/features/esmaul_husna/data/mapper/esmaul_husna_mapper.dart';
+import 'package:hadith/features/esmaul_husna/domain/models/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/domain/repo/esmaul_husna_repo.dart';
 
 class EsmaulHusnaRepoImpl extends EsmaulHusnaRepo{
 
@@ -52,6 +52,18 @@ class EsmaulHusnaRepoImpl extends EsmaulHusnaRepo{
       entities = await _esmaulHusnaDao.getEsmaulHusnasSearchedLike(queryExp);
     }
     return entities.map((e) => e.toEsmaulHusna()).toList();
+  }
+
+  @override
+  Stream<List<EsmaulHusna>> getStreamSearchedEsmaulHusnas(String query, SearchCriteriaEnum criteria) {
+    final queryExp = criteria.getQuery(query);
+    final Stream<List<EsmaulHusnaEntity>> entities;
+    if(criteria.isRegex){
+      entities = _esmaulHusnaDao.getStreamEsmaulHusnasSearchedRegEx(queryExp);
+    }else{
+      entities = _esmaulHusnaDao.getStreamEsmaulHusnasSearchedLike(queryExp);
+    }
+    return entities.map((items) => items.map((e) => e.toEsmaulHusna()).toList());
   }
 
 }

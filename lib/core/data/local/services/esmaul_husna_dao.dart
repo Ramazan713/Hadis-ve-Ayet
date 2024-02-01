@@ -40,6 +40,16 @@ abstract class EsmaulHusnaDao{
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnasSearchedLike(String query);
 
   @Query("""
+    select * from esmaulHusnas where 
+    lower(name) Like lower(:query) or 
+    lower(searchName) Like lower(:query) or 
+    lower(meaning) Like lower(:query) or
+    lower(virtue) Like lower(:query)
+    order by orderItem
+  """)
+  Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnasSearchedLike(String query);
+
+  @Query("""
      select * from esmaulHusnas where 
      lower(name) REGEXP lower(:regExp) or
      lower(searchName) REGEXP lower(:regExp) or
@@ -48,5 +58,15 @@ abstract class EsmaulHusnaDao{
      order by orderItem
   """)
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnasSearchedRegEx(String regExp);
+
+  @Query("""
+     select * from esmaulHusnas where 
+     lower(name) REGEXP lower(:regExp) or
+     lower(searchName) REGEXP lower(:regExp) or
+     lower(meaning) REGEXP lower(:regExp) or
+     lower(virtue) REGEXP lower(:regExp)
+     order by orderItem
+  """)
+  Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnasSearchedRegEx(String regExp);
 
 }

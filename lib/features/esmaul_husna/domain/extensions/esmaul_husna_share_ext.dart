@@ -1,6 +1,5 @@
 
-
-import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/domain/models/esmaul_husna.dart';
 
 extension EsmaulHusnaShareExt on EsmaulHusna{
 

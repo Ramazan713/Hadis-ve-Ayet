@@ -32,7 +32,6 @@ List<RouteBase> get $appRoutes => [
       $addCustomPrayerRoute,
       $updateCustomPrayerRoute,
       $showEsmaulHusnaRoute,
-      $esmaulHusnaDetailRoute,
       $showCountersRoute,
       $detailCounterRoute,
       $detailCounterEmptyRoute,
@@ -662,31 +661,6 @@ extension $ShowEsmaulHusnaRouteExtension on ShowEsmaulHusnaRoute {
 
   String get location => GoRouteData.$location(
         '/esmaulHusna/${Uri.encodeComponent(pos.toString())}',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-RouteBase get $esmaulHusnaDetailRoute => GoRouteData.$route(
-      path: '/esmaulHusna/detail/:pos',
-      factory: $EsmaulHusnaDetailRouteExtension._fromState,
-    );
-
-extension $EsmaulHusnaDetailRouteExtension on EsmaulHusnaDetailRoute {
-  static EsmaulHusnaDetailRoute _fromState(GoRouterState state) =>
-      EsmaulHusnaDetailRoute(
-        pos: int.parse(state.pathParameters['pos']!),
-      );
-
-  String get location => GoRouteData.$location(
-        '/esmaulHusna/detail/${Uri.encodeComponent(pos.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

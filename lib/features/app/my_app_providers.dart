@@ -43,9 +43,8 @@ import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/bloc/prayer_in_quran_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/providers/dhikr_prayers_data_repo_providers.dart';
-import 'package:hadith/features/esmaul_husna/esmaul_husna_detail/presentation/bloc/detail_esmaul_husna_bloc.dart';
+import 'package:hadith/features/esmaul_husna/presentation/bloc/show_esmaul_husna_bloc.dart';
 import 'package:hadith/features/esmaul_husna/providers/esmaul_husna_data_repo_providers.dart';
-import 'package:hadith/features/esmaul_husna/show_esmaul_husna_list/presentation/bloc/show_esmaul_husna_bloc.dart';
 import 'package:hadith/features/islamic_info/providers/islamic_info_data_repo_providers.dart';
 import 'package:hadith/features/islamic_info/shared/presentation/bloc/islamic_info_shared_bloc.dart';
 import 'package:hadith/features/lists/presentation/archive_list/bloc/archive_list_bloc.dart';
@@ -194,11 +193,6 @@ class MyAppProviders extends StatelessWidget {
               selectVerseManager: context.read()
           )),
           BlocProvider(create: (context)=> ShowEsmaulHusnaBloc(
-              appPreferences: context.read(),
-              fontModelUseCase: context.read(),
-              esmaulHusnaRepo: context.read()
-          )),
-          BlocProvider(create: (context)=> DetailEsmaulHusnaBloc(
               appPreferences: context.read(),
               fontModelUseCase: context.read(),
               esmaulHusnaRepo: context.read()

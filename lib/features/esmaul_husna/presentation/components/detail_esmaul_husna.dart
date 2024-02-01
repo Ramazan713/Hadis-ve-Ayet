@@ -3,7 +3,7 @@ import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_switcher.dart';
 import 'package:hadith/core/presentation/components/title_section_item.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/domain/models/esmaul_husna.dart';
 
 
 class DetailEsmaulHusnaRepaintItem extends StatelessWidget {
@@ -82,7 +82,7 @@ class _DetailEsmaulHusnaShared extends StatelessWidget {
     return Card(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3,vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

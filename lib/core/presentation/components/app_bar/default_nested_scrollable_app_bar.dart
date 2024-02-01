@@ -24,6 +24,7 @@ class DefaultNestedScrollableAppBar extends StatelessWidget {
   final bool? showNavigateBack;
   final int delayMilliSeconds;
   final ScrollDelayType scrollDelayType;
+  final Widget? leading;
 
   const DefaultNestedScrollableAppBar({
     Key? key,
@@ -43,6 +44,7 @@ class DefaultNestedScrollableAppBar extends StatelessWidget {
     this.appBarType,
     this.toolbarHeight,
     this.showNavigateBack,
+    this.leading
   }) : super(key: key);
 
   @override
@@ -64,6 +66,7 @@ class DefaultNestedScrollableAppBar extends StatelessWidget {
         snap: snap,
         appBarType: appBarType,
         toolbarHeight: toolbarHeight,
+        leading: leading,
         showNavigateBack: showNavigateBack,
       ),
       child: child,

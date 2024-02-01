@@ -8,8 +8,8 @@ import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/use_cases/font_model_use_case.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/repo/esmaul_husna_repo.dart';
+import 'package:hadith/features/esmaul_husna/domain/models/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/domain/repo/esmaul_husna_repo.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'show_esmaul_husna_event.dart';
@@ -40,30 +40,32 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
     
     on<ShowEsmaulHusnaEventListenAppPref>(_onListenAppPref,transformer: restartable());
     on<ShowEsmaulHusnaEventListenData>(_onListenData,transformer: restartable());
-    on<ShowEsmaulHusnaEventJumpToPos>(_onJumpToPos,transformer: restartable());
 
     on<ShowEsmaulHusnaEventSetQuery>(_onSetQuery,transformer: restartable());
     on<ShowEsmaulHusnaEventSetSearchBarVisibility>(_onSetSearchBarVisibility,transformer: restartable());
     on<ShowEsmaulHusnaEventClearMessage>(_onClearMessage,transformer: restartable());
+    on<ShowEsmaulHusnaEventHideDetail>(_onHideDetail,transformer: restartable());
+    on<ShowEsmaulHusnaEventShowDetail>(_onShowDetail,transformer: sequential());
+    on<ShowEsmaulHusnaEventSaveAsDhikr>(_onSaveAsDhikr,transformer: droppable());
+    on<ShowEsmaulHusnaEventReStartState>(_onReStartState,transformer: sequential());
+    on<ShowEsmaulHusnaEventSetSelected>(_onSetSelected,transformer: sequential());
+
 
     add(ShowEsmaulHusnaEventListenAppPref());
     add(ShowEsmaulHusnaEventListenData());
   }
 
-  void _onJumpToPos(ShowEsmaulHusnaEventJumpToPos event,Emitter<ShowEsmaulHusnaState>emit){
-    emit(state.copyWith(jumpToPos: event.jumpToPos));
-    emit(state.copyWith(jumpToPos: null));
-  }
-
 
   void _onListenData(ShowEsmaulHusnaEventListenData event,Emitter<ShowEsmaulHusnaState>emit)async{
-
-    final streamData = Rx.combineLatest2(_filterQuery, _filterCriteria, (query, criteria){
-      emit(state.copyWith(isLoading: true));
+    final streamFilter = Rx.combineLatest2(_filterQuery, _filterCriteria, (query, criteria){
       return _QueryCriteria(query: query,criteriaEnum: criteria);
-    }).asyncMap((queryCriteria)async{
-      if(queryCriteria.query.trim().isEmpty) return _esmaulHusnaRepo.getEsmaulHusnas();
-      return _esmaulHusnaRepo.getSearchedEsmaulHusnas(queryCriteria.query.trim(), queryCriteria.criteriaEnum);
+    });
+
+    final streamData = streamFilter.switchMap((queryCriteria){
+      if(queryCriteria.query.trim().isEmpty) {
+        return _esmaulHusnaRepo.getStreamEsmaulHusnas();
+      }
+      return _esmaulHusnaRepo.getStreamSearchedEsmaulHusnas(queryCriteria.query.trim(), queryCriteria.criteriaEnum);
     });
 
     await emit.forEach<List<EsmaulHusna>>(streamData, onData: (data){
@@ -81,6 +83,22 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
 
   void _onSetSearchBarVisibility(ShowEsmaulHusnaEventSetSearchBarVisibility event,Emitter<ShowEsmaulHusnaState>emit)async{
     emit(state.copyWith(isSearchBarVisible: event.isVisible));
+  }
+
+  void _onReStartState(ShowEsmaulHusnaEventReStartState event,Emitter<ShowEsmaulHusnaState>emit){
+    emit(state.copyWith(isDetailOpen: false, selectedItem: null));
+  }
+
+  void _onSetSelected(ShowEsmaulHusnaEventSetSelected event,Emitter<ShowEsmaulHusnaState>emit){
+    emit(state.copyWith(selectedItem: event.item));
+  }
+
+  void _onHideDetail(ShowEsmaulHusnaEventHideDetail event,Emitter<ShowEsmaulHusnaState>emit){
+    emit(state.copyWith(selectedItem: null, isDetailOpen: false));
+  }
+
+  void _onShowDetail(ShowEsmaulHusnaEventShowDetail event,Emitter<ShowEsmaulHusnaState>emit){
+    emit(state.copyWith(selectedItem: event.item, isDetailOpen: true));
   }
 
 
@@ -109,6 +127,10 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
     });
   }
 
+  void _onSaveAsDhikr(ShowEsmaulHusnaEventSaveAsDhikr event,Emitter<ShowEsmaulHusnaState>emit)async{
+    await _esmaulHusnaRepo.addCounterFromEsmaulHusna(event.item);
+    emit(state.copyWith(message: "Başarıyla kaydedildi"));
+  }
   
 }
 

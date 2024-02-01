@@ -3542,12 +3542,52 @@ class _$EsmaulHusnaDao extends EsmaulHusnaDao {
   }
 
   @override
+  Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnasSearchedLike(
+      String query) {
+    return _queryAdapter.queryListStream(
+        'select * from esmaulHusnas where      lower(name) Like lower(?1) or      lower(searchName) Like lower(?1) or      lower(meaning) Like lower(?1) or     lower(virtue) Like lower(?1)     order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String),
+        arguments: [query],
+        queryableName: 'esmaulHusnas',
+        isView: false);
+  }
+
+  @override
   Future<List<EsmaulHusnaEntity>> getEsmaulHusnasSearchedRegEx(
       String regExp) async {
     return _queryAdapter.queryList(
         'select * from esmaulHusnas where       lower(name) REGEXP lower(?1) or      lower(searchName) REGEXP lower(?1) or      lower(meaning) REGEXP lower(?1) or      lower(virtue) REGEXP lower(?1)      order by orderItem',
         mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(id: row['id'] as int?, orderItem: row['orderItem'] as int, name: row['name'] as String, arabicName: row['arabicName'] as String, meaning: row['meaning'] as String, dhikr: row['dhikr'] as String, virtue: row['virtue'] as String, counterId: row['counterId'] as int?, searchName: row['searchName'] as String),
         arguments: [regExp]);
+  }
+
+  @override
+  Stream<List<EsmaulHusnaEntity>> getStreamEsmaulHusnasSearchedRegEx(
+      String regExp) {
+    return _queryAdapter.queryListStream(
+        'select * from esmaulHusnas where       lower(name) REGEXP lower(?1) or      lower(searchName) REGEXP lower(?1) or      lower(meaning) REGEXP lower(?1) or      lower(virtue) REGEXP lower(?1)      order by orderItem',
+        mapper: (Map<String, Object?> row) => EsmaulHusnaEntity(
+            id: row['id'] as int?,
+            orderItem: row['orderItem'] as int,
+            name: row['name'] as String,
+            arabicName: row['arabicName'] as String,
+            meaning: row['meaning'] as String,
+            dhikr: row['dhikr'] as String,
+            virtue: row['virtue'] as String,
+            counterId: row['counterId'] as int?,
+            searchName: row['searchName'] as String),
+        arguments: [regExp],
+        queryableName: 'esmaulHusnas',
+        isView: false);
   }
 
   @override

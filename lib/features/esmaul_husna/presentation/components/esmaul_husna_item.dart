@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/presentation/components/verses/arabic_content_item.dart';
-import 'package:hadith/features/esmaul_husna/shared/domain/esmaul_husna.dart';
+import 'package:hadith/features/esmaul_husna/domain/models/esmaul_husna.dart';
 
 class EsmaulHusnaRepaintItem extends StatelessWidget {
 
@@ -35,13 +35,15 @@ class EsmaulHusnaItem extends StatelessWidget {
   final FontModel fontModel;
   final void Function() onClick;
   final void Function() onShareClick;
+  final bool isSelected;
 
   const EsmaulHusnaItem({
     Key? key,
     required this.esmaulHusna,
     required this.fontModel,
     required this.onClick,
-    required this.onShareClick
+    required this.onShareClick,
+    this.isSelected = false
   }) : super(key: key);
 
   @override
@@ -52,6 +54,7 @@ class EsmaulHusnaItem extends StatelessWidget {
       useForShare: false,
       onClick: onClick,
       onShareClick: onShareClick,
+      isSelected: isSelected,
     );
   }
 }
@@ -63,11 +66,13 @@ class _SharedEsmaulHusnaItem extends StatelessWidget {
   final void Function()? onClick;
   final void Function()? onShareClick;
   final bool useForShare;
+  final bool isSelected;
 
   const _SharedEsmaulHusnaItem({
     Key? key,
     required this.esmaulHusna,
     required this.fontModel,
+    this.isSelected = false,
     this.useForShare = false,
     this.onClick,
     this.onShareClick
@@ -77,10 +82,13 @@ class _SharedEsmaulHusnaItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final contentStyle = Theme.of(context).textTheme.bodyLarge;
+    final selectedColor = isSelected ? Theme.of(context).colorScheme.secondaryContainer:
+      Theme.of(context).colorScheme.surface;
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+      color: selectedColor,
       elevation: 1,
       child: InkWell(
         borderRadius: BorderRadius.circular(7),

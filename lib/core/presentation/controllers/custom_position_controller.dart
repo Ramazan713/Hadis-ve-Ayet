@@ -23,4 +23,9 @@ class CustomPositionController with ChangeNotifier{
 
     notifyListeners();
   }
+
+  void setTotalItems(int totalItems){
+    _totalItems = totalItems;
+    notifyListeners();
+  }
 }
