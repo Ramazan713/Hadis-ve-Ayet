@@ -20,16 +20,12 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class EsmaulHusnaListPageContent extends StatelessWidget{
   final TextEditingController searchTextController;
   final CustomAutoScrollController customAutoScrollController;
-  final void Function(double) onOffsetChange;
-  final double initOffset;
   final void Function(int index) onIndexItemClick;
   final void Function(EsmaulHusna item) onShareClick;
 
   const EsmaulHusnaListPageContent({
     super.key,
     required this.searchTextController,
-    required this.onOffsetChange,
-    required this.initOffset,
     required this.onIndexItemClick,
     required this.customAutoScrollController,
     required this.onShareClick
@@ -38,12 +34,6 @@ class EsmaulHusnaListPageContent extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(customAutoScrollController.controller.hasClients){
-        customAutoScrollController.controller.jumpTo(initOffset);
-      }
-    });
-
     final bloc = context.read<ShowEsmaulHusnaBloc>();
 
     return BlocSelector<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState, bool>(

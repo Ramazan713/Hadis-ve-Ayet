@@ -1,8 +1,7 @@
 
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
+import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
@@ -42,27 +41,16 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
   final CustomAutoScrollController listScrollController = CustomAutoScrollController(suggestedRowHeight: 250);
   late final PageController pageController;
 
-  var offset = 0.0;
   var currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     currentPage = widget.initPos;
-
     pageController = PageController(initialPage: currentPage);
-    listScrollController.controller.addListener(_offsetListener);
     context.read<ShowEsmaulHusnaBloc>()
         .add(ShowEsmaulHusnaEventReStartState());
-
   }
-
-  void _offsetListener(){
-    EasyDebounce.debounce("ListScrollListener", const Duration(milliseconds: 350), () {
-      offset = listScrollController.controller.offset;
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,78 +58,48 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: DefaultAdaptiveLayout(
-              builder: (context, windowSizeClass){
-                if(windowSizeClass.isExpanded){
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: EsmaulHusnaListPageContent(
-                          customAutoScrollController: listScrollController,
-                          searchTextController: searchTextController,
-                          initOffset: offset,
-                          onOffsetChange: (off){
-                            offset = off;
-                          },
-                          onIndexItemClick: (index){
-                            currentPage = index;
-                            pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-                          },
-                          onShareClick: (item){
-                            handleShareClick(item, false);
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 24,),
-                      Expanded(
-                        child: EsmaulHusnaDetailPageContent(
-                          pageController: pageController,
-                          positionController: detailPositionController,
-                          isFullPage: false,
-                          onShareClick: (item){
-                            handleShareClick(item, true);
-                          },
-                          currentPage: currentPage,
-                          onPageChange: (page){
-                            currentPage = page;
-                          },
-                        ),
-                      )
-                    ],
-                  );
-                }
-
+            child: ListDetailAdaptiveLayout(
+              listScrollController: listScrollController.controller,
+              detailScrollController: pageController,
+              useDetailOffset: false,
+              onDetailOffsetListener: (){
+                currentPage = pageController.page?.toInt() ?? currentPage;
+              },
+              onDetailPostFrameCallback: (){
+                pageController.jumpToPage(currentPage);
+              },
+              onListWidget: (isSinglePane){
+                return EsmaulHusnaListPageContent(
+                  customAutoScrollController: listScrollController,
+                  searchTextController: searchTextController,
+                  onIndexItemClick: (index){
+                    currentPage = index;
+                    pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                  },
+                  onShareClick: (item){
+                    handleShareClick(item, false);
+                  },
+                );
+              },
+              onDetailWidget: (isSinglePane){
+                return EsmaulHusnaDetailPageContent(
+                  pageController: pageController,
+                  positionController: detailPositionController,
+                  isFullPage: isSinglePane,
+                  onShareClick: (item){
+                    handleShareClick(item, true);
+                  },
+                  currentPage: currentPage,
+                  onPageChange: (page){
+                    currentPage = page;
+                  },
+                );
+              },
+              onShowDetailInSinglePaneBuilder: (onShowDetailResult){
                 return BlocSelector<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState,bool>(
                   selector: (state) => state.isDetailOpen,
                   builder: (context, isDetailOpen){
-                    if(isDetailOpen){
-                      return EsmaulHusnaDetailPageContent(
-                        pageController: pageController,
-                        positionController: detailPositionController,
-                        isFullPage: true,
-                        currentPage: currentPage,
-                        onShareClick: (item){
-                          handleShareClick(item, true);
-                        },
-                        onPageChange: (page){
-                          currentPage = page;
-                        },
-                      );
-                    }
-                    return EsmaulHusnaListPageContent(
-                      customAutoScrollController: listScrollController,
-                      searchTextController: searchTextController,
-                      initOffset: offset,
-                      onShareClick: (item){
-                        handleShareClick(item, false);
-                      },
-                      onOffsetChange: (off){
-                        offset = off;
-                      },
-                      onIndexItemClick: (index){
-                        currentPage = index;
-                      },
-                    );
+                    return onShowDetailResult(isDetailOpen);
                   },
                 );
               },
@@ -191,7 +149,6 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
                   }
               );
             }
-
             break;
         }
       },
@@ -231,7 +188,6 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
 
   @override
   void dispose() {
-    listScrollController.controller.removeListener(_offsetListener);
     searchTextController.dispose();
     detailPositionController.dispose();
     listScrollController.dispose();

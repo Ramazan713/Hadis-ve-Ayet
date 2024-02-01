@@ -18,7 +18,8 @@ import 'package:hadith/features/esmaul_husna/presentation/bloc/show_esmaul_husna
 import 'package:hadith/features/esmaul_husna/presentation/components/detail_esmaul_husna.dart';
 
 
-class EsmaulHusnaDetailPageContent extends StatefulWidget {
+class EsmaulHusnaDetailPageContent extends StatelessWidget {
+
   final PageController pageController;
   final CustomPositionController positionController;
   final bool isFullPage;
@@ -35,22 +36,6 @@ class EsmaulHusnaDetailPageContent extends StatefulWidget {
     required this.onPageChange,
     required this.onShareClick
   });
-
-  @override
-  State<EsmaulHusnaDetailPageContent> createState() => _EsmaulHusnaDetailPageContentState();
-}
-
-class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageContent> {
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(widget.pageController.hasClients){
-        widget.pageController.jumpToPage(widget.currentPage);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,13 +72,13 @@ class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageCont
                   return PageView.builder(
                     onPageChanged: (page){
                       EasyDebounce.debounce("onPageChanged", const Duration(milliseconds: 150), () {
-                        widget.onPageChange(page);
-                        widget.positionController.setPositions(page, page,totalItems: items.length);
+                        onPageChange(page);
+                        positionController.setPositions(page, page,totalItems: items.length);
                         final item = getCurrentItemWithIndex(context, page);
                         bloc.add(ShowEsmaulHusnaEventSetSelected(item: item));
                       });
                     },
-                    controller: widget.pageController,
+                    controller: pageController,
                     itemBuilder: (context,index){
                       final item = items[index];
                       return DetailEsmaulHusna(
@@ -124,16 +109,16 @@ class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageCont
 
   Widget getBottomButtons(){
     return ListenableBuilder(
-      listenable: widget.positionController,
+      listenable: positionController,
       builder: (context, child){
-        final previousEnabled = widget.positionController.firstVisiblePos != 0;
-        final nextEnabled = widget.positionController.firstVisiblePos != widget.positionController.totalItems - 1;
+        final previousEnabled = positionController.firstVisiblePos != 0;
+        final nextEnabled = positionController.firstVisiblePos != positionController.totalItems - 1;
         return Row(
           children: [
             Expanded(
               child: TextButton(
                 onPressed: !previousEnabled ? null : (){
-                  widget.pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                  pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                 },
                 child: const Text("Önceki"),
               ),
@@ -141,7 +126,7 @@ class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageCont
             Expanded(
               child: TextButton(
                 onPressed: !nextEnabled ? null : (){
-                  widget.pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                  pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                 },
                 child: const Text("Sonraki"),
               ),
@@ -153,7 +138,7 @@ class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageCont
   }
 
   Widget? getNavigateBackIcon(BuildContext context){
-    if(!widget.isFullPage) return null;
+    if(!isFullPage) return null;
     return IconButton(
       onPressed: (){
         context.read<ShowEsmaulHusnaBloc>()
@@ -169,14 +154,14 @@ class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageCont
         onPressed: (){
           final item = getCurrentItem(context);
           if(item == null) return;
-          widget.onShareClick(item);
+          onShareClick(item);
         },
         icon: const Icon(Icons.share)
       ),
       NavigateToIcon(
-        positionController: widget.positionController,
+        positionController: positionController,
         onPosChanged: (selectedIndex){
-          widget.pageController.animateToPage(selectedIndex + 1, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+          pageController.animateToPage(selectedIndex + 1, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
         },
       ),
       _topBarDropDownMenu(context)
@@ -197,7 +182,7 @@ class _EsmaulHusnaDetailPageContentState extends State<EsmaulHusnaDetailPageCont
   }
 
   EsmaulHusna? getCurrentItem(BuildContext context){
-    final index = widget.pageController.page?.toInt();
+    final index = pageController.page?.toInt();
     if(index == null) return null;
 
     return getCurrentItemWithIndex(context, index);
