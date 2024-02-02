@@ -62,6 +62,7 @@ class ShowEsmaulHusnaBloc extends Bloc<IShowEsmaulHusnaEvent,ShowEsmaulHusnaStat
     });
 
     final streamData = streamFilter.switchMap((queryCriteria){
+      emit(state.copyWith(isLoading: true));
       if(queryCriteria.query.trim().isEmpty) {
         return _esmaulHusnaRepo.getStreamEsmaulHusnas();
       }

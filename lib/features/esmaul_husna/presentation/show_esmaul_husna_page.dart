@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout.dart';
+import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
@@ -20,6 +21,7 @@ import 'package:hadith/features/esmaul_husna/presentation/components/detail_esma
 import 'package:hadith/features/esmaul_husna/presentation/components/esmaul_husna_item.dart';
 import 'package:hadith/features/esmaul_husna/presentation/esmaul_husna_detail_page_content.dart';
 import 'package:hadith/features/esmaul_husna/presentation/esmaul_husna_list_page_content.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 
 class ShowEsmaulHusnaPage extends StatefulWidget {
@@ -38,8 +40,8 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
 
   final TextEditingController searchTextController = TextEditingController();
   final CustomPositionController detailPositionController = CustomPositionController();
-  final CustomAutoScrollController listScrollController = CustomAutoScrollController(suggestedRowHeight: 250);
-  late final PageController pageController;
+  CustomAutoScrollController? listScrollController;
+  PageController? pageController;
 
   var currentPage = 0;
 
@@ -47,9 +49,10 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
   void initState() {
     super.initState();
     currentPage = widget.initPos;
-    pageController = PageController(initialPage: currentPage);
-    context.read<ShowEsmaulHusnaBloc>()
-        .add(ShowEsmaulHusnaEventReStartState());
+    final bloc = context.read<ShowEsmaulHusnaBloc>();
+    bloc.add(ShowEsmaulHusnaEventReStartState());
+
+    detailPositionController.setTotalItems(bloc.state.items.length);
   }
 
   @override
@@ -58,32 +61,37 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: ListDetailAdaptiveLayout(
-              listScrollController: listScrollController.controller,
-              detailScrollController: pageController,
+            child: ListDetailAdaptiveLayoutWithController(
               useDetailOffset: false,
               onDetailOffsetListener: (){
-                currentPage = pageController.page?.toInt() ?? currentPage;
+                currentPage = pageController?.page?.toInt() ?? currentPage;
               },
-              onDetailPostFrameCallback: (){
-                pageController.jumpToPage(currentPage);
+              onCreateListController: (offset){
+                return AutoScrollController(
+                  initialScrollOffset: offset,
+                  suggestedRowHeight: 250
+                );
               },
-              onListWidget: (isSinglePane){
+              onCreateDetailController: (offset){
+                return PageController(initialPage: currentPage);
+              },
+              onListWidget: (controller, isSinglePane){
                 return EsmaulHusnaListPageContent(
-                  customAutoScrollController: listScrollController,
+                  customAutoScrollController: _setAndGetController(controller),
                   searchTextController: searchTextController,
                   onIndexItemClick: (index){
                     currentPage = index;
-                    pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                    pageController?.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                   },
                   onShareClick: (item){
                     handleShareClick(item, false);
                   },
                 );
               },
-              onDetailWidget: (isSinglePane){
+              onDetailWidget: (controller, isSinglePane){
+                pageController = controller as PageController;
                 return EsmaulHusnaDetailPageContent(
-                  pageController: pageController,
+                  pageController: pageController!,
                   positionController: detailPositionController,
                   isFullPage: isSinglePane,
                   onShareClick: (item){
@@ -108,6 +116,14 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
         ),
       ),
     );
+  }
+
+  CustomAutoScrollController _setAndGetController(ScrollController? controller){
+    listScrollController = controller == null ? CustomAutoScrollController() :
+        CustomAutoScrollController(autoScrollController: controller as AutoScrollController);
+    final itemCount = context.read<ShowEsmaulHusnaBloc>().state.items.length;
+    listScrollController!.setTotalItems(totalItems: itemCount);
+    return listScrollController!;
   }
 
   void handleShareClick(EsmaulHusna item, bool isDetail){
@@ -176,7 +192,6 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
               return prevState.items.length != nextState.items.length;
             },
             listener: (context, state){
-              listScrollController.setTotalItems(totalItems: state.items.length);
               detailPositionController.setTotalItems(state.items.length);
             },
           )
@@ -190,8 +205,6 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
   void dispose() {
     searchTextController.dispose();
     detailPositionController.dispose();
-    listScrollController.dispose();
-    pageController.dispose();
     super.dispose();
   }
 }

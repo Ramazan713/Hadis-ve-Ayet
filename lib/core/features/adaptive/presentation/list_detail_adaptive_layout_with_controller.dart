@@ -3,61 +3,50 @@ import 'dart:ffi';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
-class ListDetailAdaptiveLayout extends StatefulWidget {
+class ListDetailAdaptiveLayoutWithController extends StatefulWidget {
 
-  final Widget Function(bool isSinglePane) onListWidget;
-  final Widget Function(bool isSinglePane) onDetailWidget;
+  final Widget Function(ScrollController? controller, bool isSinglePane) onListWidget;
+  final Widget Function(ScrollController? controller, bool isSinglePane) onDetailWidget;
   final bool? showDetailInSinglePane;
   final Widget Function(Widget Function(bool showDetailInSinglePane) onShowDetailResult)? onShowDetailInSinglePaneBuilder;
-  final ScrollController? listScrollController;
-  final ScrollController? detailScrollController;
+  final ScrollController Function(double offset)? onCreateListController;
+  final ScrollController Function(double offset)? onCreateDetailController;
 
   final void Function()? onListOffsetListener;
-  final void Function()? onListPostFrameCallback;
   final void Function()? onDetailOffsetListener;
-  final void Function()? onDetailPostFrameCallback;
   final bool enableListeners;
   final bool useListOffset;
   final bool useDetailOffset;
   final int listenerDebounceMilliSeconds;
 
-  const ListDetailAdaptiveLayout({
+  const ListDetailAdaptiveLayoutWithController({
     super.key,
     required this.onListWidget,
     required this.onDetailWidget,
     this.enableListeners = true,
     this.useListOffset = true,
     this.useDetailOffset = true,
-    this.listenerDebounceMilliSeconds = 350,
-    this.onDetailPostFrameCallback,
+    this.listenerDebounceMilliSeconds = 200,
+    this.onCreateDetailController,
+    this.onCreateListController,
     this.onDetailOffsetListener,
     this.showDetailInSinglePane,
     this.onShowDetailInSinglePaneBuilder,
-    this.listScrollController,
-    this.detailScrollController,
     this.onListOffsetListener,
-    this.onListPostFrameCallback,
   });
 
   @override
-  State<ListDetailAdaptiveLayout> createState() => _ListDetailAdaptiveLayoutState();
+  State<ListDetailAdaptiveLayoutWithController> createState() => _ListDetailAdaptiveLayoutWithControllerState();
 }
 
-class _ListDetailAdaptiveLayoutState extends State<ListDetailAdaptiveLayout> {
+class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdaptiveLayoutWithController> {
 
   var listOffset = 0.0;
   var detailOffset = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    if(widget.enableListeners){
-      widget.listScrollController?.addListener(_listOffsetListener);
-      widget.detailScrollController?.addListener(_detailOffsetListener);
-    }
-  }
-
+  ScrollController? listScrollController;
+  ScrollController? detailScrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -110,50 +99,63 @@ class _ListDetailAdaptiveLayoutState extends State<ListDetailAdaptiveLayout> {
   }
 
   Widget _getAndHandleDetailWidget(bool isSinglePane){
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(widget.detailScrollController?.hasClients == true){
-        if(widget.useDetailOffset){
-          widget.detailScrollController?.jumpTo(detailOffset);
-        }
-        widget.onDetailPostFrameCallback?.call();
-      }
-    });
-    return widget.onDetailWidget(isSinglePane);
+    if(detailScrollController != null){
+      _disposeController(true);
+    }
+    detailScrollController = widget.onCreateDetailController?.call(detailOffset);
+    if(widget.enableListeners){
+      detailScrollController?.addListener(_detailOffsetListener);
+    }
+    return widget.onDetailWidget(detailScrollController, isSinglePane);
   }
 
   Widget _getAndHandleListWidget(bool isSinglePane){
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(widget.listScrollController?.hasClients == true){
-        if(widget.useListOffset){
-          widget.listScrollController?.jumpTo(listOffset);
-        }
-        widget.onListPostFrameCallback?.call();
-      }
-    });
-    return widget.onListWidget(isSinglePane);
+    if(listScrollController != null){
+      _disposeController(false);
+    }
+    listScrollController = widget.onCreateListController?.call(listOffset);
+    if(widget.enableListeners){
+      listScrollController?.addListener(_listOffsetListener);
+    }
+    return widget.onListWidget(listScrollController,isSinglePane);
   }
 
 
   void _listOffsetListener(){
     EasyDebounce.debounce("ListScrollListener", Duration(milliseconds: widget.listenerDebounceMilliSeconds), () {
-      listOffset = widget.listScrollController?.offset ?? listOffset;
+      listOffset = listScrollController?.offset ?? listOffset;
       widget.onListOffsetListener?.call();
     });
   }
 
   void _detailOffsetListener(){
     EasyDebounce.debounce("DetailScrollListener", Duration(milliseconds: widget.listenerDebounceMilliSeconds), () {
-      detailOffset = widget.detailScrollController?.offset ?? detailOffset;
+      detailOffset = detailScrollController?.offset ?? detailOffset;
       widget.onDetailOffsetListener?.call();
     });
   }
 
+
+  void _disposeController(bool isDetail){
+    if(isDetail){
+      if(widget.enableListeners){
+        detailScrollController?.removeListener(_detailOffsetListener);
+      }
+      detailScrollController?.dispose();
+      detailScrollController = null;
+    }else{
+      if(widget.enableListeners){
+        listScrollController?.removeListener(_listOffsetListener);
+      }
+      listScrollController?.dispose();
+      listScrollController = null;
+    }
+  }
+
   @override
   void dispose() {
-    if(widget.enableListeners){
-      widget.listScrollController?.removeListener(_listOffsetListener);
-      widget.detailScrollController?.removeListener(_detailOffsetListener);
-    }
+    _disposeController(true);
+    _disposeController(false);
     super.dispose();
   }
 }

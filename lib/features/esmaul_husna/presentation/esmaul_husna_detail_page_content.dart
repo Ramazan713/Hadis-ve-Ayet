@@ -41,67 +41,75 @@ class EsmaulHusnaDetailPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.read<ShowEsmaulHusnaBloc>();
 
-    return DefaultNestedScrollableAppBar(
-      title: const Text("Esmaul Husna"),
-      floating: true,
-      snap: true,
-      actions: getActionsDetail(context),
-      showNavigateBack: false,
-      leading: getNavigateBackIcon(context),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 3),
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState>(
-                buildWhen: (prevState, nextState){
-                  return prevState.isLoading != nextState.isLoading ||
-                      prevState.items != nextState.items ||
-                      prevState.fontModel != nextState.fontModel;
-                },
-                builder: (context,state){
-                  if(state.isLoading){
-                    return const SharedLoadingIndicator();
-                  }
-                  final items = state.items;
-                  if(items.isEmpty){
-                    return const SharedEmptyResult(
-                      content: "herhangi bir sonuç bulunamadı",
-                    );
-                  }
-                  return PageView.builder(
-                    onPageChanged: (page){
-                      EasyDebounce.debounce("onPageChanged", const Duration(milliseconds: 150), () {
-                        onPageChange(page);
-                        positionController.setPositions(page, page,totalItems: items.length);
-                        final item = getCurrentItemWithIndex(context, page);
-                        bloc.add(ShowEsmaulHusnaEventSetSelected(item: item));
-                      });
-                    },
-                    controller: pageController,
-                    itemBuilder: (context,index){
-                      final item = items[index];
-                      return DetailEsmaulHusna(
-                        esmaulHusna: item,
-                        fontModel: state.fontModel,
-                        onGotoDhikr: (){
-                          final counterId = item.counterId;
-                          if(counterId!=null){
-                            DetailCounterRoute(id: counterId).push(context);
-                          }
-                        },
-                        onSaveAsDhikr: (){
-                          bloc.add(ShowEsmaulHusnaEventSaveAsDhikr(item: item));
-                        },
+    return PopScope(
+      canPop: !isFullPage,
+      onPopInvoked: (canPop){
+        if(!canPop){
+          bloc.add(ShowEsmaulHusnaEventHideDetail());
+        }
+      },
+      child: DefaultNestedScrollableAppBar(
+        title: const Text("Esmaul Husna"),
+        floating: true,
+        snap: true,
+        actions: getActionsDetail(context),
+        showNavigateBack: false,
+        leading: getNavigateBackIcon(context),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 3),
+          child: Column(
+            children: [
+              Expanded(
+                child: BlocBuilder<ShowEsmaulHusnaBloc,ShowEsmaulHusnaState>(
+                  buildWhen: (prevState, nextState){
+                    return prevState.isLoading != nextState.isLoading ||
+                        prevState.items != nextState.items ||
+                        prevState.fontModel != nextState.fontModel;
+                  },
+                  builder: (context,state){
+                    if(state.isLoading){
+                      return const SharedLoadingIndicator();
+                    }
+                    final items = state.items;
+                    if(items.isEmpty){
+                      return const SharedEmptyResult(
+                        content: "herhangi bir sonuç bulunamadı",
                       );
-                    },
-                    itemCount: items.length,
-                  );
-                },
+                    }
+                    return PageView.builder(
+                      onPageChanged: (page){
+                        EasyDebounce.debounce("onPageChanged", const Duration(milliseconds: 150), () {
+                          onPageChange(page);
+                          positionController.setPositions(page, page,totalItems: items.length);
+                          final item = getCurrentItemWithIndex(context, page);
+                          bloc.add(ShowEsmaulHusnaEventSetSelected(item: item));
+                        });
+                      },
+                      controller: pageController,
+                      itemBuilder: (context,index){
+                        final item = items[index];
+                        return DetailEsmaulHusna(
+                          esmaulHusna: item,
+                          fontModel: state.fontModel,
+                          onGotoDhikr: (){
+                            final counterId = item.counterId;
+                            if(counterId!=null){
+                              DetailCounterRoute(id: counterId).push(context);
+                            }
+                          },
+                          onSaveAsDhikr: (){
+                            bloc.add(ShowEsmaulHusnaEventSaveAsDhikr(item: item));
+                          },
+                        );
+                      },
+                      itemCount: items.length,
+                    );
+                  },
+                ),
               ),
-            ),
-            getBottomButtons()
-          ],
+              getBottomButtons()
+            ],
+          ),
         ),
       ),
     );
