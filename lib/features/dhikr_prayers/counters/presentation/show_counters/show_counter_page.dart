@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
@@ -41,17 +42,16 @@ class ShowCounterPageState extends State<ShowCounterPage> {
     return getListeners(
       child: Scaffold(
         body: SafeArea(
-          child: DefaultNestedScrollableAppBar(
-            floating: true,
-            snap: true,
-            actions: getActions(),
-            scrollController: CustomScrollController(
-                controller: scrollController
-            ),
-            title: const Text("Sayaç"),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+          child: AdaptivePadding(
+            child: DefaultNestedScrollableAppBar(
+              floating: true,
+              snap: true,
+              actions: getActions(),
+              scrollController: CustomScrollController(
+                  controller: scrollController
+              ),
+              title: const Text("Sayaç"),
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     getDhikrmaticContent(),

@@ -23,8 +23,8 @@ extension DetailCounterSharedContentCounterExt on DetailCounterSharedContentPage
         final axisCount = windowSizeClass.isExpanded ? 2 : 1;
         return StaggeredGrid.count(
           crossAxisCount: axisCount,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
           children: _getCounterInfoChildren(context,state),
         );
       },

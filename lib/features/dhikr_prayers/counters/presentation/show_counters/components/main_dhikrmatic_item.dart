@@ -6,18 +6,20 @@ import 'package:hadith/core/utils/asset_helper.dart';
 class MainDhikrmaticItem extends StatelessWidget {
   final String title;
   final Function() onClick;
+  final EdgeInsets? margin;
 
   const MainDhikrmaticItem({
     Key? key,
     required this.title,
-    required this.onClick
+    required this.onClick,
+    this.margin
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return CardListTile(
-      margins: const EdgeInsets.symmetric(vertical: 7,horizontal: 7),
+      margins: margin ?? EdgeInsets.zero,
       title: Text(title),
       leading: Image.asset(AssetHelper.dhikr,width: 35),
       trailing: const Icon(Icons.arrow_forward_ios),

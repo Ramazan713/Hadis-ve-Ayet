@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
@@ -49,29 +51,28 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
     return getListeners(
       child: Scaffold(
         body: SafeArea(
-          child: BlocSelector<ShowCustomPrayersBloc, ShowCustomPrayersState,bool>(
-            selector: (state) => state.isSearchBarVisible,
-            builder: (context, isSearchBarVisible){
-              return DefaultNestedSearchableAppBar(
-                textEditingController: searchTextController,
-                pinned: true,
-                actions: getActions(),
-                appBarType: AppBarType.mediumBar,
-                scrollController: scrollController,
-                title: const Text("Eklediğim Dua ve Ayetler",overflow: TextOverflow.ellipsis,),
-                onTextChanged: (newText){
-                  bloc.add(ShowCustomPrayersEventSetQuery(query: newText));
-                },
-                searchBarVisible: isSearchBarVisible,
-                onSearchVisibilityChanged: (changedSearchBarVisible){
-                  bloc.add(ShowCustomPrayersEventSetSearchBarVisibility(isVisible: changedSearchBarVisible));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+          child: AdaptivePadding(
+            child: BlocSelector<ShowCustomPrayersBloc, ShowCustomPrayersState,bool>(
+              selector: (state) => state.isSearchBarVisible,
+              builder: (context, isSearchBarVisible){
+                return DefaultNestedSearchableAppBar(
+                  textEditingController: searchTextController,
+                  pinned: true,
+                  actions: getActions(),
+                  appBarType: AppBarType.mediumBar,
+                  scrollController: scrollController,
+                  title: const Text("Eklediğim Dua ve Ayetler",overflow: TextOverflow.ellipsis,),
+                  onTextChanged: (newText){
+                    bloc.add(ShowCustomPrayersEventSetQuery(query: newText));
+                  },
+                  searchBarVisible: isSearchBarVisible,
+                  onSearchVisibilityChanged: (changedSearchBarVisible){
+                    bloc.add(ShowCustomPrayersEventSetSearchBarVisibility(isVisible: changedSearchBarVisible));
+                  },
                   child: getListContent(context),
-                ),
-              );
-            },
+                );
+              },
+            ),
           )
         ),
           floatingActionButton: getFab(context)
@@ -91,9 +92,9 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
           return const SharedEmptyResult();
         }
         return LazyAlignedGridView(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
           shrinkWrap: true,
           itemCount: items.length,
+          padding: K.defaultLazyListPadding,
           maxCrossAxisExtent: 600,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,

@@ -19,27 +19,27 @@ class HistoryItem extends StatelessWidget {
     final borderRadius = BorderRadius.circular(13);
 
     return Card(
-        margin: const EdgeInsets.symmetric(horizontal: 1,vertical: 3),
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
-        child: InkWell(
-          borderRadius: borderRadius,
-          onTap: onClick,
-          child: Row(
-            children: [
-              const SizedBox(width: 19,),
-              Expanded(
-                child: Text(
-                history.name,
-                style: Theme.of(context).textTheme.bodyMedium,)
-              ),
-              IconButton(
-                onPressed: onRemoveClick,
-                icon: const Icon(Icons.clear)
-              ),
-              const SizedBox(width: 7,)
-            ],
-          ),
-        )
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: onClick,
+        child: Row(
+          children: [
+            const SizedBox(width: 19,),
+            Expanded(
+              child: Text(
+              history.name,
+              style: Theme.of(context).textTheme.bodyMedium,)
+            ),
+            IconButton(
+              onPressed: onRemoveClick,
+              icon: const Icon(Icons.clear)
+            ),
+            const SizedBox(width: 7,)
+          ],
+        ),
+      )
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/manage_downloaded_audio_listener.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
@@ -70,27 +72,26 @@ class SurahPageState extends State<SurahPage> {
         child: Scaffold(
           floatingActionButton: getFab(),
           body: SafeArea(
-            child: BlocSelector<SurahBloc, SurahState, bool>(
-              selector: (state)=>state.searchBarVisible,
-              builder: (context,isSearchBarVisible){
-                return DefaultNestedSearchableAppBar(
-                  textEditingController: searchTextController,
-                  searchBarVisible: isSearchBarVisible,
-                  contentScrollController: autoScrollController,
-                  scrollController: scrollController,
-                  onSearchVisibilityChanged: (newIsSearchBarVisible){
-                    bloc.add(SurahEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
-                  },
-                  onTextChanged: (newText){
-                    bloc.add(SurahEventSearch(query: newText));
-                  },
-                  title: const Text("Sure"),
-                  actions: getActions(),
-                  snap: true,
-                  floating: true,
-                  appBarType: AppBarType.defaultBar,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: AdaptivePadding(
+              child: BlocSelector<SurahBloc, SurahState, bool>(
+                selector: (state)=>state.searchBarVisible,
+                builder: (context,isSearchBarVisible){
+                  return DefaultNestedSearchableAppBar(
+                    textEditingController: searchTextController,
+                    searchBarVisible: isSearchBarVisible,
+                    contentScrollController: autoScrollController,
+                    scrollController: scrollController,
+                    onSearchVisibilityChanged: (newIsSearchBarVisible){
+                      bloc.add(SurahEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
+                    },
+                    onTextChanged: (newText){
+                      bloc.add(SurahEventSearch(query: newText));
+                    },
+                    title: const Text("Sure"),
+                    actions: getActions(),
+                    snap: true,
+                    floating: true,
+                    appBarType: AppBarType.defaultBar,
                     child: Column(
                       children: [
                         const DownloadAudioInfoItem(),
@@ -100,9 +101,9 @@ class SurahPageState extends State<SurahPage> {
                         )
                       ],
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -154,7 +155,7 @@ class SurahPageState extends State<SurahPage> {
     return LazyAlignedGridView(
       itemCount: items.length,
       controller: autoScrollController.controller,
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: K.defaultLazyListPadding,
       maxCrossAxisExtent: 600,
       itemBuilder: (context, index){
         final item = items[index];

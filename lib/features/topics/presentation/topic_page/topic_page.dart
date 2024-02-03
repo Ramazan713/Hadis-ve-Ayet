@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/topic_save_point/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_bloc.dart';
@@ -63,14 +65,15 @@ class TopicPageState extends State<TopicPage> {
   Widget build(BuildContext context) {
     final bloc = context.read<TopicBloc>();
 
-    return getListeners(
-      child: BlocSelector<TopicBloc, TopicState, bool>(
-          selector: (state)=>state.searchBarVisible,
-          builder: (context,isSearchBarVisible){
-            return Scaffold(
-              floatingActionButton: getFloatingActionWidget(),
-              body: SafeArea(
-                child: DefaultNestedSearchableAppBar(
+    return Scaffold(
+      floatingActionButton: getFloatingActionWidget(),
+      body: SafeArea(
+        child: getListeners(
+          child: AdaptivePadding(
+            child: BlocSelector<TopicBloc, TopicState, bool>(
+              selector: (state)=>state.searchBarVisible,
+              builder: (context,isSearchBarVisible){
+                return DefaultNestedSearchableAppBar(
                   textEditingController: searchTextController,
                   scrollController: scrollController,
                   contentScrollController: autoScrollController,
@@ -90,14 +93,12 @@ class TopicPageState extends State<TopicPage> {
                   floating: true,
                   floatHeaderSlivers: true,
                   appBarType: AppBarType.defaultBar,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: getItemsContent(),
-                  ),
-                ),
-              )
-            );
-          }
+                  child: getItemsContent(),
+                );
+              }
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -127,6 +128,7 @@ class TopicPageState extends State<TopicPage> {
             return LazyAlignedGridView(
               shrinkWrap: true,
               controller: autoScrollController.controller,
+              padding: K.defaultLazyListPadding,
               maxCrossAxisExtent: 600,
               itemCount: items.length,
               itemBuilder: (context, index){

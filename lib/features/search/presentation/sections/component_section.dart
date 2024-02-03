@@ -7,7 +7,7 @@ import 'package:hadith/core/presentation/components/search/custom_search_view.da
 import 'package:hadith/core/presentation/dialogs/show_select_search_criteria.dart';
 import 'package:hadith/features/search/presentation/bloc/search_bloc.dart';
 import 'package:hadith/features/search/presentation/bloc/search_event.dart';
-import 'package:hadith/features/search/presentation/search_page.dart';
+import '../search_page.dart';
 
 extension SearchPageComponentsExt on SearchPageState{
 

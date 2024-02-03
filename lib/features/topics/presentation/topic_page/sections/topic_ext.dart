@@ -18,8 +18,8 @@ import 'package:hadith/core/presentation/selections/show_bottom_menu_items.dart'
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
-import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import '../topic_page.dart';
 
 import '../bloc/topic_bloc.dart';
 import '../bloc/topic_state.dart';

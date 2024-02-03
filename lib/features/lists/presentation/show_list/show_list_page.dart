@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
@@ -48,59 +50,61 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
   Widget build(BuildContext context) {
     final listBloc = context.read<ShowListBloc>();
 
-    return getListeners(
-      child: BlocSelector<ShowListBloc, ShowListState,bool>(
-        selector: (state)=> state.searchBarVisible,
-        builder: (context, searchBarVisible) {
-          return Scaffold(
-            floatingActionButton: getFab(context),
-            body: SafeArea(
-              child: DefaultNestedSearchableAppBar(
-                textEditingController: searchTextController,
-                pinned: true,
-                snap: true,
-                floating: true,
-                searchBarVisible: searchBarVisible,
-                scrollController: CustomScrollController(
-                    controller: scrollController
-                ),
-                onTextChanged: (newText){
-                  listBloc.add(ShowListEventSearch(query: newText));
-                },
-                onSearchVisibilityChanged: (newSearchBarVisible){
-                  listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
-                },
-                actions: getActions(),
-                title: const Text("Listeler"),
-                appBarBottom: getTopTabBar(),
-                child: TabBarView(
-                  controller: tabController,
-                  children: [
-                    BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                      selector: (state)=>state.listHadiths,
-                      builder: (context,listHadiths){
-                        return getListItems(
-                            items: listHadiths,
-                            sourceType: SourceTypeEnum.hadith,
-                            useSecondary: true
-                        );
-                      },
-                    ),
-                    BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                      selector: (state)=>state.listVerses,
-                      builder: (context,listVerses){
-                        return getListItems(
-                          items: listVerses,
-                          sourceType: SourceTypeEnum.verse,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+    return Scaffold(
+      floatingActionButton: getFab(context),
+      body: SafeArea(
+        child: getListeners(
+          child: AdaptivePadding(
+            child: BlocSelector<ShowListBloc, ShowListState,bool>(
+              selector: (state)=> state.searchBarVisible,
+              builder: (context, searchBarVisible) {
+                return DefaultNestedSearchableAppBar(
+                  textEditingController: searchTextController,
+                  pinned: true,
+                  snap: true,
+                  floating: true,
+                  searchBarVisible: searchBarVisible,
+                  scrollController: CustomScrollController(
+                      controller: scrollController
+                  ),
+                  onTextChanged: (newText){
+                    listBloc.add(ShowListEventSearch(query: newText));
+                  },
+                  onSearchVisibilityChanged: (newSearchBarVisible){
+                    listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
+                  },
+                  actions: getActions(),
+                  title: const Text("Listeler"),
+                  appBarBottom: getTopTabBar(),
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
+                        selector: (state)=>state.listHadiths,
+                        builder: (context,listHadiths){
+                          return getListItems(
+                              items: listHadiths,
+                              sourceType: SourceTypeEnum.hadith,
+                              useSecondary: true
+                          );
+                        },
+                      ),
+                      BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
+                        selector: (state)=>state.listVerses,
+                        builder: (context,listVerses){
+                          return getListItems(
+                            items: listVerses,
+                            sourceType: SourceTypeEnum.verse,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -118,7 +122,7 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
 
     return LazyAlignedGridView(
       itemCount: items.length,
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: K.defaultLazyListPadding,
       itemBuilder: (BuildContext context, int index) {
         var item = items[index];
 

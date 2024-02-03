@@ -6,7 +6,7 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/search/presentation/bloc/search_state.dart';
 import 'package:hadith/features/search/presentation/components/search_result_collection.dart';
 import 'package:hadith/features/search/domain/model/search_result.dart';
-import 'package:hadith/features/search/presentation/search_page.dart';
+import '../search_page.dart';
 import 'package:flutter/material.dart';
 
 extension SearchPageSearchResultExt on SearchPageState{

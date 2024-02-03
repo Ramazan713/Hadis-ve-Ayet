@@ -12,7 +12,7 @@ import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_state.dart';
-import 'package:hadith/features/settings/presentation/settings_page.dart';
+import '../settings_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 

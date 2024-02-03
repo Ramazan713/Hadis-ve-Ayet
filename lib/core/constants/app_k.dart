@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 
 class K{
@@ -28,6 +29,7 @@ class K{
 
   static const int delayForStartingServiceInMilliSeconds = 2000;
 
+  static const defaultLazyListPadding = EdgeInsets.only(top: 4, bottom: 12);
 
 }
 

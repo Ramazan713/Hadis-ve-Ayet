@@ -21,6 +21,7 @@ class EsmaulHusnaRepaintItem extends StatelessWidget {
     return RepaintBoundary(
       key: repaintKey,
       child: _SharedEsmaulHusnaItem(
+        margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
         esmaulHusna: esmaulHusna,
         fontModel: fontModel,
         useForShare: true,
@@ -36,6 +37,7 @@ class EsmaulHusnaItem extends StatelessWidget {
   final void Function() onClick;
   final void Function() onShareClick;
   final bool isSelected;
+  final EdgeInsets? margin;
 
   const EsmaulHusnaItem({
     Key? key,
@@ -43,7 +45,8 @@ class EsmaulHusnaItem extends StatelessWidget {
     required this.fontModel,
     required this.onClick,
     required this.onShareClick,
-    this.isSelected = false
+    this.isSelected = false,
+    this.margin
   }) : super(key: key);
 
   @override
@@ -67,6 +70,7 @@ class _SharedEsmaulHusnaItem extends StatelessWidget {
   final void Function()? onShareClick;
   final bool useForShare;
   final bool isSelected;
+  final EdgeInsets? margin;
 
   const _SharedEsmaulHusnaItem({
     Key? key,
@@ -75,7 +79,8 @@ class _SharedEsmaulHusnaItem extends StatelessWidget {
     this.isSelected = false,
     this.useForShare = false,
     this.onClick,
-    this.onShareClick
+    this.onShareClick,
+    this.margin
   }) : super(key: key);
 
   @override
@@ -86,7 +91,7 @@ class _SharedEsmaulHusnaItem extends StatelessWidget {
       Theme.of(context).colorScheme.surface;
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+      margin: margin ?? EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
       color: selectedColor,
       elevation: 1,

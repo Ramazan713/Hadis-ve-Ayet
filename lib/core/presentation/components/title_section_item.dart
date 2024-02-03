@@ -122,7 +122,7 @@ class TitleSectionChild extends StatelessWidget {
     final colorSchema = Theme.of(context).colorScheme;
     final cardColor = useDefaultColor ? colorSchema.surface : colorSchema.secondaryContainer;
     return Card(
-      margin: margins ?? const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
+      margin: margins ?? EdgeInsets.zero,
       elevation: elevation,
       color: cardColor,
       child: child,

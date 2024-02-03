@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
@@ -18,15 +20,14 @@ class PrayerAndVerseListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: DefaultNestedScrollableAppBar(
-          title: const Text(
-            "Namaz Duaları ve Ayetler",
-            overflow: TextOverflow.ellipsis,
-          ),
-          pinned: true,
-          appBarType: AppBarType.mediumBar,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: AdaptivePadding(
+          child: DefaultNestedScrollableAppBar(
+            title: const Text(
+              "Namaz Duaları ve Ayetler",
+              overflow: TextOverflow.ellipsis,
+            ),
+            pinned: true,
+            appBarType: AppBarType.mediumBar,
             child: Column(
               children: [
                Expanded(
@@ -41,6 +42,7 @@ class PrayerAndVerseListPage extends StatelessWidget {
                       itemCount: items.length,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
+                      padding: K.defaultLazyListPadding,
                       itemBuilder: (context, index){
                         final item = items[index];
                         return PrayerAndVerseItem(

@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
 import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
-import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/sections/content_section.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/sections/listener_section.dart';
 
 import 'bloc/manage_counter_bloc.dart';
 import 'bloc/manage_counter_event.dart';
+import './sections/content_section.dart';
+import './sections/listener_section.dart';
 
 
 class ManageCounterPage extends StatelessWidget {
@@ -49,26 +48,24 @@ class ManageCounterPage extends StatelessWidget {
             floating: true,
             snap: true,
             child: DefaultAdaptiveLayout(
+              useAdaptivePadding: true,
               builder: (context, windowSizeClass){
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              getAdaptiveSelectTypeWidget(context, windowSizeClass),
-                              getNewContents(context, windowSizeClass: windowSizeClass),
-                              getStandardAdaptiveBottomButton(context,windowSizeClass)
-                            ],
-                          ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            getAdaptiveSelectTypeWidget(context, windowSizeClass),
+                            getNewContents(context, windowSizeClass: windowSizeClass),
+                            getStandardAdaptiveBottomButton(context,windowSizeClass)
+                          ],
                         ),
                       ),
-                      getExpandedAdaptiveBottomButton(context,windowSizeClass)
-                    ],
-                  ),
+                    ),
+                    getExpandedAdaptiveBottomButton(context,windowSizeClass)
+                  ],
                 );
               },
             ),

@@ -1,8 +1,11 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/constants/k_pref.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
@@ -70,31 +73,30 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: BlocSelector<PrayerInQuranBloc,PrayerInQuranState,bool>(
-              selector: (state) => state.isSearchBarVisible,
-              builder: (context, isSearchBarVisible){
-                return DefaultNestedSearchableAppBar(
-                  textEditingController: searchTextController,
-                  scrollController: scrollController,
-                  contentScrollController: autoScrollController,
-                  floatHeaderSlivers: true,
-                  onTextChanged: (text){
-                    bloc.add(PrayerInQuranEventSetQuery(query: text));
-                  },
-                  onSearchVisibilityChanged: (isSearchVisible){
-                    bloc.add(PrayerInQuranEventSetSearchBarVisibility(isVisible: isSearchVisible));
-                  },
-                  searchBarVisible: isSearchBarVisible,
-                  title: const Text("Dua Ayetleri",),
-                  actions: getActions(context),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: AdaptivePadding(
+              child: BlocSelector<PrayerInQuranBloc,PrayerInQuranState,bool>(
+                selector: (state) => state.isSearchBarVisible,
+                builder: (context, isSearchBarVisible){
+                  return DefaultNestedSearchableAppBar(
+                    textEditingController: searchTextController,
+                    scrollController: scrollController,
+                    contentScrollController: autoScrollController,
+                    floatHeaderSlivers: true,
+                    onTextChanged: (text){
+                      bloc.add(PrayerInQuranEventSetQuery(query: text));
+                    },
+                    onSearchVisibilityChanged: (isSearchVisible){
+                      bloc.add(PrayerInQuranEventSetSearchBarVisibility(isVisible: isSearchVisible));
+                    },
+                    searchBarVisible: isSearchBarVisible,
+                    title: const Text("Dua Ayetleri",),
+                    actions: getActions(context),
                     child: BasicAudioInfoBodyWrapper(
                       child: getContent(context)
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -125,6 +127,7 @@ class _PrayerInQuranPageState extends State<PrayerInQuranPage> {
               crossAxisSpacing: 8,
               itemCount: items.length,
               shrinkWrap: false,
+              padding: K.defaultLazyListPadding,
               controller: autoScrollController.controller,
               itemBuilder: (context, index){
                 final prayerUnit = items[index];

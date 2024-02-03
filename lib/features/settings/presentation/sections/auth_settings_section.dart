@@ -7,7 +7,7 @@ import 'package:hadith/core/features/auth/presentation/bloc/auth_state.dart';
 import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/settings/presentation/components/user_info_icon.dart';
-import 'package:hadith/features/settings/presentation/settings_page.dart';
+import '../settings_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 extension SettingsPageAuthExt on SettingsPage{

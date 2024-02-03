@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
@@ -26,6 +27,8 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
             getSubTitleWidget("Zikir Türleri"),
             StaggeredGrid.extent(
               maxCrossAxisExtent: 500,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
               children: [
                 MainDhikrmaticItem(
                   title: "Zikirmatik (Klasik)",
@@ -66,8 +69,9 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
               maxCrossAxisExtent: 700,
               shrinkWrap: true,
               mainAxisSpacing: 8,
-              controller: ScrollController(),
               crossAxisSpacing: 8,
+              padding: K.defaultLazyListPadding,
+              controller: ScrollController(),
               itemCount: counters.length,
               itemBuilder: (context, index) {
                 final counter = counters[index];

@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/extensions/list_ext.dart';
 import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
@@ -52,13 +55,12 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: DefaultNestedScrollableAppBar(
-              title: getTitle(),
-              pinned: true,
-              actions: getActions(context),
-              appBarType: AppBarType.mediumBar,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: AdaptivePadding(
+              child: DefaultNestedScrollableAppBar(
+                title: getTitle(),
+                pinned: true,
+                actions: getActions(context),
+                appBarType: AppBarType.mediumBar,
                 child: BasicAudioInfoBodyWrapper(
                   child: BlocBuilder<PrayerAndVerseDetailBloc,PrayerAndVerseDetailState>(
                     builder: (context,state){
@@ -105,15 +107,18 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
     required FontModel fontModel
   }){
     final axisCount = windowSizeClass.isExpanded ? 2 : 1;
-    return StaggeredGrid.count(
-      crossAxisCount: axisCount,
-      crossAxisSpacing: 4,
-      mainAxisSpacing: 4,
-      children: [
-        getArabicContentItem(prayer: prayer, fontModel: fontModel),
-        getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
-        getMeaningContentItem(prayer: prayer, fontModel: fontModel),
-      ],
+    return Padding(
+      padding: K.defaultLazyListPadding,
+      child: StaggeredGrid.count(
+        crossAxisCount: axisCount,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        children: <Widget>[].fromFilteredItems([
+          getArabicContentItem(prayer: prayer, fontModel: fontModel),
+          getPronunciationContentItem(prayer: prayer, fontModel: fontModel),
+          getMeaningContentItem(prayer: prayer, fontModel: fontModel),
+        ]),
+      ),
     );
   }
 
@@ -181,12 +186,12 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget getPronunciationContentItem({
+  Widget? getPronunciationContentItem({
     required PrayerAndVerse? prayer,
     required FontModel fontModel
   }){
     if(prayer?.pronunciationContent == null) {
-      return const SizedBox();
+      return null;
     }
     return TitleSectionItem(
         title: "Okunuşu",

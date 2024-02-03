@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/components/basic_audio_info_body_wrapper.dart';
@@ -36,34 +37,33 @@ class CustomPrayerDetailPage extends StatelessWidget {
       child: getListeners(
         child: Scaffold(
           body: SafeArea(
-            child: DefaultNestedScrollableAppBar(
-              title: const Text("Dualarım"),
-              snap: true,
-              floating: true,
-              actions: getActions(context),
-              child: BasicAudioInfoBodyWrapper(
-                child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
-                  builder: (context,state){
-                    return StackSecondContent(
-                      getSecondChild: (){
-                        return getLoadingOrEmptyResult(context, state);
-                      },
-                      child: DefaultAdaptiveLayout(
-                        builder: (context, windowSizeClass){
-                          return SingleChildScrollView(
-                            child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 5),
-                                child: CustomPrayerDetailItem(
-                                  fontModel: state.fontModel,
-                                  prayerUnit: state.prayerUnit,
-                                  windowSizeClass: windowSizeClass,
-                                )
-                            ),
-                          );
+            child: AdaptivePadding(
+              child: DefaultNestedScrollableAppBar(
+                title: const Text("Dualarım"),
+                snap: true,
+                floating: true,
+                actions: getActions(context),
+                child: BasicAudioInfoBodyWrapper(
+                  child: BlocBuilder<CustomPrayerDetailBloc,CustomPrayerDetailState>(
+                    builder: (context,state){
+                      return StackSecondContent(
+                        getSecondChild: (){
+                          return getLoadingOrEmptyResult(context, state);
                         },
-                      ),
-                    );
-                  }
+                        child: DefaultAdaptiveLayout(
+                          builder: (context, windowSizeClass){
+                            return SingleChildScrollView(
+                              child: CustomPrayerDetailItem(
+                                fontModel: state.fontModel,
+                                prayerUnit: state.prayerUnit,
+                                windowSizeClass: windowSizeClass,
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  ),
                 ),
               ),
             ),

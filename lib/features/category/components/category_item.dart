@@ -6,13 +6,15 @@ class CategoryItem extends StatelessWidget {
   final String assetPath;
   final Function() onClick;
   final bool expandContent;
+  final EdgeInsets? margin;
 
   const CategoryItem({
     Key? key,
     required this.title,
     required this.assetPath,
     required this.onClick,
-    this.expandContent = false
+    this.expandContent = false,
+    this.margin
   }) : super(key: key);
 
   final double imageSize = 100;
@@ -21,7 +23,7 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(13);
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 7,horizontal: 5),
+      margin: margin ?? EdgeInsets.zero,
       shape: RoundedRectangleBorder(
           borderRadius: borderRadius
       ),

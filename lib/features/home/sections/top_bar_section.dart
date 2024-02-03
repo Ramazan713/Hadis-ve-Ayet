@@ -8,7 +8,7 @@ import 'package:hadith/core/presentation/components/search/custom_search_bar_emp
 import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/home/enums/home_top_bar_menu_item.dart';
-import 'package:hadith/features/home/home_page.dart';
+import '../home_page.dart';
 
 extension HomePageTopBarExt on HomePage{
 
@@ -16,6 +16,7 @@ extension HomePageTopBarExt on HomePage{
     return [
       Expanded(
         child: CustomSearchBarEmpty(
+          margins: const EdgeInsets.symmetric(vertical: 8),
           onTap: (){
             SearchRoute().push(context);
           },

@@ -62,6 +62,7 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
         child: Scaffold(
           body: SafeArea(
             child: ListDetailAdaptiveLayoutWithController(
+              useAdaptivePadding: true,
               useDetailOffset: false,
               onDetailOffsetListener: (){
                 currentPage = pageController?.page?.toInt() ?? currentPage;

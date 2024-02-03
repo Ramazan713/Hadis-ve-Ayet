@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
+import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
+import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/bloc/counter_setting_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/bloc/counter_setting_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/bloc/counter_setting_state.dart';
 import 'package:settings_ui/settings_ui.dart';
-
-import 'bloc/counter_setting_bloc.dart';
 
 class CounterDetailSettingPage extends StatelessWidget {
 
@@ -19,7 +18,7 @@ class CounterDetailSettingPage extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: CustomNestedViewAppBar(
+        child: DefaultNestedScrollableAppBar(
           title: const Text("Zikirmatik Ayarlar"),
           child: SettingsList(
             lightTheme: SettingsThemeData(

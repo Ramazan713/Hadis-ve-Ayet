@@ -13,7 +13,7 @@ import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/home/components/home_item.dart';
 import 'package:hadith/features/home/components/home_section_item.dart';
-import 'package:hadith/features/home/home_page.dart';
+import '../home_page.dart';
 
 extension HomeSerlevhaContentSection on HomePage{
 

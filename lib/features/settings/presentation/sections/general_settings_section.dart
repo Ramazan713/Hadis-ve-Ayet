@@ -17,7 +17,7 @@ import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/core/presentation/selections/show_select_radio_dia.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_state.dart';
-import 'package:hadith/features/settings/presentation/settings_page.dart';
+import '../settings_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 extension SettingsPageGeneralExt on SettingsPage{

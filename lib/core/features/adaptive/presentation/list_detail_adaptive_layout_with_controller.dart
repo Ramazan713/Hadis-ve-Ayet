@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ListDetailAdaptiveLayoutWithController extends StatefulWidget {
@@ -13,7 +14,7 @@ class ListDetailAdaptiveLayoutWithController extends StatefulWidget {
   final Widget Function(Widget Function(bool showDetailInSinglePane) onShowDetailResult)? onShowDetailInSinglePaneBuilder;
   final ScrollController Function(double offset)? onCreateListController;
   final ScrollController Function(double offset)? onCreateDetailController;
-
+  final bool useAdaptivePadding;
   final void Function()? onListOffsetListener;
   final void Function()? onDetailOffsetListener;
   final bool enableListeners;
@@ -25,6 +26,7 @@ class ListDetailAdaptiveLayoutWithController extends StatefulWidget {
     super.key,
     required this.onListWidget,
     required this.onDetailWidget,
+    this.useAdaptivePadding = false,
     this.enableListeners = true,
     this.useListOffset = true,
     this.useDetailOffset = true,
@@ -50,50 +52,53 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveLayout(
-      body: SlotLayout(
-        config: {
-          Breakpoints.standard:  SlotLayout.from(
-            key: const Key("ListDetailAdaptiveLayout Standard"),
-            builder: (context){
-              if(widget.showDetailInSinglePane == true){
-                return _getAndHandleDetailWidget(true);
-              }else if(widget.showDetailInSinglePane == false){
-                return _getAndHandleListWidget(true);
-              }
-
-              final showDetailInSinglePaneBuilder = widget.onShowDetailInSinglePaneBuilder;
-              if(showDetailInSinglePaneBuilder == null){
-                return _getAndHandleListWidget(true);
-              }
-
-              return showDetailInSinglePaneBuilder(
-                (showDetailInSinglePane){
-                  if(showDetailInSinglePane){
-                    return _getAndHandleDetailWidget(true);
-                  }
+    return AdaptivePadding(
+      useAdaptivePadding: widget.useAdaptivePadding,
+      child: AdaptiveLayout(
+        body: SlotLayout(
+          config: {
+            Breakpoints.standard:  SlotLayout.from(
+              key: const Key("ListDetailAdaptiveLayout Standard"),
+              builder: (context){
+                if(widget.showDetailInSinglePane == true){
+                  return _getAndHandleDetailWidget(true);
+                }else if(widget.showDetailInSinglePane == false){
                   return _getAndHandleListWidget(true);
                 }
-              );
-            }
-          ),
-          Breakpoints.large:  SlotLayout.from(
-            key: const Key("ListDetailAdaptiveLayout Large"),
-            builder: (context){
-              return Row(
-                children: [
-                  Expanded(
-                    child: _getAndHandleListWidget(false)
-                  ),
-                  const SizedBox(width: 24,),
-                  Expanded(
-                      child: _getAndHandleDetailWidget(false)
-                  )
-                ],
-              );
-            }
-          ),
-        },
+      
+                final showDetailInSinglePaneBuilder = widget.onShowDetailInSinglePaneBuilder;
+                if(showDetailInSinglePaneBuilder == null){
+                  return _getAndHandleListWidget(true);
+                }
+      
+                return showDetailInSinglePaneBuilder(
+                  (showDetailInSinglePane){
+                    if(showDetailInSinglePane){
+                      return _getAndHandleDetailWidget(true);
+                    }
+                    return _getAndHandleListWidget(true);
+                  }
+                );
+              }
+            ),
+            Breakpoints.large:  SlotLayout.from(
+              key: const Key("ListDetailAdaptiveLayout Large"),
+              builder: (context){
+                return Row(
+                  children: [
+                    Expanded(
+                      child: _getAndHandleListWidget(false)
+                    ),
+                    const SizedBox(width: 24,),
+                    Expanded(
+                        child: _getAndHandleDetailWidget(false)
+                    )
+                  ],
+                );
+              }
+            ),
+          },
+        ),
       ),
     );
   }

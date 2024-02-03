@@ -9,7 +9,7 @@ import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_event.dart';
 import 'package:hadith/features/settings/presentation/bloc/settings_state.dart';
-import 'package:hadith/features/settings/presentation/settings_page.dart';
+import '../settings_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 extension SettingsPageAdvancedExt on SettingsPage{

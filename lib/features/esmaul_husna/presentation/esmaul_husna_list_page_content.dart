@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/constants/app_k.dart';
+import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/presentation/bottom_sheets/show_select_font_size_dia.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/navigate_to_icon_auto.dart';
@@ -67,9 +69,13 @@ class EsmaulHusnaListPageContent extends StatelessWidget{
                       );
                     }
 
-                    return ListView.builder(
+                    return LazyAlignedGridView(
+                      maxCrossAxisExtent: 600,
                       controller: customAutoScrollController.controller,
                       itemCount: items.length,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      padding: K.defaultLazyListPadding,
                       itemBuilder: (context, index){
                         final item = items[index];
                         return AutoScrollTag(

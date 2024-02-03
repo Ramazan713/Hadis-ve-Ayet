@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layout.dart';
-import 'package:hadith/core/presentation/components/app_bar/custom_nested_view_app_bar.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_scrollable_app_bar.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/sections/content_section.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/sections/listener_section.dart';
+import './sections/content_section.dart';
+import './sections/listener_section.dart';
 import 'bloc/custom_prayer_manage_bloc.dart';
 import 'bloc/custom_prayer_manage_event.dart';
 
@@ -48,22 +46,20 @@ class CustomPrayerManagePage extends StatelessWidget {
             floating: true,
             snap: true,
             child: DefaultAdaptiveLayout(
+              useAdaptivePadding: true,
               builder: (context, windowSizeClass){
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: getBottomButton(context),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 7),
-                          child: getContents(context, windowSizeClass: windowSizeClass),
-                        ),
-                      ],
-                    ),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: getBottomButton(context),
+                      ),
+                      Padding(
+                        padding: K.defaultLazyListPadding,
+                        child: getContents(context, windowSizeClass: windowSizeClass),
+                      ),
+                    ],
                   ),
                 );
               },

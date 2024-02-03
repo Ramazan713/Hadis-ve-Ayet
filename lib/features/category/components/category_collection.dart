@@ -18,7 +18,7 @@ class CategoryCollection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final currentMargins = margins ?? const EdgeInsets.symmetric(vertical: 13,horizontal: 5);
+    final currentMargins = margins ?? const EdgeInsets.symmetric(vertical: 16);
 
     return Padding(
       padding: currentMargins,
@@ -34,6 +34,8 @@ class CategoryCollection extends StatelessWidget {
           ),
           StaggeredGrid.extent(
             maxCrossAxisExtent: expandContent ? 500 : 250,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
             children: items,
           )
         ],

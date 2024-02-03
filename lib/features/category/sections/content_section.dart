@@ -5,9 +5,9 @@ import 'package:hadith/core/domain/enums/fards_info_enum.dart';
 import 'package:hadith/core/domain/enums/islamic_info_type.dart';
 import 'package:hadith/core/utils/asset_helper.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/category/category_page.dart';
 import 'package:hadith/features/category/components/category_collection.dart';
 import 'package:hadith/features/category/components/category_item.dart';
+import '../category_page.dart';
 
 extension CategoryContentExt on CategoryPage{
 

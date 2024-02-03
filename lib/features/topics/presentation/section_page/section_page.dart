@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/show_save_point/show_select_save_point.dart';
@@ -40,31 +42,30 @@ class _SectionPageState extends State<SectionPage> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<SectionBloc>();
-    return BlocSelector<SectionBloc, SectionState, bool>(
-      selector: (state)=>state.searchBarVisible,
-      builder: (context,isSearchBarVisible){
-        return Scaffold(
-          body: SafeArea(
-            child: DefaultNestedSearchableAppBar(
-              textEditingController: searchTextController,
-              searchBarVisible: isSearchBarVisible,
-              onSearchVisibilityChanged: (newIsSearchBarVisible){
-                bloc.add(SectionEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
-              },
-              onTextChanged: (newText){
-                bloc.add(SectionEventSearch(query: newText));
-              },
-              title: Text(
-                "Bölüm - ${widget.bookEnum.bookScope.description}",
-                overflow: TextOverflow.ellipsis,
-              ),
-              actions: widget.getActions(context),
-              pinned: true,
-              snap: false,
-              floating: false,
-              appBarType: AppBarType.mediumBar,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+    return Scaffold(
+      body: SafeArea(
+        child: AdaptivePadding(
+          child: BlocSelector<SectionBloc, SectionState, bool>(
+            selector: (state)=>state.searchBarVisible,
+            builder: (context,isSearchBarVisible){
+              return DefaultNestedSearchableAppBar(
+                textEditingController: searchTextController,
+                searchBarVisible: isSearchBarVisible,
+                onSearchVisibilityChanged: (newIsSearchBarVisible){
+                  bloc.add(SectionEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
+                },
+                onTextChanged: (newText){
+                  bloc.add(SectionEventSearch(query: newText));
+                },
+                title: Text(
+                  "Bölüm - ${widget.bookEnum.bookScope.description}",
+                  overflow: TextOverflow.ellipsis,
+                ),
+                actions: widget.getActions(context),
+                pinned: true,
+                snap: false,
+                floating: false,
+                appBarType: AppBarType.mediumBar,
                 child: BlocBuilder<SectionBloc,SectionState>(
                   builder: (context, state){
                     if(state.isLoading){
@@ -82,34 +83,35 @@ class _SectionPageState extends State<SectionPage> {
                     return getItemsContent(items);
                   },
                 ),
-              ),
-            ),
+              );
+            },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   Widget getItemsContent(List<SectionModel> items){
     return LazyAlignedGridView(
-        maxCrossAxisExtent: 600,
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index){
-          final item = items[index];
-          return SectionItem(
-            sectionItem: item.sectionViewModel,
-            rowNumber: index == 0 ? null : index,
-            onTap: (){
-              TopicRoute(
-                  bookId: widget.bookEnum.bookId,
-                  sectionTitle: item.sectionViewModel.name,
-                  sectionId: item.sectionViewModel.id,
-                  useBookAllSections: item.isBookSection
-              ).push(context);
-            },
+      maxCrossAxisExtent: 600,
+      itemCount: items.length,
+      padding: K.defaultLazyListPadding,
+      itemBuilder: (BuildContext context, int index){
+        final item = items[index];
+        return SectionItem(
+          sectionItem: item.sectionViewModel,
+          rowNumber: index == 0 ? null : index,
+          onTap: (){
+            TopicRoute(
+                bookId: widget.bookEnum.bookId,
+                sectionTitle: item.sectionViewModel.name,
+                sectionId: item.sectionViewModel.id,
+                useBookAllSections: item.isBookSection
+            ).push(context);
+          },
 
-          );
-        }
+        );
+      }
     );
   }
 

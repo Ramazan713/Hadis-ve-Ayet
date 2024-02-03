@@ -12,7 +12,7 @@ import 'package:hadith/features/dhikr_prayers/counters/domain/enums/counter_type
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_event.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/bloc/manage_counter_state.dart';
-import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_counter/manage_counter_page.dart';
+import '../manage_counter_page.dart';
 
 extension ManageCounterPageContentExt on ManageCounterPage{
 

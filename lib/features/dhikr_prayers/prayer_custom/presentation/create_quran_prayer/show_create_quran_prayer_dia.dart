@@ -209,6 +209,7 @@ class _DialogContentState extends State<_DialogContent> {
                     fontFamily: FontFamilyArabicEnum.defaultValue,
                   )
               ),
+              const SizedBox(height: 16,),
               TitleSectionItem(
                   title: "Anlamı",
                   expandable: true,

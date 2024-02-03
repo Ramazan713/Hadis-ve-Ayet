@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/manage_downloaded_audio_listener.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
@@ -68,15 +70,14 @@ class CuzPageState extends State<CuzPage> {
         child: Scaffold(
           floatingActionButton: getFab(),
           body: SafeArea(
-            child: DefaultNestedScrollableAppBar(
-              title: const Text("Cüz"),
-              scrollController: scrollController,
-              snap: true,
-              floating: true,
-              appBarType: AppBarType.defaultBar,
-              actions: getActions(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: AdaptivePadding(
+              child: DefaultNestedScrollableAppBar(
+                title: const Text("Cüz"),
+                scrollController: scrollController,
+                snap: true,
+                floating: true,
+                appBarType: AppBarType.defaultBar,
+                actions: getActions(),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -129,6 +130,7 @@ class CuzPageState extends State<CuzPage> {
       shrinkWrap: true,
       controller: autoScrollController,
       itemCount: items.length,
+      padding: K.defaultLazyListPadding,
       maxCrossAxisExtent: 600,
       itemBuilder: (context, index){
         final item = items[index];
