@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_bottom_menu_item.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
+import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_args_widget.dart';
 import '../hadith_shared_page.dart';
 import './show_select_point.dart';
 
-extension HadithSharedPageBottomMenuExt on HadithSharedPage{
+extension HadithSharedPageBottomMenuExt on HadithSharedArgsWidget{
 
   void handleBottomMenu(BuildContext context,{
     required HadithListModel hadithListModel

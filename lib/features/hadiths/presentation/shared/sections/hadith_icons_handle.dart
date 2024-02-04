@@ -17,10 +17,11 @@ import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_b
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_event.dart';
 import 'package:hadith/features/hadiths/presentation/shared/bloc/hadith_shared_state.dart';
 import 'package:hadith/features/hadiths/presentation/shared/components/share/hadith_repaint_item.dart';
+import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_args_widget.dart';
 
 import '../hadith_shared_page.dart';
 
-extension HadithSharedPageHadithIconsExt on HadithSharedPage{
+extension HadithSharedPageHadithIconsExt on HadithSharedArgsWidget{
 
 
   void handleShareMenus(BuildContext context, {

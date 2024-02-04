@@ -14,6 +14,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class PagingListView<T extends IPagingItem> extends StatelessWidget {
 
   final Function(CustomScrollDirection direction)? onScroll;
+  final void Function(int firstVisibleItemIndex, int lastVisibleItemIndex)? onVisibleItemChanged;
   final Widget Function(BuildContext, T  , int) itemBuilder;
   final GetShimmerItems? loadingItem;
   late final ItemPositionsListener _itemPositionsListener;
@@ -29,6 +30,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
     this.loadingItem,
     ItemPositionsListener? itemPositionsListener,
     ItemScrollController? itemScrollController,
+    this.onVisibleItemChanged,
     this.emptyResultChild,
     this.shrinkWrap = false,
     this.trailingWidget
@@ -89,6 +91,7 @@ class PagingListView<T extends IPagingItem> extends StatelessWidget {
           itemScrollController: _itemScrollController,
           onVisibleItemChanged: (firstPos,lastPos)async{
             if(paginationBloc.isClosed) return;
+            onVisibleItemChanged?.call(firstPos, lastPos);
             paginationBloc.add(PaginationEventSetVisiblePos(visibleMaxPos: lastPos - 1, visibleMinPos: firstPos - 1));
             _onFetchPagesWithPositions(context,paginationBloc,state,firstPos,lastPos);
           },

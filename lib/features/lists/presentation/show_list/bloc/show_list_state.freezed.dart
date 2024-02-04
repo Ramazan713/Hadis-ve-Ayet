@@ -20,6 +20,8 @@ mixin _$ShowListState {
   bool get searchBarVisible => throw _privateConstructorUsedError;
   List<ListViewModel> get listHadiths => throw _privateConstructorUsedError;
   List<ListViewModel> get listVerses => throw _privateConstructorUsedError;
+  bool get isDetailOpen => throw _privateConstructorUsedError;
+  ListViewModel? get selectedItem => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,6 +40,8 @@ abstract class $ShowListStateCopyWith<$Res> {
       bool searchBarVisible,
       List<ListViewModel> listHadiths,
       List<ListViewModel> listVerses,
+      bool isDetailOpen,
+      ListViewModel? selectedItem,
       String? message});
 }
 
@@ -58,6 +62,8 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
     Object? searchBarVisible = null,
     Object? listHadiths = null,
     Object? listVerses = null,
+    Object? isDetailOpen = null,
+    Object? selectedItem = freezed,
     Object? message = freezed,
   }) {
     return _then(_value.copyWith(
@@ -77,6 +83,14 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
           ? _value.listVerses
           : listVerses // ignore: cast_nullable_to_non_nullable
               as List<ListViewModel>,
+      isDetailOpen: null == isDetailOpen
+          ? _value.isDetailOpen
+          : isDetailOpen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedItem: freezed == selectedItem
+          ? _value.selectedItem
+          : selectedItem // ignore: cast_nullable_to_non_nullable
+              as ListViewModel?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -98,6 +112,8 @@ abstract class _$$_ShowListStateCopyWith<$Res>
       bool searchBarVisible,
       List<ListViewModel> listHadiths,
       List<ListViewModel> listVerses,
+      bool isDetailOpen,
+      ListViewModel? selectedItem,
       String? message});
 }
 
@@ -116,6 +132,8 @@ class __$$_ShowListStateCopyWithImpl<$Res>
     Object? searchBarVisible = null,
     Object? listHadiths = null,
     Object? listVerses = null,
+    Object? isDetailOpen = null,
+    Object? selectedItem = freezed,
     Object? message = freezed,
   }) {
     return _then(_$_ShowListState(
@@ -135,6 +153,14 @@ class __$$_ShowListStateCopyWithImpl<$Res>
           ? _value._listVerses
           : listVerses // ignore: cast_nullable_to_non_nullable
               as List<ListViewModel>,
+      isDetailOpen: null == isDetailOpen
+          ? _value.isDetailOpen
+          : isDetailOpen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedItem: freezed == selectedItem
+          ? _value.selectedItem
+          : selectedItem // ignore: cast_nullable_to_non_nullable
+              as ListViewModel?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -145,15 +171,18 @@ class __$$_ShowListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShowListState with DiagnosticableTreeMixin implements _ShowListState {
+class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
   const _$_ShowListState(
       {required this.currentTab,
       required this.searchBarVisible,
       required final List<ListViewModel> listHadiths,
       required final List<ListViewModel> listVerses,
+      required this.isDetailOpen,
+      this.selectedItem,
       this.message})
       : _listHadiths = listHadiths,
-        _listVerses = listVerses;
+        _listVerses = listVerses,
+        super._();
 
   @override
   final ListTabEnum currentTab;
@@ -176,11 +205,15 @@ class _$_ShowListState with DiagnosticableTreeMixin implements _ShowListState {
   }
 
   @override
+  final bool isDetailOpen;
+  @override
+  final ListViewModel? selectedItem;
+  @override
   final String? message;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ShowListState(currentTab: $currentTab, searchBarVisible: $searchBarVisible, listHadiths: $listHadiths, listVerses: $listVerses, message: $message)';
+    return 'ShowListState(currentTab: $currentTab, searchBarVisible: $searchBarVisible, listHadiths: $listHadiths, listVerses: $listVerses, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, message: $message)';
   }
 
   @override
@@ -192,6 +225,8 @@ class _$_ShowListState with DiagnosticableTreeMixin implements _ShowListState {
       ..add(DiagnosticsProperty('searchBarVisible', searchBarVisible))
       ..add(DiagnosticsProperty('listHadiths', listHadiths))
       ..add(DiagnosticsProperty('listVerses', listVerses))
+      ..add(DiagnosticsProperty('isDetailOpen', isDetailOpen))
+      ..add(DiagnosticsProperty('selectedItem', selectedItem))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -208,6 +243,10 @@ class _$_ShowListState with DiagnosticableTreeMixin implements _ShowListState {
                 .equals(other._listHadiths, _listHadiths) &&
             const DeepCollectionEquality()
                 .equals(other._listVerses, _listVerses) &&
+            (identical(other.isDetailOpen, isDetailOpen) ||
+                other.isDetailOpen == isDetailOpen) &&
+            (identical(other.selectedItem, selectedItem) ||
+                other.selectedItem == selectedItem) &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -218,6 +257,8 @@ class _$_ShowListState with DiagnosticableTreeMixin implements _ShowListState {
       searchBarVisible,
       const DeepCollectionEquality().hash(_listHadiths),
       const DeepCollectionEquality().hash(_listVerses),
+      isDetailOpen,
+      selectedItem,
       message);
 
   @JsonKey(ignore: true)
@@ -227,13 +268,16 @@ class _$_ShowListState with DiagnosticableTreeMixin implements _ShowListState {
       __$$_ShowListStateCopyWithImpl<_$_ShowListState>(this, _$identity);
 }
 
-abstract class _ShowListState implements ShowListState {
+abstract class _ShowListState extends ShowListState {
   const factory _ShowListState(
       {required final ListTabEnum currentTab,
       required final bool searchBarVisible,
       required final List<ListViewModel> listHadiths,
       required final List<ListViewModel> listVerses,
+      required final bool isDetailOpen,
+      final ListViewModel? selectedItem,
       final String? message}) = _$_ShowListState;
+  const _ShowListState._() : super._();
 
   @override
   ListTabEnum get currentTab;
@@ -243,6 +287,10 @@ abstract class _ShowListState implements ShowListState {
   List<ListViewModel> get listHadiths;
   @override
   List<ListViewModel> get listVerses;
+  @override
+  bool get isDetailOpen;
+  @override
+  ListViewModel? get selectedItem;
   @override
   String? get message;
   @override

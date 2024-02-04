@@ -14,6 +14,7 @@ class SharedListItem extends StatelessWidget {
   final bool useSecondary;
   final Widget? trailing;
   final EdgeInsets? margins;
+  final bool isSelected;
 
   const SharedListItem({
     Key? key,
@@ -22,6 +23,7 @@ class SharedListItem extends StatelessWidget {
     required this.leading,
     required this.onClick,
     this.useSecondary = false,
+    this.isSelected = false,
     this.trailing,
     this.margins
   }) : super(key: key);
@@ -34,7 +36,10 @@ class SharedListItem extends StatelessWidget {
 
     return CardListTile(
       margins: margins,
+      isSelected: isSelected,
       defaultColor: tileColor,
+      selectedColor: tileColor.withGreen(220),
+      borderRadius: isSelected ? BorderRadius.circular(20) : null,
       title: Text(
         listViewModel.name,
         style: Theme.of(context).textTheme.bodyLarge,

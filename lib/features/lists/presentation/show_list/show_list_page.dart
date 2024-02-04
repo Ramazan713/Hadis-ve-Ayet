@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hadith/core/constants/app_k.dart';
+import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
-import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
-import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
-import 'package:hadith/core/features/adaptive/presentation/lazy_staggered_grid_view.dart';
-import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
-import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
-import 'package:hadith/core/presentation/components/app_bar/custom_nested_searchable_app_bar.dart';
-import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
+import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
+import 'package:hadith/core/features/save_point/domain/enums/list_book_scope.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
-import 'package:hadith/core/presentation/dialogs/show_edit_text_dia.dart';
-import 'package:hadith/features/app/routes/app_routers.dart';
-import 'package:hadith/features/lists/domain/show_list_menu_enum.dart';
-import 'package:hadith/features/lists/presentation/shared/components/list_item.dart';
+import 'package:hadith/features/hadiths/data/repo/hadith_list_paging_repo.dart';
+import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_detail_page_content.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
-import './sections/top_bar_section.dart';
-import './sections/handle_bottom_menu_section.dart';
-import './sections/components_section.dart';
+import 'package:hadith/features/lists/presentation/show_list/list_page_content.dart';
+import 'package:hadith/features/verses/show_verse/data/repo/verse_list_paging_repo.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_detail_page_content.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ShowListPage extends StatefulWidget {
   const ShowListPage({Key? key}) : super(key: key);
@@ -33,167 +28,152 @@ class ShowListPage extends StatefulWidget {
 
 class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixin {
 
-  final scrollController = ScrollController();
-  final searchTextController = TextEditingController();
-  late final TabController tabController;
+  final listScrollController = CustomScrollController();
+  final listSearchTextController = TextEditingController();
+  final detailScrollController = CustomScrollController();
+  final CustomScrollController detailVerseCustomScrollController = CustomScrollController();
+  final ItemScrollController detailVerseItemScrollController = ItemScrollController();
+  late final TabController listTabController;
+
+  var currentHadithDetailPos = 0;
+  var currentVerseDetailPos = 0;
 
   @override
   void initState() {
     super.initState();
-
-    final initIndex = context.read<ShowListBloc>().state.currentTab.index;
-    tabController = TabController(length: 2, vsync: this,initialIndex: initIndex);
-    tabController.addListener(listenTabChanges);
+    initListTabController();
   }
 
   @override
   Widget build(BuildContext context) {
-    final listBloc = context.read<ShowListBloc>();
-
+    final bloc = context.read<ShowListBloc>();
     return Scaffold(
-      floatingActionButton: getFab(context),
       body: SafeArea(
-        child: getListeners(
-          child: AdaptivePadding(
-            child: BlocSelector<ShowListBloc, ShowListState,bool>(
-              selector: (state)=> state.searchBarVisible,
-              builder: (context, searchBarVisible) {
-                return DefaultNestedSearchableAppBar(
-                  textEditingController: searchTextController,
-                  pinned: true,
-                  snap: true,
-                  floating: true,
-                  searchBarVisible: searchBarVisible,
-                  scrollController: CustomScrollController(
-                      controller: scrollController
-                  ),
-                  onTextChanged: (newText){
-                    listBloc.add(ShowListEventSearch(query: newText));
+        child: BlocBuilder<ShowListBloc, ShowListState>(
+          buildWhen: (prevState, nextState){
+            return prevState.isDetailOpen != nextState.isDetailOpen ||
+                prevState.currentSelectedHadithItem != nextState.currentSelectedHadithItem ||
+                prevState.currentSelectedVerseItem != nextState.currentSelectedVerseItem;
+          },
+          builder: (context, state){
+            return ListDetailAdaptiveLayoutWithController(
+              useAdaptivePadding: true,
+              showDetailInSinglePane: state.isDetailOpen,
+              onListWidget: (controller, isSinglePane){
+                return ListPageContent(
+                  scrollController: listScrollController,
+                  searchTextController: listSearchTextController,
+                  tabController: listTabController,
+                  onClickItem: (item){
+                    currentHadithDetailPos = 0;
+                    currentVerseDetailPos = 0;
+                    bloc.add(ShowListEventShowDetail(item: item));
                   },
-                  onSearchVisibilityChanged: (newSearchBarVisible){
-                    listBloc.add(ShowListEventSetVisibilitySearchBar(searchBarVisible: newSearchBarVisible));
-                  },
-                  actions: getActions(),
-                  title: const Text("Listeler"),
-                  appBarBottom: getTopTabBar(),
-                  child: TabBarView(
-                    controller: tabController,
-                    children: [
-                      BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                        selector: (state)=>state.listHadiths,
-                        builder: (context,listHadiths){
-                          return getListItems(
-                              items: listHadiths,
-                              sourceType: SourceTypeEnum.hadith,
-                              useSecondary: true
-                          );
-                        },
-                      ),
-                      BlocSelector<ShowListBloc,ShowListState,List<ListViewModel>>(
-                        selector: (state)=>state.listVerses,
-                        builder: (context,listVerses){
-                          return getListItems(
-                            items: listVerses,
-                            sourceType: SourceTypeEnum.verse,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
                 );
               },
-            ),
-          ),
+              onDetailWidget: (controller, isSinglePane){
+                final selectedVerseItem = state.currentSelectedVerseItem;
+                final selectedHadithItem = state.currentSelectedHadithItem;
+
+                if(selectedVerseItem != null){
+                  return getVerseDetail(selectedVerseItem, isSinglePane);
+                }
+                if(selectedHadithItem != null){
+                  return getHadithDetail(selectedHadithItem, isSinglePane);
+                }
+                return const SharedEmptyResult();
+              },
+            );
+          },
         ),
       ),
     );
   }
 
+  Widget getHadithDetail(ListViewModel selectedItem, bool isSinglePane){
+    final bloc = context.read<ShowListBloc>();
 
-  Widget getListItems({
-    required List<ListViewModel>items,
-    required SourceTypeEnum sourceType,
-    bool useSecondary = false
-  }){
+    final listPagingRepo = context.read<HadithListPagingRepo>()
+        .init(selectedItem.id);
 
-    if(items.isEmpty){
-      return const SharedEmptyResult();
-    }
+    final savePointDestination = DestinationList(
+        listId: selectedItem.id,
+        listName: selectedItem.name,
+        listBookScope: ListBookScope.hadith
+    );
 
-    return LazyAlignedGridView(
-      itemCount: items.length,
-      padding: K.defaultLazyListPadding,
-      itemBuilder: (BuildContext context, int index) {
-        var item = items[index];
-
-        return SharedListItem(
-          subTitleTag: sourceType.shortName,
-          listViewModel: item,
-          useSecondary: useSecondary,
-          leading: sourceType.getListIcon(context, item.isRemovable),
-          trailing: SelectAdaptiveDropdownMenu(
-            icon: const Icon(Icons.more_vert,size: 30,),
-            popWhenItemSelect: true,
-            items: ShowListMenuEnum.getMenuItems(item.isRemovable),
-              title: "'${item.name}' listesi için",
-              onItemClick: (selected, type){
-                manageBottomMenuItem(
-                    item: item,
-                    menuItem: selected,
-                    sourceType: sourceType,
-                );
-              },
-          ),
-          onClick: (){
-            switch(sourceType){
-              case SourceTypeEnum.hadith:
-                HadithListRoute(
-                  listId: item.id,
-                  sourceId: item.sourceType.sourceId,
-                ).push(context);
-                break;
-              case SourceTypeEnum.verse:
-                VerseShowListRoute(
-                    listId: item.id,
-                    sourceId: item.sourceType.sourceId
-                ).push(context);
-                break;
-            }
-          },
-        );
+    return HadithSharedDetailPageContent(
+      savePointDestination: savePointDestination,
+      paginationRepo: listPagingRepo,
+      title: "${selectedItem.name} - ${ListBookScope.hadith.bookScopeEnum.sourceType.shortName}",
+      pos: currentHadithDetailPos,
+      listIdControlForSelectList: selectedItem.id,
+      isFullPage: isSinglePane,
+      controller: detailScrollController,
+      onVisibleItemChanged: (firstPos, lastPos){
+        currentHadithDetailPos = firstPos;
+      },
+      onClose: (){
+        bloc.add(ShowListEventHideDetail());
       },
     );
   }
 
-
-  Widget getFab(BuildContext context){
+  Widget getVerseDetail(ListViewModel item, bool isSinglePane){
     final bloc = context.read<ShowListBloc>();
-    return CustomVisibilityWithScrolling(
-      controller: scrollController,
-      child: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: (){
-          showEditTextDia(context, (text) {
-            bloc.add(ShowListEventAddNewList(listName: text));
-          },title: "Başlık Girin");
-        },
-      )
+
+    final listPagingRepo = context.read<VerseListPagingRepo>()
+        .init(listId: item.id);
+
+    final destination = DestinationList(
+        listId: item.id,
+        listName: item.name,
+        listBookScope: ListBookScope.verse
+    );
+
+    return VerseSharedDetailPageContent(
+      isFullPage: isSinglePane,
+      onClose: (){
+        bloc.add(ShowListEventHideDetail());
+      },
+      savePointDestination: destination,
+      paginationRepo: listPagingRepo,
+      listIdControlForSelectList: item.id,
+      selectAudioOption: SelectAudioOption.verse,
+      itemScrollController: detailVerseItemScrollController,
+      customScrollController: detailVerseCustomScrollController,
+      onVisibleItemChanged: (firstPos, lastPos){
+        currentVerseDetailPos = firstPos;
+      },
+      pos: currentVerseDetailPos,
+      showNavigateToActions: true,
+      title: "${item.name} - ${ListBookScope.verse.bookScopeEnum.sourceType.shortName}",
     );
   }
 
+
+  void initListTabController(){
+    final initIndex = context.read<ShowListBloc>().state.currentTab.index;
+    listTabController = TabController(length: 2, vsync: this,initialIndex: initIndex);
+    listTabController.addListener(listenTabChanges);
+  }
+
   void listenTabChanges(){
-    if(!tabController.indexIsChanging){
+    if(!listTabController.indexIsChanging){
       context.read<ShowListBloc>()
-          .add(ShowListEventChangeTab(index: tabController.index));
+          .add(ShowListEventChangeTab(index: listTabController.index));
     }
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
-    searchTextController.dispose();
-    tabController.removeListener(listenTabChanges);
-    tabController.dispose();
+    listTabController.removeListener(listenTabChanges);
+
+    listScrollController.dispose();
+    listSearchTextController.dispose();
+    listTabController.dispose();
+    detailVerseCustomScrollController.dispose();
+    detailScrollController.dispose();
     super.dispose();
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/constants/app_k.dart';
-import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
+import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/sections/content.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/sections/hadith_buttons.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/sections/header.dart';
+import './sections/header.dart';
+import './sections/content.dart';
+import './sections/hadith_buttons.dart';
 
 
 class HadithItem extends StatefulWidget {

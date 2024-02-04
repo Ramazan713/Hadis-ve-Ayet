@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
-import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
@@ -22,34 +21,43 @@ import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.da
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_verse_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/verses/show_verse/domain/repo/verse_pagination_repo.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_state.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/follow_audio_wrapper.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/paging_verse_connect.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/verse_item.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/sections/header.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/sections/verse_bottom_menu_section.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_args.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import './sections/header.dart';
-import './sections/verse_bottom_menu_section.dart';
-import 'bloc/verse_shared_bloc.dart';
-import 'bloc/verse_shared_state.dart';
-import 'components/paging_verse_connect.dart';
-import 'components/verse_item/verse_item.dart';
 
-class VerseShowSharedPage extends VerseShareBasePageStateful {
+class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
 
+  final bool isFullPage;
+  final void Function() onClose;
   final VersePaginationRepo paginationRepo;
   final String title;
   final SearchParam? searchParam;
   final int pos;
   final SavePointDestination savePointDestination;
   final Widget? trailingWidget;
+  final void Function(int firstVisibleItemIndex, int lastVisibleItemIndex)? onVisibleItemChanged;
+  final CustomScrollController customScrollController;
+  final ItemScrollController itemScrollController;
 
-  const VerseShowSharedPage({
+  const VerseSharedDetailPageContent({
     Key? key,
+    required this.isFullPage,
+    required this.onClose,
     required this.savePointDestination,
     required this.paginationRepo,
     required this.pos,
     required super.showNavigateToActions,
+    required this.customScrollController,
+    required this.itemScrollController,
     required this.title,
+    this.onVisibleItemChanged,
     this.searchParam,
     super.listIdControlForSelectList,
     super.editSavePointHandler,
@@ -58,43 +66,37 @@ class VerseShowSharedPage extends VerseShareBasePageStateful {
     super.useWideScopeNaming
   }) : super(key: key);
 
-  @override
-  State<VerseShowSharedPage> createState() => _VerseShowSharedPageState();
-}
 
-class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
-
-  final CustomScrollController customScrollController = CustomScrollController();
-  final ItemScrollController itemScrollController = ItemScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    final pagingBloc = context.read<PaginationBloc>();
-    pagingBloc.add(PaginationEventInit(widget.paginationRepo,
-        config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: widget.pos)
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    return AdCheckWidget(
+    final pagingBloc = context.read<PaginationBloc>();
+    pagingBloc.add(PaginationEventInit(paginationRepo,
+        config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: pos)
+    ));
+
+    return PopScope(
+      canPop: !isFullPage,
+      onPopInvoked: (canPop){
+        if(!canPop) onClose();
+      },
       child: FollowAudioWrapper(
         itemScrollController: itemScrollController,
         child: AudioConnect(
           child: PagingVerseConnect(
             child: SaveAutoSavePointWithPaging(
-              destination: widget.savePointDestination,
+              destination: savePointDestination,
               autoType: SaveAutoType.general,
               child: Scaffold(
                 body: CustomNestedViewAppBar(
                   scrollController: customScrollController,
-                  title: Text(widget.title),
-                  actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
+                  showNavigateBack: false,
+                  leading: getNavigateBackIcon(context),
+                  title: Text(title),
+                  actions: getActions(context,savePointDestination: savePointDestination),
                   child: AudioInfoBodyWrapper(
-                    destination: widget.savePointDestination,
+                    destination: savePointDestination,
                     child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
                       selector: (state) => state.audio?.mealId,
                       builder: (context, currentMealId){
@@ -113,12 +115,12 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
     );
   }
 
-
   Widget getContent(BuildContext context,{int? currentMealId}){
     return BlocBuilder<VerseSharedBloc, VerseSharedState>(
       builder: (context, state){
         return PagingListView<VerseListModel>(
-          trailingWidget: widget.trailingWidget,
+          onVisibleItemChanged: onVisibleItemChanged,
+          trailingWidget: trailingWidget,
           itemScrollController: itemScrollController,
           onScroll: (scrollDirection){
             customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
@@ -130,10 +132,10 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
               arabicVerseUIEnum: state.arabicVerseUIEnum,
               showListVerseIcons: state.showListVerseIcons,
               onLongPress: (){
-                widget.handleBottomMenu(
+                handleBottomMenu(
                   context,
                   verseListModel: item,
-                  savePointDestination: widget.savePointDestination,
+                  savePointDestination: savePointDestination,
                   state: state,
                 );
               },
@@ -142,7 +144,7 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
                     .add(ListenAudioEventToggleVisibilityAudioWidget());
               },
               verseListModel: item,
-              searchParam: widget.searchParam,
+              searchParam: searchParam,
             );
           },
           loadingItem: const GetShimmerItems(
@@ -157,9 +159,11 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
     );
   }
 
-  @override
-  void dispose() {
-    customScrollController.dispose();
-    super.dispose();
+  Widget? getNavigateBackIcon(BuildContext context){
+    if(!isFullPage) return null;
+    return IconButton(
+        onPressed: onClose,
+        icon: const Icon(Icons.arrow_back)
+    );
   }
 }

@@ -39,7 +39,7 @@ import 'package:hadith/features/verses/show_verse/presentation/shared/sections/h
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/show_select_point.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/verse_bottom_menu_section.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_args.dart';
 
 
 class VersePageShowPage extends StatelessWidget {
@@ -67,7 +67,7 @@ class VersePageShowPage extends StatelessWidget {
 
 
 
-class _VersePageShowPageContent extends VerseShareBasePage {
+class _VersePageShowPageContent extends VerseShareBasePageStateful {
 
   final int startPageIndex;
   final int pagePos;

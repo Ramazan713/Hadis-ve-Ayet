@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hadith/features/hadiths/presentation/shared/components/hadith_item/hadith_item.dart';
+import '../hadith_item.dart';
 
 extension HadithItemHeaderExt on HadithItemState{
 

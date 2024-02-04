@@ -11,10 +11,11 @@ import 'package:hadith/core/presentation/dialogs/show_get_number_dia.dart';
 import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_top_bar_menu_item.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
+import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_args_widget.dart';
 import '../hadith_shared_page.dart';
 import './show_select_point.dart';
 
-extension HadithSharedPageHeaderExt on HadithSharedPage{
+extension HadithSharedPageHeaderExt on HadithSharedArgsWidget{
 
 
   List<Widget> getTopBarActions(BuildContext context){

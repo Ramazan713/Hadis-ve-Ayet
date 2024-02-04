@@ -33,7 +33,7 @@ extension ShowListTopBarExt on ShowListPageState{
 
   TabBar getTopTabBar(){
     return TabBar(
-      controller: tabController,
+      controller: listTabController,
       tabs: [
         Tab(
           text: ListTabEnum.hadith.sourceType.shortName,

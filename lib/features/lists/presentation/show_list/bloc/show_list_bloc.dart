@@ -31,6 +31,9 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
     on<ShowListEventArchive>(_onArchive);
     on<ShowListEventCopy>(_onCopy);
     on<ShowListEventClearMessage>(_onClearMessage);
+    on<ShowListEventHideDetail>(_onHideDetail);
+    on<ShowListEventShowDetail>(_onShowDetail);
+    on<ShowListEventSetSelected>(_onSetSelected);
 
     _queryFilter.value = "";
     add(ShowListEventListenListHadiths());
@@ -39,6 +42,18 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
 
   void _onShowListEventChangeTab(ShowListEventChangeTab event, Emitter<ShowListState>emit){
     emit(state.copyWith(currentTab: ListTabEnumExt.fromIndex(event.index)));
+  }
+
+  void _onHideDetail(ShowListEventHideDetail event, Emitter<ShowListState>emit){
+    emit(state.copyWith(selectedItem: null, isDetailOpen: false));
+  }
+
+  void _onShowDetail(ShowListEventShowDetail event, Emitter<ShowListState>emit){
+    emit(state.copyWith(selectedItem: event.item, isDetailOpen: true));
+  }
+
+  void _onSetSelected(ShowListEventSetSelected event, Emitter<ShowListState>emit){
+    emit(state.copyWith(selectedItem: event.item));
   }
 
   void _onShowListEventSearch(ShowListEventSearch event, Emitter<ShowListState>emit){
@@ -99,7 +114,7 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
   }
 
   void _onListenListHadiths(ShowListEventListenListHadiths event, Emitter<ShowListState>emit)async{
-    
+
     final streamData = _queryFilter.distinct().switchMap((query){
       if(query.trim().isNotEmpty){
         return _listUseCases.searchLists(query, SourceTypeEnum.hadith, false);
@@ -108,7 +123,7 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
     });
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
-      return state.copyWith(listHadiths: listViews);
+      return state.copyWith(listHadiths: listViews, selectedItem: getDefaultSelectedItem(ListTabEnum.hadith, listViews.firstOrNull));
     });
   }
 
@@ -121,8 +136,16 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
     });
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
-      return state.copyWith(listVerses: listViews);
+      return state.copyWith(listVerses: listViews, selectedItem: getDefaultSelectedItem(ListTabEnum.verse, listViews.firstOrNull));
     });
+  }
+
+  ListViewModel? getDefaultSelectedItem(ListTabEnum listTabEnum, ListViewModel? candidate){
+    // if listTab is not active tab return default or candidate
+    if(state.currentTab != listTabEnum){
+      return state.selectedItem ?? candidate;
+    }
+    return candidate;
   }
 
 }

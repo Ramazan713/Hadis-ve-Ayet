@@ -53,4 +53,18 @@ class ShowListEventCopy extends IShowListEvent{
     ShowListEventCopy({required this.listViewModel});
 }
 
+
+class ShowListEventHideDetail extends IShowListEvent{}
+
+class ShowListEventShowDetail extends IShowListEvent{
+    final ListViewModel item;
+    ShowListEventShowDetail({required this.item});
+}
+
+class ShowListEventSetSelected extends IShowListEvent{
+    final ListViewModel? item;
+    ShowListEventSetSelected({required this.item});
+}
+
+
 class ShowListEventClearMessage extends IShowListEvent{}

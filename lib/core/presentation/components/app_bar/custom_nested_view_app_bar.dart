@@ -20,6 +20,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
   final List<Widget> headerSlivers;
   final double? toolbarHeight;
   final bool? showNavigateBack;
+  final Widget? leading;
 
   const CustomNestedViewAppBar({
     Key? key,
@@ -35,6 +36,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
     this.appBarType,
     this.toolbarHeight,
     this.showNavigateBack,
+    this.leading,
     this.headerSlivers = const []
   }) : super(key: key);
 
@@ -59,6 +61,7 @@ class CustomNestedViewAppBar extends StatelessWidget {
                   appBarType: appBarType,
                   toolbarHeight: toolbarHeight,
                   showNavigateBack: showNavigateBack,
+                  leading: leading,
                 ),
               ),
             ),

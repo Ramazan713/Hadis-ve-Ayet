@@ -8,28 +8,34 @@ extension HadithItemButtonsExt on HadithItemState{
   Widget getButtons(BuildContext context){
 
     final iconSize = widget.fontSize + 3;
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         const SizedBox(),
-        IconButton(
-          onPressed: widget.onShareClick,
-          icon: const Icon(Icons.share_outlined),
-          iconSize: iconSize,
+        Flexible(
+          child: IconButton(
+            onPressed: widget.onShareClick,
+            icon: const Icon(Icons.share_outlined),
+            iconSize: iconSize,
+          ),
         ),
-        IconButton(
-          isSelected: hadithList.isInFavorite,
-          onPressed: widget.onFavoriteClick,
-          icon: const Icon(Icons.favorite_border),
-          selectedIcon: Icon(Icons.favorite,color: Theme.of(context).colorScheme.error,),
-          iconSize: iconSize,
+        Flexible(
+          child: IconButton(
+            isSelected: hadithList.isInFavorite,
+            onPressed: widget.onFavoriteClick,
+            icon: const Icon(Icons.favorite_border),
+            selectedIcon: Icon(Icons.favorite,color: Theme.of(context).colorScheme.error,),
+            iconSize: iconSize,
+          ),
         ),
-        IconButton(
-          isSelected: hadithList.isInAnyList,
-          onPressed: widget.onListClick,
-          selectedIcon: const Icon(Icons.library_add_check),
-          iconSize: iconSize,
-          icon: const Icon(Icons.library_add_outlined),
+        Flexible(
+          child: IconButton(
+            isSelected: hadithList.isInAnyList,
+            onPressed: widget.onListClick,
+            selectedIcon: const Icon(Icons.library_add_check),
+            iconSize: iconSize,
+            icon: const Icon(Icons.library_add_outlined),
+          ),
         ),
         const SizedBox(),
       ],

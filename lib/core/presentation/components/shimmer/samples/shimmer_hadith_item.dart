@@ -24,13 +24,16 @@ class ShimmerHadithItem extends IShimmerItem{
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 7,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ShimmerSkeleton(height: 20,width: 30,),
-                    ShimmerSkeleton(height: 20,width: 100,),
-                    SizedBox(width: 20,)
-                  ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ShimmerSkeleton(height: 20,width: 30,),
+                      ShimmerSkeleton(height: 20,width: 100,),
+                      SizedBox(width: 20,)
+                    ],
+                  ),
                 ),
                 SizedBox(height: 17,),
                 ShimmerSkeleton(height: 20,width: 20,),

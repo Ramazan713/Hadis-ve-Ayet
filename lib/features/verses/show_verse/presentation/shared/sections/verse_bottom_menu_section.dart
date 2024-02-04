@@ -26,6 +26,7 @@ import 'package:hadith/features/verses/show_verse/domain/constants/verse_bottom_
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/share/verse_repaint_item.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/show_verse_bottom_menu.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_args.dart';
 
 import '../bloc/verse_shared_bloc.dart';
 import '../bloc/verse_shared_event.dart';
@@ -33,7 +34,7 @@ import '../bloc/verse_shared_state.dart';
 import '../verse_show_shared_page.dart';
 import './show_select_point.dart';
 
-extension VerseShowSharedPageBottomBarExt on VerseShareBasePage{
+extension VerseShowSharedPageBottomBarExt on VerseSharedPageArgs{
 
 
   void handleBottomMenu(BuildContext context,{

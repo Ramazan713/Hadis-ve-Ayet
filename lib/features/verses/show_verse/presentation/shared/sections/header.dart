@@ -15,10 +15,11 @@ import 'package:hadith/core/presentation/dialogs/show_select_verse_ui_2x.dart';
 import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_top_bar_menu_item.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_args.dart';
 import '../verse_show_shared_page.dart';
 import './show_select_point.dart';
 
-extension VerseShowSharedPageHeaderExt on VerseShareBasePage{
+extension VerseShowSharedPageHeaderExt on VerseSharedPageArgs{
 
   List<Widget> getActions(BuildContext context,{
     required SavePointDestination savePointDestination
