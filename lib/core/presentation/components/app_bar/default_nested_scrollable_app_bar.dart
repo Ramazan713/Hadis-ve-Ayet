@@ -25,6 +25,7 @@ class DefaultNestedScrollableAppBar extends StatelessWidget {
   final int delayMilliSeconds;
   final ScrollDelayType scrollDelayType;
   final Widget? leading;
+  final bool enableScrollableAppBar;
 
   const DefaultNestedScrollableAppBar({
     Key? key,
@@ -36,6 +37,7 @@ class DefaultNestedScrollableAppBar extends StatelessWidget {
     this.pinned = false,
     this.snap = false,
     this.floating = false,
+    this.enableScrollableAppBar = true,
     this.scrollController,
     this.contentScrollController,
     this.appBarBottom,
@@ -50,6 +52,7 @@ class DefaultNestedScrollableAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseNestedScrollView(
+      enableScrollableAppBar: enableScrollableAppBar,
       scrollController: scrollController,
       contentScrollController: contentScrollController,
       floatHeaderSlivers: floatHeaderSlivers,

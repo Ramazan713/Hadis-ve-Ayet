@@ -29,6 +29,7 @@ class DefaultNestedSearchableAppBar extends StatelessWidget {
   final bool? showNavigateBack;
   final int delayMilliSeconds;
   final ScrollDelayType scrollDelayType;
+  final bool enableScrollableAppBar;
 
   const DefaultNestedSearchableAppBar({
     Key? key,
@@ -45,6 +46,7 @@ class DefaultNestedSearchableAppBar extends StatelessWidget {
     this.pinned = false,
     this.snap = false,
     this.floating = false,
+    this.enableScrollableAppBar = true,
     this.contentScrollController,
     this.scrollController,
     this.appBarBottom,
@@ -66,6 +68,7 @@ class DefaultNestedSearchableAppBar extends StatelessWidget {
         }
       },
       child: BaseNestedScrollView(
+        enableScrollableAppBar: enableScrollableAppBar,
         scrollController: scrollController,
         contentScrollController: contentScrollController,
         floatHeaderSlivers: floatHeaderSlivers,
