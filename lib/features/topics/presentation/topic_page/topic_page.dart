@@ -4,6 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/adaptive/domain/utils/calculate_windows_size_class.dart';
 import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
@@ -34,13 +35,17 @@ class TopicPage extends StatefulWidget {
   final int sectionId;
   final bool useBookAllSections;
   final String sectionTitle;
+  final int? selectedTopicId;
+  final int? initPos;
 
   const TopicPage({
     Key? key,
     required this.bookEnum,
     required this.sectionId,
     required this.useBookAllSections,
-    required this.sectionTitle
+    required this.sectionTitle,
+    this.selectedTopicId,
+    this.initPos
   }) : super(key: key);
 
   @override
@@ -63,6 +68,7 @@ class TopicPageState extends State<TopicPage> {
 
   var currentHadithDetailPos = 0;
   var currentVerseDetailPos = 0;
+  var isInitPosUsed = false;
 
   @override
   void initState() {
@@ -70,7 +76,12 @@ class TopicPageState extends State<TopicPage> {
     final bloc = context.read<TopicBloc>();
     final topicSavePointBloc = context.read<TopicSavePointBloc>();
 
-    bloc.add(TopicEventLoadData(book: widget.bookEnum, sectionId: widget.sectionId,useBookAllSections: widget.useBookAllSections));
+    bloc.add(TopicEventLoadData(
+      book: widget.bookEnum,
+      sectionId: widget.sectionId,
+      useBookAllSections: widget.useBookAllSections,
+      selectedTopicId: widget.selectedTopicId
+    ));
     topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: getTopicType()));
   }
 
@@ -204,6 +215,7 @@ class TopicPageState extends State<TopicPage> {
   Widget getListeners({
     required Widget child
   }){
+    final bloc = context.read<TopicBloc>();
     return MultiBlocListener(
       listeners: [
         BlocListener<TopicBloc, TopicState>(
@@ -214,6 +226,7 @@ class TopicPageState extends State<TopicPage> {
             final selectedItem = state.selectedItem;
             if(selectedItem == null) return;
             final pagingBloc = context.read<PaginationBloc>();
+            _checkInitPosBeforeLoadingData();
 
             if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
               final topicPagingRepo = context.read<VerseTopicPagingRepo>()
@@ -230,10 +243,37 @@ class TopicPageState extends State<TopicPage> {
             }
           },
         ),
+        BlocListener<TopicBloc, TopicState>(
+          listenWhen: (prevState, nextState){
+            return prevState.jumpToPos != nextState.jumpToPos ||
+                prevState.isDetailOpen != nextState.isDetailOpen;
+          },
+          listener: (context, state){
+            final jumpToPos = state.jumpToPos;
+            if(jumpToPos != null){
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                final sizeClass = calculateWindowSize(context);
+                if(!state.isDetailOpen || sizeClass.isExpanded){
+                  bloc.add(TopicEventClearJumpToPos());
+                  listContentScrollController?.scrollToIndex(jumpToPos,preferPosition: AutoScrollPosition.begin);
+                }
+              });
+            }
+          },
+        ),
       ],
       child: child,
     );
+  }
 
+  void _checkInitPosBeforeLoadingData(){
+    if(isInitPosUsed)return;
+    isInitPosUsed = true;
+    if(widget.bookEnum.sourceType == SourceTypeEnum.verse){
+      currentVerseDetailPos = widget.initPos ?? currentVerseDetailPos;
+    }else{
+      currentHadithDetailPos = widget.initPos ?? currentHadithDetailPos;
+    }
   }
 
   CustomAutoScrollController _setAndGetController(ScrollController? controller){

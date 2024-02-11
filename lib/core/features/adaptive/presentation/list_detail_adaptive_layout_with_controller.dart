@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ListDetailAdaptiveLayoutWithController extends StatefulWidget {
 
@@ -49,9 +46,6 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
   var detailOffset = 0.0;
   ScrollController? listScrollController;
   ScrollController? detailScrollController;
-
-  bool? isPreviousListControllerSinglePane;
-  bool? isPreviousDetailControllerSinglePane;
 
   @override
   Widget build(BuildContext context) {
@@ -107,12 +101,8 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
 
   Widget _getAndHandleDetailWidget(bool isSinglePane){
     if(detailScrollController != null){
-      if(isPreviousDetailControllerSinglePane == isSinglePane){
-        return widget.onDetailWidget(detailScrollController, isSinglePane);
-      }
       _disposeController(true);
     }
-    isPreviousDetailControllerSinglePane = isSinglePane;
     detailScrollController = widget.onCreateDetailController?.call(detailOffset);
     if(widget.enableListeners){
       detailScrollController?.addListener(_detailOffsetListener);
@@ -122,12 +112,8 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
 
   Widget _getAndHandleListWidget(bool isSinglePane){
     if(listScrollController != null){
-      if(isPreviousListControllerSinglePane == isSinglePane){
-        return widget.onListWidget(listScrollController,isSinglePane);
-      }
       _disposeController(false);
     }
-    isPreviousListControllerSinglePane = isSinglePane;
     listScrollController = widget.onCreateListController?.call(listOffset);
     if(widget.enableListeners){
       listScrollController?.addListener(_listOffsetListener);

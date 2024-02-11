@@ -9,7 +9,14 @@ class TopicEventLoadData extends ITopicEvent{
   final BookEnum book;
   final bool useBookAllSections;
   final int sectionId;
-  TopicEventLoadData({required this.book, required this.sectionId, required this.useBookAllSections});
+  final int? selectedTopicId;
+
+  TopicEventLoadData({
+    required this.book,
+    required this.sectionId,
+    required this.useBookAllSections,
+    this.selectedTopicId
+  });
 }
 
 class TopicEventSetSearchBarVisibility extends ITopicEvent{
@@ -24,6 +31,9 @@ class TopicEventSearch extends ITopicEvent{
 
 
 class TopicEventHideDetail extends ITopicEvent{}
+
+class TopicEventClearJumpToPos extends ITopicEvent{}
+
 
 class TopicEventShowDetail extends ITopicEvent{
   final TopicViewModel item;

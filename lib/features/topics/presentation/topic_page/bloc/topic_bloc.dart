@@ -31,10 +31,47 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
     on<TopicEventLoadData>(_onLoadData, transformer: restartable());
     on<TopicEventHideDetail>(_onHideDetail);
     on<TopicEventShowDetail>(_onShowDetail);
+    on<TopicEventClearJumpToPos>(_onClearJumpToPos);
   }
+
+  void _onLoadData(TopicEventLoadData event, Emitter<TopicState> emit) async{
+
+    _queryFilter.add("");
+    final sourceType = event.book.sourceType;
+
+    emit(state.copyWith(isLoading: true, items: []));
+    if(event.selectedTopicId != null){
+      final initItems = event.useBookAllSections ? await _topicViewRepo.getTopicViewsByBookId(event.book.bookId, sourceType) :
+          await _topicViewRepo.getTopicViewsBySectionId(event.sectionId, sourceType);
+
+      final pos = initItems.indexWhere((e) => e.id == event.selectedTopicId);
+      if(pos != -1){
+        emit(state.copyWith(items: initItems,jumpToPos: pos, selectedItem: initItems[pos],isDetailOpen: true));
+      }
+    }
+
+
+    final streamData = _queryFilter.distinct().switchMap((query){
+      if(event.useBookAllSections) {
+        return _getAllBookSectionTopics(event.book, query, sourceType);
+      }
+      return _getSectionTopics(event.sectionId, query, sourceType);
+    });
+
+    await emit.forEach<List<TopicViewModel>>(streamData, onData: (items){
+      final selectedItem = _queryFilter.value.isEmpty ? (state.selectedItem ?? items.firstOrNull) :
+          items.firstOrNull;
+      return state.copyWith(items: items, isLoading: false, selectedItem: selectedItem);
+    });
+  }
+
 
   void _onHideDetail(TopicEventHideDetail event, Emitter<TopicState>emit){
     emit(state.copyWith(selectedItem: null, isDetailOpen: false));
+  }
+
+  void _onClearJumpToPos(TopicEventClearJumpToPos event, Emitter<TopicState>emit){
+    emit(state.copyWith(jumpToPos: null));
   }
 
   void _onShowDetail(TopicEventShowDetail event, Emitter<TopicState>emit){
@@ -51,39 +88,18 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
     });
   }
 
-  void _onLoadData(TopicEventLoadData event, Emitter<TopicState> emit) async{
-
-    _queryFilter.add("");
-    final sourceType = event.book.sourceType;
-
-    emit(state.copyWith(isLoading: true, items: []));
-
-    final streamData = _queryFilter.distinct().switchMap((query){
-      if(event.useBookAllSections) {
-        return _getAllBookSectionTopics(event.book, query, sourceType);
-      }
-      return _getSectionTopics(event.sectionId, query, sourceType);
-    });
-
-    await emit.forEach<List<TopicViewModel>>(streamData, onData: (items){
-      final selectedItem = _queryFilter.value.isEmpty ? (state.selectedItem ?? items.firstOrNull) :
-          items.firstOrNull;
-      return state.copyWith(items: items, isLoading: false, selectedItem: selectedItem);
-    });
-  }
-
   Stream<List<TopicViewModel>> _getAllBookSectionTopics(BookEnum bookEnum, String query,SourceTypeEnum sourceType){
     if(query.trim().isEmpty){
-      return _topicViewRepo.getTopicViewsByBookId(bookEnum.bookId,sourceType);
+      return _topicViewRepo.getStreamTopicViewsByBookId(bookEnum.bookId,sourceType);
     }
-    return _topicViewRepo.getTopicViewsByBookIdAndQuery(bookEnum.bookId, query, sourceType);
+    return _topicViewRepo.getStreamTopicViewsByBookIdAndQuery(bookEnum.bookId, query, sourceType);
   }
 
   Stream<List<TopicViewModel>> _getSectionTopics(int sectionId, String query,SourceTypeEnum sourceType){
     if(query.trim().isEmpty){
-      return _topicViewRepo.getTopicViewsBySectionId(sectionId, sourceType);
+      return _topicViewRepo.getStreamTopicViewsBySectionId(sectionId, sourceType);
     }
-    return _topicViewRepo.getTopicViewsBySectionIdAndQuery(sectionId, query, sourceType);
+    return _topicViewRepo.getStreamTopicViewsBySectionIdAndQuery(sectionId, query, sourceType);
   }
 
 }

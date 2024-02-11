@@ -21,6 +21,7 @@ mixin _$TopicState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isDetailOpen => throw _privateConstructorUsedError;
   TopicViewModel? get selectedItem => throw _privateConstructorUsedError;
+  int? get jumpToPos => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TopicStateCopyWith<TopicState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $TopicStateCopyWith<$Res> {
       List<TopicViewModel> items,
       bool isLoading,
       bool isDetailOpen,
-      TopicViewModel? selectedItem});
+      TopicViewModel? selectedItem,
+      int? jumpToPos});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$TopicStateCopyWithImpl<$Res, $Val extends TopicState>
     Object? isLoading = null,
     Object? isDetailOpen = null,
     Object? selectedItem = freezed,
+    Object? jumpToPos = freezed,
   }) {
     return _then(_value.copyWith(
       searchBarVisible: null == searchBarVisible
@@ -81,6 +84,10 @@ class _$TopicStateCopyWithImpl<$Res, $Val extends TopicState>
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as TopicViewModel?,
+      jumpToPos: freezed == jumpToPos
+          ? _value.jumpToPos
+          : jumpToPos // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$_TopicStateCopyWith<$Res>
       List<TopicViewModel> items,
       bool isLoading,
       bool isDetailOpen,
-      TopicViewModel? selectedItem});
+      TopicViewModel? selectedItem,
+      int? jumpToPos});
 }
 
 /// @nodoc
@@ -117,6 +125,7 @@ class __$$_TopicStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isDetailOpen = null,
     Object? selectedItem = freezed,
+    Object? jumpToPos = freezed,
   }) {
     return _then(_$_TopicState(
       searchBarVisible: null == searchBarVisible
@@ -139,6 +148,10 @@ class __$$_TopicStateCopyWithImpl<$Res>
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as TopicViewModel?,
+      jumpToPos: freezed == jumpToPos
+          ? _value.jumpToPos
+          : jumpToPos // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -151,7 +164,8 @@ class _$_TopicState extends _TopicState {
       required final List<TopicViewModel> items,
       required this.isLoading,
       required this.isDetailOpen,
-      this.selectedItem})
+      this.selectedItem,
+      this.jumpToPos})
       : _items = items,
         super._();
 
@@ -171,10 +185,12 @@ class _$_TopicState extends _TopicState {
   final bool isDetailOpen;
   @override
   final TopicViewModel? selectedItem;
+  @override
+  final int? jumpToPos;
 
   @override
   String toString() {
-    return 'TopicState(searchBarVisible: $searchBarVisible, items: $items, isLoading: $isLoading, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem)';
+    return 'TopicState(searchBarVisible: $searchBarVisible, items: $items, isLoading: $isLoading, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, jumpToPos: $jumpToPos)';
   }
 
   @override
@@ -190,7 +206,9 @@ class _$_TopicState extends _TopicState {
             (identical(other.isDetailOpen, isDetailOpen) ||
                 other.isDetailOpen == isDetailOpen) &&
             (identical(other.selectedItem, selectedItem) ||
-                other.selectedItem == selectedItem));
+                other.selectedItem == selectedItem) &&
+            (identical(other.jumpToPos, jumpToPos) ||
+                other.jumpToPos == jumpToPos));
   }
 
   @override
@@ -200,7 +218,8 @@ class _$_TopicState extends _TopicState {
       const DeepCollectionEquality().hash(_items),
       isLoading,
       isDetailOpen,
-      selectedItem);
+      selectedItem,
+      jumpToPos);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +234,8 @@ abstract class _TopicState extends TopicState {
       required final List<TopicViewModel> items,
       required final bool isLoading,
       required final bool isDetailOpen,
-      final TopicViewModel? selectedItem}) = _$_TopicState;
+      final TopicViewModel? selectedItem,
+      final int? jumpToPos}) = _$_TopicState;
   const _TopicState._() : super._();
 
   @override
@@ -228,6 +248,8 @@ abstract class _TopicState extends TopicState {
   bool get isDetailOpen;
   @override
   TopicViewModel? get selectedItem;
+  @override
+  int? get jumpToPos;
   @override
   @JsonKey(ignore: true)
   _$$_TopicStateCopyWith<_$_TopicState> get copyWith =>

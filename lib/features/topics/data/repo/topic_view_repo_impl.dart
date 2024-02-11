@@ -24,7 +24,7 @@ class TopicViewRepoImpl extends TopicViewRepo{
   }
 
   @override
-  Stream<List<TopicViewModel>> getTopicViewsByBookId(int bookId, SourceTypeEnum sourceType){
+  Stream<List<TopicViewModel>> getStreamTopicViewsByBookId(int bookId, SourceTypeEnum sourceType){
     switch(sourceType){
       case SourceTypeEnum.hadith:
         return (_topicHadithsViewDao.getStreamTopicHadithsByBookId(bookId))
@@ -36,7 +36,19 @@ class TopicViewRepoImpl extends TopicViewRepo{
   }
 
   @override
-  Stream<List<TopicViewModel>> getTopicViewsByBookIdAndQuery(
+  Future<List<TopicViewModel>> getTopicViewsByBookId(int bookId, SourceTypeEnum sourceType) async{
+    switch(sourceType){
+      case SourceTypeEnum.hadith:
+        return (await _topicHadithsViewDao.getTopicHadithsByBookId(bookId))
+            .map((e) => e.toTopicViewModel()).toList();
+      case SourceTypeEnum.verse:
+        return (await _topicVersesViewDao.getTopicVersesByBookId(bookId))
+            .map((e) => e.toTopicViewModel()).toList();
+    }
+  }
+
+  @override
+  Stream<List<TopicViewModel>> getStreamTopicViewsByBookIdAndQuery(
       int bookId,
       String query,
       SourceTypeEnum sourceType
@@ -55,7 +67,7 @@ class TopicViewRepoImpl extends TopicViewRepo{
   }
 
   @override
-  Stream<List<TopicViewModel>> getTopicViewsBySectionId(int sectionId, SourceTypeEnum sourceType) {
+  Stream<List<TopicViewModel>> getStreamTopicViewsBySectionId(int sectionId, SourceTypeEnum sourceType) {
     switch(sourceType){
       case SourceTypeEnum.hadith:
         return (_topicHadithsViewDao.getStreamTopicHadithsBySectionId(sectionId))
@@ -67,7 +79,19 @@ class TopicViewRepoImpl extends TopicViewRepo{
   }
 
   @override
-  Stream<List<TopicViewModel>> getTopicViewsBySectionIdAndQuery(
+  Future<List<TopicViewModel>> getTopicViewsBySectionId(int sectionId, SourceTypeEnum sourceType) async{
+    switch(sourceType){
+      case SourceTypeEnum.hadith:
+        return (await _topicHadithsViewDao.getTopicHadithsBySectionId(sectionId))
+            .map((e) => e.toTopicViewModel()).toList();
+      case SourceTypeEnum.verse:
+        return (await _topicVersesViewDao.getTopicVersesBySectionId(sectionId))
+            .map((e) => e.toTopicViewModel()).toList();
+    }
+  }
+
+  @override
+  Stream<List<TopicViewModel>> getStreamTopicViewsBySectionIdAndQuery(
       int sectionId,
       String query,
       SourceTypeEnum sourceType

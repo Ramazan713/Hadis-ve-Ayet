@@ -12,6 +12,12 @@ abstract class TopicHadithViewDao{
   Stream<List<TopicHadithsView>> getStreamTopicHadithsBySectionId(int sectionId);
 
   @Query("""
+    select * from topicHadithsView where sectionId = :sectionId
+  """)
+  Future<List<TopicHadithsView>> getTopicHadithsBySectionId(int sectionId);
+
+
+  @Query("""
     select * from topicHadithsView where sectionId = :sectionId and
      (name like :querySearchFull or searchName like :querySearchFull)
      order by (case when lower(name)=:queryRaw then 1
@@ -31,6 +37,12 @@ abstract class TopicHadithViewDao{
     where TH.sectionId = ST.id and ST.bookId = :bookId order by TH.id
   """)
   Stream<List<TopicHadithsView>> getStreamTopicHadithsByBookId(int bookId);
+
+  @Query("""
+    select TH.* from topicHadithsView TH, sectionTopicsView ST
+    where TH.sectionId = ST.id and ST.bookId = :bookId order by TH.id
+  """)
+  Future<List<TopicHadithsView>> getTopicHadithsByBookId(int bookId);
 
 
   @Query("""

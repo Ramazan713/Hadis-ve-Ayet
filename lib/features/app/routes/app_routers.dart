@@ -24,12 +24,10 @@ import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_list_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_search_page.dart';
-import 'package:hadith/features/hadiths/presentation/hadith_topic_page.dart';
 import 'package:hadith/features/islamic_info/adjectives_of/adjectives_of_page.dart';
 import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_page.dart';
 import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
 import 'package:hadith/features/lists/presentation/archive_list/archive_list_page.dart';
-import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:hadith/features/settings/presentation/settings_page.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
@@ -40,7 +38,6 @@ import 'package:hadith/features/verses/show_verse/presentation/verse_show_cuz_pa
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_list_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_search_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_surah_page.dart';
-import 'package:hadith/features/verses/show_verse/presentation/verse_show_topic_page.dart';
 import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
 
 part 'app_routers.g.dart';
@@ -72,31 +69,6 @@ class HadithAllRoute extends GoRouteData{
     return HadithAllPage(
         hadithBookEnum: HadithBookEnumExt.from(hadithBookId),
         pos: pos,
-    );
-  }
-}
-
-
-@TypedGoRoute<HadithTopicRoute>(
-    path: "/hadith/topic/:bookId/:topicId/:pos"
-)
-class HadithTopicRoute extends GoRouteData{
-  final int bookId;
-  final int topicId;
-  final int pos;
-
-  HadithTopicRoute({
-    required this.bookId,
-    required this.topicId,
-    this.pos = 0
-  });
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return HadithTopicPage(
-        bookEnum: BookEnum.from(bookId),
-        topicId: topicId,
-        pos: pos
     );
   }
 }
@@ -194,6 +166,34 @@ class SectionRoute extends GoRouteData{
   }
 }
 
+@TypedGoRoute<TopicListDetailRoute>(
+    path: "/topicListDetail/:bookId/:sectionId/:sectionTitle/:useBookAllSections/:selectedTopicId/:listPos"
+)
+class TopicListDetailRoute extends GoRouteData{
+  final int bookId;
+  final int sectionId;
+  final String sectionTitle;
+  final bool useBookAllSections;
+  final int? selectedTopicId;
+  final int? listPos;
+
+  TopicListDetailRoute({required this.bookId, required this.sectionId, required this.sectionTitle,
+    required this.useBookAllSections,this.selectedTopicId, this.listPos});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return TopicPage(
+      bookEnum: BookEnum.from(bookId),
+      sectionId: sectionId,
+      sectionTitle: sectionTitle,
+      useBookAllSections: useBookAllSections,
+      initPos: listPos,
+      selectedTopicId: selectedTopicId,
+    );
+  }
+}
+
+
 @TypedGoRoute<TopicRoute>(
     path: "/topic/:bookId/:sectionId/:sectionTitle/:useBookAllSections"
 )
@@ -202,6 +202,7 @@ class TopicRoute extends GoRouteData{
   final int sectionId;
   final String sectionTitle;
   final bool useBookAllSections;
+
   TopicRoute({required this.bookId, required this.sectionId, required this.sectionTitle,
     required this.useBookAllSections});
 
@@ -211,7 +212,7 @@ class TopicRoute extends GoRouteData{
       bookEnum: BookEnum.from(bookId),
       sectionId: sectionId,
       sectionTitle: sectionTitle,
-      useBookAllSections: useBookAllSections
+      useBookAllSections: useBookAllSections,
     );
   }
 }
@@ -314,22 +315,6 @@ class VerseShowListRoute extends GoRouteData{
   }
 }
 
-@TypedGoRoute<VerseShowTopicRoute>(
-    path: "/verse/topic/:bookId/:topicId/:pos"
-)
-class VerseShowTopicRoute extends GoRouteData{
-
-  final int topicId;
-  final int bookId;
-  final int pos;
-
-  VerseShowTopicRoute({required this.topicId, required this.bookId, this.pos = 0});
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return VerseShowTopicPage(topicId: topicId, pos: pos,bookEnum: BookEnum.from(bookId));
-  }
-}
 
 @TypedGoRoute<VerseShowSearchRoute>(
     path: "/verse/search/:query/:bookScopeId/:criteriaId/:pos"

@@ -12,6 +12,11 @@ abstract class TopicVersesViewDao{
   Stream<List<TopicVersesView>> getStreamTopicVersesBySectionId(int sectionId);
 
   @Query("""
+    select * from topicVersesView where sectionId = :sectionId
+  """)
+  Future<List<TopicVersesView>> getTopicVersesBySectionId(int sectionId);
+
+  @Query("""
     select * from topicVersesView where sectionId = :sectionId and
      (name like :querySearchFull or searchName like :querySearchFull)
      order by 
@@ -33,6 +38,12 @@ abstract class TopicVersesViewDao{
     where TV.sectionId = ST.id and ST.bookId = :bookId order by TV.id
   """)
   Stream<List<TopicVersesView>> getStreamTopicVersesByBookId(int bookId);
+
+  @Query("""
+    select TV.* from topicVersesView TV, sectionTopicsView ST
+    where TV.sectionId = ST.id and ST.bookId = :bookId order by TV.id
+  """)
+  Future<List<TopicVersesView>> getTopicVersesByBookId(int bookId);
 
 
   @Query("""

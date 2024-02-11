@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
@@ -92,24 +93,14 @@ void _loadAndGoList(BuildContext context, DestinationList destination, int itemI
 }
 
 void _loadAndGoTopic(BuildContext context, DestinationTopic destination, int itemIndexPos){
-  final sourceType = destination.getBookScope().sourceType;
-
-  switch(sourceType){
-    case SourceTypeEnum.hadith:
-      HadithTopicRoute(
-          bookId: destination.bookEnum.bookId,
-          topicId: destination.topicId,
-          pos: itemIndexPos
-      ).push(context);
-      break;
-    case SourceTypeEnum.verse:
-      VerseShowTopicRoute(
-          bookId: destination.bookEnum.bookId,
-          topicId: destination.topicId,
-          pos: itemIndexPos
-      ).push(context);
-      break;
-  }
+  TopicListDetailRoute(
+    bookId: destination.bookEnum.bookId,
+    sectionId: 0,
+    sectionTitle: "Tüm Başlıklar",
+    useBookAllSections: true,
+    selectedTopicId: destination.topicId,
+    listPos: itemIndexPos
+  ).push(context);
 }
 
 void _loadAndGoSearch(BuildContext context, DestinationSearch destination, int itemIndexPos){

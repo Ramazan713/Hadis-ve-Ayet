@@ -1452,6 +1452,20 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
   }
 
   @override
+  Future<List<TopicHadithsView>> getTopicHadithsBySectionId(
+      int sectionId) async {
+    return _queryAdapter.queryList(
+        'select * from topicHadithsView where sectionId = ?1',
+        mapper: (Map<String, Object?> row) => TopicHadithsView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String,
+            sectionId: row['sectionId'] as int,
+            hadithCount: row['hadithCount'] as int),
+        arguments: [sectionId]);
+  }
+
+  @override
   Stream<List<TopicHadithsView>> getStreamTopicHadithsBySectionIdAndQuery(
     int sectionId,
     String querySearchFull,
@@ -1484,6 +1498,14 @@ class _$TopicHadithViewDao extends TopicHadithViewDao {
         arguments: [bookId],
         queryableName: 'topicHadithsView',
         isView: true);
+  }
+
+  @override
+  Future<List<TopicHadithsView>> getTopicHadithsByBookId(int bookId) async {
+    return _queryAdapter.queryList(
+        'select TH.* from topicHadithsView TH, sectionTopicsView ST     where TH.sectionId = ST.id and ST.bookId = ?1 order by TH.id',
+        mapper: (Map<String, Object?> row) => TopicHadithsView(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String, sectionId: row['sectionId'] as int, hadithCount: row['hadithCount'] as int),
+        arguments: [bookId]);
   }
 
   @override
@@ -1535,6 +1557,19 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
   }
 
   @override
+  Future<List<TopicVersesView>> getTopicVersesBySectionId(int sectionId) async {
+    return _queryAdapter.queryList(
+        'select * from topicVersesView where sectionId = ?1',
+        mapper: (Map<String, Object?> row) => TopicVersesView(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            searchName: row['searchName'] as String,
+            sectionId: row['sectionId'] as int,
+            verseCount: row['verseCount'] as int),
+        arguments: [sectionId]);
+  }
+
+  @override
   Stream<List<TopicVersesView>> getStreamTopicVersesBySectionIdAndQuery(
     int sectionId,
     String querySearchFull,
@@ -1567,6 +1602,14 @@ class _$TopicVersesViewDao extends TopicVersesViewDao {
         arguments: [bookId],
         queryableName: 'topicVersesView',
         isView: true);
+  }
+
+  @override
+  Future<List<TopicVersesView>> getTopicVersesByBookId(int bookId) async {
+    return _queryAdapter.queryList(
+        'select TV.* from topicVersesView TV, sectionTopicsView ST     where TV.sectionId = ST.id and ST.bookId = ?1 order by TV.id',
+        mapper: (Map<String, Object?> row) => TopicVersesView(id: row['id'] as int, name: row['name'] as String, searchName: row['searchName'] as String, sectionId: row['sectionId'] as int, verseCount: row['verseCount'] as int),
+        arguments: [bookId]);
   }
 
   @override

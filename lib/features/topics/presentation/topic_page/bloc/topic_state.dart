@@ -16,7 +16,8 @@ class TopicState with _$TopicState{
     required List<TopicViewModel> items,
     required bool isLoading,
     required bool isDetailOpen,
-    TopicViewModel? selectedItem
+    TopicViewModel? selectedItem,
+    int? jumpToPos
   }) = _TopicState;
 
   TopicViewModel? get currentSelectedItem => items.firstWhereOrNull((e) => e.id == selectedItem?.id);
