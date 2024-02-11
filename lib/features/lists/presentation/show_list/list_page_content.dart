@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
+import 'package:hadith/core/presentation/components/animated/custom_visibility_with_content_scrolling.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
@@ -28,6 +29,8 @@ class ListPageContent extends StatelessWidget {
   final TextEditingController searchTextController;
   final TabController tabController;
   final void Function(ListViewModel) onClickItem;
+  final bool isSinglePane;
+  final CustomAutoScrollController contentScrollController;
 
   const ListPageContent({
     super.key,
@@ -35,6 +38,8 @@ class ListPageContent extends StatelessWidget {
     required this.tabController,
     required this.scrollController,
     required this.searchTextController,
+    required this.isSinglePane,
+    required this.contentScrollController
   });
 
   @override
@@ -55,6 +60,7 @@ class ListPageContent extends StatelessWidget {
                 floating: true,
                 searchBarVisible: searchBarVisible,
                 scrollController: scrollController,
+                contentScrollController: contentScrollController,
                 onTextChanged: (newText){
                   listBloc.add(ShowListEventSearch(query: newText));
                 },
@@ -122,12 +128,13 @@ class ListPageContent extends StatelessWidget {
     return LazyAlignedGridView(
       itemCount: items.length,
       padding: K.defaultLazyListPadding,
+      controller: contentScrollController.controller,
       itemBuilder: (BuildContext context, int index) {
         var item = items[index];
         return SharedListItem(
           subTitleTag: sourceType.shortName,
           listViewModel: item,
-          isSelected: selectedItem == item,
+          isSelected: selectedItem?.id == item.id && !isSinglePane,
           useSecondary: useSecondary,
           leading: sourceType.getListIcon(context, item.isRemovable),
           trailing: SelectAdaptiveDropdownMenu(
@@ -155,8 +162,8 @@ class ListPageContent extends StatelessWidget {
 
   Widget getFab(BuildContext context){
     final bloc = context.read<ShowListBloc>();
-    return CustomVisibilityWithScrolling(
-        controller: scrollController.controller,
+    return CustomVisibilityWithContentScrolling(
+        controller: contentScrollController,
         child: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: (){
