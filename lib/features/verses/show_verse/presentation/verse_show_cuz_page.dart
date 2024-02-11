@@ -5,14 +5,17 @@ import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/features/get_title/domain/enums/title_enum.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_state.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/model/edit_save_point_handler.dart';
+import 'package:hadith/core/presentation/components/animated/custom_animated_visibility.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_cuz_paging_repo.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_event.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_state.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/last_page_visible_item.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
 
@@ -52,7 +55,9 @@ class VerseShowCuzPage extends StatelessWidget {
             title: currentTitle,
             pos: pos,
             editSavePointHandler: _getEditSavePointHandler(context),
-            trailingWidget: getNextPrevButton(context),
+            trailingWidget: LastPageVisibleItemWithPagination(
+              child: getNextPrevButton(context)
+            ),
           );
         }
       ),
@@ -100,19 +105,19 @@ class VerseShowCuzPage extends StatelessWidget {
       children: [
         Expanded(
           child: TextButton(
-              onPressed: cuzNo == 1 ? null : (){
-                replaceNavigation(context, cuzNo: cuzNo - 1, pos: 0);
-              },
-              child: const Text("Önceki")
+            onPressed: cuzNo == 1 ? null : (){
+              replaceNavigation(context, cuzNo: cuzNo - 1, pos: 0);
+            },
+            child: const Text("Önceki")
           ),
         ),
         const SizedBox(width: 4,),
         Expanded(
           child: TextButton(
-              onPressed: cuzNo == 30 ? null : (){
-                replaceNavigation(context, cuzNo: cuzNo + 1, pos: 0);
-              },
-              child: const Text("Sonraki")
+            onPressed: cuzNo == 30 ? null : (){
+              replaceNavigation(context, cuzNo: cuzNo + 1, pos: 0);
+            },
+            child: const Text("Sonraki")
           ),
         )
       ],

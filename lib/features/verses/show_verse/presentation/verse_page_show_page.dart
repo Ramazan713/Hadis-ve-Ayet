@@ -199,13 +199,13 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
   Widget getNextPrevButton(BuildContext context){
     return BlocBuilder<PaginationBloc,PaginationState>(
       buildWhen: (prevState, nextState){
-        return prevState.totalStaticPages != nextState.totalStaticPages;
+        return prevState.totalStaticItems != nextState.totalStaticItems;
       },
       builder: (context, state){
         return ListenableBuilder(
             listenable: pageController,
             builder: (context, child){
-              final nextEnabled = state.totalStaticPages - 1 != pageController.currentPageIndex;
+              final nextEnabled = state.totalStaticItems - 1 != pageController.currentPageIndex;
               final prevEnabled = pageController.currentPageIndex != 0;
               return Row(
                 children: [

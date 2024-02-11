@@ -13,6 +13,7 @@ import 'package:hadith/core/features/save_point/presentation/edit_save_point/mod
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_surah_paging_repo.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/components/last_page_visible_item.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
 
 import 'shared/verse_show_shared_page.dart';
@@ -48,7 +49,9 @@ class VerseShowSurahPage extends StatelessWidget {
             title: currentTitle,
             editSavePointHandler: _getEditSavePointHandler(context),
             pos: pos,
-            trailingWidget: getNextPrevButton(context),
+            trailingWidget: LastPageVisibleItemWithPagination(
+              child: getNextPrevButton(context),
+            ),
           );
         }
       ),

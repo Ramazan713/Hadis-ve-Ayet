@@ -15,7 +15,6 @@ class PaginationState<T extends IPagingItem> with _$PaginationState{
     required int prevPage,
     required int pageSize,
     required int totalItems,
-    required int totalStaticPages,
     required List<T> items,
     required HashMap<int, List<T>> itemsByPage,
     required PagingStatus status,
@@ -29,6 +28,8 @@ class PaginationState<T extends IPagingItem> with _$PaginationState{
 
 
   int get totalDynamicPages => totalItems ~/ pageSize;
+  int get totalStaticItems => totalItems;
+  int get totalStaticPages => (totalItems / (pageSize)).ceil();
   int get visibleMiddlePos => (visibleMaxPos + visibleMinPos) ~/ 2;
   IPagingItem? get visibleMiddleItem => items.elementAtOrNull(visibleMiddlePos);
 
@@ -48,7 +49,6 @@ class PaginationState<T extends IPagingItem> with _$PaginationState{
       jumpToAlignment: 0,
       visibleMinPos: 0,
       visibleMaxPos: 0,
-      totalStaticPages: 0
     );
   }
 }

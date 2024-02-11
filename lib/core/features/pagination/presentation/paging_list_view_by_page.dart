@@ -46,7 +46,7 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
       buildWhen: (prevState, nextState){
         return prevState.status != nextState.status ||
             prevState.itemsByPage.keys != nextState.itemsByPage.keys ||
-            prevState.totalStaticPages != nextState.totalStaticPages;
+            prevState.totalStaticItems != nextState.totalStaticItems;
       },
       builder: (context, pagingState){
         final itemsByPage = pagingState.itemsByPage;
@@ -56,7 +56,7 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
           onPageChanged: (page){
             pagingBloc.add(PaginationEventChangePage(page: page + 1));
           },
-          itemCount: pagingState.totalStaticPages,
+          itemCount: pagingState.totalStaticItems,
           itemBuilder: (context, pageIndex){
 
             if(pagingState.status == PagingStatus.loading){

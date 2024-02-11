@@ -20,7 +20,6 @@ mixin _$PaginationState<T extends IPagingItem> {
   int get prevPage => throw _privateConstructorUsedError;
   int get pageSize => throw _privateConstructorUsedError;
   int get totalItems => throw _privateConstructorUsedError;
-  int get totalStaticPages => throw _privateConstructorUsedError;
   List<T> get items => throw _privateConstructorUsedError;
   HashMap<int, List<T>> get itemsByPage => throw _privateConstructorUsedError;
   PagingStatus get status => throw _privateConstructorUsedError;
@@ -48,7 +47,6 @@ abstract class $PaginationStateCopyWith<T extends IPagingItem, $Res> {
       int prevPage,
       int pageSize,
       int totalItems,
-      int totalStaticPages,
       List<T> items,
       HashMap<int, List<T>> itemsByPage,
       PagingStatus status,
@@ -78,7 +76,6 @@ class _$PaginationStateCopyWithImpl<T extends IPagingItem, $Res,
     Object? prevPage = null,
     Object? pageSize = null,
     Object? totalItems = null,
-    Object? totalStaticPages = null,
     Object? items = null,
     Object? itemsByPage = null,
     Object? status = null,
@@ -105,10 +102,6 @@ class _$PaginationStateCopyWithImpl<T extends IPagingItem, $Res,
       totalItems: null == totalItems
           ? _value.totalItems
           : totalItems // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalStaticPages: null == totalStaticPages
-          ? _value.totalStaticPages
-          : totalStaticPages // ignore: cast_nullable_to_non_nullable
               as int,
       items: null == items
           ? _value.items
@@ -163,7 +156,6 @@ abstract class _$$_PaginationStateCopyWith<T extends IPagingItem, $Res>
       int prevPage,
       int pageSize,
       int totalItems,
-      int totalStaticPages,
       List<T> items,
       HashMap<int, List<T>> itemsByPage,
       PagingStatus status,
@@ -190,7 +182,6 @@ class __$$_PaginationStateCopyWithImpl<T extends IPagingItem, $Res>
     Object? prevPage = null,
     Object? pageSize = null,
     Object? totalItems = null,
-    Object? totalStaticPages = null,
     Object? items = null,
     Object? itemsByPage = null,
     Object? status = null,
@@ -217,10 +208,6 @@ class __$$_PaginationStateCopyWithImpl<T extends IPagingItem, $Res>
       totalItems: null == totalItems
           ? _value.totalItems
           : totalItems // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalStaticPages: null == totalStaticPages
-          ? _value.totalStaticPages
-          : totalStaticPages // ignore: cast_nullable_to_non_nullable
               as int,
       items: null == items
           ? _value._items
@@ -271,7 +258,6 @@ class _$_PaginationState<T extends IPagingItem> extends _PaginationState<T>
       required this.prevPage,
       required this.pageSize,
       required this.totalItems,
-      required this.totalStaticPages,
       required final List<T> items,
       required this.itemsByPage,
       required this.status,
@@ -292,8 +278,6 @@ class _$_PaginationState<T extends IPagingItem> extends _PaginationState<T>
   final int pageSize;
   @override
   final int totalItems;
-  @override
-  final int totalStaticPages;
   final List<T> _items;
   @override
   List<T> get items {
@@ -321,7 +305,7 @@ class _$_PaginationState<T extends IPagingItem> extends _PaginationState<T>
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PaginationState<$T>(currentPage: $currentPage, prevPage: $prevPage, pageSize: $pageSize, totalItems: $totalItems, totalStaticPages: $totalStaticPages, items: $items, itemsByPage: $itemsByPage, status: $status, preFetchDistance: $preFetchDistance, jumpToAlignment: $jumpToAlignment, visibleMinPos: $visibleMinPos, visibleMaxPos: $visibleMaxPos, lastModifiedItem: $lastModifiedItem, jumpToPos: $jumpToPos)';
+    return 'PaginationState<$T>(currentPage: $currentPage, prevPage: $prevPage, pageSize: $pageSize, totalItems: $totalItems, items: $items, itemsByPage: $itemsByPage, status: $status, preFetchDistance: $preFetchDistance, jumpToAlignment: $jumpToAlignment, visibleMinPos: $visibleMinPos, visibleMaxPos: $visibleMaxPos, lastModifiedItem: $lastModifiedItem, jumpToPos: $jumpToPos)';
   }
 
   @override
@@ -333,7 +317,6 @@ class _$_PaginationState<T extends IPagingItem> extends _PaginationState<T>
       ..add(DiagnosticsProperty('prevPage', prevPage))
       ..add(DiagnosticsProperty('pageSize', pageSize))
       ..add(DiagnosticsProperty('totalItems', totalItems))
-      ..add(DiagnosticsProperty('totalStaticPages', totalStaticPages))
       ..add(DiagnosticsProperty('items', items))
       ..add(DiagnosticsProperty('itemsByPage', itemsByPage))
       ..add(DiagnosticsProperty('status', status))
@@ -358,8 +341,6 @@ class _$_PaginationState<T extends IPagingItem> extends _PaginationState<T>
                 other.pageSize == pageSize) &&
             (identical(other.totalItems, totalItems) ||
                 other.totalItems == totalItems) &&
-            (identical(other.totalStaticPages, totalStaticPages) ||
-                other.totalStaticPages == totalStaticPages) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             const DeepCollectionEquality()
                 .equals(other.itemsByPage, itemsByPage) &&
@@ -385,7 +366,6 @@ class _$_PaginationState<T extends IPagingItem> extends _PaginationState<T>
       prevPage,
       pageSize,
       totalItems,
-      totalStaticPages,
       const DeepCollectionEquality().hash(_items),
       const DeepCollectionEquality().hash(itemsByPage),
       status,
@@ -411,7 +391,6 @@ abstract class _PaginationState<T extends IPagingItem>
       required final int prevPage,
       required final int pageSize,
       required final int totalItems,
-      required final int totalStaticPages,
       required final List<T> items,
       required final HashMap<int, List<T>> itemsByPage,
       required final PagingStatus status,
@@ -431,8 +410,6 @@ abstract class _PaginationState<T extends IPagingItem>
   int get pageSize;
   @override
   int get totalItems;
-  @override
-  int get totalStaticPages;
   @override
   List<T> get items;
   @override

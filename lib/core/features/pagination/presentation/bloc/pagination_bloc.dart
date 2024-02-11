@@ -49,7 +49,6 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
         pageSize: config.pageSize,
         preFetchDistance: config.preFetchDistance,
         totalItems: totalItems,
-        totalStaticPages: totalItems
     ));
 
     if(config.currentPage != null){
@@ -68,7 +67,6 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
 
     emit(state.copyWith(currentPage: nextPage,
         status: PagingStatus.nextLoading, jumpToAlignment: 1));
-
     await _fetchData(
         shouldReplaceItems: false,
         shouldAppendAtEnd: true,
@@ -132,7 +130,7 @@ class PaginationBloc extends Bloc<IPaginationEvent,PaginationState>{
 
   void _onChangePage(PaginationEventChangePage event,Emitter<PaginationState>emit)async{
     EasyDebounce.debounce("pagination_by_page", const Duration(milliseconds: 300), () async{
-      if(event.page > state.totalStaticPages) return;
+      if(event.page > state.totalStaticItems) return;
       final pageNumber = max(event.page, 1);
 
       int currentPage = 1;
