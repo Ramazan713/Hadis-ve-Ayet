@@ -24,14 +24,7 @@ class _RootPageState extends State<RootPage> {
       child: AdaptiveScaffold(
         body: (context){
           return SafeArea(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: const [
-                CategoryPage(),
-                HomePage(),
-                ShowListPage()
-              ],
-            ),
+            child: _navigationItems[_selectedIndex].destination,
           );
         },
         destinations: _navigationItems,
@@ -78,25 +71,30 @@ final _navigationItems = [
     icon: Icon(Icons.category_outlined),
     activeIcon: Icon(Icons.category),
     label: "Kategoriler",
+    destination: CategoryPage(),
   ),
   const _NavigationItem(
     icon: Icon(Icons.home_outlined),
     activeIcon: Icon(Icons.home),
     label: "Ana Sayfa",
+    destination: HomePage(),
   ),
   const _NavigationItem(
     icon: Icon(Icons.view_list_outlined),
     activeIcon: Icon(Icons.view_list),
     label: "Liste",
+    destination: ShowListPage(),
   ),
 ];
 
 
 class _NavigationItem extends NavigationDestination{
+  final Widget destination;
   const _NavigationItem({
     required Icon icon,
     required Icon activeIcon,
-    required String label
+    required String label,
+    required this.destination
   }) :super(icon: icon,label: label,selectedIcon: activeIcon);
 
 }
