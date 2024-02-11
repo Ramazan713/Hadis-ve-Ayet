@@ -22,6 +22,7 @@ import 'package:hadith/features/hadiths/presentation/shared/paging_hadith_connec
 import 'package:hadith/features/hadiths/presentation/shared/sections/bottom_menu.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/hadith_icons_handle.dart';
 import 'package:hadith/features/hadiths/presentation/shared/sections/header.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
 
@@ -29,12 +30,14 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
   final void Function() onClose;
   final CustomScrollController controller;
   final void Function(int firstVisibleItemIndex, int lastVisibleItemIndex)? onVisibleItemChanged;
+  final ItemScrollController itemScrollController;
 
   const HadithSharedDetailPageContent({
     Key? key,
     required super.savePointDestination,
     required super.paginationRepo,
     required super.title,
+    required this.itemScrollController,
     required this.isFullPage,
     required this.onClose,
     super.searchParam,
@@ -48,11 +51,12 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pagingBloc = context.read<PaginationBloc>();
 
-    pagingBloc.add(PaginationEventInit(paginationRepo, config: PagingConfig(
-        pageSize: K.hadithPageSize,currentPos: pos, preFetchDistance: K.hadithPagingPrefetchSize
-    )));
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(itemScrollController.isAttached){
+        itemScrollController.jumpTo(index: pos);
+      }
+    });
 
     return PopScope(
       canPop: !isFullPage,
@@ -76,6 +80,7 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
                   builder: (context, state){
                     return PagingListView(
                       onVisibleItemChanged: onVisibleItemChanged,
+                      itemScrollController: itemScrollController,
                       onScroll: (scroll){
                         controller.setScrollDirectionAndAnimateTopBar(scroll);
                       },

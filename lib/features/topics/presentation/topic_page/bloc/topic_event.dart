@@ -1,6 +1,7 @@
 
 
 import 'package:hadith/core/domain/enums/book_enum.dart';
+import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 
 abstract class ITopicEvent{}
 
@@ -19,4 +20,12 @@ class TopicEventSetSearchBarVisibility extends ITopicEvent{
 class TopicEventSearch extends ITopicEvent{
   final String query;
   TopicEventSearch({required this.query});
+}
+
+
+class TopicEventHideDetail extends ITopicEvent{}
+
+class TopicEventShowDetail extends ITopicEvent{
+  final TopicViewModel item;
+  TopicEventShowDetail({required this.item});
 }

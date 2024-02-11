@@ -1,40 +1,32 @@
 
 
-import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 
-class TopicState extends Equatable{
+part 'topic_state.freezed.dart';
 
-  final bool searchBarVisible;
-  final List<TopicViewModel> items;
-  final bool isLoading;
+@freezed
+class TopicState with _$TopicState{
 
-  const TopicState({
-    required this.searchBarVisible,
-    required this.items,
-    required this.isLoading
-  });
+  const TopicState._();
 
-  TopicState copyWith({
-    bool? searchBarVisible,
-    List<TopicViewModel>? items,
-    bool? isLoading
-  }){
-    return TopicState(
-        searchBarVisible: searchBarVisible ?? this.searchBarVisible,
-        items: items ?? this.items,
-        isLoading: isLoading ?? this.isLoading
-    );
-  }
+  const factory TopicState({
+    required bool searchBarVisible,
+    required List<TopicViewModel> items,
+    required bool isLoading,
+    required bool isDetailOpen,
+    TopicViewModel? selectedItem
+  }) = _TopicState;
+
+  TopicViewModel? get currentSelectedItem => items.firstWhereOrNull((e) => e.id == selectedItem?.id);
 
   static TopicState init(){
     return const TopicState(
-        searchBarVisible: false,
-        items: [],
-        isLoading: false
+      isDetailOpen: false,
+      isLoading: false,
+      items: [],
+      searchBarVisible: false
     );
   }
-
-  @override
-  List<Object?> get props => [searchBarVisible, items, isLoading];
 }

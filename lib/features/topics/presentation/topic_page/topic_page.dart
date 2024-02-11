@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
-import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
-import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
-import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
-import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
-import 'package:hadith/core/features/topic_save_point/domain/models/topic_save_point.dart';
+import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
+import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
+import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/topic_save_point/domain/enums/topic_save_point_type.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_event.dart';
-import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_state.dart';
-import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
-import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.dart';
-import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
+import 'package:hadith/features/hadiths/data/repo/hadith_topic_paging_repo.dart';
+import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_detail_page_content.dart';
+import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_event.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_state.dart';
-import 'package:hadith/features/topics/presentation/topic_page/components/topic_item.dart';
+import 'package:hadith/features/topics/presentation/topic_page/topic_list_page_content.dart';
+import 'package:hadith/features/verses/show_verse/data/repo/verse_topic_paging_repo.dart';
+import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_detail_page_content.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import './sections/topic_ext.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TopicPage extends StatefulWidget {
   final BookEnum bookEnum;
@@ -46,9 +49,18 @@ class TopicPage extends StatefulWidget {
 
 class TopicPageState extends State<TopicPage> {
 
-  final CustomAutoScrollController autoScrollController = CustomAutoScrollController(suggestedRowHeight: 60);
-  final CustomScrollController scrollController = CustomScrollController();
-  final TextEditingController searchTextController = TextEditingController();
+  CustomAutoScrollController? listContentScrollController;
+  CustomScrollController? listScrollController = CustomScrollController();
+  final TextEditingController listSearchTextController = TextEditingController();
+  final detailScrollController = CustomScrollController();
+  final CustomScrollController detailVerseCustomScrollController = CustomScrollController();
+  final ItemScrollController detailVerseSinglePaneItemScrollController = ItemScrollController();
+  final ItemScrollController detailVerseDualPaneItemScrollController = ItemScrollController();
+  final ItemScrollController detailHadithSinglePaneItemScrollController = ItemScrollController();
+  final ItemScrollController detailHadithDualPaneItemScrollController = ItemScrollController();
+
+  var currentHadithDetailPos = 0;
+  var currentVerseDetailPos = 0;
 
   @override
   void initState() {
@@ -58,127 +70,191 @@ class TopicPageState extends State<TopicPage> {
 
     bloc.add(TopicEventLoadData(book: widget.bookEnum, sectionId: widget.sectionId,useBookAllSections: widget.useBookAllSections));
     topicSavePointBloc.add(TopicSavePointEventLoadData(topicType: getTopicType()));
-
   }
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<TopicBloc>();
-
     return Scaffold(
-      floatingActionButton: getFloatingActionWidget(),
       body: SafeArea(
         child: getListeners(
-          child: AdaptivePadding(
-            child: BlocSelector<TopicBloc, TopicState, bool>(
-              selector: (state)=>state.searchBarVisible,
-              builder: (context,isSearchBarVisible){
-                return DefaultNestedSearchableAppBar(
-                  textEditingController: searchTextController,
-                  scrollController: scrollController,
-                  contentScrollController: autoScrollController,
-                  searchBarVisible: isSearchBarVisible,
-                  onSearchVisibilityChanged: (newIsSearchBarVisible){
-                    bloc.add(TopicEventSetSearchBarVisibility(isSearchBarVisible: newIsSearchBarVisible));
-                  },
-                  onTextChanged: (newText){
-                    bloc.add(TopicEventSearch(query: newText));
-                  },
-                  title: Text(
-                    "${widget.sectionTitle} - ${widget.bookEnum.bookScope.description}",
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  actions: getActions(),
-                  snap: true,
-                  floating: true,
-                  floatHeaderSlivers: true,
-                  appBarType: AppBarType.defaultBar,
-                  child: getItemsContent(),
-                );
-              }
-            ),
+          child: BlocBuilder<TopicBloc, TopicState>(
+            buildWhen: (prevState, nextState){
+              return prevState.isDetailOpen != nextState.isDetailOpen ||
+                  prevState.selectedItem != nextState.selectedItem;
+            },
+            builder: (context, state){
+              return ListDetailAdaptiveLayoutWithController(
+                useAdaptivePadding: true,
+                showDetailInSinglePane: state.isDetailOpen,
+                useDetailOffset: false,
+                onCreateListController: (offset){
+                  return AutoScrollController(
+                    initialScrollOffset: offset,
+                    suggestedRowHeight: 60
+                  );
+                },
+                onListWidget: (controller, isSinglePane){
+                  return TopicListPageContent(
+                    isSinglePane: isSinglePane,
+                    scrollController: listScrollController! ,
+                    searchTextController: listSearchTextController,
+                    autoScrollController: _setAndGetController(controller),
+                    bookEnum: widget.bookEnum,
+                    sectionId: widget.sectionId,
+                    sectionTitle: widget.sectionTitle,
+                    useBookAllSections: widget.useBookAllSections,
+                    onClickItem: (item){
+                      currentHadithDetailPos = 0;
+                      currentVerseDetailPos = 0;
+                      bloc.add(TopicEventShowDetail(item: item));
+                    },
+                  );
+                },
+                onDetailWidget: (controller, isSinglePane){
+                  final selectedItem = state.selectedItem;
+                  if(selectedItem == null){
+                    return const SharedEmptyResult();
+                  }
+                  if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
+                    return getVerseDetail(selectedItem, isSinglePane);
+                  }
+                  return getHadithDetail(selectedItem, isSinglePane);
+                },
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget getItemsContent(){
-    return BlocBuilder<TopicBloc, TopicState>(
-      buildWhen: (prevState, nextState){
-        return prevState.items != nextState.items ||
-            prevState.searchBarVisible != nextState.searchBarVisible;
+  Widget getHadithDetail(TopicViewModel selectedItem, bool isSinglePane){
+    final bloc = context.read<TopicBloc>();
+
+    final savePointDestination = DestinationTopic(
+        topicId: selectedItem.id,
+        topicName: selectedItem.name,
+        bookEnum: widget.bookEnum
+    );
+
+    final hadithTopicPagingRepo = context.read<HadithTopicPagingRepo>()
+        .init(selectedItem.id);
+
+    final controller = isSinglePane ? detailHadithSinglePaneItemScrollController :
+        detailHadithDualPaneItemScrollController;
+
+    return HadithSharedDetailPageContent(
+      savePointDestination: savePointDestination,
+      itemScrollController: controller,
+      paginationRepo: hadithTopicPagingRepo,
+      title: "${selectedItem.name} - ${widget.bookEnum.sourceType.shortName}",
+      pos: currentHadithDetailPos,
+      listIdControlForSelectList: selectedItem.id,
+      isFullPage: isSinglePane,
+      controller: detailScrollController,
+      onVisibleItemChanged: (firstPos, lastPos){
+        currentHadithDetailPos = firstPos;
       },
-      builder: (context, state){
-        final items = state.items;
-
-        return BlocSelector<TopicSavePointBloc,TopicSavePointState, TopicSavePoint?>(
-          selector: (state)=>state.topicSavePoint,
-          builder: (context, currentTopicSavePoint){
-            if(state.isLoading){
-              return const GetShimmerItems(
-                itemCount: 19,
-                shimmerItem: ShimmerTopicItem()
-              );
-            }
-            if(items.isEmpty){
-              return const SharedEmptyResult();
-            }
-
-            return LazyAlignedGridView(
-              shrinkWrap: true,
-              controller: autoScrollController.controller,
-              padding: K.defaultLazyListPadding,
-              maxCrossAxisExtent: 600,
-              itemCount: items.length,
-              itemBuilder: (context, index){
-                final item = items[index];
-                final hasSavePoint = currentTopicSavePoint?.pos == index;
-                return AutoScrollTag(
-                  index: index,
-                  key: ValueKey("$index"),
-                  controller: autoScrollController.controller,
-                  child: TopicItem(
-                    topicViewModel: item,
-                    hasSavePoint: !state.searchBarVisible && hasSavePoint,
-                    sourceType: widget.sourceType,
-                    onTap: (){
-                      handleNavigation(item);
-                    },
-                    onMenuClick: state.searchBarVisible ? null : (){
-                      handleBottomMenu(
-                        index: index,
-                        hasSavePoint: hasSavePoint,
-                        topic: item
-                      );
-                    },
-                    rowNumber: index + 1
-                  ),
-                );
-              },
-            );
-          }
-        );
+      onClose: (){
+        bloc.add(TopicEventHideDetail());
       },
     );
   }
 
-  Widget getListeners({required Widget child}){
-    return BlocListener<TopicBloc,TopicState>(
-      listenWhen: (prevState, nextState) => prevState.items.length != nextState.items.length,
-      listener: (context, state){
-        autoScrollController.setTotalItems(totalItems: state.items.length);
+  Widget getVerseDetail(TopicViewModel selectedItem, bool isSinglePane){
+    final bloc = context.read<TopicBloc>();
+
+    final topicPagingRepo = context.read<VerseTopicPagingRepo>()
+        .init(topicId: selectedItem.id);
+
+    final destination = DestinationTopic(
+        topicId: selectedItem.id,
+        topicName: selectedItem.name,
+        bookEnum: widget.bookEnum
+    );
+
+    final controller = isSinglePane ? detailVerseSinglePaneItemScrollController :
+        detailVerseDualPaneItemScrollController;
+
+    return VerseSharedDetailPageContent(
+      isFullPage: isSinglePane,
+      onClose: (){
+        bloc.add(TopicEventHideDetail());
       },
+      savePointDestination: destination,
+      paginationRepo: topicPagingRepo,
+      selectAudioOption: SelectAudioOption.verse,
+      itemScrollController: controller,
+      customScrollController: detailVerseCustomScrollController,
+      onVisibleItemChanged: (firstPos, lastPos){
+        currentVerseDetailPos = firstPos;
+      },
+      pos: currentVerseDetailPos,
+      showNavigateToActions: true,
+      title: "${selectedItem.name} - ${widget.bookEnum.sourceType.shortName}",
+    );
+  }
+
+
+  Widget getListeners({
+    required Widget child
+  }){
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<TopicBloc, TopicState>(
+          listenWhen: (prevState, nextState){
+            return prevState.selectedItem?.id != nextState.selectedItem?.id;
+          },
+          listener: (context, state){
+            final selectedItem = state.selectedItem;
+            if(selectedItem == null) return;
+            final pagingBloc = context.read<PaginationBloc>();
+
+            if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
+              final topicPagingRepo = context.read<VerseTopicPagingRepo>()
+                  .init(topicId: selectedItem.id);
+              pagingBloc.add(PaginationEventInit(topicPagingRepo,
+                  config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize, currentPos: currentVerseDetailPos)
+              ));
+            }else{
+              final hadithTopicPagingRepo = context.read<HadithTopicPagingRepo>()
+                  .init(selectedItem.id);
+              pagingBloc.add(PaginationEventInit(hadithTopicPagingRepo, config: PagingConfig(
+                  pageSize: K.hadithPageSize,currentPos: currentHadithDetailPos, preFetchDistance: K.hadithPagingPrefetchSize
+              )));
+            }
+          },
+        ),
+      ],
       child: child,
     );
+
+  }
+
+  CustomAutoScrollController _setAndGetController(ScrollController? controller){
+    listContentScrollController = controller == null ? CustomAutoScrollController() :
+        CustomAutoScrollController(autoScrollController: controller as AutoScrollController);
+    final itemCount = context.read<TopicBloc>().state.items.length;
+    listContentScrollController!.setTotalItems(totalItems: itemCount);
+    return listContentScrollController!;
+  }
+
+  TopicSavePointType getTopicType(){
+    if(widget.useBookAllSections){
+      return TopicSavePointTypeTopicUsesAllBook(bookEnum: widget.bookEnum);
+    }
+    return TopicSavePointTypeTopic(sectionId: widget.sectionId);
   }
 
 
   @override
   void dispose() {
-    searchTextController.dispose();
-    scrollController.dispose();
-    autoScrollController.dispose();
+    listSearchTextController.dispose();
+    listScrollController?.dispose();
+    listContentScrollController?.dispose();
+    detailVerseCustomScrollController.dispose();
+    detailScrollController.dispose();
     super.dispose();
   }
 }

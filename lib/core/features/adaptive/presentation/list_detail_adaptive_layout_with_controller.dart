@@ -50,6 +50,9 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
   ScrollController? listScrollController;
   ScrollController? detailScrollController;
 
+  bool? isPreviousListControllerSinglePane;
+  bool? isPreviousDetailControllerSinglePane;
+
   @override
   Widget build(BuildContext context) {
     return AdaptivePadding(
@@ -57,7 +60,7 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
       child: AdaptiveLayout(
         body: SlotLayout(
           config: {
-            Breakpoints.standard:  SlotLayout.from(
+            Breakpoints.smallAndUp:  SlotLayout.from(
               key: const Key("ListDetailAdaptiveLayout Standard"),
               builder: (context){
                 if(widget.showDetailInSinglePane == true){
@@ -65,12 +68,11 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
                 }else if(widget.showDetailInSinglePane == false){
                   return _getAndHandleListWidget(true);
                 }
-      
+
                 final showDetailInSinglePaneBuilder = widget.onShowDetailInSinglePaneBuilder;
                 if(showDetailInSinglePaneBuilder == null){
                   return _getAndHandleListWidget(true);
                 }
-      
                 return showDetailInSinglePaneBuilder(
                   (showDetailInSinglePane){
                     if(showDetailInSinglePane){
@@ -105,8 +107,12 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
 
   Widget _getAndHandleDetailWidget(bool isSinglePane){
     if(detailScrollController != null){
+      if(isPreviousDetailControllerSinglePane == isSinglePane){
+        return widget.onDetailWidget(detailScrollController, isSinglePane);
+      }
       _disposeController(true);
     }
+    isPreviousDetailControllerSinglePane = isSinglePane;
     detailScrollController = widget.onCreateDetailController?.call(detailOffset);
     if(widget.enableListeners){
       detailScrollController?.addListener(_detailOffsetListener);
@@ -116,8 +122,12 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
 
   Widget _getAndHandleListWidget(bool isSinglePane){
     if(listScrollController != null){
+      if(isPreviousListControllerSinglePane == isSinglePane){
+        return widget.onListWidget(listScrollController,isSinglePane);
+      }
       _disposeController(false);
     }
+    isPreviousListControllerSinglePane = isSinglePane;
     listScrollController = widget.onCreateListController?.call(listOffset);
     if(widget.enableListeners){
       listScrollController?.addListener(_listOffsetListener);

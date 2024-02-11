@@ -66,15 +66,14 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
     super.useWideScopeNaming
   }) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
 
-    final pagingBloc = context.read<PaginationBloc>();
-    pagingBloc.add(PaginationEventInit(paginationRepo,
-        config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize,currentPos: pos)
-    ));
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(itemScrollController.isAttached){
+        itemScrollController.jumpTo(index: pos);
+      }
+    });
 
     return PopScope(
       canPop: !isFullPage,

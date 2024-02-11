@@ -29,6 +29,16 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
     on<TopicEventSetSearchBarVisibility>(_onSearchBarVisible, transformer: restartable());
     on<TopicEventSearch>(_onSearch, transformer: restartable());
     on<TopicEventLoadData>(_onLoadData, transformer: restartable());
+    on<TopicEventHideDetail>(_onHideDetail);
+    on<TopicEventShowDetail>(_onShowDetail);
+  }
+
+  void _onHideDetail(TopicEventHideDetail event, Emitter<TopicState>emit){
+    emit(state.copyWith(selectedItem: null, isDetailOpen: false));
+  }
+
+  void _onShowDetail(TopicEventShowDetail event, Emitter<TopicState>emit){
+    emit(state.copyWith(selectedItem: event.item, isDetailOpen: true));
   }
 
   void _onSearchBarVisible(TopicEventSetSearchBarVisibility event, Emitter<TopicState> emit){
@@ -56,7 +66,9 @@ class TopicBloc extends Bloc<ITopicEvent, TopicState>{
     });
 
     await emit.forEach<List<TopicViewModel>>(streamData, onData: (items){
-      return state.copyWith(items: items,isLoading: false);
+      final selectedItem = _queryFilter.value.isEmpty ? (state.selectedItem ?? items.firstOrNull) :
+          items.firstOrNull;
+      return state.copyWith(items: items, isLoading: false, selectedItem: selectedItem);
     });
   }
 

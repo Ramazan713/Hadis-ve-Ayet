@@ -12,15 +12,17 @@ class TopicItem extends StatelessWidget {
   final bool hasSavePoint;
   final int? rowNumber;
   final EdgeInsets? margins;
+  final bool isSelected;
 
   const TopicItem({Key? key,
     required this.sourceType,
-    this.onMenuClick,
     required this.topicViewModel,
     required this.hasSavePoint,
     required this.onTap,
     required this.rowNumber,
-    this.margins
+    required this.isSelected,
+    this.margins,
+    this.onMenuClick,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,10 @@ class TopicItem extends StatelessWidget {
     return CardListTile(
       margins: margins ?? EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(right: 8,left: 16),
+      isSelected: isSelected,
       defaultColor: Theme.of(context).colorScheme.secondaryContainer,
+      selectedColor: Theme.of(context).colorScheme.secondaryContainer.withGreen(220),
+      borderRadius: isSelected ? BorderRadius.circular(20) : null,
       title: Text(
         topicViewModel.name,
         style: Theme.of(context).textTheme.bodyLarge,
@@ -49,8 +54,8 @@ class TopicItem extends StatelessWidget {
       children: [
         if(hasSavePoint)
           Icon(
-              Icons.beenhere,
-              color: Theme.of(context).colorScheme.error
+            Icons.beenhere,
+            color: Theme.of(context).colorScheme.error
           ),
         IconButton(
           onPressed: onMenuClick,
