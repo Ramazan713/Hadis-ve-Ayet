@@ -104,14 +104,17 @@ class _DialogContentState<T extends ISearchableSelectItem> extends State<_Dialog
             ],
           ),
           Flexible(
-            child: Column(
-              children: [
-                const SizedBox(height: 4,),
-                getTextField(),
-                const SizedBox(height: 4,),
-                Expanded(child: getContent(context)),
-                const SizedBox(height: 8,),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 4,),
+                  getTextField(),
+                  const SizedBox(height: 4,),
+                  Flexible(child: getContent(context)),
+                  const SizedBox(height: 8,),
+                ],
+              ),
             )
           ),
           getButtonWidget(context),

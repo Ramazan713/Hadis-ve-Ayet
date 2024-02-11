@@ -58,31 +58,30 @@ class _DialogContentState extends State<_DialogContent> {
         padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 4),
         child: BlocBuilder<CreateQuranPrayerBloc,CreateQuranPrayerState>(
           builder: (context, state){
-            return IntrinsicHeight(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SharedHeader(
-                    title: "Kurandan Ekle",
-                    onClose: () {
-                      context.pop();
-                    },
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          getSelectionSection(context),
-                          getContentSection(context),
-                        ],
-                      ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SharedHeader(
+                  title: "Kurandan Ekle",
+                  onClose: () {
+                    context.pop();
+                  },
+                ),
+                Flexible(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        getSelectionSection(context),
+                        getContentSection(context),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8,),
-                  getSaveButton(context)
-                ],
-              ),
+                ),
+                const SizedBox(height: 8,),
+                getSaveButton(context)
+              ],
             );
           },
         ),

@@ -140,6 +140,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
       selectedSavePointId: selectedSavePointId,
       useWideScope: useWideScope,
       useWideScopeNaming: useWideScopeNaming,
+      flexFit: FlexFit.loose,
     ),
     bottomSheetChild: DraggableScrollableSheet(
       minChildSize: 0.4,
@@ -160,6 +161,7 @@ void showEditSavePointsDiaCustom(BuildContext context, {
           selectedSavePointId: selectedSavePointId,
           useWideScope: useWideScope,
           useWideScopeNaming: useWideScopeNaming,
+          flexFit: FlexFit.tight,
         );
       },
     )
@@ -181,6 +183,7 @@ class _DialogContent extends StatelessWidget {
   final String? description;
   final Widget Function(SavePoint?)? customBottomButtons;
   final String title;
+  final FlexFit flexFit;
 
   const _DialogContent({
     Key? key,
@@ -188,6 +191,7 @@ class _DialogContent extends StatelessWidget {
     required this.itemIndexPos,
     required this.controller,
     required this.title,
+    required this.flexFit,
     this.onLoadSavePointClick,
     this.onOverrideSavePointRequestHandler,
     this.onLoadSavePointRequestHandler,
@@ -206,12 +210,15 @@ class _DialogContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
             getHeader(context),
-            Expanded(
+            Flexible(
+              fit: flexFit,
               child: SingleChildScrollView(
                 controller: controller,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     getDescriptionWidget(context),

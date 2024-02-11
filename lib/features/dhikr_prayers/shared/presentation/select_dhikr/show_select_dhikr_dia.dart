@@ -86,16 +86,17 @@ class _DialogContentState<T extends IDetailItem> extends State<_DialogContent<T>
               padding: const EdgeInsets.only(top: 5,bottom: 13,right: 4,left: 4),
               child: getHeader(context)
           ),
-          Expanded(
+          Flexible(
             child: SingleChildScrollView(
-                controller: widget.controller,
-                child: Column(
-                  children: [
-                    getCheckList(context),
-                    const Divider(),
-                    getContent(context),
-                  ],
-                )
+              controller: widget.controller,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  getCheckList(context),
+                  const Divider(),
+                  getContent(context),
+                ],
+              )
             ),
           ),
           getButtons(context)

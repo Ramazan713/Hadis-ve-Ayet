@@ -24,6 +24,7 @@ void showSelectFontSizeDia(BuildContext context){
     context: context,
     child: _DialogContent(
       controller: ScrollController(),
+      flexFit: FlexFit.loose,
       onClose: (){
         context.pop();
       },
@@ -36,6 +37,7 @@ void showSelectFontSizeDia(BuildContext context){
       builder: (context, scrollController){
         return _DialogContent(
           controller: scrollController,
+          flexFit: FlexFit.tight,
           onClose: (){
             context.pop();
           },
@@ -48,11 +50,13 @@ void showSelectFontSizeDia(BuildContext context){
 class _DialogContent extends StatelessWidget {
   final void Function() onClose;
   final ScrollController controller;
+  final FlexFit flexFit;
 
   const _DialogContent({
     super.key,
     required this.onClose,
-    required this.controller
+    required this.controller,
+    required this.flexFit
   });
 
   @override
@@ -74,11 +78,13 @@ class _DialogContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             getCloseIcon(context),
-            Expanded(
+            Flexible(
+              fit: flexFit,
               child: SingleChildScrollView(
                 controller: controller,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       constraints: const BoxConstraints(

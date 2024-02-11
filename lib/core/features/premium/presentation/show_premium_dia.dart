@@ -62,10 +62,11 @@ class _DialogContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             getHeader(context),
-            Expanded(
+            Flexible(
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(height: 19,),
                     getFeaturesSection(context),

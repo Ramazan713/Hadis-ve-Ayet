@@ -94,9 +94,10 @@ void _dialogContent({
     builder: (context){
       if(useDialogAsParent){
         return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 12),
           child: SizedBox(
-              width: 560,
-              child: dialogChild ?? child
+            width: 560,
+            child: dialogChild ?? child
           ),
         );
       }
