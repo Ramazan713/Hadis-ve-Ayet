@@ -26,7 +26,7 @@ extension HadithItemContentExt on HadithItemState{
 
   Widget _getContentWidget(BuildContext context){
     return ValueListenableBuilder<bool>(
-        valueListenable: showContinue,
+        valueListenable: expandHadith,
         builder: (context,showContinue,child){
           return RichText(
             text: TextSpan(
@@ -50,8 +50,12 @@ extension HadithItemContentExt on HadithItemState{
         textStyle: getSmallTextStyle(context),
     );
 
-    if (!showContinue && isContentLarge) {
-      widgets.add(_getContinueWidget(context));
+    if(isContentLarge){
+      if(!showContinue){
+        widgets.add(_getContinueWidget(context));
+      }else{
+        widgets.add(_getHideWidget(context));
+      }
     }
     return widgets;
   }
@@ -61,14 +65,31 @@ extension HadithItemContentExt on HadithItemState{
       WidgetSpan(
         child: InkWell(
           child: Text(
-            "  ... devamını göster",
+            " ...devamını göster",
             style: getSmallTextStyle(context)?.copyWith(
-                fontWeight: FontWeight.w500, fontSize: widget.fontSize - 2),
+                fontWeight: FontWeight.w600, fontSize: widget.fontSize - 2),
           ),
           onTap: () {
-            showContinue.value = true;
+            expandHadith.value = true;
           },
         )
+      ),
+    ]);
+  }
+
+  TextSpan _getHideWidget(BuildContext context){
+    return TextSpan(children: [
+      WidgetSpan(
+          child: InkWell(
+            child: Text(
+              " gizle",
+              style: getSmallTextStyle(context)?.copyWith(
+                  fontWeight: FontWeight.w600, fontSize: widget.fontSize - 2),
+            ),
+            onTap: () {
+              expandHadith.value = false;
+            },
+          )
       ),
     ]);
   }

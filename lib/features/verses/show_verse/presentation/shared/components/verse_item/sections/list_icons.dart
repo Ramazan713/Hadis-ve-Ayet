@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/verse_item.dart';
+import '../verse_item.dart';
 
 extension VerseItemListIconsExt on VerseItem{
 

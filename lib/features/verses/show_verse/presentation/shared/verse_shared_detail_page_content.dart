@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
-import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
-import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
-import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
 import 'package:hadith/core/features/pagination/presentation/paging_list_view.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
@@ -126,6 +122,7 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
           },
           itemBuilder: (context, item, index){
             return VerseItem(
+              margin: const EdgeInsets.symmetric(vertical: 4),
               fontModel: state.fontModel,
               isSelected: item.pagingId == currentMealId,
               arabicVerseUIEnum: state.arabicVerseUIEnum,

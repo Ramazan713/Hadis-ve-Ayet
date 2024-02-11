@@ -5,6 +5,7 @@ import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
@@ -57,55 +58,57 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<ShowListBloc>();
-    return Scaffold(
-      body: SafeArea(
-        child: getListeners(
-          child: BlocBuilder<ShowListBloc, ShowListState>(
-            buildWhen: (prevState, nextState){
-              return prevState.isDetailOpen != nextState.isDetailOpen ||
-                  prevState.currentSelectedHadithItem != nextState.currentSelectedHadithItem ||
-                  prevState.currentSelectedVerseItem != nextState.currentSelectedVerseItem;
-            },
-            builder: (context, state){
-              return ListDetailAdaptiveLayoutWithController(
-                useAdaptivePadding: true,
-                showDetailInSinglePane: state.isDetailOpen,
-                onCreateListController: (offset){
-                  return AutoScrollController(
-                    initialScrollOffset: offset,
-                    suggestedRowHeight: 60
-                  );
-                },
-                onListWidget: (controller, isSinglePane){
-                  listContentScrollController = controller != null ? CustomAutoScrollController(autoScrollController: controller as AutoScrollController) :
-                      CustomAutoScrollController();
-                  return ListPageContent(
-                    contentScrollController: listContentScrollController!,
-                    isSinglePane: isSinglePane,
-                    scrollController: listScrollController,
-                    searchTextController: listSearchTextController,
-                    tabController: listTabController,
-                    onClickItem: (item){
-                      currentHadithDetailPos = 0;
-                      currentVerseDetailPos = 0;
-                      bloc.add(ShowListEventShowDetail(item: item));
-                    },
-                  );
-                },
-                onDetailWidget: (controller, isSinglePane){
-                  final selectedVerseItem = state.currentSelectedVerseItem;
-                  final selectedHadithItem = state.currentSelectedHadithItem;
+    return AdCheckWidget(
+      child: Scaffold(
+        body: SafeArea(
+          child: getListeners(
+            child: BlocBuilder<ShowListBloc, ShowListState>(
+              buildWhen: (prevState, nextState){
+                return prevState.isDetailOpen != nextState.isDetailOpen ||
+                    prevState.currentSelectedHadithItem != nextState.currentSelectedHadithItem ||
+                    prevState.currentSelectedVerseItem != nextState.currentSelectedVerseItem;
+              },
+              builder: (context, state){
+                return ListDetailAdaptiveLayoutWithController(
+                  useAdaptivePadding: true,
+                  showDetailInSinglePane: state.isDetailOpen,
+                  onCreateListController: (offset){
+                    return AutoScrollController(
+                      initialScrollOffset: offset,
+                      suggestedRowHeight: 60
+                    );
+                  },
+                  onListWidget: (controller, isSinglePane){
+                    listContentScrollController = controller != null ? CustomAutoScrollController(autoScrollController: controller as AutoScrollController) :
+                        CustomAutoScrollController();
+                    return ListPageContent(
+                      contentScrollController: listContentScrollController!,
+                      isSinglePane: isSinglePane,
+                      scrollController: listScrollController,
+                      searchTextController: listSearchTextController,
+                      tabController: listTabController,
+                      onClickItem: (item){
+                        currentHadithDetailPos = 0;
+                        currentVerseDetailPos = 0;
+                        bloc.add(ShowListEventShowDetail(item: item));
+                      },
+                    );
+                  },
+                  onDetailWidget: (controller, isSinglePane){
+                    final selectedVerseItem = state.currentSelectedVerseItem;
+                    final selectedHadithItem = state.currentSelectedHadithItem;
 
-                  if(selectedVerseItem != null){
-                    return getVerseDetail(selectedVerseItem, isSinglePane);
-                  }
-                  if(selectedHadithItem != null){
-                    return getHadithDetail(selectedHadithItem, isSinglePane);
-                  }
-                  return const SharedEmptyResult();
-                },
-              );
-            },
+                    if(selectedVerseItem != null){
+                      return getVerseDetail(selectedVerseItem, isSinglePane);
+                    }
+                    if(selectedHadithItem != null){
+                      return getHadithDetail(selectedHadithItem, isSinglePane);
+                    }
+                    return const SharedEmptyResult();
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

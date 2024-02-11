@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/adaptive/presentation/single_adaptive_pane.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
@@ -95,13 +96,16 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
                   actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
                   child: AudioInfoBodyWrapper(
                     destination: widget.savePointDestination,
-                    child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
-                      selector: (state) => state.audio?.mealId,
-                      builder: (context, currentMealId){
-                        return getContent(context,
-                            currentMealId: currentMealId
-                        );
-                      },
+                    child: SingleAdaptivePane(
+                      useAdaptivePadding: true,
+                      child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                        selector: (state) => state.audio?.mealId,
+                        builder: (context, currentMealId){
+                          return getContent(context,
+                              currentMealId: currentMealId
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -125,6 +129,7 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
           },
           itemBuilder: (context, item, index){
             return VerseItem(
+              margin: const EdgeInsets.symmetric(vertical: 4),
               fontModel: state.fontModel,
               isSelected: item.pagingId == currentMealId,
               arabicVerseUIEnum: state.arabicVerseUIEnum,

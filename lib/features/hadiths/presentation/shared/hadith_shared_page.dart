@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
+import 'package:hadith/core/features/adaptive/presentation/single_adaptive_pane.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
@@ -67,46 +68,50 @@ class HadithSharedPage extends HadithSharedArgsWidget {
                 floatHeaderSlivers: false,
                 title: Text(title),
                 actions: getTopBarActions(context),
-                child: BlocBuilder<HadithSharedBloc, HadithSharedState>(
-                  builder: (context, state){
-                    return PagingListView(
-                      onScroll: (scroll){
-                        controller.setScrollDirectionAndAnimateTopBar(scroll);
-                      },
-                      itemBuilder: (context,itemParam,pos){
-                        final item = itemParam?.castOrNull<HadithListModel>();
-                        if(item==null){
-                          return const Text("");
-                        }
+                child: SingleAdaptivePane(
+                  useAdaptivePadding: true,
+                  child: BlocBuilder<HadithSharedBloc, HadithSharedState>(
+                    builder: (context, state){
+                      return PagingListView(
+                        onScroll: (scroll){
+                          controller.setScrollDirectionAndAnimateTopBar(scroll);
+                        },
+                        itemBuilder: (context,itemParam,pos){
+                          final item = itemParam?.castOrNull<HadithListModel>();
+                          if(item==null){
+                            return const Text("");
+                          }
 
-                        return HadithItem(
-                          key: ValueKey(item.pagingId),
-                          hadithList: item,
-                          onFavoriteClick: (){
-                            handleFavoriteClick(context,hadithListModel: item,state: state);
-                          },
-                          searchParam: searchParam,
-                          fontSize: state.contentFontSize,
-                          onLongClick: (){
-                            handleBottomMenu(context,hadithListModel: item);
-                          },
-                          onListClick: (){
-                            selectListMenu(context, hadithListModel: item);
-                          },
-                          onShareClick: (){
-                            handleShareMenus(context,hadithListModel: item);
-                          },
-                        );
-                      },
-                      loadingItem: const GetShimmerItems(
-                        itemCount: 19,
-                        shimmerItem: ShimmerHadithItem()
-                      ),
-                      emptyResultChild: const SharedEmptyResult(
-                        content: "Herhangi bir hadis bulunamadı",
-                      ),
-                    );
-                  },
+                          return HadithItem(
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            key: ValueKey(item.pagingId),
+                            hadithList: item,
+                            onFavoriteClick: (){
+                              handleFavoriteClick(context,hadithListModel: item,state: state);
+                            },
+                            searchParam: searchParam,
+                            fontSize: state.contentFontSize,
+                            onLongClick: (){
+                              handleBottomMenu(context,hadithListModel: item);
+                            },
+                            onListClick: (){
+                              selectListMenu(context, hadithListModel: item);
+                            },
+                            onShareClick: (){
+                              handleShareMenus(context,hadithListModel: item);
+                            },
+                          );
+                        },
+                        loadingItem: const GetShimmerItems(
+                          itemCount: 19,
+                          shimmerItem: ShimmerHadithItem()
+                        ),
+                        emptyResultChild: const SharedEmptyResult(
+                          content: "Herhangi bir hadis bulunamadı",
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

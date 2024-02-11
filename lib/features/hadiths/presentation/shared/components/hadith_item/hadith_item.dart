@@ -17,9 +17,19 @@ class HadithItem extends StatefulWidget {
   final Function()? onLongClick;
   final double fontSize;
   final SearchParam? searchParam;
+  final EdgeInsets? margin;
 
-  const HadithItem({Key? key,required this.hadithList, this.onFavoriteClick, this.onShareClick, this.onLongClick,
-    this.onListClick,required this.searchParam, required this.fontSize}) : super(key: key);
+  const HadithItem({
+    Key? key,
+    required this.hadithList,
+    required this.searchParam,
+    required this.fontSize,
+    this.onFavoriteClick,
+    this.onShareClick,
+    this.onLongClick,
+    this.onListClick,
+    this.margin
+  }) : super(key: key);
 
   @override
   State<HadithItem> createState() => HadithItemState();
@@ -33,7 +43,7 @@ class HadithItemState extends State<HadithItem> {
   bool get isContentLarge => hadith.contentSize > K.hadithMaxContentLengthSize;
 
 
-  final ValueNotifier<bool> showContinue = ValueNotifier(false);
+  final ValueNotifier<bool> expandHadith = ValueNotifier(false);
 
   TextStyle? getSmallTextStyle(BuildContext context){
     return Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -45,6 +55,7 @@ class HadithItemState extends State<HadithItem> {
     final borderRadius = BorderRadius.circular(20);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      margin: widget.margin ?? EdgeInsets.zero,
       child: InkWell(
         onLongPress: widget.onLongClick,
         borderRadius: borderRadius,
@@ -71,7 +82,7 @@ class HadithItemState extends State<HadithItem> {
 
   @override
   void dispose() {
-    showContinue.dispose();
+    expandHadith.dispose();
     super.dispose();
   }
 }

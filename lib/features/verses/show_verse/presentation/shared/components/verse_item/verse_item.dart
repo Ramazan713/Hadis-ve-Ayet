@@ -4,9 +4,10 @@ import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/sections/content.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/sections/header.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/components/verse_item/sections/list_icons.dart';
+import './sections/content.dart';
+import './sections/header.dart';
+import './sections/list_icons.dart';
+
 
 class VerseItem extends StatelessWidget {
   final Function() onLongPress;
@@ -17,6 +18,7 @@ class VerseItem extends StatelessWidget {
   final bool isSelected;
   final bool showListVerseIcons;
   final ArabicVerseUI2X arabicVerseUIEnum;
+  final EdgeInsets? margin;
 
   const VerseItem({
     Key? key,
@@ -28,6 +30,7 @@ class VerseItem extends StatelessWidget {
     this.isSelected=false,
     this.searchParam,
     this.onPress,
+    this.margin
   }) : super(key: key);
 
   Verse get verse  => verseListModel.verse;
@@ -42,6 +45,7 @@ class VerseItem extends StatelessWidget {
     final cardColor = isSelected ? schema.secondaryContainer : schema.surface;
 
     return Card(
+      margin: margin ?? EdgeInsets.zero,
       color: cardColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(_borderRadius)),

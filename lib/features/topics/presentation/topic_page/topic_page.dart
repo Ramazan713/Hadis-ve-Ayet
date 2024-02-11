@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
+import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_event.dart';
@@ -75,54 +77,56 @@ class TopicPageState extends State<TopicPage> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<TopicBloc>();
-    return Scaffold(
-      body: SafeArea(
-        child: getListeners(
-          child: BlocBuilder<TopicBloc, TopicState>(
-            buildWhen: (prevState, nextState){
-              return prevState.isDetailOpen != nextState.isDetailOpen ||
-                  prevState.selectedItem != nextState.selectedItem;
-            },
-            builder: (context, state){
-              return ListDetailAdaptiveLayoutWithController(
-                useAdaptivePadding: true,
-                showDetailInSinglePane: state.isDetailOpen,
-                useDetailOffset: false,
-                onCreateListController: (offset){
-                  return AutoScrollController(
-                    initialScrollOffset: offset,
-                    suggestedRowHeight: 60
-                  );
-                },
-                onListWidget: (controller, isSinglePane){
-                  return TopicListPageContent(
-                    isSinglePane: isSinglePane,
-                    scrollController: listScrollController! ,
-                    searchTextController: listSearchTextController,
-                    autoScrollController: _setAndGetController(controller),
-                    bookEnum: widget.bookEnum,
-                    sectionId: widget.sectionId,
-                    sectionTitle: widget.sectionTitle,
-                    useBookAllSections: widget.useBookAllSections,
-                    onClickItem: (item){
-                      currentHadithDetailPos = 0;
-                      currentVerseDetailPos = 0;
-                      bloc.add(TopicEventShowDetail(item: item));
-                    },
-                  );
-                },
-                onDetailWidget: (controller, isSinglePane){
-                  final selectedItem = state.selectedItem;
-                  if(selectedItem == null){
-                    return const SharedEmptyResult();
-                  }
-                  if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
-                    return getVerseDetail(selectedItem, isSinglePane);
-                  }
-                  return getHadithDetail(selectedItem, isSinglePane);
-                },
-              );
-            },
+    return AdCheckWidget(
+      child: Scaffold(
+        body: SafeArea(
+          child: getListeners(
+            child: BlocBuilder<TopicBloc, TopicState>(
+              buildWhen: (prevState, nextState){
+                return prevState.isDetailOpen != nextState.isDetailOpen ||
+                    prevState.selectedItem != nextState.selectedItem;
+              },
+              builder: (context, state){
+                return ListDetailAdaptiveLayoutWithController(
+                  useAdaptivePadding: true,
+                  showDetailInSinglePane: state.isDetailOpen,
+                  useDetailOffset: false,
+                  onCreateListController: (offset){
+                    return AutoScrollController(
+                      initialScrollOffset: offset,
+                      suggestedRowHeight: 60
+                    );
+                  },
+                  onListWidget: (controller, isSinglePane){
+                    return TopicListPageContent(
+                      isSinglePane: isSinglePane,
+                      scrollController: listScrollController! ,
+                      searchTextController: listSearchTextController,
+                      autoScrollController: _setAndGetController(controller),
+                      bookEnum: widget.bookEnum,
+                      sectionId: widget.sectionId,
+                      sectionTitle: widget.sectionTitle,
+                      useBookAllSections: widget.useBookAllSections,
+                      onClickItem: (item){
+                        currentHadithDetailPos = 0;
+                        currentVerseDetailPos = 0;
+                        bloc.add(TopicEventShowDetail(item: item));
+                      },
+                    );
+                  },
+                  onDetailWidget: (controller, isSinglePane){
+                    final selectedItem = state.selectedItem;
+                    if(selectedItem == null){
+                      return const SharedEmptyResult();
+                    }
+                    if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
+                      return getVerseDetail(selectedItem, isSinglePane);
+                    }
+                    return getHadithDetail(selectedItem, isSinglePane);
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),
