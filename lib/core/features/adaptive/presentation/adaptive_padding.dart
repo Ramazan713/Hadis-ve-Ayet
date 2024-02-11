@@ -6,12 +6,14 @@ class AdaptivePadding extends StatelessWidget {
   final Widget child;
   final bool useAdaptivePadding;
   final WindowSizeClass? windowSizeClass;
+  final List<WindowSizeClass> applyOnlyWindowClasses;
 
   const AdaptivePadding({
     super.key,
     required this.child,
     this.useAdaptivePadding = true,
-    this.windowSizeClass
+    this.applyOnlyWindowClasses = const [],
+    this.windowSizeClass,
   });
 
   @override
@@ -20,6 +22,10 @@ class AdaptivePadding extends StatelessWidget {
       return child;
     }
     final currentWindowSizeClass = windowSizeClass ?? calculateWindowSize(context);
+
+    if(applyOnlyWindowClasses.isNotEmpty && !applyOnlyWindowClasses.contains(currentWindowSizeClass)){
+      return child;
+    }
 
     return Padding(
       padding: getPaddings(currentWindowSizeClass),

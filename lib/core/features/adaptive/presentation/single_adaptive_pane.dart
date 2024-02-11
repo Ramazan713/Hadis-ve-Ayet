@@ -8,41 +8,25 @@ import 'package:hadith/core/features/adaptive/presentation/default_adaptive_layo
 class SingleAdaptivePane extends StatelessWidget {
   final bool useAdaptivePadding;
   final Widget child;
-  final int Function(BuildContext context, WindowSizeClass windowSizeClass)? getContentFlex;
 
   const SingleAdaptivePane({
     super.key,
     required this.child,
     this.useAdaptivePadding = false,
-    this.getContentFlex
   });
 
   @override
   Widget build(BuildContext context) {
-    final windowSizeClass = calculateWindowSize(context);
-
-    if(!windowSizeClass.isCompact){
-      final defaultFlex = windowSizeClass.isExpanded ? 3 : 7;
-      final contentFlex = getContentFlex?.call(context, windowSizeClass) ?? defaultFlex;
-      return AdaptivePadding(
-        windowSizeClass: windowSizeClass,
-        useAdaptivePadding: useAdaptivePadding,
-        child: Row(
-          children: [
-            const Spacer(),
-            Expanded(
-                flex: contentFlex,
-                child: child
-            ),
-            const Spacer()
-          ],
+    return Container(
+      alignment: Alignment.center,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 810),
+        child: AdaptivePadding(
+          useAdaptivePadding: useAdaptivePadding,
+          applyOnlyWindowClasses: const [WindowSizeClass.Compact, WindowSizeClass.Medium],
+          child: child
         ),
-      );
-    }
-    return AdaptivePadding(
-        windowSizeClass: windowSizeClass,
-        useAdaptivePadding: useAdaptivePadding,
-        child: child
+      ),
     );
   }
 }
