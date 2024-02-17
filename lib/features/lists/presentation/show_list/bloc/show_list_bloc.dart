@@ -139,8 +139,8 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
   }
 
   void _onListenListHadiths(ShowListEventListenListHadiths event, Emitter<ShowListState>emit)async{
-
     final streamData = _queryFilter.distinct().switchMap((query){
+      emit(state.copyWith(isHadithLoading: true));
       if(query.trim().isNotEmpty){
         return _listUseCases.searchLists(query, SourceTypeEnum.hadith, false);
       }
@@ -149,12 +149,16 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
       final initState = checkInitSelectedItemState(state.copyWith(listHadiths: listViews), listViews);
-      return initState.copyWith(selectedItem: getDefaultSelectedItem(initState,ListTabEnum.hadith, listViews.firstOrNull));
+      return initState.copyWith(
+          selectedItem: getDefaultSelectedItem(initState,ListTabEnum.hadith, listViews.firstOrNull),
+          isHadithLoading: false
+      );
     });
   }
 
   void _onListenListVerses(ShowListEventListenListVerses event, Emitter<ShowListState>emit)async{
     final streamData = _queryFilter.switchMap((query){
+      emit(state.copyWith(isVerseLoading: true));
       if(query.trim().isNotEmpty){
         return _listUseCases.searchLists(query, SourceTypeEnum.verse, false);
       }
@@ -163,7 +167,10 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
       final initState = checkInitSelectedItemState(state.copyWith(listVerses: listViews),listViews);
-      return initState.copyWith(selectedItem: getDefaultSelectedItem(initState, ListTabEnum.verse, listViews.firstOrNull));
+      return initState.copyWith(
+        selectedItem: getDefaultSelectedItem(initState, ListTabEnum.verse, listViews.firstOrNull),
+        isVerseLoading: false
+      );
     });
   }
 

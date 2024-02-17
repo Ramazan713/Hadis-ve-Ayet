@@ -21,6 +21,8 @@ mixin _$ShowListState {
   List<ListViewModel> get listHadiths => throw _privateConstructorUsedError;
   List<ListViewModel> get listVerses => throw _privateConstructorUsedError;
   bool get isDetailOpen => throw _privateConstructorUsedError;
+  bool get isVerseLoading => throw _privateConstructorUsedError;
+  bool get isHadithLoading => throw _privateConstructorUsedError;
   ListViewModel? get selectedItem => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   int? get jumpToPos => throw _privateConstructorUsedError;
@@ -42,6 +44,8 @@ abstract class $ShowListStateCopyWith<$Res> {
       List<ListViewModel> listHadiths,
       List<ListViewModel> listVerses,
       bool isDetailOpen,
+      bool isVerseLoading,
+      bool isHadithLoading,
       ListViewModel? selectedItem,
       String? message,
       int? jumpToPos});
@@ -65,6 +69,8 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
     Object? listHadiths = null,
     Object? listVerses = null,
     Object? isDetailOpen = null,
+    Object? isVerseLoading = null,
+    Object? isHadithLoading = null,
     Object? selectedItem = freezed,
     Object? message = freezed,
     Object? jumpToPos = freezed,
@@ -89,6 +95,14 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
       isDetailOpen: null == isDetailOpen
           ? _value.isDetailOpen
           : isDetailOpen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVerseLoading: null == isVerseLoading
+          ? _value.isVerseLoading
+          : isVerseLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isHadithLoading: null == isHadithLoading
+          ? _value.isHadithLoading
+          : isHadithLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       selectedItem: freezed == selectedItem
           ? _value.selectedItem
@@ -120,6 +134,8 @@ abstract class _$$_ShowListStateCopyWith<$Res>
       List<ListViewModel> listHadiths,
       List<ListViewModel> listVerses,
       bool isDetailOpen,
+      bool isVerseLoading,
+      bool isHadithLoading,
       ListViewModel? selectedItem,
       String? message,
       int? jumpToPos});
@@ -141,6 +157,8 @@ class __$$_ShowListStateCopyWithImpl<$Res>
     Object? listHadiths = null,
     Object? listVerses = null,
     Object? isDetailOpen = null,
+    Object? isVerseLoading = null,
+    Object? isHadithLoading = null,
     Object? selectedItem = freezed,
     Object? message = freezed,
     Object? jumpToPos = freezed,
@@ -165,6 +183,14 @@ class __$$_ShowListStateCopyWithImpl<$Res>
       isDetailOpen: null == isDetailOpen
           ? _value.isDetailOpen
           : isDetailOpen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVerseLoading: null == isVerseLoading
+          ? _value.isVerseLoading
+          : isVerseLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isHadithLoading: null == isHadithLoading
+          ? _value.isHadithLoading
+          : isHadithLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       selectedItem: freezed == selectedItem
           ? _value.selectedItem
@@ -191,6 +217,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
       required final List<ListViewModel> listHadiths,
       required final List<ListViewModel> listVerses,
       required this.isDetailOpen,
+      required this.isVerseLoading,
+      required this.isHadithLoading,
       this.selectedItem,
       this.message,
       this.jumpToPos})
@@ -221,6 +249,10 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
   @override
   final bool isDetailOpen;
   @override
+  final bool isVerseLoading;
+  @override
+  final bool isHadithLoading;
+  @override
   final ListViewModel? selectedItem;
   @override
   final String? message;
@@ -229,7 +261,7 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ShowListState(currentTab: $currentTab, searchBarVisible: $searchBarVisible, listHadiths: $listHadiths, listVerses: $listVerses, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, message: $message, jumpToPos: $jumpToPos)';
+    return 'ShowListState(currentTab: $currentTab, searchBarVisible: $searchBarVisible, listHadiths: $listHadiths, listVerses: $listVerses, isDetailOpen: $isDetailOpen, isVerseLoading: $isVerseLoading, isHadithLoading: $isHadithLoading, selectedItem: $selectedItem, message: $message, jumpToPos: $jumpToPos)';
   }
 
   @override
@@ -242,6 +274,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('listHadiths', listHadiths))
       ..add(DiagnosticsProperty('listVerses', listVerses))
       ..add(DiagnosticsProperty('isDetailOpen', isDetailOpen))
+      ..add(DiagnosticsProperty('isVerseLoading', isVerseLoading))
+      ..add(DiagnosticsProperty('isHadithLoading', isHadithLoading))
       ..add(DiagnosticsProperty('selectedItem', selectedItem))
       ..add(DiagnosticsProperty('message', message))
       ..add(DiagnosticsProperty('jumpToPos', jumpToPos));
@@ -262,6 +296,10 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
                 .equals(other._listVerses, _listVerses) &&
             (identical(other.isDetailOpen, isDetailOpen) ||
                 other.isDetailOpen == isDetailOpen) &&
+            (identical(other.isVerseLoading, isVerseLoading) ||
+                other.isVerseLoading == isVerseLoading) &&
+            (identical(other.isHadithLoading, isHadithLoading) ||
+                other.isHadithLoading == isHadithLoading) &&
             (identical(other.selectedItem, selectedItem) ||
                 other.selectedItem == selectedItem) &&
             (identical(other.message, message) || other.message == message) &&
@@ -277,6 +315,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(_listHadiths),
       const DeepCollectionEquality().hash(_listVerses),
       isDetailOpen,
+      isVerseLoading,
+      isHadithLoading,
       selectedItem,
       message,
       jumpToPos);
@@ -295,6 +335,8 @@ abstract class _ShowListState extends ShowListState {
       required final List<ListViewModel> listHadiths,
       required final List<ListViewModel> listVerses,
       required final bool isDetailOpen,
+      required final bool isVerseLoading,
+      required final bool isHadithLoading,
       final ListViewModel? selectedItem,
       final String? message,
       final int? jumpToPos}) = _$_ShowListState;
@@ -310,6 +352,10 @@ abstract class _ShowListState extends ShowListState {
   List<ListViewModel> get listVerses;
   @override
   bool get isDetailOpen;
+  @override
+  bool get isVerseLoading;
+  @override
+  bool get isHadithLoading;
   @override
   ListViewModel? get selectedItem;
   @override

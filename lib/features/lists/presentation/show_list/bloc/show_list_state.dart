@@ -18,6 +18,8 @@ class ShowListState with _$ShowListState{
     required List<ListViewModel> listHadiths,
     required List<ListViewModel> listVerses,
     required bool isDetailOpen,
+    required bool isVerseLoading,
+    required bool isHadithLoading,
     ListViewModel? selectedItem,
     String? message,
     int? jumpToPos
@@ -29,6 +31,8 @@ class ShowListState with _$ShowListState{
 
   static ShowListState init(){
     return ShowListState(
+      isHadithLoading: false,
+      isVerseLoading: false,
       isDetailOpen: false,
       currentTab: ListTabEnumExt.defaultTab,
       searchBarVisible: false,

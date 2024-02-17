@@ -91,33 +91,36 @@ class _DialogContentState<T extends ISearchableSelectItem> extends State<_Dialog
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 120,bottom: 48),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 4,),
+                Flexible(child: getContent(context)),
+                const SizedBox(height: 8,),
+              ],
+            ),
+          ),
           Column(
             children: [
               SharedHeader(
                 title: widget.title ?? "Item Seç",
                 onClose: widget.onClose,
               ),
+              const SizedBox(height: 4,),
+              getTextField(),
             ],
           ),
-          Flexible(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 4,),
-                  getTextField(),
-                  const SizedBox(height: 4,),
-                  Flexible(child: getContent(context)),
-                  const SizedBox(height: 8,),
-                ],
-              ),
-            )
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              getButtonWidget(context)
+            ],
           ),
-          getButtonWidget(context),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropd
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_content_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
+import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/dialogs/show_custom_alert_dia.dart';
@@ -76,28 +77,32 @@ class ListPageContent extends StatelessWidget {
                     BlocBuilder<ShowListBloc,ShowListState>(
                       buildWhen: (prevState,nextState){
                         return prevState.listHadiths != nextState.listHadiths ||
-                          prevState.currentSelectedHadithItem?.id != nextState.currentSelectedHadithItem?.id;
+                          prevState.currentSelectedHadithItem?.id != nextState.currentSelectedHadithItem?.id ||
+                          prevState.isHadithLoading != nextState.isHadithLoading;
                       },
                       builder: (context,state){
                         return getListItems(
-                            items: state.listHadiths,
-                            sourceType: SourceTypeEnum.hadith,
-                            useSecondary: true,
-                            selectedItem: state.currentSelectedHadithItem
+                          items: state.listHadiths,
+                          sourceType: SourceTypeEnum.hadith,
+                          useSecondary: true,
+                          selectedItem: state.currentSelectedHadithItem,
+                          isLoading: state.isHadithLoading
                         );
                       },
                     ),
                     BlocBuilder<ShowListBloc,ShowListState>(
                       buildWhen: (prevState,nextState){
                         return prevState.listVerses != nextState.listVerses ||
-                            prevState.currentSelectedVerseItem?.id != nextState.currentSelectedVerseItem?.id;
+                            prevState.currentSelectedVerseItem?.id != nextState.currentSelectedVerseItem?.id ||
+                            prevState.isVerseLoading != nextState.isVerseLoading;
                       },
                       builder: (context,state){
                         return getListItems(
-                            items: state.listVerses,
-                            sourceType: SourceTypeEnum.verse,
-                            useSecondary: false,
-                            selectedItem: state.currentSelectedVerseItem
+                          items: state.listVerses,
+                          sourceType: SourceTypeEnum.verse,
+                          useSecondary: false,
+                          selectedItem: state.currentSelectedVerseItem,
+                          isLoading: state.isVerseLoading
                         );
                       },
                     ),
@@ -118,9 +123,14 @@ class ListPageContent extends StatelessWidget {
   Widget getListItems({
     required List<ListViewModel>items,
     required SourceTypeEnum sourceType,
+    required bool isLoading,
     bool useSecondary = false,
     ListViewModel? selectedItem
   }){
+
+    if(isLoading){
+      return const SharedLoadingIndicator();
+    }
 
     if(items.isEmpty){
       return const SharedEmptyResult();

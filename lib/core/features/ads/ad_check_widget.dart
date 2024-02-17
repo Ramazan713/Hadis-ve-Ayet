@@ -51,13 +51,13 @@ class _AdCheckWidgetState extends State<AdCheckWidget>  with WidgetsBindingObser
       },
       child: BlocBuilder<PremiumBloc,PremiumState>(
         builder: (context, state){
-          return WillPopScope(
-            onWillPop: (){
+          return PopScope(
+            canPop: true,
+            onPopInvoked: (canPop){
               final ad = AdUtil.interstitialAd;
               if (!state.isPremium && ad != null) {
                 ad.show();
               }
-              return Future.value(true);
             },
             child: widget.child,
           );

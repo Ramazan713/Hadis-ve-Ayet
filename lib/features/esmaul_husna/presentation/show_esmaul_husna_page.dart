@@ -194,6 +194,7 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
             },
             listener: (context, state){
               detailPositionController.setTotalItems(state.items.length);
+              listScrollController?.setTotalItems(totalItems: state.items.length);
             },
           )
         ],
