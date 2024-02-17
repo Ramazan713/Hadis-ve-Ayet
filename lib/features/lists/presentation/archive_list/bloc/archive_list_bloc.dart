@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/domain/use_cases/list/list_use_cases.dart';
 
@@ -18,10 +17,19 @@ class ArchiveListBloc extends Bloc<IArchiveListEvent,ArchiveListState>{
     on<ArchiveListEventRemove>(_onRemove);
     on<ArchiveListEventUnArchive>(_onUnArchive);
     on<ArchiveListEventClearMessage>(_onClearMessage);
+    on<ArchiveListEventHideDetail>(_onHideDetail);
+    on<ArchiveListEventShowDetail>(_onShowDetail);
 
     add(ArchiveListEventListenListModels());
   }
 
+  void _onHideDetail(ArchiveListEventHideDetail event, Emitter<ArchiveListState>emit){
+    emit(state.copyWith(selectedItem: null, isDetailOpen: false));
+  }
+
+  void _onShowDetail(ArchiveListEventShowDetail event, Emitter<ArchiveListState>emit){
+    emit(state.copyWith(selectedItem: event.item, isDetailOpen: true));
+  }
 
   void _onRename(ArchiveListEventRename event, Emitter<ArchiveListState>emit)async{
     await _listUseCases.updateList.call(listViewModel: event.listViewModel,name: event.newTitle);
@@ -43,11 +51,11 @@ class ArchiveListBloc extends Bloc<IArchiveListEvent,ArchiveListState>{
   }
 
   void _onClearMessage(ArchiveListEventClearMessage event, Emitter<ArchiveListState>emit)async{
-    emit(state.copyWith(setMessage: true));
+    emit(state.copyWith(message: null));
   }
 
   void _sendMessage(String message,Emitter<ArchiveListState>emit){
-    emit(state.copyWith(message: message,setMessage: true));
+    emit(state.copyWith(message: message));
   }
 
   void _onListenListModels(ArchiveListEventListenListModels event, Emitter<ArchiveListState>emit)async{
@@ -55,7 +63,7 @@ class ArchiveListBloc extends Bloc<IArchiveListEvent,ArchiveListState>{
     final streamData = _listUseCases.getLists.callRemovableWithArchive(true);
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
-      return state.copyWith(listModels: listViews);
+      return state.copyWith(listModels: listViews, selectedItem: state.selectedItem ?? listViews.firstOrNull);
     });
   }
 }

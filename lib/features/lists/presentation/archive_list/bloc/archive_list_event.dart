@@ -22,4 +22,11 @@ class ArchiveListEventUnArchive extends IArchiveListEvent{
   ArchiveListEventUnArchive({required this.listViewModel});
 }
 
+class ArchiveListEventHideDetail extends IArchiveListEvent{}
+
+class ArchiveListEventShowDetail extends IArchiveListEvent{
+  final ListViewModel item;
+  ArchiveListEventShowDetail({required this.item});
+}
+
 class ArchiveListEventClearMessage extends IArchiveListEvent{}
