@@ -1,4 +1,6 @@
 
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
@@ -19,25 +21,48 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
   ShowListBloc({required ListUseCases listUseCases}): super(ShowListState.init()){
     _listUseCases = listUseCases;
     
-    on<ShowListEventChangeTab>(_onShowListEventChangeTab);
-    on<ShowListEventSetVisibilitySearchBar>(_onShowListEventSetVisibilitySearchBar);
-    on<ShowListEventListenListHadiths>(_onListenListHadiths);
-    on<ShowListEventListenListVerses>(_onListenListVerses);
-    on<ShowListEventSearch>(_onShowListEventSearch);
-    on<ShowListEventAddNewList>(_onAddNewList);
-    on<ShowListEventRename>(_onRename);
-    on<ShowListEventRemove>(_onRemove);
-    on<ShowListEventRemoveItems>(_onRemoveItems);
-    on<ShowListEventArchive>(_onArchive);
-    on<ShowListEventCopy>(_onCopy);
-    on<ShowListEventClearMessage>(_onClearMessage);
-    on<ShowListEventHideDetail>(_onHideDetail);
-    on<ShowListEventShowDetail>(_onShowDetail);
-    on<ShowListEventSetSelected>(_onSetSelected);
+    on<ShowListEventChangeTab>(_onShowListEventChangeTab, transformer: restartable());
+    on<ShowListEventSetVisibilitySearchBar>(_onShowListEventSetVisibilitySearchBar, transformer: restartable());
+    on<ShowListEventListenListHadiths>(_onListenListHadiths, transformer: restartable());
+    on<ShowListEventListenListVerses>(_onListenListVerses, transformer: restartable());
+    on<ShowListEventSearch>(_onShowListEventSearch, transformer: restartable());
+    on<ShowListEventAddNewList>(_onAddNewList, transformer: restartable());
+    on<ShowListEventRename>(_onRename, transformer: restartable());
+    on<ShowListEventRemove>(_onRemove, transformer: restartable());
+    on<ShowListEventRemoveItems>(_onRemoveItems, transformer: restartable());
+    on<ShowListEventArchive>(_onArchive, transformer: restartable());
+    on<ShowListEventCopy>(_onCopy, transformer: restartable());
+    on<ShowListEventClearMessage>(_onClearMessage, transformer: restartable());
+    on<ShowListEventHideDetail>(_onHideDetail, transformer: restartable());
+    on<ShowListEventShowDetail>(_onShowDetail, transformer: restartable());
+    on<ShowListEventSetSelected>(_onSetSelected, transformer: restartable());
+    on<ShowListEventLoadData>(_onLoadData, transformer: restartable());
+    on<ShowListEventClearJumpToPos>(_onClearJumpToPos, transformer: restartable());
+
 
     _queryFilter.value = "";
     add(ShowListEventListenListHadiths());
     add(ShowListEventListenListVerses());
+  }
+
+  var _isCheckedForInitSelectedItem = false;
+  int? selectedInitId;
+
+  void _onLoadData(ShowListEventLoadData event, Emitter<ShowListState>emit){
+    final verseItems = state.listVerses;
+    final hadithItems = state.listHadiths;
+    _isCheckedForInitSelectedItem = false;
+    selectedInitId = event.selectedListId;
+    if(verseItems.isNotEmpty && hadithItems.isNotEmpty){
+      var initState = checkInitSelectedItemState(state,verseItems);
+      initState = checkInitSelectedItemState(initState, hadithItems);
+      emit(initState.copyWith(selectedItem: null));
+      emit(initState);
+    }
+  }
+
+  void _onClearJumpToPos(ShowListEventClearJumpToPos event, Emitter<ShowListState>emit){
+    emit(state.copyWith(jumpToPos: null));
   }
 
   void _onShowListEventChangeTab(ShowListEventChangeTab event, Emitter<ShowListState>emit){
@@ -123,7 +148,8 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
     });
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
-      return state.copyWith(listHadiths: listViews, selectedItem: getDefaultSelectedItem(ListTabEnum.hadith, listViews.firstOrNull));
+      final initState = checkInitSelectedItemState(state.copyWith(listHadiths: listViews), listViews);
+      return initState.copyWith(selectedItem: getDefaultSelectedItem(initState,ListTabEnum.hadith, listViews.firstOrNull));
     });
   }
 
@@ -136,16 +162,29 @@ class ShowListBloc extends Bloc<IShowListEvent,ShowListState>{
     });
 
     await emit.forEach<List<ListViewModel>>(streamData, onData: (listViews){
-      return state.copyWith(listVerses: listViews, selectedItem: getDefaultSelectedItem(ListTabEnum.verse, listViews.firstOrNull));
+      final initState = checkInitSelectedItemState(state.copyWith(listVerses: listViews),listViews);
+      return initState.copyWith(selectedItem: getDefaultSelectedItem(initState, ListTabEnum.verse, listViews.firstOrNull));
     });
   }
 
-  ListViewModel? getDefaultSelectedItem(ListTabEnum listTabEnum, ListViewModel? candidate){
-    // if listTab is not active tab return default or candidate
-    if(state.currentTab != listTabEnum){
-      return state.selectedItem ?? candidate;
-    }
-    return candidate;
+  ShowListState checkInitSelectedItemState(ShowListState state,List<ListViewModel> listViews){
+    if(_isCheckedForInitSelectedItem || selectedInitId == null) return state;
+    final index = listViews.indexWhere((e) => e.id == selectedInitId);
+    if(index == -1) return state;
+    _isCheckedForInitSelectedItem = true;
+    final selectedItem = listViews[index];
+
+    return state.copyWith(
+      jumpToPos: index,
+      selectedItem: selectedItem,
+      isDetailOpen: true,
+      currentTab: selectedItem.sourceType.sourceId == SourceTypeEnum.verse.sourceId ? ListTabEnum.verse :
+          ListTabEnum.hadith
+    );
+  }
+
+  ListViewModel? getDefaultSelectedItem(ShowListState state, ListTabEnum listTabEnum, ListViewModel? candidate){
+    return state.selectedItem ?? candidate;
   }
 
 }

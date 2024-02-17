@@ -19,4 +19,6 @@ abstract class ListRepo{
 
   Future<String?> getListName(int listId);
 
+  Future<ListModel?> getListById(int listId);
+
 }

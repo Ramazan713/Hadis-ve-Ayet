@@ -16,6 +16,7 @@ import 'package:hadith/features/lists/presentation/archive_list/bloc/archive_lis
 import 'package:hadith/features/lists/presentation/archive_list/bloc/archive_list_state.dart';
 import 'package:hadith/features/lists/presentation/shared/components/list_item.dart';
 import 'package:hadith/features/lists/presentation/shared/export_list_view.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ArchiveListPageContent extends StatelessWidget {
 
@@ -52,29 +53,34 @@ class ArchiveListPageContent extends StatelessWidget {
             itemBuilder: (context, index){
               final item = items[index];
               final sourceType = item.sourceType;
-              return SharedListItem(
-                key: Key(item.id.toString()),
-                subTitleTag: sourceType.shortName,
-                listViewModel: item,
-                leading: sourceType.getListIcon(context, item.isRemovable),
-                isSelected: state.selectedItem?.id == item.id && !isSinglePane,
-                trailing: SelectAdaptiveDropdownMenu(
-                  popWhenItemSelect: true,
-                  icon: const Icon(Icons.more_vert,size: 30,),
-                  items: ArchiveListMenuEnum.values,
-                  title: "'${item.name}' listesi için",
-                  onItemClick: (selected, type){
-                    manageBottomMenuItem(
-                      context: context,
-                      item: item,
-                      menuItem: selected,
-                      sourceType: sourceType
-                    );
+              return AutoScrollTag(
+                controller: contentScrollController.controller,
+                index: index,
+                key: ValueKey(item.id),
+                child: SharedListItem(
+                  key: Key(item.id.toString()),
+                  subTitleTag: sourceType.shortName,
+                  listViewModel: item,
+                  leading: sourceType.getListIcon(context, item.isRemovable),
+                  isSelected: state.selectedItem?.id == item.id && !isSinglePane,
+                  trailing: SelectAdaptiveDropdownMenu(
+                    popWhenItemSelect: true,
+                    icon: const Icon(Icons.more_vert,size: 30,),
+                    items: ArchiveListMenuEnum.values,
+                    title: "'${item.name}' listesi için",
+                    onItemClick: (selected, type){
+                      manageBottomMenuItem(
+                        context: context,
+                        item: item,
+                        menuItem: selected,
+                        sourceType: sourceType
+                      );
+                    },
+                  ),
+                  onClick: () {
+                    onClickItem(item);
                   },
                 ),
-                onClick: () {
-                  onClickItem(item);
-                },
               );
             },
           );

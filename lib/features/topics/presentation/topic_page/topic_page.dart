@@ -94,8 +94,7 @@ class TopicPageState extends State<TopicPage> {
           child: getListeners(
             child: BlocBuilder<TopicBloc, TopicState>(
               buildWhen: (prevState, nextState){
-                return prevState.isDetailOpen != nextState.isDetailOpen ||
-                    prevState.selectedItem != nextState.selectedItem;
+                return prevState.isDetailOpen != nextState.isDetailOpen;
               },
               builder: (context, state){
                 return ListDetailAdaptiveLayoutWithController(
@@ -126,14 +125,21 @@ class TopicPageState extends State<TopicPage> {
                     );
                   },
                   onDetailWidget: (controller, isSinglePane){
-                    final selectedItem = state.selectedItem;
-                    if(selectedItem == null){
-                      return const SharedEmptyResult();
-                    }
-                    if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
-                      return getVerseDetail(selectedItem, isSinglePane);
-                    }
-                    return getHadithDetail(selectedItem, isSinglePane);
+                    return BlocBuilder<TopicBloc, TopicState>(
+                      buildWhen: (prevState, nextState){
+                        return prevState.selectedItem != nextState.selectedItem;
+                      },
+                      builder: (context, state){
+                        final selectedItem = state.selectedItem;
+                        if(selectedItem == null){
+                          return const SharedEmptyResult();
+                        }
+                        if(selectedItem.sourceTypeEnum == SourceTypeEnum.verse){
+                          return getVerseDetail(selectedItem, isSinglePane);
+                        }
+                        return getHadithDetail(selectedItem, isSinglePane);
+                      }
+                    );
                   },
                 );
               },

@@ -4,6 +4,7 @@ import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
+import 'package:hadith/core/features/adaptive/domain/utils/calculate_windows_size_class.dart';
 import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
@@ -29,7 +30,16 @@ import 'bloc/archive_list_event.dart';
 import 'bloc/archive_list_state.dart';
 
 class ArchiveListPage extends StatefulWidget {
-  const ArchiveListPage({Key? key}) : super(key: key);
+  final int initPos;
+  final int? selectedListId;
+  final int sourceTypeId;
+
+  const ArchiveListPage({
+    Key? key,
+    required this.initPos,
+    this.selectedListId,
+    required this.sourceTypeId
+  }) : super(key: key);
 
   @override
   State<ArchiveListPage> createState() => ArchiveListPageState();
@@ -46,9 +56,17 @@ class ArchiveListPageState extends State<ArchiveListPage> {
   final ItemScrollController detailHadithSinglePaneItemScrollController = ItemScrollController();
   final ItemScrollController detailHadithDualPaneItemScrollController = ItemScrollController();
 
+  @override
+  void initState() {
+    super.initState();
+    context.read<ArchiveListBloc>()
+        .add(ArchiveListEventLoadData(selectedListId: widget.selectedListId));
+  }
 
   var currentHadithDetailPos = 0;
   var currentVerseDetailPos = 0;
+  var isInitPosUsed = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +78,7 @@ class ArchiveListPageState extends State<ArchiveListPage> {
           child: getListeners(
             child: BlocBuilder<ArchiveListBloc, ArchiveListState>(
               buildWhen: (prevState, nextState){
-                return prevState.isDetailOpen != nextState.isDetailOpen ||
-                    prevState.selectedItem != nextState.selectedItem;
+                return prevState.isDetailOpen != nextState.isDetailOpen;
               },
               builder: (context, state){
                 return ListDetailAdaptiveLayoutWithController(
@@ -88,14 +105,21 @@ class ArchiveListPageState extends State<ArchiveListPage> {
                     );
                   },
                   onDetailWidget: (controller, isSinglePane){
-                    final selectedItem = state.selectedItem;
-                    if(selectedItem == null) {
-                      return const SharedEmptyResult();
-                    }
-                    if(selectedItem.sourceType == SourceTypeEnum.verse){
-                      return getVerseDetail(selectedItem, isSinglePane);
-                    }
-                    return getHadithDetail(selectedItem, isSinglePane);
+                    return BlocBuilder<ArchiveListBloc, ArchiveListState>(
+                      buildWhen: (prevState, nextState){
+                        return prevState.selectedItem != nextState.selectedItem;
+                      },
+                      builder: (context, state){
+                        final selectedItem = state.selectedItem;
+                        if(selectedItem == null) {
+                          return const SharedEmptyResult();
+                        }
+                        if(selectedItem.sourceType == SourceTypeEnum.verse){
+                          return getVerseDetail(selectedItem, isSinglePane);
+                        }
+                        return getHadithDetail(selectedItem, isSinglePane);
+                      }
+                    );
                   },
                 );
               },
@@ -195,25 +219,54 @@ class ArchiveListPageState extends State<ArchiveListPage> {
             final selectedItem = state.selectedItem;
             if(selectedItem == null) return;
             final pagingBloc = context.read<PaginationBloc>();
+            _checkInitPosBeforeLoadingData();
 
             if(selectedItem.sourceType == SourceTypeEnum.verse){
               final listPagingRepo = context.read<VerseListPagingRepo>()
                   .init(listId: selectedItem.id);
               pagingBloc.add(PaginationEventInit(listPagingRepo,
-                  config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize, currentPos: 0)
+                  config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize, currentPos: currentVerseDetailPos)
               ));
             }else{
               final listPagingRepo = context.read<HadithListPagingRepo>()
                   .init(selectedItem.id);
               pagingBloc.add(PaginationEventInit(listPagingRepo,
-                  config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize, currentPos: 0)
+                  config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.hadithPagingPrefetchSize, currentPos: currentHadithDetailPos)
               ));
+            }
+          },
+        ),
+        BlocListener<ArchiveListBloc, ArchiveListState>(
+          listenWhen: (prevState, nextState){
+            return prevState.jumpToPos != nextState.jumpToPos ||
+                prevState.isDetailOpen != nextState.isDetailOpen;
+          },
+          listener: (context, state){
+            final jumpToPos = state.jumpToPos;
+            if(jumpToPos != null){
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                final sizeClass = calculateWindowSize(context);
+                if(!state.isDetailOpen || sizeClass.isExpanded){
+                  listBloc.add(ArchiveEventClearJumpToPos());
+                  listContentScrollController?.scrollToIndex(jumpToPos,preferPosition: AutoScrollPosition.begin);
+                }
+              });
             }
           },
         ),
       ],
       child: child,
     );
+  }
+
+  void _checkInitPosBeforeLoadingData(){
+    if(isInitPosUsed)return;
+    isInitPosUsed = true;
+    if(widget.sourceTypeId == SourceTypeEnum.verse.sourceId){
+      currentVerseDetailPos = widget.initPos;
+    }else{
+      currentHadithDetailPos = widget.initPos;
+    }
   }
 
   @override

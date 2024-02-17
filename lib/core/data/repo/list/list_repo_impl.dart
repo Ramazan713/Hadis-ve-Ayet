@@ -49,4 +49,9 @@ class ListRepoImpl extends ListRepo{
     return _listDao.getListName(listId);
   }
 
+  @override
+  Future<ListModel?> getListById(int listId) async{
+    return (await _listDao.getListById(listId))?.toListModel();
+  }
+
 }

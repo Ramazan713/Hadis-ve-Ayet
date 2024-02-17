@@ -23,6 +23,7 @@ mixin _$ShowListState {
   bool get isDetailOpen => throw _privateConstructorUsedError;
   ListViewModel? get selectedItem => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
+  int? get jumpToPos => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ShowListStateCopyWith<ShowListState> get copyWith =>
@@ -42,7 +43,8 @@ abstract class $ShowListStateCopyWith<$Res> {
       List<ListViewModel> listVerses,
       bool isDetailOpen,
       ListViewModel? selectedItem,
-      String? message});
+      String? message,
+      int? jumpToPos});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
     Object? isDetailOpen = null,
     Object? selectedItem = freezed,
     Object? message = freezed,
+    Object? jumpToPos = freezed,
   }) {
     return _then(_value.copyWith(
       currentTab: null == currentTab
@@ -95,6 +98,10 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      jumpToPos: freezed == jumpToPos
+          ? _value.jumpToPos
+          : jumpToPos // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -114,7 +121,8 @@ abstract class _$$_ShowListStateCopyWith<$Res>
       List<ListViewModel> listVerses,
       bool isDetailOpen,
       ListViewModel? selectedItem,
-      String? message});
+      String? message,
+      int? jumpToPos});
 }
 
 /// @nodoc
@@ -135,6 +143,7 @@ class __$$_ShowListStateCopyWithImpl<$Res>
     Object? isDetailOpen = null,
     Object? selectedItem = freezed,
     Object? message = freezed,
+    Object? jumpToPos = freezed,
   }) {
     return _then(_$_ShowListState(
       currentTab: null == currentTab
@@ -165,6 +174,10 @@ class __$$_ShowListStateCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      jumpToPos: freezed == jumpToPos
+          ? _value.jumpToPos
+          : jumpToPos // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -179,7 +192,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
       required final List<ListViewModel> listVerses,
       required this.isDetailOpen,
       this.selectedItem,
-      this.message})
+      this.message,
+      this.jumpToPos})
       : _listHadiths = listHadiths,
         _listVerses = listVerses,
         super._();
@@ -210,10 +224,12 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
   final ListViewModel? selectedItem;
   @override
   final String? message;
+  @override
+  final int? jumpToPos;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ShowListState(currentTab: $currentTab, searchBarVisible: $searchBarVisible, listHadiths: $listHadiths, listVerses: $listVerses, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, message: $message)';
+    return 'ShowListState(currentTab: $currentTab, searchBarVisible: $searchBarVisible, listHadiths: $listHadiths, listVerses: $listVerses, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, message: $message, jumpToPos: $jumpToPos)';
   }
 
   @override
@@ -227,7 +243,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('listVerses', listVerses))
       ..add(DiagnosticsProperty('isDetailOpen', isDetailOpen))
       ..add(DiagnosticsProperty('selectedItem', selectedItem))
-      ..add(DiagnosticsProperty('message', message));
+      ..add(DiagnosticsProperty('message', message))
+      ..add(DiagnosticsProperty('jumpToPos', jumpToPos));
   }
 
   @override
@@ -247,7 +264,9 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
                 other.isDetailOpen == isDetailOpen) &&
             (identical(other.selectedItem, selectedItem) ||
                 other.selectedItem == selectedItem) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.jumpToPos, jumpToPos) ||
+                other.jumpToPos == jumpToPos));
   }
 
   @override
@@ -259,7 +278,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(_listVerses),
       isDetailOpen,
       selectedItem,
-      message);
+      message,
+      jumpToPos);
 
   @JsonKey(ignore: true)
   @override
@@ -276,7 +296,8 @@ abstract class _ShowListState extends ShowListState {
       required final List<ListViewModel> listVerses,
       required final bool isDetailOpen,
       final ListViewModel? selectedItem,
-      final String? message}) = _$_ShowListState;
+      final String? message,
+      final int? jumpToPos}) = _$_ShowListState;
   const _ShowListState._() : super._();
 
   @override
@@ -293,6 +314,8 @@ abstract class _ShowListState extends ShowListState {
   ListViewModel? get selectedItem;
   @override
   String? get message;
+  @override
+  int? get jumpToPos;
   @override
   @JsonKey(ignore: true)
   _$$_ShowListStateCopyWith<_$_ShowListState> get copyWith =>

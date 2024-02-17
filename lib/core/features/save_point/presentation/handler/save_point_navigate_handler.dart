@@ -6,6 +6,7 @@ import 'package:hadith/core/features/save_point/domain/enums/save_point_destinat
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 import 'package:hadith/core/presentation/handlers/duplicate_dialog_handler.dart';
 import 'package:hadith/features/app/routes/app_routers.dart';
+import 'package:hadith/features/lists/presentation/savepoint_list_navigator/savepoint_list_navigator_page.dart';
 
 void savePointNavigateHandlerWithSavePoint(
 BuildContext context,
@@ -72,24 +73,8 @@ void _loadAndGoAll(BuildContext context, DestinationAll destination, int itemInd
 }
 
 void _loadAndGoList(BuildContext context, DestinationList destination, int itemIndexPos){
-  final sourceType = destination.getBookScope().sourceType;
-
-  switch(sourceType){
-    case SourceTypeEnum.hadith:
-      HadithListRoute(
-          listId: destination.listId,
-          pos: itemIndexPos,
-          sourceId: sourceType.sourceId
-      ).push(context);
-      break;
-    case SourceTypeEnum.verse:
-      VerseShowListRoute(
-          listId: destination.listId,
-          pos: itemIndexPos,
-          sourceId: sourceType.sourceId
-      ).push(context);
-      break;
-  }
+  ListForSavePointNavigationRoute(pos: itemIndexPos,listId: destination.listId,)
+      .push(context);
 }
 
 void _loadAndGoTopic(BuildContext context, DestinationTopic destination, int itemIndexPos){

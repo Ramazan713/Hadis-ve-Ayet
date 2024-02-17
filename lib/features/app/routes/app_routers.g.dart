@@ -10,9 +10,11 @@ List<RouteBase> get $appRoutes => [
       $rootRoute,
       $hadithAllRoute,
       $searchRoute,
-      $hadithListRoute,
       $hadithSearchRoute,
       $archiveListRoute,
+      $archiveListWithSelectedRoute,
+      $showListRoute,
+      $listForSavePointNavigationRoute,
       $sectionRoute,
       $topicListDetailRoute,
       $topicRoute,
@@ -21,7 +23,6 @@ List<RouteBase> get $appRoutes => [
       $verseShowCuzRoute,
       $verseShowSurahRoute,
       $versePageShowRoute,
-      $verseShowListRoute,
       $verseShowSearchRoute,
       $prayerAndVerseListRoute,
       $prayerAndVerseDetailRoute,
@@ -113,32 +114,6 @@ extension $SearchRouteExtension on SearchRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $hadithListRoute => GoRouteData.$route(
-      path: '/hadith/list/:sourceId/:listId/:pos',
-      factory: $HadithListRouteExtension._fromState,
-    );
-
-extension $HadithListRouteExtension on HadithListRoute {
-  static HadithListRoute _fromState(GoRouterState state) => HadithListRoute(
-        sourceId: int.parse(state.pathParameters['sourceId']!),
-        listId: int.parse(state.pathParameters['listId']!),
-        pos: int.parse(state.pathParameters['pos']!) ?? 0,
-      );
-
-  String get location => GoRouteData.$location(
-        '/hadith/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
 RouteBase get $hadithSearchRoute => GoRouteData.$route(
       path: '/hadith/search/:query/:bookScopeId/:criteriaId/:pos',
       factory: $HadithSearchRouteExtension._fromState,
@@ -176,6 +151,87 @@ extension $ArchiveListRouteExtension on ArchiveListRoute {
 
   String get location => GoRouteData.$location(
         '/archiveList',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $archiveListWithSelectedRoute => GoRouteData.$route(
+      path: '/archiveList/:listId/:sourceTypeId/:pos',
+      factory: $ArchiveListWithSelectedRouteExtension._fromState,
+    );
+
+extension $ArchiveListWithSelectedRouteExtension
+    on ArchiveListWithSelectedRoute {
+  static ArchiveListWithSelectedRoute _fromState(GoRouterState state) =>
+      ArchiveListWithSelectedRoute(
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
+        listId: int.parse(state.pathParameters['listId']!),
+        sourceTypeId: int.parse(state.pathParameters['sourceTypeId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/archiveList/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(sourceTypeId.toString())}/${Uri.encodeComponent(pos.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $showListRoute => GoRouteData.$route(
+      path: '/showList/:listId/:sourceTypeId/:pos',
+      factory: $ShowListRouteExtension._fromState,
+    );
+
+extension $ShowListRouteExtension on ShowListRoute {
+  static ShowListRoute _fromState(GoRouterState state) => ShowListRoute(
+        pos: int.parse(state.pathParameters['pos']!) ?? 0,
+        listId: int.parse(state.pathParameters['listId']!),
+        sourceTypeId: int.parse(state.pathParameters['sourceTypeId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/showList/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(sourceTypeId.toString())}/${Uri.encodeComponent(pos.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $listForSavePointNavigationRoute => GoRouteData.$route(
+      path: '/savePointListNavigator/:listId/:pos',
+      factory: $ListForSavePointNavigationRouteExtension._fromState,
+    );
+
+extension $ListForSavePointNavigationRouteExtension
+    on ListForSavePointNavigationRoute {
+  static ListForSavePointNavigationRoute _fromState(GoRouterState state) =>
+      ListForSavePointNavigationRoute(
+        listId: int.parse(state.pathParameters['listId']!),
+        pos: int.parse(state.pathParameters['pos']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/savePointListNavigator/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -392,33 +448,6 @@ extension $VersePageShowRouteExtension on VersePageShowRoute {
 
   String get location => GoRouteData.$location(
         '/verse/page/${Uri.encodeComponent(pageIndex.toString())}/${Uri.encodeComponent(pagePos.toString())}',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-RouteBase get $verseShowListRoute => GoRouteData.$route(
-      path: '/verse/list/:sourceId/:listId/:pos',
-      factory: $VerseShowListRouteExtension._fromState,
-    );
-
-extension $VerseShowListRouteExtension on VerseShowListRoute {
-  static VerseShowListRoute _fromState(GoRouterState state) =>
-      VerseShowListRoute(
-        listId: int.parse(state.pathParameters['listId']!),
-        sourceId: int.parse(state.pathParameters['sourceId']!),
-        pos: int.parse(state.pathParameters['pos']!) ?? 0,
-      );
-
-  String get location => GoRouteData.$location(
-        '/verse/list/${Uri.encodeComponent(sourceId.toString())}/${Uri.encodeComponent(listId.toString())}/${Uri.encodeComponent(pos.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

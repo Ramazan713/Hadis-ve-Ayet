@@ -9,7 +9,8 @@ class ArchiveListState with _$ArchiveListState{
     required List<ListViewModel> listModels,
     required bool isDetailOpen,
     ListViewModel? selectedItem,
-    String? message
+    String? message,
+    int? jumpToPos
   }) = _ArchiveListState;
 
   static ArchiveListState init(){

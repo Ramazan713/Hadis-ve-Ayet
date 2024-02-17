@@ -48,6 +48,7 @@ import 'package:hadith/features/esmaul_husna/providers/esmaul_husna_data_repo_pr
 import 'package:hadith/features/islamic_info/providers/islamic_info_data_repo_providers.dart';
 import 'package:hadith/features/islamic_info/shared/presentation/bloc/islamic_info_shared_bloc.dart';
 import 'package:hadith/features/lists/presentation/archive_list/bloc/archive_list_bloc.dart';
+import 'package:hadith/features/lists/presentation/savepoint_list_navigator/bloc/savepoint_list_navigator_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/core/data/local/database.dart';
 import 'package:hadith/features/search/data/providers/search_data_repo_provider.dart';
@@ -153,6 +154,9 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> CreateQuranPrayerBloc(
               prayerCustomByQuranRepo: context.read(),
               selectVerseManager: context.read()
+          )),
+          BlocProvider(create: (context)=> SavePointListNavigatorBloc(
+              listRepo: context.read()
           )),
           BlocProvider(create: (context)=> IslamicInfoSharedBloc(
               islamicInfoRepo: context.read(),

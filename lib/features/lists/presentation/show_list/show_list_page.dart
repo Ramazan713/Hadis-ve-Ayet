@@ -4,6 +4,7 @@ import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/domain/models/list/list_view_model.dart';
+import 'package:hadith/core/features/adaptive/domain/utils/calculate_windows_size_class.dart';
 import 'package:hadith/core/features/adaptive/presentation/list_detail_adaptive_layout_with_controller.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
@@ -17,6 +18,7 @@ import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controll
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/features/hadiths/data/repo/hadith_list_paging_repo.dart';
 import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_detail_page_content.dart';
+import 'package:hadith/features/lists/domain/list_tab_enum.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
@@ -27,7 +29,16 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ShowListPage extends StatefulWidget {
-  const ShowListPage({Key? key}) : super(key: key);
+  final int initPos;
+  final int? selectedListId;
+  final int sourceTypeId;
+
+  const ShowListPage({
+    Key? key,
+    required this.initPos,
+    this.selectedListId,
+    required this.sourceTypeId
+  }) : super(key: key);
 
   @override
   State<ShowListPage> createState() => ShowListPageState();
@@ -48,11 +59,15 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
 
   var currentHadithDetailPos = 0;
   var currentVerseDetailPos = 0;
+  var isInitPosUsed = false;
+
 
   @override
   void initState() {
     super.initState();
     initListTabController();
+    context.read<ShowListBloc>()
+      .add(ShowListEventLoadData(selectedListId: widget.selectedListId));
   }
 
   @override
@@ -64,9 +79,7 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
           child: getListeners(
             child: BlocBuilder<ShowListBloc, ShowListState>(
               buildWhen: (prevState, nextState){
-                return prevState.isDetailOpen != nextState.isDetailOpen ||
-                    prevState.currentSelectedHadithItem != nextState.currentSelectedHadithItem ||
-                    prevState.currentSelectedVerseItem != nextState.currentSelectedVerseItem;
+                return prevState.isDetailOpen != nextState.isDetailOpen;
               },
               builder: (context, state){
                 return ListDetailAdaptiveLayoutWithController(
@@ -95,16 +108,24 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
                     );
                   },
                   onDetailWidget: (controller, isSinglePane){
-                    final selectedVerseItem = state.currentSelectedVerseItem;
-                    final selectedHadithItem = state.currentSelectedHadithItem;
+                    return BlocBuilder<ShowListBloc, ShowListState>(
+                      buildWhen: (prevState, nextState){
+                        return prevState.currentSelectedHadithItem != nextState.currentSelectedHadithItem ||
+                            prevState.currentSelectedVerseItem != nextState.currentSelectedVerseItem;
+                      },
+                      builder: (context, state){
+                        final selectedVerseItem = state.currentSelectedVerseItem;
+                        final selectedHadithItem = state.currentSelectedHadithItem;
 
-                    if(selectedVerseItem != null){
-                      return getVerseDetail(selectedVerseItem, isSinglePane);
-                    }
-                    if(selectedHadithItem != null){
-                      return getHadithDetail(selectedHadithItem, isSinglePane);
-                    }
-                    return const SharedEmptyResult();
+                        if(selectedVerseItem != null){
+                          return getVerseDetail(selectedVerseItem, isSinglePane);
+                        }
+                        if(selectedHadithItem != null){
+                          return getHadithDetail(selectedHadithItem, isSinglePane);
+                        }
+                        return const SharedEmptyResult();
+                      }
+                    );
                   },
                 );
               },
@@ -184,7 +205,13 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
 
 
   void initListTabController(){
-    final initIndex = context.read<ShowListBloc>().state.currentTab.index;
+    final int initIndex;
+    if(widget.selectedListId != null){
+      initIndex = widget.sourceTypeId == SourceTypeEnum.verse.sourceId ? ListTabEnum.verse.index :
+          ListTabEnum.hadith.index;
+    }else{
+      initIndex = context.read<ShowListBloc>().state.currentTab.index;
+    }
     listTabController = TabController(length: 2, vsync: this,initialIndex: initIndex);
     listTabController.addListener(listenTabChanges);
   }
@@ -199,6 +226,7 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
   Widget getListeners({
     required Widget child
   }){
+    final bloc = context.read<ShowListBloc>();
     return MultiBlocListener(
       listeners: [
         BlocListener<ShowListBloc, ShowListState>(
@@ -209,6 +237,7 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
             final selectedItem = state.currentSelectedVerseItem;
             if(selectedItem == null) return;
             final pagingBloc = context.read<PaginationBloc>();
+            _checkInitPosBeforeLoadingData();
 
             final listPagingRepo = context.read<VerseListPagingRepo>()
                 .init(listId: selectedItem.id);
@@ -225,17 +254,47 @@ class ShowListPageState extends State<ShowListPage> with TickerProviderStateMixi
             final selectedItem = state.currentSelectedHadithItem;
             if(selectedItem == null) return;
             final pagingBloc = context.read<PaginationBloc>();
+            _checkInitPosBeforeLoadingData();
 
             final listPagingRepo = context.read<HadithListPagingRepo>()
                 .init(selectedItem.id);
             pagingBloc.add(PaginationEventInit(listPagingRepo,
-                config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.versePagingPrefetchSize, currentPos: currentHadithDetailPos)
+                config: PagingConfig(pageSize: K.versePageSize,preFetchDistance: K.hadithPagingPrefetchSize, currentPos: currentHadithDetailPos)
             ));
           },
-        )
+        ),
+        BlocListener<ShowListBloc, ShowListState>(
+          listenWhen: (prevState, nextState){
+            return prevState.jumpToPos != nextState.jumpToPos ||
+                prevState.isDetailOpen != nextState.isDetailOpen;
+          },
+          listener: (context, state){
+            final jumpToPos = state.jumpToPos;
+            if(jumpToPos != null){
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                final sizeClass = calculateWindowSize(context);
+                if(!state.isDetailOpen || sizeClass.isExpanded){
+                  bloc.add(ShowListEventClearJumpToPos());
+                  listContentScrollController?.scrollToIndex(jumpToPos,preferPosition: AutoScrollPosition.begin);
+                }
+              });
+            }
+          },
+        ),
       ],
       child: child,
     );
+  }
+
+  void _checkInitPosBeforeLoadingData(){
+    if(isInitPosUsed)return;
+    if(widget.sourceTypeId == SourceTypeEnum.verse.sourceId){
+      currentVerseDetailPos = widget.initPos;
+      isInitPosUsed = true;
+    }else{
+      currentHadithDetailPos = widget.initPos;
+      isInitPosUsed = true;
+    }
   }
 
   @override

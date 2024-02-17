@@ -20,6 +20,7 @@ class ShowListState with _$ShowListState{
     required bool isDetailOpen,
     ListViewModel? selectedItem,
     String? message,
+    int? jumpToPos
   }) = _ShowListState;
 
   ListViewModel? get currentSelectedVerseItem => listVerses.firstWhereOrNull((element) => element.id == (selectedItem?.id ?? 0));

@@ -7,6 +7,14 @@ abstract class IShowListEvent{}
 class ShowListEventListenListHadiths extends IShowListEvent{}
 class ShowListEventListenListVerses extends IShowListEvent{}
 
+class ShowListEventLoadData extends IShowListEvent{
+    final int? selectedListId;
+    ShowListEventLoadData({required this.selectedListId});
+}
+
+class ShowListEventClearJumpToPos extends IShowListEvent{}
+
+
 class ShowListEventChangeTab extends IShowListEvent{
     final int index;
     ShowListEventChangeTab({required this.index});

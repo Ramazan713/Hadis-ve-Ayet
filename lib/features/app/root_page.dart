@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/utils/asset_helper.dart';
 import 'package:hadith/features/app/my_app_top_listeners.dart';
 import 'package:hadith/features/category/category_page.dart';
@@ -79,11 +80,11 @@ final _navigationItems = [
     label: "Ana Sayfa",
     destination: HomePage(),
   ),
-  const _NavigationItem(
-    icon: Icon(Icons.view_list_outlined),
-    activeIcon: Icon(Icons.view_list),
+  _NavigationItem(
+    icon: const Icon(Icons.view_list_outlined),
+    activeIcon: const Icon(Icons.view_list),
     label: "Liste",
-    destination: ShowListPage(),
+    destination: ShowListPage(initPos: 0, sourceTypeId: SourceTypeEnum.hadith.sourceId),
   ),
 ];
 

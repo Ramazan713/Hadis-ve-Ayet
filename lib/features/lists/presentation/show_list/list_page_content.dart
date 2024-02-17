@@ -6,7 +6,6 @@ import 'package:hadith/core/domain/models/list/list_view_model.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_content_scrolling.dart';
-import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
@@ -22,6 +21,7 @@ import 'package:hadith/features/lists/presentation/shared/export_list_view.dart'
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_bloc.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_event.dart';
 import 'package:hadith/features/lists/presentation/show_list/bloc/show_list_state.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 
 class ListPageContent extends StatelessWidget {
@@ -76,7 +76,7 @@ class ListPageContent extends StatelessWidget {
                     BlocBuilder<ShowListBloc,ShowListState>(
                       buildWhen: (prevState,nextState){
                         return prevState.listHadiths != nextState.listHadiths ||
-                          prevState.currentSelectedHadithItem != nextState.currentSelectedHadithItem;
+                          prevState.currentSelectedHadithItem?.id != nextState.currentSelectedHadithItem?.id;
                       },
                       builder: (context,state){
                         return getListItems(
@@ -90,7 +90,7 @@ class ListPageContent extends StatelessWidget {
                     BlocBuilder<ShowListBloc,ShowListState>(
                       buildWhen: (prevState,nextState){
                         return prevState.listVerses != nextState.listVerses ||
-                            prevState.currentSelectedVerseItem != nextState.currentSelectedVerseItem;
+                            prevState.currentSelectedVerseItem?.id != nextState.currentSelectedVerseItem?.id;
                       },
                       builder: (context,state){
                         return getListItems(
@@ -131,29 +131,34 @@ class ListPageContent extends StatelessWidget {
       controller: contentScrollController.controller,
       itemBuilder: (BuildContext context, int index) {
         var item = items[index];
-        return SharedListItem(
-          subTitleTag: sourceType.shortName,
-          listViewModel: item,
-          isSelected: selectedItem?.id == item.id && !isSinglePane,
-          useSecondary: useSecondary,
-          leading: sourceType.getListIcon(context, item.isRemovable),
-          trailing: SelectAdaptiveDropdownMenu(
-            icon: const Icon(Icons.more_vert,size: 30,),
-            popWhenItemSelect: true,
-            items: ShowListMenuEnum.getMenuItems(item.isRemovable),
-            title: "'${item.name}' listesi için",
-            onItemClick: (selected, type){
-              manageBottomMenuItem(
-                context: context,
-                item: item,
-                menuItem: selected,
-                sourceType: sourceType,
-              );
+        return AutoScrollTag(
+          controller: contentScrollController.controller,
+          index: index,
+          key: ValueKey(item.id),
+          child: SharedListItem(
+            subTitleTag: sourceType.shortName,
+            listViewModel: item,
+            isSelected: selectedItem?.id == item.id && !isSinglePane,
+            useSecondary: useSecondary,
+            leading: sourceType.getListIcon(context, item.isRemovable),
+            trailing: SelectAdaptiveDropdownMenu(
+              icon: const Icon(Icons.more_vert,size: 30,),
+              popWhenItemSelect: true,
+              items: ShowListMenuEnum.getMenuItems(item.isRemovable),
+              title: "'${item.name}' listesi için",
+              onItemClick: (selected, type){
+                manageBottomMenuItem(
+                  context: context,
+                  item: item,
+                  menuItem: selected,
+                  sourceType: sourceType,
+                );
+              },
+            ),
+            onClick: (){
+              onClickItem(item);
             },
           ),
-          onClick: (){
-            onClickItem(item);
-          },
         );
       },
     );

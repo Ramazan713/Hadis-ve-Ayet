@@ -6,7 +6,6 @@ import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/search_criteria_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/audio_setting/audio_settings_page.dart';
-import 'package:hadith/core/features/save_point/domain/enums/list_book_scope.dart';
 import 'package:hadith/features/app/root_page.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/counter_detail_setting/counter_detail_setting.dart';
 import 'package:hadith/features/dhikr_prayers/counters/presentation/detail_counter/detail_counter_empty_page.dart';
@@ -22,12 +21,13 @@ import 'package:hadith/features/dhikr_prayers/prayer_in_quran/presentation/praye
 import 'package:hadith/features/esmaul_husna/presentation/show_esmaul_husna_page.dart';
 import 'package:hadith/features/hadiths/domain/constants/hadith_book_enum.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_all_page.dart';
-import 'package:hadith/features/hadiths/presentation/hadith_list_page.dart';
 import 'package:hadith/features/hadiths/presentation/hadith_search_page.dart';
 import 'package:hadith/features/islamic_info/adjectives_of/adjectives_of_page.dart';
 import 'package:hadith/features/islamic_info/efali_mukellefin/efali_mukellefin_page.dart';
 import 'package:hadith/features/islamic_info/fards/fards_info_page.dart';
 import 'package:hadith/features/lists/presentation/archive_list/archive_list_page.dart';
+import 'package:hadith/features/lists/presentation/savepoint_list_navigator/savepoint_list_navigator_page.dart';
+import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart';
 import 'package:hadith/features/search/presentation/search_page.dart';
 import 'package:hadith/features/settings/presentation/settings_page.dart';
 import 'package:hadith/features/topics/presentation/section_page/section_page.dart';
@@ -35,7 +35,6 @@ import 'package:hadith/features/topics/presentation/topic_page/topic_page.dart';
 import 'package:hadith/features/verses/cuz/presentation/cuz_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_page_show_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_cuz_page.dart';
-import 'package:hadith/features/verses/show_verse/presentation/verse_show_list_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_search_page.dart';
 import 'package:hadith/features/verses/show_verse/presentation/verse_show_surah_page.dart';
 import 'package:hadith/features/verses/surah/presentation/surah_page.dart';
@@ -84,30 +83,6 @@ class SearchRoute extends GoRouteData{
   }
 }
 
-@TypedGoRoute<HadithListRoute>(
-    path: "/hadith/list/:sourceId/:listId/:pos"
-)
-class HadithListRoute extends GoRouteData{
-  final int listId;
-  final int sourceId;
-  final int pos;
-
-  HadithListRoute({
-    required this.sourceId,
-    required this.listId,
-    this.pos = 0
-  });
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return HadithListPage(
-        listBookScope: ListBookScopeExt.fromSourceType(SourceTypeEnumExt.fromSourceId(sourceId)),
-        listId: listId,
-        pos: pos
-    );
-  }
-}
-
 
 @TypedGoRoute<HadithSearchRoute>(
     path: "/hadith/search/:query/:bookScopeId/:criteriaId/:pos"
@@ -142,12 +117,64 @@ class HadithSearchRoute extends GoRouteData{
     path: "/archiveList"
 )
 class ArchiveListRoute extends GoRouteData{
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ArchiveListPage(initPos: 0,sourceTypeId: SourceTypeEnum.hadith.sourceId,);
+  }
+}
 
-  ArchiveListRoute();
+@TypedGoRoute<ArchiveListWithSelectedRoute>(
+    path: "/archiveList/:listId/:sourceTypeId/:pos"
+)
+class ArchiveListWithSelectedRoute extends GoRouteData{
+  final int pos;
+  final int listId;
+  final int sourceTypeId;
+  ArchiveListWithSelectedRoute({
+    this.pos = 0,
+    required this.listId,
+    required this.sourceTypeId
+  });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const ArchiveListPage();
+    return ArchiveListPage(initPos: pos,selectedListId: listId,sourceTypeId: sourceTypeId,);
+  }
+}
+
+@TypedGoRoute<ShowListRoute>(
+    path: "/showList/:listId/:sourceTypeId/:pos"
+)
+class ShowListRoute extends GoRouteData{
+  final int pos;
+  final int listId;
+  final int sourceTypeId;
+  ShowListRoute({
+    this.pos = 0,
+    required this.listId,
+    required this.sourceTypeId
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ShowListPage(initPos: pos,selectedListId: listId,sourceTypeId: sourceTypeId,);
+  }
+}
+
+@TypedGoRoute<ListForSavePointNavigationRoute>(
+    path: "/savePointListNavigator/:listId/:pos"
+)
+class ListForSavePointNavigationRoute extends GoRouteData{
+  final int listId;
+  final int pos;
+  ListForSavePointNavigationRoute({
+    required this.listId,
+    required this.pos
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SavePointListNavigatorPage(listId: listId,listDefaultPos: pos,);
   }
 }
 
@@ -291,27 +318,6 @@ class VersePageShowRoute extends GoRouteData{
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return VersePageShowPage(startPageIndex: pageIndex, pagePos: pagePos,);
-  }
-}
-
-
-@TypedGoRoute<VerseShowListRoute>(
-    path: "/verse/list/:sourceId/:listId/:pos"
-)
-class VerseShowListRoute extends GoRouteData{
-
-  final int listId;
-  final int pos;
-  final int sourceId;
-
-  VerseShowListRoute({required this.listId, required this.sourceId, this.pos = 0});
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return VerseShowListPage(
-        listId: listId,
-        pos: pos,
-        listBookScope: ListBookScopeExt.fromSourceType(SourceTypeEnumExt.fromSourceId(sourceId)));
   }
 }
 

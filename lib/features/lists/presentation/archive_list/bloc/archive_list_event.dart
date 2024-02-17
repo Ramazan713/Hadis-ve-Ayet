@@ -6,6 +6,11 @@ abstract class IArchiveListEvent{}
 
 class ArchiveListEventListenListModels extends IArchiveListEvent{}
 
+class ArchiveListEventLoadData extends IArchiveListEvent{
+  final int? selectedListId;
+  ArchiveListEventLoadData({required this.selectedListId});
+}
+
 class ArchiveListEventRename extends IArchiveListEvent{
   final String newTitle;
   final ListViewModel listViewModel;
@@ -30,3 +35,5 @@ class ArchiveListEventShowDetail extends IArchiveListEvent{
 }
 
 class ArchiveListEventClearMessage extends IArchiveListEvent{}
+
+class ArchiveEventClearJumpToPos extends IArchiveListEvent{}

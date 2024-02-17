@@ -20,6 +20,7 @@ mixin _$ArchiveListState {
   bool get isDetailOpen => throw _privateConstructorUsedError;
   ListViewModel? get selectedItem => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
+  int? get jumpToPos => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ArchiveListStateCopyWith<ArchiveListState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $ArchiveListStateCopyWith<$Res> {
       {List<ListViewModel> listModels,
       bool isDetailOpen,
       ListViewModel? selectedItem,
-      String? message});
+      String? message,
+      int? jumpToPos});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$ArchiveListStateCopyWithImpl<$Res, $Val extends ArchiveListState>
     Object? isDetailOpen = null,
     Object? selectedItem = freezed,
     Object? message = freezed,
+    Object? jumpToPos = freezed,
   }) {
     return _then(_value.copyWith(
       listModels: null == listModels
@@ -74,6 +77,10 @@ class _$ArchiveListStateCopyWithImpl<$Res, $Val extends ArchiveListState>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      jumpToPos: freezed == jumpToPos
+          ? _value.jumpToPos
+          : jumpToPos // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$_ArchiveListStateCopyWith<$Res>
       {List<ListViewModel> listModels,
       bool isDetailOpen,
       ListViewModel? selectedItem,
-      String? message});
+      String? message,
+      int? jumpToPos});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$_ArchiveListStateCopyWithImpl<$Res>
     Object? isDetailOpen = null,
     Object? selectedItem = freezed,
     Object? message = freezed,
+    Object? jumpToPos = freezed,
   }) {
     return _then(_$_ArchiveListState(
       listModels: null == listModels
@@ -126,6 +135,10 @@ class __$$_ArchiveListStateCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      jumpToPos: freezed == jumpToPos
+          ? _value.jumpToPos
+          : jumpToPos // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$_ArchiveListState implements _ArchiveListState {
       {required final List<ListViewModel> listModels,
       required this.isDetailOpen,
       this.selectedItem,
-      this.message})
+      this.message,
+      this.jumpToPos})
       : _listModels = listModels;
 
   final List<ListViewModel> _listModels;
@@ -154,10 +168,12 @@ class _$_ArchiveListState implements _ArchiveListState {
   final ListViewModel? selectedItem;
   @override
   final String? message;
+  @override
+  final int? jumpToPos;
 
   @override
   String toString() {
-    return 'ArchiveListState(listModels: $listModels, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, message: $message)';
+    return 'ArchiveListState(listModels: $listModels, isDetailOpen: $isDetailOpen, selectedItem: $selectedItem, message: $message, jumpToPos: $jumpToPos)';
   }
 
   @override
@@ -171,7 +187,9 @@ class _$_ArchiveListState implements _ArchiveListState {
                 other.isDetailOpen == isDetailOpen) &&
             (identical(other.selectedItem, selectedItem) ||
                 other.selectedItem == selectedItem) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.jumpToPos, jumpToPos) ||
+                other.jumpToPos == jumpToPos));
   }
 
   @override
@@ -180,7 +198,8 @@ class _$_ArchiveListState implements _ArchiveListState {
       const DeepCollectionEquality().hash(_listModels),
       isDetailOpen,
       selectedItem,
-      message);
+      message,
+      jumpToPos);
 
   @JsonKey(ignore: true)
   @override
@@ -194,7 +213,8 @@ abstract class _ArchiveListState implements ArchiveListState {
       {required final List<ListViewModel> listModels,
       required final bool isDetailOpen,
       final ListViewModel? selectedItem,
-      final String? message}) = _$_ArchiveListState;
+      final String? message,
+      final int? jumpToPos}) = _$_ArchiveListState;
 
   @override
   List<ListViewModel> get listModels;
@@ -204,6 +224,8 @@ abstract class _ArchiveListState implements ArchiveListState {
   ListViewModel? get selectedItem;
   @override
   String? get message;
+  @override
+  int? get jumpToPos;
   @override
   @JsonKey(ignore: true)
   _$$_ArchiveListStateCopyWith<_$_ArchiveListState> get copyWith =>

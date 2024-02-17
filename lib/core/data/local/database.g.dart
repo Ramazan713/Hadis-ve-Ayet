@@ -646,6 +646,19 @@ class _$ListDao extends ListDao {
   }
 
   @override
+  Future<ListEntity?> getListById(int listId) async {
+    return _queryAdapter.query('select * from lists where id = ?1',
+        mapper: (Map<String, Object?> row) => ListEntity(
+            id: row['id'] as int?,
+            isArchive: (row['isArchive'] as int) != 0,
+            name: row['name'] as String,
+            isRemovable: (row['isRemovable'] as int) != 0,
+            sourceId: row['sourceId'] as int,
+            pos: row['pos'] as int),
+        arguments: [listId]);
+  }
+
+  @override
   Future<String?> getListName(int listId) async {
     return _queryAdapter.query('select name from lists where id = ?1',
         mapper: (Map<String, Object?> row) => row.values.first as String,
