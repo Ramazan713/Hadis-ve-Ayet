@@ -5,11 +5,13 @@ class CustomDropdownIconMenu<T extends IMenuItem> extends StatelessWidget {
   final List<T> items;
   final Function(T) onSelected;
   final Icon? icon;
+  final bool enabled;
 
   const CustomDropdownIconMenu({
     Key? key,
     required this.items,
     required this.onSelected,
+    this.enabled = true,
     this.icon
   }) : super(key: key);
 
@@ -36,7 +38,7 @@ class CustomDropdownIconMenu<T extends IMenuItem> extends StatelessWidget {
       menuChildren: getMenuItems(context),
       builder: (context, menuController, widget){
         return IconButton(
-          onPressed: (){
+          onPressed: !enabled ? null : (){
             if(menuController.isOpen){
               menuController.close();
             }else{

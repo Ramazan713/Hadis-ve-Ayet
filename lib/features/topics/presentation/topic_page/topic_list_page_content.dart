@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
 import 'package:hadith/core/domain/enums/book_enum.dart';
 import 'package:hadith/core/domain/enums/book_scope_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
-import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
-import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
-import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
-import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_event.dart';
 import 'package:hadith/core/features/topic_save_point/domain/models/topic_save_point.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_event.dart';
@@ -23,7 +18,6 @@ import 'package:hadith/core/presentation/components/shimmer/get_shimmer_items.da
 import 'package:hadith/core/presentation/components/shimmer/samples/shimmer_topic_item.dart';
 import 'package:hadith/core/presentation/controllers/custom_auto_scroll_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
-import 'package:hadith/core/presentation/selections/show_bottom_menu_items.dart';
 import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 import 'package:hadith/features/topics/presentation/topic_page/bloc/topic_bloc.dart';
@@ -142,14 +136,15 @@ class TopicListPageContent extends StatelessWidget {
                     onTap: (){
                       onClickItem(item);
                     },
-                    onMenuClick: state.searchBarVisible ? null : (){
+                    onMenuClick: (menuItem){
                       handleBottomMenu(
+                        menuItem: menuItem,
                         context: context,
-                          index: index,
-                          hasSavePoint: hasSavePoint,
-                          topic: item
+                        index: index,
+                        topic: item
                       );
                     },
+                    isMenuEnabled: !state.searchBarVisible,
                     rowNumber: index + 1
                   ),
                 );
@@ -174,37 +169,20 @@ class TopicListPageContent extends StatelessWidget {
   }
 
   void handleBottomMenu({
+    required TopicSavePointMenuItem menuItem,
     required BuildContext context,
     required TopicViewModel topic,
-    required bool hasSavePoint,
     required int index
   }){
     final topicSavePointBloc = context.read<TopicSavePointBloc>();
-    showBottomMenuItems(
-        context,
-        items: TopicSavePointMenuItem.getMenuItems(hasSavePoint),
-        onItemClick: (menuItem){
-          switch(menuItem){
-            case TopicSavePointMenuItem.goToLastSavePoint:
-              context.read<LoadSavePointBloc>().add(LoadSavePointEventLoadLastOrDefault(
-                  destination: DestinationTopic(
-                      topicId: topic.id,
-                      topicName: topic.name,
-                      bookEnum: bookEnum
-                  ),
-                  autoType: SaveAutoType.none
-              ));
-              break;
-            case TopicSavePointMenuItem.signSavePoint:
-              topicSavePointBloc.add(TopicSavePointEventInsertSavePoint(pos: index));
-              break;
-            case TopicSavePointMenuItem.unSignSavePoint:
-              topicSavePointBloc.add(TopicSavePointEventDeleteSavePoint());
-              break;
-          }
-          context.pop();
-        }
-    );
+    switch(menuItem){
+      case TopicSavePointMenuItem.signSavePoint:
+        topicSavePointBloc.add(TopicSavePointEventInsertSavePoint(pos: index));
+        break;
+      case TopicSavePointMenuItem.unSignSavePoint:
+        topicSavePointBloc.add(TopicSavePointEventDeleteSavePoint());
+        break;
+    }
   }
 
   Widget getFloatingActionWidget(){

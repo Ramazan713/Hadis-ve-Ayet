@@ -74,6 +74,7 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
                 );
               },
               onCreateDetailController: (offset){
+                detailPositionController.setPositions(currentPage, currentPage);
                 return PageController(initialPage: currentPage);
               },
               onListWidget: (controller, isSinglePane){

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
+import 'package:hadith/features/topics/domain/enums/topic_save_point_menu_item.dart';
 import 'package:hadith/features/topics/domain/model/topic_view_model.dart';
 
 class TopicItem extends StatelessWidget {
   final TopicViewModel topicViewModel;
   final void Function() onTap;
-  final void Function()? onMenuClick;
+  final void Function(TopicSavePointMenuItem) onMenuClick;
   final SourceTypeEnum sourceType;
   final bool hasSavePoint;
   final int? rowNumber;
   final EdgeInsets? margins;
   final bool isSelected;
+  final bool isMenuEnabled;
 
   const TopicItem({Key? key,
     required this.sourceType,
@@ -21,8 +24,9 @@ class TopicItem extends StatelessWidget {
     required this.onTap,
     required this.rowNumber,
     required this.isSelected,
+    required this.onMenuClick,
+    this.isMenuEnabled = true,
     this.margins,
-    this.onMenuClick,
   }) : super(key: key);
 
   @override
@@ -43,7 +47,6 @@ class TopicItem extends StatelessWidget {
         "${topicViewModel.itemsCount} ${sourceType.shortName}",
       ),
       onTap: onTap,
-      onLongPress: onMenuClick,
       trailing: getTrailing(context),
     );
   }
@@ -57,10 +60,14 @@ class TopicItem extends StatelessWidget {
             Icons.beenhere,
             color: Theme.of(context).colorScheme.error
           ),
-        IconButton(
-          onPressed: onMenuClick,
-          icon: const Icon(Icons.more_vert),
-        )
+        SelectAdaptiveDropdownMenu(
+          enabled: isMenuEnabled,
+          popWhenItemSelect: true,
+          items: TopicSavePointMenuItem.getMenuItems(hasSavePoint),
+          onItemClick: (selected, type){
+            onMenuClick(selected);
+          },
+        ),
       ],
     );
   }

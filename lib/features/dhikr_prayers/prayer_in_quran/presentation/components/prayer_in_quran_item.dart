@@ -78,6 +78,7 @@ class PrayerInQuranItem extends StatelessWidget {
             title: prayer.source,
             icon: const Icon(Icons.more_horiz),
             items: PrayerInQuranBottomMenuItem.getItems(prayerUnit),
+            popWhenItemSelect: true,
             onItemClick: (selected, type){
               onMenuSelect?.call(selected);
             }

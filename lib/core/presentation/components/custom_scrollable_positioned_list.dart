@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/material.dart';
+import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_delay_type.dart';
 import 'package:hadith/core/domain/enums/scrolling/scroll_direction.dart';
 import 'package:hadith/core/presentation/components/controller_listeners/scrollable_positioned_list_listener.dart';
@@ -63,6 +64,7 @@ class CustomScrollablePositionedList extends StatelessWidget {
           }
         },
         child: ScrollablePositionedList.builder(
+          padding: K.defaultLazyListPadding,
           shrinkWrap: shrinkWrap,
           addSemanticIndexes: true,
           addRepaintBoundaries: true,

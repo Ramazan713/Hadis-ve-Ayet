@@ -16,12 +16,14 @@ class SelectAdaptiveDropdownMenu<T extends IMenuItem> extends StatelessWidget {
   final bool useRootNavigator;
   final Icon? icon;
   final bool popWhenItemSelect;
+  final bool enabled;
 
   const SelectAdaptiveDropdownMenu({super.key,
     required this.items,
     required this.onItemClick,
     this.useRootNavigator = false,
     this.popWhenItemSelect = false,
+    this.enabled = true,
     this.windowSizeClass,
     this.icon,
     this.title
@@ -34,6 +36,7 @@ class SelectAdaptiveDropdownMenu<T extends IMenuItem> extends StatelessWidget {
 
     if(currentWindowSizeClass.isExpanded){
       return CustomDropdownIconMenu(
+        enabled: enabled,
         items: items,
         onSelected: (selected){
           onItemClick(selected, AdaptiveDropdownMenuType.dropdownMenu);
@@ -43,7 +46,7 @@ class SelectAdaptiveDropdownMenu<T extends IMenuItem> extends StatelessWidget {
     }
 
     return IconButton(
-      onPressed: (){
+      onPressed: !enabled ? null : (){
         showBottomMenuItems(context,
           items: items,
           onItemClick: (selected){
