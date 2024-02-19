@@ -65,7 +65,9 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
               useAdaptivePadding: true,
               useDetailOffset: false,
               onDetailOffsetListener: (){
-                currentPage = pageController?.page?.toInt() ?? currentPage;
+                if(pageController?.hasClients == true){
+                  currentPage = pageController?.page?.toInt() ?? currentPage;
+                }
               },
               onCreateListController: (offset){
                 return AutoScrollController(
@@ -83,7 +85,9 @@ class ShowEsmaulHusnaPageState extends State<ShowEsmaulHusnaPage> {
                   searchTextController: searchTextController,
                   onIndexItemClick: (index){
                     currentPage = index;
-                    pageController?.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                    if(pageController?.hasClients == true){
+                      pageController?.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                    }
                   },
                   onShareClick: (item){
                     handleShareClick(item, false);

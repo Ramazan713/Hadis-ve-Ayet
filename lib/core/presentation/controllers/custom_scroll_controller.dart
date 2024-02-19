@@ -28,23 +28,24 @@ class CustomScrollController with ChangeNotifier{
   }
 
   void setScrollDirectionAndAnimateTopBar(CustomScrollDirection scroll){
-
-    switch(scroll){
-      case CustomScrollDirection.up:
-        _scrollController.animateTo(
-          _scrollController.position.minScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-        break;
-      case CustomScrollDirection.down:
-        _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
+    if(_scrollController.hasClients == true){
+      switch(scroll){
+        case CustomScrollDirection.up:
+          _scrollController.animateTo(
+            _scrollController.position.minScrollExtent,
             duration: const Duration(milliseconds: 300),
-            curve: Curves.easeIn);
-        break;
+            curve: Curves.easeOut,
+          );
+          break;
+        case CustomScrollDirection.down:
+          _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn);
+          break;
+      }
+      setScrollDirection(scroll);
     }
-    setScrollDirection(scroll);
   }
 
   @override

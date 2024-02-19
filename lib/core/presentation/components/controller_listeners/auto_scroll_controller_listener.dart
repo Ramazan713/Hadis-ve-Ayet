@@ -67,11 +67,14 @@ class _AutoScrollControllerListenerState extends State<AutoScrollControllerListe
     if(controller == null) return;
 
     CustomScrollDirection? customScrollDirection;
-    if(autoScrollController?.position.userScrollDirection == ScrollDirection.forward){
-      customScrollDirection = CustomScrollDirection.up;
-    }else if(autoScrollController?.position.userScrollDirection == ScrollDirection.reverse){
-      customScrollDirection = CustomScrollDirection.down;
+    if(autoScrollController?.hasClients == true){
+      if(autoScrollController?.position.userScrollDirection == ScrollDirection.forward){
+        customScrollDirection = CustomScrollDirection.up;
+      }else if(autoScrollController?.position.userScrollDirection == ScrollDirection.reverse){
+        customScrollDirection = CustomScrollDirection.down;
+      }
     }
+
 
     controller.calculatePositions(customScrollDirection: customScrollDirection);
     if(customScrollDirection != null) {
