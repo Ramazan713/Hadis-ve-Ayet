@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/data/preferences/app_preferences_impl.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/features/ads/bloc/ad_bloc.dart';
 import 'package:hadith/core/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_bloc.dart';
 import 'package:hadith/core/features/backup/presentation/backup_meta/bloc/backup_meta_bloc.dart';
@@ -146,6 +147,7 @@ class MyAppProviders extends StatelessWidget {
           BlocProvider(create: (context)=> CustomPrayerManageBloc(
               prayerRepo: context.read(),
           )),
+          BlocProvider(create: (context)=> AdBloc(),lazy: false),
           BlocProvider(create: (context)=> CustomPrayerDetailBloc(
             prayerRepo: context.read(),
               appPreferences:  context.read(),

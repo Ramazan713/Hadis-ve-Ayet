@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_detector/focus_detector.dart';
+import 'package:hadith/core/features/ads/bloc/ad_bloc.dart';
+import 'package:hadith/core/features/ads/bloc/ad_event.dart';
 import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart';
 import 'package:hadith/core/features/premium/presentation/bloc/premium_state.dart';
-import 'package:hadith/core/utils/ad_util.dart';
 
 class AdCheckWidget extends StatefulWidget {
 
@@ -21,20 +22,19 @@ class AdCheckWidget extends StatefulWidget {
 }
 
 
-class _AdCheckWidgetState extends State<AdCheckWidget>  with WidgetsBindingObserver{
+class _AdCheckWidgetState extends State<AdCheckWidget> with WidgetsBindingObserver{
 
-
-  Timer? _adTimer;
+  late final AdBloc adBloc;
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-
-    if(!_isPremium() && AdUtil.interstitialAd == null){
-      _checkAdOpeningCounter();
-      _checkAdStatus();
+    adBloc =  context.read<AdBloc>();
+    if(!_isPremium()){
+      adBloc.add(AdEventIncreaseCounter());
+      adBloc.add(AdEventStartClock());
     }
   }
 
@@ -42,22 +42,21 @@ class _AdCheckWidgetState extends State<AdCheckWidget>  with WidgetsBindingObser
   Widget build(BuildContext context) {
     return FocusDetector(
       onFocusLost: (){
-        _adTimer?.cancel();
+        adBloc.add(AdEventStopClock());
       },
       onFocusGained: (){
         if(!_isPremium()){
-          _checkAdStatus();
+          adBloc.add(AdEventStartClock());
         }
       },
       child: BlocBuilder<PremiumBloc,PremiumState>(
         builder: (context, state){
-          return PopScope(
-            canPop: true,
-            onPopInvoked: (canPop){
-              final ad = AdUtil.interstitialAd;
-              if (!state.isPremium && ad != null) {
-                ad.show();
+          return WillPopScope(
+            onWillPop: (){
+              if (!state.isPremium) {
+                adBloc.add(AdEventCheckShowStatus());
               }
+              return Future.value(true);
             },
             child: widget.child,
           );
@@ -66,18 +65,6 @@ class _AdCheckWidgetState extends State<AdCheckWidget>  with WidgetsBindingObser
     );
   }
 
-  void _checkAdStatus() {
-    _adTimer?.cancel();
-    _adTimer = Timer.periodic(const Duration(seconds: AdUtil.tickIntervalSeconds), (timer) {
-      AdUtil.increaseConsumeSeconds();
-    });
-  }
-
-  void _checkAdOpeningCounter() {
-    AdUtil.increaseOpeningCounter();
-  }
-
-
   bool _isPremium(){
     return context.read<PremiumBloc>().state.isPremium;
   }
@@ -85,20 +72,19 @@ class _AdCheckWidgetState extends State<AdCheckWidget>  with WidgetsBindingObser
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async{
     super.didChangeAppLifecycleState(state);
-
     if(state == AppLifecycleState.resumed){
       if(!_isPremium()){
-        _checkAdStatus();
+        adBloc.add(AdEventStartClock());
       }
     }else if(state == AppLifecycleState.inactive){
-      _adTimer?.cancel();
+      adBloc.add(AdEventStopClock());
     }
   }
 
   @override
   void dispose() {
+    adBloc.add(AdEventStopClock());
     WidgetsBinding.instance.removeObserver(this);
-    _adTimer?.cancel();
     super.dispose();
   }
 

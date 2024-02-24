@@ -14,6 +14,7 @@ class K{
   static const backup = BackupK();
   static const actKeys = ActionResultKeysK();
   static const urls = UrlK();
+  static const ad = AdK();
 
   static const timeOutSeconds = 13;
 
@@ -53,6 +54,14 @@ class ActionResultKeysK{
   final String uploadBackupForSignOut = "uploadBackupForSignOut";
 
   const ActionResultKeysK();
+}
+
+class AdK{
+  final int tickIntervalSeconds = 3;
+  final int thresholdConsumeSeconds = 210;//3m 30s
+  final int thresholdOpeningCounter = 19;
+
+  const AdK();
 }
 
 class UrlK{

@@ -123,16 +123,12 @@ class _ListDetailAdaptiveLayoutWithControllerState extends State<ListDetailAdapt
 
 
   void _listOffsetListener(){
-    try{
-      EasyDebounce.debounce("ListScrollListener", Duration(milliseconds:  widget.listenerDebounceMilliSeconds), () {
-        if(listScrollController?.hasClients == true){
-          listOffset = listScrollController?.offset ?? listOffset;
-          widget.onListOffsetListener?.call();
-        }
-      });
-    }catch(e){
-      print("ErrorEXXXXX: ${e}");
-    }
+    EasyDebounce.debounce("ListScrollListener", Duration(milliseconds:  widget.listenerDebounceMilliSeconds), () {
+      if(listScrollController?.hasClients == true){
+        listOffset = listScrollController?.offset ?? listOffset;
+        widget.onListOffsetListener?.call();
+      }
+    });
   }
 
   void _detailOffsetListener(){
