@@ -90,21 +90,23 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
               destination: widget.savePointDestination,
               autoType: SaveAutoType.general,
               child: Scaffold(
-                body: CustomNestedViewAppBar(
-                  scrollController: customScrollController,
-                  title: Text(widget.title),
-                  actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
-                  child: AudioInfoBodyWrapper(
-                    destination: widget.savePointDestination,
-                    child: SingleAdaptivePane(
-                      useAdaptivePadding: true,
-                      child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
-                        selector: (state) => state.audio?.mealId,
-                        builder: (context, currentMealId){
-                          return getContent(context,
-                              currentMealId: currentMealId
-                          );
-                        },
+                body: SafeArea(
+                  child: CustomNestedViewAppBar(
+                    scrollController: customScrollController,
+                    title: Text(widget.title),
+                    actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
+                    child: AudioInfoBodyWrapper(
+                      destination: widget.savePointDestination,
+                      child: SingleAdaptivePane(
+                        useAdaptivePadding: true,
+                        child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                          selector: (state) => state.audio?.mealId,
+                          builder: (context, currentMealId){
+                            return getContent(context,
+                                currentMealId: currentMealId
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

@@ -23,26 +23,29 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
         padding: const EdgeInsets.only(top: 3,bottom: 19),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             getSubTitleWidget("Zikir Türleri"),
-            StaggeredGrid.extent(
-              maxCrossAxisExtent: 500,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              children: [
-                MainDhikrmaticItem(
-                  title: "Zikirmatik (Klasik)",
-                  onClick: () {
-                    DetailCounterEmptyRoute(counterTypeId: CounterType.classic.typeId).push(context);
-                  },
-                ),
-                MainDhikrmaticItem(
-                  title: "Zikirmatik (${CounterType.unlimited.title})",
-                  onClick: () {
-                    DetailCounterEmptyRoute(counterTypeId: CounterType.unlimited.typeId).push(context);
-                  },
-                ),
-              ],
+            Flexible(
+              child: StaggeredGrid.extent(
+                maxCrossAxisExtent: 500,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                children: [
+                  MainDhikrmaticItem(
+                    title: "Zikirmatik (Klasik)",
+                    onClick: () {
+                      DetailCounterEmptyRoute(counterTypeId: CounterType.classic.typeId).push(context);
+                    },
+                  ),
+                  MainDhikrmaticItem(
+                    title: "Zikirmatik (${CounterType.unlimited.title})",
+                    onClick: () {
+                      DetailCounterEmptyRoute(counterTypeId: CounterType.unlimited.typeId).push(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         )
@@ -52,47 +55,50 @@ extension ShowCounterSectionsExt on ShowCounterPageState{
   Widget getDhikrListContent(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         getSubTitleWidget("Zikir Listesi"),
-        BlocBuilder<CounterShowBloc, CounterShowState>(
-          builder: (context, state) {
-            final counters = state.counters;
-            if (counters.isEmpty) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: SharedEmptyResult(
-                  content: "Eklenmiş zikir bulunmamaktadır",
-                )
+        Flexible(
+          child: BlocBuilder<CounterShowBloc, CounterShowState>(
+            builder: (context, state) {
+              final counters = state.counters;
+              if (counters.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: SharedEmptyResult(
+                    content: "Eklenmiş zikir bulunmamaktadır",
+                  )
+                );
+              }
+              return LazyAlignedGridView(
+                maxCrossAxisExtent: 700,
+                shrinkWrap: true,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                padding: K.defaultLazyListPadding,
+                controller: ScrollController(),
+                itemCount: counters.length,
+                itemBuilder: (context, index) {
+                  final counter = counters[index];
+                  return CounterItem(
+                    item: counter,
+                    showDetail: state.showDetailContents,
+                    onClick: () {
+                      DetailCounterRoute(id: counter.id??0).push(context);
+                    },
+                    trailing: SelectAdaptiveDropdownMenu(
+                      items: ShowCounterSelectMenuEnum.getItems(counter),
+                      title: "'${counter.name}' adlı zikri için",
+                      popWhenItemSelect: true,
+                      onItemClick: (selected, type){
+                        handleMenuItem(menuItem: selected, counter: counter);
+                      },
+                    ),
+                  );
+                },
               );
             }
-            return LazyAlignedGridView(
-              maxCrossAxisExtent: 700,
-              shrinkWrap: true,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              padding: K.defaultLazyListPadding,
-              controller: ScrollController(),
-              itemCount: counters.length,
-              itemBuilder: (context, index) {
-                final counter = counters[index];
-                return CounterItem(
-                  item: counter,
-                  showDetail: state.showDetailContents,
-                  onClick: () {
-                    DetailCounterRoute(id: counter.id??0).push(context);
-                  },
-                  trailing: SelectAdaptiveDropdownMenu(
-                    items: ShowCounterSelectMenuEnum.getItems(counter),
-                    title: "'${counter.name}' adlı zikri için",
-                    popWhenItemSelect: true,
-                    onItemClick: (selected, type){
-                      handleMenuItem(menuItem: selected, counter: counter);
-                    },
-                  ),
-                );
-              },
-            );
-          }
+          ),
         )
       ],
     );

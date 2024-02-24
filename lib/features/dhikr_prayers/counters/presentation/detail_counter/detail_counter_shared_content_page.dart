@@ -30,28 +30,29 @@ class DetailCounterSharedContentPage extends StatelessWidget {
             child: DefaultAdaptiveLayout(
               useAdaptivePadding: true,
               builder: (context, windowSizeClass){
-                return CustomScrollView(
-                  slivers: [
-                    SliverList.list(
-                      children: [
-                        getCounterContent(windowSizeClass)
-                      ],
-                    ),
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const SizedBox(height: 13,),
-                          const Spacer(flex: 3,),
-                          getDhikr(),
-                          const SizedBox(height: 8,),
-                          getCompletedWidget(),
-                          const Spacer(),
-                        ],
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: getCounterContent(windowSizeClass),
                       ),
-                    )
-                  ],
+                      IntrinsicHeight(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 16,),
+                            const Spacer(flex: 3,),
+                            getDhikr(),
+                            const SizedBox(height: 12,),
+                            getCompletedWidget(),
+                            const Spacer(),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
             ),

@@ -77,12 +77,15 @@ class PrayerAndVerseDetailPage extends StatelessWidget {
                             },
                             child: SingleChildScrollView(
                               child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   getListenItem(context,prayerUnit),
-                                  getContent(context,
-                                      windowSizeClass: windowSizeClass,
-                                      prayer: prayer,
-                                      fontModel: fontModel
+                                  Flexible(
+                                    child: getContent(context,
+                                        windowSizeClass: windowSizeClass,
+                                        prayer: prayer,
+                                        fontModel: fontModel
+                                    ),
                                   )
                                 ],
                               ),

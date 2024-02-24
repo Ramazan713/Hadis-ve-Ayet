@@ -56,9 +56,12 @@ class ManageCounterPage extends StatelessWidget {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             getAdaptiveSelectTypeWidget(context, windowSizeClass),
-                            getNewContents(context, windowSizeClass: windowSizeClass),
+                            Flexible(
+                                child: getNewContents(context, windowSizeClass: windowSizeClass)
+                            ),
                             getStandardAdaptiveBottomButton(context,windowSizeClass)
                           ],
                         ),

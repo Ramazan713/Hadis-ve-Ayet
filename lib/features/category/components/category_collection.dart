@@ -24,6 +24,7 @@ class CategoryCollection extends StatelessWidget {
       padding: currentMargins,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 5,bottom: 3,top: 7),
@@ -32,11 +33,13 @@ class CategoryCollection extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
-          StaggeredGrid.extent(
-            maxCrossAxisExtent: expandContent ? 500 : 250,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            children: items,
+          Flexible(
+            child: StaggeredGrid.extent(
+              maxCrossAxisExtent: expandContent ? 500 : 250,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              children: items,
+            ),
           )
         ],
       ),

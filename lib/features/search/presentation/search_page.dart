@@ -99,9 +99,12 @@ class SearchPageState extends State<SearchPage> {
                 },
                 child: SingleChildScrollView(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       getChipActions(),
-                      getContentSwitcher(context, state)
+                      Flexible(
+                          child: getContentSwitcher(context, state)
+                      )
                     ],
                   ),
                 ),

@@ -80,35 +80,38 @@ class CuzPageState extends State<CuzPage> {
                 actions: getActions(),
                 child: SingleChildScrollView(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       const DownloadAudioInfoItem(),
                       const SizedBox(height: 4,),
-                      BlocSelector<TopicSavePointBloc,TopicSavePointState,TopicSavePoint?>(
-                        selector: (state) => state.topicSavePoint,
-                        builder: (context,currentTopicSavePoint){
-                          return BlocBuilder<CuzBloc, CuzState>(
-                            builder: (context, state){
-                              if(state.isLoading){
-                                return const GetShimmerItems(
-                                  itemCount: 19,
-                                  shimmerItem: ShimmerTopicItem()
+                      Flexible(
+                        child: BlocSelector<TopicSavePointBloc,TopicSavePointState,TopicSavePoint?>(
+                          selector: (state) => state.topicSavePoint,
+                          builder: (context,currentTopicSavePoint){
+                            return BlocBuilder<CuzBloc, CuzState>(
+                              builder: (context, state){
+                                if(state.isLoading){
+                                  return const GetShimmerItems(
+                                    itemCount: 19,
+                                    shimmerItem: ShimmerTopicItem()
+                                  );
+                                }
+                                final items = state.items;
+                                return VerseTopicAudioInfo(
+                                  selectDownloadState: (state)=>state?.cuzNo,
+                                  selectListenState: (state)=>state?.cuzNo,
+                                  builder: (info){
+                                    return getItemsList(
+                                      items: items,
+                                      currentTopicSavePoint: currentTopicSavePoint,
+                                      info: info
+                                    );
+                                  },
                                 );
                               }
-                              final items = state.items;
-                              return VerseTopicAudioInfo(
-                                selectDownloadState: (state)=>state?.cuzNo,
-                                selectListenState: (state)=>state?.cuzNo,
-                                builder: (info){
-                                  return getPositionedList(
-                                    items: items,
-                                    currentTopicSavePoint: currentTopicSavePoint,
-                                    info: info
-                                  );
-                                },
-                              );
-                            }
-                          );
-                        }
+                            );
+                          }
+                        ),
                       ),
                     ],
                   ),
@@ -121,7 +124,7 @@ class CuzPageState extends State<CuzPage> {
     );
   }
 
-  Widget getPositionedList({
+  Widget getItemsList({
     required List<VerseTopicModel<Cuz>> items,
     required AudioInfoResultModel<int> info,
     required TopicSavePoint? currentTopicSavePoint

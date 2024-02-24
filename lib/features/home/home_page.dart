@@ -20,6 +20,7 @@ class HomePage extends StatelessWidget {
             floating: true,
             snap: true,
             toolbarHeight: 76,
+            scrolledUnderElevation: 0,
             actions: getActions(context),
             child: SingleChildScrollView(
               child: Column(

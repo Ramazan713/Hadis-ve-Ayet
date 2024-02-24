@@ -12,6 +12,7 @@ class CustomSliverAppBar extends StatelessWidget {
   final double? toolbarHeight;
   final bool? showNavigateBack;
   final Widget? leading;
+  final double? scrolledUnderElevation;
 
   const CustomSliverAppBar({
     super.key,
@@ -24,7 +25,8 @@ class CustomSliverAppBar extends StatelessWidget {
     this.bottom,
     this.appBarType,
     this.toolbarHeight,
-    this.showNavigateBack
+    this.showNavigateBack,
+    this.scrolledUnderElevation
   });
 
 
@@ -37,6 +39,7 @@ class CustomSliverAppBar extends StatelessWidget {
     switch(appBarType ?? AppBarType.defaultBar){
       case AppBarType.defaultBar:
         return SliverAppBar(
+          scrolledUnderElevation: scrolledUnderElevation,
           title: title,
           leading: getNavigateBackIcon(context),
           pinned: pinned,
@@ -50,6 +53,7 @@ class CustomSliverAppBar extends StatelessWidget {
         );
       case AppBarType.mediumBar:
         return SliverAppBar.medium(
+          scrolledUnderElevation: scrolledUnderElevation,
           title: title,
           leading: getNavigateBackIcon(context),
           pinned: pinned,
@@ -63,6 +67,7 @@ class CustomSliverAppBar extends StatelessWidget {
         );
       case AppBarType.largeBar:
         return SliverAppBar.large(
+          scrolledUnderElevation: scrolledUnderElevation,
           title: title,
           leading: getNavigateBackIcon(context),
           pinned: pinned,

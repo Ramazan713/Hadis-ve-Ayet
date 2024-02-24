@@ -18,6 +18,7 @@ class HomeSectionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 7),
@@ -28,12 +29,13 @@ class HomeSectionItem extends StatelessWidget {
             ),
           ),
         ),
-
-        StaggeredGrid.extent(
-          maxCrossAxisExtent: 650,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          children: items,
+        Flexible(
+          child: StaggeredGrid.extent(
+            maxCrossAxisExtent: 650,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            children: items,
+          ),
         )
       ],
     );

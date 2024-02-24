@@ -32,10 +32,13 @@ class CustomPrayerDetailItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         getPrayerName(context),
         getListenItem(context),
-        getContentItems()
+        Flexible(
+            child: getContentItems()
+        )
       ],
     );
   }

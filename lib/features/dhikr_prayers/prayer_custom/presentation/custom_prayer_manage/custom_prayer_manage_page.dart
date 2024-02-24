@@ -50,14 +50,17 @@ class CustomPrayerManagePage extends StatelessWidget {
               builder: (context, windowSizeClass){
                 return SingleChildScrollView(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Align(
                         alignment: Alignment.centerRight,
                         child: getBottomButton(context),
                       ),
-                      Padding(
-                        padding: K.defaultLazyListPadding,
-                        child: getContents(context, windowSizeClass: windowSizeClass),
+                      Flexible(
+                        child: Padding(
+                          padding: K.defaultLazyListPadding,
+                          child: getContents(context, windowSizeClass: windowSizeClass),
+                        ),
                       ),
                     ],
                   ),

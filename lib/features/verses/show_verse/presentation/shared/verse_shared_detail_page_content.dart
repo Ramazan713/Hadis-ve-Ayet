@@ -84,21 +84,23 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
               destination: savePointDestination,
               autoType: SaveAutoType.general,
               child: Scaffold(
-                body: CustomNestedViewAppBar(
-                  scrollController: customScrollController,
-                  showNavigateBack: false,
-                  leading: getNavigateBackIcon(context),
-                  title: Text(title),
-                  actions: getActions(context,savePointDestination: savePointDestination),
-                  child: AudioInfoBodyWrapper(
-                    destination: savePointDestination,
-                    child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
-                      selector: (state) => state.audio?.mealId,
-                      builder: (context, currentMealId){
-                        return getContent(context,
-                            currentMealId: currentMealId
-                        );
-                      },
+                body: SafeArea(
+                  child: CustomNestedViewAppBar(
+                    scrollController: customScrollController,
+                    showNavigateBack: false,
+                    leading: getNavigateBackIcon(context),
+                    title: Text(title),
+                    actions: getActions(context,savePointDestination: savePointDestination),
+                    child: AudioInfoBodyWrapper(
+                      destination: savePointDestination,
+                      child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                        selector: (state) => state.audio?.mealId,
+                        builder: (context, currentMealId){
+                          return getContent(context,
+                              currentMealId: currentMealId
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

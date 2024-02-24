@@ -132,7 +132,7 @@ class SurahPageState extends State<SurahPage> {
               selectListenState: (state) => state?.surahId,
               selectDownloadState: (state) => state?.surahId,
               builder: (info){
-                return getPositionedList(
+                return getItemsList(
                   items: items,
                   info: info,
                   currentTopicSavePoint: currentTopicSavePoint,
@@ -146,7 +146,7 @@ class SurahPageState extends State<SurahPage> {
     );
   }
 
-  Widget getPositionedList({
+  Widget getItemsList({
     required List<VerseTopicModel<Surah>> items,
     required AudioInfoResultModel<int> info,
     required TopicSavePoint? currentTopicSavePoint,
