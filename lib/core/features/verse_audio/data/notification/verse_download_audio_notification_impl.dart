@@ -13,7 +13,7 @@ class VerseDownloadAudioNotificationImpl extends IVerseDownloadAudioNotification
         id: notificationId,
         channelKey: notificationChannelKey,
         body: state.getBodyContent,
-        progress: state.getProgress100,
+        progress: state.getProgress100.toDouble(),
         notificationLayout: NotificationLayout.ProgressBar,
         category: NotificationCategory.Progress,
         displayOnForeground: true,
