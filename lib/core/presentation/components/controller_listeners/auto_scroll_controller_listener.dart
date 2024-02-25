@@ -32,15 +32,22 @@ class AutoScrollControllerListener extends StatefulWidget {
 class _AutoScrollControllerListenerState extends State<AutoScrollControllerListener> {
 
   AutoScrollController? get autoScrollController => widget.customAutoScrollController?.controller;
+  int? currentHashCore;
 
   @override
   void initState() {
     super.initState();
     _addListeners();
+    currentHashCore = widget.customAutoScrollController.hashCode;
   }
 
   @override
   Widget build(BuildContext context) {
+    if(currentHashCore != widget.customAutoScrollController.hashCode){
+      currentHashCore = widget.customAutoScrollController.hashCode;
+      _removeListeners();
+      _addListeners();
+    }
     return widget.child;
   }
 

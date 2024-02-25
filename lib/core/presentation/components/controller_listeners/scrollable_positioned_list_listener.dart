@@ -39,16 +39,23 @@ class _ScrollablePositionedListListenerState extends State<ScrollablePositionedL
 
   double _previousScrollPosition = 0;
   late CustomScrollDirection _previousScrollDirection;
+  int? currentHashCore;
 
   @override
   void initState() {
     super.initState();
     _previousScrollDirection = CustomScrollDirection.up;
     _addListeners();
+    currentHashCore = widget.itemPositionsListener.hashCode;
   }
 
   @override
   Widget build(BuildContext context) {
+    if(currentHashCore != widget.itemPositionsListener.hashCode){
+      currentHashCore = widget.itemPositionsListener.hashCode;
+      _removeListeners();
+      _addListeners();
+    }
     return widget.child;
   }
 

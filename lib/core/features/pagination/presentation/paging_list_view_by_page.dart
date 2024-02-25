@@ -25,11 +25,13 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
   final CustomPageController pageController;
   final CustomScrollController? customScrollController;
   final CustomPositionController? positionController;
+  final ItemPositionsListener? itemPositionsListener;
 
   const PagingListViewByPage({
     super.key,
     required this.pageController,
     required this.itemBuilder,
+    this.itemPositionsListener,
     this.customScrollController,
     this.positionController,
     this.emptyResultChild,
@@ -87,6 +89,7 @@ class PagingListViewByPage<T extends IPagingItem> extends StatelessWidget {
         itemCount: itemsCountWithTrailing,
         singlePositionController: pageController.positionController,
         itemScrollController: ItemScrollController(),
+        itemPositionsListener: itemPositionsListener,
         onScroll: (scrollDirection){
           customScrollController?.setScrollDirectionAndAnimateTopBar(scrollDirection);
         },

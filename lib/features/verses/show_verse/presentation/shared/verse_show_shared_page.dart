@@ -127,6 +127,7 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
         return PagingListView<VerseListModel>(
           trailingWidget: widget.trailingWidget,
           itemScrollController: itemScrollController,
+          itemPositionsListener: ItemPositionsListener.create(),
           onScroll: (scrollDirection){
             customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
           },

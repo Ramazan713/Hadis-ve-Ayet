@@ -129,6 +129,7 @@ class VerseSharedDetailPageContent extends VerseSharedBasePageStateless {
           onVisibleItemChanged: onVisibleItemChanged,
           trailingWidget: trailingWidget,
           itemScrollController: itemScrollController,
+          itemPositionsListener: ItemPositionsListener.create(),
           onScroll: (scrollDirection){
             customScrollController.setScrollDirectionAndAnimateTopBar(scrollDirection);
           },

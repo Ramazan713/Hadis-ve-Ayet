@@ -43,6 +43,7 @@ import 'package:hadith/features/verses/show_verse/presentation/shared/sections/s
 import 'package:hadith/features/verses/show_verse/presentation/shared/sections/verse_bottom_menu_section.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/shared_providers.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_args.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 
 class VersePageShowPage extends StatelessWidget {
@@ -151,6 +152,7 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
                                       return PagingListViewByPage<VerseListModel>(
                                         pageController: pageController,
                                         customScrollController: customScrollController,
+                                        itemPositionsListener: ItemPositionsListener.create(),
                                         positionController: positionController,
                                         loadingItem: const GetShimmerItems(
                                           itemCount: 13,

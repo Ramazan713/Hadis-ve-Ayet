@@ -21,14 +21,22 @@ class SinglePositionControllerListener extends StatefulWidget {
 
 class _SinglePositionControllerListenerState extends State<SinglePositionControllerListener> {
 
+  int? currentHashCore;
+
   @override
   void initState() {
-    widget.singlePositionController?.addListener(_listenPosNotifier);
+    _addListeners();
+    currentHashCore = widget.singlePositionController.hashCode;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if(currentHashCore != widget.singlePositionController.hashCode){
+      currentHashCore = widget.singlePositionController.hashCode;
+      _removeListeners();
+      _addListeners();
+    }
     return widget.child;
   }
 
@@ -39,9 +47,17 @@ class _SinglePositionControllerListenerState extends State<SinglePositionControl
     }
   }
 
+  void _addListeners() {
+    widget.singlePositionController?.addListener(_listenPosNotifier);
+  }
+
+  void _removeListeners() async {
+    widget.singlePositionController?.removeListener(_listenPosNotifier);
+  }
+
   @override
   void dispose() {
-    widget.singlePositionController?.removeListener(_listenPosNotifier);
+    _removeListeners();
     super.dispose();
   }
 }
