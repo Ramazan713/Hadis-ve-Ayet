@@ -8,18 +8,18 @@ import 'package:hadith/core/features/save_point/presentation/edit_save_point/sho
 import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_args_widget.dart';
 import '../hadith_shared_page.dart';
 
-extension HadithSharedPageSelectSavePointExt on HadithSharedArgsWidget{
+extension HadithSharedPageSelectSavePointExt on HadithSharedPageArgs{
 
 
   void hadithShowSelectSavePoint(BuildContext context, {
     required int itemIndexPos,
   }){
     final pagingBloc = context.read<PaginationBloc>();
-
+    if(savePointDestination == null) return;
     if(editSavePointHandler!=null){
       showEditSavePointsDiaAdvanced(
           context,
-          destination: savePointDestination,
+          destination: savePointDestination!,
           useWideScopeNaming: useWideScopeNaming,
           itemIndexPos: itemIndexPos,
           onLoadSavePointClick: editSavePointHandler!.onLoadSavePointClick,
@@ -27,7 +27,7 @@ extension HadithSharedPageSelectSavePointExt on HadithSharedArgsWidget{
           onLoadSavePointRequestHandler: editSavePointHandler!.onLoadSavePointRequestHandler);
     }else{
       showEditSavePointsDiaBasic(context,
-          destination: savePointDestination,
+          destination: savePointDestination!,
           itemIndexPos: itemIndexPos,
           onLoadSavePointClick: (savePoint){
             pagingBloc.add(PaginationEventJumpToPos(pos: savePoint.itemPos));

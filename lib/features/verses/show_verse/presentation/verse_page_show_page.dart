@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
+import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_margin.dart';
+import 'package:hadith/core/features/adaptive/presentation/single_adaptive_pane.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/audio_setting/show_edit_audio_setting_dia.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
@@ -67,7 +70,7 @@ class VersePageShowPage extends StatelessWidget {
 
 
 
-class _VersePageShowPageContent extends VerseShareBasePageStateful {
+class _VersePageShowPageContent extends VerseSharedBasePageStateful {
 
   final int startPageIndex;
   final int pagePos;
@@ -124,67 +127,73 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
               destination: savePointDestination,
               autoType: SaveAutoType.general,
               child: Scaffold(
-                body: CustomNestedViewAppBar(
-                  scrollController: customScrollController,
-                  floating: true,
-                  snap: true,
-                  title: const Text("Kuran"),
-                  actions: getActions(context),
-                  child: AudioInfoBodyWrapper(
-                    destination: savePointDestination,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        getPageInfo(context),
-                        Flexible(
-                          child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
-                            selector: (state) => state.audio?.mealId,
-                            builder: (context, currentMealId){
-                              return BlocBuilder<VerseSharedBloc, VerseSharedState>(
-                                builder: (context, state){
-                                  return PagingListViewByPage<VerseListModel>(
-                                    pageController: pageController,
-                                    customScrollController: customScrollController,
-                                    positionController: positionController,
-                                    loadingItem: const GetShimmerItems(
-                                        itemCount: 13,
-                                        shimmerItem: ShimmerVerseItem()
-                                    ),
-                                    itemBuilder: (context, item, index){
-                                      return VerseItem(
-                                        key: Key(item.pagingId.toString()),
-                                        fontModel: state.fontModel,
-                                        isSelected: item.pagingId == currentMealId,
-                                        arabicVerseUIEnum: state.arabicVerseUIEnum,
-                                        showListVerseIcons: state.showListVerseIcons,
-                                        onLongPress: (){
-                                          widget.handleBottomMenu(
-                                              context,
-                                              verseListModel: item,
-                                              itemIndexPos: index + 1,
-                                              state: state,
-                                              savePointDestination: savePointDestination,
-                                              initScope: LocalDestinationScope.wide,
-                                              onLoadSavePointClick: (savePoint){
-                                                onLoadSavePointClick(context,savePoint);
-                                              }
+                body: SafeArea(
+                  child: CustomNestedViewAppBar(
+                    scrollController: customScrollController,
+                    floating: true,
+                    snap: true,
+                    title: const Text("Kuran"),
+                    actions: getActions(context),
+                    child: SingleAdaptivePane(
+                      useAdaptivePadding: true,
+                      child: AudioInfoBodyWrapper(
+                        destination: savePointDestination,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            getPageInfo(context),
+                            Flexible(
+                              child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
+                                selector: (state) => state.audio?.mealId,
+                                builder: (context, currentMealId){
+                                  return BlocBuilder<VerseSharedBloc, VerseSharedState>(
+                                    builder: (context, state){
+                                      return PagingListViewByPage<VerseListModel>(
+                                        pageController: pageController,
+                                        customScrollController: customScrollController,
+                                        positionController: positionController,
+                                        loadingItem: const GetShimmerItems(
+                                          itemCount: 13,
+                                          shimmerItem: ShimmerVerseItem()
+                                        ),
+                                        itemBuilder: (context, item, index){
+                                          return VerseItem(
+                                            key: Key(item.pagingId.toString()),
+                                            margin: getCardAdaptiveMargin(context),
+                                            fontModel: state.fontModel,
+                                            isSelected: item.pagingId == currentMealId,
+                                            arabicVerseUIEnum: state.arabicVerseUIEnum,
+                                            showListVerseIcons: state.showListVerseIcons,
+                                            onLongPress: (){
+                                              widget.handleBottomMenu(
+                                                  context,
+                                                  verseListModel: item,
+                                                  itemIndexPos: index + 1,
+                                                  state: state,
+                                                  savePointDestination: savePointDestination,
+                                                  initScope: LocalDestinationScope.wide,
+                                                  onLoadSavePointClick: (savePoint){
+                                                    onLoadSavePointClick(context,savePoint);
+                                                  }
+                                              );
+                                            },
+                                            onPress: (){
+                                              context.read<ListenVerseAudioBloc>()
+                                                  .add(ListenAudioEventToggleVisibilityAudioWidget());
+                                            },
+                                            verseListModel: item,
                                           );
                                         },
-                                        onPress: (){
-                                          context.read<ListenVerseAudioBloc>()
-                                              .add(ListenAudioEventToggleVisibilityAudioWidget());
-                                        },
-                                        verseListModel: item,
+                                        trailingWidget: getNextPrevButton(context),
                                       );
                                     },
-                                    trailingWidget: getNextPrevButton(context),
                                   );
                                 },
-                              );
-                            },
-                          ),
-                        )
-                      ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

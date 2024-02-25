@@ -6,9 +6,9 @@ import 'package:hadith/core/features/share/share_connect.dart';
 class MyAppTopListeners extends StatelessWidget {
   final Widget child;
   const MyAppTopListeners({
-    Key? key,
+    super.key,
     required this.child
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

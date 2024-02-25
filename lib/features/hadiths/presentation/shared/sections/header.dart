@@ -15,7 +15,7 @@ import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_args_w
 import '../hadith_shared_page.dart';
 import './show_select_point.dart';
 
-extension HadithSharedPageHeaderExt on HadithSharedArgsWidget{
+extension HadithSharedPageHeaderExt on HadithSharedPageArgs{
 
 
   List<Widget> getTopBarActions(BuildContext context){

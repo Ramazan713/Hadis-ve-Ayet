@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/hadith.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_padding.dart';
 import 'package:hadith/features/hadiths/domain/models/hadith_list_model.dart';
 import './sections/header.dart';
 import './sections/content.dart';
@@ -18,18 +20,20 @@ class HadithItem extends StatefulWidget {
   final double fontSize;
   final SearchParam? searchParam;
   final EdgeInsets? margin;
+  final WindowSizeClass? windowSizeClass;
 
   const HadithItem({
-    Key? key,
+    super.key,
     required this.hadithList,
     required this.searchParam,
     required this.fontSize,
+    this.windowSizeClass,
     this.onFavoriteClick,
     this.onShareClick,
     this.onLongClick,
     this.onListClick,
     this.margin
-  }) : super(key: key);
+  });
 
   @override
   State<HadithItem> createState() => HadithItemState();
@@ -60,7 +64,7 @@ class HadithItemState extends State<HadithItem> {
         onLongPress: widget.onLongClick,
         borderRadius: borderRadius,
         child: Padding(
-          padding: const EdgeInsets.only(left: 7, right: 7, top: 13, bottom: 5),
+          padding: getCardAdaptivePadding(context, windowSizeClass: widget.windowSizeClass),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

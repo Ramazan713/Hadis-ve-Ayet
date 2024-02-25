@@ -9,7 +9,7 @@ import 'package:hadith/features/lists/presentation/show_list/show_list_page.dart
 
 class RootPage extends StatefulWidget {
 
-  const RootPage({Key? key}) : super(key: key);
+  const RootPage({super.key});
 
   @override
   State<RootPage> createState() => _RootPageState();
@@ -92,11 +92,11 @@ final _navigationItems = [
 class _NavigationItem extends NavigationDestination{
   final Widget destination;
   const _NavigationItem({
-    required Icon icon,
+    required Icon super.icon,
     required Icon activeIcon,
-    required String label,
+    required super.label,
     required this.destination
-  }) :super(icon: icon,label: label,selectedIcon: activeIcon);
+  }) :super(selectedIcon: activeIcon);
 
 }
 

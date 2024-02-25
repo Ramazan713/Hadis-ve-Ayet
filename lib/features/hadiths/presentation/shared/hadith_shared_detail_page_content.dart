@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/utils/calculate_windows_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_margin.dart';
 import 'package:hadith/core/features/pagination/presentation/paging_list_view.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/components/save_auto_save_point_with_paging.dart';
@@ -20,7 +23,7 @@ import 'package:hadith/features/hadiths/presentation/shared/sections/hadith_icon
 import 'package:hadith/features/hadiths/presentation/shared/sections/header.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
+class HadithSharedDetailPageContent extends HadithSharedBasePageStateless {
 
   final bool isFullPage;
   final void Function() onClose;
@@ -29,7 +32,7 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
   final ItemScrollController itemScrollController;
 
   const HadithSharedDetailPageContent({
-    Key? key,
+    super.key,
     required super.savePointDestination,
     required super.paginationRepo,
     required super.title,
@@ -43,7 +46,7 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
     required this.controller,
     this.onVisibleItemChanged,
     required super.pos
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +57,14 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
       }
     });
 
+    var currentWindowSize = calculateWindowSize(context);
+    //for in expanded, list-detail mode show so compact fine
+    if(currentWindowSize == WindowSizeClass.Expanded){
+      currentWindowSize = WindowSizeClass.Compact;
+    }
+
     return PopScope(
-      canPop: !isFullPage,
+      canPop: !isFullPage && false,
       onPopInvoked: (canPop){
         if(!canPop) onClose();
       },
@@ -85,10 +94,11 @@ class HadithSharedDetailPageContent extends HadithSharedArgsWidget {
                         if(item==null){
                           return const Text("");
                         }
-        
+
                         return HadithItem(
+                          windowSizeClass: currentWindowSize,
                           key: ValueKey(item.pagingId),
-                          margin: const EdgeInsets.symmetric(vertical: 4),
+                          margin: getCardAdaptiveMargin(context, windowSizeClass:  currentWindowSize),
                           hadithList: item,
                           onFavoriteClick: (){
                             handleFavoriteClick(context,hadithListModel: item,state: state);

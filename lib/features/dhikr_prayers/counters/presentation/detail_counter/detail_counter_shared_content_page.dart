@@ -30,29 +30,31 @@ class DetailCounterSharedContentPage extends StatelessWidget {
             child: DefaultAdaptiveLayout(
               useAdaptivePadding: true,
               builder: (context, windowSizeClass){
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: getCounterContent(windowSizeClass),
+                return CustomScrollView(
+                  slivers: [
+                    SliverList.list(
+                      children: [
+                        Flexible(
+                            child: getCounterContent(windowSizeClass)
+                        )
+                      ],
+                    ),
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const SizedBox(height: 16,),
+                          const Spacer(flex: 3,),
+                          getDhikr(),
+                          const SizedBox(height: 8,),
+                          getCompletedWidget(),
+                          const Spacer(),
+                          const SizedBox(height: 8,),
+                        ],
                       ),
-                      IntrinsicHeight(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 16,),
-                            const Spacer(flex: 3,),
-                            getDhikr(),
-                            const SizedBox(height: 12,),
-                            getCompletedWidget(),
-                            const Spacer(),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 );
               },
             ),

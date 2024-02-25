@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
+import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_margin.dart';
 import 'package:hadith/core/features/adaptive/presentation/single_adaptive_pane.dart';
 import 'package:hadith/core/features/ads/ad_check_widget.dart';
 import 'package:hadith/core/features/pagination/domain/models/paging_config.dart';
@@ -25,7 +27,6 @@ import 'package:hadith/core/presentation/controllers/custom_scroll_controller.da
 import 'package:hadith/features/verses/show_verse/domain/repo/verse_pagination_repo.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/components/follow_audio_wrapper.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shared_args.dart';
-import 'package:hadith/features/verses/show_verse/presentation/shared/verse_show_shared_page.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import './sections/header.dart';
@@ -35,7 +36,7 @@ import 'bloc/verse_shared_state.dart';
 import 'components/paging_verse_connect.dart';
 import 'components/verse_item/verse_item.dart';
 
-class VerseShowSharedPage extends VerseShareBasePageStateful {
+class VerseShowSharedPage extends VerseSharedBasePageStateful {
 
   final VersePaginationRepo paginationRepo;
   final String title;
@@ -45,7 +46,7 @@ class VerseShowSharedPage extends VerseShareBasePageStateful {
   final Widget? trailingWidget;
 
   const VerseShowSharedPage({
-    Key? key,
+    super.key,
     required this.savePointDestination,
     required this.paginationRepo,
     required this.pos,
@@ -57,7 +58,7 @@ class VerseShowSharedPage extends VerseShareBasePageStateful {
     super.selectAudioOption,
     this.trailingWidget,
     super.useWideScopeNaming
-  }) : super(key: key);
+  });
 
   @override
   State<VerseShowSharedPage> createState() => _VerseShowSharedPageState();
@@ -95,10 +96,10 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
                     scrollController: customScrollController,
                     title: Text(widget.title),
                     actions: widget.getActions(context,savePointDestination: widget.savePointDestination),
-                    child: AudioInfoBodyWrapper(
-                      destination: widget.savePointDestination,
-                      child: SingleAdaptivePane(
-                        useAdaptivePadding: true,
+                    child: SingleAdaptivePane(
+                      useAdaptivePadding: true,
+                      child: AudioInfoBodyWrapper(
+                        destination: widget.savePointDestination,
                         child: BlocSelector<ListenVerseAudioBloc,ListenVerseAudioState,int?>(
                           selector: (state) => state.audio?.mealId,
                           builder: (context, currentMealId){
@@ -131,7 +132,7 @@ class _VerseShowSharedPageState extends State<VerseShowSharedPage> {
           },
           itemBuilder: (context, item, index){
             return VerseItem(
-              margin: const EdgeInsets.symmetric(vertical: 4),
+              margin: getCardAdaptiveMargin(context),
               fontModel: state.fontModel,
               isSelected: item.pagingId == currentMealId,
               arabicVerseUIEnum: state.arabicVerseUIEnum,

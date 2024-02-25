@@ -22,6 +22,7 @@ class AudioPlayerContentWidget extends StatelessWidget {
 
     return Material(
       elevation: 10,
+      borderRadius: BorderRadius.circular(8),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: SliderTheme(

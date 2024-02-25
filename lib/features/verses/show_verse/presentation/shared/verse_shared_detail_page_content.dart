@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/domain/utils/calculate_windows_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_margin.dart';
 import 'package:hadith/core/features/pagination/presentation/paging_list_view.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
@@ -28,7 +31,7 @@ import 'package:hadith/features/verses/show_verse/presentation/shared/verse_shar
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 
-class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
+class VerseSharedDetailPageContent extends VerseSharedBasePageStateless {
 
   final bool isFullPage;
   final void Function() onClose;
@@ -43,7 +46,7 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
   final ItemScrollController itemScrollController;
 
   const VerseSharedDetailPageContent({
-    Key? key,
+    super.key,
     required this.isFullPage,
     required this.onClose,
     required this.savePointDestination,
@@ -60,7 +63,7 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
     super.selectAudioOption,
     this.trailingWidget,
     super.useWideScopeNaming
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +116,13 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
   }
 
   Widget getContent(BuildContext context,{int? currentMealId}){
+
+    var currentWindowSize = calculateWindowSize(context);
+    //for in expanded, list-detail mode show so compact fine
+    if(currentWindowSize == WindowSizeClass.Expanded){
+      currentWindowSize = WindowSizeClass.Compact;
+    }
+
     return BlocBuilder<VerseSharedBloc, VerseSharedState>(
       builder: (context, state){
         return PagingListView<VerseListModel>(
@@ -124,7 +134,8 @@ class VerseSharedDetailPageContent extends VerseShareBasePageStateless {
           },
           itemBuilder: (context, item, index){
             return VerseItem(
-              margin: const EdgeInsets.symmetric(vertical: 4),
+              windowSizeClass: currentWindowSize,
+              margin: getCardAdaptiveMargin(context, windowSizeClass: currentWindowSize),
               fontModel: state.fontModel,
               isSelected: item.pagingId == currentMealId,
               arabicVerseUIEnum: state.arabicVerseUIEnum,

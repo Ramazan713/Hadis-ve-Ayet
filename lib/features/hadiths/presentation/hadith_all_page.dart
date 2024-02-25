@@ -13,10 +13,10 @@ class HadithAllPage extends StatelessWidget {
   final int pos;
 
   const HadithAllPage({
-    Key? key,
+    super.key,
     required this.hadithBookEnum,
     required this.pos
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

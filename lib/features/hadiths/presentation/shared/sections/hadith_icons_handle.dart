@@ -21,7 +21,7 @@ import 'package:hadith/features/hadiths/presentation/shared/hadith_shared_args_w
 
 import '../hadith_shared_page.dart';
 
-extension HadithSharedPageHadithIconsExt on HadithSharedArgsWidget{
+extension HadithSharedPageHadithIconsExt on HadithSharedPageArgs{
 
 
   void handleShareMenus(BuildContext context, {

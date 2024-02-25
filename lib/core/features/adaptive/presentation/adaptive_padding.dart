@@ -18,14 +18,7 @@ class AdaptivePadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(!useAdaptivePadding){
-      return child;
-    }
     final currentWindowSizeClass = windowSizeClass ?? calculateWindowSize(context);
-
-    if(applyOnlyWindowClasses.isNotEmpty && !applyOnlyWindowClasses.contains(currentWindowSizeClass)){
-      return child;
-    }
 
     return Padding(
       padding: getPaddings(currentWindowSizeClass),
@@ -34,6 +27,14 @@ class AdaptivePadding extends StatelessWidget {
   }
 
   EdgeInsets getPaddings(WindowSizeClass windowSizeClass){
+    if(!useAdaptivePadding){
+      return EdgeInsets.zero;
+    }
+
+    if(applyOnlyWindowClasses.isNotEmpty && !applyOnlyWindowClasses.contains(windowSizeClass)){
+      return EdgeInsets.zero;
+    }
+
     final EdgeInsets padding;
     switch(windowSizeClass){
       case WindowSizeClass.Compact:

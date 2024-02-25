@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hadith/core/domain/enums/verse_arabic_ui_2x_enum.dart';
-import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/font_model/font_model.dart';
+import 'package:hadith/core/domain/models/search_param.dart';
 import 'package:hadith/core/domain/models/verse/verse.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/window_size_class.dart';
+import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_padding.dart';
+
 import './sections/content.dart';
 import './sections/header.dart';
 import './sections/list_icons.dart';
@@ -19,19 +22,21 @@ class VerseItem extends StatelessWidget {
   final bool showListVerseIcons;
   final ArabicVerseUI2X arabicVerseUIEnum;
   final EdgeInsets? margin;
+  final WindowSizeClass? windowSizeClass;
 
   const VerseItem({
-    Key? key,
+    super.key,
     required this.fontModel,
     required this.arabicVerseUIEnum,
     required this.onLongPress,
     required this.verseListModel,
     required this.showListVerseIcons,
+    this.windowSizeClass,
     this.isSelected=false,
     this.searchParam,
     this.onPress,
     this.margin
-  }) : super(key: key);
+  });
 
   Verse get verse  => verseListModel.verse;
   double get smallFontValue => fontModel.contentFontSize - 5.5;
@@ -55,7 +60,7 @@ class VerseItem extends StatelessWidget {
         onTap: onPress,
         child: Ink(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
+            padding: getCardAdaptivePadding(context, windowSizeClass: windowSizeClass),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -69,6 +74,7 @@ class VerseItem extends StatelessWidget {
       ),
     );
   }
+
 }
 
 

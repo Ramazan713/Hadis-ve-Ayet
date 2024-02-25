@@ -14,7 +14,7 @@ mixin VerseSharedPageArgs {
   SelectAudioOption? get selectAudioOption;
 }
 
-abstract class VerseShareBasePageStateful extends StatefulWidget implements VerseSharedPageArgs {
+abstract class VerseSharedBasePageStateful extends StatefulWidget implements VerseSharedPageArgs {
 
   @override
   final EditSavePointHandler? editSavePointHandler;
@@ -29,7 +29,7 @@ abstract class VerseShareBasePageStateful extends StatefulWidget implements Vers
   final SelectAudioOption? selectAudioOption;
 
 
-  const VerseShareBasePageStateful({
+  const VerseSharedBasePageStateful({
     super.key,
     this.editSavePointHandler,
     this.listIdControlForSelectList,
@@ -40,7 +40,7 @@ abstract class VerseShareBasePageStateful extends StatefulWidget implements Vers
 
 }
 
-abstract class VerseShareBasePageStateless extends StatelessWidget implements VerseSharedPageArgs {
+abstract class VerseSharedBasePageStateless extends StatelessWidget implements VerseSharedPageArgs {
 
   @override
   final EditSavePointHandler? editSavePointHandler;
@@ -54,7 +54,7 @@ abstract class VerseShareBasePageStateless extends StatelessWidget implements Ve
   @override
   final SelectAudioOption? selectAudioOption;
 
-  const VerseShareBasePageStateless({
+  const VerseSharedBasePageStateless({
     super.key,
     this.editSavePointHandler,
     this.listIdControlForSelectList,
