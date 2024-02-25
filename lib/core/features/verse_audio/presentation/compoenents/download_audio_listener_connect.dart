@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/verse_audio/data/mapper/param_mapper.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_download_audio_notification.dart';
+import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_permission_handler.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_dialog_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_event.dart';
@@ -65,23 +66,22 @@ class DownloadAudioListenerConnect extends StatelessWidget {
                   switch(dialogEvent){
                     case DownloadAudioDialogEventShowOption _:
                       showVoiceOptions(
-                          context,
-                          selectOp: dialogEvent.selectAudioOption,
-                          audioServiceEnum: AudioServiceEnum.downloadAudio,
-                          onTap: (option){
-                            downloadBloc.add(DownloadAudioEventHandleOption(op: option));
-                          }
+                        context,
+                        selectOp: dialogEvent.selectAudioOption,
+                        audioServiceEnum: AudioServiceEnum.downloadAudio,
+                        onTap: (option){
+                          downloadBloc.add(DownloadAudioEventHandleOption(op: option));
+                        }
                       );
                       break;
                     case DownloadAudioDialogEventRequestPermission _:
-                      showCustomAlertDia(
-                          context,
-                          title: "Bildirim için izin gerekli",
-                          content: "indirmeyi yönetme ve durum bilgisini görmek için gerekebilir",
-                          approveLabel: "Ayarlara Git",
-                          btnApproved: ()async{
-                            await IVerseDownloadAudioNotification.requestNotificationPermission();
-                          }
+                      handleAudioPermission(
+                        context: context,
+                        showRationale: dialogEvent.showRationale,
+                        usedForDownloading: true,
+                        onResult: (result){
+                          downloadBloc.add(DownloadAudioEventAfterPermissionRequest());
+                        }
                       );
                       break;
                   }

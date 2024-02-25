@@ -4,7 +4,10 @@ import 'package:hadith/core/features/verse_audio/domain/model/select_audio_optio
 
 sealed class ListenAudioDialogEvent{}
 
-class ListenAudioDialogEventRequestPermission extends ListenAudioDialogEvent{}
+class ListenAudioDialogEventRequestPermission extends ListenAudioDialogEvent{
+  final bool showRationale;
+  ListenAudioDialogEventRequestPermission({required this.showRationale});
+}
 
 class ListenAudioDialogEventShowOption extends ListenAudioDialogEvent{
   final SelectAudioOption selectAudioOption;

@@ -59,11 +59,23 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
     on<DownloadAudioEventPause>(_onPause, transformer: restartable());
     on<DownloadAudioEventCancel>(_onCancel, transformer: restartable());
     on<DownloadAudioEventRetry>(_onRetry, transformer: restartable());
+    on<DownloadAudioEventAfterPermissionRequest>(_onAfterPermissionRequest, transformer: restartable());
+
 
     add(DownloadAudioEventListener());
     add(DownloadAudioEventCancelServiceListener());
   }
 
+  void _onAfterPermissionRequest(DownloadAudioEventAfterPermissionRequest event,Emitter<DownloadAudioState> emit)async {
+    var paramBuilder = state.audioParamBuilder;
+    emit(state.copyWith(
+      audioParamBuilder: paramBuilder.copyWith(
+        checkNotification: false
+      ),
+      setDialogEvent: false,
+    ));
+    add(DownloadAudioEventDownloadBuilder());
+  }
 
   void _onStartDownloadingWithParam(DownloadAudioEventStartDownloadingWithParam event,Emitter<DownloadAudioState>emit)async{
 
@@ -79,7 +91,8 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
       startVerseId: event.verse.id,
       setVerse: true,
       verse: event.verse,
-      selectAudioOption: event.selectAudioOption
+      selectAudioOption: event.selectAudioOption,
+      checkNotification: _appPreferences.getItem(KPref.askDownloadAudioNotificationPermission),
     );
     emit(state.copyWith(audioParamBuilder: paramBuilder));
 
@@ -93,8 +106,8 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
 
   void _onHandleOption(DownloadAudioEventHandleOption event,Emitter<DownloadAudioState>emit)async{
     final paramBuilder = state.audioParamBuilder.copyWith(
-        setOption: true,
-        op: event.op
+      setOption: true,
+      op: event.op
     );
     emit(state.copyWith(audioParamBuilder: paramBuilder));
 
@@ -111,17 +124,14 @@ class DownloadAudioBloc extends Bloc<IDownloadAudioEvent,DownloadAudioState>{
     var paramBuilder = state.audioParamBuilder;
 
     if(paramBuilder.checkNotification){
-      paramBuilder = paramBuilder.copyWith(checkNotification: false);
-      emit(state.copyWith(audioParamBuilder: paramBuilder));
-
       final hasNotificationPermission = await _notification.checkPermission();
       if(!hasNotificationPermission){
         final askNotification = _appPreferences.getItem(KPref.askDownloadAudioNotificationPermission);
         if(askNotification){
-          _appPreferences.setItem(KPref.askDownloadAudioNotificationPermission, false);
+          final showRationale = await _notification.shouldShowRationaleToRequest();
           return emit(state.copyWith(
-              setDialogEvent: true,
-              dialogEvent: DownloadAudioDialogEventRequestPermission()
+            setDialogEvent: true,
+            dialogEvent: DownloadAudioDialogEventRequestPermission(showRationale: showRationale)
           ));
         }else{
           _sendStateMessage("bildirimler kapalıdır. Açmak için uygulamalar ayarından açabilirsiniz", emit);

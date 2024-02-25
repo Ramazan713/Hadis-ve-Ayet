@@ -53,8 +53,6 @@ class BackgroundServiceManager{
   @pragma('vm:entry-point')
   static void onStart(ServiceInstance service) async {
 
-    DartPluginRegistrant.ensureInitialized();
-
     final backgroundVerseAudioManager = BackgroundVerseAudioManagerImpl(
         service: service,
         attachNotificationIdService: AttachNotificationIdServiceImpl(),

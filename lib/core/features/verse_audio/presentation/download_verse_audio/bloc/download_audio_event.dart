@@ -49,3 +49,5 @@ class DownloadAudioEventPause extends IDownloadAudioEvent{}
 class DownloadAudioEventCancel extends IDownloadAudioEvent{}
 
 class DownloadAudioEventRetry extends IDownloadAudioEvent{}
+
+class  DownloadAudioEventAfterPermissionRequest extends IDownloadAudioEvent{}

@@ -47,6 +47,8 @@ abstract class NotificationBase<T, Y extends INotificationKey>{
 
   Future<void> requestPermission();
 
+  Future<bool> shouldShowRationaleToRequest();
+
   @protected
   Future<void> initChannel();
 
@@ -57,5 +59,7 @@ abstract class NotificationBase<T, Y extends INotificationKey>{
   Future<void> showInitNotification();
 
   Future<void> dismiss();
+
+
 
 }

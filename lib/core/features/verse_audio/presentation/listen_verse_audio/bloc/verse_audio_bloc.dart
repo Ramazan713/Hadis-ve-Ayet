@@ -65,6 +65,7 @@ class ListenVerseAudioBloc extends Bloc<IListenVerseAudioEvent,ListenVerseAudioS
     on<ListenAudioEventStateListener>(_onStateListener);
     on<ListenAudioEventAppPreferenceListener>(_onAppPreferenceListener);
     on<ListenAudioEventCancelServiceListener>(_onCancelServiceListener);
+    on<ListenAudioEventAfterPermissionRequest>(_onAfterPermissionRequest);
 
 
     add(ListenAudioEventStateListener());
@@ -74,14 +75,25 @@ class ListenVerseAudioBloc extends Bloc<IListenVerseAudioEvent,ListenVerseAudioS
   }
 
 
-  void _onStartListeningWithVerse(ListenAudioEventStartListeningWithVerse event,Emitter<ListenVerseAudioState> emit)async {
+  void _onAfterPermissionRequest(ListenAudioEventAfterPermissionRequest event,Emitter<ListenVerseAudioState> emit)async {
+    var paramBuilder = state.audioParamBuilder;
+    emit(state.copyWith(
+      audioParamBuilder: paramBuilder.copyWith(
+        checkNotification: false
+      ),
+      setDialogEvent: false,
+    ));
+    add(ListenAudioEventListeningBuilder());
+  }
+
+    void _onStartListeningWithVerse(ListenAudioEventStartListeningWithVerse event,Emitter<ListenVerseAudioState> emit)async {
 
     final paramBuilder = const AudioParamBuilder().copyWith(
       setStartVerseId: true,
       startVerseId: event.verse.id,
       setVerse: true,
       verse: event.verse,
-      checkNotification: state.audioParamBuilder.checkNotification,
+      checkNotification: _appPreferences.getItem(KPref.askListenAudioNotificationPermission),
       selectAudioOption: event.selectAudioOption
     );
     emit(state.copyWith(audioParamBuilder: paramBuilder));
@@ -103,20 +115,15 @@ class ListenVerseAudioBloc extends Bloc<IListenVerseAudioEvent,ListenVerseAudioS
       if(!hasNotificationPermission){
         final askNotification = _appPreferences.getItem(KPref.askListenAudioNotificationPermission);
         if(askNotification){
-          _appPreferences.setItem(KPref.askListenAudioNotificationPermission, false);
+          final showRationale = await _notification.shouldShowRationaleToRequest();
           return emit(state.copyWith(
-            audioParamBuilder: paramBuilder.copyWith(
-              checkNotification: false
-            ),
             setDialogEvent: true,
-            dialogEvent: ListenAudioDialogEventRequestPermission()
+            dialogEvent: ListenAudioDialogEventRequestPermission(showRationale: showRationale)
           ));
         }else{
           _sendStateMessage("bildirimler kapalıdır. Açmak için uygulamalar ayarından açabilirsiniz", emit);
         }
       }
-      paramBuilder = paramBuilder.copyWith(checkNotification: false);
-      emit(state.copyWith(audioParamBuilder: paramBuilder));
     }
 
     if(!paramBuilder.hasOption){

@@ -24,6 +24,18 @@ abstract class AwesomeNotificationBase<T, Y extends INotificationKey> extends No
         .requestPermissionToSendNotifications(channelKey: channelKey,permissions: permissions);
   }
 
+  static Future<bool> shouldShowRationaleToRequestForNotification({
+    required String channelKey,
+    List<NotificationPermission> permissions = NotificationBase.getDefaultNotificationPermissionList
+  }) async{
+    return (await AwesomeNotifications()
+        .shouldShowRationaleToRequest(channelKey: channelKey, permissions: permissions)).isNotEmpty;
+  }
+
+  @override
+  Future<bool> shouldShowRationaleToRequest() async{
+    return shouldShowRationaleToRequestForNotification(channelKey: notificationChannelKey, permissions: notificationPermissionList);
+  }
 
   @nonVirtual
   @override

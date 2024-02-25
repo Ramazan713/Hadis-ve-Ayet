@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_service_enum.dart';
-import 'package:hadith/core/features/verse_audio/domain/notification/i_verse_listen_audio_notification.dart';
+import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_permission_handler.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/download_audio_listener_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/download_verse_audio/bloc/download_audio_event.dart';
@@ -72,13 +72,11 @@ class AudioConnect extends StatelessWidget {
                       );
                       break;
                     case ListenAudioDialogEventRequestPermission _:
-                      showCustomAlertDia(
-                        context,
-                        title: "Bildirim için izin gerekli",
-                        content: "ses oynatıcısını yönetmek ve durum bilgisini görmek için gerekebilir",
-                        approveLabel: "Ayarlara Git",
-                        btnApproved: ()async{
-                          await IVerseListenAudioNotification.requestNotificationPermission();
+                      handleAudioPermission(
+                        context: context,
+                        showRationale: dialogEvent.showRationale,
+                        onResult: (result){
+                          audioBloc.add(ListenAudioEventAfterPermissionRequest());
                         }
                       );
                       break;

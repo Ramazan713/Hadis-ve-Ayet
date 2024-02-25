@@ -77,3 +77,6 @@ class ListenAudioEventSetLoop extends IListenVerseAudioEvent{
 }
 
 class ListenAudioEventToggleVisibilityAudioWidget extends IListenVerseAudioEvent{}
+
+class ListenAudioEventAfterPermissionRequest extends IListenVerseAudioEvent{}
+

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hadith/core/extensions/list_ext.dart';
 import 'package:hadith/core/presentation/handlers/duplicate_dialog_handler.dart';
 
 void showCustomAlertDia(BuildContext context, {
@@ -9,7 +10,10 @@ void showCustomAlertDia(BuildContext context, {
   void Function()? btnCancelled,
   String? cancelLabel,
   String? approveLabel,
-  bool useRootNavigator = false
+  bool useRootNavigator = false,
+  Widget? beforeCancelWidget,
+  Widget? middleWidget,
+  Widget? afterApproveWidget
 }) {
 
   duplicateDialogHandler(func: ()async{
@@ -21,7 +25,8 @@ void showCustomAlertDia(BuildContext context, {
         return AlertDialog(
           title: Text(title),
           content: content != null ? Text(content): null,
-          actions: [
+          actions: <Widget>[].fromFilteredItems([
+            beforeCancelWidget,
             TextButton(
                 onPressed: (){
                   Navigator.of(context,rootNavigator: useRootNavigator).pop();
@@ -29,14 +34,16 @@ void showCustomAlertDia(BuildContext context, {
                 },
                 child: Text(cancelLabel ?? "Iptal")
             ),
+            middleWidget,
             FilledButton.tonal(
                 onPressed: (){
                   Navigator.of(context,rootNavigator: useRootNavigator).pop();
                   btnApproved?.call();
                 },
                 child: Text(approveLabel ?? "Onayla")
-            )
-          ],
+            ),
+            afterApproveWidget
+          ]),
         );
       }
     );
