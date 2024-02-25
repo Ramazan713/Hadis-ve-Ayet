@@ -23,6 +23,7 @@ class _RootPageState extends State<RootPage> {
 
     return MyAppTopListeners(
       child: AdaptiveScaffold(
+        internalAnimations: false,
         body: (context){
           return SafeArea(
             child: _navigationItems[_selectedIndex].destination,

@@ -100,6 +100,8 @@ class SearchPageState extends State<SearchPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       getChipActions(),
                       Flexible(

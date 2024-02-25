@@ -23,24 +23,28 @@ class SearchResultCollection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 19,horizontal: 3),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "${searchResult.title}(${searchResult.resultCount} sonuc)",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w500
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "${searchResult.title}(${searchResult.resultCount} sonuc)",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w500
+                    ),
                   ),
-                ),
-                TextButton(
-                    onPressed: onDetailClick,
-                    child: const Text("daha fazlası")
-                )
-              ],
+                  TextButton(
+                      onPressed: onDetailClick,
+                      child: const Text("daha fazlası")
+                  )
+                ],
+              ),
             ),
           ),
           SingleChildScrollView(
@@ -49,6 +53,7 @@ class SearchResultCollection extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: getResultItems(),
               ),
             ),

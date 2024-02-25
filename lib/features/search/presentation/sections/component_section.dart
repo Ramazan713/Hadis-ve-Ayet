@@ -33,27 +33,31 @@ extension SearchPageComponentsExt on SearchPageState{
 
 
   Widget getChipActions(){
-    return Row(
-      children: [
-        ActionChip(
-          label: const Text("Arama Kriteri"),
-          avatar: const Icon(Icons.manage_search),
-          onPressed: (){
-            showSelectSearchCriteria(context);
-          },
-        ),
-        const SizedBox(width: 8,),
-        ActionChip(
-          label: const Text("Kayıt Noktaları"),
-          avatar: const Icon(Icons.save),
-          onPressed: (){
-            showSelectSavePoints(context,
-              shortTitle: "Arama",
-              savePointType: SavePointType.search,
-            );
-          },
-        )
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ActionChip(
+            label: const Text("Arama Kriteri"),
+            avatar: const Icon(Icons.manage_search),
+            onPressed: (){
+              showSelectSearchCriteria(context);
+            },
+          ),
+          const SizedBox(width: 8,),
+          ActionChip(
+            label: const Text("Kayıt Noktaları"),
+            avatar: const Icon(Icons.save),
+            onPressed: (){
+              showSelectSavePoints(context,
+                shortTitle: "Arama",
+                savePointType: SavePointType.search,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 

@@ -21,19 +21,29 @@ class SharedDiaButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        TextButton(
-            onPressed: enabledCancel ? onCancel : null,
-            child: Text(cancelLabel ?? "Iptal")
-        ),
-        const SizedBox(width: 16,),
-        FilledButton.tonal(
-            onPressed: enabledApprove ? onApprove : null,
-            child: Text(approveLabel ?? "Onayla")
-        ),
-        const SizedBox(width: 16,),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          reverse: true,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                  onPressed: enabledCancel ? onCancel : null,
+                  child: Text(cancelLabel ?? "Iptal")
+              ),
+              const SizedBox(width: 16,),
+              FilledButton.tonal(
+                  onPressed: enabledApprove ? onApprove : null,
+                  child: Text(approveLabel ?? "Onayla")
+              ),
+              const SizedBox(width: 16,),
+            ],
+          ),
+        )
       ],
     );
   }

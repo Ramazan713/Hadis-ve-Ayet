@@ -20,29 +20,32 @@ class AudioPlayerContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Material(
-      elevation: 10,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: SliderTheme(
-          data: const SliderThemeData(
-            trackHeight: 1.0,
-            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7),
-            overlayShape: RoundSliderOverlayShape(overlayRadius: 12),
-          ),
-          child: Container(
-            color: Theme.of(context).colorScheme.surface,
-            child: Wrap(
-              children: [
-                Column(
-                  children: [
-                    getSlider(),
-                    getBodyContent(context),
-                    getSpeedSlider()
-                  ],
-                )
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Material(
+        elevation: 1,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: SliderTheme(
+            data: const SliderThemeData(
+              trackHeight: 1.0,
+              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7),
+              overlayShape: RoundSliderOverlayShape(overlayRadius: 12),
+            ),
+            child: Container(
+              color: Theme.of(context).colorScheme.surface,
+              child: Wrap(
+                children: [
+                  Column(
+                    children: [
+                      getSlider(),
+                      getBodyContent(context),
+                      getSpeedSlider()
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

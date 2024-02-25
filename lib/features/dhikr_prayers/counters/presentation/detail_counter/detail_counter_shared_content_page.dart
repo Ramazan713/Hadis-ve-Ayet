@@ -34,9 +34,7 @@ class DetailCounterSharedContentPage extends StatelessWidget {
                   slivers: [
                     SliverList.list(
                       children: [
-                        Flexible(
-                            child: getCounterContent(windowSizeClass)
-                        )
+                        getCounterContent(windowSizeClass)
                       ],
                     ),
                     SliverFillRemaining(
