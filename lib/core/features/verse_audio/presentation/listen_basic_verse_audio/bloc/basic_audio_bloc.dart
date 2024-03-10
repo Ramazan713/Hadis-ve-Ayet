@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/domain/repo/edition_repo.dart';
+import 'package:hadith/core/domain/repo/verse/verse_repo.dart';
 import 'package:hadith/core/domain/services/connectivity_service.dart';
 import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/verse_audio_download_manager.dart';
@@ -25,6 +26,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
   late final VerseAudioRepo _verseAudioRepo;
   late final EditionRepo _editionRepo;
   late final ConnectivityService _connectivityService;
+  late final VerseRepo _verseRepo;
 
 
   BasicAudioBloc({
@@ -33,7 +35,8 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     required AppPreferences appPreferences,
     required VerseAudioRepo verseAudioRepo,
     required EditionRepo editionRepo,
-    required ConnectivityService connectivityService
+    required ConnectivityService connectivityService,
+    required VerseRepo verseRepo
   }) : super(BasicAudioState.init()){
 
     _audioPlayerService = verseAudioService;
@@ -42,9 +45,11 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     _verseAudioRepo = verseAudioRepo;
     _editionRepo = editionRepo;
     _connectivityService = connectivityService;
+    _verseRepo = verseRepo;
 
     on<BasicAudioEventStartWithIdentifier>(_onStartWithIdentifier,transformer: droppable());
     on<BasicAudioEventStartWithCustomVerseIds>(_onStartWithCustomVerseIds,transformer: droppable());
+    on<BasicAudioEventRequestAudio>(_onRequestAudio,transformer: droppable());
     on<BasicAudioEventPause>(_onPause,transformer: restartable());
     on<BasicAudioEventResume>(_onResume,transformer: restartable());
     on<BasicAudioEventInit>(_onInit,transformer: restartable());
@@ -70,6 +75,8 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
       );
     });
   }
+
+
 
   void _onStartWithCustomVerseIds(BasicAudioEventStartWithCustomVerseIds event,Emitter<BasicAudioState>emit)async{
     if(state.isDownloading){
@@ -127,11 +134,22 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     }
   }
 
-
-
   void _onStartWithIdentifier(BasicAudioEventStartWithIdentifier event,Emitter<BasicAudioState>emit)async{
     add(BasicAudioEventStartWithCustomVerseIds(
       verseIds: [event.verseId],
+      identifier: event.identifier,
+      audioQuality: event.audioQuality
+    ));
+  }
+
+  void _onRequestAudio(BasicAudioEventRequestAudio event,Emitter<BasicAudioState>emit)async{
+    final request = event.request;
+    final startVerseNumber = request.startVerseId;
+    final endVerseNumber = request.endVerseId ?? startVerseNumber;
+
+    final verseIds = await _verseRepo.getVerseIdsBySurahAndVerseNumbers(request.surahId, startVerseNumber, endVerseNumber);
+    add(BasicAudioEventStartWithCustomVerseIds(
+      verseIds: verseIds,
       identifier: event.identifier,
       audioQuality: event.audioQuality
     ));

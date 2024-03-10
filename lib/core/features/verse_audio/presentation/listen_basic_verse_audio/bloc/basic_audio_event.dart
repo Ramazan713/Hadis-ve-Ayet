@@ -1,5 +1,6 @@
 
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/basic_audio_request/basic_audio_request.dart';
 
 abstract class IBasicAudioEvent{}
 
@@ -12,6 +13,18 @@ class BasicAudioEventStartWithIdentifier extends IBasicAudioEvent{
     required this.identifier,
     this.verseId = 1,
     this.audioQuality
+  });
+}
+
+class BasicAudioEventRequestAudio extends IBasicAudioEvent{
+  final String identifier;
+  final BasicAudioRequest request;
+  final AudioQualityEnum audioQuality;
+
+  BasicAudioEventRequestAudio({
+    required this.identifier,
+    required this.request,
+    required this.audioQuality
   });
 }
 

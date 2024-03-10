@@ -29,6 +29,11 @@ class KPref{
   static final PrefKey<bool> selectDhikrShowDetails = PrefKey<bool>( key: "addCounterShowDetails",defaultValue: false);
   static final PrefKey<bool> showCustomPrayersShowDetailContents = PrefKey<bool>(key: "showCustomPrayersShowDetailContents", defaultValue: true);
 
+  static final PrefKey<int> selectEditionAudioSurahId = PrefKey<int>(key: "selectEditionAudioSurahId", defaultValue: 1);
+  static final PrefKey<String> selectEditionAudioStartVerseId = PrefKey<String>(key: "selectEditionAudioStartVerseId", defaultValue: "1");
+  static final PrefKey<String> selectEditionAudioEndVerseId = PrefKey<String>(key: "selectEditionAudioEndVerseId", defaultValue: "1");
+  static final PrefKey<String> selectEditionAudioSource = PrefKey<String>(key: "selectEditionAudioSource", defaultValue: "Fatiha 1");
+
 
 
   static final PrefKeyEnum<FontFamilyArabicEnum> fontFamilyArabic = PrefKeyEnum(key: "fontFamilyArabic",
@@ -68,7 +73,8 @@ class KPref{
     useArchiveListFeatures, showVerseListIcons,audioPlayerSpeed,
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
     defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,useDynamicColors,
-    counterBackupDate, showCounterDetailContents, selectDhikrShowDetails, showCustomPrayersShowDetailContents
+    counterBackupDate, showCounterDetailContents, selectDhikrShowDetails, showCustomPrayersShowDetailContents,
+    selectEditionAudioSurahId, selectEditionAudioStartVerseId, selectEditionAudioEndVerseId, selectEditionAudioSource
   ];
 
   static final prefEnumValues = <PrefKeyEnum>[

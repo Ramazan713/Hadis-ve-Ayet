@@ -16,13 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SelectEditionState {
-  List<AudioEdition> get items => throw _privateConstructorUsedError;
-  AudioQualityEnum get selectedQuality => throw _privateConstructorUsedError;
-  AudioQualityEnum get lastSavedQuality => throw _privateConstructorUsedError;
+  List<SelectAudioEdition> get items => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  BasicAudioRequest get audioRequest => throw _privateConstructorUsedError;
+  String get audioRequestSource => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
-  AudioEdition? get selectedEdition => throw _privateConstructorUsedError;
-  AudioEdition? get lastSavedEdition => throw _privateConstructorUsedError;
+  SelectAudioEdition? get selectedEdition => throw _privateConstructorUsedError;
+  SelectAudioEdition? get lastSavedEdition =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SelectEditionStateCopyWith<SelectEditionState> get copyWith =>
@@ -36,13 +37,17 @@ abstract class $SelectEditionStateCopyWith<$Res> {
       _$SelectEditionStateCopyWithImpl<$Res, SelectEditionState>;
   @useResult
   $Res call(
-      {List<AudioEdition> items,
-      AudioQualityEnum selectedQuality,
-      AudioQualityEnum lastSavedQuality,
+      {List<SelectAudioEdition> items,
       bool isLoading,
+      BasicAudioRequest audioRequest,
+      String audioRequestSource,
       String? message,
-      AudioEdition? selectedEdition,
-      AudioEdition? lastSavedEdition});
+      SelectAudioEdition? selectedEdition,
+      SelectAudioEdition? lastSavedEdition});
+
+  $BasicAudioRequestCopyWith<$Res> get audioRequest;
+  $SelectAudioEditionCopyWith<$Res>? get selectedEdition;
+  $SelectAudioEditionCopyWith<$Res>? get lastSavedEdition;
 }
 
 /// @nodoc
@@ -59,9 +64,9 @@ class _$SelectEditionStateCopyWithImpl<$Res, $Val extends SelectEditionState>
   @override
   $Res call({
     Object? items = null,
-    Object? selectedQuality = null,
-    Object? lastSavedQuality = null,
     Object? isLoading = null,
+    Object? audioRequest = null,
+    Object? audioRequestSource = null,
     Object? message = freezed,
     Object? selectedEdition = freezed,
     Object? lastSavedEdition = freezed,
@@ -70,19 +75,19 @@ class _$SelectEditionStateCopyWithImpl<$Res, $Val extends SelectEditionState>
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<AudioEdition>,
-      selectedQuality: null == selectedQuality
-          ? _value.selectedQuality
-          : selectedQuality // ignore: cast_nullable_to_non_nullable
-              as AudioQualityEnum,
-      lastSavedQuality: null == lastSavedQuality
-          ? _value.lastSavedQuality
-          : lastSavedQuality // ignore: cast_nullable_to_non_nullable
-              as AudioQualityEnum,
+              as List<SelectAudioEdition>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      audioRequest: null == audioRequest
+          ? _value.audioRequest
+          : audioRequest // ignore: cast_nullable_to_non_nullable
+              as BasicAudioRequest,
+      audioRequestSource: null == audioRequestSource
+          ? _value.audioRequestSource
+          : audioRequestSource // ignore: cast_nullable_to_non_nullable
+              as String,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -90,12 +95,44 @@ class _$SelectEditionStateCopyWithImpl<$Res, $Val extends SelectEditionState>
       selectedEdition: freezed == selectedEdition
           ? _value.selectedEdition
           : selectedEdition // ignore: cast_nullable_to_non_nullable
-              as AudioEdition?,
+              as SelectAudioEdition?,
       lastSavedEdition: freezed == lastSavedEdition
           ? _value.lastSavedEdition
           : lastSavedEdition // ignore: cast_nullable_to_non_nullable
-              as AudioEdition?,
+              as SelectAudioEdition?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BasicAudioRequestCopyWith<$Res> get audioRequest {
+    return $BasicAudioRequestCopyWith<$Res>(_value.audioRequest, (value) {
+      return _then(_value.copyWith(audioRequest: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SelectAudioEditionCopyWith<$Res>? get selectedEdition {
+    if (_value.selectedEdition == null) {
+      return null;
+    }
+
+    return $SelectAudioEditionCopyWith<$Res>(_value.selectedEdition!, (value) {
+      return _then(_value.copyWith(selectedEdition: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SelectAudioEditionCopyWith<$Res>? get lastSavedEdition {
+    if (_value.lastSavedEdition == null) {
+      return null;
+    }
+
+    return $SelectAudioEditionCopyWith<$Res>(_value.lastSavedEdition!, (value) {
+      return _then(_value.copyWith(lastSavedEdition: value) as $Val);
+    });
   }
 }
 
@@ -108,13 +145,20 @@ abstract class _$$SelectEditionStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<AudioEdition> items,
-      AudioQualityEnum selectedQuality,
-      AudioQualityEnum lastSavedQuality,
+      {List<SelectAudioEdition> items,
       bool isLoading,
+      BasicAudioRequest audioRequest,
+      String audioRequestSource,
       String? message,
-      AudioEdition? selectedEdition,
-      AudioEdition? lastSavedEdition});
+      SelectAudioEdition? selectedEdition,
+      SelectAudioEdition? lastSavedEdition});
+
+  @override
+  $BasicAudioRequestCopyWith<$Res> get audioRequest;
+  @override
+  $SelectAudioEditionCopyWith<$Res>? get selectedEdition;
+  @override
+  $SelectAudioEditionCopyWith<$Res>? get lastSavedEdition;
 }
 
 /// @nodoc
@@ -129,9 +173,9 @@ class __$$SelectEditionStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = null,
-    Object? selectedQuality = null,
-    Object? lastSavedQuality = null,
     Object? isLoading = null,
+    Object? audioRequest = null,
+    Object? audioRequestSource = null,
     Object? message = freezed,
     Object? selectedEdition = freezed,
     Object? lastSavedEdition = freezed,
@@ -140,19 +184,19 @@ class __$$SelectEditionStateImplCopyWithImpl<$Res>
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<AudioEdition>,
-      selectedQuality: null == selectedQuality
-          ? _value.selectedQuality
-          : selectedQuality // ignore: cast_nullable_to_non_nullable
-              as AudioQualityEnum,
-      lastSavedQuality: null == lastSavedQuality
-          ? _value.lastSavedQuality
-          : lastSavedQuality // ignore: cast_nullable_to_non_nullable
-              as AudioQualityEnum,
+              as List<SelectAudioEdition>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      audioRequest: null == audioRequest
+          ? _value.audioRequest
+          : audioRequest // ignore: cast_nullable_to_non_nullable
+              as BasicAudioRequest,
+      audioRequestSource: null == audioRequestSource
+          ? _value.audioRequestSource
+          : audioRequestSource // ignore: cast_nullable_to_non_nullable
+              as String,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -160,11 +204,11 @@ class __$$SelectEditionStateImplCopyWithImpl<$Res>
       selectedEdition: freezed == selectedEdition
           ? _value.selectedEdition
           : selectedEdition // ignore: cast_nullable_to_non_nullable
-              as AudioEdition?,
+              as SelectAudioEdition?,
       lastSavedEdition: freezed == lastSavedEdition
           ? _value.lastSavedEdition
           : lastSavedEdition // ignore: cast_nullable_to_non_nullable
-              as AudioEdition?,
+              as SelectAudioEdition?,
     ));
   }
 }
@@ -174,40 +218,40 @@ class __$$SelectEditionStateImplCopyWithImpl<$Res>
 class _$SelectEditionStateImpl extends _SelectEditionState
     with DiagnosticableTreeMixin {
   const _$SelectEditionStateImpl(
-      {required final List<AudioEdition> items,
-      required this.selectedQuality,
-      required this.lastSavedQuality,
+      {required final List<SelectAudioEdition> items,
       required this.isLoading,
+      required this.audioRequest,
+      required this.audioRequestSource,
       this.message,
       this.selectedEdition,
       this.lastSavedEdition})
       : _items = items,
         super._();
 
-  final List<AudioEdition> _items;
+  final List<SelectAudioEdition> _items;
   @override
-  List<AudioEdition> get items {
+  List<SelectAudioEdition> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_items);
   }
 
   @override
-  final AudioQualityEnum selectedQuality;
-  @override
-  final AudioQualityEnum lastSavedQuality;
-  @override
   final bool isLoading;
+  @override
+  final BasicAudioRequest audioRequest;
+  @override
+  final String audioRequestSource;
   @override
   final String? message;
   @override
-  final AudioEdition? selectedEdition;
+  final SelectAudioEdition? selectedEdition;
   @override
-  final AudioEdition? lastSavedEdition;
+  final SelectAudioEdition? lastSavedEdition;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SelectEditionState(items: $items, selectedQuality: $selectedQuality, lastSavedQuality: $lastSavedQuality, isLoading: $isLoading, message: $message, selectedEdition: $selectedEdition, lastSavedEdition: $lastSavedEdition)';
+    return 'SelectEditionState(items: $items, isLoading: $isLoading, audioRequest: $audioRequest, audioRequestSource: $audioRequestSource, message: $message, selectedEdition: $selectedEdition, lastSavedEdition: $lastSavedEdition)';
   }
 
   @override
@@ -216,9 +260,9 @@ class _$SelectEditionStateImpl extends _SelectEditionState
     properties
       ..add(DiagnosticsProperty('type', 'SelectEditionState'))
       ..add(DiagnosticsProperty('items', items))
-      ..add(DiagnosticsProperty('selectedQuality', selectedQuality))
-      ..add(DiagnosticsProperty('lastSavedQuality', lastSavedQuality))
       ..add(DiagnosticsProperty('isLoading', isLoading))
+      ..add(DiagnosticsProperty('audioRequest', audioRequest))
+      ..add(DiagnosticsProperty('audioRequestSource', audioRequestSource))
       ..add(DiagnosticsProperty('message', message))
       ..add(DiagnosticsProperty('selectedEdition', selectedEdition))
       ..add(DiagnosticsProperty('lastSavedEdition', lastSavedEdition));
@@ -230,12 +274,12 @@ class _$SelectEditionStateImpl extends _SelectEditionState
         (other.runtimeType == runtimeType &&
             other is _$SelectEditionStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
-            (identical(other.selectedQuality, selectedQuality) ||
-                other.selectedQuality == selectedQuality) &&
-            (identical(other.lastSavedQuality, lastSavedQuality) ||
-                other.lastSavedQuality == lastSavedQuality) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.audioRequest, audioRequest) ||
+                other.audioRequest == audioRequest) &&
+            (identical(other.audioRequestSource, audioRequestSource) ||
+                other.audioRequestSource == audioRequestSource) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.selectedEdition, selectedEdition) ||
                 other.selectedEdition == selectedEdition) &&
@@ -247,9 +291,9 @@ class _$SelectEditionStateImpl extends _SelectEditionState
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_items),
-      selectedQuality,
-      lastSavedQuality,
       isLoading,
+      audioRequest,
+      audioRequestSource,
       message,
       selectedEdition,
       lastSavedEdition);
@@ -264,29 +308,29 @@ class _$SelectEditionStateImpl extends _SelectEditionState
 
 abstract class _SelectEditionState extends SelectEditionState {
   const factory _SelectEditionState(
-      {required final List<AudioEdition> items,
-      required final AudioQualityEnum selectedQuality,
-      required final AudioQualityEnum lastSavedQuality,
+      {required final List<SelectAudioEdition> items,
       required final bool isLoading,
+      required final BasicAudioRequest audioRequest,
+      required final String audioRequestSource,
       final String? message,
-      final AudioEdition? selectedEdition,
-      final AudioEdition? lastSavedEdition}) = _$SelectEditionStateImpl;
+      final SelectAudioEdition? selectedEdition,
+      final SelectAudioEdition? lastSavedEdition}) = _$SelectEditionStateImpl;
   const _SelectEditionState._() : super._();
 
   @override
-  List<AudioEdition> get items;
-  @override
-  AudioQualityEnum get selectedQuality;
-  @override
-  AudioQualityEnum get lastSavedQuality;
+  List<SelectAudioEdition> get items;
   @override
   bool get isLoading;
   @override
+  BasicAudioRequest get audioRequest;
+  @override
+  String get audioRequestSource;
+  @override
   String? get message;
   @override
-  AudioEdition? get selectedEdition;
+  SelectAudioEdition? get selectedEdition;
   @override
-  AudioEdition? get lastSavedEdition;
+  SelectAudioEdition? get lastSavedEdition;
   @override
   @JsonKey(ignore: true)
   _$$SelectEditionStateImplCopyWith<_$SelectEditionStateImpl> get copyWith =>

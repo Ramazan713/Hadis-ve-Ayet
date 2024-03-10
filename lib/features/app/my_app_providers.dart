@@ -226,7 +226,8 @@ class MyAppProviders extends StatelessWidget {
               appPreferences: context.read(),
               verseAudioRepo: context.read(),
               editionRepo: context.read(),
-              connectivityService: context.read()
+              connectivityService: context.read(),
+              verseRepo: context.read()
           )),
           BlocProvider(create: (context)=> LoadSavePointBloc(
             savePointRepo: context.read(),

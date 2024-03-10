@@ -50,4 +50,6 @@ abstract class VerseRepo{
   Future<int?> getPosById(int id);
 
   Future<List<Verse>> getVersesByListId(int listId);
+
+  Future<List<int>> getVerseIdsBySurahAndVerseNumbers(int surahId, String startVerseNumber, String endVerseNumber);
 }

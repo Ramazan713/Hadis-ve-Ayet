@@ -6,10 +6,14 @@ import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dar
 import 'package:hadith/core/features/select_edition/bloc/select_edition_event.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_state.dart';
 import 'package:hadith/core/features/select_edition/components/select_edition_item.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_config/select_quran_section_config.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_load_config/select_quran_section_load_config.dart';
+import 'package:hadith/core/features/select_quran_section/presentation/show_select_quran_section_dia.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_state.dart';
+import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
@@ -51,12 +55,13 @@ class _DialogContent extends StatelessWidget {
   final ScrollController scrollController;
 
   const _DialogContent({
-    Key? key,
+    super.key,
     required this.scrollController
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<SelectEditionBloc>();
 
     return getListeners(
       child: Padding(
@@ -78,7 +83,32 @@ class _DialogContent extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          getDropdown(context),
+                          CardListTile(
+                            onTap: (){
+                              showSelectQuranSectionDia(
+                                context: context,
+                                config: const SelectQuranSectionConfig(
+                                  showArabicContent: false,
+                                  showMeaningContent: false,
+                                  showAutoName: false,
+                                  showSelectPage: false,
+                                  showSelectJuz: false,
+                                  title: "Kurandan Seç",
+                                  btnName: "Seç"
+                                ),
+                                loadConfig: SelectQuranSectionLoadConfig(
+                                  surahId: state.audioRequest.surahId,
+                                  firstVerseNumber: state.audioRequest.startVerseId,
+                                  lastVerseNumber: state.audioRequest.endVerseId
+                                ),
+                                onSubmit: (data){
+                                  bloc.add(EditionEventSetAudioRequest(result: data));
+                                }
+                              );
+                            },
+                            title: const Text("Dinlemek için Kuran'dan bölüm seç"),
+                            subtitle: Text(state.audioRequestSource),
+                          ),
                           const SizedBox(height: 8,),
                           getBody(context, state)
                         ],
@@ -116,26 +146,6 @@ class _DialogContent extends StatelessWidget {
     );
   }
 
-  Widget getDropdown(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 7),
-      child: BlocSelector<SelectEditionBloc, SelectEditionState, AudioQualityEnum>(
-        selector: (state) => state.selectedQuality,
-        builder: (context, audioQuality) {
-          return CustomDropdownTextMenu(
-            items: AudioQualityEnum.values,
-            selectedItem: audioQuality,
-            onSelected: (selected){
-              if(selected!=null){
-                context.read<SelectEditionBloc>()
-                    .add(EditionEventSetQuality(audioQuality: selected));
-              }
-            },
-          );
-        },
-      ),
-    );
-  }
 
   Widget? getEmptyOrLoadingWidget(BuildContext context, SelectEditionState state){
     if(state.isLoading) {
@@ -158,15 +168,22 @@ class _DialogContent extends StatelessWidget {
         final item = items[index];
         return SelectEditionItem(
           edition: item,
-          audioQuality: state.selectedQuality,
-          selectedEdition: state.selectedEdition,
+          selectedSelectEdition: state.selectedEdition,
           onNextClick: (){
-            showManageEditionAudiosDia(context, audioEdition: item);
+            showManageEditionAudiosDia(context, audioEdition: item.audioEdition);
           },
           onSelectClick: (){
             context.read<SelectEditionBloc>()
                 .add(EditionEventSetEdition(edition: item)
             );
+          },
+          onPlay: (){
+            context.read<BasicAudioBloc>()
+              .add(BasicAudioEventRequestAudio(
+                identifier: item.audioEdition.identifier,
+                request: state.audioRequest,
+                audioQuality: item.qualityEnum
+            ));
           },
         );
       },

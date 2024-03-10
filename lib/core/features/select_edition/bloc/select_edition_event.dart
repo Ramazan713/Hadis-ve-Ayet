@@ -1,6 +1,8 @@
 
 
 import 'package:hadith/core/domain/models/audio_edition.dart';
+import 'package:hadith/core/features/select_edition/models/select_audio_edition.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_result/select_quran_section_result.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 
 abstract class ISelectEditionEvent{}
@@ -17,13 +19,13 @@ class EditionEventSave extends ISelectEditionEvent{}
 
 class EditionEventClearMessage extends ISelectEditionEvent{}
 
-class EditionEventSetQuality extends ISelectEditionEvent{
-  final AudioQualityEnum audioQuality;
-  EditionEventSetQuality({required this.audioQuality});
+class EditionEventSetAudioRequest extends ISelectEditionEvent{
+  final SelectQuranSectionResult result;
+  EditionEventSetAudioRequest({required this.result});
 }
 
 class EditionEventSetEdition extends ISelectEditionEvent{
-  final AudioEdition edition;
+  final SelectAudioEdition edition;
   EditionEventSetEdition({required this.edition});
 }
 

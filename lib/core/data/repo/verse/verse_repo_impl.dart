@@ -140,5 +140,10 @@ class VerseRepoImpl extends VerseRepo {
     return _verseDao.getSurahPosById(id, surahId);
   }
 
+  @override
+  Future<List<int>> getVerseIdsBySurahAndVerseNumbers(int surahId, String startVerseNumber, String endVerseNumber) async{
+    return _verseDao.getVerseIdsBySurahAndVerseNumbers(surahId, startVerseNumber, endVerseNumber);
+  }
+
 
 }

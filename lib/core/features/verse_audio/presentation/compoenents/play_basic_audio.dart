@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/listen_audio_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/basic_audio_request/basic_audio_request.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_state.dart';
 
 class PlayBasicAudio extends StatelessWidget {
   final String identifier;
-  final AudioQualityEnum audioQuality;
+  final void Function() onPlay;
 
   const PlayBasicAudio({
-    Key? key,
+    super.key,
     required this.identifier,
-    required this.audioQuality
-  }) : super(key: key);
+    required this.onPlay
+  });
 
 
   Widget getPlayIcon({required Function() onPressed}){
@@ -29,9 +30,9 @@ class PlayBasicAudio extends StatelessWidget {
     final audioBloc = context.read<BasicAudioBloc>();
     return BlocSelector<BasicAudioBloc, BasicAudioState,_BasicAudioSelector>(
         selector: (state) => _BasicAudioSelector(
-            activeIdentifier: state.activeIdentifier,
-            audioEnum: state.audioEnum,
-            isDownloading: state.isDownloading
+          activeIdentifier: state.activeIdentifier,
+          audioEnum: state.audioEnum,
+          isDownloading: state.isDownloading
         ),
         builder: (context, partialState) {
 
@@ -55,12 +56,7 @@ class PlayBasicAudio extends StatelessWidget {
             }
           }
 
-          return getPlayIcon(onPressed: (){
-            audioBloc.add(BasicAudioEventStartWithIdentifier(
-                identifier: identifier,
-                audioQuality: audioQuality
-            ));
-          });
+          return getPlayIcon(onPressed: onPlay);
         });
   }
 }

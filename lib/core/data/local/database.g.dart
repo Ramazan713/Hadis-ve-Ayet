@@ -2298,6 +2298,18 @@ class _$VerseDao extends VerseDao {
         mapper: (Map<String, Object?> row) => VerseEntity(id: row['id'] as int?, surahId: row['surahId'] as int, cuzNo: row['cuzNo'] as int, pageNo: row['pageNo'] as int, verseNumber: row['verseNumber'] as String, content: row['content'] as String, isProstrationVerse: (row['isProstrationVerse'] as int) != 0, bookId: row['bookId'] as int),
         arguments: [surahId, surahSize, offset]);
   }
+
+  @override
+  Future<List<int>> getVerseIdsBySurahAndVerseNumbers(
+    int surahId,
+    String startVerseNumber,
+    String endVerseNumber,
+  ) async {
+    return _queryAdapter.queryList(
+        'select id from verses where surahId = ?1 and verseNumber between ?2 and ?3',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [surahId, startVerseNumber, endVerseNumber]);
+  }
 }
 
 class _$TitleDao extends TitleDao {

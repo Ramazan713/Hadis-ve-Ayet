@@ -2,7 +2,9 @@ import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/models/audio_edition.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hadith/core/features/select_edition/models/select_audio_edition.dart';
 import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
+import 'package:hadith/core/features/verse_audio/domain/model/basic_audio_request/basic_audio_request.dart';
 part 'select_edition_state.freezed.dart';
 
 @freezed
@@ -11,29 +13,29 @@ class SelectEditionState with _$SelectEditionState{
   const SelectEditionState._();
 
   const factory SelectEditionState({
-    required List<AudioEdition> items,
-    required AudioQualityEnum selectedQuality,
-    required AudioQualityEnum lastSavedQuality,
+    required List<SelectAudioEdition> items,
     required bool isLoading,
+    required BasicAudioRequest audioRequest,
+    required String audioRequestSource,
     String? message,
-    AudioEdition? selectedEdition,
-    AudioEdition? lastSavedEdition,
+    SelectAudioEdition? selectedEdition,
+    SelectAudioEdition? lastSavedEdition,
   }) = _SelectEditionState;
 
   static SelectEditionState init(){
-    return SelectEditionState(
+    return const SelectEditionState(
       isLoading: false,
-      items: const[],
-      selectedQuality: KPref.audioQualityEnum.defaultPrefEnum,
-      lastSavedQuality: KPref.audioQualityEnum.defaultPrefEnum,
+      items: [],
+      audioRequest: BasicAudioRequest(
+          surahId: 1, startVerseId: "1"
+      ),
+      audioRequestSource: "Fatiha 1"
     );
   }
 
-  bool get qualityChanged => selectedQuality != lastSavedQuality;
+  bool get editionChanged => selectedEdition?.audioEdition?.identifier != lastSavedEdition?.audioEdition?.identifier;
 
-  bool get editionChanged => selectedEdition?.identifier != lastSavedEdition?.identifier;
-
-  bool get anyChanged => qualityChanged || editionChanged;
+  bool get anyChanged => editionChanged;
 
   bool get saveButtonEnabled => anyChanged && items.contains(selectedEdition);
 
