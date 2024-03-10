@@ -12,7 +12,7 @@ part of 'get_title_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$GetTitleState {
@@ -57,22 +57,22 @@ class _$GetTitleStateCopyWithImpl<$Res, $Val extends GetTitleState>
 }
 
 /// @nodoc
-abstract class _$$_GetTitleStateCopyWith<$Res>
+abstract class _$$GetTitleStateImplCopyWith<$Res>
     implements $GetTitleStateCopyWith<$Res> {
-  factory _$$_GetTitleStateCopyWith(
-          _$_GetTitleState value, $Res Function(_$_GetTitleState) then) =
-      __$$_GetTitleStateCopyWithImpl<$Res>;
+  factory _$$GetTitleStateImplCopyWith(
+          _$GetTitleStateImpl value, $Res Function(_$GetTitleStateImpl) then) =
+      __$$GetTitleStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? title});
 }
 
 /// @nodoc
-class __$$_GetTitleStateCopyWithImpl<$Res>
-    extends _$GetTitleStateCopyWithImpl<$Res, _$_GetTitleState>
-    implements _$$_GetTitleStateCopyWith<$Res> {
-  __$$_GetTitleStateCopyWithImpl(
-      _$_GetTitleState _value, $Res Function(_$_GetTitleState) _then)
+class __$$GetTitleStateImplCopyWithImpl<$Res>
+    extends _$GetTitleStateCopyWithImpl<$Res, _$GetTitleStateImpl>
+    implements _$$GetTitleStateImplCopyWith<$Res> {
+  __$$GetTitleStateImplCopyWithImpl(
+      _$GetTitleStateImpl _value, $Res Function(_$GetTitleStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_GetTitleStateCopyWithImpl<$Res>
   $Res call({
     Object? title = freezed,
   }) {
-    return _then(_$_GetTitleState(
+    return _then(_$GetTitleStateImpl(
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,10 @@ class __$$_GetTitleStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_GetTitleState with DiagnosticableTreeMixin implements _GetTitleState {
-  const _$_GetTitleState({this.title});
+class _$GetTitleStateImpl
+    with DiagnosticableTreeMixin
+    implements _GetTitleState {
+  const _$GetTitleStateImpl({this.title});
 
   @override
   final String? title;
@@ -111,10 +113,10 @@ class _$_GetTitleState with DiagnosticableTreeMixin implements _GetTitleState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GetTitleState &&
+            other is _$GetTitleStateImpl &&
             (identical(other.title, title) || other.title == title));
   }
 
@@ -124,17 +126,17 @@ class _$_GetTitleState with DiagnosticableTreeMixin implements _GetTitleState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GetTitleStateCopyWith<_$_GetTitleState> get copyWith =>
-      __$$_GetTitleStateCopyWithImpl<_$_GetTitleState>(this, _$identity);
+  _$$GetTitleStateImplCopyWith<_$GetTitleStateImpl> get copyWith =>
+      __$$GetTitleStateImplCopyWithImpl<_$GetTitleStateImpl>(this, _$identity);
 }
 
 abstract class _GetTitleState implements GetTitleState {
-  const factory _GetTitleState({final String? title}) = _$_GetTitleState;
+  const factory _GetTitleState({final String? title}) = _$GetTitleStateImpl;
 
   @override
   String? get title;
   @override
   @JsonKey(ignore: true)
-  _$$_GetTitleStateCopyWith<_$_GetTitleState> get copyWith =>
+  _$$GetTitleStateImplCopyWith<_$GetTitleStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -20,5 +20,9 @@ extension ListExt<T> on List<T>{
     return this;
   }
 
+  bool allIsNotNull(){
+    return every((element) => element != null);
+  }
+
 
 }

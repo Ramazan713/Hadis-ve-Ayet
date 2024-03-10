@@ -12,7 +12,7 @@ part of 'share_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShareState {
@@ -70,11 +70,11 @@ class _$ShareStateCopyWithImpl<$Res, $Val extends ShareState>
 }
 
 /// @nodoc
-abstract class _$$_ShareStateCopyWith<$Res>
+abstract class _$$ShareStateImplCopyWith<$Res>
     implements $ShareStateCopyWith<$Res> {
-  factory _$$_ShareStateCopyWith(
-          _$_ShareState value, $Res Function(_$_ShareState) then) =
-      __$$_ShareStateCopyWithImpl<$Res>;
+  factory _$$ShareStateImplCopyWith(
+          _$ShareStateImpl value, $Res Function(_$ShareStateImpl) then) =
+      __$$ShareStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -82,11 +82,11 @@ abstract class _$$_ShareStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ShareStateCopyWithImpl<$Res>
-    extends _$ShareStateCopyWithImpl<$Res, _$_ShareState>
-    implements _$$_ShareStateCopyWith<$Res> {
-  __$$_ShareStateCopyWithImpl(
-      _$_ShareState _value, $Res Function(_$_ShareState) _then)
+class __$$ShareStateImplCopyWithImpl<$Res>
+    extends _$ShareStateCopyWithImpl<$Res, _$ShareStateImpl>
+    implements _$$ShareStateImplCopyWith<$Res> {
+  __$$ShareStateImplCopyWithImpl(
+      _$ShareStateImpl _value, $Res Function(_$ShareStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$_ShareStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? shareUiEvent = freezed,
   }) {
-    return _then(_$_ShareState(
+    return _then(_$ShareStateImpl(
       loadingEnum: null == loadingEnum
           ? _value.loadingEnum
           : loadingEnum // ignore: cast_nullable_to_non_nullable
@@ -115,8 +115,8 @@ class __$$_ShareStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShareState with DiagnosticableTreeMixin implements _ShareState {
-  const _$_ShareState(
+class _$ShareStateImpl with DiagnosticableTreeMixin implements _ShareState {
+  const _$ShareStateImpl(
       {required this.loadingEnum, this.message, this.shareUiEvent});
 
   @override
@@ -142,10 +142,10 @@ class _$_ShareState with DiagnosticableTreeMixin implements _ShareState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShareState &&
+            other is _$ShareStateImpl &&
             (identical(other.loadingEnum, loadingEnum) ||
                 other.loadingEnum == loadingEnum) &&
             (identical(other.message, message) || other.message == message) &&
@@ -160,15 +160,15 @@ class _$_ShareState with DiagnosticableTreeMixin implements _ShareState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShareStateCopyWith<_$_ShareState> get copyWith =>
-      __$$_ShareStateCopyWithImpl<_$_ShareState>(this, _$identity);
+  _$$ShareStateImplCopyWith<_$ShareStateImpl> get copyWith =>
+      __$$ShareStateImplCopyWithImpl<_$ShareStateImpl>(this, _$identity);
 }
 
 abstract class _ShareState implements ShareState {
   const factory _ShareState(
       {required final LoadingEnum loadingEnum,
       final String? message,
-      final ShareUiEvent? shareUiEvent}) = _$_ShareState;
+      final ShareUiEvent? shareUiEvent}) = _$ShareStateImpl;
 
   @override
   LoadingEnum get loadingEnum;
@@ -178,6 +178,6 @@ abstract class _ShareState implements ShareState {
   ShareUiEvent? get shareUiEvent;
   @override
   @JsonKey(ignore: true)
-  _$$_ShareStateCopyWith<_$_ShareState> get copyWith =>
+  _$$ShareStateImplCopyWith<_$ShareStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

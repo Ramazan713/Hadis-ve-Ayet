@@ -12,7 +12,7 @@ part of 'prayer_and_verse_detail_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerAndVerseDetailState {
@@ -91,12 +91,12 @@ class _$PrayerAndVerseDetailStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PrayerAndVerseDetailStateCopyWith<$Res>
+abstract class _$$PrayerAndVerseDetailStateImplCopyWith<$Res>
     implements $PrayerAndVerseDetailStateCopyWith<$Res> {
-  factory _$$_PrayerAndVerseDetailStateCopyWith(
-          _$_PrayerAndVerseDetailState value,
-          $Res Function(_$_PrayerAndVerseDetailState) then) =
-      __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>;
+  factory _$$PrayerAndVerseDetailStateImplCopyWith(
+          _$PrayerAndVerseDetailStateImpl value,
+          $Res Function(_$PrayerAndVerseDetailStateImpl) then) =
+      __$$PrayerAndVerseDetailStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,13 +110,13 @@ abstract class _$$_PrayerAndVerseDetailStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>
+class __$$PrayerAndVerseDetailStateImplCopyWithImpl<$Res>
     extends _$PrayerAndVerseDetailStateCopyWithImpl<$Res,
-        _$_PrayerAndVerseDetailState>
-    implements _$$_PrayerAndVerseDetailStateCopyWith<$Res> {
-  __$$_PrayerAndVerseDetailStateCopyWithImpl(
-      _$_PrayerAndVerseDetailState _value,
-      $Res Function(_$_PrayerAndVerseDetailState) _then)
+        _$PrayerAndVerseDetailStateImpl>
+    implements _$$PrayerAndVerseDetailStateImplCopyWith<$Res> {
+  __$$PrayerAndVerseDetailStateImplCopyWithImpl(
+      _$PrayerAndVerseDetailStateImpl _value,
+      $Res Function(_$PrayerAndVerseDetailStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +127,7 @@ class __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>
     Object? prayerUnit = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$_PrayerAndVerseDetailState(
+    return _then(_$PrayerAndVerseDetailStateImpl(
       fontModel: null == fontModel
           ? _value.fontModel
           : fontModel // ignore: cast_nullable_to_non_nullable
@@ -150,10 +150,10 @@ class __$$_PrayerAndVerseDetailStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerAndVerseDetailState
+class _$PrayerAndVerseDetailStateImpl
     with DiagnosticableTreeMixin
     implements _PrayerAndVerseDetailState {
-  const _$_PrayerAndVerseDetailState(
+  const _$PrayerAndVerseDetailStateImpl(
       {required this.fontModel,
       required this.isLoading,
       this.prayerUnit,
@@ -185,10 +185,10 @@ class _$_PrayerAndVerseDetailState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerAndVerseDetailState &&
+            other is _$PrayerAndVerseDetailStateImpl &&
             (identical(other.fontModel, fontModel) ||
                 other.fontModel == fontModel) &&
             (identical(other.isLoading, isLoading) ||
@@ -205,9 +205,9 @@ class _$_PrayerAndVerseDetailState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerAndVerseDetailStateCopyWith<_$_PrayerAndVerseDetailState>
-      get copyWith => __$$_PrayerAndVerseDetailStateCopyWithImpl<
-          _$_PrayerAndVerseDetailState>(this, _$identity);
+  _$$PrayerAndVerseDetailStateImplCopyWith<_$PrayerAndVerseDetailStateImpl>
+      get copyWith => __$$PrayerAndVerseDetailStateImplCopyWithImpl<
+          _$PrayerAndVerseDetailStateImpl>(this, _$identity);
 }
 
 abstract class _PrayerAndVerseDetailState implements PrayerAndVerseDetailState {
@@ -215,7 +215,7 @@ abstract class _PrayerAndVerseDetailState implements PrayerAndVerseDetailState {
       {required final FontModel fontModel,
       required final bool isLoading,
       final PrayerUnit<PrayerAndVerse>? prayerUnit,
-      final String? message}) = _$_PrayerAndVerseDetailState;
+      final String? message}) = _$PrayerAndVerseDetailStateImpl;
 
   @override
   FontModel get fontModel;
@@ -227,6 +227,6 @@ abstract class _PrayerAndVerseDetailState implements PrayerAndVerseDetailState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerAndVerseDetailStateCopyWith<_$_PrayerAndVerseDetailState>
+  _$$PrayerAndVerseDetailStateImplCopyWith<_$PrayerAndVerseDetailStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

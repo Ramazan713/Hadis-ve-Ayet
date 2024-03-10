@@ -12,7 +12,7 @@ part of 'prayer_and_verse.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerAndVerse {
@@ -107,11 +107,11 @@ class _$PrayerAndVerseCopyWithImpl<$Res, $Val extends PrayerAndVerse>
 }
 
 /// @nodoc
-abstract class _$$_PrayerAndVerseCopyWith<$Res>
+abstract class _$$PrayerAndVerseImplCopyWith<$Res>
     implements $PrayerAndVerseCopyWith<$Res> {
-  factory _$$_PrayerAndVerseCopyWith(
-          _$_PrayerAndVerse value, $Res Function(_$_PrayerAndVerse) then) =
-      __$$_PrayerAndVerseCopyWithImpl<$Res>;
+  factory _$$PrayerAndVerseImplCopyWith(_$PrayerAndVerseImpl value,
+          $Res Function(_$PrayerAndVerseImpl) then) =
+      __$$PrayerAndVerseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,11 +126,11 @@ abstract class _$$_PrayerAndVerseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerAndVerseCopyWithImpl<$Res>
-    extends _$PrayerAndVerseCopyWithImpl<$Res, _$_PrayerAndVerse>
-    implements _$$_PrayerAndVerseCopyWith<$Res> {
-  __$$_PrayerAndVerseCopyWithImpl(
-      _$_PrayerAndVerse _value, $Res Function(_$_PrayerAndVerse) _then)
+class __$$PrayerAndVerseImplCopyWithImpl<$Res>
+    extends _$PrayerAndVerseCopyWithImpl<$Res, _$PrayerAndVerseImpl>
+    implements _$$PrayerAndVerseImplCopyWith<$Res> {
+  __$$PrayerAndVerseImplCopyWithImpl(
+      _$PrayerAndVerseImpl _value, $Res Function(_$PrayerAndVerseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +145,7 @@ class __$$_PrayerAndVerseCopyWithImpl<$Res>
     Object? counterId = freezed,
     Object? parentPrayerId = freezed,
   }) {
-    return _then(_$_PrayerAndVerse(
+    return _then(_$PrayerAndVerseImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ class __$$_PrayerAndVerseCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerAndVerse extends _PrayerAndVerse {
-  const _$_PrayerAndVerse(
+class _$PrayerAndVerseImpl extends _PrayerAndVerse {
+  const _$PrayerAndVerseImpl(
       {required this.id,
       required this.name,
       required this.arabicContent,
@@ -219,10 +219,10 @@ class _$_PrayerAndVerse extends _PrayerAndVerse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerAndVerse &&
+            other is _$PrayerAndVerseImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.arabicContent, arabicContent) ||
@@ -254,8 +254,9 @@ class _$_PrayerAndVerse extends _PrayerAndVerse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerAndVerseCopyWith<_$_PrayerAndVerse> get copyWith =>
-      __$$_PrayerAndVerseCopyWithImpl<_$_PrayerAndVerse>(this, _$identity);
+  _$$PrayerAndVerseImplCopyWith<_$PrayerAndVerseImpl> get copyWith =>
+      __$$PrayerAndVerseImplCopyWithImpl<_$PrayerAndVerseImpl>(
+          this, _$identity);
 }
 
 abstract class _PrayerAndVerse extends PrayerAndVerse {
@@ -267,7 +268,7 @@ abstract class _PrayerAndVerse extends PrayerAndVerse {
       final String? pronunciationContent,
       required final int orderItem,
       final int? counterId,
-      final int? parentPrayerId}) = _$_PrayerAndVerse;
+      final int? parentPrayerId}) = _$PrayerAndVerseImpl;
   const _PrayerAndVerse._() : super._();
 
   @override
@@ -288,6 +289,6 @@ abstract class _PrayerAndVerse extends PrayerAndVerse {
   int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerAndVerseCopyWith<_$_PrayerAndVerse> get copyWith =>
+  _$$PrayerAndVerseImplCopyWith<_$PrayerAndVerseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

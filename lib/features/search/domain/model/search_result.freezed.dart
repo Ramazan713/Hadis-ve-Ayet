@@ -12,7 +12,7 @@ part of 'search_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SearchResult {
@@ -79,11 +79,11 @@ class _$SearchResultCopyWithImpl<$Res, $Val extends SearchResult>
 }
 
 /// @nodoc
-abstract class _$$_SearchResultCopyWith<$Res>
+abstract class _$$SearchResultImplCopyWith<$Res>
     implements $SearchResultCopyWith<$Res> {
-  factory _$$_SearchResultCopyWith(
-          _$_SearchResult value, $Res Function(_$_SearchResult) then) =
-      __$$_SearchResultCopyWithImpl<$Res>;
+  factory _$$SearchResultImplCopyWith(
+          _$SearchResultImpl value, $Res Function(_$SearchResultImpl) then) =
+      __$$SearchResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_SearchResultCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SearchResultCopyWithImpl<$Res>
-    extends _$SearchResultCopyWithImpl<$Res, _$_SearchResult>
-    implements _$$_SearchResultCopyWith<$Res> {
-  __$$_SearchResultCopyWithImpl(
-      _$_SearchResult _value, $Res Function(_$_SearchResult) _then)
+class __$$SearchResultImplCopyWithImpl<$Res>
+    extends _$SearchResultCopyWithImpl<$Res, _$SearchResultImpl>
+    implements _$$SearchResultImplCopyWith<$Res> {
+  __$$SearchResultImplCopyWithImpl(
+      _$SearchResultImpl _value, $Res Function(_$SearchResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -109,7 +109,7 @@ class __$$_SearchResultCopyWithImpl<$Res>
     Object? resultCount = null,
     Object? bookScope = null,
   }) {
-    return _then(_$_SearchResult(
+    return _then(_$SearchResultImpl(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -132,8 +132,8 @@ class __$$_SearchResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
-  const _$_SearchResult(
+class _$SearchResultImpl with DiagnosticableTreeMixin implements _SearchResult {
+  const _$SearchResultImpl(
       {required this.title,
       required final List<SearchContent> searchContents,
       required this.resultCount,
@@ -172,10 +172,10 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SearchResult &&
+            other is _$SearchResultImpl &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
                 .equals(other._searchContents, _searchContents) &&
@@ -196,8 +196,8 @@ class _$_SearchResult with DiagnosticableTreeMixin implements _SearchResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SearchResultCopyWith<_$_SearchResult> get copyWith =>
-      __$$_SearchResultCopyWithImpl<_$_SearchResult>(this, _$identity);
+  _$$SearchResultImplCopyWith<_$SearchResultImpl> get copyWith =>
+      __$$SearchResultImplCopyWithImpl<_$SearchResultImpl>(this, _$identity);
 }
 
 abstract class _SearchResult implements SearchResult {
@@ -205,7 +205,7 @@ abstract class _SearchResult implements SearchResult {
       {required final String title,
       required final List<SearchContent> searchContents,
       required final int resultCount,
-      required final BookScopeEnum bookScope}) = _$_SearchResult;
+      required final BookScopeEnum bookScope}) = _$SearchResultImpl;
 
   @override
   String get title;
@@ -217,6 +217,6 @@ abstract class _SearchResult implements SearchResult {
   BookScopeEnum get bookScope;
   @override
   @JsonKey(ignore: true)
-  _$$_SearchResultCopyWith<_$_SearchResult> get copyWith =>
+  _$$SearchResultImplCopyWith<_$SearchResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

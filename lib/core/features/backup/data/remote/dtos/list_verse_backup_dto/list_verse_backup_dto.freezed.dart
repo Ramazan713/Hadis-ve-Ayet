@@ -12,7 +12,7 @@ part of 'list_verse_backup_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ListVerseBackupDto _$ListVerseBackupDtoFromJson(Map<String, dynamic> json) {
   return _ListVerseBackupDto.fromJson(json);
@@ -74,22 +74,22 @@ class _$ListVerseBackupDtoCopyWithImpl<$Res, $Val extends ListVerseBackupDto>
 }
 
 /// @nodoc
-abstract class _$$_ListVerseBackupDtoCopyWith<$Res>
+abstract class _$$ListVerseBackupDtoImplCopyWith<$Res>
     implements $ListVerseBackupDtoCopyWith<$Res> {
-  factory _$$_ListVerseBackupDtoCopyWith(_$_ListVerseBackupDto value,
-          $Res Function(_$_ListVerseBackupDto) then) =
-      __$$_ListVerseBackupDtoCopyWithImpl<$Res>;
+  factory _$$ListVerseBackupDtoImplCopyWith(_$ListVerseBackupDtoImpl value,
+          $Res Function(_$ListVerseBackupDtoImpl) then) =
+      __$$ListVerseBackupDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int listId, int verseId, int pos});
 }
 
 /// @nodoc
-class __$$_ListVerseBackupDtoCopyWithImpl<$Res>
-    extends _$ListVerseBackupDtoCopyWithImpl<$Res, _$_ListVerseBackupDto>
-    implements _$$_ListVerseBackupDtoCopyWith<$Res> {
-  __$$_ListVerseBackupDtoCopyWithImpl(
-      _$_ListVerseBackupDto _value, $Res Function(_$_ListVerseBackupDto) _then)
+class __$$ListVerseBackupDtoImplCopyWithImpl<$Res>
+    extends _$ListVerseBackupDtoCopyWithImpl<$Res, _$ListVerseBackupDtoImpl>
+    implements _$$ListVerseBackupDtoImplCopyWith<$Res> {
+  __$$ListVerseBackupDtoImplCopyWithImpl(_$ListVerseBackupDtoImpl _value,
+      $Res Function(_$ListVerseBackupDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_ListVerseBackupDtoCopyWithImpl<$Res>
     Object? verseId = null,
     Object? pos = null,
   }) {
-    return _then(_$_ListVerseBackupDto(
+    return _then(_$ListVerseBackupDtoImpl(
       listId: null == listId
           ? _value.listId
           : listId // ignore: cast_nullable_to_non_nullable
@@ -118,14 +118,14 @@ class __$$_ListVerseBackupDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ListVerseBackupDto
+class _$ListVerseBackupDtoImpl
     with DiagnosticableTreeMixin
     implements _ListVerseBackupDto {
-  const _$_ListVerseBackupDto(
+  const _$ListVerseBackupDtoImpl(
       {required this.listId, required this.verseId, required this.pos});
 
-  factory _$_ListVerseBackupDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ListVerseBackupDtoFromJson(json);
+  factory _$ListVerseBackupDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListVerseBackupDtoImplFromJson(json);
 
   @override
   final int listId;
@@ -150,10 +150,10 @@ class _$_ListVerseBackupDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ListVerseBackupDto &&
+            other is _$ListVerseBackupDtoImpl &&
             (identical(other.listId, listId) || other.listId == listId) &&
             (identical(other.verseId, verseId) || other.verseId == verseId) &&
             (identical(other.pos, pos) || other.pos == pos));
@@ -166,13 +166,13 @@ class _$_ListVerseBackupDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ListVerseBackupDtoCopyWith<_$_ListVerseBackupDto> get copyWith =>
-      __$$_ListVerseBackupDtoCopyWithImpl<_$_ListVerseBackupDto>(
+  _$$ListVerseBackupDtoImplCopyWith<_$ListVerseBackupDtoImpl> get copyWith =>
+      __$$ListVerseBackupDtoImplCopyWithImpl<_$ListVerseBackupDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ListVerseBackupDtoToJson(
+    return _$$ListVerseBackupDtoImplToJson(
       this,
     );
   }
@@ -182,10 +182,10 @@ abstract class _ListVerseBackupDto implements ListVerseBackupDto {
   const factory _ListVerseBackupDto(
       {required final int listId,
       required final int verseId,
-      required final int pos}) = _$_ListVerseBackupDto;
+      required final int pos}) = _$ListVerseBackupDtoImpl;
 
   factory _ListVerseBackupDto.fromJson(Map<String, dynamic> json) =
-      _$_ListVerseBackupDto.fromJson;
+      _$ListVerseBackupDtoImpl.fromJson;
 
   @override
   int get listId;
@@ -195,6 +195,6 @@ abstract class _ListVerseBackupDto implements ListVerseBackupDto {
   int get pos;
   @override
   @JsonKey(ignore: true)
-  _$$_ListVerseBackupDtoCopyWith<_$_ListVerseBackupDto> get copyWith =>
+  _$$ListVerseBackupDtoImplCopyWith<_$ListVerseBackupDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

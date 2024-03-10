@@ -12,7 +12,7 @@ part of 'islamic_info_shared_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$IslamicInfoSharedState {
@@ -90,11 +90,12 @@ class _$IslamicInfoSharedStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_IslamicInfoSharedStateCopyWith<$Res>
+abstract class _$$IslamicInfoSharedStateImplCopyWith<$Res>
     implements $IslamicInfoSharedStateCopyWith<$Res> {
-  factory _$$_IslamicInfoSharedStateCopyWith(_$_IslamicInfoSharedState value,
-          $Res Function(_$_IslamicInfoSharedState) then) =
-      __$$_IslamicInfoSharedStateCopyWithImpl<$Res>;
+  factory _$$IslamicInfoSharedStateImplCopyWith(
+          _$IslamicInfoSharedStateImpl value,
+          $Res Function(_$IslamicInfoSharedStateImpl) then) =
+      __$$IslamicInfoSharedStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -108,12 +109,13 @@ abstract class _$$_IslamicInfoSharedStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_IslamicInfoSharedStateCopyWithImpl<$Res>
+class __$$IslamicInfoSharedStateImplCopyWithImpl<$Res>
     extends _$IslamicInfoSharedStateCopyWithImpl<$Res,
-        _$_IslamicInfoSharedState>
-    implements _$$_IslamicInfoSharedStateCopyWith<$Res> {
-  __$$_IslamicInfoSharedStateCopyWithImpl(_$_IslamicInfoSharedState _value,
-      $Res Function(_$_IslamicInfoSharedState) _then)
+        _$IslamicInfoSharedStateImpl>
+    implements _$$IslamicInfoSharedStateImplCopyWith<$Res> {
+  __$$IslamicInfoSharedStateImplCopyWithImpl(
+      _$IslamicInfoSharedStateImpl _value,
+      $Res Function(_$IslamicInfoSharedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -124,7 +126,7 @@ class __$$_IslamicInfoSharedStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? fontModel = null,
   }) {
-    return _then(_$_IslamicInfoSharedState(
+    return _then(_$IslamicInfoSharedStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -147,10 +149,10 @@ class __$$_IslamicInfoSharedStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IslamicInfoSharedState
+class _$IslamicInfoSharedStateImpl
     with DiagnosticableTreeMixin
     implements _IslamicInfoSharedState {
-  const _$_IslamicInfoSharedState(
+  const _$IslamicInfoSharedStateImpl(
       {required final List<IslamicInfoCollection> items,
       required this.infoType,
       required this.isLoading,
@@ -189,10 +191,10 @@ class _$_IslamicInfoSharedState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IslamicInfoSharedState &&
+            other is _$IslamicInfoSharedStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.infoType, infoType) ||
                 other.infoType == infoType) &&
@@ -213,9 +215,9 @@ class _$_IslamicInfoSharedState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IslamicInfoSharedStateCopyWith<_$_IslamicInfoSharedState> get copyWith =>
-      __$$_IslamicInfoSharedStateCopyWithImpl<_$_IslamicInfoSharedState>(
-          this, _$identity);
+  _$$IslamicInfoSharedStateImplCopyWith<_$IslamicInfoSharedStateImpl>
+      get copyWith => __$$IslamicInfoSharedStateImplCopyWithImpl<
+          _$IslamicInfoSharedStateImpl>(this, _$identity);
 }
 
 abstract class _IslamicInfoSharedState implements IslamicInfoSharedState {
@@ -223,7 +225,7 @@ abstract class _IslamicInfoSharedState implements IslamicInfoSharedState {
       {required final List<IslamicInfoCollection> items,
       required final IslamicInfoType infoType,
       required final bool isLoading,
-      required final FontModel fontModel}) = _$_IslamicInfoSharedState;
+      required final FontModel fontModel}) = _$IslamicInfoSharedStateImpl;
 
   @override
   List<IslamicInfoCollection> get items;
@@ -235,6 +237,6 @@ abstract class _IslamicInfoSharedState implements IslamicInfoSharedState {
   FontModel get fontModel;
   @override
   @JsonKey(ignore: true)
-  _$$_IslamicInfoSharedStateCopyWith<_$_IslamicInfoSharedState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$IslamicInfoSharedStateImplCopyWith<_$IslamicInfoSharedStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

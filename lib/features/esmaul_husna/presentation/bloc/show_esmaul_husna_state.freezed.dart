@@ -12,7 +12,7 @@ part of 'show_esmaul_husna_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShowEsmaulHusnaState {
@@ -145,11 +145,11 @@ class _$ShowEsmaulHusnaStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ShowEsmaulHusnaStateCopyWith<$Res>
+abstract class _$$ShowEsmaulHusnaStateImplCopyWith<$Res>
     implements $ShowEsmaulHusnaStateCopyWith<$Res> {
-  factory _$$_ShowEsmaulHusnaStateCopyWith(_$_ShowEsmaulHusnaState value,
-          $Res Function(_$_ShowEsmaulHusnaState) then) =
-      __$$_ShowEsmaulHusnaStateCopyWithImpl<$Res>;
+  factory _$$ShowEsmaulHusnaStateImplCopyWith(_$ShowEsmaulHusnaStateImpl value,
+          $Res Function(_$ShowEsmaulHusnaStateImpl) then) =
+      __$$ShowEsmaulHusnaStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -171,11 +171,11 @@ abstract class _$$_ShowEsmaulHusnaStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ShowEsmaulHusnaStateCopyWithImpl<$Res>
-    extends _$ShowEsmaulHusnaStateCopyWithImpl<$Res, _$_ShowEsmaulHusnaState>
-    implements _$$_ShowEsmaulHusnaStateCopyWith<$Res> {
-  __$$_ShowEsmaulHusnaStateCopyWithImpl(_$_ShowEsmaulHusnaState _value,
-      $Res Function(_$_ShowEsmaulHusnaState) _then)
+class __$$ShowEsmaulHusnaStateImplCopyWithImpl<$Res>
+    extends _$ShowEsmaulHusnaStateCopyWithImpl<$Res, _$ShowEsmaulHusnaStateImpl>
+    implements _$$ShowEsmaulHusnaStateImplCopyWith<$Res> {
+  __$$ShowEsmaulHusnaStateImplCopyWithImpl(_$ShowEsmaulHusnaStateImpl _value,
+      $Res Function(_$ShowEsmaulHusnaStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -192,7 +192,7 @@ class __$$_ShowEsmaulHusnaStateCopyWithImpl<$Res>
     Object? jumpToPos = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$_ShowEsmaulHusnaState(
+    return _then(_$ShowEsmaulHusnaStateImpl(
       isDetailOpen: null == isDetailOpen
           ? _value.isDetailOpen
           : isDetailOpen // ignore: cast_nullable_to_non_nullable
@@ -239,9 +239,9 @@ class __$$_ShowEsmaulHusnaStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShowEsmaulHusnaState extends _ShowEsmaulHusnaState
+class _$ShowEsmaulHusnaStateImpl extends _ShowEsmaulHusnaState
     with DiagnosticableTreeMixin {
-  const _$_ShowEsmaulHusnaState(
+  const _$ShowEsmaulHusnaStateImpl(
       {required this.isDetailOpen,
       required final List<EsmaulHusna> items,
       required this.isLoading,
@@ -305,10 +305,10 @@ class _$_ShowEsmaulHusnaState extends _ShowEsmaulHusnaState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShowEsmaulHusnaState &&
+            other is _$ShowEsmaulHusnaStateImpl &&
             (identical(other.isDetailOpen, isDetailOpen) ||
                 other.isDetailOpen == isDetailOpen) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
@@ -346,9 +346,10 @@ class _$_ShowEsmaulHusnaState extends _ShowEsmaulHusnaState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShowEsmaulHusnaStateCopyWith<_$_ShowEsmaulHusnaState> get copyWith =>
-      __$$_ShowEsmaulHusnaStateCopyWithImpl<_$_ShowEsmaulHusnaState>(
-          this, _$identity);
+  _$$ShowEsmaulHusnaStateImplCopyWith<_$ShowEsmaulHusnaStateImpl>
+      get copyWith =>
+          __$$ShowEsmaulHusnaStateImplCopyWithImpl<_$ShowEsmaulHusnaStateImpl>(
+              this, _$identity);
 }
 
 abstract class _ShowEsmaulHusnaState extends ShowEsmaulHusnaState {
@@ -362,7 +363,7 @@ abstract class _ShowEsmaulHusnaState extends ShowEsmaulHusnaState {
       required final bool isSearchBarVisible,
       final EsmaulHusna? selectedItem,
       final int? jumpToPos,
-      final String? message}) = _$_ShowEsmaulHusnaState;
+      final String? message}) = _$ShowEsmaulHusnaStateImpl;
   const _ShowEsmaulHusnaState._() : super._();
 
   @override
@@ -387,6 +388,6 @@ abstract class _ShowEsmaulHusnaState extends ShowEsmaulHusnaState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_ShowEsmaulHusnaStateCopyWith<_$_ShowEsmaulHusnaState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ShowEsmaulHusnaStateImplCopyWith<_$ShowEsmaulHusnaStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

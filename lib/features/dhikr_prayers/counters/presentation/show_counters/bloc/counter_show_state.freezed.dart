@@ -12,7 +12,7 @@ part of 'counter_show_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CounterShowState {
@@ -69,22 +69,22 @@ class _$CounterShowStateCopyWithImpl<$Res, $Val extends CounterShowState>
 }
 
 /// @nodoc
-abstract class _$$_CounterShowStateCopyWith<$Res>
+abstract class _$$CounterShowStateImplCopyWith<$Res>
     implements $CounterShowStateCopyWith<$Res> {
-  factory _$$_CounterShowStateCopyWith(
-          _$_CounterShowState value, $Res Function(_$_CounterShowState) then) =
-      __$$_CounterShowStateCopyWithImpl<$Res>;
+  factory _$$CounterShowStateImplCopyWith(_$CounterShowStateImpl value,
+          $Res Function(_$CounterShowStateImpl) then) =
+      __$$CounterShowStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Counter> counters, bool showDetailContents, String? message});
 }
 
 /// @nodoc
-class __$$_CounterShowStateCopyWithImpl<$Res>
-    extends _$CounterShowStateCopyWithImpl<$Res, _$_CounterShowState>
-    implements _$$_CounterShowStateCopyWith<$Res> {
-  __$$_CounterShowStateCopyWithImpl(
-      _$_CounterShowState _value, $Res Function(_$_CounterShowState) _then)
+class __$$CounterShowStateImplCopyWithImpl<$Res>
+    extends _$CounterShowStateCopyWithImpl<$Res, _$CounterShowStateImpl>
+    implements _$$CounterShowStateImplCopyWith<$Res> {
+  __$$CounterShowStateImplCopyWithImpl(_$CounterShowStateImpl _value,
+      $Res Function(_$CounterShowStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_CounterShowStateCopyWithImpl<$Res>
     Object? showDetailContents = null,
     Object? message = freezed,
   }) {
-    return _then(_$_CounterShowState(
+    return _then(_$CounterShowStateImpl(
       counters: null == counters
           ? _value._counters
           : counters // ignore: cast_nullable_to_non_nullable
@@ -113,10 +113,10 @@ class __$$_CounterShowStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CounterShowState
+class _$CounterShowStateImpl
     with DiagnosticableTreeMixin
     implements _CounterShowState {
-  const _$_CounterShowState(
+  const _$CounterShowStateImpl(
       {required final List<Counter> counters,
       required this.showDetailContents,
       this.message})
@@ -151,10 +151,10 @@ class _$_CounterShowState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CounterShowState &&
+            other is _$CounterShowStateImpl &&
             const DeepCollectionEquality().equals(other._counters, _counters) &&
             (identical(other.showDetailContents, showDetailContents) ||
                 other.showDetailContents == showDetailContents) &&
@@ -171,15 +171,16 @@ class _$_CounterShowState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CounterShowStateCopyWith<_$_CounterShowState> get copyWith =>
-      __$$_CounterShowStateCopyWithImpl<_$_CounterShowState>(this, _$identity);
+  _$$CounterShowStateImplCopyWith<_$CounterShowStateImpl> get copyWith =>
+      __$$CounterShowStateImplCopyWithImpl<_$CounterShowStateImpl>(
+          this, _$identity);
 }
 
 abstract class _CounterShowState implements CounterShowState {
   const factory _CounterShowState(
       {required final List<Counter> counters,
       required final bool showDetailContents,
-      final String? message}) = _$_CounterShowState;
+      final String? message}) = _$CounterShowStateImpl;
 
   @override
   List<Counter> get counters;
@@ -189,6 +190,6 @@ abstract class _CounterShowState implements CounterShowState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_CounterShowStateCopyWith<_$_CounterShowState> get copyWith =>
+  _$$CounterShowStateImplCopyWith<_$CounterShowStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

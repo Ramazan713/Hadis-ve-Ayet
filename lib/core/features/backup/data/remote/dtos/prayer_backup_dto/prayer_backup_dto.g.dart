@@ -6,8 +6,9 @@ part of 'prayer_backup_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PrayerBackupDto _$$_PrayerBackupDtoFromJson(Map<String, dynamic> json) =>
-    _$_PrayerBackupDto(
+_$PrayerBackupDtoImpl _$$PrayerBackupDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PrayerBackupDtoImpl(
       id: json['id'] as int?,
       name: json['name'] as String?,
       arabicContent: json['arabicContent'] as String?,
@@ -24,7 +25,8 @@ _$_PrayerBackupDto _$$_PrayerBackupDtoFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_PrayerBackupDtoToJson(_$_PrayerBackupDto instance) =>
+Map<String, dynamic> _$$PrayerBackupDtoImplToJson(
+        _$PrayerBackupDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

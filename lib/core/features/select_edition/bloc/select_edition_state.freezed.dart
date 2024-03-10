@@ -12,7 +12,7 @@ part of 'select_edition_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SelectEditionState {
@@ -100,11 +100,11 @@ class _$SelectEditionStateCopyWithImpl<$Res, $Val extends SelectEditionState>
 }
 
 /// @nodoc
-abstract class _$$_SelectEditionStateCopyWith<$Res>
+abstract class _$$SelectEditionStateImplCopyWith<$Res>
     implements $SelectEditionStateCopyWith<$Res> {
-  factory _$$_SelectEditionStateCopyWith(_$_SelectEditionState value,
-          $Res Function(_$_SelectEditionState) then) =
-      __$$_SelectEditionStateCopyWithImpl<$Res>;
+  factory _$$SelectEditionStateImplCopyWith(_$SelectEditionStateImpl value,
+          $Res Function(_$SelectEditionStateImpl) then) =
+      __$$SelectEditionStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -118,11 +118,11 @@ abstract class _$$_SelectEditionStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SelectEditionStateCopyWithImpl<$Res>
-    extends _$SelectEditionStateCopyWithImpl<$Res, _$_SelectEditionState>
-    implements _$$_SelectEditionStateCopyWith<$Res> {
-  __$$_SelectEditionStateCopyWithImpl(
-      _$_SelectEditionState _value, $Res Function(_$_SelectEditionState) _then)
+class __$$SelectEditionStateImplCopyWithImpl<$Res>
+    extends _$SelectEditionStateCopyWithImpl<$Res, _$SelectEditionStateImpl>
+    implements _$$SelectEditionStateImplCopyWith<$Res> {
+  __$$SelectEditionStateImplCopyWithImpl(_$SelectEditionStateImpl _value,
+      $Res Function(_$SelectEditionStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +136,7 @@ class __$$_SelectEditionStateCopyWithImpl<$Res>
     Object? selectedEdition = freezed,
     Object? lastSavedEdition = freezed,
   }) {
-    return _then(_$_SelectEditionState(
+    return _then(_$SelectEditionStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -171,9 +171,9 @@ class __$$_SelectEditionStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectEditionState extends _SelectEditionState
+class _$SelectEditionStateImpl extends _SelectEditionState
     with DiagnosticableTreeMixin {
-  const _$_SelectEditionState(
+  const _$SelectEditionStateImpl(
       {required final List<AudioEdition> items,
       required this.selectedQuality,
       required this.lastSavedQuality,
@@ -225,10 +225,10 @@ class _$_SelectEditionState extends _SelectEditionState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SelectEditionState &&
+            other is _$SelectEditionStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.selectedQuality, selectedQuality) ||
                 other.selectedQuality == selectedQuality) &&
@@ -257,8 +257,8 @@ class _$_SelectEditionState extends _SelectEditionState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SelectEditionStateCopyWith<_$_SelectEditionState> get copyWith =>
-      __$$_SelectEditionStateCopyWithImpl<_$_SelectEditionState>(
+  _$$SelectEditionStateImplCopyWith<_$SelectEditionStateImpl> get copyWith =>
+      __$$SelectEditionStateImplCopyWithImpl<_$SelectEditionStateImpl>(
           this, _$identity);
 }
 
@@ -270,7 +270,7 @@ abstract class _SelectEditionState extends SelectEditionState {
       required final bool isLoading,
       final String? message,
       final AudioEdition? selectedEdition,
-      final AudioEdition? lastSavedEdition}) = _$_SelectEditionState;
+      final AudioEdition? lastSavedEdition}) = _$SelectEditionStateImpl;
   const _SelectEditionState._() : super._();
 
   @override
@@ -289,6 +289,6 @@ abstract class _SelectEditionState extends SelectEditionState {
   AudioEdition? get lastSavedEdition;
   @override
   @JsonKey(ignore: true)
-  _$$_SelectEditionStateCopyWith<_$_SelectEditionState> get copyWith =>
+  _$$SelectEditionStateImplCopyWith<_$SelectEditionStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

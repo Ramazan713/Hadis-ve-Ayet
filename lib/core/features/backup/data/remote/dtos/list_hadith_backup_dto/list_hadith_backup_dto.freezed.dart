@@ -12,7 +12,7 @@ part of 'list_hadith_backup_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ListHadithBackupDto _$ListHadithBackupDtoFromJson(Map<String, dynamic> json) {
   return _ListHadithBackupDto.fromJson(json);
@@ -74,22 +74,22 @@ class _$ListHadithBackupDtoCopyWithImpl<$Res, $Val extends ListHadithBackupDto>
 }
 
 /// @nodoc
-abstract class _$$_ListHadithBackupDtoCopyWith<$Res>
+abstract class _$$ListHadithBackupDtoImplCopyWith<$Res>
     implements $ListHadithBackupDtoCopyWith<$Res> {
-  factory _$$_ListHadithBackupDtoCopyWith(_$_ListHadithBackupDto value,
-          $Res Function(_$_ListHadithBackupDto) then) =
-      __$$_ListHadithBackupDtoCopyWithImpl<$Res>;
+  factory _$$ListHadithBackupDtoImplCopyWith(_$ListHadithBackupDtoImpl value,
+          $Res Function(_$ListHadithBackupDtoImpl) then) =
+      __$$ListHadithBackupDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int listId, int hadithId, int pos});
 }
 
 /// @nodoc
-class __$$_ListHadithBackupDtoCopyWithImpl<$Res>
-    extends _$ListHadithBackupDtoCopyWithImpl<$Res, _$_ListHadithBackupDto>
-    implements _$$_ListHadithBackupDtoCopyWith<$Res> {
-  __$$_ListHadithBackupDtoCopyWithImpl(_$_ListHadithBackupDto _value,
-      $Res Function(_$_ListHadithBackupDto) _then)
+class __$$ListHadithBackupDtoImplCopyWithImpl<$Res>
+    extends _$ListHadithBackupDtoCopyWithImpl<$Res, _$ListHadithBackupDtoImpl>
+    implements _$$ListHadithBackupDtoImplCopyWith<$Res> {
+  __$$ListHadithBackupDtoImplCopyWithImpl(_$ListHadithBackupDtoImpl _value,
+      $Res Function(_$ListHadithBackupDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_ListHadithBackupDtoCopyWithImpl<$Res>
     Object? hadithId = null,
     Object? pos = null,
   }) {
-    return _then(_$_ListHadithBackupDto(
+    return _then(_$ListHadithBackupDtoImpl(
       listId: null == listId
           ? _value.listId
           : listId // ignore: cast_nullable_to_non_nullable
@@ -118,14 +118,14 @@ class __$$_ListHadithBackupDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ListHadithBackupDto
+class _$ListHadithBackupDtoImpl
     with DiagnosticableTreeMixin
     implements _ListHadithBackupDto {
-  const _$_ListHadithBackupDto(
+  const _$ListHadithBackupDtoImpl(
       {required this.listId, required this.hadithId, required this.pos});
 
-  factory _$_ListHadithBackupDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ListHadithBackupDtoFromJson(json);
+  factory _$ListHadithBackupDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListHadithBackupDtoImplFromJson(json);
 
   @override
   final int listId;
@@ -150,10 +150,10 @@ class _$_ListHadithBackupDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ListHadithBackupDto &&
+            other is _$ListHadithBackupDtoImpl &&
             (identical(other.listId, listId) || other.listId == listId) &&
             (identical(other.hadithId, hadithId) ||
                 other.hadithId == hadithId) &&
@@ -167,13 +167,13 @@ class _$_ListHadithBackupDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ListHadithBackupDtoCopyWith<_$_ListHadithBackupDto> get copyWith =>
-      __$$_ListHadithBackupDtoCopyWithImpl<_$_ListHadithBackupDto>(
+  _$$ListHadithBackupDtoImplCopyWith<_$ListHadithBackupDtoImpl> get copyWith =>
+      __$$ListHadithBackupDtoImplCopyWithImpl<_$ListHadithBackupDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ListHadithBackupDtoToJson(
+    return _$$ListHadithBackupDtoImplToJson(
       this,
     );
   }
@@ -183,10 +183,10 @@ abstract class _ListHadithBackupDto implements ListHadithBackupDto {
   const factory _ListHadithBackupDto(
       {required final int listId,
       required final int hadithId,
-      required final int pos}) = _$_ListHadithBackupDto;
+      required final int pos}) = _$ListHadithBackupDtoImpl;
 
   factory _ListHadithBackupDto.fromJson(Map<String, dynamic> json) =
-      _$_ListHadithBackupDto.fromJson;
+      _$ListHadithBackupDtoImpl.fromJson;
 
   @override
   int get listId;
@@ -196,6 +196,6 @@ abstract class _ListHadithBackupDto implements ListHadithBackupDto {
   int get pos;
   @override
   @JsonKey(ignore: true)
-  _$$_ListHadithBackupDtoCopyWith<_$_ListHadithBackupDto> get copyWith =>
+  _$$ListHadithBackupDtoImplCopyWith<_$ListHadithBackupDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

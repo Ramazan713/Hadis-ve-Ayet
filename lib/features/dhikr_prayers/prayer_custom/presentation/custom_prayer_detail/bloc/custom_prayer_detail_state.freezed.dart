@@ -12,7 +12,7 @@ part of 'custom_prayer_detail_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CustomPrayerDetailState {
@@ -91,11 +91,12 @@ class _$CustomPrayerDetailStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CustomPrayerDetailStateCopyWith<$Res>
+abstract class _$$CustomPrayerDetailStateImplCopyWith<$Res>
     implements $CustomPrayerDetailStateCopyWith<$Res> {
-  factory _$$_CustomPrayerDetailStateCopyWith(_$_CustomPrayerDetailState value,
-          $Res Function(_$_CustomPrayerDetailState) then) =
-      __$$_CustomPrayerDetailStateCopyWithImpl<$Res>;
+  factory _$$CustomPrayerDetailStateImplCopyWith(
+          _$CustomPrayerDetailStateImpl value,
+          $Res Function(_$CustomPrayerDetailStateImpl) then) =
+      __$$CustomPrayerDetailStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -109,12 +110,13 @@ abstract class _$$_CustomPrayerDetailStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CustomPrayerDetailStateCopyWithImpl<$Res>
+class __$$CustomPrayerDetailStateImplCopyWithImpl<$Res>
     extends _$CustomPrayerDetailStateCopyWithImpl<$Res,
-        _$_CustomPrayerDetailState>
-    implements _$$_CustomPrayerDetailStateCopyWith<$Res> {
-  __$$_CustomPrayerDetailStateCopyWithImpl(_$_CustomPrayerDetailState _value,
-      $Res Function(_$_CustomPrayerDetailState) _then)
+        _$CustomPrayerDetailStateImpl>
+    implements _$$CustomPrayerDetailStateImplCopyWith<$Res> {
+  __$$CustomPrayerDetailStateImplCopyWithImpl(
+      _$CustomPrayerDetailStateImpl _value,
+      $Res Function(_$CustomPrayerDetailStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -125,7 +127,7 @@ class __$$_CustomPrayerDetailStateCopyWithImpl<$Res>
     Object? prayerUnit = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$_CustomPrayerDetailState(
+    return _then(_$CustomPrayerDetailStateImpl(
       fontModel: null == fontModel
           ? _value.fontModel
           : fontModel // ignore: cast_nullable_to_non_nullable
@@ -148,9 +150,9 @@ class __$$_CustomPrayerDetailStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
+class _$CustomPrayerDetailStateImpl extends _CustomPrayerDetailState
     with DiagnosticableTreeMixin {
-  const _$_CustomPrayerDetailState(
+  const _$CustomPrayerDetailStateImpl(
       {required this.fontModel,
       required this.isLoading,
       this.prayerUnit,
@@ -183,10 +185,10 @@ class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CustomPrayerDetailState &&
+            other is _$CustomPrayerDetailStateImpl &&
             (identical(other.fontModel, fontModel) ||
                 other.fontModel == fontModel) &&
             (identical(other.isLoading, isLoading) ||
@@ -203,10 +205,9 @@ class _$_CustomPrayerDetailState extends _CustomPrayerDetailState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CustomPrayerDetailStateCopyWith<_$_CustomPrayerDetailState>
-      get copyWith =>
-          __$$_CustomPrayerDetailStateCopyWithImpl<_$_CustomPrayerDetailState>(
-              this, _$identity);
+  _$$CustomPrayerDetailStateImplCopyWith<_$CustomPrayerDetailStateImpl>
+      get copyWith => __$$CustomPrayerDetailStateImplCopyWithImpl<
+          _$CustomPrayerDetailStateImpl>(this, _$identity);
 }
 
 abstract class _CustomPrayerDetailState extends CustomPrayerDetailState {
@@ -214,7 +215,7 @@ abstract class _CustomPrayerDetailState extends CustomPrayerDetailState {
       {required final FontModel fontModel,
       required final bool isLoading,
       final PrayerUnit<PrayerCustom>? prayerUnit,
-      final String? message}) = _$_CustomPrayerDetailState;
+      final String? message}) = _$CustomPrayerDetailStateImpl;
   const _CustomPrayerDetailState._() : super._();
 
   @override
@@ -227,6 +228,6 @@ abstract class _CustomPrayerDetailState extends CustomPrayerDetailState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_CustomPrayerDetailStateCopyWith<_$_CustomPrayerDetailState>
+  _$$CustomPrayerDetailStateImplCopyWith<_$CustomPrayerDetailStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

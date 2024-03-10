@@ -6,9 +6,9 @@ part of 'savepoint_backup_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SavePointBackupDto _$$_SavePointBackupDtoFromJson(
+_$SavePointBackupDtoImpl _$$SavePointBackupDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_SavePointBackupDto(
+    _$SavePointBackupDtoImpl(
       id: json['id'] as int?,
       itemIndexPos: json['itemIndexPos'] as int,
       title: json['title'] as String,
@@ -20,8 +20,8 @@ _$_SavePointBackupDto _$$_SavePointBackupDtoFromJson(
       parentKey: json['parentKey'] as String,
     );
 
-Map<String, dynamic> _$$_SavePointBackupDtoToJson(
-        _$_SavePointBackupDto instance) =>
+Map<String, dynamic> _$$SavePointBackupDtoImplToJson(
+        _$SavePointBackupDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'itemIndexPos': instance.itemIndexPos,

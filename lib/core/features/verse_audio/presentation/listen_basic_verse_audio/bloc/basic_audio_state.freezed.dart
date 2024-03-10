@@ -12,7 +12,7 @@ part of 'basic_audio_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BasicAudioState {
@@ -94,11 +94,11 @@ class _$BasicAudioStateCopyWithImpl<$Res, $Val extends BasicAudioState>
 }
 
 /// @nodoc
-abstract class _$$_BasicAudioStateCopyWith<$Res>
+abstract class _$$BasicAudioStateImplCopyWith<$Res>
     implements $BasicAudioStateCopyWith<$Res> {
-  factory _$$_BasicAudioStateCopyWith(
-          _$_BasicAudioState value, $Res Function(_$_BasicAudioState) then) =
-      __$$_BasicAudioStateCopyWithImpl<$Res>;
+  factory _$$BasicAudioStateImplCopyWith(_$BasicAudioStateImpl value,
+          $Res Function(_$BasicAudioStateImpl) then) =
+      __$$BasicAudioStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -111,11 +111,11 @@ abstract class _$$_BasicAudioStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BasicAudioStateCopyWithImpl<$Res>
-    extends _$BasicAudioStateCopyWithImpl<$Res, _$_BasicAudioState>
-    implements _$$_BasicAudioStateCopyWith<$Res> {
-  __$$_BasicAudioStateCopyWithImpl(
-      _$_BasicAudioState _value, $Res Function(_$_BasicAudioState) _then)
+class __$$BasicAudioStateImplCopyWithImpl<$Res>
+    extends _$BasicAudioStateCopyWithImpl<$Res, _$BasicAudioStateImpl>
+    implements _$$BasicAudioStateImplCopyWith<$Res> {
+  __$$BasicAudioStateImplCopyWithImpl(
+      _$BasicAudioStateImpl _value, $Res Function(_$BasicAudioStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +128,7 @@ class __$$_BasicAudioStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? audioTag = freezed,
   }) {
-    return _then(_$_BasicAudioState(
+    return _then(_$BasicAudioStateImpl(
       isDownloading: null == isDownloading
           ? _value.isDownloading
           : isDownloading // ignore: cast_nullable_to_non_nullable
@@ -159,8 +159,9 @@ class __$$_BasicAudioStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BasicAudioState extends _BasicAudioState with DiagnosticableTreeMixin {
-  const _$_BasicAudioState(
+class _$BasicAudioStateImpl extends _BasicAudioState
+    with DiagnosticableTreeMixin {
+  const _$BasicAudioStateImpl(
       {required this.isDownloading,
       required this.showAudioPlayerWidget,
       this.audioServiceState,
@@ -201,10 +202,10 @@ class _$_BasicAudioState extends _BasicAudioState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BasicAudioState &&
+            other is _$BasicAudioStateImpl &&
             (identical(other.isDownloading, isDownloading) ||
                 other.isDownloading == isDownloading) &&
             (identical(other.showAudioPlayerWidget, showAudioPlayerWidget) ||
@@ -231,8 +232,9 @@ class _$_BasicAudioState extends _BasicAudioState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BasicAudioStateCopyWith<_$_BasicAudioState> get copyWith =>
-      __$$_BasicAudioStateCopyWithImpl<_$_BasicAudioState>(this, _$identity);
+  _$$BasicAudioStateImplCopyWith<_$BasicAudioStateImpl> get copyWith =>
+      __$$BasicAudioStateImplCopyWithImpl<_$BasicAudioStateImpl>(
+          this, _$identity);
 }
 
 abstract class _BasicAudioState extends BasicAudioState {
@@ -242,7 +244,7 @@ abstract class _BasicAudioState extends BasicAudioState {
       final ListenAudioServiceState? audioServiceState,
       final String? activeIdentifier,
       final String? message,
-      final String? audioTag}) = _$_BasicAudioState;
+      final String? audioTag}) = _$BasicAudioStateImpl;
   const _BasicAudioState._() : super._();
 
   @override
@@ -259,6 +261,6 @@ abstract class _BasicAudioState extends BasicAudioState {
   String? get audioTag;
   @override
   @JsonKey(ignore: true)
-  _$$_BasicAudioStateCopyWith<_$_BasicAudioState> get copyWith =>
+  _$$BasicAudioStateImplCopyWith<_$BasicAudioStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

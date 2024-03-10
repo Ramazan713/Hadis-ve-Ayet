@@ -12,7 +12,7 @@ part of 'select_dhikr_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SelectDhikrState {
@@ -93,11 +93,11 @@ class _$SelectDhikrStateCopyWithImpl<$Res, $Val extends SelectDhikrState>
 }
 
 /// @nodoc
-abstract class _$$_SelectDhikrStateCopyWith<$Res>
+abstract class _$$SelectDhikrStateImplCopyWith<$Res>
     implements $SelectDhikrStateCopyWith<$Res> {
-  factory _$$_SelectDhikrStateCopyWith(
-          _$_SelectDhikrState value, $Res Function(_$_SelectDhikrState) then) =
-      __$$_SelectDhikrStateCopyWithImpl<$Res>;
+  factory _$$SelectDhikrStateImplCopyWith(_$SelectDhikrStateImpl value,
+          $Res Function(_$SelectDhikrStateImpl) then) =
+      __$$SelectDhikrStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -111,11 +111,11 @@ abstract class _$$_SelectDhikrStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SelectDhikrStateCopyWithImpl<$Res>
-    extends _$SelectDhikrStateCopyWithImpl<$Res, _$_SelectDhikrState>
-    implements _$$_SelectDhikrStateCopyWith<$Res> {
-  __$$_SelectDhikrStateCopyWithImpl(
-      _$_SelectDhikrState _value, $Res Function(_$_SelectDhikrState) _then)
+class __$$SelectDhikrStateImplCopyWithImpl<$Res>
+    extends _$SelectDhikrStateCopyWithImpl<$Res, _$SelectDhikrStateImpl>
+    implements _$$SelectDhikrStateImplCopyWith<$Res> {
+  __$$SelectDhikrStateImplCopyWithImpl(_$SelectDhikrStateImpl _value,
+      $Res Function(_$SelectDhikrStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -126,7 +126,7 @@ class __$$_SelectDhikrStateCopyWithImpl<$Res>
     Object? showDetails = null,
     Object? selectedItem = freezed,
   }) {
-    return _then(_$_SelectDhikrState(
+    return _then(_$SelectDhikrStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -149,10 +149,10 @@ class __$$_SelectDhikrStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectDhikrState
+class _$SelectDhikrStateImpl
     with DiagnosticableTreeMixin
     implements _SelectDhikrState {
-  const _$_SelectDhikrState(
+  const _$SelectDhikrStateImpl(
       {required final List<PrayerDhikr> items,
       required this.isLoading,
       required this.showDetails,
@@ -191,10 +191,10 @@ class _$_SelectDhikrState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SelectDhikrState &&
+            other is _$SelectDhikrStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
@@ -215,8 +215,9 @@ class _$_SelectDhikrState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SelectDhikrStateCopyWith<_$_SelectDhikrState> get copyWith =>
-      __$$_SelectDhikrStateCopyWithImpl<_$_SelectDhikrState>(this, _$identity);
+  _$$SelectDhikrStateImplCopyWith<_$SelectDhikrStateImpl> get copyWith =>
+      __$$SelectDhikrStateImplCopyWithImpl<_$SelectDhikrStateImpl>(
+          this, _$identity);
 }
 
 abstract class _SelectDhikrState implements SelectDhikrState {
@@ -224,7 +225,7 @@ abstract class _SelectDhikrState implements SelectDhikrState {
       {required final List<PrayerDhikr> items,
       required final bool isLoading,
       required final bool showDetails,
-      final PrayerDhikr? selectedItem}) = _$_SelectDhikrState;
+      final PrayerDhikr? selectedItem}) = _$SelectDhikrStateImpl;
 
   @override
   List<PrayerDhikr> get items;
@@ -236,6 +237,6 @@ abstract class _SelectDhikrState implements SelectDhikrState {
   PrayerDhikr? get selectedItem;
   @override
   @JsonKey(ignore: true)
-  _$$_SelectDhikrStateCopyWith<_$_SelectDhikrState> get copyWith =>
+  _$$SelectDhikrStateImplCopyWith<_$SelectDhikrStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/app_k.dart';
 import 'package:hadith/core/domain/enums/app_bar_type.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
 import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/lazy_aligned_grid_view.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_dropdown_menu.dart';
 import 'package:hadith/core/features/adaptive/presentation/select_adaptive_menu_items.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_config/select_quran_section_config.dart';
+import 'package:hadith/core/features/select_quran_section/presentation/show_select_quran_section_dia.dart';
 import 'package:hadith/core/presentation/components/animated/custom_visibility_with_scrolling.dart';
 import 'package:hadith/core/presentation/components/app_bar/default_nested_searchable_app_bar.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
@@ -15,11 +18,11 @@ import 'package:hadith/core/presentation/controllers/custom_scroll_controller.da
 import 'package:hadith/features/app/routes/app_routers.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/custom_prayer_add_action_enum.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/show_custom_prayers_select_menu.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/show_create_quran_prayer_dia.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_state.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/components/custom_prayer_item.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/presentation/select_dhikr/show_select_dhikr_dia.dart';
 
 import './sections/components_section.dart';
@@ -135,7 +138,19 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
                 Navigator.pop(context);
                 switch(menuItem){
                   case CustomPrayerAddActionMenuEnum.addFromQuran:
-                    showCreateQuranPrayerDia(context);
+                    showSelectQuranSectionDia(
+                      context: context,
+                      baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialogSheet,
+                      config: const SelectQuranSectionConfig(
+                        title: "Kurandan Ekle",
+                        btnName: "Oluştur",
+                        showSelectPage: false,
+                        includeSelectedVerses: true
+                      ),
+                      onSubmit: (data){
+                        bloc.add(ShowCustomPrayersEventAddPrayerFromQuran(data: data));
+                      }
+                    );
                     break;
                   case CustomPrayerAddActionMenuEnum.addFromManuel:
                     AddCustomPrayerRoute().push(context);

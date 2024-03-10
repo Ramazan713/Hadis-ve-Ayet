@@ -1,9 +1,11 @@
 
 import 'package:collection/collection.dart';
 import 'package:hadith/core/data/local/entities/prayer_entity.dart';
+import 'package:hadith/core/data/local/entities/prayer_verse_entity.dart';
 import 'package:hadith/core/data/local/services/counter_dao.dart';
 import 'package:hadith/core/data/local/services/prayer_dao.dart';
 import 'package:hadith/core/domain/use_cases/query_ext_use_case.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_result/select_quran_section_result.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_custom_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_entity_mapper.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_verse_mapper.dart';
@@ -40,6 +42,25 @@ class PrayerCustomRepoImpl extends PrayerCustomRepo{
   @override
   Future<void> deletePrayerCustom(PrayerCustom prayer) async{
     await _prayerDao.deletePrayer(prayer.toPrayerEntity());
+  }
+
+  @override
+  Future<void> insertPrayerFromSelectQuran(SelectQuranSectionResult data) async{
+    final prayerEntity = PrayerCustom(
+      name: data.name,
+      arabicContent: data.arabicContent,
+      meaningContent: data.meaningContent,
+      source: data.source
+    ).toPrayerEntity();
+
+    final prayerId = await _prayerDao.insertPrayerWithOrder(prayerEntity);
+
+    final prayerVerseEntities = data.selectedVerses.map((e) => e.id!)
+        .sorted((a, b) => a.compareTo(b))
+        .mapIndexed((index,verseId) => PrayerVerseEntity(id: null, verseId: verseId, prayerId: prayerId, orderItem: index + 1))
+        .toList();
+
+    await _prayerDao.insertPrayerVerses(prayerVerseEntities);
   }
 
 

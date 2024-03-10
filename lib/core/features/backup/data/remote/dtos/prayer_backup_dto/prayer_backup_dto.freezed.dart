@@ -12,7 +12,7 @@ part of 'prayer_backup_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PrayerBackupDto _$PrayerBackupDtoFromJson(Map<String, dynamic> json) {
   return _PrayerBackupDto.fromJson(json);
@@ -141,11 +141,11 @@ class _$PrayerBackupDtoCopyWithImpl<$Res, $Val extends PrayerBackupDto>
 }
 
 /// @nodoc
-abstract class _$$_PrayerBackupDtoCopyWith<$Res>
+abstract class _$$PrayerBackupDtoImplCopyWith<$Res>
     implements $PrayerBackupDtoCopyWith<$Res> {
-  factory _$$_PrayerBackupDtoCopyWith(
-          _$_PrayerBackupDto value, $Res Function(_$_PrayerBackupDto) then) =
-      __$$_PrayerBackupDtoCopyWithImpl<$Res>;
+  factory _$$PrayerBackupDtoImplCopyWith(_$PrayerBackupDtoImpl value,
+          $Res Function(_$PrayerBackupDtoImpl) then) =
+      __$$PrayerBackupDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -164,11 +164,11 @@ abstract class _$$_PrayerBackupDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerBackupDtoCopyWithImpl<$Res>
-    extends _$PrayerBackupDtoCopyWithImpl<$Res, _$_PrayerBackupDto>
-    implements _$$_PrayerBackupDtoCopyWith<$Res> {
-  __$$_PrayerBackupDtoCopyWithImpl(
-      _$_PrayerBackupDto _value, $Res Function(_$_PrayerBackupDto) _then)
+class __$$PrayerBackupDtoImplCopyWithImpl<$Res>
+    extends _$PrayerBackupDtoCopyWithImpl<$Res, _$PrayerBackupDtoImpl>
+    implements _$$PrayerBackupDtoImplCopyWith<$Res> {
+  __$$PrayerBackupDtoImplCopyWithImpl(
+      _$PrayerBackupDtoImpl _value, $Res Function(_$PrayerBackupDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -187,7 +187,7 @@ class __$$_PrayerBackupDtoCopyWithImpl<$Res>
     Object? isRemovable = null,
     Object? prayerVerseBackups = null,
   }) {
-    return _then(_$_PrayerBackupDto(
+    return _then(_$PrayerBackupDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -242,10 +242,10 @@ class __$$_PrayerBackupDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PrayerBackupDto
+class _$PrayerBackupDtoImpl
     with DiagnosticableTreeMixin
     implements _PrayerBackupDto {
-  const _$_PrayerBackupDto(
+  const _$PrayerBackupDtoImpl(
       {this.id,
       this.name,
       this.arabicContent,
@@ -260,8 +260,8 @@ class _$_PrayerBackupDto
       required final List<PrayerVerseBackupDto> prayerVerseBackups})
       : _prayerVerseBackups = prayerVerseBackups;
 
-  factory _$_PrayerBackupDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PrayerBackupDtoFromJson(json);
+  factory _$PrayerBackupDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PrayerBackupDtoImplFromJson(json);
 
   @override
   final int? id;
@@ -319,10 +319,10 @@ class _$_PrayerBackupDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerBackupDto &&
+            other is _$PrayerBackupDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.arabicContent, arabicContent) ||
@@ -365,12 +365,13 @@ class _$_PrayerBackupDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerBackupDtoCopyWith<_$_PrayerBackupDto> get copyWith =>
-      __$$_PrayerBackupDtoCopyWithImpl<_$_PrayerBackupDto>(this, _$identity);
+  _$$PrayerBackupDtoImplCopyWith<_$PrayerBackupDtoImpl> get copyWith =>
+      __$$PrayerBackupDtoImplCopyWithImpl<_$PrayerBackupDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PrayerBackupDtoToJson(
+    return _$$PrayerBackupDtoImplToJson(
       this,
     );
   }
@@ -390,10 +391,10 @@ abstract class _PrayerBackupDto implements PrayerBackupDto {
           required final int orderItem,
           required final bool isRemovable,
           required final List<PrayerVerseBackupDto> prayerVerseBackups}) =
-      _$_PrayerBackupDto;
+      _$PrayerBackupDtoImpl;
 
   factory _PrayerBackupDto.fromJson(Map<String, dynamic> json) =
-      _$_PrayerBackupDto.fromJson;
+      _$PrayerBackupDtoImpl.fromJson;
 
   @override
   int? get id;
@@ -421,6 +422,6 @@ abstract class _PrayerBackupDto implements PrayerBackupDto {
   List<PrayerVerseBackupDto> get prayerVerseBackups;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerBackupDtoCopyWith<_$_PrayerBackupDto> get copyWith =>
+  _$$PrayerBackupDtoImplCopyWith<_$PrayerBackupDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

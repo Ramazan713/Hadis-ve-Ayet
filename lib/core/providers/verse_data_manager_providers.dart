@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/features/select_quran_section/data/manager/select_quran_manager_impl.dart';
+import 'package:hadith/core/features/select_quran_section/domain/manager/select_quran_manager.dart';
 import 'package:hadith/core/features/verse_audio/data/manager/verse_audio_download_manager_impl.dart';
 import 'package:hadith/core/features/verse_audio/data/services/verse_audio_just_service.dart';
 import 'package:hadith/core/features/verse_audio/domain/manager/verse_audio_download_manager.dart';
 import 'package:hadith/core/features/verse_audio/domain/services/i_verse_audio_service.dart';
 import 'package:hadith/core/data/local/database.dart';
-import 'package:hadith/core/features/verses/data/manager/select_verse_manager_impl.dart';
-import 'package:hadith/core/features/verses/domain/manager/select_verse_manager.dart';
 
 List<RepositoryProvider> pVerseDataManagerProviders(BuildContext context,AppDatabase appDatabase){
   return [
@@ -19,13 +19,16 @@ List<RepositoryProvider> pVerseDataManagerProviders(BuildContext context,AppData
     )),
 
     RepositoryProvider<VerseAudioDownloadManager>(create: (context)=>VerseAudioDownloadManagerImpl(
-        quranDownloadService: context.read(),
-        verseAudioRepo: context.read(),
-        connectivityService: context.read(),
-        verseDownloadedVoiceRepo: context.read()
+      quranDownloadService: context.read(),
+      verseAudioRepo: context.read(),
+      connectivityService: context.read(),
+      verseDownloadedVoiceRepo: context.read()
     )),
-    RepositoryProvider<SelectVerseManager>(create: (context)=>SelectVerseManagerImpl(
-        selectVersePageRepo: context.read()
+    RepositoryProvider<SelectQuranManager>(create: (context)=>SelectQuranManagerImpl(
+      selectVersePageRepo: context.read(),
+      verseArabicDao: appDatabase.verseArabicDao,
+      verseDao: appDatabase.verseDao,
+      surahDao: appDatabase.surahDao
     ))
   ];
 }

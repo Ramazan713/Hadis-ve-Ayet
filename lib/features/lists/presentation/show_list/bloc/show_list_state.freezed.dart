@@ -12,7 +12,7 @@ part of 'show_list_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShowListState {
@@ -121,11 +121,11 @@ class _$ShowListStateCopyWithImpl<$Res, $Val extends ShowListState>
 }
 
 /// @nodoc
-abstract class _$$_ShowListStateCopyWith<$Res>
+abstract class _$$ShowListStateImplCopyWith<$Res>
     implements $ShowListStateCopyWith<$Res> {
-  factory _$$_ShowListStateCopyWith(
-          _$_ShowListState value, $Res Function(_$_ShowListState) then) =
-      __$$_ShowListStateCopyWithImpl<$Res>;
+  factory _$$ShowListStateImplCopyWith(
+          _$ShowListStateImpl value, $Res Function(_$ShowListStateImpl) then) =
+      __$$ShowListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -142,11 +142,11 @@ abstract class _$$_ShowListStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ShowListStateCopyWithImpl<$Res>
-    extends _$ShowListStateCopyWithImpl<$Res, _$_ShowListState>
-    implements _$$_ShowListStateCopyWith<$Res> {
-  __$$_ShowListStateCopyWithImpl(
-      _$_ShowListState _value, $Res Function(_$_ShowListState) _then)
+class __$$ShowListStateImplCopyWithImpl<$Res>
+    extends _$ShowListStateCopyWithImpl<$Res, _$ShowListStateImpl>
+    implements _$$ShowListStateImplCopyWith<$Res> {
+  __$$ShowListStateImplCopyWithImpl(
+      _$ShowListStateImpl _value, $Res Function(_$ShowListStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -163,7 +163,7 @@ class __$$_ShowListStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? jumpToPos = freezed,
   }) {
-    return _then(_$_ShowListState(
+    return _then(_$ShowListStateImpl(
       currentTab: null == currentTab
           ? _value.currentTab
           : currentTab // ignore: cast_nullable_to_non_nullable
@@ -210,8 +210,8 @@ class __$$_ShowListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
-  const _$_ShowListState(
+class _$ShowListStateImpl extends _ShowListState with DiagnosticableTreeMixin {
+  const _$ShowListStateImpl(
       {required this.currentTab,
       required this.searchBarVisible,
       required final List<ListViewModel> listHadiths,
@@ -282,10 +282,10 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShowListState &&
+            other is _$ShowListStateImpl &&
             (identical(other.currentTab, currentTab) ||
                 other.currentTab == currentTab) &&
             (identical(other.searchBarVisible, searchBarVisible) ||
@@ -324,8 +324,8 @@ class _$_ShowListState extends _ShowListState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShowListStateCopyWith<_$_ShowListState> get copyWith =>
-      __$$_ShowListStateCopyWithImpl<_$_ShowListState>(this, _$identity);
+  _$$ShowListStateImplCopyWith<_$ShowListStateImpl> get copyWith =>
+      __$$ShowListStateImplCopyWithImpl<_$ShowListStateImpl>(this, _$identity);
 }
 
 abstract class _ShowListState extends ShowListState {
@@ -339,7 +339,7 @@ abstract class _ShowListState extends ShowListState {
       required final bool isHadithLoading,
       final ListViewModel? selectedItem,
       final String? message,
-      final int? jumpToPos}) = _$_ShowListState;
+      final int? jumpToPos}) = _$ShowListStateImpl;
   const _ShowListState._() : super._();
 
   @override
@@ -364,6 +364,6 @@ abstract class _ShowListState extends ShowListState {
   int? get jumpToPos;
   @override
   @JsonKey(ignore: true)
-  _$$_ShowListStateCopyWith<_$_ShowListState> get copyWith =>
+  _$$ShowListStateImplCopyWith<_$ShowListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

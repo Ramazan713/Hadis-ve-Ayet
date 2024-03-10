@@ -12,7 +12,7 @@ part of 'esmaul_husna.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$EsmaulHusna {
@@ -114,11 +114,11 @@ class _$EsmaulHusnaCopyWithImpl<$Res, $Val extends EsmaulHusna>
 }
 
 /// @nodoc
-abstract class _$$_EsmaulHusnaCopyWith<$Res>
+abstract class _$$EsmaulHusnaImplCopyWith<$Res>
     implements $EsmaulHusnaCopyWith<$Res> {
-  factory _$$_EsmaulHusnaCopyWith(
-          _$_EsmaulHusna value, $Res Function(_$_EsmaulHusna) then) =
-      __$$_EsmaulHusnaCopyWithImpl<$Res>;
+  factory _$$EsmaulHusnaImplCopyWith(
+          _$EsmaulHusnaImpl value, $Res Function(_$EsmaulHusnaImpl) then) =
+      __$$EsmaulHusnaImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -134,11 +134,11 @@ abstract class _$$_EsmaulHusnaCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EsmaulHusnaCopyWithImpl<$Res>
-    extends _$EsmaulHusnaCopyWithImpl<$Res, _$_EsmaulHusna>
-    implements _$$_EsmaulHusnaCopyWith<$Res> {
-  __$$_EsmaulHusnaCopyWithImpl(
-      _$_EsmaulHusna _value, $Res Function(_$_EsmaulHusna) _then)
+class __$$EsmaulHusnaImplCopyWithImpl<$Res>
+    extends _$EsmaulHusnaCopyWithImpl<$Res, _$EsmaulHusnaImpl>
+    implements _$$EsmaulHusnaImplCopyWith<$Res> {
+  __$$EsmaulHusnaImplCopyWithImpl(
+      _$EsmaulHusnaImpl _value, $Res Function(_$EsmaulHusnaImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -154,7 +154,7 @@ class __$$_EsmaulHusnaCopyWithImpl<$Res>
     Object? virtue = null,
     Object? counterId = freezed,
   }) {
-    return _then(_$_EsmaulHusna(
+    return _then(_$EsmaulHusnaImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -197,8 +197,8 @@ class __$$_EsmaulHusnaCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
-  const _$_EsmaulHusna(
+class _$EsmaulHusnaImpl with DiagnosticableTreeMixin implements _EsmaulHusna {
+  const _$EsmaulHusnaImpl(
       {required this.id,
       required this.order,
       required this.name,
@@ -250,10 +250,10 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EsmaulHusna &&
+            other is _$EsmaulHusnaImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.order, order) || other.order == order) &&
             (identical(other.name, name) || other.name == name) &&
@@ -275,8 +275,8 @@ class _$_EsmaulHusna with DiagnosticableTreeMixin implements _EsmaulHusna {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EsmaulHusnaCopyWith<_$_EsmaulHusna> get copyWith =>
-      __$$_EsmaulHusnaCopyWithImpl<_$_EsmaulHusna>(this, _$identity);
+  _$$EsmaulHusnaImplCopyWith<_$EsmaulHusnaImpl> get copyWith =>
+      __$$EsmaulHusnaImplCopyWithImpl<_$EsmaulHusnaImpl>(this, _$identity);
 }
 
 abstract class _EsmaulHusna implements EsmaulHusna {
@@ -289,7 +289,7 @@ abstract class _EsmaulHusna implements EsmaulHusna {
       required final String meaning,
       required final String dhikr,
       required final String virtue,
-      required final int? counterId}) = _$_EsmaulHusna;
+      required final int? counterId}) = _$EsmaulHusnaImpl;
 
   @override
   int? get id;
@@ -311,6 +311,6 @@ abstract class _EsmaulHusna implements EsmaulHusna {
   int? get counterId;
   @override
   @JsonKey(ignore: true)
-  _$$_EsmaulHusnaCopyWith<_$_EsmaulHusna> get copyWith =>
+  _$$EsmaulHusnaImplCopyWith<_$EsmaulHusnaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

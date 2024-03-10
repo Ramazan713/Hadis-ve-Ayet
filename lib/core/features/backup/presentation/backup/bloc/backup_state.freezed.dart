@@ -12,7 +12,7 @@ part of 'backup_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BackupState {
@@ -93,11 +93,11 @@ class _$BackupStateCopyWithImpl<$Res, $Val extends BackupState>
 }
 
 /// @nodoc
-abstract class _$$_BackupStateCopyWith<$Res>
+abstract class _$$BackupStateImplCopyWith<$Res>
     implements $BackupStateCopyWith<$Res> {
-  factory _$$_BackupStateCopyWith(
-          _$_BackupState value, $Res Function(_$_BackupState) then) =
-      __$$_BackupStateCopyWithImpl<$Res>;
+  factory _$$BackupStateImplCopyWith(
+          _$BackupStateImpl value, $Res Function(_$BackupStateImpl) then) =
+      __$$BackupStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -111,11 +111,11 @@ abstract class _$$_BackupStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BackupStateCopyWithImpl<$Res>
-    extends _$BackupStateCopyWithImpl<$Res, _$_BackupState>
-    implements _$$_BackupStateCopyWith<$Res> {
-  __$$_BackupStateCopyWithImpl(
-      _$_BackupState _value, $Res Function(_$_BackupState) _then)
+class __$$BackupStateImplCopyWithImpl<$Res>
+    extends _$BackupStateCopyWithImpl<$Res, _$BackupStateImpl>
+    implements _$$BackupStateImplCopyWith<$Res> {
+  __$$BackupStateImplCopyWithImpl(
+      _$BackupStateImpl _value, $Res Function(_$BackupStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -126,7 +126,7 @@ class __$$_BackupStateCopyWithImpl<$Res>
     Object? actionResult = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$_BackupState(
+    return _then(_$BackupStateImpl(
       loadingEnum: null == loadingEnum
           ? _value.loadingEnum
           : loadingEnum // ignore: cast_nullable_to_non_nullable
@@ -149,8 +149,8 @@ class __$$_BackupStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BackupState with DiagnosticableTreeMixin implements _BackupState {
-  const _$_BackupState(
+class _$BackupStateImpl with DiagnosticableTreeMixin implements _BackupState {
+  const _$BackupStateImpl(
       {required this.loadingEnum,
       required this.refreshApp,
       this.actionResult,
@@ -182,10 +182,10 @@ class _$_BackupState with DiagnosticableTreeMixin implements _BackupState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BackupState &&
+            other is _$BackupStateImpl &&
             (identical(other.loadingEnum, loadingEnum) ||
                 other.loadingEnum == loadingEnum) &&
             (identical(other.refreshApp, refreshApp) ||
@@ -202,8 +202,8 @@ class _$_BackupState with DiagnosticableTreeMixin implements _BackupState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BackupStateCopyWith<_$_BackupState> get copyWith =>
-      __$$_BackupStateCopyWithImpl<_$_BackupState>(this, _$identity);
+  _$$BackupStateImplCopyWith<_$BackupStateImpl> get copyWith =>
+      __$$BackupStateImplCopyWithImpl<_$BackupStateImpl>(this, _$identity);
 }
 
 abstract class _BackupState implements BackupState {
@@ -211,7 +211,7 @@ abstract class _BackupState implements BackupState {
       {required final LoadingEnum loadingEnum,
       required final bool refreshApp,
       final ActionResult? actionResult,
-      final String? message}) = _$_BackupState;
+      final String? message}) = _$BackupStateImpl;
 
   @override
   LoadingEnum get loadingEnum;
@@ -223,6 +223,6 @@ abstract class _BackupState implements BackupState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_BackupStateCopyWith<_$_BackupState> get copyWith =>
+  _$$BackupStateImplCopyWith<_$BackupStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

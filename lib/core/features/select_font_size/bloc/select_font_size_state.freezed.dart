@@ -12,7 +12,7 @@ part of 'select_font_size_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SelectFontSizeState {
@@ -106,11 +106,11 @@ class _$SelectFontSizeStateCopyWithImpl<$Res, $Val extends SelectFontSizeState>
 }
 
 /// @nodoc
-abstract class _$$_SelectFontSizeStateCopyWith<$Res>
+abstract class _$$SelectFontSizeStateImplCopyWith<$Res>
     implements $SelectFontSizeStateCopyWith<$Res> {
-  factory _$$_SelectFontSizeStateCopyWith(_$_SelectFontSizeState value,
-          $Res Function(_$_SelectFontSizeState) then) =
-      __$$_SelectFontSizeStateCopyWithImpl<$Res>;
+  factory _$$SelectFontSizeStateImplCopyWith(_$SelectFontSizeStateImpl value,
+          $Res Function(_$SelectFontSizeStateImpl) then) =
+      __$$SelectFontSizeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -124,11 +124,11 @@ abstract class _$$_SelectFontSizeStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SelectFontSizeStateCopyWithImpl<$Res>
-    extends _$SelectFontSizeStateCopyWithImpl<$Res, _$_SelectFontSizeState>
-    implements _$$_SelectFontSizeStateCopyWith<$Res> {
-  __$$_SelectFontSizeStateCopyWithImpl(_$_SelectFontSizeState _value,
-      $Res Function(_$_SelectFontSizeState) _then)
+class __$$SelectFontSizeStateImplCopyWithImpl<$Res>
+    extends _$SelectFontSizeStateCopyWithImpl<$Res, _$SelectFontSizeStateImpl>
+    implements _$$SelectFontSizeStateImplCopyWith<$Res> {
+  __$$SelectFontSizeStateImplCopyWithImpl(_$SelectFontSizeStateImpl _value,
+      $Res Function(_$SelectFontSizeStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -142,7 +142,7 @@ class __$$_SelectFontSizeStateCopyWithImpl<$Res>
     Object? lastSavedSelectedFontFamilyArabic = null,
     Object? message = freezed,
   }) {
-    return _then(_$_SelectFontSizeState(
+    return _then(_$SelectFontSizeStateImpl(
       selectedContentFontSize: null == selectedContentFontSize
           ? _value.selectedContentFontSize
           : selectedContentFontSize // ignore: cast_nullable_to_non_nullable
@@ -178,9 +178,9 @@ class __$$_SelectFontSizeStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectFontSizeState extends _SelectFontSizeState
+class _$SelectFontSizeStateImpl extends _SelectFontSizeState
     with DiagnosticableTreeMixin {
-  const _$_SelectFontSizeState(
+  const _$SelectFontSizeStateImpl(
       {required this.selectedContentFontSize,
       required this.lastSavedContentFontSize,
       required this.selectedArabicFontSize,
@@ -231,10 +231,10 @@ class _$_SelectFontSizeState extends _SelectFontSizeState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SelectFontSizeState &&
+            other is _$SelectFontSizeStateImpl &&
             (identical(
                     other.selectedContentFontSize, selectedContentFontSize) ||
                 other.selectedContentFontSize == selectedContentFontSize) &&
@@ -270,8 +270,8 @@ class _$_SelectFontSizeState extends _SelectFontSizeState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SelectFontSizeStateCopyWith<_$_SelectFontSizeState> get copyWith =>
-      __$$_SelectFontSizeStateCopyWithImpl<_$_SelectFontSizeState>(
+  _$$SelectFontSizeStateImplCopyWith<_$SelectFontSizeStateImpl> get copyWith =>
+      __$$SelectFontSizeStateImplCopyWithImpl<_$SelectFontSizeStateImpl>(
           this, _$identity);
 }
 
@@ -283,7 +283,7 @@ abstract class _SelectFontSizeState extends SelectFontSizeState {
       required final FontSizeEnum lastSavedArabicFontSize,
       required final FontFamilyArabicEnum selectedFontFamilyArabic,
       required final FontFamilyArabicEnum lastSavedSelectedFontFamilyArabic,
-      final String? message}) = _$_SelectFontSizeState;
+      final String? message}) = _$SelectFontSizeStateImpl;
   const _SelectFontSizeState._() : super._();
 
   @override
@@ -302,6 +302,6 @@ abstract class _SelectFontSizeState extends SelectFontSizeState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_SelectFontSizeStateCopyWith<_$_SelectFontSizeState> get copyWith =>
+  _$$SelectFontSizeStateImplCopyWith<_$SelectFontSizeStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

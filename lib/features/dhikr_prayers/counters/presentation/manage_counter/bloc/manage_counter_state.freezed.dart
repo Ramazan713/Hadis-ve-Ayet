@@ -12,7 +12,7 @@ part of 'manage_counter_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ManageCounterState {
@@ -100,11 +100,11 @@ class _$ManageCounterStateCopyWithImpl<$Res, $Val extends ManageCounterState>
 }
 
 /// @nodoc
-abstract class _$$_ManageCounterStateCopyWith<$Res>
+abstract class _$$ManageCounterStateImplCopyWith<$Res>
     implements $ManageCounterStateCopyWith<$Res> {
-  factory _$$_ManageCounterStateCopyWith(_$_ManageCounterState value,
-          $Res Function(_$_ManageCounterState) then) =
-      __$$_ManageCounterStateCopyWithImpl<$Res>;
+  factory _$$ManageCounterStateImplCopyWith(_$ManageCounterStateImpl value,
+          $Res Function(_$ManageCounterStateImpl) then) =
+      __$$ManageCounterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -119,11 +119,11 @@ abstract class _$$_ManageCounterStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ManageCounterStateCopyWithImpl<$Res>
-    extends _$ManageCounterStateCopyWithImpl<$Res, _$_ManageCounterState>
-    implements _$$_ManageCounterStateCopyWith<$Res> {
-  __$$_ManageCounterStateCopyWithImpl(
-      _$_ManageCounterState _value, $Res Function(_$_ManageCounterState) _then)
+class __$$ManageCounterStateImplCopyWithImpl<$Res>
+    extends _$ManageCounterStateCopyWithImpl<$Res, _$ManageCounterStateImpl>
+    implements _$$ManageCounterStateImplCopyWith<$Res> {
+  __$$ManageCounterStateImplCopyWithImpl(_$ManageCounterStateImpl _value,
+      $Res Function(_$ManageCounterStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -135,7 +135,7 @@ class __$$_ManageCounterStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? currentCounter = freezed,
   }) {
-    return _then(_$_ManageCounterState(
+    return _then(_$ManageCounterStateImpl(
       navigateBack: null == navigateBack
           ? _value.navigateBack
           : navigateBack // ignore: cast_nullable_to_non_nullable
@@ -162,10 +162,10 @@ class __$$_ManageCounterStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ManageCounterState
+class _$ManageCounterStateImpl
     with DiagnosticableTreeMixin
     implements _ManageCounterState {
-  const _$_ManageCounterState(
+  const _$ManageCounterStateImpl(
       {required this.navigateBack,
       required this.selectedType,
       required this.isLoading,
@@ -201,10 +201,10 @@ class _$_ManageCounterState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ManageCounterState &&
+            other is _$ManageCounterStateImpl &&
             (identical(other.navigateBack, navigateBack) ||
                 other.navigateBack == navigateBack) &&
             (identical(other.selectedType, selectedType) ||
@@ -223,8 +223,8 @@ class _$_ManageCounterState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ManageCounterStateCopyWith<_$_ManageCounterState> get copyWith =>
-      __$$_ManageCounterStateCopyWithImpl<_$_ManageCounterState>(
+  _$$ManageCounterStateImplCopyWith<_$ManageCounterStateImpl> get copyWith =>
+      __$$ManageCounterStateImplCopyWithImpl<_$ManageCounterStateImpl>(
           this, _$identity);
 }
 
@@ -234,7 +234,7 @@ abstract class _ManageCounterState implements ManageCounterState {
       required final CounterType selectedType,
       required final bool isLoading,
       final String? message,
-      final Counter? currentCounter}) = _$_ManageCounterState;
+      final Counter? currentCounter}) = _$ManageCounterStateImpl;
 
   @override
   bool get navigateBack;
@@ -248,6 +248,6 @@ abstract class _ManageCounterState implements ManageCounterState {
   Counter? get currentCounter;
   @override
   @JsonKey(ignore: true)
-  _$$_ManageCounterStateCopyWith<_$_ManageCounterState> get copyWith =>
+  _$$ManageCounterStateImplCopyWith<_$ManageCounterStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

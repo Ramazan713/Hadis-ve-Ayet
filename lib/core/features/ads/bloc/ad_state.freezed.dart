@@ -12,7 +12,7 @@ part of 'ad_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AdState {
@@ -84,10 +84,10 @@ class _$AdStateCopyWithImpl<$Res, $Val extends AdState>
 }
 
 /// @nodoc
-abstract class _$$_AdStateCopyWith<$Res> implements $AdStateCopyWith<$Res> {
-  factory _$$_AdStateCopyWith(
-          _$_AdState value, $Res Function(_$_AdState) then) =
-      __$$_AdStateCopyWithImpl<$Res>;
+abstract class _$$AdStateImplCopyWith<$Res> implements $AdStateCopyWith<$Res> {
+  factory _$$AdStateImplCopyWith(
+          _$AdStateImpl value, $Res Function(_$AdStateImpl) then) =
+      __$$AdStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -99,10 +99,11 @@ abstract class _$$_AdStateCopyWith<$Res> implements $AdStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AdStateCopyWithImpl<$Res>
-    extends _$AdStateCopyWithImpl<$Res, _$_AdState>
-    implements _$$_AdStateCopyWith<$Res> {
-  __$$_AdStateCopyWithImpl(_$_AdState _value, $Res Function(_$_AdState) _then)
+class __$$AdStateImplCopyWithImpl<$Res>
+    extends _$AdStateCopyWithImpl<$Res, _$AdStateImpl>
+    implements _$$AdStateImplCopyWith<$Res> {
+  __$$AdStateImplCopyWithImpl(
+      _$AdStateImpl _value, $Res Function(_$AdStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -114,7 +115,7 @@ class __$$_AdStateCopyWithImpl<$Res>
     Object? totalConsumeSeconds = null,
     Object? ad = freezed,
   }) {
-    return _then(_$_AdState(
+    return _then(_$AdStateImpl(
       showAd: null == showAd
           ? _value.showAd
           : showAd // ignore: cast_nullable_to_non_nullable
@@ -141,8 +142,8 @@ class __$$_AdStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AdState extends _AdState with DiagnosticableTreeMixin {
-  const _$_AdState(
+class _$AdStateImpl extends _AdState with DiagnosticableTreeMixin {
+  const _$AdStateImpl(
       {required this.showAd,
       required this.loadAd,
       required this.counterOpening,
@@ -179,10 +180,10 @@ class _$_AdState extends _AdState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AdState &&
+            other is _$AdStateImpl &&
             (identical(other.showAd, showAd) || other.showAd == showAd) &&
             (identical(other.loadAd, loadAd) || other.loadAd == loadAd) &&
             (identical(other.counterOpening, counterOpening) ||
@@ -199,8 +200,8 @@ class _$_AdState extends _AdState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AdStateCopyWith<_$_AdState> get copyWith =>
-      __$$_AdStateCopyWithImpl<_$_AdState>(this, _$identity);
+  _$$AdStateImplCopyWith<_$AdStateImpl> get copyWith =>
+      __$$AdStateImplCopyWithImpl<_$AdStateImpl>(this, _$identity);
 }
 
 abstract class _AdState extends AdState {
@@ -209,7 +210,7 @@ abstract class _AdState extends AdState {
       required final bool loadAd,
       required final int counterOpening,
       required final int totalConsumeSeconds,
-      final InterstitialAd? ad}) = _$_AdState;
+      final InterstitialAd? ad}) = _$AdStateImpl;
   const _AdState._() : super._();
 
   @override
@@ -224,6 +225,6 @@ abstract class _AdState extends AdState {
   InterstitialAd? get ad;
   @override
   @JsonKey(ignore: true)
-  _$$_AdStateCopyWith<_$_AdState> get copyWith =>
+  _$$AdStateImplCopyWith<_$AdStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

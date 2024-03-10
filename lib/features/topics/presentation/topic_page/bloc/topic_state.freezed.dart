@@ -12,7 +12,7 @@ part of 'topic_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$TopicState {
@@ -93,11 +93,11 @@ class _$TopicStateCopyWithImpl<$Res, $Val extends TopicState>
 }
 
 /// @nodoc
-abstract class _$$_TopicStateCopyWith<$Res>
+abstract class _$$TopicStateImplCopyWith<$Res>
     implements $TopicStateCopyWith<$Res> {
-  factory _$$_TopicStateCopyWith(
-          _$_TopicState value, $Res Function(_$_TopicState) then) =
-      __$$_TopicStateCopyWithImpl<$Res>;
+  factory _$$TopicStateImplCopyWith(
+          _$TopicStateImpl value, $Res Function(_$TopicStateImpl) then) =
+      __$$TopicStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,11 +110,11 @@ abstract class _$$_TopicStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TopicStateCopyWithImpl<$Res>
-    extends _$TopicStateCopyWithImpl<$Res, _$_TopicState>
-    implements _$$_TopicStateCopyWith<$Res> {
-  __$$_TopicStateCopyWithImpl(
-      _$_TopicState _value, $Res Function(_$_TopicState) _then)
+class __$$TopicStateImplCopyWithImpl<$Res>
+    extends _$TopicStateCopyWithImpl<$Res, _$TopicStateImpl>
+    implements _$$TopicStateImplCopyWith<$Res> {
+  __$$TopicStateImplCopyWithImpl(
+      _$TopicStateImpl _value, $Res Function(_$TopicStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +127,7 @@ class __$$_TopicStateCopyWithImpl<$Res>
     Object? selectedItem = freezed,
     Object? jumpToPos = freezed,
   }) {
-    return _then(_$_TopicState(
+    return _then(_$TopicStateImpl(
       searchBarVisible: null == searchBarVisible
           ? _value.searchBarVisible
           : searchBarVisible // ignore: cast_nullable_to_non_nullable
@@ -158,8 +158,8 @@ class __$$_TopicStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TopicState extends _TopicState {
-  const _$_TopicState(
+class _$TopicStateImpl extends _TopicState {
+  const _$TopicStateImpl(
       {required this.searchBarVisible,
       required final List<TopicViewModel> items,
       required this.isLoading,
@@ -194,10 +194,10 @@ class _$_TopicState extends _TopicState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TopicState &&
+            other is _$TopicStateImpl &&
             (identical(other.searchBarVisible, searchBarVisible) ||
                 other.searchBarVisible == searchBarVisible) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
@@ -224,8 +224,8 @@ class _$_TopicState extends _TopicState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TopicStateCopyWith<_$_TopicState> get copyWith =>
-      __$$_TopicStateCopyWithImpl<_$_TopicState>(this, _$identity);
+  _$$TopicStateImplCopyWith<_$TopicStateImpl> get copyWith =>
+      __$$TopicStateImplCopyWithImpl<_$TopicStateImpl>(this, _$identity);
 }
 
 abstract class _TopicState extends TopicState {
@@ -235,7 +235,7 @@ abstract class _TopicState extends TopicState {
       required final bool isLoading,
       required final bool isDetailOpen,
       final TopicViewModel? selectedItem,
-      final int? jumpToPos}) = _$_TopicState;
+      final int? jumpToPos}) = _$TopicStateImpl;
   const _TopicState._() : super._();
 
   @override
@@ -252,6 +252,6 @@ abstract class _TopicState extends TopicState {
   int? get jumpToPos;
   @override
   @JsonKey(ignore: true)
-  _$$_TopicStateCopyWith<_$_TopicState> get copyWith =>
+  _$$TopicStateImplCopyWith<_$TopicStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

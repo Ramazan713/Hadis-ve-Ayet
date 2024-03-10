@@ -12,7 +12,7 @@ part of 'backup_meta_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BackupMetaModel {
@@ -75,22 +75,22 @@ class _$BackupMetaModelCopyWithImpl<$Res, $Val extends BackupMetaModel>
 }
 
 /// @nodoc
-abstract class _$$_BackupMetaModelCopyWith<$Res>
+abstract class _$$BackupMetaModelImplCopyWith<$Res>
     implements $BackupMetaModelCopyWith<$Res> {
-  factory _$$_BackupMetaModelCopyWith(
-          _$_BackupMetaModel value, $Res Function(_$_BackupMetaModel) then) =
-      __$$_BackupMetaModelCopyWithImpl<$Res>;
+  factory _$$BackupMetaModelImplCopyWith(_$BackupMetaModelImpl value,
+          $Res Function(_$BackupMetaModelImpl) then) =
+      __$$BackupMetaModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int? id, String fileName, String updatedDate, bool isAuto});
 }
 
 /// @nodoc
-class __$$_BackupMetaModelCopyWithImpl<$Res>
-    extends _$BackupMetaModelCopyWithImpl<$Res, _$_BackupMetaModel>
-    implements _$$_BackupMetaModelCopyWith<$Res> {
-  __$$_BackupMetaModelCopyWithImpl(
-      _$_BackupMetaModel _value, $Res Function(_$_BackupMetaModel) _then)
+class __$$BackupMetaModelImplCopyWithImpl<$Res>
+    extends _$BackupMetaModelCopyWithImpl<$Res, _$BackupMetaModelImpl>
+    implements _$$BackupMetaModelImplCopyWith<$Res> {
+  __$$BackupMetaModelImplCopyWithImpl(
+      _$BackupMetaModelImpl _value, $Res Function(_$BackupMetaModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_BackupMetaModelCopyWithImpl<$Res>
     Object? updatedDate = null,
     Object? isAuto = null,
   }) {
-    return _then(_$_BackupMetaModel(
+    return _then(_$BackupMetaModelImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -124,10 +124,10 @@ class __$$_BackupMetaModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BackupMetaModel
+class _$BackupMetaModelImpl
     with DiagnosticableTreeMixin
     implements _BackupMetaModel {
-  const _$_BackupMetaModel(
+  const _$BackupMetaModelImpl(
       {this.id,
       required this.fileName,
       required this.updatedDate,
@@ -159,10 +159,10 @@ class _$_BackupMetaModel
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BackupMetaModel &&
+            other is _$BackupMetaModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fileName, fileName) ||
                 other.fileName == fileName) &&
@@ -178,8 +178,9 @@ class _$_BackupMetaModel
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BackupMetaModelCopyWith<_$_BackupMetaModel> get copyWith =>
-      __$$_BackupMetaModelCopyWithImpl<_$_BackupMetaModel>(this, _$identity);
+  _$$BackupMetaModelImplCopyWith<_$BackupMetaModelImpl> get copyWith =>
+      __$$BackupMetaModelImplCopyWithImpl<_$BackupMetaModelImpl>(
+          this, _$identity);
 }
 
 abstract class _BackupMetaModel implements BackupMetaModel {
@@ -187,7 +188,7 @@ abstract class _BackupMetaModel implements BackupMetaModel {
       {final int? id,
       required final String fileName,
       required final String updatedDate,
-      required final bool isAuto}) = _$_BackupMetaModel;
+      required final bool isAuto}) = _$BackupMetaModelImpl;
 
   @override
   int? get id;
@@ -199,6 +200,6 @@ abstract class _BackupMetaModel implements BackupMetaModel {
   bool get isAuto;
   @override
   @JsonKey(ignore: true)
-  _$$_BackupMetaModelCopyWith<_$_BackupMetaModel> get copyWith =>
+  _$$BackupMetaModelImplCopyWith<_$BackupMetaModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

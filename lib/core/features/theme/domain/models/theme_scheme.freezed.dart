@@ -12,7 +12,7 @@ part of 'theme_scheme.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ThemeScheme {
@@ -72,11 +72,11 @@ class _$ThemeSchemeCopyWithImpl<$Res, $Val extends ThemeScheme>
 }
 
 /// @nodoc
-abstract class _$$_ThemeSchemeCopyWith<$Res>
+abstract class _$$ThemeSchemeImplCopyWith<$Res>
     implements $ThemeSchemeCopyWith<$Res> {
-  factory _$$_ThemeSchemeCopyWith(
-          _$_ThemeScheme value, $Res Function(_$_ThemeScheme) then) =
-      __$$_ThemeSchemeCopyWithImpl<$Res>;
+  factory _$$ThemeSchemeImplCopyWith(
+          _$ThemeSchemeImpl value, $Res Function(_$ThemeSchemeImpl) then) =
+      __$$ThemeSchemeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -86,11 +86,11 @@ abstract class _$$_ThemeSchemeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ThemeSchemeCopyWithImpl<$Res>
-    extends _$ThemeSchemeCopyWithImpl<$Res, _$_ThemeScheme>
-    implements _$$_ThemeSchemeCopyWith<$Res> {
-  __$$_ThemeSchemeCopyWithImpl(
-      _$_ThemeScheme _value, $Res Function(_$_ThemeScheme) _then)
+class __$$ThemeSchemeImplCopyWithImpl<$Res>
+    extends _$ThemeSchemeCopyWithImpl<$Res, _$ThemeSchemeImpl>
+    implements _$$ThemeSchemeImplCopyWith<$Res> {
+  __$$ThemeSchemeImplCopyWithImpl(
+      _$ThemeSchemeImpl _value, $Res Function(_$ThemeSchemeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_ThemeSchemeCopyWithImpl<$Res>
     Object? lightScheme = null,
     Object? darkScheme = null,
   }) {
-    return _then(_$_ThemeScheme(
+    return _then(_$ThemeSchemeImpl(
       currentScheme: null == currentScheme
           ? _value.currentScheme
           : currentScheme // ignore: cast_nullable_to_non_nullable
@@ -119,8 +119,8 @@ class __$$_ThemeSchemeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ThemeScheme implements _ThemeScheme {
-  const _$_ThemeScheme(
+class _$ThemeSchemeImpl implements _ThemeScheme {
+  const _$ThemeSchemeImpl(
       {required this.currentScheme,
       required this.lightScheme,
       required this.darkScheme});
@@ -138,10 +138,10 @@ class _$_ThemeScheme implements _ThemeScheme {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ThemeScheme &&
+            other is _$ThemeSchemeImpl &&
             (identical(other.currentScheme, currentScheme) ||
                 other.currentScheme == currentScheme) &&
             (identical(other.lightScheme, lightScheme) ||
@@ -157,15 +157,15 @@ class _$_ThemeScheme implements _ThemeScheme {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ThemeSchemeCopyWith<_$_ThemeScheme> get copyWith =>
-      __$$_ThemeSchemeCopyWithImpl<_$_ThemeScheme>(this, _$identity);
+  _$$ThemeSchemeImplCopyWith<_$ThemeSchemeImpl> get copyWith =>
+      __$$ThemeSchemeImplCopyWithImpl<_$ThemeSchemeImpl>(this, _$identity);
 }
 
 abstract class _ThemeScheme implements ThemeScheme {
   const factory _ThemeScheme(
       {required final ColorScheme currentScheme,
       required final ColorScheme lightScheme,
-      required final ColorScheme darkScheme}) = _$_ThemeScheme;
+      required final ColorScheme darkScheme}) = _$ThemeSchemeImpl;
 
   @override
   ColorScheme get currentScheme;
@@ -175,6 +175,6 @@ abstract class _ThemeScheme implements ThemeScheme {
   ColorScheme get darkScheme;
   @override
   @JsonKey(ignore: true)
-  _$$_ThemeSchemeCopyWith<_$_ThemeScheme> get copyWith =>
+  _$$ThemeSchemeImplCopyWith<_$ThemeSchemeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

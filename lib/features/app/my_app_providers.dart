@@ -14,6 +14,7 @@ import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/bloc/edit_save_point_bloc.dart';
 import 'package:hadith/core/features/save_point/presentation/load_save_point/bloc/load_save_point_bloc.dart';
 import 'package:hadith/core/features/select_list/presentation/bloc/select_list_bloc.dart';
+import 'package:hadith/core/features/select_quran_section/presentation/bloc/select_quran_section_bloc.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_bloc.dart';
 import 'package:hadith/core/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:hadith/core/features/topic_save_point/presentation/bloc/topic_save_point_bloc.dart';
@@ -38,7 +39,6 @@ import 'package:hadith/features/dhikr_prayers/counters/presentation/manage_count
 import 'package:hadith/features/dhikr_prayers/counters/presentation/show_counters/bloc/counter_show_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_detail/bloc/prayer_and_verse_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_and_verse/presentation/prayer_and_verse_list/bloc/prayer_and_verse_list_bloc.dart';
-import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/create_quran_prayer/bloc/create_quran_prayer_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_detail/bloc/custom_prayer_detail_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/custom_prayer_manage/bloc/custom_prayer_manage_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
@@ -66,7 +66,6 @@ import 'package:hadith/core/providers/verse_data_repo_providers.dart';
 import 'package:hadith/core/providers/verse_data_service_providers.dart';
 import 'package:hadith/core/providers/verse_domain_use_case_providers.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
-import 'package:hadith/features/verses/shared/presentation/select_verse_page/bloc/select_verse_page_bloc.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
 import 'package:hadith/features/verses/surah/presentation/bloc/surah_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,6 +123,10 @@ class MyAppProviders extends StatelessWidget {
             connectivityService: context.read(),
             backupManager: context.read()
           )),
+          BlocProvider(create: (context)=> SelectQuranSectionBloc(
+            selectVerseManager: context.read(),
+            selectVersePageRepo: context.read(),
+          )),
           BlocProvider(create: (context)=> AuthBloc(
               authService: context.read(),
               connectivityService: context.read(),
@@ -152,10 +155,6 @@ class MyAppProviders extends StatelessWidget {
             prayerRepo: context.read(),
               appPreferences:  context.read(),
             fontModelUseCase: context.read()
-          )),
-          BlocProvider(create: (context)=> CreateQuranPrayerBloc(
-              prayerCustomByQuranRepo: context.read(),
-              selectVerseManager: context.read()
           )),
           BlocProvider(create: (context)=> SavePointListNavigatorBloc(
               listRepo: context.read()
@@ -193,10 +192,6 @@ class MyAppProviders extends StatelessWidget {
           )),
           BlocProvider(create: (context)=> ManageCounterBloc(
               counterRepo: context.read()
-          )),
-          BlocProvider(create: (context)=> SelectVersePageBloc(
-              selectVersePageRepo: context.read(),
-              selectVerseManager: context.read()
           )),
           BlocProvider(create: (context)=> ShowEsmaulHusnaBloc(
               appPreferences: context.read(),

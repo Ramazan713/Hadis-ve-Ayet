@@ -12,7 +12,7 @@ part of 'show_custom_prayers_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShowCustomPrayersState {
@@ -94,11 +94,12 @@ class _$ShowCustomPrayersStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ShowCustomPrayersStateCopyWith<$Res>
+abstract class _$$ShowCustomPrayersStateImplCopyWith<$Res>
     implements $ShowCustomPrayersStateCopyWith<$Res> {
-  factory _$$_ShowCustomPrayersStateCopyWith(_$_ShowCustomPrayersState value,
-          $Res Function(_$_ShowCustomPrayersState) then) =
-      __$$_ShowCustomPrayersStateCopyWithImpl<$Res>;
+  factory _$$ShowCustomPrayersStateImplCopyWith(
+          _$ShowCustomPrayersStateImpl value,
+          $Res Function(_$ShowCustomPrayersStateImpl) then) =
+      __$$ShowCustomPrayersStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -111,12 +112,13 @@ abstract class _$$_ShowCustomPrayersStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ShowCustomPrayersStateCopyWithImpl<$Res>
+class __$$ShowCustomPrayersStateImplCopyWithImpl<$Res>
     extends _$ShowCustomPrayersStateCopyWithImpl<$Res,
-        _$_ShowCustomPrayersState>
-    implements _$$_ShowCustomPrayersStateCopyWith<$Res> {
-  __$$_ShowCustomPrayersStateCopyWithImpl(_$_ShowCustomPrayersState _value,
-      $Res Function(_$_ShowCustomPrayersState) _then)
+        _$ShowCustomPrayersStateImpl>
+    implements _$$ShowCustomPrayersStateImplCopyWith<$Res> {
+  __$$ShowCustomPrayersStateImplCopyWithImpl(
+      _$ShowCustomPrayersStateImpl _value,
+      $Res Function(_$ShowCustomPrayersStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -129,7 +131,7 @@ class __$$_ShowCustomPrayersStateCopyWithImpl<$Res>
     Object? showDetailContents = null,
     Object? message = freezed,
   }) {
-    return _then(_$_ShowCustomPrayersState(
+    return _then(_$ShowCustomPrayersStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -160,10 +162,10 @@ class __$$_ShowCustomPrayersStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShowCustomPrayersState
+class _$ShowCustomPrayersStateImpl
     with DiagnosticableTreeMixin
     implements _ShowCustomPrayersState {
-  const _$_ShowCustomPrayersState(
+  const _$ShowCustomPrayersStateImpl(
       {required final List<PrayerCustom> items,
       required this.isLoading,
       required this.searchQuery,
@@ -210,10 +212,10 @@ class _$_ShowCustomPrayersState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShowCustomPrayersState &&
+            other is _$ShowCustomPrayersStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
@@ -239,9 +241,9 @@ class _$_ShowCustomPrayersState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShowCustomPrayersStateCopyWith<_$_ShowCustomPrayersState> get copyWith =>
-      __$$_ShowCustomPrayersStateCopyWithImpl<_$_ShowCustomPrayersState>(
-          this, _$identity);
+  _$$ShowCustomPrayersStateImplCopyWith<_$ShowCustomPrayersStateImpl>
+      get copyWith => __$$ShowCustomPrayersStateImplCopyWithImpl<
+          _$ShowCustomPrayersStateImpl>(this, _$identity);
 }
 
 abstract class _ShowCustomPrayersState implements ShowCustomPrayersState {
@@ -251,7 +253,7 @@ abstract class _ShowCustomPrayersState implements ShowCustomPrayersState {
       required final String searchQuery,
       required final bool isSearchBarVisible,
       required final bool showDetailContents,
-      final String? message}) = _$_ShowCustomPrayersState;
+      final String? message}) = _$ShowCustomPrayersStateImpl;
 
   @override
   List<PrayerCustom> get items;
@@ -267,6 +269,6 @@ abstract class _ShowCustomPrayersState implements ShowCustomPrayersState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_ShowCustomPrayersStateCopyWith<_$_ShowCustomPrayersState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ShowCustomPrayersStateImplCopyWith<_$ShowCustomPrayersStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

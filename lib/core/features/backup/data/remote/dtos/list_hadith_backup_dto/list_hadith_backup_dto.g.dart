@@ -6,16 +6,16 @@ part of 'list_hadith_backup_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ListHadithBackupDto _$$_ListHadithBackupDtoFromJson(
+_$ListHadithBackupDtoImpl _$$ListHadithBackupDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ListHadithBackupDto(
+    _$ListHadithBackupDtoImpl(
       listId: json['listId'] as int,
       hadithId: json['hadithId'] as int,
       pos: json['pos'] as int,
     );
 
-Map<String, dynamic> _$$_ListHadithBackupDtoToJson(
-        _$_ListHadithBackupDto instance) =>
+Map<String, dynamic> _$$ListHadithBackupDtoImplToJson(
+        _$ListHadithBackupDtoImpl instance) =>
     <String, dynamic>{
       'listId': instance.listId,
       'hadithId': instance.hadithId,

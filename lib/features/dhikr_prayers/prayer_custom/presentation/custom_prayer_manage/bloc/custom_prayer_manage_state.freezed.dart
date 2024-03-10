@@ -12,7 +12,7 @@ part of 'custom_prayer_manage_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CustomPrayerManageState {
@@ -94,11 +94,12 @@ class _$CustomPrayerManageStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CustomPrayerManageStateCopyWith<$Res>
+abstract class _$$CustomPrayerManageStateImplCopyWith<$Res>
     implements $CustomPrayerManageStateCopyWith<$Res> {
-  factory _$$_CustomPrayerManageStateCopyWith(_$_CustomPrayerManageState value,
-          $Res Function(_$_CustomPrayerManageState) then) =
-      __$$_CustomPrayerManageStateCopyWithImpl<$Res>;
+  factory _$$CustomPrayerManageStateImplCopyWith(
+          _$CustomPrayerManageStateImpl value,
+          $Res Function(_$CustomPrayerManageStateImpl) then) =
+      __$$CustomPrayerManageStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,12 +113,13 @@ abstract class _$$_CustomPrayerManageStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CustomPrayerManageStateCopyWithImpl<$Res>
+class __$$CustomPrayerManageStateImplCopyWithImpl<$Res>
     extends _$CustomPrayerManageStateCopyWithImpl<$Res,
-        _$_CustomPrayerManageState>
-    implements _$$_CustomPrayerManageStateCopyWith<$Res> {
-  __$$_CustomPrayerManageStateCopyWithImpl(_$_CustomPrayerManageState _value,
-      $Res Function(_$_CustomPrayerManageState) _then)
+        _$CustomPrayerManageStateImpl>
+    implements _$$CustomPrayerManageStateImplCopyWith<$Res> {
+  __$$CustomPrayerManageStateImplCopyWithImpl(
+      _$CustomPrayerManageStateImpl _value,
+      $Res Function(_$CustomPrayerManageStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +130,7 @@ class __$$_CustomPrayerManageStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? currentPrayer = freezed,
   }) {
-    return _then(_$_CustomPrayerManageState(
+    return _then(_$CustomPrayerManageStateImpl(
       navigateBack: null == navigateBack
           ? _value.navigateBack
           : navigateBack // ignore: cast_nullable_to_non_nullable
@@ -151,8 +153,8 @@ class __$$_CustomPrayerManageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CustomPrayerManageState implements _CustomPrayerManageState {
-  const _$_CustomPrayerManageState(
+class _$CustomPrayerManageStateImpl implements _CustomPrayerManageState {
+  const _$CustomPrayerManageStateImpl(
       {required this.navigateBack,
       required this.isLoading,
       this.message,
@@ -173,10 +175,10 @@ class _$_CustomPrayerManageState implements _CustomPrayerManageState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CustomPrayerManageState &&
+            other is _$CustomPrayerManageStateImpl &&
             (identical(other.navigateBack, navigateBack) ||
                 other.navigateBack == navigateBack) &&
             (identical(other.isLoading, isLoading) ||
@@ -193,10 +195,9 @@ class _$_CustomPrayerManageState implements _CustomPrayerManageState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CustomPrayerManageStateCopyWith<_$_CustomPrayerManageState>
-      get copyWith =>
-          __$$_CustomPrayerManageStateCopyWithImpl<_$_CustomPrayerManageState>(
-              this, _$identity);
+  _$$CustomPrayerManageStateImplCopyWith<_$CustomPrayerManageStateImpl>
+      get copyWith => __$$CustomPrayerManageStateImplCopyWithImpl<
+          _$CustomPrayerManageStateImpl>(this, _$identity);
 }
 
 abstract class _CustomPrayerManageState implements CustomPrayerManageState {
@@ -204,7 +205,7 @@ abstract class _CustomPrayerManageState implements CustomPrayerManageState {
       {required final bool navigateBack,
       required final bool isLoading,
       final String? message,
-      final PrayerCustom? currentPrayer}) = _$_CustomPrayerManageState;
+      final PrayerCustom? currentPrayer}) = _$CustomPrayerManageStateImpl;
 
   @override
   bool get navigateBack;
@@ -216,6 +217,6 @@ abstract class _CustomPrayerManageState implements CustomPrayerManageState {
   PrayerCustom? get currentPrayer;
   @override
   @JsonKey(ignore: true)
-  _$$_CustomPrayerManageStateCopyWith<_$_CustomPrayerManageState>
+  _$$CustomPrayerManageStateImplCopyWith<_$CustomPrayerManageStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

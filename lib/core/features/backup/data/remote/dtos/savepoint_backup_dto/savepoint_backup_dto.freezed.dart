@@ -12,7 +12,7 @@ part of 'savepoint_backup_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 SavePointBackupDto _$SavePointBackupDtoFromJson(Map<String, dynamic> json) {
   return _SavePointBackupDto.fromJson(json);
@@ -119,11 +119,11 @@ class _$SavePointBackupDtoCopyWithImpl<$Res, $Val extends SavePointBackupDto>
 }
 
 /// @nodoc
-abstract class _$$_SavePointBackupDtoCopyWith<$Res>
+abstract class _$$SavePointBackupDtoImplCopyWith<$Res>
     implements $SavePointBackupDtoCopyWith<$Res> {
-  factory _$$_SavePointBackupDtoCopyWith(_$_SavePointBackupDto value,
-          $Res Function(_$_SavePointBackupDto) then) =
-      __$$_SavePointBackupDtoCopyWithImpl<$Res>;
+  factory _$$SavePointBackupDtoImplCopyWith(_$SavePointBackupDtoImpl value,
+          $Res Function(_$SavePointBackupDtoImpl) then) =
+      __$$SavePointBackupDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -139,11 +139,11 @@ abstract class _$$_SavePointBackupDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SavePointBackupDtoCopyWithImpl<$Res>
-    extends _$SavePointBackupDtoCopyWithImpl<$Res, _$_SavePointBackupDto>
-    implements _$$_SavePointBackupDtoCopyWith<$Res> {
-  __$$_SavePointBackupDtoCopyWithImpl(
-      _$_SavePointBackupDto _value, $Res Function(_$_SavePointBackupDto) _then)
+class __$$SavePointBackupDtoImplCopyWithImpl<$Res>
+    extends _$SavePointBackupDtoCopyWithImpl<$Res, _$SavePointBackupDtoImpl>
+    implements _$$SavePointBackupDtoImplCopyWith<$Res> {
+  __$$SavePointBackupDtoImplCopyWithImpl(_$SavePointBackupDtoImpl _value,
+      $Res Function(_$SavePointBackupDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +159,7 @@ class __$$_SavePointBackupDtoCopyWithImpl<$Res>
     Object? parentName = null,
     Object? parentKey = null,
   }) {
-    return _then(_$_SavePointBackupDto(
+    return _then(_$SavePointBackupDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -202,10 +202,10 @@ class __$$_SavePointBackupDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SavePointBackupDto
+class _$SavePointBackupDtoImpl
     with DiagnosticableTreeMixin
     implements _SavePointBackupDto {
-  const _$_SavePointBackupDto(
+  const _$SavePointBackupDtoImpl(
       {this.id,
       required this.itemIndexPos,
       required this.title,
@@ -216,8 +216,8 @@ class _$_SavePointBackupDto
       required this.parentName,
       required this.parentKey});
 
-  factory _$_SavePointBackupDto.fromJson(Map<String, dynamic> json) =>
-      _$$_SavePointBackupDtoFromJson(json);
+  factory _$SavePointBackupDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SavePointBackupDtoImplFromJson(json);
 
   @override
   final int? id;
@@ -260,10 +260,10 @@ class _$_SavePointBackupDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SavePointBackupDto &&
+            other is _$SavePointBackupDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.itemIndexPos, itemIndexPos) ||
                 other.itemIndexPos == itemIndexPos) &&
@@ -299,13 +299,13 @@ class _$_SavePointBackupDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SavePointBackupDtoCopyWith<_$_SavePointBackupDto> get copyWith =>
-      __$$_SavePointBackupDtoCopyWithImpl<_$_SavePointBackupDto>(
+  _$$SavePointBackupDtoImplCopyWith<_$SavePointBackupDtoImpl> get copyWith =>
+      __$$SavePointBackupDtoImplCopyWithImpl<_$SavePointBackupDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SavePointBackupDtoToJson(
+    return _$$SavePointBackupDtoImplToJson(
       this,
     );
   }
@@ -321,10 +321,10 @@ abstract class _SavePointBackupDto implements SavePointBackupDto {
       required final int savePointType,
       required final int bookIdBinary,
       required final String parentName,
-      required final String parentKey}) = _$_SavePointBackupDto;
+      required final String parentKey}) = _$SavePointBackupDtoImpl;
 
   factory _SavePointBackupDto.fromJson(Map<String, dynamic> json) =
-      _$_SavePointBackupDto.fromJson;
+      _$SavePointBackupDtoImpl.fromJson;
 
   @override
   int? get id;
@@ -346,6 +346,6 @@ abstract class _SavePointBackupDto implements SavePointBackupDto {
   String get parentKey;
   @override
   @JsonKey(ignore: true)
-  _$$_SavePointBackupDtoCopyWith<_$_SavePointBackupDto> get copyWith =>
+  _$$SavePointBackupDtoImplCopyWith<_$SavePointBackupDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

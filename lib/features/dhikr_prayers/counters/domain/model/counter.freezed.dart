@@ -12,7 +12,7 @@ part of 'counter.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$Counter {
@@ -126,10 +126,10 @@ class _$CounterCopyWithImpl<$Res, $Val extends Counter>
 }
 
 /// @nodoc
-abstract class _$$_CounterCopyWith<$Res> implements $CounterCopyWith<$Res> {
-  factory _$$_CounterCopyWith(
-          _$_Counter value, $Res Function(_$_Counter) then) =
-      __$$_CounterCopyWithImpl<$Res>;
+abstract class _$$CounterImplCopyWith<$Res> implements $CounterCopyWith<$Res> {
+  factory _$$CounterImplCopyWith(
+          _$CounterImpl value, $Res Function(_$CounterImpl) then) =
+      __$$CounterImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -147,10 +147,11 @@ abstract class _$$_CounterCopyWith<$Res> implements $CounterCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_CounterCopyWithImpl<$Res>
-    extends _$CounterCopyWithImpl<$Res, _$_Counter>
-    implements _$$_CounterCopyWith<$Res> {
-  __$$_CounterCopyWithImpl(_$_Counter _value, $Res Function(_$_Counter) _then)
+class __$$CounterImplCopyWithImpl<$Res>
+    extends _$CounterCopyWithImpl<$Res, _$CounterImpl>
+    implements _$$CounterImplCopyWith<$Res> {
+  __$$CounterImplCopyWithImpl(
+      _$CounterImpl _value, $Res Function(_$CounterImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -168,7 +169,7 @@ class __$$_CounterCopyWithImpl<$Res>
     Object? goal = freezed,
     Object? prayerId = freezed,
   }) {
-    return _then(_$_Counter(
+    return _then(_$CounterImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -219,8 +220,8 @@ class __$$_CounterCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Counter with DiagnosticableTreeMixin implements _Counter {
-  const _$_Counter(
+class _$CounterImpl with DiagnosticableTreeMixin implements _Counter {
+  const _$CounterImpl(
       {this.id,
       required this.name,
       required this.counterType,
@@ -281,10 +282,10 @@ class _$_Counter with DiagnosticableTreeMixin implements _Counter {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Counter &&
+            other is _$CounterImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.counterType, counterType) ||
@@ -321,8 +322,8 @@ class _$_Counter with DiagnosticableTreeMixin implements _Counter {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CounterCopyWith<_$_Counter> get copyWith =>
-      __$$_CounterCopyWithImpl<_$_Counter>(this, _$identity);
+  _$$CounterImplCopyWith<_$CounterImpl> get copyWith =>
+      __$$CounterImplCopyWithImpl<_$CounterImpl>(this, _$identity);
 }
 
 abstract class _Counter implements Counter {
@@ -337,7 +338,7 @@ abstract class _Counter implements Counter {
       final String? meaning,
       final String? description,
       final int? goal,
-      final int? prayerId}) = _$_Counter;
+      final int? prayerId}) = _$CounterImpl;
 
   @override
   int? get id;
@@ -363,6 +364,6 @@ abstract class _Counter implements Counter {
   int? get prayerId;
   @override
   @JsonKey(ignore: true)
-  _$$_CounterCopyWith<_$_Counter> get copyWith =>
+  _$$CounterImplCopyWith<_$CounterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

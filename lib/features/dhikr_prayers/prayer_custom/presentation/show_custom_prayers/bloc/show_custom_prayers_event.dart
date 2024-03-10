@@ -1,6 +1,7 @@
 
 
 
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_result/select_quran_section_result.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_dhikr/prayer_dhikr.dart';
 
@@ -30,6 +31,11 @@ class ShowCustomPrayersEventAddFromDhikr extends IShowCustomPrayersEvent{
 class ShowCustomPrayersEventAddDhikr extends IShowCustomPrayersEvent{
   final PrayerCustom prayer;
   ShowCustomPrayersEventAddDhikr({required this.prayer});
+}
+
+class ShowCustomPrayersEventAddPrayerFromQuran extends IShowCustomPrayersEvent{
+  final SelectQuranSectionResult data;
+  ShowCustomPrayersEventAddPrayerFromQuran({required this.data});
 }
 
 class ShowCustomPrayersEventSetDetailView extends IShowCustomPrayersEvent{

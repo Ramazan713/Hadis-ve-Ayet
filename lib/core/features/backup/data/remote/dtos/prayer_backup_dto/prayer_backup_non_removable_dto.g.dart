@@ -6,16 +6,16 @@ part of 'prayer_backup_non_removable_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PrayerBackupNonRemovableDto _$$_PrayerBackupNonRemovableDtoFromJson(
+_$PrayerBackupNonRemovableDtoImpl _$$PrayerBackupNonRemovableDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_PrayerBackupNonRemovableDto(
+    _$PrayerBackupNonRemovableDtoImpl(
       typeId: json['typeId'] as int,
       orderItem: json['orderItem'] as int,
       parentPrayerId: json['parentPrayerId'] as int?,
     );
 
-Map<String, dynamic> _$$_PrayerBackupNonRemovableDtoToJson(
-        _$_PrayerBackupNonRemovableDto instance) =>
+Map<String, dynamic> _$$PrayerBackupNonRemovableDtoImplToJson(
+        _$PrayerBackupNonRemovableDtoImpl instance) =>
     <String, dynamic>{
       'typeId': instance.typeId,
       'orderItem': instance.orderItem,

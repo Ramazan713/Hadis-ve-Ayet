@@ -39,6 +39,7 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
     on<ShowCustomPrayersEventDelete>(_onDelete,transformer: restartable());
     on<ShowCustomPrayersEventSetDetailView>(_onSetDetailView, transformer: restartable());
     on<ShowCustomPrayersEventAddFromDhikr>(_onAddFromDhikr, transformer: restartable());
+    on<ShowCustomPrayersEventAddPrayerFromQuran>(_onAddPrayerFromQuran, transformer: restartable());
 
 
     on<ShowCustomPrayersEventSetSearchBarVisibility>(_onSetSearchBarVisibility,transformer: restartable());
@@ -74,6 +75,11 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
       items: items,
       isLoading: false
     ));
+  }
+
+  void _onAddPrayerFromQuran(ShowCustomPrayersEventAddPrayerFromQuran event,Emitter<ShowCustomPrayersState>emit)async{
+    await _prayerRepo.insertPrayerFromSelectQuran(event.data);
+    emit(state.copyWith(message: "Başarılı"));
   }
 
   void _onUpdateDhikr(ShowCustomPrayersEventUpdateDhikr event,Emitter<ShowCustomPrayersState>emit)async{

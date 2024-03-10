@@ -12,7 +12,7 @@ part of 'search_part.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SearchPart {
@@ -63,22 +63,22 @@ class _$SearchPartCopyWithImpl<$Res, $Val extends SearchPart>
 }
 
 /// @nodoc
-abstract class _$$_SearchPartCopyWith<$Res>
+abstract class _$$SearchPartImplCopyWith<$Res>
     implements $SearchPartCopyWith<$Res> {
-  factory _$$_SearchPartCopyWith(
-          _$_SearchPart value, $Res Function(_$_SearchPart) then) =
-      __$$_SearchPartCopyWithImpl<$Res>;
+  factory _$$SearchPartImplCopyWith(
+          _$SearchPartImpl value, $Res Function(_$SearchPartImpl) then) =
+      __$$SearchPartImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String text, bool isSearchField});
 }
 
 /// @nodoc
-class __$$_SearchPartCopyWithImpl<$Res>
-    extends _$SearchPartCopyWithImpl<$Res, _$_SearchPart>
-    implements _$$_SearchPartCopyWith<$Res> {
-  __$$_SearchPartCopyWithImpl(
-      _$_SearchPart _value, $Res Function(_$_SearchPart) _then)
+class __$$SearchPartImplCopyWithImpl<$Res>
+    extends _$SearchPartCopyWithImpl<$Res, _$SearchPartImpl>
+    implements _$$SearchPartImplCopyWith<$Res> {
+  __$$SearchPartImplCopyWithImpl(
+      _$SearchPartImpl _value, $Res Function(_$SearchPartImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_SearchPartCopyWithImpl<$Res>
     Object? text = null,
     Object? isSearchField = null,
   }) {
-    return _then(_$_SearchPart(
+    return _then(_$SearchPartImpl(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_SearchPartCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SearchPart with DiagnosticableTreeMixin implements _SearchPart {
-  const _$_SearchPart({required this.text, required this.isSearchField});
+class _$SearchPartImpl with DiagnosticableTreeMixin implements _SearchPart {
+  const _$SearchPartImpl({required this.text, required this.isSearchField});
 
   @override
   final String text;
@@ -125,10 +125,10 @@ class _$_SearchPart with DiagnosticableTreeMixin implements _SearchPart {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SearchPart &&
+            other is _$SearchPartImpl &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.isSearchField, isSearchField) ||
                 other.isSearchField == isSearchField));
@@ -140,14 +140,14 @@ class _$_SearchPart with DiagnosticableTreeMixin implements _SearchPart {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SearchPartCopyWith<_$_SearchPart> get copyWith =>
-      __$$_SearchPartCopyWithImpl<_$_SearchPart>(this, _$identity);
+  _$$SearchPartImplCopyWith<_$SearchPartImpl> get copyWith =>
+      __$$SearchPartImplCopyWithImpl<_$SearchPartImpl>(this, _$identity);
 }
 
 abstract class _SearchPart implements SearchPart {
   const factory _SearchPart(
       {required final String text,
-      required final bool isSearchField}) = _$_SearchPart;
+      required final bool isSearchField}) = _$SearchPartImpl;
 
   @override
   String get text;
@@ -155,6 +155,6 @@ abstract class _SearchPart implements SearchPart {
   bool get isSearchField;
   @override
   @JsonKey(ignore: true)
-  _$$_SearchPartCopyWith<_$_SearchPart> get copyWith =>
+  _$$SearchPartImplCopyWith<_$SearchPartImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

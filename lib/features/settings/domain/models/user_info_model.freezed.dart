@@ -12,7 +12,7 @@ part of 'user_info_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UserInfoModel {
@@ -69,22 +69,22 @@ class _$UserInfoModelCopyWithImpl<$Res, $Val extends UserInfoModel>
 }
 
 /// @nodoc
-abstract class _$$_UserInfoModelCopyWith<$Res>
+abstract class _$$UserInfoModelImplCopyWith<$Res>
     implements $UserInfoModelCopyWith<$Res> {
-  factory _$$_UserInfoModelCopyWith(
-          _$_UserInfoModel value, $Res Function(_$_UserInfoModel) then) =
-      __$$_UserInfoModelCopyWithImpl<$Res>;
+  factory _$$UserInfoModelImplCopyWith(
+          _$UserInfoModelImpl value, $Res Function(_$UserInfoModelImpl) then) =
+      __$$UserInfoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String userId, int? id, Uint8List? img});
 }
 
 /// @nodoc
-class __$$_UserInfoModelCopyWithImpl<$Res>
-    extends _$UserInfoModelCopyWithImpl<$Res, _$_UserInfoModel>
-    implements _$$_UserInfoModelCopyWith<$Res> {
-  __$$_UserInfoModelCopyWithImpl(
-      _$_UserInfoModel _value, $Res Function(_$_UserInfoModel) _then)
+class __$$UserInfoModelImplCopyWithImpl<$Res>
+    extends _$UserInfoModelCopyWithImpl<$Res, _$UserInfoModelImpl>
+    implements _$$UserInfoModelImplCopyWith<$Res> {
+  __$$UserInfoModelImplCopyWithImpl(
+      _$UserInfoModelImpl _value, $Res Function(_$UserInfoModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_UserInfoModelCopyWithImpl<$Res>
     Object? id = freezed,
     Object? img = freezed,
   }) {
-    return _then(_$_UserInfoModel(
+    return _then(_$UserInfoModelImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,10 @@ class __$$_UserInfoModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UserInfoModel with DiagnosticableTreeMixin implements _UserInfoModel {
-  const _$_UserInfoModel({required this.userId, this.id, this.img});
+class _$UserInfoModelImpl
+    with DiagnosticableTreeMixin
+    implements _UserInfoModel {
+  const _$UserInfoModelImpl({required this.userId, this.id, this.img});
 
   @override
   final String userId;
@@ -139,10 +141,10 @@ class _$_UserInfoModel with DiagnosticableTreeMixin implements _UserInfoModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserInfoModel &&
+            other is _$UserInfoModelImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other.img, img));
@@ -155,15 +157,15 @@ class _$_UserInfoModel with DiagnosticableTreeMixin implements _UserInfoModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserInfoModelCopyWith<_$_UserInfoModel> get copyWith =>
-      __$$_UserInfoModelCopyWithImpl<_$_UserInfoModel>(this, _$identity);
+  _$$UserInfoModelImplCopyWith<_$UserInfoModelImpl> get copyWith =>
+      __$$UserInfoModelImplCopyWithImpl<_$UserInfoModelImpl>(this, _$identity);
 }
 
 abstract class _UserInfoModel implements UserInfoModel {
   const factory _UserInfoModel(
       {required final String userId,
       final int? id,
-      final Uint8List? img}) = _$_UserInfoModel;
+      final Uint8List? img}) = _$UserInfoModelImpl;
 
   @override
   String get userId;
@@ -173,6 +175,6 @@ abstract class _UserInfoModel implements UserInfoModel {
   Uint8List? get img;
   @override
   @JsonKey(ignore: true)
-  _$$_UserInfoModelCopyWith<_$_UserInfoModel> get copyWith =>
+  _$$UserInfoModelImplCopyWith<_$UserInfoModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,7 +12,7 @@ part of 'select_page_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SelectPageResult {
@@ -63,22 +63,22 @@ class _$SelectPageResultCopyWithImpl<$Res, $Val extends SelectPageResult>
 }
 
 /// @nodoc
-abstract class _$$_SelectPageResultCopyWith<$Res>
+abstract class _$$SelectPageResultImplCopyWith<$Res>
     implements $SelectPageResultCopyWith<$Res> {
-  factory _$$_SelectPageResultCopyWith(
-          _$_SelectPageResult value, $Res Function(_$_SelectPageResult) then) =
-      __$$_SelectPageResultCopyWithImpl<$Res>;
+  factory _$$SelectPageResultImplCopyWith(_$SelectPageResultImpl value,
+          $Res Function(_$SelectPageResultImpl) then) =
+      __$$SelectPageResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int pageNo, int pagePos});
 }
 
 /// @nodoc
-class __$$_SelectPageResultCopyWithImpl<$Res>
-    extends _$SelectPageResultCopyWithImpl<$Res, _$_SelectPageResult>
-    implements _$$_SelectPageResultCopyWith<$Res> {
-  __$$_SelectPageResultCopyWithImpl(
-      _$_SelectPageResult _value, $Res Function(_$_SelectPageResult) _then)
+class __$$SelectPageResultImplCopyWithImpl<$Res>
+    extends _$SelectPageResultCopyWithImpl<$Res, _$SelectPageResultImpl>
+    implements _$$SelectPageResultImplCopyWith<$Res> {
+  __$$SelectPageResultImplCopyWithImpl(_$SelectPageResultImpl _value,
+      $Res Function(_$SelectPageResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_SelectPageResultCopyWithImpl<$Res>
     Object? pageNo = null,
     Object? pagePos = null,
   }) {
-    return _then(_$_SelectPageResult(
+    return _then(_$SelectPageResultImpl(
       pageNo: null == pageNo
           ? _value.pageNo
           : pageNo // ignore: cast_nullable_to_non_nullable
@@ -102,10 +102,10 @@ class __$$_SelectPageResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectPageResult
+class _$SelectPageResultImpl
     with DiagnosticableTreeMixin
     implements _SelectPageResult {
-  const _$_SelectPageResult({required this.pageNo, required this.pagePos});
+  const _$SelectPageResultImpl({required this.pageNo, required this.pagePos});
 
   @override
   final int pageNo;
@@ -127,10 +127,10 @@ class _$_SelectPageResult
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SelectPageResult &&
+            other is _$SelectPageResultImpl &&
             (identical(other.pageNo, pageNo) || other.pageNo == pageNo) &&
             (identical(other.pagePos, pagePos) || other.pagePos == pagePos));
   }
@@ -141,14 +141,15 @@ class _$_SelectPageResult
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SelectPageResultCopyWith<_$_SelectPageResult> get copyWith =>
-      __$$_SelectPageResultCopyWithImpl<_$_SelectPageResult>(this, _$identity);
+  _$$SelectPageResultImplCopyWith<_$SelectPageResultImpl> get copyWith =>
+      __$$SelectPageResultImplCopyWithImpl<_$SelectPageResultImpl>(
+          this, _$identity);
 }
 
 abstract class _SelectPageResult implements SelectPageResult {
   const factory _SelectPageResult(
       {required final int pageNo,
-      required final int pagePos}) = _$_SelectPageResult;
+      required final int pagePos}) = _$SelectPageResultImpl;
 
   @override
   int get pageNo;
@@ -156,6 +157,6 @@ abstract class _SelectPageResult implements SelectPageResult {
   int get pagePos;
   @override
   @JsonKey(ignore: true)
-  _$$_SelectPageResultCopyWith<_$_SelectPageResult> get copyWith =>
+  _$$SelectPageResultImplCopyWith<_$SelectPageResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,7 +12,7 @@ part of 'islamic_info_item.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$IslamicInfoItem {
@@ -75,22 +75,22 @@ class _$IslamicInfoItemCopyWithImpl<$Res, $Val extends IslamicInfoItem>
 }
 
 /// @nodoc
-abstract class _$$_IslamicInfoItemCopyWith<$Res>
+abstract class _$$IslamicInfoItemImplCopyWith<$Res>
     implements $IslamicInfoItemCopyWith<$Res> {
-  factory _$$_IslamicInfoItemCopyWith(
-          _$_IslamicInfoItem value, $Res Function(_$_IslamicInfoItem) then) =
-      __$$_IslamicInfoItemCopyWithImpl<$Res>;
+  factory _$$IslamicInfoItemImplCopyWith(_$IslamicInfoItemImpl value,
+          $Res Function(_$IslamicInfoItemImpl) then) =
+      __$$IslamicInfoItemImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int titleId, int? id, String? name, String? description});
 }
 
 /// @nodoc
-class __$$_IslamicInfoItemCopyWithImpl<$Res>
-    extends _$IslamicInfoItemCopyWithImpl<$Res, _$_IslamicInfoItem>
-    implements _$$_IslamicInfoItemCopyWith<$Res> {
-  __$$_IslamicInfoItemCopyWithImpl(
-      _$_IslamicInfoItem _value, $Res Function(_$_IslamicInfoItem) _then)
+class __$$IslamicInfoItemImplCopyWithImpl<$Res>
+    extends _$IslamicInfoItemCopyWithImpl<$Res, _$IslamicInfoItemImpl>
+    implements _$$IslamicInfoItemImplCopyWith<$Res> {
+  __$$IslamicInfoItemImplCopyWithImpl(
+      _$IslamicInfoItemImpl _value, $Res Function(_$IslamicInfoItemImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_IslamicInfoItemCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
   }) {
-    return _then(_$_IslamicInfoItem(
+    return _then(_$IslamicInfoItemImpl(
       titleId: null == titleId
           ? _value.titleId
           : titleId // ignore: cast_nullable_to_non_nullable
@@ -124,10 +124,10 @@ class __$$_IslamicInfoItemCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IslamicInfoItem
+class _$IslamicInfoItemImpl
     with DiagnosticableTreeMixin
     implements _IslamicInfoItem {
-  const _$_IslamicInfoItem(
+  const _$IslamicInfoItemImpl(
       {required this.titleId, this.id, this.name, this.description});
 
   @override
@@ -156,10 +156,10 @@ class _$_IslamicInfoItem
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IslamicInfoItem &&
+            other is _$IslamicInfoItemImpl &&
             (identical(other.titleId, titleId) || other.titleId == titleId) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
@@ -173,8 +173,9 @@ class _$_IslamicInfoItem
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IslamicInfoItemCopyWith<_$_IslamicInfoItem> get copyWith =>
-      __$$_IslamicInfoItemCopyWithImpl<_$_IslamicInfoItem>(this, _$identity);
+  _$$IslamicInfoItemImplCopyWith<_$IslamicInfoItemImpl> get copyWith =>
+      __$$IslamicInfoItemImplCopyWithImpl<_$IslamicInfoItemImpl>(
+          this, _$identity);
 }
 
 abstract class _IslamicInfoItem implements IslamicInfoItem {
@@ -182,7 +183,7 @@ abstract class _IslamicInfoItem implements IslamicInfoItem {
       {required final int titleId,
       final int? id,
       final String? name,
-      final String? description}) = _$_IslamicInfoItem;
+      final String? description}) = _$IslamicInfoItemImpl;
 
   @override
   int get titleId;
@@ -194,6 +195,6 @@ abstract class _IslamicInfoItem implements IslamicInfoItem {
   String? get description;
   @override
   @JsonKey(ignore: true)
-  _$$_IslamicInfoItemCopyWith<_$_IslamicInfoItem> get copyWith =>
+  _$$IslamicInfoItemImplCopyWith<_$IslamicInfoItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

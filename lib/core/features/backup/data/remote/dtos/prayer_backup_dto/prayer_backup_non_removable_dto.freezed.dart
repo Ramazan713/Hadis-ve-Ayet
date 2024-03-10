@@ -12,7 +12,7 @@ part of 'prayer_backup_non_removable_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PrayerBackupNonRemovableDto _$PrayerBackupNonRemovableDtoFromJson(
     Map<String, dynamic> json) {
@@ -78,25 +78,25 @@ class _$PrayerBackupNonRemovableDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PrayerBackupNonRemovableDtoCopyWith<$Res>
+abstract class _$$PrayerBackupNonRemovableDtoImplCopyWith<$Res>
     implements $PrayerBackupNonRemovableDtoCopyWith<$Res> {
-  factory _$$_PrayerBackupNonRemovableDtoCopyWith(
-          _$_PrayerBackupNonRemovableDto value,
-          $Res Function(_$_PrayerBackupNonRemovableDto) then) =
-      __$$_PrayerBackupNonRemovableDtoCopyWithImpl<$Res>;
+  factory _$$PrayerBackupNonRemovableDtoImplCopyWith(
+          _$PrayerBackupNonRemovableDtoImpl value,
+          $Res Function(_$PrayerBackupNonRemovableDtoImpl) then) =
+      __$$PrayerBackupNonRemovableDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int typeId, int orderItem, int? parentPrayerId});
 }
 
 /// @nodoc
-class __$$_PrayerBackupNonRemovableDtoCopyWithImpl<$Res>
+class __$$PrayerBackupNonRemovableDtoImplCopyWithImpl<$Res>
     extends _$PrayerBackupNonRemovableDtoCopyWithImpl<$Res,
-        _$_PrayerBackupNonRemovableDto>
-    implements _$$_PrayerBackupNonRemovableDtoCopyWith<$Res> {
-  __$$_PrayerBackupNonRemovableDtoCopyWithImpl(
-      _$_PrayerBackupNonRemovableDto _value,
-      $Res Function(_$_PrayerBackupNonRemovableDto) _then)
+        _$PrayerBackupNonRemovableDtoImpl>
+    implements _$$PrayerBackupNonRemovableDtoImplCopyWith<$Res> {
+  __$$PrayerBackupNonRemovableDtoImplCopyWithImpl(
+      _$PrayerBackupNonRemovableDtoImpl _value,
+      $Res Function(_$PrayerBackupNonRemovableDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_PrayerBackupNonRemovableDtoCopyWithImpl<$Res>
     Object? orderItem = null,
     Object? parentPrayerId = freezed,
   }) {
-    return _then(_$_PrayerBackupNonRemovableDto(
+    return _then(_$PrayerBackupNonRemovableDtoImpl(
       typeId: null == typeId
           ? _value.typeId
           : typeId // ignore: cast_nullable_to_non_nullable
@@ -125,14 +125,15 @@ class __$$_PrayerBackupNonRemovableDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PrayerBackupNonRemovableDto
+class _$PrayerBackupNonRemovableDtoImpl
     with DiagnosticableTreeMixin
     implements _PrayerBackupNonRemovableDto {
-  const _$_PrayerBackupNonRemovableDto(
+  const _$PrayerBackupNonRemovableDtoImpl(
       {required this.typeId, required this.orderItem, this.parentPrayerId});
 
-  factory _$_PrayerBackupNonRemovableDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PrayerBackupNonRemovableDtoFromJson(json);
+  factory _$PrayerBackupNonRemovableDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$PrayerBackupNonRemovableDtoImplFromJson(json);
 
   @override
   final int typeId;
@@ -157,10 +158,10 @@ class _$_PrayerBackupNonRemovableDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerBackupNonRemovableDto &&
+            other is _$PrayerBackupNonRemovableDtoImpl &&
             (identical(other.typeId, typeId) || other.typeId == typeId) &&
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
@@ -176,13 +177,13 @@ class _$_PrayerBackupNonRemovableDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerBackupNonRemovableDtoCopyWith<_$_PrayerBackupNonRemovableDto>
-      get copyWith => __$$_PrayerBackupNonRemovableDtoCopyWithImpl<
-          _$_PrayerBackupNonRemovableDto>(this, _$identity);
+  _$$PrayerBackupNonRemovableDtoImplCopyWith<_$PrayerBackupNonRemovableDtoImpl>
+      get copyWith => __$$PrayerBackupNonRemovableDtoImplCopyWithImpl<
+          _$PrayerBackupNonRemovableDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PrayerBackupNonRemovableDtoToJson(
+    return _$$PrayerBackupNonRemovableDtoImplToJson(
       this,
     );
   }
@@ -193,10 +194,10 @@ abstract class _PrayerBackupNonRemovableDto
   const factory _PrayerBackupNonRemovableDto(
       {required final int typeId,
       required final int orderItem,
-      final int? parentPrayerId}) = _$_PrayerBackupNonRemovableDto;
+      final int? parentPrayerId}) = _$PrayerBackupNonRemovableDtoImpl;
 
   factory _PrayerBackupNonRemovableDto.fromJson(Map<String, dynamic> json) =
-      _$_PrayerBackupNonRemovableDto.fromJson;
+      _$PrayerBackupNonRemovableDtoImpl.fromJson;
 
   @override
   int get typeId;
@@ -206,6 +207,6 @@ abstract class _PrayerBackupNonRemovableDto
   int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerBackupNonRemovableDtoCopyWith<_$_PrayerBackupNonRemovableDto>
+  _$$PrayerBackupNonRemovableDtoImplCopyWith<_$PrayerBackupNonRemovableDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

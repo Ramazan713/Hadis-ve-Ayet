@@ -12,7 +12,7 @@ part of 'font_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FontModel {
@@ -72,10 +72,11 @@ class _$FontModelCopyWithImpl<$Res, $Val extends FontModel>
 }
 
 /// @nodoc
-abstract class _$$_FontModelCopyWith<$Res> implements $FontModelCopyWith<$Res> {
-  factory _$$_FontModelCopyWith(
-          _$_FontModel value, $Res Function(_$_FontModel) then) =
-      __$$_FontModelCopyWithImpl<$Res>;
+abstract class _$$FontModelImplCopyWith<$Res>
+    implements $FontModelCopyWith<$Res> {
+  factory _$$FontModelImplCopyWith(
+          _$FontModelImpl value, $Res Function(_$FontModelImpl) then) =
+      __$$FontModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -85,11 +86,11 @@ abstract class _$$_FontModelCopyWith<$Res> implements $FontModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_FontModelCopyWithImpl<$Res>
-    extends _$FontModelCopyWithImpl<$Res, _$_FontModel>
-    implements _$$_FontModelCopyWith<$Res> {
-  __$$_FontModelCopyWithImpl(
-      _$_FontModel _value, $Res Function(_$_FontModel) _then)
+class __$$FontModelImplCopyWithImpl<$Res>
+    extends _$FontModelCopyWithImpl<$Res, _$FontModelImpl>
+    implements _$$FontModelImplCopyWith<$Res> {
+  __$$FontModelImplCopyWithImpl(
+      _$FontModelImpl _value, $Res Function(_$FontModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +100,7 @@ class __$$_FontModelCopyWithImpl<$Res>
     Object? contentFontSizeEnum = null,
     Object? arabicFontSizeEnum = null,
   }) {
-    return _then(_$_FontModel(
+    return _then(_$FontModelImpl(
       arabicFontFamilyEnum: null == arabicFontFamilyEnum
           ? _value.arabicFontFamilyEnum
           : arabicFontFamilyEnum // ignore: cast_nullable_to_non_nullable
@@ -118,8 +119,8 @@ class __$$_FontModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FontModel extends _FontModel with DiagnosticableTreeMixin {
-  const _$_FontModel(
+class _$FontModelImpl extends _FontModel with DiagnosticableTreeMixin {
+  const _$FontModelImpl(
       {required this.arabicFontFamilyEnum,
       required this.contentFontSizeEnum,
       required this.arabicFontSizeEnum})
@@ -148,10 +149,10 @@ class _$_FontModel extends _FontModel with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FontModel &&
+            other is _$FontModelImpl &&
             (identical(other.arabicFontFamilyEnum, arabicFontFamilyEnum) ||
                 other.arabicFontFamilyEnum == arabicFontFamilyEnum) &&
             (identical(other.contentFontSizeEnum, contentFontSizeEnum) ||
@@ -167,15 +168,15 @@ class _$_FontModel extends _FontModel with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FontModelCopyWith<_$_FontModel> get copyWith =>
-      __$$_FontModelCopyWithImpl<_$_FontModel>(this, _$identity);
+  _$$FontModelImplCopyWith<_$FontModelImpl> get copyWith =>
+      __$$FontModelImplCopyWithImpl<_$FontModelImpl>(this, _$identity);
 }
 
 abstract class _FontModel extends FontModel {
   const factory _FontModel(
       {required final FontFamilyArabicEnum arabicFontFamilyEnum,
       required final FontSizeEnum contentFontSizeEnum,
-      required final FontSizeEnum arabicFontSizeEnum}) = _$_FontModel;
+      required final FontSizeEnum arabicFontSizeEnum}) = _$FontModelImpl;
   const _FontModel._() : super._();
 
   @override
@@ -186,6 +187,6 @@ abstract class _FontModel extends FontModel {
   FontSizeEnum get arabicFontSizeEnum;
   @override
   @JsonKey(ignore: true)
-  _$$_FontModelCopyWith<_$_FontModel> get copyWith =>
+  _$$FontModelImplCopyWith<_$FontModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

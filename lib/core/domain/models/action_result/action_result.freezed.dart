@@ -12,7 +12,7 @@ part of 'action_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ActionResult {
@@ -63,22 +63,22 @@ class _$ActionResultCopyWithImpl<$Res, $Val extends ActionResult>
 }
 
 /// @nodoc
-abstract class _$$_ActionResultCopyWith<$Res>
+abstract class _$$ActionResultImplCopyWith<$Res>
     implements $ActionResultCopyWith<$Res> {
-  factory _$$_ActionResultCopyWith(
-          _$_ActionResult value, $Res Function(_$_ActionResult) then) =
-      __$$_ActionResultCopyWithImpl<$Res>;
+  factory _$$ActionResultImplCopyWith(
+          _$ActionResultImpl value, $Res Function(_$ActionResultImpl) then) =
+      __$$ActionResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String key, bool isSuccess});
 }
 
 /// @nodoc
-class __$$_ActionResultCopyWithImpl<$Res>
-    extends _$ActionResultCopyWithImpl<$Res, _$_ActionResult>
-    implements _$$_ActionResultCopyWith<$Res> {
-  __$$_ActionResultCopyWithImpl(
-      _$_ActionResult _value, $Res Function(_$_ActionResult) _then)
+class __$$ActionResultImplCopyWithImpl<$Res>
+    extends _$ActionResultCopyWithImpl<$Res, _$ActionResultImpl>
+    implements _$$ActionResultImplCopyWith<$Res> {
+  __$$ActionResultImplCopyWithImpl(
+      _$ActionResultImpl _value, $Res Function(_$ActionResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_ActionResultCopyWithImpl<$Res>
     Object? key = null,
     Object? isSuccess = null,
   }) {
-    return _then(_$_ActionResult(
+    return _then(_$ActionResultImpl(
       key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_ActionResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ActionResult with DiagnosticableTreeMixin implements _ActionResult {
-  const _$_ActionResult({required this.key, required this.isSuccess});
+class _$ActionResultImpl with DiagnosticableTreeMixin implements _ActionResult {
+  const _$ActionResultImpl({required this.key, required this.isSuccess});
 
   @override
   final String key;
@@ -125,10 +125,10 @@ class _$_ActionResult with DiagnosticableTreeMixin implements _ActionResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActionResult &&
+            other is _$ActionResultImpl &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.isSuccess, isSuccess) ||
                 other.isSuccess == isSuccess));
@@ -140,14 +140,14 @@ class _$_ActionResult with DiagnosticableTreeMixin implements _ActionResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActionResultCopyWith<_$_ActionResult> get copyWith =>
-      __$$_ActionResultCopyWithImpl<_$_ActionResult>(this, _$identity);
+  _$$ActionResultImplCopyWith<_$ActionResultImpl> get copyWith =>
+      __$$ActionResultImplCopyWithImpl<_$ActionResultImpl>(this, _$identity);
 }
 
 abstract class _ActionResult implements ActionResult {
   const factory _ActionResult(
       {required final String key,
-      required final bool isSuccess}) = _$_ActionResult;
+      required final bool isSuccess}) = _$ActionResultImpl;
 
   @override
   String get key;
@@ -155,6 +155,6 @@ abstract class _ActionResult implements ActionResult {
   bool get isSuccess;
   @override
   @JsonKey(ignore: true)
-  _$$_ActionResultCopyWith<_$_ActionResult> get copyWith =>
+  _$$ActionResultImplCopyWith<_$ActionResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

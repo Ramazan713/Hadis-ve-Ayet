@@ -12,7 +12,7 @@ part of 'share_verse_content.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShareVerseContent {
@@ -86,11 +86,11 @@ class _$ShareVerseContentCopyWithImpl<$Res, $Val extends ShareVerseContent>
 }
 
 /// @nodoc
-abstract class _$$_ShareVerseContentCopyWith<$Res>
+abstract class _$$ShareVerseContentImplCopyWith<$Res>
     implements $ShareVerseContentCopyWith<$Res> {
-  factory _$$_ShareVerseContentCopyWith(_$_ShareVerseContent value,
-          $Res Function(_$_ShareVerseContent) then) =
-      __$$_ShareVerseContentCopyWithImpl<$Res>;
+  factory _$$ShareVerseContentImplCopyWith(_$ShareVerseContentImpl value,
+          $Res Function(_$ShareVerseContentImpl) then) =
+      __$$ShareVerseContentImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_ShareVerseContentCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ShareVerseContentCopyWithImpl<$Res>
-    extends _$ShareVerseContentCopyWithImpl<$Res, _$_ShareVerseContent>
-    implements _$$_ShareVerseContentCopyWith<$Res> {
-  __$$_ShareVerseContentCopyWithImpl(
-      _$_ShareVerseContent _value, $Res Function(_$_ShareVerseContent) _then)
+class __$$ShareVerseContentImplCopyWithImpl<$Res>
+    extends _$ShareVerseContentCopyWithImpl<$Res, _$ShareVerseContentImpl>
+    implements _$$ShareVerseContentImplCopyWith<$Res> {
+  __$$ShareVerseContentImplCopyWithImpl(_$ShareVerseContentImpl _value,
+      $Res Function(_$ShareVerseContentImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_ShareVerseContentCopyWithImpl<$Res>
     Object? content = freezed,
     Object? others = freezed,
   }) {
-    return _then(_$_ShareVerseContent(
+    return _then(_$ShareVerseContentImpl(
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -145,9 +145,9 @@ class __$$_ShareVerseContentCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShareVerseContent extends _ShareVerseContent
+class _$ShareVerseContentImpl extends _ShareVerseContent
     with DiagnosticableTreeMixin {
-  const _$_ShareVerseContent(
+  const _$ShareVerseContentImpl(
       {this.title,
       this.arabicContent,
       this.meaningContent,
@@ -192,10 +192,10 @@ class _$_ShareVerseContent extends _ShareVerseContent
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShareVerseContent &&
+            other is _$ShareVerseContentImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.arabicContent, arabicContent) ||
                 other.arabicContent == arabicContent) &&
@@ -212,8 +212,8 @@ class _$_ShareVerseContent extends _ShareVerseContent
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShareVerseContentCopyWith<_$_ShareVerseContent> get copyWith =>
-      __$$_ShareVerseContentCopyWithImpl<_$_ShareVerseContent>(
+  _$$ShareVerseContentImplCopyWith<_$ShareVerseContentImpl> get copyWith =>
+      __$$ShareVerseContentImplCopyWithImpl<_$ShareVerseContentImpl>(
           this, _$identity);
 }
 
@@ -223,7 +223,7 @@ abstract class _ShareVerseContent extends ShareVerseContent {
       final String? arabicContent,
       final String? meaningContent,
       final String? content,
-      final Map<String, String?>? others}) = _$_ShareVerseContent;
+      final Map<String, String?>? others}) = _$ShareVerseContentImpl;
   const _ShareVerseContent._() : super._();
 
   @override
@@ -238,6 +238,6 @@ abstract class _ShareVerseContent extends ShareVerseContent {
   Map<String, String?>? get others;
   @override
   @JsonKey(ignore: true)
-  _$$_ShareVerseContentCopyWith<_$_ShareVerseContent> get copyWith =>
+  _$$ShareVerseContentImplCopyWith<_$ShareVerseContentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

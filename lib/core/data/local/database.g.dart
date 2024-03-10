@@ -4723,6 +4723,18 @@ class _$SelectVersePageDao extends SelectVersePageDao {
   }
 
   @override
+  Future<bool?> existsLastVerseNumber(
+    String firstVerseNumber,
+    String lastVerseNumber,
+    int surahId,
+  ) async {
+    return _queryAdapter.query(
+        'select exists(     select 1 from verses     where surahId = ?3 and verseNumber = ?1 and      id < (select id from verses where surahId = ?3 and verseNumber = ?2 ))',
+        mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
+        arguments: [firstVerseNumber, lastVerseNumber, surahId]);
+  }
+
+  @override
   Future<bool?> existsVerseNumberWithPageNo(
     String verseNumber,
     int surahId,

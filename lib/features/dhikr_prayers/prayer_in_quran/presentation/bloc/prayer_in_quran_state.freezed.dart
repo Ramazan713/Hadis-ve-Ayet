@@ -12,7 +12,7 @@ part of 'prayer_in_quran_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerInQuranState {
@@ -118,11 +118,11 @@ class _$PrayerInQuranStateCopyWithImpl<$Res, $Val extends PrayerInQuranState>
 }
 
 /// @nodoc
-abstract class _$$_PrayerInQuranStateCopyWith<$Res>
+abstract class _$$PrayerInQuranStateImplCopyWith<$Res>
     implements $PrayerInQuranStateCopyWith<$Res> {
-  factory _$$_PrayerInQuranStateCopyWith(_$_PrayerInQuranState value,
-          $Res Function(_$_PrayerInQuranState) then) =
-      __$$_PrayerInQuranStateCopyWithImpl<$Res>;
+  factory _$$PrayerInQuranStateImplCopyWith(_$PrayerInQuranStateImpl value,
+          $Res Function(_$PrayerInQuranStateImpl) then) =
+      __$$PrayerInQuranStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -140,11 +140,11 @@ abstract class _$$_PrayerInQuranStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerInQuranStateCopyWithImpl<$Res>
-    extends _$PrayerInQuranStateCopyWithImpl<$Res, _$_PrayerInQuranState>
-    implements _$$_PrayerInQuranStateCopyWith<$Res> {
-  __$$_PrayerInQuranStateCopyWithImpl(
-      _$_PrayerInQuranState _value, $Res Function(_$_PrayerInQuranState) _then)
+class __$$PrayerInQuranStateImplCopyWithImpl<$Res>
+    extends _$PrayerInQuranStateCopyWithImpl<$Res, _$PrayerInQuranStateImpl>
+    implements _$$PrayerInQuranStateImplCopyWith<$Res> {
+  __$$PrayerInQuranStateImplCopyWithImpl(_$PrayerInQuranStateImpl _value,
+      $Res Function(_$PrayerInQuranStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +159,7 @@ class __$$_PrayerInQuranStateCopyWithImpl<$Res>
     Object? isSearchBarVisible = null,
     Object? message = freezed,
   }) {
-    return _then(_$_PrayerInQuranState(
+    return _then(_$PrayerInQuranStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -198,9 +198,9 @@ class __$$_PrayerInQuranStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerInQuranState extends _PrayerInQuranState
+class _$PrayerInQuranStateImpl extends _PrayerInQuranState
     with DiagnosticableTreeMixin {
-  const _$_PrayerInQuranState(
+  const _$PrayerInQuranStateImpl(
       {required final List<PrayerUnit<PrayerInQuran>> items,
       required this.isLoading,
       required this.arabicVerseUI2X,
@@ -256,10 +256,10 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerInQuranState &&
+            other is _$PrayerInQuranStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
@@ -291,8 +291,8 @@ class _$_PrayerInQuranState extends _PrayerInQuranState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerInQuranStateCopyWith<_$_PrayerInQuranState> get copyWith =>
-      __$$_PrayerInQuranStateCopyWithImpl<_$_PrayerInQuranState>(
+  _$$PrayerInQuranStateImplCopyWith<_$PrayerInQuranStateImpl> get copyWith =>
+      __$$PrayerInQuranStateImplCopyWithImpl<_$PrayerInQuranStateImpl>(
           this, _$identity);
 }
 
@@ -305,7 +305,7 @@ abstract class _PrayerInQuranState extends PrayerInQuranState {
       required final String searchQuery,
       required final SearchCriteriaEnum searchCriteria,
       required final bool isSearchBarVisible,
-      final String? message}) = _$_PrayerInQuranState;
+      final String? message}) = _$PrayerInQuranStateImpl;
   const _PrayerInQuranState._() : super._();
 
   @override
@@ -326,6 +326,6 @@ abstract class _PrayerInQuranState extends PrayerInQuranState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerInQuranStateCopyWith<_$_PrayerInQuranState> get copyWith =>
+  _$$PrayerInQuranStateImplCopyWith<_$PrayerInQuranStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,7 +12,7 @@ part of 'prayer_verse_cross_ref.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerVerseCrossRef {
@@ -75,22 +75,22 @@ class _$PrayerVerseCrossRefCopyWithImpl<$Res, $Val extends PrayerVerseCrossRef>
 }
 
 /// @nodoc
-abstract class _$$_PrayerVerseCrossRefCopyWith<$Res>
+abstract class _$$PrayerVerseCrossRefImplCopyWith<$Res>
     implements $PrayerVerseCrossRefCopyWith<$Res> {
-  factory _$$_PrayerVerseCrossRefCopyWith(_$_PrayerVerseCrossRef value,
-          $Res Function(_$_PrayerVerseCrossRef) then) =
-      __$$_PrayerVerseCrossRefCopyWithImpl<$Res>;
+  factory _$$PrayerVerseCrossRefImplCopyWith(_$PrayerVerseCrossRefImpl value,
+          $Res Function(_$PrayerVerseCrossRefImpl) then) =
+      __$$PrayerVerseCrossRefImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int verseId, int prayerId, int orderItem, int? id});
 }
 
 /// @nodoc
-class __$$_PrayerVerseCrossRefCopyWithImpl<$Res>
-    extends _$PrayerVerseCrossRefCopyWithImpl<$Res, _$_PrayerVerseCrossRef>
-    implements _$$_PrayerVerseCrossRefCopyWith<$Res> {
-  __$$_PrayerVerseCrossRefCopyWithImpl(_$_PrayerVerseCrossRef _value,
-      $Res Function(_$_PrayerVerseCrossRef) _then)
+class __$$PrayerVerseCrossRefImplCopyWithImpl<$Res>
+    extends _$PrayerVerseCrossRefCopyWithImpl<$Res, _$PrayerVerseCrossRefImpl>
+    implements _$$PrayerVerseCrossRefImplCopyWith<$Res> {
+  __$$PrayerVerseCrossRefImplCopyWithImpl(_$PrayerVerseCrossRefImpl _value,
+      $Res Function(_$PrayerVerseCrossRefImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_PrayerVerseCrossRefCopyWithImpl<$Res>
     Object? orderItem = null,
     Object? id = freezed,
   }) {
-    return _then(_$_PrayerVerseCrossRef(
+    return _then(_$PrayerVerseCrossRefImpl(
       verseId: null == verseId
           ? _value.verseId
           : verseId // ignore: cast_nullable_to_non_nullable
@@ -124,10 +124,10 @@ class __$$_PrayerVerseCrossRefCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerVerseCrossRef
+class _$PrayerVerseCrossRefImpl
     with DiagnosticableTreeMixin
     implements _PrayerVerseCrossRef {
-  const _$_PrayerVerseCrossRef(
+  const _$PrayerVerseCrossRefImpl(
       {required this.verseId,
       required this.prayerId,
       required this.orderItem,
@@ -159,10 +159,10 @@ class _$_PrayerVerseCrossRef
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerVerseCrossRef &&
+            other is _$PrayerVerseCrossRefImpl &&
             (identical(other.verseId, verseId) || other.verseId == verseId) &&
             (identical(other.prayerId, prayerId) ||
                 other.prayerId == prayerId) &&
@@ -178,8 +178,8 @@ class _$_PrayerVerseCrossRef
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerVerseCrossRefCopyWith<_$_PrayerVerseCrossRef> get copyWith =>
-      __$$_PrayerVerseCrossRefCopyWithImpl<_$_PrayerVerseCrossRef>(
+  _$$PrayerVerseCrossRefImplCopyWith<_$PrayerVerseCrossRefImpl> get copyWith =>
+      __$$PrayerVerseCrossRefImplCopyWithImpl<_$PrayerVerseCrossRefImpl>(
           this, _$identity);
 }
 
@@ -188,7 +188,7 @@ abstract class _PrayerVerseCrossRef implements PrayerVerseCrossRef {
       {required final int verseId,
       required final int prayerId,
       required final int orderItem,
-      final int? id}) = _$_PrayerVerseCrossRef;
+      final int? id}) = _$PrayerVerseCrossRefImpl;
 
   @override
   int get verseId;
@@ -200,6 +200,6 @@ abstract class _PrayerVerseCrossRef implements PrayerVerseCrossRef {
   int? get id;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerVerseCrossRefCopyWith<_$_PrayerVerseCrossRef> get copyWith =>
+  _$$PrayerVerseCrossRefImplCopyWith<_$PrayerVerseCrossRefImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

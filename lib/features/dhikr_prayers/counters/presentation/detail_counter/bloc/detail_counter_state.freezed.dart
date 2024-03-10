@@ -12,7 +12,7 @@ part of 'detail_counter_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$DetailCounterState {
@@ -158,11 +158,11 @@ class _$DetailCounterStateCopyWithImpl<$Res, $Val extends DetailCounterState>
 }
 
 /// @nodoc
-abstract class _$$_DetailCounterStateCopyWith<$Res>
+abstract class _$$DetailCounterStateImplCopyWith<$Res>
     implements $DetailCounterStateCopyWith<$Res> {
-  factory _$$_DetailCounterStateCopyWith(_$_DetailCounterState value,
-          $Res Function(_$_DetailCounterState) then) =
-      __$$_DetailCounterStateCopyWithImpl<$Res>;
+  factory _$$DetailCounterStateImplCopyWith(_$DetailCounterStateImpl value,
+          $Res Function(_$DetailCounterStateImpl) then) =
+      __$$DetailCounterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -186,11 +186,11 @@ abstract class _$$_DetailCounterStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DetailCounterStateCopyWithImpl<$Res>
-    extends _$DetailCounterStateCopyWithImpl<$Res, _$_DetailCounterState>
-    implements _$$_DetailCounterStateCopyWith<$Res> {
-  __$$_DetailCounterStateCopyWithImpl(
-      _$_DetailCounterState _value, $Res Function(_$_DetailCounterState) _then)
+class __$$DetailCounterStateImplCopyWithImpl<$Res>
+    extends _$DetailCounterStateCopyWithImpl<$Res, _$DetailCounterStateImpl>
+    implements _$$DetailCounterStateImplCopyWith<$Res> {
+  __$$DetailCounterStateImplCopyWithImpl(_$DetailCounterStateImpl _value,
+      $Res Function(_$DetailCounterStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -209,7 +209,7 @@ class __$$_DetailCounterStateCopyWithImpl<$Res>
     Object? currentCounter = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$_DetailCounterState(
+    return _then(_$DetailCounterStateImpl(
       counterClassic: null == counterClassic
           ? _value.counterClassic
           : counterClassic // ignore: cast_nullable_to_non_nullable
@@ -264,9 +264,9 @@ class __$$_DetailCounterStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DetailCounterState extends _DetailCounterState
+class _$DetailCounterStateImpl extends _DetailCounterState
     with DiagnosticableTreeMixin {
-  const _$_DetailCounterState(
+  const _$DetailCounterStateImpl(
       {required this.counterClassic,
       required this.counterSubClassic,
       required this.counterUnLimited,
@@ -333,10 +333,10 @@ class _$_DetailCounterState extends _DetailCounterState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DetailCounterState &&
+            other is _$DetailCounterStateImpl &&
             (identical(other.counterClassic, counterClassic) ||
                 other.counterClassic == counterClassic) &&
             (identical(other.counterSubClassic, counterSubClassic) ||
@@ -383,8 +383,8 @@ class _$_DetailCounterState extends _DetailCounterState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DetailCounterStateCopyWith<_$_DetailCounterState> get copyWith =>
-      __$$_DetailCounterStateCopyWithImpl<_$_DetailCounterState>(
+  _$$DetailCounterStateImplCopyWith<_$DetailCounterStateImpl> get copyWith =>
+      __$$DetailCounterStateImplCopyWithImpl<_$DetailCounterStateImpl>(
           this, _$identity);
 }
 
@@ -401,7 +401,7 @@ abstract class _DetailCounterState extends DetailCounterState {
       required final bool enabledEachDhikrVibration,
       required final bool enabledEachEndOfTourVibration,
       final Counter? currentCounter,
-      final String? message}) = _$_DetailCounterState;
+      final String? message}) = _$DetailCounterStateImpl;
   const _DetailCounterState._() : super._();
 
   @override
@@ -430,6 +430,6 @@ abstract class _DetailCounterState extends DetailCounterState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_DetailCounterStateCopyWith<_$_DetailCounterState> get copyWith =>
+  _$$DetailCounterStateImplCopyWith<_$DetailCounterStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

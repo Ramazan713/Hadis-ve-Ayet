@@ -6,16 +6,16 @@ part of 'prayer_verse_backup_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PrayerVerseBackupDto _$$_PrayerVerseBackupDtoFromJson(
+_$PrayerVerseBackupDtoImpl _$$PrayerVerseBackupDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_PrayerVerseBackupDto(
+    _$PrayerVerseBackupDtoImpl(
       verseId: json['verseId'] as int,
       prayerId: json['prayerId'] as int,
       orderItem: json['orderItem'] as int,
     );
 
-Map<String, dynamic> _$$_PrayerVerseBackupDtoToJson(
-        _$_PrayerVerseBackupDto instance) =>
+Map<String, dynamic> _$$PrayerVerseBackupDtoImplToJson(
+        _$PrayerVerseBackupDtoImpl instance) =>
     <String, dynamic>{
       'verseId': instance.verseId,
       'prayerId': instance.prayerId,

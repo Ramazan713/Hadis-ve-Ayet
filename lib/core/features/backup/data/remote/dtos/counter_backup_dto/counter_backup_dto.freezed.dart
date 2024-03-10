@@ -12,7 +12,7 @@ part of 'counter_backup_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CounterBackupDto _$CounterBackupDtoFromJson(Map<String, dynamic> json) {
   return _CounterBackupDto.fromJson(json);
@@ -133,11 +133,11 @@ class _$CounterBackupDtoCopyWithImpl<$Res, $Val extends CounterBackupDto>
 }
 
 /// @nodoc
-abstract class _$$_CounterBackupDtoCopyWith<$Res>
+abstract class _$$CounterBackupDtoImplCopyWith<$Res>
     implements $CounterBackupDtoCopyWith<$Res> {
-  factory _$$_CounterBackupDtoCopyWith(
-          _$_CounterBackupDto value, $Res Function(_$_CounterBackupDto) then) =
-      __$$_CounterBackupDtoCopyWithImpl<$Res>;
+  factory _$$CounterBackupDtoImplCopyWith(_$CounterBackupDtoImpl value,
+          $Res Function(_$CounterBackupDtoImpl) then) =
+      __$$CounterBackupDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -155,11 +155,11 @@ abstract class _$$_CounterBackupDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CounterBackupDtoCopyWithImpl<$Res>
-    extends _$CounterBackupDtoCopyWithImpl<$Res, _$_CounterBackupDto>
-    implements _$$_CounterBackupDtoCopyWith<$Res> {
-  __$$_CounterBackupDtoCopyWithImpl(
-      _$_CounterBackupDto _value, $Res Function(_$_CounterBackupDto) _then)
+class __$$CounterBackupDtoImplCopyWithImpl<$Res>
+    extends _$CounterBackupDtoCopyWithImpl<$Res, _$CounterBackupDtoImpl>
+    implements _$$CounterBackupDtoImplCopyWith<$Res> {
+  __$$CounterBackupDtoImplCopyWithImpl(_$CounterBackupDtoImpl _value,
+      $Res Function(_$CounterBackupDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -177,7 +177,7 @@ class __$$_CounterBackupDtoCopyWithImpl<$Res>
     Object? lastCounter = null,
     Object? type = null,
   }) {
-    return _then(_$_CounterBackupDto(
+    return _then(_$CounterBackupDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -228,10 +228,10 @@ class __$$_CounterBackupDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CounterBackupDto
+class _$CounterBackupDtoImpl
     with DiagnosticableTreeMixin
     implements _CounterBackupDto {
-  const _$_CounterBackupDto(
+  const _$CounterBackupDtoImpl(
       {this.id,
       this.content,
       this.arabicContent,
@@ -244,8 +244,8 @@ class _$_CounterBackupDto
       required this.lastCounter,
       required this.type});
 
-  factory _$_CounterBackupDto.fromJson(Map<String, dynamic> json) =>
-      _$$_CounterBackupDtoFromJson(json);
+  factory _$CounterBackupDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CounterBackupDtoImplFromJson(json);
 
   @override
   final int? id;
@@ -294,10 +294,10 @@ class _$_CounterBackupDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CounterBackupDto &&
+            other is _$CounterBackupDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.arabicContent, arabicContent) ||
@@ -324,12 +324,13 @@ class _$_CounterBackupDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CounterBackupDtoCopyWith<_$_CounterBackupDto> get copyWith =>
-      __$$_CounterBackupDtoCopyWithImpl<_$_CounterBackupDto>(this, _$identity);
+  _$$CounterBackupDtoImplCopyWith<_$CounterBackupDtoImpl> get copyWith =>
+      __$$CounterBackupDtoImplCopyWithImpl<_$CounterBackupDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CounterBackupDtoToJson(
+    return _$$CounterBackupDtoImplToJson(
       this,
     );
   }
@@ -347,10 +348,10 @@ abstract class _CounterBackupDto implements CounterBackupDto {
       required final String name,
       required final int orderItem,
       required final int lastCounter,
-      required final int type}) = _$_CounterBackupDto;
+      required final int type}) = _$CounterBackupDtoImpl;
 
   factory _CounterBackupDto.fromJson(Map<String, dynamic> json) =
-      _$_CounterBackupDto.fromJson;
+      _$CounterBackupDtoImpl.fromJson;
 
   @override
   int? get id;
@@ -376,6 +377,6 @@ abstract class _CounterBackupDto implements CounterBackupDto {
   int get type;
   @override
   @JsonKey(ignore: true)
-  _$$_CounterBackupDtoCopyWith<_$_CounterBackupDto> get copyWith =>
+  _$$CounterBackupDtoImplCopyWith<_$CounterBackupDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

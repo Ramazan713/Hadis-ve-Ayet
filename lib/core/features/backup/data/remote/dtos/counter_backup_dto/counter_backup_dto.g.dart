@@ -6,8 +6,9 @@ part of 'counter_backup_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CounterBackupDto _$$_CounterBackupDtoFromJson(Map<String, dynamic> json) =>
-    _$_CounterBackupDto(
+_$CounterBackupDtoImpl _$$CounterBackupDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CounterBackupDtoImpl(
       id: json['id'] as int?,
       content: json['content'] as String?,
       arabicContent: json['arabicContent'] as String?,
@@ -21,7 +22,8 @@ _$_CounterBackupDto _$$_CounterBackupDtoFromJson(Map<String, dynamic> json) =>
       type: json['type'] as int,
     );
 
-Map<String, dynamic> _$$_CounterBackupDtoToJson(_$_CounterBackupDto instance) =>
+Map<String, dynamic> _$$CounterBackupDtoImplToJson(
+        _$CounterBackupDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'content': instance.content,

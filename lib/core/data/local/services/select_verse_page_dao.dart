@@ -81,6 +81,13 @@ abstract class SelectVersePageDao{
   """)
   Future<bool?> existsVerseNumber(String verseNumber, int surahId, int cuzNo);
 
+  @Query("""select exists(
+    select 1 from verses
+    where surahId = :surahId and verseNumber = :firstVerseNumber and 
+    id < (select id from verses where surahId = :surahId and verseNumber = :lastVerseNumber ))
+  """)
+  Future<bool?> existsLastVerseNumber(String firstVerseNumber, String lastVerseNumber, int surahId);
+
 
   @Query("""select exists(
     select 1 from verses

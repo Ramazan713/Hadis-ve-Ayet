@@ -6,8 +6,8 @@ part of 'list_backup_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ListBackupDto _$$_ListBackupDtoFromJson(Map<String, dynamic> json) =>
-    _$_ListBackupDto(
+_$ListBackupDtoImpl _$$ListBackupDtoImplFromJson(Map<String, dynamic> json) =>
+    _$ListBackupDtoImpl(
       id: json['id'] as int?,
       name: json['name'] as String,
       isRemovable: json['isRemovable'] as bool,
@@ -16,7 +16,7 @@ _$_ListBackupDto _$$_ListBackupDtoFromJson(Map<String, dynamic> json) =>
       pos: json['pos'] as int,
     );
 
-Map<String, dynamic> _$$_ListBackupDtoToJson(_$_ListBackupDto instance) =>
+Map<String, dynamic> _$$ListBackupDtoImplToJson(_$ListBackupDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

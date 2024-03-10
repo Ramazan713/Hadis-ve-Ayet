@@ -12,7 +12,7 @@ part of 'prayer_custom.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerCustom {
@@ -121,11 +121,11 @@ class _$PrayerCustomCopyWithImpl<$Res, $Val extends PrayerCustom>
 }
 
 /// @nodoc
-abstract class _$$_PrayerCustomCopyWith<$Res>
+abstract class _$$PrayerCustomImplCopyWith<$Res>
     implements $PrayerCustomCopyWith<$Res> {
-  factory _$$_PrayerCustomCopyWith(
-          _$_PrayerCustom value, $Res Function(_$_PrayerCustom) then) =
-      __$$_PrayerCustomCopyWithImpl<$Res>;
+  factory _$$PrayerCustomImplCopyWith(
+          _$PrayerCustomImpl value, $Res Function(_$PrayerCustomImpl) then) =
+      __$$PrayerCustomImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -142,11 +142,11 @@ abstract class _$$_PrayerCustomCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerCustomCopyWithImpl<$Res>
-    extends _$PrayerCustomCopyWithImpl<$Res, _$_PrayerCustom>
-    implements _$$_PrayerCustomCopyWith<$Res> {
-  __$$_PrayerCustomCopyWithImpl(
-      _$_PrayerCustom _value, $Res Function(_$_PrayerCustom) _then)
+class __$$PrayerCustomImplCopyWithImpl<$Res>
+    extends _$PrayerCustomCopyWithImpl<$Res, _$PrayerCustomImpl>
+    implements _$$PrayerCustomImplCopyWith<$Res> {
+  __$$PrayerCustomImplCopyWithImpl(
+      _$PrayerCustomImpl _value, $Res Function(_$PrayerCustomImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -163,7 +163,7 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
     Object? counterId = freezed,
     Object? parentPrayerId = freezed,
   }) {
-    return _then(_$_PrayerCustom(
+    return _then(_$PrayerCustomImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -208,8 +208,8 @@ class __$$_PrayerCustomCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerCustom extends _PrayerCustom with DiagnosticableTreeMixin {
-  const _$_PrayerCustom(
+class _$PrayerCustomImpl extends _PrayerCustom with DiagnosticableTreeMixin {
+  const _$PrayerCustomImpl(
       {this.id,
       required this.name,
       this.arabicContent,
@@ -268,10 +268,10 @@ class _$_PrayerCustom extends _PrayerCustom with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerCustom &&
+            other is _$PrayerCustomImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.arabicContent, arabicContent) ||
@@ -308,8 +308,8 @@ class _$_PrayerCustom extends _PrayerCustom with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerCustomCopyWith<_$_PrayerCustom> get copyWith =>
-      __$$_PrayerCustomCopyWithImpl<_$_PrayerCustom>(this, _$identity);
+  _$$PrayerCustomImplCopyWith<_$PrayerCustomImpl> get copyWith =>
+      __$$PrayerCustomImplCopyWithImpl<_$PrayerCustomImpl>(this, _$identity);
 }
 
 abstract class _PrayerCustom extends PrayerCustom {
@@ -323,7 +323,7 @@ abstract class _PrayerCustom extends PrayerCustom {
       final int orderItem,
       final dynamic updateCounter,
       final int? counterId,
-      final int? parentPrayerId}) = _$_PrayerCustom;
+      final int? parentPrayerId}) = _$PrayerCustomImpl;
   const _PrayerCustom._() : super._();
 
   @override
@@ -348,6 +348,6 @@ abstract class _PrayerCustom extends PrayerCustom {
   int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerCustomCopyWith<_$_PrayerCustom> get copyWith =>
+  _$$PrayerCustomImplCopyWith<_$PrayerCustomImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

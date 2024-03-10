@@ -12,7 +12,7 @@ part of 'counter_setting_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CounterSettingState {
@@ -63,22 +63,22 @@ class _$CounterSettingStateCopyWithImpl<$Res, $Val extends CounterSettingState>
 }
 
 /// @nodoc
-abstract class _$$_CounterSettingStateCopyWith<$Res>
+abstract class _$$CounterSettingStateImplCopyWith<$Res>
     implements $CounterSettingStateCopyWith<$Res> {
-  factory _$$_CounterSettingStateCopyWith(_$_CounterSettingState value,
-          $Res Function(_$_CounterSettingState) then) =
-      __$$_CounterSettingStateCopyWithImpl<$Res>;
+  factory _$$CounterSettingStateImplCopyWith(_$CounterSettingStateImpl value,
+          $Res Function(_$CounterSettingStateImpl) then) =
+      __$$CounterSettingStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool eachDhikrVibration, bool eachEndOfTourVibration});
 }
 
 /// @nodoc
-class __$$_CounterSettingStateCopyWithImpl<$Res>
-    extends _$CounterSettingStateCopyWithImpl<$Res, _$_CounterSettingState>
-    implements _$$_CounterSettingStateCopyWith<$Res> {
-  __$$_CounterSettingStateCopyWithImpl(_$_CounterSettingState _value,
-      $Res Function(_$_CounterSettingState) _then)
+class __$$CounterSettingStateImplCopyWithImpl<$Res>
+    extends _$CounterSettingStateCopyWithImpl<$Res, _$CounterSettingStateImpl>
+    implements _$$CounterSettingStateImplCopyWith<$Res> {
+  __$$CounterSettingStateImplCopyWithImpl(_$CounterSettingStateImpl _value,
+      $Res Function(_$CounterSettingStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_CounterSettingStateCopyWithImpl<$Res>
     Object? eachDhikrVibration = null,
     Object? eachEndOfTourVibration = null,
   }) {
-    return _then(_$_CounterSettingState(
+    return _then(_$CounterSettingStateImpl(
       eachDhikrVibration: null == eachDhikrVibration
           ? _value.eachDhikrVibration
           : eachDhikrVibration // ignore: cast_nullable_to_non_nullable
@@ -102,10 +102,10 @@ class __$$_CounterSettingStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CounterSettingState
+class _$CounterSettingStateImpl
     with DiagnosticableTreeMixin
     implements _CounterSettingState {
-  const _$_CounterSettingState(
+  const _$CounterSettingStateImpl(
       {required this.eachDhikrVibration, required this.eachEndOfTourVibration});
 
   @override
@@ -129,10 +129,10 @@ class _$_CounterSettingState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CounterSettingState &&
+            other is _$CounterSettingStateImpl &&
             (identical(other.eachDhikrVibration, eachDhikrVibration) ||
                 other.eachDhikrVibration == eachDhikrVibration) &&
             (identical(other.eachEndOfTourVibration, eachEndOfTourVibration) ||
@@ -146,15 +146,15 @@ class _$_CounterSettingState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CounterSettingStateCopyWith<_$_CounterSettingState> get copyWith =>
-      __$$_CounterSettingStateCopyWithImpl<_$_CounterSettingState>(
+  _$$CounterSettingStateImplCopyWith<_$CounterSettingStateImpl> get copyWith =>
+      __$$CounterSettingStateImplCopyWithImpl<_$CounterSettingStateImpl>(
           this, _$identity);
 }
 
 abstract class _CounterSettingState implements CounterSettingState {
   const factory _CounterSettingState(
       {required final bool eachDhikrVibration,
-      required final bool eachEndOfTourVibration}) = _$_CounterSettingState;
+      required final bool eachEndOfTourVibration}) = _$CounterSettingStateImpl;
 
   @override
   bool get eachDhikrVibration;
@@ -162,6 +162,6 @@ abstract class _CounterSettingState implements CounterSettingState {
   bool get eachEndOfTourVibration;
   @override
   @JsonKey(ignore: true)
-  _$$_CounterSettingStateCopyWith<_$_CounterSettingState> get copyWith =>
+  _$$CounterSettingStateImplCopyWith<_$CounterSettingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

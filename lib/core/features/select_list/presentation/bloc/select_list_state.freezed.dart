@@ -12,7 +12,7 @@ part of 'select_list_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SelectListState {
@@ -93,11 +93,11 @@ class _$SelectListStateCopyWithImpl<$Res, $Val extends SelectListState>
 }
 
 /// @nodoc
-abstract class _$$_SelectListStateCopyWith<$Res>
+abstract class _$$SelectListStateImplCopyWith<$Res>
     implements $SelectListStateCopyWith<$Res> {
-  factory _$$_SelectListStateCopyWith(
-          _$_SelectListState value, $Res Function(_$_SelectListState) then) =
-      __$$_SelectListStateCopyWithImpl<$Res>;
+  factory _$$SelectListStateImplCopyWith(_$SelectListStateImpl value,
+          $Res Function(_$SelectListStateImpl) then) =
+      __$$SelectListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,11 +110,11 @@ abstract class _$$_SelectListStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SelectListStateCopyWithImpl<$Res>
-    extends _$SelectListStateCopyWithImpl<$Res, _$_SelectListState>
-    implements _$$_SelectListStateCopyWith<$Res> {
-  __$$_SelectListStateCopyWithImpl(
-      _$_SelectListState _value, $Res Function(_$_SelectListState) _then)
+class __$$SelectListStateImplCopyWithImpl<$Res>
+    extends _$SelectListStateCopyWithImpl<$Res, _$SelectListStateImpl>
+    implements _$$SelectListStateImplCopyWith<$Res> {
+  __$$SelectListStateImplCopyWithImpl(
+      _$SelectListStateImpl _value, $Res Function(_$SelectListStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +127,7 @@ class __$$_SelectListStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? listAffected = freezed,
   }) {
-    return _then(_$_SelectListState(
+    return _then(_$SelectListStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -158,10 +158,10 @@ class __$$_SelectListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectListState
+class _$SelectListStateImpl
     with DiagnosticableTreeMixin
     implements _SelectListState {
-  const _$_SelectListState(
+  const _$SelectListStateImpl(
       {required final List<SelectableListViewModel> items,
       required this.itemId,
       required this.sourceType,
@@ -208,10 +208,10 @@ class _$_SelectListState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SelectListState &&
+            other is _$SelectListStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.sourceType, sourceType) ||
@@ -236,8 +236,9 @@ class _$_SelectListState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SelectListStateCopyWith<_$_SelectListState> get copyWith =>
-      __$$_SelectListStateCopyWithImpl<_$_SelectListState>(this, _$identity);
+  _$$SelectListStateImplCopyWith<_$SelectListStateImpl> get copyWith =>
+      __$$SelectListStateImplCopyWithImpl<_$SelectListStateImpl>(
+          this, _$identity);
 }
 
 abstract class _SelectListState implements SelectListState {
@@ -247,7 +248,7 @@ abstract class _SelectListState implements SelectListState {
       required final SourceTypeEnum sourceType,
       final int? listIdControl,
       final String? message,
-      final bool? listAffected}) = _$_SelectListState;
+      final bool? listAffected}) = _$SelectListStateImpl;
 
   @override
   List<SelectableListViewModel> get items;
@@ -263,6 +264,6 @@ abstract class _SelectListState implements SelectListState {
   bool? get listAffected;
   @override
   @JsonKey(ignore: true)
-  _$$_SelectListStateCopyWith<_$_SelectListState> get copyWith =>
+  _$$SelectListStateImplCopyWith<_$SelectListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

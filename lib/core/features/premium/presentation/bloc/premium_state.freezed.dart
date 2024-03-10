@@ -12,7 +12,7 @@ part of 'premium_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PremiumState {
@@ -86,11 +86,11 @@ class _$PremiumStateCopyWithImpl<$Res, $Val extends PremiumState>
 }
 
 /// @nodoc
-abstract class _$$_PremiumStateCopyWith<$Res>
+abstract class _$$PremiumStateImplCopyWith<$Res>
     implements $PremiumStateCopyWith<$Res> {
-  factory _$$_PremiumStateCopyWith(
-          _$_PremiumState value, $Res Function(_$_PremiumState) then) =
-      __$$_PremiumStateCopyWithImpl<$Res>;
+  factory _$$PremiumStateImplCopyWith(
+          _$PremiumStateImpl value, $Res Function(_$PremiumStateImpl) then) =
+      __$$PremiumStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_PremiumStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PremiumStateCopyWithImpl<$Res>
-    extends _$PremiumStateCopyWithImpl<$Res, _$_PremiumState>
-    implements _$$_PremiumStateCopyWith<$Res> {
-  __$$_PremiumStateCopyWithImpl(
-      _$_PremiumState _value, $Res Function(_$_PremiumState) _then)
+class __$$PremiumStateImplCopyWithImpl<$Res>
+    extends _$PremiumStateCopyWithImpl<$Res, _$PremiumStateImpl>
+    implements _$$PremiumStateImplCopyWith<$Res> {
+  __$$PremiumStateImplCopyWithImpl(
+      _$PremiumStateImpl _value, $Res Function(_$PremiumStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_PremiumStateCopyWithImpl<$Res>
     Object? features = null,
     Object? error = freezed,
   }) {
-    return _then(_$_PremiumState(
+    return _then(_$PremiumStateImpl(
       isPremium: null == isPremium
           ? _value.isPremium
           : isPremium // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_PremiumStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PremiumState with DiagnosticableTreeMixin implements _PremiumState {
-  const _$_PremiumState(
+class _$PremiumStateImpl with DiagnosticableTreeMixin implements _PremiumState {
+  const _$PremiumStateImpl(
       {required this.isPremium,
       required this.isLoading,
       required final List<SubscriptionModel> items,
@@ -196,10 +196,10 @@ class _$_PremiumState with DiagnosticableTreeMixin implements _PremiumState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PremiumState &&
+            other is _$PremiumStateImpl &&
             (identical(other.isPremium, isPremium) ||
                 other.isPremium == isPremium) &&
             (identical(other.isLoading, isLoading) ||
@@ -221,8 +221,8 @@ class _$_PremiumState with DiagnosticableTreeMixin implements _PremiumState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PremiumStateCopyWith<_$_PremiumState> get copyWith =>
-      __$$_PremiumStateCopyWithImpl<_$_PremiumState>(this, _$identity);
+  _$$PremiumStateImplCopyWith<_$PremiumStateImpl> get copyWith =>
+      __$$PremiumStateImplCopyWithImpl<_$PremiumStateImpl>(this, _$identity);
 }
 
 abstract class _PremiumState implements PremiumState {
@@ -231,7 +231,7 @@ abstract class _PremiumState implements PremiumState {
       required final bool isLoading,
       required final List<SubscriptionModel> items,
       required final List<String> features,
-      final String? error}) = _$_PremiumState;
+      final String? error}) = _$PremiumStateImpl;
 
   @override
   bool get isPremium;
@@ -245,6 +245,6 @@ abstract class _PremiumState implements PremiumState {
   String? get error;
   @override
   @JsonKey(ignore: true)
-  _$$_PremiumStateCopyWith<_$_PremiumState> get copyWith =>
+  _$$PremiumStateImplCopyWith<_$PremiumStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

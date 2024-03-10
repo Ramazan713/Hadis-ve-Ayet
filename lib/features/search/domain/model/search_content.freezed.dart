@@ -12,7 +12,7 @@ part of 'search_content.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SearchContent {
@@ -69,22 +69,22 @@ class _$SearchContentCopyWithImpl<$Res, $Val extends SearchContent>
 }
 
 /// @nodoc
-abstract class _$$_SearchContentCopyWith<$Res>
+abstract class _$$SearchContentImplCopyWith<$Res>
     implements $SearchContentCopyWith<$Res> {
-  factory _$$_SearchContentCopyWith(
-          _$_SearchContent value, $Res Function(_$_SearchContent) then) =
-      __$$_SearchContentCopyWithImpl<$Res>;
+  factory _$$SearchContentImplCopyWith(
+          _$SearchContentImpl value, $Res Function(_$SearchContentImpl) then) =
+      __$$SearchContentImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String content, String source, List<SearchPart> searchParts});
 }
 
 /// @nodoc
-class __$$_SearchContentCopyWithImpl<$Res>
-    extends _$SearchContentCopyWithImpl<$Res, _$_SearchContent>
-    implements _$$_SearchContentCopyWith<$Res> {
-  __$$_SearchContentCopyWithImpl(
-      _$_SearchContent _value, $Res Function(_$_SearchContent) _then)
+class __$$SearchContentImplCopyWithImpl<$Res>
+    extends _$SearchContentCopyWithImpl<$Res, _$SearchContentImpl>
+    implements _$$SearchContentImplCopyWith<$Res> {
+  __$$SearchContentImplCopyWithImpl(
+      _$SearchContentImpl _value, $Res Function(_$SearchContentImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_SearchContentCopyWithImpl<$Res>
     Object? source = null,
     Object? searchParts = null,
   }) {
-    return _then(_$_SearchContent(
+    return _then(_$SearchContentImpl(
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,10 @@ class __$$_SearchContentCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
-  const _$_SearchContent(
+class _$SearchContentImpl
+    with DiagnosticableTreeMixin
+    implements _SearchContent {
+  const _$SearchContentImpl(
       {required this.content,
       required this.source,
       required final List<SearchPart> searchParts})
@@ -148,10 +150,10 @@ class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SearchContent &&
+            other is _$SearchContentImpl &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.source, source) || other.source == source) &&
             const DeepCollectionEquality()
@@ -165,15 +167,15 @@ class _$_SearchContent with DiagnosticableTreeMixin implements _SearchContent {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SearchContentCopyWith<_$_SearchContent> get copyWith =>
-      __$$_SearchContentCopyWithImpl<_$_SearchContent>(this, _$identity);
+  _$$SearchContentImplCopyWith<_$SearchContentImpl> get copyWith =>
+      __$$SearchContentImplCopyWithImpl<_$SearchContentImpl>(this, _$identity);
 }
 
 abstract class _SearchContent implements SearchContent {
   const factory _SearchContent(
       {required final String content,
       required final String source,
-      required final List<SearchPart> searchParts}) = _$_SearchContent;
+      required final List<SearchPart> searchParts}) = _$SearchContentImpl;
 
   @override
   String get content;
@@ -183,6 +185,6 @@ abstract class _SearchContent implements SearchContent {
   List<SearchPart> get searchParts;
   @override
   @JsonKey(ignore: true)
-  _$$_SearchContentCopyWith<_$_SearchContent> get copyWith =>
+  _$$SearchContentImplCopyWith<_$SearchContentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

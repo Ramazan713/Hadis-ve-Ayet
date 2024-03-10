@@ -12,7 +12,7 @@ part of 'prayer_dhikr.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerDhikr {
@@ -100,11 +100,11 @@ class _$PrayerDhikrCopyWithImpl<$Res, $Val extends PrayerDhikr>
 }
 
 /// @nodoc
-abstract class _$$_PrayerDhikrCopyWith<$Res>
+abstract class _$$PrayerDhikrImplCopyWith<$Res>
     implements $PrayerDhikrCopyWith<$Res> {
-  factory _$$_PrayerDhikrCopyWith(
-          _$_PrayerDhikr value, $Res Function(_$_PrayerDhikr) then) =
-      __$$_PrayerDhikrCopyWithImpl<$Res>;
+  factory _$$PrayerDhikrImplCopyWith(
+          _$PrayerDhikrImpl value, $Res Function(_$PrayerDhikrImpl) then) =
+      __$$PrayerDhikrImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -118,11 +118,11 @@ abstract class _$$_PrayerDhikrCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerDhikrCopyWithImpl<$Res>
-    extends _$PrayerDhikrCopyWithImpl<$Res, _$_PrayerDhikr>
-    implements _$$_PrayerDhikrCopyWith<$Res> {
-  __$$_PrayerDhikrCopyWithImpl(
-      _$_PrayerDhikr _value, $Res Function(_$_PrayerDhikr) _then)
+class __$$PrayerDhikrImplCopyWithImpl<$Res>
+    extends _$PrayerDhikrCopyWithImpl<$Res, _$PrayerDhikrImpl>
+    implements _$$PrayerDhikrImplCopyWith<$Res> {
+  __$$PrayerDhikrImplCopyWithImpl(
+      _$PrayerDhikrImpl _value, $Res Function(_$PrayerDhikrImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +136,7 @@ class __$$_PrayerDhikrCopyWithImpl<$Res>
     Object? orderItem = null,
     Object? counterId = freezed,
   }) {
-    return _then(_$_PrayerDhikr(
+    return _then(_$PrayerDhikrImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -171,8 +171,8 @@ class __$$_PrayerDhikrCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerDhikr implements _PrayerDhikr {
-  const _$_PrayerDhikr(
+class _$PrayerDhikrImpl implements _PrayerDhikr {
+  const _$PrayerDhikrImpl(
       {required this.id,
       required this.name,
       required this.arabicContent,
@@ -202,10 +202,10 @@ class _$_PrayerDhikr implements _PrayerDhikr {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerDhikr &&
+            other is _$PrayerDhikrImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.arabicContent, arabicContent) ||
@@ -227,8 +227,8 @@ class _$_PrayerDhikr implements _PrayerDhikr {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerDhikrCopyWith<_$_PrayerDhikr> get copyWith =>
-      __$$_PrayerDhikrCopyWithImpl<_$_PrayerDhikr>(this, _$identity);
+  _$$PrayerDhikrImplCopyWith<_$PrayerDhikrImpl> get copyWith =>
+      __$$PrayerDhikrImplCopyWithImpl<_$PrayerDhikrImpl>(this, _$identity);
 }
 
 abstract class _PrayerDhikr implements PrayerDhikr {
@@ -239,7 +239,7 @@ abstract class _PrayerDhikr implements PrayerDhikr {
       required final String meaningContent,
       required final String pronunciationContent,
       required final int orderItem,
-      final int? counterId}) = _$_PrayerDhikr;
+      final int? counterId}) = _$PrayerDhikrImpl;
 
   @override
   int get id;
@@ -257,6 +257,6 @@ abstract class _PrayerDhikr implements PrayerDhikr {
   int? get counterId;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerDhikrCopyWith<_$_PrayerDhikr> get copyWith =>
+  _$$PrayerDhikrImplCopyWith<_$PrayerDhikrImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

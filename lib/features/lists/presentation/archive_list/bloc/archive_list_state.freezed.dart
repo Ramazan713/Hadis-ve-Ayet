@@ -12,7 +12,7 @@ part of 'archive_list_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ArchiveListState {
@@ -86,11 +86,11 @@ class _$ArchiveListStateCopyWithImpl<$Res, $Val extends ArchiveListState>
 }
 
 /// @nodoc
-abstract class _$$_ArchiveListStateCopyWith<$Res>
+abstract class _$$ArchiveListStateImplCopyWith<$Res>
     implements $ArchiveListStateCopyWith<$Res> {
-  factory _$$_ArchiveListStateCopyWith(
-          _$_ArchiveListState value, $Res Function(_$_ArchiveListState) then) =
-      __$$_ArchiveListStateCopyWithImpl<$Res>;
+  factory _$$ArchiveListStateImplCopyWith(_$ArchiveListStateImpl value,
+          $Res Function(_$ArchiveListStateImpl) then) =
+      __$$ArchiveListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_ArchiveListStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ArchiveListStateCopyWithImpl<$Res>
-    extends _$ArchiveListStateCopyWithImpl<$Res, _$_ArchiveListState>
-    implements _$$_ArchiveListStateCopyWith<$Res> {
-  __$$_ArchiveListStateCopyWithImpl(
-      _$_ArchiveListState _value, $Res Function(_$_ArchiveListState) _then)
+class __$$ArchiveListStateImplCopyWithImpl<$Res>
+    extends _$ArchiveListStateCopyWithImpl<$Res, _$ArchiveListStateImpl>
+    implements _$$ArchiveListStateImplCopyWith<$Res> {
+  __$$ArchiveListStateImplCopyWithImpl(_$ArchiveListStateImpl _value,
+      $Res Function(_$ArchiveListStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_ArchiveListStateCopyWithImpl<$Res>
     Object? message = freezed,
     Object? jumpToPos = freezed,
   }) {
-    return _then(_$_ArchiveListState(
+    return _then(_$ArchiveListStateImpl(
       listModels: null == listModels
           ? _value._listModels
           : listModels // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_ArchiveListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ArchiveListState implements _ArchiveListState {
-  const _$_ArchiveListState(
+class _$ArchiveListStateImpl implements _ArchiveListState {
+  const _$ArchiveListStateImpl(
       {required final List<ListViewModel> listModels,
       required this.isDetailOpen,
       this.selectedItem,
@@ -177,10 +177,10 @@ class _$_ArchiveListState implements _ArchiveListState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArchiveListState &&
+            other is _$ArchiveListStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._listModels, _listModels) &&
             (identical(other.isDetailOpen, isDetailOpen) ||
@@ -204,8 +204,9 @@ class _$_ArchiveListState implements _ArchiveListState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArchiveListStateCopyWith<_$_ArchiveListState> get copyWith =>
-      __$$_ArchiveListStateCopyWithImpl<_$_ArchiveListState>(this, _$identity);
+  _$$ArchiveListStateImplCopyWith<_$ArchiveListStateImpl> get copyWith =>
+      __$$ArchiveListStateImplCopyWithImpl<_$ArchiveListStateImpl>(
+          this, _$identity);
 }
 
 abstract class _ArchiveListState implements ArchiveListState {
@@ -214,7 +215,7 @@ abstract class _ArchiveListState implements ArchiveListState {
       required final bool isDetailOpen,
       final ListViewModel? selectedItem,
       final String? message,
-      final int? jumpToPos}) = _$_ArchiveListState;
+      final int? jumpToPos}) = _$ArchiveListStateImpl;
 
   @override
   List<ListViewModel> get listModels;
@@ -228,6 +229,6 @@ abstract class _ArchiveListState implements ArchiveListState {
   int? get jumpToPos;
   @override
   @JsonKey(ignore: true)
-  _$$_ArchiveListStateCopyWith<_$_ArchiveListState> get copyWith =>
+  _$$ArchiveListStateImplCopyWith<_$ArchiveListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

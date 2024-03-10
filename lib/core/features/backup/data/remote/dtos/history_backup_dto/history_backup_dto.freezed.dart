@@ -12,7 +12,7 @@ part of 'history_backup_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 HistoryBackupDto _$HistoryBackupDtoFromJson(Map<String, dynamic> json) {
   return _HistoryBackupDto.fromJson(json);
@@ -80,22 +80,22 @@ class _$HistoryBackupDtoCopyWithImpl<$Res, $Val extends HistoryBackupDto>
 }
 
 /// @nodoc
-abstract class _$$_HistoryBackupDtoCopyWith<$Res>
+abstract class _$$HistoryBackupDtoImplCopyWith<$Res>
     implements $HistoryBackupDtoCopyWith<$Res> {
-  factory _$$_HistoryBackupDtoCopyWith(
-          _$_HistoryBackupDto value, $Res Function(_$_HistoryBackupDto) then) =
-      __$$_HistoryBackupDtoCopyWithImpl<$Res>;
+  factory _$$HistoryBackupDtoImplCopyWith(_$HistoryBackupDtoImpl value,
+          $Res Function(_$HistoryBackupDtoImpl) then) =
+      __$$HistoryBackupDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int? id, String name, int originType, String modifiedDate});
 }
 
 /// @nodoc
-class __$$_HistoryBackupDtoCopyWithImpl<$Res>
-    extends _$HistoryBackupDtoCopyWithImpl<$Res, _$_HistoryBackupDto>
-    implements _$$_HistoryBackupDtoCopyWith<$Res> {
-  __$$_HistoryBackupDtoCopyWithImpl(
-      _$_HistoryBackupDto _value, $Res Function(_$_HistoryBackupDto) _then)
+class __$$HistoryBackupDtoImplCopyWithImpl<$Res>
+    extends _$HistoryBackupDtoCopyWithImpl<$Res, _$HistoryBackupDtoImpl>
+    implements _$$HistoryBackupDtoImplCopyWith<$Res> {
+  __$$HistoryBackupDtoImplCopyWithImpl(_$HistoryBackupDtoImpl _value,
+      $Res Function(_$HistoryBackupDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_HistoryBackupDtoCopyWithImpl<$Res>
     Object? originType = null,
     Object? modifiedDate = null,
   }) {
-    return _then(_$_HistoryBackupDto(
+    return _then(_$HistoryBackupDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -129,17 +129,17 @@ class __$$_HistoryBackupDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_HistoryBackupDto
+class _$HistoryBackupDtoImpl
     with DiagnosticableTreeMixin
     implements _HistoryBackupDto {
-  const _$_HistoryBackupDto(
+  const _$HistoryBackupDtoImpl(
       {required this.id,
       required this.name,
       required this.originType,
       required this.modifiedDate});
 
-  factory _$_HistoryBackupDto.fromJson(Map<String, dynamic> json) =>
-      _$$_HistoryBackupDtoFromJson(json);
+  factory _$HistoryBackupDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HistoryBackupDtoImplFromJson(json);
 
   @override
   final int? id;
@@ -167,10 +167,10 @@ class _$_HistoryBackupDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HistoryBackupDto &&
+            other is _$HistoryBackupDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.originType, originType) ||
@@ -187,12 +187,13 @@ class _$_HistoryBackupDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HistoryBackupDtoCopyWith<_$_HistoryBackupDto> get copyWith =>
-      __$$_HistoryBackupDtoCopyWithImpl<_$_HistoryBackupDto>(this, _$identity);
+  _$$HistoryBackupDtoImplCopyWith<_$HistoryBackupDtoImpl> get copyWith =>
+      __$$HistoryBackupDtoImplCopyWithImpl<_$HistoryBackupDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HistoryBackupDtoToJson(
+    return _$$HistoryBackupDtoImplToJson(
       this,
     );
   }
@@ -203,10 +204,10 @@ abstract class _HistoryBackupDto implements HistoryBackupDto {
       {required final int? id,
       required final String name,
       required final int originType,
-      required final String modifiedDate}) = _$_HistoryBackupDto;
+      required final String modifiedDate}) = _$HistoryBackupDtoImpl;
 
   factory _HistoryBackupDto.fromJson(Map<String, dynamic> json) =
-      _$_HistoryBackupDto.fromJson;
+      _$HistoryBackupDtoImpl.fromJson;
 
   @override
   int? get id;
@@ -218,6 +219,6 @@ abstract class _HistoryBackupDto implements HistoryBackupDto {
   String get modifiedDate;
   @override
   @JsonKey(ignore: true)
-  _$$_HistoryBackupDtoCopyWith<_$_HistoryBackupDto> get copyWith =>
+  _$$HistoryBackupDtoImplCopyWith<_$HistoryBackupDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

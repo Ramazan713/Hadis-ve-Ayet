@@ -12,7 +12,7 @@ part of 'prayer_and_verse_list_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerAndVerseListState {
@@ -64,23 +64,25 @@ class _$PrayerAndVerseListStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PrayerAndVerseListStateCopyWith<$Res>
+abstract class _$$PrayerAndVerseListStateImplCopyWith<$Res>
     implements $PrayerAndVerseListStateCopyWith<$Res> {
-  factory _$$_PrayerAndVerseListStateCopyWith(_$_PrayerAndVerseListState value,
-          $Res Function(_$_PrayerAndVerseListState) then) =
-      __$$_PrayerAndVerseListStateCopyWithImpl<$Res>;
+  factory _$$PrayerAndVerseListStateImplCopyWith(
+          _$PrayerAndVerseListStateImpl value,
+          $Res Function(_$PrayerAndVerseListStateImpl) then) =
+      __$$PrayerAndVerseListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<PrayerAndVerse> items, bool isLoading});
 }
 
 /// @nodoc
-class __$$_PrayerAndVerseListStateCopyWithImpl<$Res>
+class __$$PrayerAndVerseListStateImplCopyWithImpl<$Res>
     extends _$PrayerAndVerseListStateCopyWithImpl<$Res,
-        _$_PrayerAndVerseListState>
-    implements _$$_PrayerAndVerseListStateCopyWith<$Res> {
-  __$$_PrayerAndVerseListStateCopyWithImpl(_$_PrayerAndVerseListState _value,
-      $Res Function(_$_PrayerAndVerseListState) _then)
+        _$PrayerAndVerseListStateImpl>
+    implements _$$PrayerAndVerseListStateImplCopyWith<$Res> {
+  __$$PrayerAndVerseListStateImplCopyWithImpl(
+      _$PrayerAndVerseListStateImpl _value,
+      $Res Function(_$PrayerAndVerseListStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +91,7 @@ class __$$_PrayerAndVerseListStateCopyWithImpl<$Res>
     Object? items = null,
     Object? isLoading = null,
   }) {
-    return _then(_$_PrayerAndVerseListState(
+    return _then(_$PrayerAndVerseListStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -104,10 +106,10 @@ class __$$_PrayerAndVerseListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerAndVerseListState
+class _$PrayerAndVerseListStateImpl
     with DiagnosticableTreeMixin
     implements _PrayerAndVerseListState {
-  const _$_PrayerAndVerseListState(
+  const _$PrayerAndVerseListStateImpl(
       {required final List<PrayerAndVerse> items, this.isLoading = false})
       : _items = items;
 
@@ -138,10 +140,10 @@ class _$_PrayerAndVerseListState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerAndVerseListState &&
+            other is _$PrayerAndVerseListStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading));
@@ -154,16 +156,15 @@ class _$_PrayerAndVerseListState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerAndVerseListStateCopyWith<_$_PrayerAndVerseListState>
-      get copyWith =>
-          __$$_PrayerAndVerseListStateCopyWithImpl<_$_PrayerAndVerseListState>(
-              this, _$identity);
+  _$$PrayerAndVerseListStateImplCopyWith<_$PrayerAndVerseListStateImpl>
+      get copyWith => __$$PrayerAndVerseListStateImplCopyWithImpl<
+          _$PrayerAndVerseListStateImpl>(this, _$identity);
 }
 
 abstract class _PrayerAndVerseListState implements PrayerAndVerseListState {
   const factory _PrayerAndVerseListState(
       {required final List<PrayerAndVerse> items,
-      final bool isLoading}) = _$_PrayerAndVerseListState;
+      final bool isLoading}) = _$PrayerAndVerseListStateImpl;
 
   @override
   List<PrayerAndVerse> get items;
@@ -171,6 +172,6 @@ abstract class _PrayerAndVerseListState implements PrayerAndVerseListState {
   bool get isLoading;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerAndVerseListStateCopyWith<_$_PrayerAndVerseListState>
+  _$$PrayerAndVerseListStateImplCopyWith<_$PrayerAndVerseListStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

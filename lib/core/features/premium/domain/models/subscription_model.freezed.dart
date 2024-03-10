@@ -12,7 +12,7 @@ part of 'subscription_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SubscriptionModel {
@@ -79,11 +79,11 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
 }
 
 /// @nodoc
-abstract class _$$_SubscriptionModelCopyWith<$Res>
+abstract class _$$SubscriptionModelImplCopyWith<$Res>
     implements $SubscriptionModelCopyWith<$Res> {
-  factory _$$_SubscriptionModelCopyWith(_$_SubscriptionModel value,
-          $Res Function(_$_SubscriptionModel) then) =
-      __$$_SubscriptionModelCopyWithImpl<$Res>;
+  factory _$$SubscriptionModelImplCopyWith(_$SubscriptionModelImpl value,
+          $Res Function(_$SubscriptionModelImpl) then) =
+      __$$SubscriptionModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_SubscriptionModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SubscriptionModelCopyWithImpl<$Res>
-    extends _$SubscriptionModelCopyWithImpl<$Res, _$_SubscriptionModel>
-    implements _$$_SubscriptionModelCopyWith<$Res> {
-  __$$_SubscriptionModelCopyWithImpl(
-      _$_SubscriptionModel _value, $Res Function(_$_SubscriptionModel) _then)
+class __$$SubscriptionModelImplCopyWithImpl<$Res>
+    extends _$SubscriptionModelCopyWithImpl<$Res, _$SubscriptionModelImpl>
+    implements _$$SubscriptionModelImplCopyWith<$Res> {
+  __$$SubscriptionModelImplCopyWithImpl(_$SubscriptionModelImpl _value,
+      $Res Function(_$SubscriptionModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -109,7 +109,7 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
     Object? productDetails = null,
     Object? trialContent = freezed,
   }) {
-    return _then(_$_SubscriptionModel(
+    return _then(_$SubscriptionModelImpl(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -132,10 +132,10 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SubscriptionModel
+class _$SubscriptionModelImpl
     with DiagnosticableTreeMixin
     implements _SubscriptionModel {
-  const _$_SubscriptionModel(
+  const _$SubscriptionModelImpl(
       {required this.title,
       required this.price,
       required this.productDetails,
@@ -167,10 +167,10 @@ class _$_SubscriptionModel
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SubscriptionModel &&
+            other is _$SubscriptionModelImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.productDetails, productDetails) ||
@@ -186,8 +186,8 @@ class _$_SubscriptionModel
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SubscriptionModelCopyWith<_$_SubscriptionModel> get copyWith =>
-      __$$_SubscriptionModelCopyWithImpl<_$_SubscriptionModel>(
+  _$$SubscriptionModelImplCopyWith<_$SubscriptionModelImpl> get copyWith =>
+      __$$SubscriptionModelImplCopyWithImpl<_$SubscriptionModelImpl>(
           this, _$identity);
 }
 
@@ -196,7 +196,7 @@ abstract class _SubscriptionModel implements SubscriptionModel {
       {required final String title,
       required final String price,
       required final ProductDetails productDetails,
-      final String? trialContent}) = _$_SubscriptionModel;
+      final String? trialContent}) = _$SubscriptionModelImpl;
 
   @override
   String get title;
@@ -208,6 +208,6 @@ abstract class _SubscriptionModel implements SubscriptionModel {
   String? get trialContent;
   @override
   @JsonKey(ignore: true)
-  _$$_SubscriptionModelCopyWith<_$_SubscriptionModel> get copyWith =>
+  _$$SubscriptionModelImplCopyWith<_$SubscriptionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

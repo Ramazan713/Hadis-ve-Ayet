@@ -12,7 +12,7 @@ part of 'premium_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PremiumResult {
@@ -69,22 +69,22 @@ class _$PremiumResultCopyWithImpl<$Res, $Val extends PremiumResult>
 }
 
 /// @nodoc
-abstract class _$$_PremiumResultCopyWith<$Res>
+abstract class _$$PremiumResultImplCopyWith<$Res>
     implements $PremiumResultCopyWith<$Res> {
-  factory _$$_PremiumResultCopyWith(
-          _$_PremiumResult value, $Res Function(_$_PremiumResult) then) =
-      __$$_PremiumResultCopyWithImpl<$Res>;
+  factory _$$PremiumResultImplCopyWith(
+          _$PremiumResultImpl value, $Res Function(_$PremiumResultImpl) then) =
+      __$$PremiumResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool isLoading, bool isPremium, String? error});
 }
 
 /// @nodoc
-class __$$_PremiumResultCopyWithImpl<$Res>
-    extends _$PremiumResultCopyWithImpl<$Res, _$_PremiumResult>
-    implements _$$_PremiumResultCopyWith<$Res> {
-  __$$_PremiumResultCopyWithImpl(
-      _$_PremiumResult _value, $Res Function(_$_PremiumResult) _then)
+class __$$PremiumResultImplCopyWithImpl<$Res>
+    extends _$PremiumResultCopyWithImpl<$Res, _$PremiumResultImpl>
+    implements _$$PremiumResultImplCopyWith<$Res> {
+  __$$PremiumResultImplCopyWithImpl(
+      _$PremiumResultImpl _value, $Res Function(_$PremiumResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_PremiumResultCopyWithImpl<$Res>
     Object? isPremium = null,
     Object? error = freezed,
   }) {
-    return _then(_$_PremiumResult(
+    return _then(_$PremiumResultImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,10 @@ class __$$_PremiumResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PremiumResult with DiagnosticableTreeMixin implements _PremiumResult {
-  const _$_PremiumResult(
+class _$PremiumResultImpl
+    with DiagnosticableTreeMixin
+    implements _PremiumResult {
+  const _$PremiumResultImpl(
       {required this.isLoading, required this.isPremium, this.error});
 
   @override
@@ -140,10 +142,10 @@ class _$_PremiumResult with DiagnosticableTreeMixin implements _PremiumResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PremiumResult &&
+            other is _$PremiumResultImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isPremium, isPremium) ||
@@ -157,15 +159,15 @@ class _$_PremiumResult with DiagnosticableTreeMixin implements _PremiumResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PremiumResultCopyWith<_$_PremiumResult> get copyWith =>
-      __$$_PremiumResultCopyWithImpl<_$_PremiumResult>(this, _$identity);
+  _$$PremiumResultImplCopyWith<_$PremiumResultImpl> get copyWith =>
+      __$$PremiumResultImplCopyWithImpl<_$PremiumResultImpl>(this, _$identity);
 }
 
 abstract class _PremiumResult implements PremiumResult {
   const factory _PremiumResult(
       {required final bool isLoading,
       required final bool isPremium,
-      final String? error}) = _$_PremiumResult;
+      final String? error}) = _$PremiumResultImpl;
 
   @override
   bool get isLoading;
@@ -175,6 +177,6 @@ abstract class _PremiumResult implements PremiumResult {
   String? get error;
   @override
   @JsonKey(ignore: true)
-  _$$_PremiumResultCopyWith<_$_PremiumResult> get copyWith =>
+  _$$PremiumResultImplCopyWith<_$PremiumResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,7 +12,7 @@ part of 'esmaul_husna_info_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 EsmaulHusnaInfoDto _$EsmaulHusnaInfoDtoFromJson(Map<String, dynamic> json) {
   return _EsmaulHusnaInfoDto.fromJson(json);
@@ -68,22 +68,22 @@ class _$EsmaulHusnaInfoDtoCopyWithImpl<$Res, $Val extends EsmaulHusnaInfoDto>
 }
 
 /// @nodoc
-abstract class _$$_EsmaulHusnaInfoDtoCopyWith<$Res>
+abstract class _$$EsmaulHusnaInfoDtoImplCopyWith<$Res>
     implements $EsmaulHusnaInfoDtoCopyWith<$Res> {
-  factory _$$_EsmaulHusnaInfoDtoCopyWith(_$_EsmaulHusnaInfoDto value,
-          $Res Function(_$_EsmaulHusnaInfoDto) then) =
-      __$$_EsmaulHusnaInfoDtoCopyWithImpl<$Res>;
+  factory _$$EsmaulHusnaInfoDtoImplCopyWith(_$EsmaulHusnaInfoDtoImpl value,
+          $Res Function(_$EsmaulHusnaInfoDtoImpl) then) =
+      __$$EsmaulHusnaInfoDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int orderItem, int? counterId});
 }
 
 /// @nodoc
-class __$$_EsmaulHusnaInfoDtoCopyWithImpl<$Res>
-    extends _$EsmaulHusnaInfoDtoCopyWithImpl<$Res, _$_EsmaulHusnaInfoDto>
-    implements _$$_EsmaulHusnaInfoDtoCopyWith<$Res> {
-  __$$_EsmaulHusnaInfoDtoCopyWithImpl(
-      _$_EsmaulHusnaInfoDto _value, $Res Function(_$_EsmaulHusnaInfoDto) _then)
+class __$$EsmaulHusnaInfoDtoImplCopyWithImpl<$Res>
+    extends _$EsmaulHusnaInfoDtoCopyWithImpl<$Res, _$EsmaulHusnaInfoDtoImpl>
+    implements _$$EsmaulHusnaInfoDtoImplCopyWith<$Res> {
+  __$$EsmaulHusnaInfoDtoImplCopyWithImpl(_$EsmaulHusnaInfoDtoImpl _value,
+      $Res Function(_$EsmaulHusnaInfoDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_EsmaulHusnaInfoDtoCopyWithImpl<$Res>
     Object? orderItem = null,
     Object? counterId = freezed,
   }) {
-    return _then(_$_EsmaulHusnaInfoDto(
+    return _then(_$EsmaulHusnaInfoDtoImpl(
       orderItem: null == orderItem
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
@@ -107,14 +107,14 @@ class __$$_EsmaulHusnaInfoDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_EsmaulHusnaInfoDto
+class _$EsmaulHusnaInfoDtoImpl
     with DiagnosticableTreeMixin
     implements _EsmaulHusnaInfoDto {
-  const _$_EsmaulHusnaInfoDto(
+  const _$EsmaulHusnaInfoDtoImpl(
       {required this.orderItem, required this.counterId});
 
-  factory _$_EsmaulHusnaInfoDto.fromJson(Map<String, dynamic> json) =>
-      _$$_EsmaulHusnaInfoDtoFromJson(json);
+  factory _$EsmaulHusnaInfoDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EsmaulHusnaInfoDtoImplFromJson(json);
 
   @override
   final int orderItem;
@@ -136,10 +136,10 @@ class _$_EsmaulHusnaInfoDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EsmaulHusnaInfoDto &&
+            other is _$EsmaulHusnaInfoDtoImpl &&
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
             (identical(other.counterId, counterId) ||
@@ -153,13 +153,13 @@ class _$_EsmaulHusnaInfoDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EsmaulHusnaInfoDtoCopyWith<_$_EsmaulHusnaInfoDto> get copyWith =>
-      __$$_EsmaulHusnaInfoDtoCopyWithImpl<_$_EsmaulHusnaInfoDto>(
+  _$$EsmaulHusnaInfoDtoImplCopyWith<_$EsmaulHusnaInfoDtoImpl> get copyWith =>
+      __$$EsmaulHusnaInfoDtoImplCopyWithImpl<_$EsmaulHusnaInfoDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EsmaulHusnaInfoDtoToJson(
+    return _$$EsmaulHusnaInfoDtoImplToJson(
       this,
     );
   }
@@ -168,10 +168,10 @@ class _$_EsmaulHusnaInfoDto
 abstract class _EsmaulHusnaInfoDto implements EsmaulHusnaInfoDto {
   const factory _EsmaulHusnaInfoDto(
       {required final int orderItem,
-      required final int? counterId}) = _$_EsmaulHusnaInfoDto;
+      required final int? counterId}) = _$EsmaulHusnaInfoDtoImpl;
 
   factory _EsmaulHusnaInfoDto.fromJson(Map<String, dynamic> json) =
-      _$_EsmaulHusnaInfoDto.fromJson;
+      _$EsmaulHusnaInfoDtoImpl.fromJson;
 
   @override
   int get orderItem;
@@ -179,6 +179,6 @@ abstract class _EsmaulHusnaInfoDto implements EsmaulHusnaInfoDto {
   int? get counterId;
   @override
   @JsonKey(ignore: true)
-  _$$_EsmaulHusnaInfoDtoCopyWith<_$_EsmaulHusnaInfoDto> get copyWith =>
+  _$$EsmaulHusnaInfoDtoImplCopyWith<_$EsmaulHusnaInfoDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,7 +12,7 @@ part of 'backup_meta_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BackupMetaState {
@@ -107,11 +107,11 @@ class _$BackupMetaStateCopyWithImpl<$Res, $Val extends BackupMetaState>
 }
 
 /// @nodoc
-abstract class _$$_BackupMetaStateCopyWith<$Res>
+abstract class _$$BackupMetaStateImplCopyWith<$Res>
     implements $BackupMetaStateCopyWith<$Res> {
-  factory _$$_BackupMetaStateCopyWith(
-          _$_BackupMetaState value, $Res Function(_$_BackupMetaState) then) =
-      __$$_BackupMetaStateCopyWithImpl<$Res>;
+  factory _$$BackupMetaStateImplCopyWith(_$BackupMetaStateImpl value,
+          $Res Function(_$BackupMetaStateImpl) then) =
+      __$$BackupMetaStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,11 +127,11 @@ abstract class _$$_BackupMetaStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BackupMetaStateCopyWithImpl<$Res>
-    extends _$BackupMetaStateCopyWithImpl<$Res, _$_BackupMetaState>
-    implements _$$_BackupMetaStateCopyWith<$Res> {
-  __$$_BackupMetaStateCopyWithImpl(
-      _$_BackupMetaState _value, $Res Function(_$_BackupMetaState) _then)
+class __$$BackupMetaStateImplCopyWithImpl<$Res>
+    extends _$BackupMetaStateCopyWithImpl<$Res, _$BackupMetaStateImpl>
+    implements _$$BackupMetaStateImplCopyWith<$Res> {
+  __$$BackupMetaStateImplCopyWithImpl(
+      _$BackupMetaStateImpl _value, $Res Function(_$BackupMetaStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,7 +144,7 @@ class __$$_BackupMetaStateCopyWithImpl<$Res>
     Object? selectedItem = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$_BackupMetaState(
+    return _then(_$BackupMetaStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -175,10 +175,10 @@ class __$$_BackupMetaStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BackupMetaState
+class _$BackupMetaStateImpl
     with DiagnosticableTreeMixin
     implements _BackupMetaState {
-  const _$_BackupMetaState(
+  const _$BackupMetaStateImpl(
       {required this.isLoading,
       required final List<BackupMetaModel> items,
       required this.isRefreshDisabled,
@@ -225,10 +225,10 @@ class _$_BackupMetaState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BackupMetaState &&
+            other is _$BackupMetaStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
@@ -253,8 +253,9 @@ class _$_BackupMetaState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BackupMetaStateCopyWith<_$_BackupMetaState> get copyWith =>
-      __$$_BackupMetaStateCopyWithImpl<_$_BackupMetaState>(this, _$identity);
+  _$$BackupMetaStateImplCopyWith<_$BackupMetaStateImpl> get copyWith =>
+      __$$BackupMetaStateImplCopyWithImpl<_$BackupMetaStateImpl>(
+          this, _$identity);
 }
 
 abstract class _BackupMetaState implements BackupMetaState {
@@ -264,7 +265,7 @@ abstract class _BackupMetaState implements BackupMetaState {
       required final bool isRefreshDisabled,
       required final String counter,
       final BackupMetaModel? selectedItem,
-      final String? message}) = _$_BackupMetaState;
+      final String? message}) = _$BackupMetaStateImpl;
 
   @override
   bool get isLoading;
@@ -280,6 +281,6 @@ abstract class _BackupMetaState implements BackupMetaState {
   String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$_BackupMetaStateCopyWith<_$_BackupMetaState> get copyWith =>
+  _$$BackupMetaStateImplCopyWith<_$BackupMetaStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

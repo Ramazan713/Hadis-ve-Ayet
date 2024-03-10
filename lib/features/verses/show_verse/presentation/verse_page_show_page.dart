@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/models/verse/verse_list_model.dart';
+import 'package:hadith/core/features/adaptive/domain/enums/adaptive_base_dialog_sheet_enum.dart';
 import 'package:hadith/core/features/adaptive/presentation/adaptive_padding.dart';
 import 'package:hadith/core/features/adaptive/presentation/get_card_adaptive_margin.dart';
 import 'package:hadith/core/features/adaptive/presentation/single_adaptive_pane.dart';
@@ -16,6 +17,9 @@ import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/components/save_auto_save_point_with_paging.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_config/select_quran_section_config.dart';
+import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_load_config/select_quran_section_load_config.dart';
+import 'package:hadith/core/features/select_quran_section/presentation/show_select_quran_section_dia.dart';
 import 'package:hadith/core/features/verse_audio/domain/model/select_audio_option.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_connect.dart';
 import 'package:hadith/core/features/verse_audio/presentation/compoenents/audio_info_body_wrapper.dart';
@@ -30,7 +34,6 @@ import 'package:hadith/core/presentation/controllers/custom_page_controller.dart
 import 'package:hadith/core/presentation/controllers/custom_position_controller.dart';
 import 'package:hadith/core/presentation/controllers/custom_scroll_controller.dart';
 import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
-import 'package:hadith/features/verses/shared/presentation/select_verse_page/select_verse_page_dia.dart';
 import 'package:hadith/features/verses/show_verse/data/repo/verse_page_paing_repo.dart';
 import 'package:hadith/features/verses/show_verse/domain/constants/verse_top_bar_menu_item.dart';
 import 'package:hadith/features/verses/show_verse/presentation/shared/bloc/verse_shared_bloc.dart';
@@ -267,10 +270,23 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
       widget.getTopBarAppearanceIcon(context),
       IconButton(
         onPressed: (){
-          selectVersePageDia(context,
-            startPage: pageController.currentPageIndex + 1,
-            onApproved: (result){
-              pageController.animateToPage(pageIndex: result.pageNo - 1,pos: result.pagePos);
+          showSelectQuranSectionDia(
+            context: context,
+            baseType: AdaptiveBaseDialogSheetEnum.adaptiveDialog,
+            config: const SelectQuranSectionConfig(
+              title: "Pozisyon Seç",
+              btnName: "Onayla",
+              selectFirstVerseTitle: "Ayet Seç",
+              showSelectLastVerseNumber: false,
+              showAutoName: false,
+              showMeaningContent: false,
+              showArabicContent: false
+            ),
+            loadConfig: SelectQuranSectionLoadConfig(
+              page: pageController.currentPageIndex + 1
+            ),
+            onSubmit: (data){
+              pageController.animateToPage(pageIndex: data.pageNo - 1, pos: data.pagePos);
             }
           );
         },

@@ -12,7 +12,7 @@ part of 'islamic_info_collection.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$IslamicInfoCollection {
@@ -74,11 +74,12 @@ class _$IslamicInfoCollectionCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_IslamicInfoCollectionCopyWith<$Res>
+abstract class _$$IslamicInfoCollectionImplCopyWith<$Res>
     implements $IslamicInfoCollectionCopyWith<$Res> {
-  factory _$$_IslamicInfoCollectionCopyWith(_$_IslamicInfoCollection value,
-          $Res Function(_$_IslamicInfoCollection) then) =
-      __$$_IslamicInfoCollectionCopyWithImpl<$Res>;
+  factory _$$IslamicInfoCollectionImplCopyWith(
+          _$IslamicInfoCollectionImpl value,
+          $Res Function(_$IslamicInfoCollectionImpl) then) =
+      __$$IslamicInfoCollectionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({IslamicInfoTitle infoTitle, List<IslamicInfoItem> infoItems});
@@ -88,11 +89,12 @@ abstract class _$$_IslamicInfoCollectionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_IslamicInfoCollectionCopyWithImpl<$Res>
-    extends _$IslamicInfoCollectionCopyWithImpl<$Res, _$_IslamicInfoCollection>
-    implements _$$_IslamicInfoCollectionCopyWith<$Res> {
-  __$$_IslamicInfoCollectionCopyWithImpl(_$_IslamicInfoCollection _value,
-      $Res Function(_$_IslamicInfoCollection) _then)
+class __$$IslamicInfoCollectionImplCopyWithImpl<$Res>
+    extends _$IslamicInfoCollectionCopyWithImpl<$Res,
+        _$IslamicInfoCollectionImpl>
+    implements _$$IslamicInfoCollectionImplCopyWith<$Res> {
+  __$$IslamicInfoCollectionImplCopyWithImpl(_$IslamicInfoCollectionImpl _value,
+      $Res Function(_$IslamicInfoCollectionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +103,7 @@ class __$$_IslamicInfoCollectionCopyWithImpl<$Res>
     Object? infoTitle = null,
     Object? infoItems = null,
   }) {
-    return _then(_$_IslamicInfoCollection(
+    return _then(_$IslamicInfoCollectionImpl(
       infoTitle: null == infoTitle
           ? _value.infoTitle
           : infoTitle // ignore: cast_nullable_to_non_nullable
@@ -116,10 +118,10 @@ class __$$_IslamicInfoCollectionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IslamicInfoCollection
+class _$IslamicInfoCollectionImpl
     with DiagnosticableTreeMixin
     implements _IslamicInfoCollection {
-  const _$_IslamicInfoCollection(
+  const _$IslamicInfoCollectionImpl(
       {required this.infoTitle, required final List<IslamicInfoItem> infoItems})
       : _infoItems = infoItems;
 
@@ -148,10 +150,10 @@ class _$_IslamicInfoCollection
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IslamicInfoCollection &&
+            other is _$IslamicInfoCollectionImpl &&
             (identical(other.infoTitle, infoTitle) ||
                 other.infoTitle == infoTitle) &&
             const DeepCollectionEquality()
@@ -165,16 +167,16 @@ class _$_IslamicInfoCollection
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IslamicInfoCollectionCopyWith<_$_IslamicInfoCollection> get copyWith =>
-      __$$_IslamicInfoCollectionCopyWithImpl<_$_IslamicInfoCollection>(
-          this, _$identity);
+  _$$IslamicInfoCollectionImplCopyWith<_$IslamicInfoCollectionImpl>
+      get copyWith => __$$IslamicInfoCollectionImplCopyWithImpl<
+          _$IslamicInfoCollectionImpl>(this, _$identity);
 }
 
 abstract class _IslamicInfoCollection implements IslamicInfoCollection {
   const factory _IslamicInfoCollection(
           {required final IslamicInfoTitle infoTitle,
           required final List<IslamicInfoItem> infoItems}) =
-      _$_IslamicInfoCollection;
+      _$IslamicInfoCollectionImpl;
 
   @override
   IslamicInfoTitle get infoTitle;
@@ -182,6 +184,6 @@ abstract class _IslamicInfoCollection implements IslamicInfoCollection {
   List<IslamicInfoItem> get infoItems;
   @override
   @JsonKey(ignore: true)
-  _$$_IslamicInfoCollectionCopyWith<_$_IslamicInfoCollection> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$IslamicInfoCollectionImplCopyWith<_$IslamicInfoCollectionImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

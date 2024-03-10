@@ -12,7 +12,7 @@ part of 'auth_user.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AuthUser {
@@ -74,21 +74,22 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
 }
 
 /// @nodoc
-abstract class _$$_AuthUserCopyWith<$Res> implements $AuthUserCopyWith<$Res> {
-  factory _$$_AuthUserCopyWith(
-          _$_AuthUser value, $Res Function(_$_AuthUser) then) =
-      __$$_AuthUserCopyWithImpl<$Res>;
+abstract class _$$AuthUserImplCopyWith<$Res>
+    implements $AuthUserCopyWith<$Res> {
+  factory _$$AuthUserImplCopyWith(
+          _$AuthUserImpl value, $Res Function(_$AuthUserImpl) then) =
+      __$$AuthUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String uid, String? email, String? displayName, String? photoUrl});
 }
 
 /// @nodoc
-class __$$_AuthUserCopyWithImpl<$Res>
-    extends _$AuthUserCopyWithImpl<$Res, _$_AuthUser>
-    implements _$$_AuthUserCopyWith<$Res> {
-  __$$_AuthUserCopyWithImpl(
-      _$_AuthUser _value, $Res Function(_$_AuthUser) _then)
+class __$$AuthUserImplCopyWithImpl<$Res>
+    extends _$AuthUserCopyWithImpl<$Res, _$AuthUserImpl>
+    implements _$$AuthUserImplCopyWith<$Res> {
+  __$$AuthUserImplCopyWithImpl(
+      _$AuthUserImpl _value, $Res Function(_$AuthUserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +100,7 @@ class __$$_AuthUserCopyWithImpl<$Res>
     Object? displayName = freezed,
     Object? photoUrl = freezed,
   }) {
-    return _then(_$_AuthUser(
+    return _then(_$AuthUserImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -122,8 +123,8 @@ class __$$_AuthUserCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AuthUser with DiagnosticableTreeMixin implements _AuthUser {
-  const _$_AuthUser(
+class _$AuthUserImpl with DiagnosticableTreeMixin implements _AuthUser {
+  const _$AuthUserImpl(
       {required this.uid, this.email, this.displayName, this.photoUrl});
 
   @override
@@ -152,10 +153,10 @@ class _$_AuthUser with DiagnosticableTreeMixin implements _AuthUser {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthUser &&
+            other is _$AuthUserImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.displayName, displayName) ||
@@ -171,8 +172,8 @@ class _$_AuthUser with DiagnosticableTreeMixin implements _AuthUser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthUserCopyWith<_$_AuthUser> get copyWith =>
-      __$$_AuthUserCopyWithImpl<_$_AuthUser>(this, _$identity);
+  _$$AuthUserImplCopyWith<_$AuthUserImpl> get copyWith =>
+      __$$AuthUserImplCopyWithImpl<_$AuthUserImpl>(this, _$identity);
 }
 
 abstract class _AuthUser implements AuthUser {
@@ -180,7 +181,7 @@ abstract class _AuthUser implements AuthUser {
       {required final String uid,
       final String? email,
       final String? displayName,
-      final String? photoUrl}) = _$_AuthUser;
+      final String? photoUrl}) = _$AuthUserImpl;
 
   @override
   String get uid;
@@ -192,6 +193,6 @@ abstract class _AuthUser implements AuthUser {
   String? get photoUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_AuthUserCopyWith<_$_AuthUser> get copyWith =>
+  _$$AuthUserImplCopyWith<_$AuthUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

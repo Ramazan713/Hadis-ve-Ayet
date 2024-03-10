@@ -12,7 +12,7 @@ part of 'prayer_in_quran.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrayerInQuran {
@@ -100,11 +100,11 @@ class _$PrayerInQuranCopyWithImpl<$Res, $Val extends PrayerInQuran>
 }
 
 /// @nodoc
-abstract class _$$_PrayerInQuranCopyWith<$Res>
+abstract class _$$PrayerInQuranImplCopyWith<$Res>
     implements $PrayerInQuranCopyWith<$Res> {
-  factory _$$_PrayerInQuranCopyWith(
-          _$_PrayerInQuran value, $Res Function(_$_PrayerInQuran) then) =
-      __$$_PrayerInQuranCopyWithImpl<$Res>;
+  factory _$$PrayerInQuranImplCopyWith(
+          _$PrayerInQuranImpl value, $Res Function(_$PrayerInQuranImpl) then) =
+      __$$PrayerInQuranImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -118,11 +118,11 @@ abstract class _$$_PrayerInQuranCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PrayerInQuranCopyWithImpl<$Res>
-    extends _$PrayerInQuranCopyWithImpl<$Res, _$_PrayerInQuran>
-    implements _$$_PrayerInQuranCopyWith<$Res> {
-  __$$_PrayerInQuranCopyWithImpl(
-      _$_PrayerInQuran _value, $Res Function(_$_PrayerInQuran) _then)
+class __$$PrayerInQuranImplCopyWithImpl<$Res>
+    extends _$PrayerInQuranCopyWithImpl<$Res, _$PrayerInQuranImpl>
+    implements _$$PrayerInQuranImplCopyWith<$Res> {
+  __$$PrayerInQuranImplCopyWithImpl(
+      _$PrayerInQuranImpl _value, $Res Function(_$PrayerInQuranImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +136,7 @@ class __$$_PrayerInQuranCopyWithImpl<$Res>
     Object? counterId = freezed,
     Object? parentPrayerId = freezed,
   }) {
-    return _then(_$_PrayerInQuran(
+    return _then(_$PrayerInQuranImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -171,8 +171,10 @@ class __$$_PrayerInQuranCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
-  const _$_PrayerInQuran(
+class _$PrayerInQuranImpl
+    with DiagnosticableTreeMixin
+    implements _PrayerInQuran {
+  const _$PrayerInQuranImpl(
       {required this.id,
       required this.arabicContent,
       required this.meaningContent,
@@ -216,10 +218,10 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrayerInQuran &&
+            other is _$PrayerInQuranImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.arabicContent, arabicContent) ||
                 other.arabicContent == arabicContent) &&
@@ -241,8 +243,8 @@ class _$_PrayerInQuran with DiagnosticableTreeMixin implements _PrayerInQuran {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrayerInQuranCopyWith<_$_PrayerInQuran> get copyWith =>
-      __$$_PrayerInQuranCopyWithImpl<_$_PrayerInQuran>(this, _$identity);
+  _$$PrayerInQuranImplCopyWith<_$PrayerInQuranImpl> get copyWith =>
+      __$$PrayerInQuranImplCopyWithImpl<_$PrayerInQuranImpl>(this, _$identity);
 }
 
 abstract class _PrayerInQuran implements PrayerInQuran {
@@ -253,7 +255,7 @@ abstract class _PrayerInQuran implements PrayerInQuran {
       required final String source,
       required final int orderItem,
       final int? counterId,
-      final int? parentPrayerId}) = _$_PrayerInQuran;
+      final int? parentPrayerId}) = _$PrayerInQuranImpl;
 
   @override
   int get id;
@@ -271,6 +273,6 @@ abstract class _PrayerInQuran implements PrayerInQuran {
   int? get parentPrayerId;
   @override
   @JsonKey(ignore: true)
-  _$$_PrayerInQuranCopyWith<_$_PrayerInQuran> get copyWith =>
+  _$$PrayerInQuranImplCopyWith<_$PrayerInQuranImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
