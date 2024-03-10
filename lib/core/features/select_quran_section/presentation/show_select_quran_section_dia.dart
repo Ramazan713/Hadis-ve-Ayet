@@ -335,7 +335,7 @@ class _DialogContentState extends State<_DialogContent> {
           },
           listener: (context, state){
             final selectResult = state.result;
-            print("HereXXXX: $selectResult");
+
             if(selectResult != null){
               bloc.add(SelectQuranSectionEventClearResult());
               context.pop();

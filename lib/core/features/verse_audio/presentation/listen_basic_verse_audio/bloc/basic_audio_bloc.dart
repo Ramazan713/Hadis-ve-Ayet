@@ -71,7 +71,7 @@ class BasicAudioBloc extends Bloc<IBasicAudioEvent,BasicAudioState>{
     await emit.forEach<ListenAudioServiceState>(streamData, onData: (data){
       return state.copyWith(
         audioServiceState: data,
-        activeIdentifier: data.audio?.identifier,
+        activeIdentifier: state.isDownloading ? state.activeIdentifier : data.audio?.identifier,
       );
     });
   }
