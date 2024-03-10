@@ -43,20 +43,22 @@ class SavePointRepoImpl extends SavePointRepo{
   }
 
   @override
-  Stream<List<SavePoint>> getStreamSavePointsWithScopesAndTypeId(List<BookScopeEnum> bookScopes, SavePointType type){
-    return _savePointDao.getStreamSavePointsWithScopesAndTypeId(bookScopes.map((e) => e.binaryId).toList(),type.typeId)
+  Stream<List<SavePoint>> getStreamSavePointsWithScopesAndTypeIds(List<BookScopeEnum> bookScopes, List<SavePointType> types){
+    return _savePointDao.getStreamSavePointsWithScopesAndTypeId(
+        bookScopes.map((e) => e.binaryId).toList(),
+        types.map((e) => e.typeId).toList()
+    ).map((items) => items.map((e) => e.toSavePoint()).toList());
+  }
+
+  @override
+  Stream<List<SavePoint>> getStreamSavePointsWithTypeIds(List<SavePointType> types) {
+    return _savePointDao.getStreamSavePointsWithTypeIds(types.map((e) => e.typeId).toList())
         .map((items) => items.map((e) => e.toSavePoint()).toList());
   }
 
   @override
-  Stream<List<SavePoint>> getStreamSavePointsWithTypeId(SavePointType type) {
-    return _savePointDao.getStreamSavePointsWithTypeId(type.typeId)
-        .map((items) => items.map((e) => e.toSavePoint()).toList());
-  }
-
-  @override
-  Stream<List<SavePoint>> getStreamSavePointsWithTypeIdAndParentKey(SavePointType type, String parentKey){
-    return _savePointDao.getStreamSavePointsWithTypeIdAndParentKey(type.typeId,parentKey)
+  Stream<List<SavePoint>> getStreamSavePointsWithTypeIdsAndParentKey(List<SavePointType> types, String parentKey){
+    return _savePointDao.getStreamSavePointsWithTypeIdAndParentKey(types.map((e) => e.typeId).toList(),parentKey)
         .map((items) => items.map((e) => e.toSavePoint()).toList());
   }
 

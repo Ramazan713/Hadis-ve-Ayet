@@ -28,9 +28,9 @@ abstract class SavePointRepo{
 
   Stream<List<SavePoint>> getStreamSavePointsWithScopes(List<BookScopeEnum> bookScopes);
 
-  Stream<List<SavePoint>> getStreamSavePointsWithScopesAndTypeId(List<BookScopeEnum> bookScopes, SavePointType type);
+  Stream<List<SavePoint>> getStreamSavePointsWithScopesAndTypeIds(List<BookScopeEnum> bookScopes, List<SavePointType> types);
 
-  Stream<List<SavePoint>> getStreamSavePointsWithTypeId(SavePointType type);
+  Stream<List<SavePoint>> getStreamSavePointsWithTypeIds(List<SavePointType> types);
 
-  Stream<List<SavePoint>> getStreamSavePointsWithTypeIdAndParentKey(SavePointType type, String parentKey);
+  Stream<List<SavePoint>> getStreamSavePointsWithTypeIdsAndParentKey(List<SavePointType> types, String parentKey);
 }

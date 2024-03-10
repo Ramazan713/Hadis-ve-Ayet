@@ -39,21 +39,24 @@ class EditSavePointBloc extends Bloc<IEditSavePointEvent,EditSavePointState>{
 
       _scopeFilter.add(event.scope ?? state.localScope);
       emit(state.copyWith(
-          destination: event.destination,
-          position: event.position,
-          localScope: event.scope,
-          setSelectedSavePointId: true,
-          selectedSavePointId: event.selectedSavePointId
+        destination: event.rootDestination,
+        position: event.position,
+        localScope: event.scope,
+        setSelectedSavePointId: true,
+        selectedSavePointId: event.selectedSavePointId
       ));
 
-      final destination = event.destination;
+      final types = {event.rootDestination.getType(), ...event.otherTypes}.toList();
 
       final streamData = _scopeFilter.stream.switchMap((localScope) {
         if(localScope == LocalDestinationScope.wide){
-          return _savePointUseCases.getSavePoints.callType(bookScope: null, type: destination.getType());
+          return _savePointUseCases.getSavePoints.callType(
+              bookScope: null,
+              types: types
+          );
         }
         //restrict scope
-        return _savePointUseCases.getSavePoints.callParentKey(type: destination.getType(), parentKey: destination.getParentKey());
+        return _savePointUseCases.getSavePoints.callParentKey(types: types, parentKey: event.rootDestination.getParentKey());
       });
 
       await emit.forEach<List<SavePoint>>(streamData, onData: (data){

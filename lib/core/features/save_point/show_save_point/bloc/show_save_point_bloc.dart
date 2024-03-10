@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/extensions/list_ext.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/domain/use_cases/save_point_use_cases.dart';
@@ -34,7 +35,7 @@ class ShowSavePointBloc extends Bloc<IShowSavePointEvent,ShowSavePointState>{
     emit(state.copyWith(setSelectedMenuItem: true, setSavePoint: true));
 
     final streamData = _filterController.switchMap((SavePointType? filter)=>
-        _savePointUseCases.getSavePoints.callBook(scopes: event.scopes, type: filter)
+        _savePointUseCases.getSavePoints.callBook(scopes: event.scopes, types: <SavePointType>[].fromFilteredItems([filter]))
     );
     await emit.forEach<List<SavePoint>>(streamData, onData: (data)=>
         state.copyWith(savePoints: data)
@@ -47,7 +48,7 @@ class ShowSavePointBloc extends Bloc<IShowSavePointEvent,ShowSavePointState>{
 
     final streamData = _savePointUseCases.getSavePoints.callType(
       bookScope: event.scope,
-      type: event.savePointType
+      types: [event.savePointType]
     );
 
     await emit.forEach<List<SavePoint>>(streamData, onData: (data)=>

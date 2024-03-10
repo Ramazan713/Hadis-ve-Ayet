@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/show_edit_save_point_dia.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_verse_audio/bloc/verse_audio_event.dart';
@@ -31,16 +32,19 @@ class ListenAudioPlayerWidget extends StatelessWidget {
               firstChild: AudioPlayerContentWidget(
                 onSavePointClick: (){
                   showEditSavePointsDiaGetApprovedSavePoint(
-                      context,
-                      destination: destination,
-                      itemIndexPos: 0,
-                      title: "Kayıt Noktası Seç",
-                      description: "Dinleme sonrasında otomatik olarak kaydedilmesi için bir kayıt noktası seçiniz",
-                      selectedSavePointId: data.currentSavePointId,
-                      onSelectedSavePoint: (selectedSavePoint){
-                        context.read<ListenVerseAudioBloc>()
-                            .add(ListenAudioEventSetSavePointId(savepointId: selectedSavePoint.id));
-                      }
+                    context,
+                    destination: destination,
+                    otherTypes: [
+                      SavePointType.surah, SavePointType.cuz
+                    ],
+                    itemIndexPos: 0,
+                    title: "Kayıt Noktası Seç",
+                    description: "Dinleme sonrasında otomatik olarak kaydedilmesi için bir kayıt noktası seçiniz",
+                    selectedSavePointId: data.currentSavePointId,
+                    onSelectedSavePoint: (selectedSavePoint){
+                      context.read<ListenVerseAudioBloc>()
+                          .add(ListenAudioEventSetSavePointId(savepointId: selectedSavePoint.id));
+                    }
                   );
                 },
               ),

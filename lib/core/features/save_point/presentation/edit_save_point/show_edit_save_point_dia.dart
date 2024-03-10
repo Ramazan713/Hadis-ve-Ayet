@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
 import 'package:hadith/core/features/save_point/domain/enums/local_destination_scope.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 import 'package:hadith/core/features/save_point/presentation/components/save_point_list_view.dart';
 import 'package:hadith/core/features/save_point/presentation/edit_save_point/bloc/edit_save_point_bloc.dart';
@@ -20,6 +21,7 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
   required SavePointDestination destination,
   required int itemIndexPos,
   required void Function(SavePoint savePoint) onSelectedSavePoint,
+  List<SavePointType> otherTypes = const [],
   int? selectedSavePointId,
   LocalDestinationScope? initScope,
   String? description,
@@ -30,6 +32,7 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
       destination: destination,
       itemIndexPos: itemIndexPos,
       selectedSavePointId: selectedSavePointId,
+      otherTypes: otherTypes,
       description: description,
       customTitle: title,
       scope: initScope,
@@ -49,6 +52,7 @@ void showEditSavePointsDiaGetApprovedSavePoint(BuildContext context, {
 void showEditSavePointsDiaBasic(BuildContext context, {
   required SavePointDestination destination,
   required int itemIndexPos,
+  List<SavePointType> otherTypes = const [],
   void Function(SavePoint savePoint)? onLoadSavePointClick,
   int? selectedSavePointId,
   String? description,
@@ -61,6 +65,7 @@ void showEditSavePointsDiaBasic(BuildContext context, {
     itemIndexPos: itemIndexPos,
     scope: initScope,
     selectedSavePointId: selectedSavePointId,
+    otherTypes: otherTypes,
     onLoadSavePointClick: (savePoint, differentLocation){
       onLoadSavePointClick?.call(savePoint);
     },
@@ -76,6 +81,7 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
   required void Function(SavePoint savePoint, bool differentLocation) onLoadSavePointClick,
   required void Function(void Function(bool)) onOverrideSavePointRequestHandler,
   required void Function(void Function(bool)) onLoadSavePointRequestHandler,
+  List<SavePointType> otherTypes = const [],
   int? selectedSavePointId,
   LocalDestinationScope? initScope,
   bool? useWideScopeNaming,
@@ -83,24 +89,26 @@ void showEditSavePointsDiaAdvanced(BuildContext context, {
   String? title
 })async{
   showEditSavePointsDiaCustom(
-      context,
-      destination: destination,
-      scope: initScope,
-      itemIndexPos: itemIndexPos,
-      selectedSavePointId: selectedSavePointId,
-      onLoadSavePointClick: onLoadSavePointClick,
-      onOverrideSavePointRequestHandler: onOverrideSavePointRequestHandler,
-      onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
-      useWideScope: true,
-      useWideScopeNaming: useWideScopeNaming,
-      description: description,
-      customTitle: title
+    context,
+    destination: destination,
+    otherTypes: otherTypes,
+    scope: initScope,
+    itemIndexPos: itemIndexPos,
+    selectedSavePointId: selectedSavePointId,
+    onLoadSavePointClick: onLoadSavePointClick,
+    onOverrideSavePointRequestHandler: onOverrideSavePointRequestHandler,
+    onLoadSavePointRequestHandler: onLoadSavePointRequestHandler,
+    useWideScope: true,
+    useWideScopeNaming: useWideScopeNaming,
+    description: description,
+    customTitle: title
   );
 }
 
 
 void showEditSavePointsDiaCustom(BuildContext context, {
   required SavePointDestination destination,
+  required List<SavePointType> otherTypes,
   required int itemIndexPos,
   void Function(SavePoint savePoint, bool differentLocation)? onLoadSavePointClick,
   void Function(void Function(bool))? onOverrideSavePointRequestHandler,
@@ -119,10 +127,11 @@ void showEditSavePointsDiaCustom(BuildContext context, {
   final editPointBloc = context.read<EditSavePointBloc>();
 
   editPointBloc.add(EditSavePointEventLoadData(
-      destination: destination,
-      selectedSavePointId: selectedSavePointId,
-      position: itemIndexPos,
-      scope: scope
+    otherTypes: otherTypes,
+    rootDestination: destination,
+    selectedSavePointId: selectedSavePointId,
+    position: itemIndexPos,
+    scope: scope
   ));
 
   adaptiveBaseForDialogAndBottomSheet(

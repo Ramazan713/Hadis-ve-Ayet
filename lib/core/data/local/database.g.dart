@@ -1281,16 +1281,22 @@ class _$SavePointDao extends SavePointDao {
   @override
   Stream<List<SavePointEntity>> getStreamSavePointsWithScopesAndTypeId(
     List<int> bookScopes,
-    int typeId,
+    List<int> typeIds,
   ) {
-    const offset = 2;
+    int offset = 1;
     final _sqliteVariablesForBookScopes =
         Iterable<String>.generate(bookScopes.length, (i) => '?${i + offset}')
+            .join(',');
+    offset += bookScopes.length;
+    final _sqliteVariablesForTypeIds =
+        Iterable<String>.generate(typeIds.length, (i) => '?${i + offset}')
             .join(',');
     return _queryAdapter.queryListStream(
         'select * from savePoints where bookScope in(' +
             _sqliteVariablesForBookScopes +
-            ') and savePointType=?1      order by modifiedDate desc',
+            ') and savePointType in (' +
+            _sqliteVariablesForTypeIds +
+            ')     order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -1301,15 +1307,22 @@ class _$SavePointDao extends SavePointDao {
             bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
-        arguments: [typeId, ...bookScopes],
+        arguments: [...bookScopes, ...typeIds],
         queryableName: 'savePoints',
         isView: false);
   }
 
   @override
-  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeId(int typeId) {
+  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeIds(
+      List<int> typeIds) {
+    const offset = 1;
+    final _sqliteVariablesForTypeIds =
+        Iterable<String>.generate(typeIds.length, (i) => '?${i + offset}')
+            .join(',');
     return _queryAdapter.queryListStream(
-        'select * from savePoints where savePointType=?1 order by modifiedDate desc',
+        'select * from savePoints where savePointType in (' +
+            _sqliteVariablesForTypeIds +
+            ') order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -1320,18 +1333,24 @@ class _$SavePointDao extends SavePointDao {
             bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
-        arguments: [typeId],
+        arguments: [...typeIds],
         queryableName: 'savePoints',
         isView: false);
   }
 
   @override
   Stream<List<SavePointEntity>> getStreamSavePointsWithTypeIdAndParentKey(
-    int typeId,
+    List<int> typeIds,
     String parentKey,
   ) {
+    const offset = 2;
+    final _sqliteVariablesForTypeIds =
+        Iterable<String>.generate(typeIds.length, (i) => '?${i + offset}')
+            .join(',');
     return _queryAdapter.queryListStream(
-        'select * from savePoints where savePointType=?1 and parentKey=?2 order by modifiedDate desc',
+        'select * from savePoints where savePointType in (' +
+            _sqliteVariablesForTypeIds +
+            ') and parentKey=?1 order by modifiedDate desc',
         mapper: (Map<String, Object?> row) => SavePointEntity(
             id: row['id'] as int?,
             itemIndexPos: row['itemIndexPos'] as int,
@@ -1342,7 +1361,7 @@ class _$SavePointDao extends SavePointDao {
             bookScope: row['bookScope'] as int,
             parentKey: row['parentKey'] as String,
             parentName: row['parentName'] as String),
-        arguments: [typeId, parentKey],
+        arguments: [parentKey, ...typeIds],
         queryableName: 'savePoints',
         isView: false);
   }

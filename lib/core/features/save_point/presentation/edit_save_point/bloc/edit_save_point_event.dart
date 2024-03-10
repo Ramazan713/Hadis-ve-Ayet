@@ -3,18 +3,22 @@
 import 'package:hadith/core/features/save_point/domain/enums/local_destination_scope.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_auto_type.dart';
 import 'package:hadith/core/features/save_point/domain/enums/save_point_destination.dart';
+import 'package:hadith/core/features/save_point/domain/enums/save_point_type.dart';
 import 'package:hadith/core/features/save_point/domain/models/save_point.dart';
 
 abstract class IEditSavePointEvent{}
 
 class EditSavePointEventLoadData extends IEditSavePointEvent{
-  final SavePointDestination destination;
+  final List<SavePointType> otherTypes;
+  final SavePointDestination rootDestination;
+
   final int? selectedSavePointId;
   final int position;
   final LocalDestinationScope? scope;
 
   EditSavePointEventLoadData({
-    required this.destination,
+    required this.rootDestination,
+    required this.otherTypes,
     required this.position,
     this.selectedSavePointId,
     this.scope

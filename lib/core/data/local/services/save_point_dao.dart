@@ -51,19 +51,19 @@ abstract class SavePointDao{
   Stream<List<SavePointEntity>> getStreamSavePointsWithScopes(List<int> bookScopes);
 
   @Query("""
-    select * from savePoints where bookScope in(:bookScopes) and savePointType=:typeId 
+    select * from savePoints where bookScope in(:bookScopes) and savePointType in (:typeIds)
     order by modifiedDate desc
   """)
-  Stream<List<SavePointEntity>> getStreamSavePointsWithScopesAndTypeId(List<int> bookScopes, int typeId);
+  Stream<List<SavePointEntity>> getStreamSavePointsWithScopesAndTypeId(List<int> bookScopes, List<int> typeIds);
 
   @Query("""
-    select * from savePoints where savePointType=:typeId order by modifiedDate desc
+    select * from savePoints where savePointType in (:typeIds) order by modifiedDate desc
   """)
-  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeId(int typeId);
+  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeIds(List<int> typeIds);
 
   @Query("""
-    select * from savePoints where savePointType=:typeId and parentKey=:parentKey order by modifiedDate desc
+    select * from savePoints where savePointType in (:typeIds) and parentKey=:parentKey order by modifiedDate desc
   """)
-  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeIdAndParentKey(int typeId, String parentKey);
+  Stream<List<SavePointEntity>> getStreamSavePointsWithTypeIdAndParentKey(List<int> typeIds, String parentKey);
 
 }

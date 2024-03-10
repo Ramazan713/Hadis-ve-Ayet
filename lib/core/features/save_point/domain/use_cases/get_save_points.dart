@@ -13,29 +13,29 @@ class GetSavePoints{
 
   Stream<List<SavePoint>> callBook({
     required List<BookScopeEnum> scopes,
-    SavePointType? type
+    List<SavePointType> types = const []
   }) {
-    if(type!=null){
-      return _savePointRepo.getStreamSavePointsWithScopesAndTypeId(scopes, type);
+    if(types.isNotEmpty){
+      return _savePointRepo.getStreamSavePointsWithScopesAndTypeIds(scopes, types);
     }
     return _savePointRepo.getStreamSavePointsWithScopes(scopes);
   }
 
   Stream<List<SavePoint>> callType({
     required BookScopeEnum? bookScope,
-    required SavePointType type
+    required List<SavePointType> types
   }) {
-    if(bookScope!=null){
-      return _savePointRepo.getStreamSavePointsWithScopesAndTypeId([bookScope], type);
+    if(bookScope != null){
+      return _savePointRepo.getStreamSavePointsWithScopesAndTypeIds([bookScope], types);
     }
-    return _savePointRepo.getStreamSavePointsWithTypeId(type);
+    return _savePointRepo.getStreamSavePointsWithTypeIds(types);
   }
 
   Stream<List<SavePoint>> callParentKey({
-    required SavePointType type,
+    required List<SavePointType> types,
     required String parentKey
   }) {
-    return _savePointRepo.getStreamSavePointsWithTypeIdAndParentKey(type, parentKey);
+    return _savePointRepo.getStreamSavePointsWithTypeIdsAndParentKey(types, parentKey);
   }
 
   Future<SavePoint?> callByIdSingle({required int id})async{
