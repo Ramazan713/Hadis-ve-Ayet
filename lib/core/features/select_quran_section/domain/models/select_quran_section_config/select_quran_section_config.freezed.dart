@@ -269,14 +269,14 @@ class __$$SelectQuranSectionConfigImplCopyWithImpl<$Res>
 class _$SelectQuranSectionConfigImpl extends _SelectQuranSectionConfig
     with DiagnosticableTreeMixin {
   const _$SelectQuranSectionConfigImpl(
-      {this.showAutoName = true,
-      this.showSelectJuz = true,
-      this.showSelectSurah = true,
-      this.showSelectPage = true,
-      this.showSelectFirstVerseNumber = true,
-      this.showSelectLastVerseNumber = true,
-      this.showArabicContent = true,
-      this.showMeaningContent = true,
+      {this.showAutoName = false,
+      this.showSelectJuz = false,
+      this.showSelectSurah = false,
+      this.showSelectPage = false,
+      this.showSelectFirstVerseNumber = false,
+      this.showSelectLastVerseNumber = false,
+      this.showArabicContent = false,
+      this.showMeaningContent = false,
       this.showButton = true,
       this.includeSelectedVerses = false,
       this.btnName,

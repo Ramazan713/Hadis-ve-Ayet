@@ -144,7 +144,13 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
                       config: const SelectQuranSectionConfig(
                         title: "Kurandan Ekle",
                         btnName: "Oluştur",
-                        showSelectPage: false,
+                        showAutoName: true,
+                        showSelectJuz: true,
+                        showSelectSurah: true,
+                        showSelectFirstVerseNumber: true,
+                        showSelectLastVerseNumber: true,
+                        showArabicContent: true,
+                        showMeaningContent: true,
                         includeSelectedVerses: true
                       ),
                       onSubmit: (data){

@@ -277,10 +277,10 @@ class _VersePageShowPageState extends State<_VersePageShowPageContent> {
               title: "Pozisyon Seç",
               btnName: "Onayla",
               selectFirstVerseTitle: "Ayet Seç",
-              showSelectLastVerseNumber: false,
-              showAutoName: false,
-              showMeaningContent: false,
-              showArabicContent: false
+              showSelectJuz: true,
+              showSelectSurah: true,
+              showSelectFirstVerseNumber: true,
+              showSelectPage: true
             ),
             loadConfig: SelectQuranSectionLoadConfig(
               page: pageController.currentPageIndex + 1

@@ -88,11 +88,10 @@ class _DialogContent extends StatelessWidget {
                               showSelectQuranSectionDia(
                                 context: context,
                                 config: const SelectQuranSectionConfig(
-                                  showArabicContent: false,
-                                  showMeaningContent: false,
-                                  showAutoName: false,
-                                  showSelectPage: false,
-                                  showSelectJuz: false,
+                                  showSelectSurah: true,
+                                  showSelectFirstVerseNumber: true,
+                                  showSelectLastVerseNumber: true,
+                                  showSelectJuz: true,
                                   title: "Kurandan Seç",
                                   btnName: "Seç"
                                 ),

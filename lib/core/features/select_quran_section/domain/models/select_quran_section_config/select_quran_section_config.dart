@@ -10,14 +10,14 @@ class SelectQuranSectionConfig with _$SelectQuranSectionConfig{
   const SelectQuranSectionConfig._();
 
   const factory SelectQuranSectionConfig({
-    @Default(true) bool showAutoName,
-    @Default(true) bool showSelectJuz,
-    @Default(true) bool showSelectSurah,
-    @Default(true) bool showSelectPage,
-    @Default(true) bool showSelectFirstVerseNumber,
-    @Default(true) bool showSelectLastVerseNumber,
-    @Default(true) bool showArabicContent,
-    @Default(true) bool showMeaningContent,
+    @Default(false) bool showAutoName,
+    @Default(false) bool showSelectJuz,
+    @Default(false) bool showSelectSurah,
+    @Default(false) bool showSelectPage,
+    @Default(false) bool showSelectFirstVerseNumber,
+    @Default(false) bool showSelectLastVerseNumber,
+    @Default(false) bool showArabicContent,
+    @Default(false) bool showMeaningContent,
     @Default(true) bool showButton,
     @Default(false) bool includeSelectedVerses,
     String? btnName,
