@@ -58,6 +58,7 @@ import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
 import 'package:hadith/core/data/local/views/hadith_info_list_view.dart';
 import 'package:hadith/core/data/local/views/list_hadith_view.dart';
 import 'package:hadith/core/data/local/views/list_verse_view.dart';
+import 'package:hadith/core/data/local/views/page_audio_view.dart';
 import 'package:hadith/core/data/local/views/section_topics_view.dart';
 import 'package:hadith/core/data/local/views/surah_audio_view.dart';
 import 'package:hadith/core/data/local/views/topic_hadiths_view.dart';
@@ -74,7 +75,7 @@ import 'services/verse/verse_info_list_dao.dart';
 part 'database.g.dart';
 
 @Database(
-    version: 6,
+    version: 7,
     entities: [
       HadithEntity,ListHadithEntity, ListVerseEntity, ListEntity,
       PrayerEntity, EsmaulHusnaEntity, CounterEntity, SavePointTypeEntity,
@@ -85,7 +86,7 @@ part 'database.g.dart';
     ],
     views: [
       ListVerseView,ListHadithView,CuzAudioView,SurahAudioView, SectionTopicsView,
-      TopicHadithsView, TopicVersesView, VerseInfoListView,HadithInfoListView
+      TopicHadithsView, TopicVersesView, VerseInfoListView,HadithInfoListView, PageAudioView
     ])
 abstract class AppDatabase extends FloorDatabase{
   HadithAllDao get hadithAllDao;

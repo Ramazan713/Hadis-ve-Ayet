@@ -26,6 +26,8 @@ class DownloadedAudioViewModel extends Equatable{
         return itemName;
       case DownloadedAudioViewEnum.surah:
         return "$itemId $itemName";
+      case DownloadedAudioViewEnum.page:
+        return "$itemName. Sayfa";
     }
   }
 

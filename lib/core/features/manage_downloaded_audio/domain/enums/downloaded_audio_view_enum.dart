@@ -4,7 +4,9 @@ import 'package:hadith/core/domain/models/i_menu_item.dart';
 
 enum DownloadedAudioViewEnum with IMenuItem{
   surah,
-  cuz;
+  cuz,
+  page
+  ;
 
   String get description{
     switch(this){
@@ -12,6 +14,8 @@ enum DownloadedAudioViewEnum with IMenuItem{
         return "Sure";
       case DownloadedAudioViewEnum.cuz:
         return "Cuz";
+      case DownloadedAudioViewEnum.page:
+        return "Sayfa";
     }
   }
 

@@ -133,7 +133,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 6,
+      version: 7,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -211,6 +211,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE VIEW IF NOT EXISTS `VerseInfoListView` AS     select V.id verseId,\n    (select exists(select * from listVerses LV, lists L\n      where LV.listId = L.id and L.isRemovable = 1 and L.isArchive = 0 and LV.verseId = V.id)) inAnyList,\n    (select exists(select * from listVerses LV, lists L\n      where LV.listId = L.id and L.isRemovable = 1 and L.isArchive = 1 and LV.verseId = V.id)) inAnyArchiveList,  \n    (select exists(select * from listVerses LV, lists L\n      where LV.listId = L.id and L.isRemovable = 0 and LV.verseId = V.id)) inFavorite \n    from verses V\n  ');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `HadithInfoListView` AS     select H.id hadithId,\n    (select exists(select * from listHadiths LH, lists L\n      where LH.listId = L.id and L.isRemovable = 1 and L.isArchive = 0 and LH.hadithId = H.id)) inAnyList,\n    (select exists(select * from listHadiths LH, lists L\n      where LH.listId = L.id and L.isRemovable = 1 and L.isArchive = 1 and LH.hadithId = H.id)) inAnyArchiveList,\n    (select exists(select * from listHadiths LH, lists L\n      where LH.listId = L.id and L.isRemovable = 0 and LH.hadithId = H.id)) inFavorite \n    from hadiths H\n  ');
+        await database.execute(
+            'CREATE VIEW IF NOT EXISTS `PageAudioView` AS     select E.name editionName , E.identifier, V.pageNo, \n    case when count(A.mealId) = (select count(VX.id) from verses VX where VX.pageNo=V.pageNo) then 1 else 0 end isDownloaded\n    from  verses V, verseAudios A, audioEditions E\n    where V.id = A.mealId and A.identifier = E.identifier \n    group by E.identifier,V.pageNo\n');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -3152,6 +3154,34 @@ class _$AudioViewDao extends AudioViewDao {
             cuzName: row['cuzName'] as String),
         arguments: [identifier],
         queryableName: 'cuzAudioView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<PageAudioView>> getStreamPageAudioViews() {
+    return _queryAdapter.queryListStream(
+        'select * from pageAudioView where isDownloaded=1 order by pageNo',
+        mapper: (Map<String, Object?> row) => PageAudioView(
+            editionName: row['editionName'] as String,
+            identifier: row['identifier'] as String,
+            isDownloaded: (row['isDownloaded'] as int) != 0,
+            pageNo: row['pageNo'] as int),
+        queryableName: 'pageAudioView',
+        isView: true);
+  }
+
+  @override
+  Stream<List<PageAudioView>> getStreamPageAudioViewsWithIdentifier(
+      String identifier) {
+    return _queryAdapter.queryListStream(
+        'select * from pageAudioView where isDownloaded=1 and identifier=?1 order by pageNo',
+        mapper: (Map<String, Object?> row) => PageAudioView(
+            editionName: row['editionName'] as String,
+            identifier: row['identifier'] as String,
+            isDownloaded: (row['isDownloaded'] as int) != 0,
+            pageNo: row['pageNo'] as int),
+        arguments: [identifier],
+        queryableName: 'pageAudioView',
         isView: true);
   }
 }

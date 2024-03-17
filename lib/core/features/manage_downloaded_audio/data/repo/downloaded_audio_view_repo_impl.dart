@@ -2,6 +2,7 @@ import 'package:hadith/core/data/local/entities/verse_audio_entity.dart';
 import 'package:hadith/core/data/local/services/audio_view_dao.dart';
 import 'package:hadith/core/data/local/services/verse/verse_audio_dao.dart';
 import 'package:hadith/core/data/local/views/cuz_audio_view.dart';
+import 'package:hadith/core/data/local/views/page_audio_view.dart';
 import 'package:hadith/core/data/local/views/surah_audio_view.dart';
 import 'package:hadith/core/domain/services/file_service.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/domain/enums/downloaded_audio_view_enum.dart';
@@ -35,6 +36,8 @@ class DownloadedAudioViewRepoImpl extends DownloadedAudioViewRepo{
         return _getModelsFromSurahViews(identifier);
       case DownloadedAudioViewEnum.cuz:
         return _getModelsFromCuzViews(identifier);
+      case DownloadedAudioViewEnum.page:
+        return _getModelsFromPageViews(identifier);
     }
   }
 
@@ -49,6 +52,9 @@ class DownloadedAudioViewRepoImpl extends DownloadedAudioViewRepo{
         break;
       case DownloadedAudioViewEnum.cuz:
         audios = await _verseAudioDao.getAllVerseAudioWithCuzNo(model.itemId, model.identifier);
+        break;
+      case DownloadedAudioViewEnum.page:
+        audios = await _verseAudioDao.getAllVerseAudioWithPageNo(model.itemId, model.identifier);
         break;
     }
 
@@ -79,6 +85,16 @@ class DownloadedAudioViewRepoImpl extends DownloadedAudioViewRepo{
     return models.map((items) => items.map((e) => e.toAudioModel()).toList());
   }
 
+
+  Stream<List<DownloadedAudioViewModel>> _getModelsFromPageViews(String? identifier){
+    final Stream<List<PageAudioView>> models;
+    if(identifier!=null){
+      models = _audioViewDao.getStreamPageAudioViewsWithIdentifier(identifier);
+    }else{
+      models = _audioViewDao.getStreamPageAudioViews();
+    }
+    return models.map((items) => items.map((e) => e.toAudioModel()).toList());
+  }
 
 
 
