@@ -34,17 +34,21 @@ class EditionUtil{
     "en.walk": AudioQualityEnum.q192
   };
 
-  static List<SelectAudioEdition> transformEditions(List<AudioEdition> editions){
+  static List<SelectAudioEdition> transformEditions(List<AudioEdition> editions, List<String> selectedIdentifiers){
     return editions.map((e){
-      return transformEdition(e);
+      return transformEdition(e, selectedIdentifiers);
     }).whereNotNull().toList();
   }
 
-  static SelectAudioEdition? transformEdition(AudioEdition? edition){
+  static SelectAudioEdition? transformEdition(AudioEdition? edition, List<String> selectedIdentifiers){
     if(edition == null) return null;
     final quality = _editionBitrateMap[edition.identifier];
     if(quality == null) return null;
-    return SelectAudioEdition(audioEdition: edition, qualityEnum: quality);
+    return SelectAudioEdition(
+      audioEdition: edition,
+      qualityEnum: quality,
+      isSelected: selectedIdentifiers.contains(edition.identifier)
+    );
   }
 
 }

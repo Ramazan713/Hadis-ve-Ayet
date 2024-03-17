@@ -1,9 +1,10 @@
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
+import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
+import 'package:hadith/core/domain/preferences/model/pref_key.dart';
+import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'model/i_pref_enum.dart';
-import 'model/pref_key.dart';
-import 'model/pref_key_enum.dart';
+
 
 abstract class AppPreferences{
 

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SelectAudioEdition {
   AudioEdition get audioEdition => throw _privateConstructorUsedError;
+  bool get isSelected => throw _privateConstructorUsedError;
   AudioQualityEnum get qualityEnum => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,10 @@ abstract class $SelectAudioEditionCopyWith<$Res> {
           SelectAudioEdition value, $Res Function(SelectAudioEdition) then) =
       _$SelectAudioEditionCopyWithImpl<$Res, SelectAudioEdition>;
   @useResult
-  $Res call({AudioEdition audioEdition, AudioQualityEnum qualityEnum});
+  $Res call(
+      {AudioEdition audioEdition,
+      bool isSelected,
+      AudioQualityEnum qualityEnum});
 }
 
 /// @nodoc
@@ -47,6 +51,7 @@ class _$SelectAudioEditionCopyWithImpl<$Res, $Val extends SelectAudioEdition>
   @override
   $Res call({
     Object? audioEdition = null,
+    Object? isSelected = null,
     Object? qualityEnum = null,
   }) {
     return _then(_value.copyWith(
@@ -54,6 +59,10 @@ class _$SelectAudioEditionCopyWithImpl<$Res, $Val extends SelectAudioEdition>
           ? _value.audioEdition
           : audioEdition // ignore: cast_nullable_to_non_nullable
               as AudioEdition,
+      isSelected: null == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
       qualityEnum: null == qualityEnum
           ? _value.qualityEnum
           : qualityEnum // ignore: cast_nullable_to_non_nullable
@@ -70,7 +79,10 @@ abstract class _$$SelectAudioEditionImplCopyWith<$Res>
       __$$SelectAudioEditionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AudioEdition audioEdition, AudioQualityEnum qualityEnum});
+  $Res call(
+      {AudioEdition audioEdition,
+      bool isSelected,
+      AudioQualityEnum qualityEnum});
 }
 
 /// @nodoc
@@ -85,6 +97,7 @@ class __$$SelectAudioEditionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? audioEdition = null,
+    Object? isSelected = null,
     Object? qualityEnum = null,
   }) {
     return _then(_$SelectAudioEditionImpl(
@@ -92,6 +105,10 @@ class __$$SelectAudioEditionImplCopyWithImpl<$Res>
           ? _value.audioEdition
           : audioEdition // ignore: cast_nullable_to_non_nullable
               as AudioEdition,
+      isSelected: null == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
       qualityEnum: null == qualityEnum
           ? _value.qualityEnum
           : qualityEnum // ignore: cast_nullable_to_non_nullable
@@ -106,16 +123,20 @@ class _$SelectAudioEditionImpl
     with DiagnosticableTreeMixin
     implements _SelectAudioEdition {
   const _$SelectAudioEditionImpl(
-      {required this.audioEdition, required this.qualityEnum});
+      {required this.audioEdition,
+      required this.isSelected,
+      required this.qualityEnum});
 
   @override
   final AudioEdition audioEdition;
+  @override
+  final bool isSelected;
   @override
   final AudioQualityEnum qualityEnum;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SelectAudioEdition(audioEdition: $audioEdition, qualityEnum: $qualityEnum)';
+    return 'SelectAudioEdition(audioEdition: $audioEdition, isSelected: $isSelected, qualityEnum: $qualityEnum)';
   }
 
   @override
@@ -124,6 +145,7 @@ class _$SelectAudioEditionImpl
     properties
       ..add(DiagnosticsProperty('type', 'SelectAudioEdition'))
       ..add(DiagnosticsProperty('audioEdition', audioEdition))
+      ..add(DiagnosticsProperty('isSelected', isSelected))
       ..add(DiagnosticsProperty('qualityEnum', qualityEnum));
   }
 
@@ -134,12 +156,15 @@ class _$SelectAudioEditionImpl
             other is _$SelectAudioEditionImpl &&
             (identical(other.audioEdition, audioEdition) ||
                 other.audioEdition == audioEdition) &&
+            (identical(other.isSelected, isSelected) ||
+                other.isSelected == isSelected) &&
             (identical(other.qualityEnum, qualityEnum) ||
                 other.qualityEnum == qualityEnum));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, audioEdition, qualityEnum);
+  int get hashCode =>
+      Object.hash(runtimeType, audioEdition, isSelected, qualityEnum);
 
   @JsonKey(ignore: true)
   @override
@@ -152,10 +177,13 @@ class _$SelectAudioEditionImpl
 abstract class _SelectAudioEdition implements SelectAudioEdition {
   const factory _SelectAudioEdition(
       {required final AudioEdition audioEdition,
+      required final bool isSelected,
       required final AudioQualityEnum qualityEnum}) = _$SelectAudioEditionImpl;
 
   @override
   AudioEdition get audioEdition;
+  @override
+  bool get isSelected;
   @override
   AudioQualityEnum get qualityEnum;
   @override

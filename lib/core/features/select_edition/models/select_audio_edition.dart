@@ -10,6 +10,7 @@ part 'select_audio_edition.freezed.dart';
 class SelectAudioEdition with _$SelectAudioEdition{
   const factory SelectAudioEdition({
     required AudioEdition audioEdition,
+    required bool isSelected,
     required AudioQualityEnum qualityEnum
   }) = _SelectAudioEdition;
 }

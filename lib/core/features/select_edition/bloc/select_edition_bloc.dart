@@ -34,6 +34,8 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     on<EditionEventResetChanges>(_onResetChanges,transformer: restartable());
     on<EditionEventClearMessage>(_onClearMessage,transformer: restartable());
     on<EditionEventSetAudioRequest>(_onSetAudioRequest,transformer: restartable());
+    on<EditionEventAddFavorite>(_onAddFavorite,transformer: restartable());
+    on<EditionEventDeleteFavorite>(_onDeleteFavorite,transformer: restartable());
 
     add(EditionEventDataListener());
     add(EditionEventSelectedEditionListener());
@@ -46,7 +48,7 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
 
     editionResult.handle(
       onSuccess: (editions){
-        emit(state.copyWith(isLoading: false,));
+        emit(state.copyWith(isLoading: false));
       },
       onError: (error){
         emit(state.copyWith(message: error, isLoading: false));
@@ -56,7 +58,7 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     final streamData = _editionRepo.getStreamEditions();
 
     await emit.forEach<List<AudioEdition>>(streamData,onData: (data){
-      final items = EditionUtil.transformEditions(data);
+      final items = EditionUtil.transformEditions(data, _getFavoriteIdentifiers());
       return state.copyWith(items: items, isLoading: false);
     });
   }
@@ -66,7 +68,7 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
 
     await emit.forEach<AudioEdition?>(streamData, onData: (data){
       return state.copyWith(
-          selectedEdition: EditionUtil.transformEdition(data)
+          selectedEdition: EditionUtil.transformEdition(data, _getFavoriteIdentifiers())
       );
     });
   }
@@ -81,13 +83,13 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
 
     selectedEditionResult.handle(
       onSuccess: (selectedEdition){
-        final selectedItem = EditionUtil.transformEdition(selectedEdition);
+        final selectedItem = EditionUtil.transformEdition(selectedEdition, []);
         emit(state.copyWith(
           isLoading: false,
           selectedEdition: selectedItem,
           lastSavedEdition: selectedItem,
           audioRequest: audioRequest,
-          audioRequestSource: audioRequestSource
+          audioRequestSource: audioRequestSource,
         ));
       },
       onError: (error){
@@ -95,7 +97,7 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
           message: error,
           isLoading: false,
           audioRequest: audioRequest,
-          audioRequestSource: audioRequestSource
+          audioRequestSource: audioRequestSource,
         ));
       }
     );
@@ -136,7 +138,7 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
 
     selectedEditionResult.handle(
       onSuccess: (selectedEdition){
-        final selectedItem = EditionUtil.transformEdition(selectedEdition);
+        final selectedItem = EditionUtil.transformEdition(selectedEdition, _getFavoriteIdentifiers());
         emit(state.copyWith(
           lastSavedEdition: selectedItem,
           selectedEdition: selectedItem,
@@ -165,6 +167,35 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     ));
   }
 
+
+  void _onAddFavorite(EditionEventAddFavorite event,Emitter<SelectEditionState>emit) async{
+    final favoriteItems = state.favoriteItems.toList();
+    favoriteItems.add(event.edition);
+    await _appPreferences.setItem(KPref.favoriteEditionsList, favoriteItems.map((e) => e.audioEdition.identifier).toList());
+    emit(state.copyWith(
+      items: state.items.map((e){
+        if(e.audioEdition.identifier == event.edition.audioEdition.identifier){
+          return e.copyWith(isSelected: true);
+        }
+        return e;
+      }).toList()
+    ));
+  }
+
+  void _onDeleteFavorite(EditionEventDeleteFavorite event,Emitter<SelectEditionState>emit) async{
+    final favoriteItems = state.favoriteItems.toSet();
+    favoriteItems.remove(event.edition);
+    await _appPreferences.setItem(KPref.favoriteEditionsList, favoriteItems.map((e) => e.audioEdition.identifier).toList());
+    emit(state.copyWith(
+      items: state.items.map((e){
+        if(e.audioEdition.identifier == event.edition.audioEdition.identifier){
+          return e.copyWith(isSelected: false);
+        }
+        return e;
+      }).toList()
+    ));
+  }
+
   void _onClearMessage(EditionEventClearMessage event,Emitter<SelectEditionState>emit){
     emit(state.copyWith(message: null));
   }
@@ -186,5 +217,9 @@ class SelectEditionBloc extends Bloc<ISelectEditionEvent,SelectEditionState>{
     return _appPreferences.getItem(KPref.selectEditionAudioSource);
   }
 
+
+  List<String> _getFavoriteIdentifiers(){
+    return _appPreferences.getItem(KPref.favoriteEditionsList);
+  }
 
 }

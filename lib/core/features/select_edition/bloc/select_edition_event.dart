@@ -29,3 +29,14 @@ class EditionEventSetEdition extends ISelectEditionEvent{
   EditionEventSetEdition({required this.edition});
 }
 
+
+class EditionEventAddFavorite extends ISelectEditionEvent{
+  final SelectAudioEdition edition;
+  EditionEventAddFavorite({required this.edition});
+}
+
+class EditionEventDeleteFavorite extends ISelectEditionEvent{
+  final SelectAudioEdition edition;
+  EditionEventDeleteFavorite({required this.edition});
+}
+

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/features/adaptive/presentation/adaptive_base_dialog_sheet.dart';
-import 'package:hadith/core/features/manage_downloaded_audio/presentation/show_manage_edition_audios_dia.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_bloc.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_event.dart';
 import 'package:hadith/core/features/select_edition/bloc/select_edition_state.dart';
 import 'package:hadith/core/features/select_edition/components/select_edition_item.dart';
+import 'package:hadith/core/features/select_edition/models/select_audio_edition.dart';
 import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_config/select_quran_section_config.dart';
 import 'package:hadith/core/features/select_quran_section/domain/models/select_quran_section_load_config/select_quran_section_load_config.dart';
 import 'package:hadith/core/features/select_quran_section/presentation/show_select_quran_section_dia.dart';
-import 'package:hadith/core/features/verse_audio/domain/enums/audio_quality_enum.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_bloc.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_event.dart';
 import 'package:hadith/core/features/verse_audio/presentation/listen_basic_verse_audio/bloc/basic_audio_state.dart';
+import 'package:hadith/core/presentation/components/base_expandable_item.dart';
 import 'package:hadith/core/presentation/components/card_list_tile/card_list_tile.dart';
 import 'package:hadith/core/presentation/components/shared_dia_buttons.dart';
 import 'package:hadith/core/presentation/components/shared_empty_result.dart';
 import 'package:hadith/core/presentation/components/shared_loading_indicator.dart';
 import 'package:hadith/core/presentation/components/stack_second_content.dart';
-import 'package:hadith/core/presentation/handlers/bottom_sheet_handler.dart';
-import 'package:hadith/core/presentation/selections/dropdown_text_menu.dart';
 import 'package:hadith/core/utils/toast_utils.dart';
 
 void showSelectEdition(BuildContext context) {
@@ -61,7 +59,7 @@ class _DialogContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<SelectEditionBloc>();
+
 
     return getListeners(
       child: Padding(
@@ -70,7 +68,6 @@ class _DialogContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             getHeader(context),
-            
             Expanded(
               child: BlocBuilder<SelectEditionBloc, SelectEditionState>(
                 builder: (context, state){
@@ -83,33 +80,11 @@ class _DialogContent extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          CardListTile(
-                            onTap: (){
-                              showSelectQuranSectionDia(
-                                context: context,
-                                config: const SelectQuranSectionConfig(
-                                  showSelectSurah: true,
-                                  showSelectFirstVerseNumber: true,
-                                  showSelectLastVerseNumber: true,
-                                  showSelectJuz: true,
-                                  title: "Kurandan Seç",
-                                  btnName: "Seç"
-                                ),
-                                loadConfig: SelectQuranSectionLoadConfig(
-                                  surahId: state.audioRequest.surahId,
-                                  firstVerseNumber: state.audioRequest.startVerseId,
-                                  lastVerseNumber: state.audioRequest.endVerseId
-                                ),
-                                onSubmit: (data){
-                                  bloc.add(EditionEventSetAudioRequest(result: data));
-                                }
-                              );
-                            },
-                            title: const Text("Dinlemek için Kuran'dan bölüm seç"),
-                            subtitle: Text(state.audioRequestSource),
-                          ),
-                          const SizedBox(height: 8,),
-                          getBody(context, state)
+                          selectQuranSection(context, state),
+                          const SizedBox(height: 16,),
+                          getFavoriteSection(context, state),
+                          const SizedBox(height: 32,),
+                          getBody(context, state, state.items)
                         ],
                       ),
                     ),
@@ -145,6 +120,79 @@ class _DialogContent extends StatelessWidget {
     );
   }
 
+  Widget selectQuranSection(BuildContext context, SelectEditionState state){
+    final bloc = context.read<SelectEditionBloc>();
+    return CardListTile(
+      onTap: (){
+        showSelectQuranSectionDia(
+          context: context,
+          config: const SelectQuranSectionConfig(
+            showSelectSurah: true,
+            showSelectFirstVerseNumber: true,
+            showSelectLastVerseNumber: true,
+            showSelectJuz: true,
+            title: "Kurandan Seç",
+            btnName: "Seç"
+          ),
+          loadConfig: SelectQuranSectionLoadConfig(
+            surahId: state.audioRequest.surahId,
+            firstVerseNumber: state.audioRequest.startVerseId,
+            lastVerseNumber: state.audioRequest.endVerseId
+          ),
+          onSubmit: (data){
+            bloc.add(EditionEventSetAudioRequest(result: data));
+          }
+      );
+      },
+      title: const Text("Dinlemek için Kuran'dan bölüm seç"),
+      subtitle: Text(state.audioRequestSource),
+    );
+  }
+
+
+  Widget getFavoriteSection(BuildContext context, SelectEditionState state){
+    return BaseExpandableItem(
+      buildHeader: (context, isExpanded){
+       return Padding(
+         padding: const EdgeInsets.symmetric(horizontal: 12),
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Text(
+               "Favoriler",
+               style: Theme.of(context).textTheme.titleMedium,
+             ),
+             Icon(isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down)
+           ],
+         ),
+       );
+      },
+      buildContent: (context, isExpanded){
+        final items = state.favoriteItems.toList();
+        if(items.isEmpty){
+          return const SharedEmptyResult(
+            content: "Favoriler boş",
+            textAlign: TextAlign.start,
+          );
+        }
+
+        return ListView.builder(
+          shrinkWrap: true,
+          controller: ScrollController(),
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return SelectEditionItem(
+              edition: item,
+              selectedSelectEdition: state.selectedEdition,
+              audioRequest: state.audioRequest,
+              isFavorite: item.isSelected,
+            );
+          },
+          itemCount: items.length,
+        );;
+      },
+    );
+  }
 
   Widget? getEmptyOrLoadingWidget(BuildContext context, SelectEditionState state){
     if(state.isLoading) {
@@ -158,35 +206,36 @@ class _DialogContent extends StatelessWidget {
     return null;
   }
 
-  Widget getBody(BuildContext context, SelectEditionState state){
-    final items = state.items;
-    return ListView.builder(
-      shrinkWrap: true,
-      controller: ScrollController(),
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return SelectEditionItem(
-          edition: item,
-          selectedSelectEdition: state.selectedEdition,
-          onNextClick: (){
-            showManageEditionAudiosDia(context, audioEdition: item.audioEdition);
-          },
-          onSelectClick: (){
-            context.read<SelectEditionBloc>()
-                .add(EditionEventSetEdition(edition: item)
-            );
-          },
-          onPlay: (){
-            context.read<BasicAudioBloc>()
-              .add(BasicAudioEventRequestAudio(
-                identifier: item.audioEdition.identifier,
-                request: state.audioRequest,
-                audioQuality: item.qualityEnum
-            ));
-          },
+  Widget getBody(BuildContext context, SelectEditionState state, List<SelectAudioEdition> items){
+    return BaseExpandableItem(
+      initialValue: true,
+      enabledExpandable: false,
+      buildHeader: (context, isExpanded){
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            "Kıraatlar",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         );
       },
-      itemCount: state.items.length,
+      buildContent: (context, isExpanded){
+        final items = state.items.toList();
+        return ListView.builder(
+          shrinkWrap: true,
+          controller: ScrollController(),
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return SelectEditionItem(
+              edition: item,
+              selectedSelectEdition: state.selectedEdition,
+              audioRequest: state.audioRequest,
+              isFavorite: item.isSelected,
+            );
+          },
+          itemCount: items.length,
+        );
+      },
     );
   }
 
@@ -219,14 +268,14 @@ class _DialogContent extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         BlocListener<BasicAudioBloc, BasicAudioState>(
-            listener: (context, state) {
-              final message = state.message;
-              if (message != null) {
-                ToastUtils.showLongToast(message);
-                context.read<BasicAudioBloc>()
-                    .add(BasicAudioEventClearMessage());
-              }
-            }),
+          listener: (context, state) {
+            final message = state.message;
+            if (message != null) {
+              ToastUtils.showLongToast(message);
+              context.read<BasicAudioBloc>()
+                  .add(BasicAudioEventClearMessage());
+            }
+          }),
         BlocListener<SelectEditionBloc, SelectEditionState>(
           listenWhen: (prevState, nextState){
             return prevState.message != nextState.message;

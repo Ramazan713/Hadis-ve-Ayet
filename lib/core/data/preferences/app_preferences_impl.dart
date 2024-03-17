@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:hadith/core/constants/k_pref.dart';
+import 'package:hadith/core/domain/preferences/app_preferences.dart';
 import 'package:hadith/core/extensions/app_extension.dart';
 import 'package:hadith/core/domain/preferences/model/i_key.dart';
 import 'package:hadith/core/domain/preferences/model/i_pref_enum.dart';
@@ -11,7 +12,6 @@ import 'package:hadith/core/domain/preferences/model/pref_key_enum.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 
-import '../../domain/preferences/app_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 
 

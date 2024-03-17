@@ -33,6 +33,7 @@ class KPref{
   static final PrefKey<String> selectEditionAudioStartVerseId = PrefKey<String>(key: "selectEditionAudioStartVerseId", defaultValue: "1");
   static final PrefKey<String> selectEditionAudioEndVerseId = PrefKey<String>(key: "selectEditionAudioEndVerseId", defaultValue: "1");
   static final PrefKey<String> selectEditionAudioSource = PrefKey<String>(key: "selectEditionAudioSource", defaultValue: "Fatiha 1");
+  static final PrefKey<List<String>> favoriteEditionsList = PrefKey<List<String>>(key: "favoriteEditionsList", defaultValue: const []);
 
 
 
@@ -74,7 +75,8 @@ class KPref{
     audioFollowWithText, askListenAudioNotificationPermission,askDownloadAudioNotificationPermission,
     defaultLastCounter, eachDhikrVibration, eachEndOfTourVibration, showDownloadDiaInLogin,useDynamicColors,
     counterBackupDate, showCounterDetailContents, selectDhikrShowDetails, showCustomPrayersShowDetailContents,
-    selectEditionAudioSurahId, selectEditionAudioStartVerseId, selectEditionAudioEndVerseId, selectEditionAudioSource
+    selectEditionAudioSurahId, selectEditionAudioStartVerseId, selectEditionAudioEndVerseId, selectEditionAudioSource,
+    favoriteEditionsList
   ];
 
   static final prefEnumValues = <PrefKeyEnum>[
