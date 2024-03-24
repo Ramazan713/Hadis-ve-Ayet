@@ -32,6 +32,10 @@ class K{
 
   static const defaultLazyListPadding = EdgeInsets.only(top: 4, bottom: 12);
 
+
+  static const parseJsonFileSize = 1024*190;
+  static const addExternalPrayerLenLimit = 3000;
+
 }
 
 class ServiceK{

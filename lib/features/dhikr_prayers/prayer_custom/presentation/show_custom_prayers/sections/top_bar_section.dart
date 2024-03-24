@@ -1,17 +1,36 @@
 
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hadith/core/presentation/selections/dropdown_icon_menu.dart';
+import 'package:hadith/features/dhikr_prayers/prayer_custom/domain/enums/prayer_custom_top_bar_menu.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_bloc.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_event.dart';
 import 'package:hadith/features/dhikr_prayers/prayer_custom/presentation/show_custom_prayers/bloc/show_custom_prayers_state.dart';
+
 import '../show_custom_prayers_page.dart';
 
 extension ShowCustomPrayersPageTopBarExt on ShowCustomPrayersPageState{
 
-  List<Widget> getActions(){
+  List<Widget> getActions(BuildContext context){
+    final bloc = context.read<ShowCustomPrayersBloc>();
     return [
-      _getViewIcon()
+      _getViewIcon(),
+      CustomDropdownIconMenu(
+        items: PrayerCustomTopBarMenu.values,
+        onSelected: (menuItem)async{
+          switch(menuItem){
+            case PrayerCustomTopBarMenu.import:
+              FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ["json"]);
+              final path = result?.files.singleOrNull?.path;
+              if (path != null) {
+                bloc.add(ShowCustomPrayersEventHandleImport(filePath: path));
+              }
+              break;
+          }
+        },
+      )
     ];
   }
 

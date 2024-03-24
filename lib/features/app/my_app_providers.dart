@@ -8,6 +8,7 @@ import 'package:hadith/core/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:hadith/core/features/backup/presentation/backup/bloc/backup_bloc.dart';
 import 'package:hadith/core/features/backup/presentation/backup_meta/bloc/backup_meta_bloc.dart';
 import 'package:hadith/core/features/get_title/presentation/bloc/get_title_bloc.dart';
+import 'package:hadith/core/features/handle_receive_intent/presentation/bloc/handle_receive_intent_bloc.dart';
 import 'package:hadith/core/features/manage_downloaded_audio/presentation/bloc/manage_downloaded_audio_bloc.dart';
 import 'package:hadith/core/features/pagination/presentation/bloc/pagination_bloc.dart';
 import 'package:hadith/core/features/premium/presentation/bloc/premium_bloc.dart';
@@ -144,8 +145,9 @@ class MyAppProviders extends StatelessWidget {
             prayerRepo: context.read()
           )),
           BlocProvider(create: (context)=> ShowCustomPrayersBloc(
-              prayerRepo: context.read(),
-            appPreferences:  context.read()
+            prayerRepo: context.read(),
+            appPreferences:  context.read(),
+            prayerCustomShareManager: context.read()
           )),
           BlocProvider(create: (context)=> CustomPrayerManageBloc(
               prayerRepo: context.read(),
@@ -258,10 +260,11 @@ class MyAppProviders extends StatelessWidget {
           )),
           BlocProvider(create: (context)=> SectionBloc(sectionViewRepo: context.read())),
           BlocProvider(create: (context)=> TopicBloc(topicViewRepo: context.read())),
-          BlocProvider(create: (context)=> ShareBloc(shareManager: context.read(),sharePdfRepo: context.read())),
+          BlocProvider(create: (context)=> ShareBloc(shareManager: context.read(),sharePdfRepo: context.read(), prayerCustomShareManager: context.read())),
           BlocProvider(create: (context)=> EditSavePointBloc(savePointUseCases: context.read(),savePointDao: appDatabase.savePointDao)),
           BlocProvider(create: (context)=> ShowSavePointBloc(savePointUseCases: context.read())),
           BlocProvider(create: (context)=> ShowListBloc(listUseCases: context.read())),
+          BlocProvider(create: (context)=> HandleReceiveIntentBloc(prayerCustomShareManager: context.read()),lazy: false),
           BlocProvider(create: (context)=> HadithSharedBloc(
               selectListUseCases: context.read(),
               titleRepo: context.read(),

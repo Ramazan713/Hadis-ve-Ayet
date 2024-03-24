@@ -1,5 +1,6 @@
 
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -7,25 +8,30 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/domain/enums/loading_enum.dart';
 import 'package:hadith/core/domain/enums/source_type_enum.dart';
+import 'package:hadith/core/extensions/string_ext.dart';
 import 'package:hadith/core/features/share/domain/manager/share_manager.dart';
 import 'package:hadith/core/features/share/domain/repo/share_pdf_repo.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_event.dart';
 import 'package:hadith/core/features/share/presentation/bloc/share_state.dart';
 import 'package:hadith/core/features/share/share_ui_event.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/manager/prayer_custom_share_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ShareBloc extends Bloc<IShareEvent,ShareState>{
 
   late final ShareManager _shareManager;
   late final SharePdfRepo _sharePdfRepo;
+  late final PrayerCustomShareManager _prayerCustomShareManager;
 
   ShareBloc({
     required ShareManager shareManager,
-    required SharePdfRepo sharePdfRepo
+    required SharePdfRepo sharePdfRepo,
+    required PrayerCustomShareManager prayerCustomShareManager
   }): super(ShareState.init()){
 
     _sharePdfRepo = sharePdfRepo;
     _shareManager = shareManager;
+    _prayerCustomShareManager = prayerCustomShareManager;
 
     on<ShareEventShareImage>(_onShareImage, transformer: restartable());
     on<ShareEventCopyText>(_onCopyText, transformer: restartable());
@@ -34,6 +40,7 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
 
     on<ShareEventSharePdfText>(_onSharePdfText, transformer: restartable());
     on<ShareEventSharePdf>(_onSharePdf, transformer: restartable());
+    on<ShareEventSharePrayerCustomJson>(_onSharePrayerCustomJson, transformer: restartable());
 
     on<ShareEventClearCompletedLoading>(_onClearCompletedLoading, transformer: restartable());
     on<ShareEventClearShareUiEvent>(_onClearShareUiEvent, transformer: restartable());
@@ -52,6 +59,8 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
       message: "Kopyalandı",
     ));
   }
+
+
 
   void _onLaunchUrl(ShareEventLaunchUrl event, Emitter<ShareState> emit){
     emit(state.copyWith(
@@ -92,7 +101,26 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
 
     emit(state.copyWith(
       shareUiEvent: ShareUiEventShareFile(filePath: filePath, mimeType: "application/pdf"),
-        loadingEnum: LoadingEnum.completed
+      loadingEnum: LoadingEnum.completed
+    ));
+  }
+
+  void _onSharePrayerCustomJson(ShareEventSharePrayerCustomJson event, Emitter<ShareState> emit)async{
+    emit(state.copyWith(loadingEnum: LoadingEnum.loading));
+    final prayer = event.prayerCustom;
+    
+    final jsonData = _prayerCustomShareManager.getJsonData(prayer);
+
+    final directoryPath = await _getDirectoryPath();
+    final fileSuffixName = "${prayer.name.replaceAll(" ", "_").toLowerCase().subStartString(19,suffix: "")}_prayer.json";
+    final filePath="$directoryPath/$fileSuffixName";
+    final file = File(filePath);
+    await file.create(recursive: true);
+    await file.writeAsBytes(jsonData);
+
+    emit(state.copyWith(
+      shareUiEvent: ShareUiEventShareFile(filePath: filePath, mimeType: "application/json"),
+      loadingEnum: LoadingEnum.completed
     ));
   }
 
@@ -131,7 +159,7 @@ class ShareBloc extends Bloc<IShareEvent,ShareState>{
 
     if(dataBytes == null) return;
 
-    final directoryPath = await _getDirectoryPath();
+    final directoryPath = await _getDirectoryPath(isRemoveFiles: true);
 
     final imagePath="$directoryPath/${event.imageName}";
     final file = File(imagePath);

@@ -61,7 +61,7 @@ class ShowCustomPrayersPageState extends State<ShowCustomPrayersPage> {
                 return DefaultNestedSearchableAppBar(
                   textEditingController: searchTextController,
                   pinned: true,
-                  actions: getActions(),
+                  actions: getActions(context),
                   appBarType: AppBarType.mediumBar,
                   scrollController: scrollController,
                   title: const Text("Eklediğim Dua ve Ayetler",overflow: TextOverflow.ellipsis,),

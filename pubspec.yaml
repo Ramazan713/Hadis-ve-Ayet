@@ -74,6 +74,8 @@ dependencies:
   validatorless: ^1.2.3
   home_widget: ^0.4.0
   scroll_to_index: ^3.0.1
+  file_picker: ^8.0.0+1
+  receive_sharing_intent: ^1.6.7
 
 #flutter packages pub run build_runner build
 #flutter pub run build_runner build

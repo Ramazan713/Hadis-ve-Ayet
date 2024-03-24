@@ -5,7 +5,9 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hadith/core/constants/k_pref.dart';
 import 'package:hadith/core/domain/preferences/app_preferences.dart';
+import 'package:hadith/core/extensions/resource_extension.dart';
 import 'package:hadith/features/dhikr_prayers/shared/data/mapper/prayer_dhikr_mapper.dart';
+import 'package:hadith/features/dhikr_prayers/shared/domain/manager/prayer_custom_share_manager.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/model/prayer_custom/prayer_custom.dart';
 import 'package:hadith/features/dhikr_prayers/shared/domain/repo/prayer_custom_repo.dart';
 import 'package:rxdart/rxdart.dart';
@@ -17,16 +19,19 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
 
   late final AppPreferences _appPreferences;
   late final PrayerCustomRepo _prayerRepo;
+  late final PrayerCustomShareManager _prayerCustomShareManager;
 
   final BehaviorSubject<String> _filterQuery = BehaviorSubject();
 
   ShowCustomPrayersBloc({
     required PrayerCustomRepo prayerRepo,
     required AppPreferences appPreferences,
+    required PrayerCustomShareManager prayerCustomShareManager
   }): super(ShowCustomPrayersState.init()){
 
     _appPreferences = appPreferences;
     _prayerRepo = prayerRepo;
+    _prayerCustomShareManager = prayerCustomShareManager;
 
     _filterQuery.value = "";
 
@@ -40,6 +45,7 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
     on<ShowCustomPrayersEventSetDetailView>(_onSetDetailView, transformer: restartable());
     on<ShowCustomPrayersEventAddFromDhikr>(_onAddFromDhikr, transformer: restartable());
     on<ShowCustomPrayersEventAddPrayerFromQuran>(_onAddPrayerFromQuran, transformer: restartable());
+    on<ShowCustomPrayersEventHandleImport>(_onHandleImport, transformer: restartable());
 
 
     on<ShowCustomPrayersEventSetSearchBarVisibility>(_onSetSearchBarVisibility,transformer: restartable());
@@ -47,6 +53,7 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
 
     add(ShowCustomPrayersEventListenData());
   }
+
 
 
 
@@ -120,6 +127,18 @@ class ShowCustomPrayersBloc extends Bloc<IShowCustomPrayersEvent,ShowCustomPraye
     ));
   }
 
+  void _onHandleImport(ShowCustomPrayersEventHandleImport event,Emitter<ShowCustomPrayersState>emit)async{
+    emit(state.copyWith(isLoading: true));
+    final result = await _prayerCustomShareManager.parseFile(event.filePath);
+    result.handle(
+      onError: (error){
+        emit(state.copyWith(isLoading: false, message: error));
+      },
+      onSuccess: (x){
+        emit(state.copyWith(isLoading: false, message: "Başarılı"));
+      }
+    );
+  }
 
   void _onSetSearchBarVisibility(ShowCustomPrayersEventSetSearchBarVisibility event,Emitter<ShowCustomPrayersState>emit)async{
     emit(state.copyWith(isSearchBarVisible: event.isVisible));

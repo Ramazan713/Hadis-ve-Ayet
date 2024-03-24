@@ -18,6 +18,11 @@ class ShowCustomPrayersEventSetQuery extends IShowCustomPrayersEvent{
   ShowCustomPrayersEventSetQuery({required this.query});
 }
 
+class ShowCustomPrayersEventHandleImport extends IShowCustomPrayersEvent{
+  final String filePath;
+  ShowCustomPrayersEventHandleImport({required this.filePath});
+}
+
 class ShowCustomPrayersEventSetSearchBarVisibility extends IShowCustomPrayersEvent{
   final bool isVisible;
   ShowCustomPrayersEventSetSearchBarVisibility({required this.isVisible});
